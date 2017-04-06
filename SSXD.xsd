@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns="SyntaxSpecification" targetNamespace="SyntaxSpecification" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  elementFormDefault="qualified" attributeFormDefault="unqualified">
+  <xs:complexType name="TSyntax">
+    <xs:sequence>
+      <xs:element name="Type" minOccurs="1" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="Properties" minOccurs="0">
+              <xs:complexType>
+                <xs:choice>
+                  <xs:element name="Attribute" type="TValueProperty" minOccurs="0" maxOccurs="unbounded"/>
+                  <xs:element name="AttributeSet" type="TSetProperty" minOccurs="0" maxOccurs="unbounded"/>
+                  <xs:element name="Relation" type="TValueProperty" minOccurs="0" maxOccurs="unbounded"/>
+                  <xs:element name="RelationSet" type="TSetProperty" minOccurs="0" maxOccurs="unbounded"/>
+                </xs:choice>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+          <xs:attribute name="name" type="xs:string" use="required"/>
+          <xs:attribute name="abstract" type="xs:boolean" use="optional" default="false"/>
+          <xs:attribute name="base" type="xs:string" use="optional"/>
+          <xs:anyAttribute namespace="##other" processContents="lax"/>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="language" type="xs:string" use="required"/>
+    <xs:anyAttribute/>
+  </xs:complexType>
+  <xs:complexType name="TProperty">
+    <xs:attribute name="name" type="xs:string" use="required"/>
+    <xs:attribute name="index" type="xs:unsignedByte" use="required"/>
+    <xs:attribute name="kind" type="TPropertyKind" use="required"/>
+    <xs:attribute name="role" type="TPropertyRole" use="required"/>
+    <xs:attribute name="optional" type="xs:boolean" use="optional"/>
+    <xs:attribute name="inherited" type="xs:boolean" use="optional" default="false"/>
+    <xs:anyAttribute namespace="##other" processContents="lax"/>
+  </xs:complexType>
+  <xs:complexType name="TValueProperty" xml:base="TProperty"/>
+  <xs:complexType name="TSetProperty" xml:base="TProperty">
+    <xs:attribute name="min" type="xs:unsignedByte" use="optional"/>
+    <xs:attribute name="max" type="xs:unsignedByte" use="optional"/>
+  </xs:complexType>
+  <xs:simpleType name="TPropertyKind">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Expression"/>
+      <xs:enumeration value="Token"/>
+      <xs:enumeration value="Keyword"/>
+      <xs:enumeration value="Operator"/>
+      <xs:enumeration value="Puntuactor"/>
+      <xs:enumeration value="Symbol"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="TPropertyRole">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Token"/>
+      <xs:enumeration value="Expression"/>
+      <xs:enumeration value="Symbol"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="Syntax" type="TSyntax"/>
+</xs:schema>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns="DifferencingAnnotation" targetNamespace="DifferencingAnnotation" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  elementFormDefault="qualified" attributeFormDefault="unqualified">
+  <xs:attributeGroup name="TEditOperations">
+     <xs:attribute name="insert" type="xs:boolean" use="optional" default="false"/>
+     <xs:attribute name="delete" type="xs:boolean" use="optional" default="false"/>
+     <xs:attribute name="update" type="xs:boolean" use="optional" default="false"/>
+     <xs:attribute name="move" type="xs:boolean" use="optional" default="false"/>
+     <xs:attribute name="align" type="xs:boolean" use="optional" default="false"/>
+     <!--<xs:attribute name="update-modify" type="xs:boolean" use="optional" default="false"/>-->
+     <!--<xs:attribute name="update-replace" type="xs:boolean" use="optional" default="false"/>-->
+     <!--<xs:attribute name="align-swap" type="xs:boolean" use="optional" default="false"/>-->
+  </xs:attributeGroup>
+</xs:schema>
+
+
+
