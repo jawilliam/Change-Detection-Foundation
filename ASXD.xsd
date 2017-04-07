@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns="ApproachSpecification" targetNamespace="ApproachSpecification" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns:syntax="SyntaxSpecification" xmlns:runtime="RuntimeSpecification">
+  <xs:import namespace="SyntaxSpecification" schemaLocation="file:///E:/MyRepositories/Change-Detection-Foundation/SSXD.xsd"/>
+  <xs:import namespace="RuntimeSpecification" schemaLocation="file:///E:/MyRepositories/Change-Detection-Foundation/RSXD.xsd"/>
+  <xs:element name="Approach">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="Domain" type="syntax:TSyntax" minOccurs="1" maxOccurs="1"/>
+        <xs:element name="Matching" type="runtime:TRuntime" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="Differencing" type="runtime:TRuntime" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="Report" type="runtime:TRuntime" minOccurs="0" maxOccurs="1"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
+
+
+
+

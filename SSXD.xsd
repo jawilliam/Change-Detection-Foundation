@@ -2,17 +2,22 @@
 <xs:schema xmlns="SyntaxSpecification" targetNamespace="SyntaxSpecification" xmlns:xs="http://www.w3.org/2001/XMLSchema"
   elementFormDefault="qualified" attributeFormDefault="unqualified">
   <xs:complexType name="TSyntax">
+    <xs:annotation>
+      <xs:documentation>A change detection specification language related with the syntax</xs:documentation>
+    </xs:annotation>
     <xs:sequence>
       <xs:element name="Type" minOccurs="1" maxOccurs="unbounded">
         <xs:complexType>
           <xs:sequence>
-            <xs:element name="Properties" minOccurs="0">
+            <xs:element name="Properties" minOccurs="0" maxOccurs="1">
               <xs:complexType>
-                <xs:choice>
-                  <xs:element name="Attribute" type="TValueProperty" minOccurs="0" maxOccurs="unbounded"/>
-                  <xs:element name="AttributeSet" type="TSetProperty" minOccurs="0" maxOccurs="unbounded"/>
-                  <xs:element name="Relation" type="TValueProperty" minOccurs="0" maxOccurs="unbounded"/>
-                  <xs:element name="RelationSet" type="TSetProperty" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:choice maxOccurs="unbounded">
+                  <xs:choice minOccurs="0" maxOccurs="1">
+                    <xs:element name="Attribute" type="TValueProperty" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="AttributeSet" type="TSetProperty" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="Relation" type="TValueProperty" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="RelationSet" type="TSetProperty" minOccurs="0" maxOccurs="1"/>
+                  </xs:choice>
                 </xs:choice>
               </xs:complexType>
             </xs:element>
@@ -27,27 +32,43 @@
     <xs:attribute name="language" type="xs:string" use="required"/>
     <xs:anyAttribute/>
   </xs:complexType>
-  <xs:complexType name="TProperty">
+
+  <xs:complexType name="TValueProperty">
     <xs:attribute name="name" type="xs:string" use="required"/>
+    <xs:attribute name="kind" type="TAttributeKind" use="required"/>
     <xs:attribute name="index" type="xs:unsignedByte" use="required"/>
-    <xs:attribute name="kind" type="TPropertyKind" use="required"/>
-    <xs:attribute name="role" type="TPropertyRole" use="required"/>
-    <xs:attribute name="optional" type="xs:boolean" use="optional"/>
+    <xs:attribute name="role" type="TPropertyRole" use="optional"/>
+    <xs:attribute name="readOnly" type="xs:boolean" use="optional" default="false"/>
+    <xs:attribute name="optional" type="xs:boolean" use="optional" default="false"/>
     <xs:attribute name="inherited" type="xs:boolean" use="optional" default="false"/>
     <xs:anyAttribute namespace="##other" processContents="lax"/>
   </xs:complexType>
-  <xs:complexType name="TValueProperty" xml:base="TProperty"/>
   <xs:complexType name="TSetProperty" xml:base="TProperty">
+    <xs:attribute name="name" type="xs:string" use="required"/>
+    <xs:attribute name="kind" type="TRelationKind" use="required"/>
+    <xs:attribute name="index" type="xs:unsignedByte" use="required"/>
+    <xs:attribute name="role" type="TPropertyRole" use="optional"/>
+    <xs:attribute name="readOnly" type="xs:boolean" use="optional" default="false"/>
+    <xs:attribute name="optional" type="xs:boolean" use="optional" default="false"/>
+    <xs:attribute name="inherited" type="xs:boolean" use="optional" default="false"/>
     <xs:attribute name="min" type="xs:unsignedByte" use="optional"/>
     <xs:attribute name="max" type="xs:unsignedByte" use="optional"/>
+    <xs:anyAttribute namespace="##other" processContents="lax"/>
   </xs:complexType>
-  <xs:simpleType name="TPropertyKind">
+  <xs:simpleType name="TAttributeKind">
     <xs:restriction base="xs:string">
       <xs:enumeration value="Expression"/>
       <xs:enumeration value="Token"/>
       <xs:enumeration value="Keyword"/>
       <xs:enumeration value="Operator"/>
       <xs:enumeration value="Puntuactor"/>
+      <xs:enumeration value="Symbol"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="TRelationKind">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Token"/>
+      <xs:enumeration value="Expression"/>
       <xs:enumeration value="Symbol"/>
     </xs:restriction>
   </xs:simpleType>
@@ -60,6 +81,14 @@
   </xs:simpleType>
   <xs:element name="Syntax" type="TSyntax"/>
 </xs:schema>
+
+
+
+
+
+
+
+
 
 
 

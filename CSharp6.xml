@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Syntax xmlns="SyntaxSpecification"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="SyntaxSpecification file:///E:/MyRepositories/Change-Detection-Foundation/SSXD.xsd"
+   language="C#">
+   <Type name="ExpressionSyntax" abstract="true"/>
+   <Type name="ParenthesizedExpressionSyntax" base="ExpressionSyntax">
+    <Properties>
+      <Attribute index="0" name="OpenParenToken" kind="Puntuactor" readOnly="true" optional="false"/>
+      <Relation index="1" name="Expression" kind="Expression" optional="false" changepoint="true"/>
+      <Attribute index="2" name="CloseParenToken" kind="Token" readOnly="true" optional="false" multiplicity="Single"/>
+    </Properties>
+   </Type>
+</Syntax>
+
