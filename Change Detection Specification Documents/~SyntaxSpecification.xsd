@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xs:schema xmlns="SyntaxSpecification" targetNamespace="SyntaxSpecification" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns:cg="CodeGeneration" xmlns:loa="LevelsOfAbstraction">
-  <xs:import namespace="CodeGeneration" schemaLocation="CodeGeneration.xsd"/>
-  <xs:import namespace="LevelsOfAbstraction" schemaLocation="Change%20Detection%20Specification%20Documents\LevelsOfAbstraction.xsd"/>
+<xs:schema xmlns="SyntaxSpecification" targetNamespace="SyntaxSpecification" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
   <xs:complexType name="TSyntax">
     <xs:annotation>
       <xs:documentation>A change detection specification language related with the syntax</xs:documentation>
@@ -31,7 +29,6 @@
     <xs:attribute name="language" type="xs:string" use="required"/>
     <xs:anyAttribute/>
   </xs:complexType>
-
   <xs:complexType name="TValueProperty">
     <xs:attribute name="name" type="xs:string" use="required"/>
     <xs:attribute name="index" type="xs:unsignedByte" use="required"/>
@@ -78,6 +75,11 @@
   </xs:simpleType>
   <xs:element name="Syntax" type="TSyntax"/>
 </xs:schema>
+
+
+
+
+
 
 
 

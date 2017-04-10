@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns="LevelsOfAbstraction" targetNamespace="LevelsOfAbstraction" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  elementFormDefault="qualified" attributeFormDefault="unqualified">
+  <xs:simpleType name="TLexical">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Terminal"/>
+            <xs:enumeration value="NonTerminal"/>
+        </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="TSyntactical">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Puntuactor"/>
+            <xs:enumeration value="Flag"/>
+            <xs:enumeration value="Keyword"/>
+            <xs:enumeration value="Expression"/>
+            <xs:enumeration value="Operator"/>
+        </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="THierarchical">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="None"/>
+            <xs:enumeration value="Leaf"/>
+            <xs:enumeration value="Internal"/>
+        </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="TSemantic">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="None"/>
+            <xs:enumeration value="NonAccessibilityModifier"/>
+            <xs:enumeration value="AccessibilityModifier"/>
+            <xs:enumeration value="Containment"/>
+        </xs:restriction>
+  </xs:simpleType>
+  <xs:attribute name="lexical" type="TLexical"/>
+  <xs:attribute name="syntactical" type="TSyntactical"/>
+  <xs:attribute name="hierarchical" type="THierarchical"/>
+  <xs:attribute name="semantic" type="TSemantic"/>
+</xs:schema>
+
+
+
+
+
+
+
+
+
+

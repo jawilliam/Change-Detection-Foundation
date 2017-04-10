@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns="CodeGeneration" targetNamespace="CodeGeneration" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  elementFormDefault="qualified" attributeFormDefault="unqualified">
+  <xs:attribute name="kind" type="TGeneration" default="Generate"/>
+
+  <xs:simpleType name="TGeneration">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Generate"/>
+            <xs:enumeration value="Suppress"/>
+        </xs:restriction>
+    </xs:simpleType>
+  <xs:attributeGroup name="TTypeGeneration"/>
+</xs:schema>
+
+
+
