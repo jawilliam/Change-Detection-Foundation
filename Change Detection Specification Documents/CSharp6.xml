@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Syntax xmlns="SyntaxSpecification"
    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-   xsi:schemaLocation="SyntaxSpecification file:///E:/Projects/Change-Detection-Foundation/Change%20Detection%20Specification%20Documents/SyntaxSpecification.xsd"
+   xsi:schemaLocation="SyntaxSpecification file:///E:/MyRepositories/Change-Detection-Foundation/Change%20Detection%20Specification%20Documents/SyntaxSpecification.xsd"
    xmlns:cg="CodeGeneration" xmlns:loa="LevelsOfAbstraction"
    language="C#">
    <Type name="ExpressionSyntax" abstract="true"/>
@@ -18,8 +18,20 @@
         <Property index="1" name="Operand" optional="false" changepoint="true" loa:lexical="NonTerminal" loa:syntactical="Expression" loa:semantic="Containment"/>
       </Properties>
    </Type>
+   <Type name="AwaitExpressionSyntax" base="ExpressionSyntax">
+      <Properties>
+        <Property name="AwaitKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single"/>
+        <Property name="Expression" kind="Expression" index="2" optional="false" changepoint="true" multiplicity="Single"/>
+      </Properties>
+    </Type>
    <!-- xsi:schemaLocation="SyntaxSpecification file:///E:/MyRepositories/Change-Detection-Foundation/SSXD.xsd" -->
 </Syntax>
+
+
+
+
+
+
 
 
 
