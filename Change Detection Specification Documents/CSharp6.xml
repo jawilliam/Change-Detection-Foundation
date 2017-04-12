@@ -20,12 +20,28 @@
    </Type>
    <Type name="AwaitExpressionSyntax" base="ExpressionSyntax">
       <Properties>
-        <Property name="AwaitKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single"/>
-        <Property name="Expression" kind="Expression" index="2" optional="false" changepoint="true" multiplicity="Single"/>
+        <Property index="0" name="AwaitKeyword" readOnly="true" optional="false" loa:lexical="Terminal" loa:syntactical="Keyword" loa:semantic="None"/>
+        <Property index="1" name="Expression" optional="false" changepoint="true" loa:lexical="NonTerminal" loa:syntactical="Expression" loa:semantic="Containment"/>
+      </Properties>
+   </Type>
+   <Type name="PostfixUnaryExpressionSyntax" base="ExpressionSyntax" cg:kind="Suppress" loa:hierarchical="Internal">
+      <Properties>
+        <Property index="0" name="Operand" optional="false" changepoint="true" loa:lexical="NonTerminal" loa:syntactical="Expression" loa:semantic="Containment"/>
+        <Property index="1" name="OperatorToken" optional="false" changepoint="true" loa:lexical="Terminal" loa:syntactical="Operator" loa:semantic="None"/>
+      </Properties>
+   </Type>
+   <Type name="MemberAccessExpressionSyntax" base="ExpressionSyntax" cg:kind="Suppress" loa:hierarchical="Internal">
+      <Properties>
+        <Property index="0" name="Expression" kind="Expression" optional="false" changepoint="true"/>
+        <Property index="1" name="OperatorToken" kind="Token" readOnly="true" optional="false" changepoint="true"/>
+        <Property index="2" name="Name" kind="Expression" optional="false" changepoint="true"/>
       </Properties>
     </Type>
    <!-- xsi:schemaLocation="SyntaxSpecification file:///E:/MyRepositories/Change-Detection-Foundation/SSXD.xsd" -->
 </Syntax>
+
+
+
 
 
 
