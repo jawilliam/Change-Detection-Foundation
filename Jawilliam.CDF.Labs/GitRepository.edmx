@@ -1,0 +1,235 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl" Namespace="GitRepository.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2005">
+        <EntityContainer Name="GitRepositoryTargetContainer" >
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="GitRepository" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="GitRepositoryContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="RepositoryObjects" EntityType="GitRepository.RepositoryObject" />
+          <AssociationSet Name="Committer_IsAuthorOf_Commits" Association="GitRepository.Committer_IsAuthorOf_Commits">
+            <End Role="Commit" EntitySet="RepositoryObjects" />
+            <End Role="Committer" EntitySet="RepositoryObjects" />
+          </AssociationSet>
+          <AssociationSet Name="Branch_PointTo_OneCommit" Association="GitRepository.Branch_PointTo_OneCommit">
+            <End Role="Branch" EntitySet="RepositoryObjects" />
+            <End Role="Commit" EntitySet="RepositoryObjects" />
+          </AssociationSet>
+          <AssociationSet Name="Branch_Contains_Commits" Association="GitRepository.Branch_Contains_Commits">
+            <End Role="Commit" EntitySet="RepositoryObjects" />
+            <End Role="Branch" EntitySet="RepositoryObjects" />
+          </AssociationSet>
+          <AssociationSet Name="Commits_AreParentsOf_Commits" Association="GitRepository.Commits_AreParentsOf_Commits">
+            <End Role="Commit" EntitySet="RepositoryObjects" />
+            <End Role="Commit1" EntitySet="RepositoryObjects" />
+          </AssociationSet>
+          <EntitySet Name="FileContents" EntityType="GitRepository.FileContent" />
+          <AssociationSet Name="OneFileVersion_HasExactly_OneFileContent" Association="GitRepository.OneFileVersion_HasExactly_OneFileContent">
+            <End Role="FileVersion" EntitySet="RepositoryObjects" />
+            <End Role="FileContent" EntitySet="FileContents" />
+          </AssociationSet>
+          <AssociationSet Name="OneFile_HasMany_Versions" Association="GitRepository.OneFile_HasMany_Versions">
+            <End Role="File" EntitySet="RepositoryObjects" />
+            <End Role="FileVersion" EntitySet="RepositoryObjects" />
+          </AssociationSet>
+          <EntitySet Name="FileChanges" EntityType="GitRepository.FileChange" />
+          <AssociationSet Name="FileChange_DifferencingTo_Commit" Association="GitRepository.FileChange_DifferencingTo_Commit">
+            <End Role="FileChange" EntitySet="FileChanges" />
+            <End Role="Commit" EntitySet="RepositoryObjects" />
+          </AssociationSet>
+          <AssociationSet Name="FileChange_DifferencingFrom_Commit" Association="GitRepository.FileChange_DifferencingFrom_Commit">
+            <End Role="FileChange" EntitySet="FileChanges" />
+            <End Role="Commit" EntitySet="RepositoryObjects" />
+          </AssociationSet>
+          <AssociationSet Name="FileChanges_Originate_ManyFileVersions" Association="GitRepository.FileChanges_Originate_ManyFileVersions">
+            <End Role="FileChange" EntitySet="FileChanges" />
+            <End Role="FileVersion" EntitySet="RepositoryObjects" />
+          </AssociationSet>
+          <AssociationSet Name="OneFileVersion_CanBeModifiedFromBy_ManyFileChanges" Association="GitRepository.OneFileVersion_CanBeModifiedFromBy_ManyFileChanges">
+            <End Role="FileModifiedChange" EntitySet="FileChanges" />
+            <End Role="FileVersion" EntitySet="RepositoryObjects" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="RepositoryObject" Abstract="true">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="None" />
+          <Property Name="ExternalID" Type="String" Nullable="true" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Annotations" Type="String" Nullable="true" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Committer" BaseType="GitRepository.RepositoryObject" >
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Commits" Relationship="GitRepository.Committer_IsAuthorOf_Commits" FromRole="Committer" ToRole="Commit" />
+        </EntityType>
+        <EntityType Name="Branch" BaseType="GitRepository.RepositoryObject" >
+          <Property Name="FullName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsRemote" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Tip" Relationship="GitRepository.Branch_PointTo_OneCommit" FromRole="Branch" ToRole="Commit" />
+          <NavigationProperty Name="Commits" Relationship="GitRepository.Branch_Contains_Commits" FromRole="Branch" ToRole="Commit" />
+        </EntityType>
+        <EntityType Name="Commit" BaseType="GitRepository.RepositoryObject" >
+          <Property Name="Date" Type="DateTimeOffset" Nullable="false" Precision="7" />
+          <Property Name="Message" Type="String" Nullable="true" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Index" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Committer" Relationship="GitRepository.Committer_IsAuthorOf_Commits" FromRole="Commit" ToRole="Committer" />
+          <NavigationProperty Name="Branches" Relationship="GitRepository.Branch_Contains_Commits" FromRole="Commit" ToRole="Branch" />
+          <NavigationProperty Name="Parents" Relationship="GitRepository.Commits_AreParentsOf_Commits" FromRole="Commit" ToRole="Commit1" />
+          <NavigationProperty Name="Childs" Relationship="GitRepository.Commits_AreParentsOf_Commits" FromRole="Commit1" ToRole="Commit" />
+          <NavigationProperty Name="BackwardChanges" Relationship="GitRepository.FileChange_DifferencingTo_Commit" FromRole="Commit" ToRole="FileChange" />
+          <NavigationProperty Name="ForwardChanges" Relationship="GitRepository.FileChange_DifferencingFrom_Commit" FromRole="Commit" ToRole="FileChange" />
+        </EntityType>
+        <Association Name="Committer_IsAuthorOf_Commits">
+          <End Type="GitRepository.Commit" Role="Commit" Multiplicity="*" />
+          <End Type="GitRepository.Committer" Role="Committer" Multiplicity="1" />
+        </Association>
+        <Association Name="Branch_PointTo_OneCommit">
+          <End Type="GitRepository.Branch" Role="Branch" Multiplicity="*" />
+          <End Type="GitRepository.Commit" Role="Commit" Multiplicity="1" />
+        </Association>
+        <Association Name="Branch_Contains_Commits">
+          <End Type="GitRepository.Commit" Role="Commit" Multiplicity="*" />
+          <End Type="GitRepository.Branch" Role="Branch" Multiplicity="*" />
+        </Association>
+        <EntityType Name="File" BaseType="GitRepository.RepositoryObject" >
+          <NavigationProperty Name="Versions" Relationship="GitRepository.OneFile_HasMany_Versions" FromRole="File" ToRole="FileVersion" />
+        </EntityType>
+        <Association Name="Commits_AreParentsOf_Commits">
+          <End Type="GitRepository.Commit" Role="Commit" Multiplicity="*" />
+          <End Type="GitRepository.Commit" Role="Commit1" Multiplicity="*" />
+        </Association>
+        <EntityType Name="FileVersion" BaseType="GitRepository.RepositoryObject" >
+          <Property Name="Path" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Content" Relationship="GitRepository.OneFileVersion_HasExactly_OneFileContent" FromRole="FileVersion" ToRole="FileContent" />
+          <NavigationProperty Name="File" Relationship="GitRepository.OneFile_HasMany_Versions" FromRole="FileVersion" ToRole="File" />
+          <NavigationProperty Name="Changes" Relationship="GitRepository.FileChanges_Originate_ManyFileVersions" FromRole="FileVersion" ToRole="FileChange" />
+          <NavigationProperty Name="BackwardModifiedChanges" Relationship="GitRepository.OneFileVersion_CanBeModifiedFromBy_ManyFileChanges" FromRole="FileVersion" ToRole="FileModifiedChange" />
+        </EntityType>
+        <EntityType Name="FileContent">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="None" />
+          <Property Name="SourceCode" Type="String" Nullable="true" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Size" Type="Int64" Nullable="false" />
+          <Property Name="TotalLines" Type="Int64" Nullable="true" />
+          <Property Name="BlankLines" Type="Int64" Nullable="true" />
+          <Property Name="CommentLines" Type="Int64" Nullable="true" />
+          <Property Name="CodeLines" Type="Int64" Nullable="true" />
+          <Property Name="StatementLines" Type="Int64" Nullable="true" />
+          <Property Name="Annotations" Type="String" Nullable="true" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="FileVersion" Relationship="GitRepository.OneFileVersion_HasExactly_OneFileContent" FromRole="FileContent" ToRole="FileVersion" />
+        </EntityType>
+        <Association Name="OneFileVersion_HasExactly_OneFileContent">
+          <End Type="GitRepository.FileVersion" Role="FileVersion" Multiplicity="1" />
+          <End Type="GitRepository.FileContent" Role="FileContent" Multiplicity="0..1" />
+        </Association>
+        <Association Name="OneFile_HasMany_Versions">
+          <End Type="GitRepository.File" Role="File" Multiplicity="0..1" />
+          <End Type="GitRepository.FileVersion" Role="FileVersion" Multiplicity="*" />
+        </Association>
+        <EntityType Name="FileChange" Abstract="true" >
+          <Key>
+            <PropertyRef Name="ParentCommitId" />
+            <PropertyRef Name="FileVersionId" />
+            <PropertyRef Name="ChildCommitId" />
+          </Key>
+          <Property Name="ParentCommitId" Type="Guid" Nullable="false" />
+          <Property Name="FileVersionId" Type="Guid" Nullable="false" />
+          <Property Name="ChildCommitId" Type="Guid" Nullable="false" />
+          <Property Name="LinesAdded" Type="Int32" Nullable="false" />
+          <Property Name="LinesDeleted" Type="Int32" Nullable="false" />
+          <Property Name="Patch" Type="String" Nullable="true" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Annotations" Type="String" Nullable="true" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ToCommit" Relationship="GitRepository.FileChange_DifferencingTo_Commit" FromRole="FileChange" ToRole="Commit" />
+          <NavigationProperty Name="FromCommit" Relationship="GitRepository.FileChange_DifferencingFrom_Commit" FromRole="FileChange" ToRole="Commit" />
+          <NavigationProperty Name="FileVersion" Relationship="GitRepository.FileChanges_Originate_ManyFileVersions" FromRole="FileChange" ToRole="FileVersion" />
+        </EntityType>
+        <Association Name="FileChange_DifferencingTo_Commit">
+          <End Type="GitRepository.FileChange" Role="FileChange" Multiplicity="*" />
+          <End Type="GitRepository.Commit" Role="Commit" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="Commit">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FileChange">
+              <PropertyRef Name="ChildCommitId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FileChange_DifferencingFrom_Commit">
+          <End Type="GitRepository.FileChange" Role="FileChange" Multiplicity="*" />
+          <End Type="GitRepository.Commit" Role="Commit" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="Commit">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FileChange">
+              <PropertyRef Name="ParentCommitId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FileChanges_Originate_ManyFileVersions">
+          <End Type="GitRepository.FileChange" Role="FileChange" Multiplicity="*" />
+          <End Type="GitRepository.FileVersion" Role="FileVersion" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="FileVersion">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FileChange">
+              <PropertyRef Name="FileVersionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="FileAddedChange" BaseType="GitRepository.FileChange" />
+        <EntityType Name="FileDeletedChange" BaseType="GitRepository.FileChange" />
+        <EntityType Name="FileModifiedChange" BaseType="GitRepository.FileChange" >
+          <Property Name="ToPath" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="FromFileVersion" Relationship="GitRepository.OneFileVersion_CanBeModifiedFromBy_ManyFileChanges" FromRole="FileModifiedChange" ToRole="FileVersion" />
+        </EntityType>
+        <EntityType Name="FileRenamedChange" BaseType="GitRepository.FileModifiedChange" >
+          <Property Name="FromPath" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="OneFileVersion_CanBeModifiedFromBy_ManyFileChanges">
+          <End Type="GitRepository.FileModifiedChange" Role="FileModifiedChange" Multiplicity="*" />
+          <End Type="GitRepository.FileVersion" Role="FileVersion" Multiplicity="1" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs" Space="C-S">
+        <Alias Key="Model" Value="GitRepository" />
+        <Alias Key="Target" Value="GitRepository.Store" />
+        <EntityContainerMapping CdmEntityContainer="GitRepositoryContainer" StorageEntityContainer="GitRepositoryTargetContainer">
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

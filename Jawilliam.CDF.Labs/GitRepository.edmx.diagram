@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="bc52a17cf56e4bfd862931f460aa5cd6" Name="Repository Objects" DisplayType="true" ZoomLevel="64" >
+        <EntityTypeShape EntityType="GitRepository.RepositoryObject" Width="2" PointX="4.5" PointY="0.5" />
+        <EntityTypeShape EntityType="GitRepository.Committer" Width="1.5" PointX="0.5" PointY="2.875" />
+        <InheritanceConnector EntityType="GitRepository.Committer" />
+        <EntityTypeShape EntityType="GitRepository.Branch" Width="1.75" PointX="2.375" PointY="2.875" />
+        <InheritanceConnector EntityType="GitRepository.Branch" />
+        <EntityTypeShape EntityType="GitRepository.Commit" Width="2" PointX="4.5" PointY="2.875" />
+        <InheritanceConnector EntityType="GitRepository.Commit" />
+        <AssociationConnector Association="GitRepository.Committer_IsAuthorOf_Commits" />
+        <AssociationConnector Association="GitRepository.Branch_PointTo_OneCommit" />
+        <AssociationConnector Association="GitRepository.Branch_Contains_Commits" />
+        <EntityTypeShape EntityType="GitRepository.File" Width="1.5" PointX="7.125" PointY="2.875" />
+        <InheritanceConnector EntityType="GitRepository.File" />
+        <AssociationConnector Association="GitRepository.Commits_AreParentsOf_Commits" />
+        <EntityTypeShape EntityType="GitRepository.FileVersion" Width="1.5" PointX="9.125" PointY="2.875" />
+        <InheritanceConnector EntityType="GitRepository.FileVersion" />
+        <EntityTypeShape EntityType="GitRepository.FileContent" Width="1.75" PointX="11.25" PointY="2.875" />
+        <AssociationConnector Association="GitRepository.OneFileVersion_HasExactly_OneFileContent" />
+        <AssociationConnector Association="GitRepository.OneFile_HasMany_Versions" />
+        <EntityTypeShape EntityType="GitRepository.FileChange" Width="2" PointX="4.5" PointY="6.75" />
+        <AssociationConnector Association="GitRepository.FileChange_DifferencingTo_Commit" />
+        <AssociationConnector Association="GitRepository.FileChange_DifferencingFrom_Commit" />
+        <AssociationConnector Association="GitRepository.FileChanges_Originate_ManyFileVersions" />
+        <EntityTypeShape EntityType="GitRepository.FileAddedChange" Width="2" PointX="2.25" PointY="10.375" />
+        <InheritanceConnector EntityType="GitRepository.FileAddedChange" />
+        <EntityTypeShape EntityType="GitRepository.FileDeletedChange" Width="2" PointX="4.5" PointY="10.375" />
+        <InheritanceConnector EntityType="GitRepository.FileDeletedChange" />
+        <EntityTypeShape EntityType="GitRepository.FileModifiedChange" Width="2" PointX="6.75" PointY="10.375" />
+        <InheritanceConnector EntityType="GitRepository.FileModifiedChange" />
+        <EntityTypeShape EntityType="GitRepository.FileRenamedChange" Width="2" PointX="6.75" PointY="12.125" />
+        <InheritanceConnector EntityType="GitRepository.FileRenamedChange" />
+        <AssociationConnector Association="GitRepository.OneFileVersion_CanBeModifiedFromBy_ManyFileChanges" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
