@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Syntax xmlns="SyntaxSpecification"
    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-   xsi:schemaLocation="SyntaxSpecification file:///E:/MyRepositories/Change-Detection-Foundation/Change%20Detection%20Specification%20Documents/SyntaxSpecification.xsd"
+   xsi:schemaLocation="SyntaxSpecification file:///E:/Projects/Change-Detection-Foundation/Change%20Detection%20Specification%20Documents/SyntaxSpecification.xsd"
    xmlns:cg="CodeGeneration" xmlns:loa="LevelsOfAbstraction"
    language="C#">
    <Type name="ExpressionSyntax" abstract="true"/>
@@ -12,26 +12,42 @@
       <Property index="2" name="CloseParenToken" readOnly="true" optional="false" loa:lexical="Terminal" loa:syntactical="Puntuactor" loa:semantic="None"/>
     </Properties>
    </Type>
-   <Type name="PrefixUnaryExpressionSyntax" base="ExpressionSyntax" cg:kind="Suppress" loa:hierarchical="Internal">
+   <Type name="PrefixUnaryExpressionSyntax" base="ExpressionSyntax" cg:kind="Suppress" loa:hierarchical="LeafOrInternal">
       <Properties>
         <Property index="0" name="OperatorToken" optional="false" changepoint="true" loa:lexical="Terminal" loa:syntactical="Operator" loa:semantic="None"/>
         <Property index="1" name="Operand" optional="false" changepoint="true" loa:lexical="NonTerminal" loa:syntactical="Expression" loa:semantic="Containment"/>
       </Properties>
    </Type>
-   <Type name="AwaitExpressionSyntax" base="ExpressionSyntax">
+   <Type name="AwaitExpressionSyntax" base="ExpressionSyntax" loa:hierarchical="Internal">
       <Properties>
         <Property index="0" name="AwaitKeyword" readOnly="true" optional="false" loa:lexical="Terminal" loa:syntactical="Keyword" loa:semantic="None"/>
         <Property index="1" name="Expression" optional="false" changepoint="true" loa:lexical="NonTerminal" loa:syntactical="Expression" loa:semantic="Containment"/>
       </Properties>
    </Type>
-   <Type name="PostfixUnaryExpressionSyntax" base="ExpressionSyntax" cg:kind="Suppress" loa:hierarchical="Internal">
+   <Type name="PostfixUnaryExpressionSyntax" base="ExpressionSyntax" cg:kind="Suppress" loa:hierarchical="LeafOrInternal">
       <Properties>
         <Property index="0" name="Operand" optional="false" changepoint="true" loa:lexical="NonTerminal" loa:syntactical="Expression" loa:semantic="Containment"/>
         <Property index="1" name="OperatorToken" optional="false" changepoint="true" loa:lexical="Terminal" loa:syntactical="Operator" loa:semantic="None"/>
       </Properties>
    </Type>
+   <Type name="MemberAccessExpressionSyntax" base="ExpressionSyntax" cg:kind="Suppress" loa:hierarchical="Internal">
+      <Properties>
+        <Property index="0" name="Expression" optional="false" changepoint="true" loa:lexical="NonTerminal" loa:syntactical="Expression" loa:semantic="Containment"/>
+        <Property index="1" name="OperatorToken" readOnly="true" optional="false" changepoint="true" loa:lexical="Terminal" loa:syntactical="Operator" loa:semantic="Containment"/>
+        <Property index="2" name="Name" optional="false" changepoint="true" loa:lexical="Terminal" loa:syntactical="Identifier" loa:semantic="Containment"/>
+      </Properties>
+    </Type>
+    <Type name="ConditionalAccessExpressionSyntax" base="ExpressionSyntax" loa:hierarchical="Internal">
+      <Properties>
+        <Property index="0" name="Expression" kind="Expression" optional="false" changepoint="true"/>
+        <Property index="1" name="OperatorToken" kind="Token" readOnly="true" optional="false"/>
+        <Property index="2" name="WhenNotNull" kind="Expression" optional="false" changepoint="true"/>
+      </Properties>
+    </Type>
    <!-- xsi:schemaLocation="SyntaxSpecification file:///E:/MyRepositories/Change-Detection-Foundation/SSXD.xsd" -->
 </Syntax>
+
+
 
 
 

@@ -13,6 +13,8 @@
             <xs:enumeration value="Flag"/>
             <xs:enumeration value="Keyword"/>
             <xs:enumeration value="Expression"/>
+            <xs:enumeration value="Operator"/>
+            <xs:enumeration value="Identifier"/>
         </xs:restriction>
   </xs:simpleType>
   <xs:simpleType name="THierarchical">
@@ -35,6 +37,8 @@
   <xs:attribute name="hierarchical" type="THierarchical"/>
   <xs:attribute name="semantic" type="TSemantic"/>
 </xs:schema>
+
+
 
 
 
