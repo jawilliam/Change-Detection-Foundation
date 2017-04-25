@@ -17,6 +17,7 @@
         <Property index="0" name="OperatorToken" optional="false" changepoint="true" loa:lexical="Terminal" loa:syntactical="Operator" loa:semantic="None"/>
         <Property index="1" name="Operand" optional="false" changepoint="true" loa:lexical="NonTerminal" loa:syntactical="Expression" loa:semantic="Containment"/>
       </Properties>
+      <!-- e.g., can be leaf when the operand is a leaf, such as the increment and decrement, where the operand is always a variable -->
    </Type>
    <Type name="AwaitExpressionSyntax" base="ExpressionSyntax" loa:hierarchical="Internal">
       <Properties>
@@ -29,6 +30,7 @@
         <Property index="0" name="Operand" optional="false" changepoint="true" loa:lexical="NonTerminal" loa:syntactical="Expression" loa:semantic="Containment"/>
         <Property index="1" name="OperatorToken" optional="false" changepoint="true" loa:lexical="Terminal" loa:syntactical="Operator" loa:semantic="None"/>
       </Properties>
+      <!-- e.g., can be leaf when the operand is a leaf, such as the increment and decrement, where the operand is always a variable -->
    </Type>
    <Type name="MemberAccessExpressionSyntax" base="ExpressionSyntax" cg:kind="Suppress" loa:hierarchical="Internal">
       <Properties>
@@ -39,13 +41,33 @@
     </Type>
     <Type name="ConditionalAccessExpressionSyntax" base="ExpressionSyntax" loa:hierarchical="Internal">
       <Properties>
-        <Property index="0" name="Expression" kind="Expression" optional="false" changepoint="true"/>
-        <Property index="1" name="OperatorToken" kind="Token" readOnly="true" optional="false"/>
-        <Property index="2" name="WhenNotNull" kind="Expression" optional="false" changepoint="true"/>
+        <Property index="0" name="Expression" kind="Expression" optional="false" changepoint="true" loa:lexical="NonTerminal" loa:syntactical="Expression" loa:semantic="Containment"/>
+        <Property index="1" name="OperatorToken" kind="Token" readOnly="true" optional="false" loa:lexical="Terminal" loa:syntactical="Operator" loa:semantic="None"/>
+        <Property index="2" name="WhenNotNull" kind="Expression" optional="false" changepoint="true" loa:lexical="NonTerminal" loa:syntactical="Expression" loa:semantic="Containment"/>
+      </Properties>
+    </Type>
+    <Type name="MemberBindingExpressionSyntax" base="ExpressionSyntax" loa:hierarchical="NonEssential">
+      <Properties>
+        <Property index="1" name="OperatorToken" readOnly="true" optional="false" multiplicity="Single" loa:lexical="Terminal" loa:syntactical="Operator" loa:semantic="None"/>
+        <Property index="2" name="Name" optional="false" changepoint="true" multiplicity="Single" loa:lexical="Terminal" loa:syntactical="Identifier" loa:semantic="Containment"/>
+      </Properties>
+    </Type>
+    <Type name="ElementBindingExpressionSyntax" base="ExpressionSyntax">
+      <Properties>
+        <Property index="1" name="ArgumentList" optional="false" changepoint="true" multiplicity="Single" loa:lexical="NonTerminal"/>
+      </Properties>
+    </Type>
+    <Type name="ImplicitElementAccessSyntax" base="ExpressionSyntax">
+      <Properties>
+        <Property index="0" name="ArgumentList" kind="Expression" optional="false" changepoint="true" multiplicity="Single"/>
       </Properties>
     </Type>
    <!-- xsi:schemaLocation="SyntaxSpecification file:///E:/MyRepositories/Change-Detection-Foundation/SSXD.xsd" -->
 </Syntax>
+
+
+
+
 
 
 

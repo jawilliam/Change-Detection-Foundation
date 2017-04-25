@@ -22,6 +22,8 @@
             <xs:enumeration value="None"/>
             <xs:enumeration value="Leaf"/>
             <xs:enumeration value="Internal"/>
+            <xs:enumeration value="LeafOrInternal"/>
+            <xs:enumeration value="NonEssential"/>
         </xs:restriction>
   </xs:simpleType>
   <xs:simpleType name="TSemantic">
@@ -37,6 +39,8 @@
   <xs:attribute name="hierarchical" type="THierarchical"/>
   <xs:attribute name="semantic" type="TSemantic"/>
 </xs:schema>
+
+
 
 
 

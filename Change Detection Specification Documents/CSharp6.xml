@@ -46,8 +46,28 @@
         <Property index="2" name="WhenNotNull" kind="Expression" optional="false" changepoint="true" loa:lexical="NonTerminal" loa:syntactical="Expression" loa:semantic="Containment"/>
       </Properties>
     </Type>
+    <Type name="MemberBindingExpressionSyntax" base="ExpressionSyntax" loa:hierarchical="NonEssential">
+      <Properties>
+        <Property index="1" name="OperatorToken" readOnly="true" optional="false" loa:lexical="Terminal" loa:syntactical="Operator" loa:semantic="None"/>
+        <Property index="2" name="Name" optional="false" changepoint="true" loa:lexical="Terminal" loa:syntactical="Identifier" loa:semantic="Containment"/>
+      </Properties>
+    </Type>
+    <Type name="ElementBindingExpressionSyntax" base="ExpressionSyntax" loa:hierarchical="Internal">
+      <Properties>
+        <Property index="1" name="ArgumentList" optional="false" changepoint="true" loa:lexical="NonTerminal" loa:syntactical="ExpressionList" loa:semantic="Containment"/>
+      </Properties>
+    </Type>
+    <Type name="ImplicitElementAccessSyntax" base="ExpressionSyntax" loa:hierarchical="Internal">
+      <Properties>
+        <Property index="0" name="ArgumentList" optional="false" changepoint="true" loa:lexical="NonTerminal" loa:syntactical="ExpressionList" loa:semantic="Containment"/>
+      </Properties>
+    </Type>
    <!-- xsi:schemaLocation="SyntaxSpecification file:///E:/MyRepositories/Change-Detection-Foundation/SSXD.xsd" -->
 </Syntax>
+
+
+
+
 
 
 

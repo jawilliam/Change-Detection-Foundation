@@ -13,6 +13,7 @@
             <xs:enumeration value="Flag"/>
             <xs:enumeration value="Keyword"/>
             <xs:enumeration value="Expression"/>
+            <xs:enumeration value="ExpressionList"/>
             <xs:enumeration value="Operator"/>
             <xs:enumeration value="Identifier"/>
         </xs:restriction>
@@ -23,6 +24,7 @@
             <xs:enumeration value="Leaf"/>
             <xs:enumeration value="Internal"/>
             <xs:enumeration value="LeafOrInternal"/>
+            <xs:enumeration value="NonEssential"/>
         </xs:restriction>
   </xs:simpleType>
   <xs:simpleType name="TSemantic">
@@ -38,6 +40,7 @@
   <xs:attribute name="hierarchical" type="THierarchical"/>
   <xs:attribute name="semantic" type="TSemantic"/>
 </xs:schema>
+
 
 
 
