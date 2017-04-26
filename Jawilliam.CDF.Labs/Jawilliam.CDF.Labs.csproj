@@ -109,6 +109,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>GitRepository.Context.tt</DependentUpon>
     </Compile>
+    <Compile Include="GitRepository.Context.Custom.cs" />
     <Compile Include="GitRepository.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
