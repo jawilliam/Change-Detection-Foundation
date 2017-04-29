@@ -28,7 +28,6 @@ namespace Jawilliam.CDF.Labs
     
         public virtual DbSet<RepositoryObject> RepositoryObjects { get; set; }
         public virtual DbSet<FileContent> FileContents { get; set; }
-        public virtual DbSet<FileChange> FileChanges { get; set; }
         public virtual DbSet<FileContentSummary> FileContentSummaries { get; set; }
         public virtual DbSet<Delta> Deltas { get; set; }
     }

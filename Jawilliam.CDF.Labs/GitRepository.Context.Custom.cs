@@ -9,12 +9,21 @@ namespace Jawilliam.CDF.Labs
     partial class GitRepository
     {
         /// <summary>
+        /// Initializes the instance with a particular name or connection string.
+        /// </summary>
+        /// <param name="nameOrConnectionString">the connection string, or the name to localize it inside the settings, e.g., the connection strings in the app.config.</param>
+        public GitRepository(string nameOrConnectionString) : base(nameOrConnectionString)
+        {
+            this.Configuration.LazyLoadingEnabled = false;
+        }
+
+        /// <summary>
         /// Save all the changes so far and detach all the entities.
         /// </summary>
         public virtual void Flush()
         {
             this.SaveChanges();
-            foreach (var dbEntityEntry in this.ChangeTracker.Entries())
+            foreach (var dbEntityEntry in this.ChangeTracker.Entries().ToArray())
             {
                 dbEntityEntry.State = System.Data.Entity.EntityState.Detached;
             }

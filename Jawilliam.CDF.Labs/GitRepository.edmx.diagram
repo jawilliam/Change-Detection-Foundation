@@ -23,22 +23,23 @@
         <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.FileContent" Width="1.75" PointX="12.25" PointY="2.875" />
         <AssociationConnector Association="Jawilliam.CDF.Labs.SQL.OneFileVersion_HasExactly_OneFileContent" />
         <AssociationConnector Association="Jawilliam.CDF.Labs.SQL.OneFile_HasMany_Versions" />
-        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.FileChange" Width="2" PointX="4.5" PointY="6.75" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.FileChange" Width="2" PointX="15" PointY="2.875" />
         <AssociationConnector Association="Jawilliam.CDF.Labs.SQL.FileChange_DifferencingTo_Commit" />
         <AssociationConnector Association="Jawilliam.CDF.Labs.SQL.FileChange_DifferencingFrom_Commit" />
         <AssociationConnector Association="Jawilliam.CDF.Labs.SQL.FileChanges_Originate_ManyFileVersions" />
-        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.FileAddedChange" Width="2" PointX="2.25" PointY="10.375" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.FileAddedChange" Width="2" PointX="12.75" PointY="6.5" />
         <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.FileAddedChange" />
-        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.FileDeletedChange" Width="2" PointX="4.5" PointY="10.375" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.FileDeletedChange" Width="2" PointX="15" PointY="6.5" />
         <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.FileDeletedChange" />
-        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.FileModifiedChange" Width="2" PointX="6.75" PointY="10.375" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.FileModifiedChange" Width="2" PointX="17.25" PointY="6.5" />
         <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.FileModifiedChange" />
-        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.FileRenamedChange" Width="2" PointX="6.75" PointY="12.375" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.FileRenamedChange" Width="2" PointX="17.25" PointY="8.5" />
         <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.FileRenamedChange" />
         <AssociationConnector Association="Jawilliam.CDF.Labs.SQL.OneFileVersion_CanBeModifiedFromBy_ManyFileChanges" />
         <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.FileModifiedChange" />
         <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.FileModifiedChange" />
         <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.FileVersion" />
+        <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.FileChange" />
       </Diagram>
       <Diagram DiagramId="ac5c40058cf243809cab6af57bb45588" Name="Change Detection" DisplayType="true" ZoomLevel="86" >
         <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.FileContentSummary" Width="3.625" PointX="4.625" PointY="1.625" />

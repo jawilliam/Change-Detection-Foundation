@@ -8,7 +8,6 @@
   <EntityContainer Name="JawilliamCDFLabsSQLStoreContainer">
     <EntitySet Name="RepositoryObjects" EntityType="Jawilliam.CDF.Labs.SQL.Store.RepositoryObjects" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="FileContents" EntityType="Jawilliam.CDF.Labs.SQL.Store.FileContents" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="FileChanges" EntityType="Jawilliam.CDF.Labs.SQL.Store.FileChanges" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="FileContentSummaries" EntityType="Jawilliam.CDF.Labs.SQL.Store.FileContentSummaries" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Deltas" EntityType="Jawilliam.CDF.Labs.SQL.Store.Deltas" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="RepositoryObjects_Commit" EntityType="Jawilliam.CDF.Labs.SQL.Store.RepositoryObjects_Commit" store:Type="Tables" Schema="dbo" />
@@ -16,10 +15,11 @@
     <EntitySet Name="RepositoryObjects_Branch" EntityType="Jawilliam.CDF.Labs.SQL.Store.RepositoryObjects_Branch" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="RepositoryObjects_FileVersion" EntityType="Jawilliam.CDF.Labs.SQL.Store.RepositoryObjects_FileVersion" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="RepositoryObjects_File" EntityType="Jawilliam.CDF.Labs.SQL.Store.RepositoryObjects_File" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="FileChanges_FileModifiedChange" EntityType="Jawilliam.CDF.Labs.SQL.Store.FileChanges_FileModifiedChange" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="FileChanges_FileAddedChange" EntityType="Jawilliam.CDF.Labs.SQL.Store.FileChanges_FileAddedChange" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="FileChanges_FileDeletedChange" EntityType="Jawilliam.CDF.Labs.SQL.Store.FileChanges_FileDeletedChange" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="FileChanges_FileRenamedChange" EntityType="Jawilliam.CDF.Labs.SQL.Store.FileChanges_FileRenamedChange" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="RepositoryObjects_FileChange" EntityType="Jawilliam.CDF.Labs.SQL.Store.RepositoryObjects_FileChange" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="RepositoryObjects_FileModifiedChange" EntityType="Jawilliam.CDF.Labs.SQL.Store.RepositoryObjects_FileModifiedChange" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="RepositoryObjects_FileAddedChange" EntityType="Jawilliam.CDF.Labs.SQL.Store.RepositoryObjects_FileAddedChange" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="RepositoryObjects_FileDeletedChange" EntityType="Jawilliam.CDF.Labs.SQL.Store.RepositoryObjects_FileDeletedChange" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="RepositoryObjects_FileRenamedChange" EntityType="Jawilliam.CDF.Labs.SQL.Store.RepositoryObjects_FileRenamedChange" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Branch_Contains_Commits" EntityType="Jawilliam.CDF.Labs.SQL.Store.Branch_Contains_Commits" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Commits_AreParentsOf_Commits" EntityType="Jawilliam.CDF.Labs.SQL.Store.Commits_AreParentsOf_Commits" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="Contributor_IsAuthorOf_Commits" Association="Jawilliam.CDF.Labs.SQL.Store.Contributor_IsAuthorOf_Commits">
@@ -55,19 +55,19 @@
       <End Role="FileVersion" EntitySet="RepositoryObjects_FileVersion" />
     </AssociationSet>
     <AssociationSet Name="FileChange_DifferencingTo_Commit" Association="Jawilliam.CDF.Labs.SQL.Store.FileChange_DifferencingTo_Commit">
-      <End Role="FileChange" EntitySet="FileChanges" />
+      <End Role="FileChange" EntitySet="RepositoryObjects_FileChange" />
       <End Role="Commit" EntitySet="RepositoryObjects_Commit" />
     </AssociationSet>
     <AssociationSet Name="FileChange_DifferencingFrom_Commit" Association="Jawilliam.CDF.Labs.SQL.Store.FileChange_DifferencingFrom_Commit">
-      <End Role="FileChange" EntitySet="FileChanges" />
+      <End Role="FileChange" EntitySet="RepositoryObjects_FileChange" />
       <End Role="Commit" EntitySet="RepositoryObjects_Commit" />
     </AssociationSet>
     <AssociationSet Name="FileChanges_Originate_ManyFileVersions" Association="Jawilliam.CDF.Labs.SQL.Store.FileChanges_Originate_ManyFileVersions">
-      <End Role="FileChange" EntitySet="FileChanges" />
+      <End Role="FileChange" EntitySet="RepositoryObjects_FileChange" />
       <End Role="FileVersion" EntitySet="RepositoryObjects_FileVersion" />
     </AssociationSet>
     <AssociationSet Name="OneFileVersion_CanBeModifiedFromBy_ManyFileChanges" Association="Jawilliam.CDF.Labs.SQL.Store.OneFileVersion_CanBeModifiedFromBy_ManyFileChanges">
-      <End Role="FileModifiedChange" EntitySet="FileChanges_FileModifiedChange" />
+      <End Role="FileModifiedChange" EntitySet="RepositoryObjects_FileModifiedChange" />
       <End Role="FileVersion" EntitySet="RepositoryObjects_FileVersion" />
     </AssociationSet>
     <AssociationSet Name="OneFileVersion_HasExactly_OneFileContentSummary" Association="Jawilliam.CDF.Labs.SQL.Store.OneFileVersion_HasExactly_OneFileContentSummary">
@@ -75,7 +75,7 @@
       <End Role="FileContentSummary" EntitySet="FileContentSummaries" />
     </AssociationSet>
     <AssociationSet Name="FileModifiedChanges_CanBeDescribedByDifferent_Deltas" Association="Jawilliam.CDF.Labs.SQL.Store.FileModifiedChanges_CanBeDescribedByDifferent_Deltas">
-      <End Role="FileModifiedChange" EntitySet="FileChanges_FileModifiedChange" />
+      <End Role="FileModifiedChange" EntitySet="RepositoryObjects_FileModifiedChange" />
       <End Role="Delta" EntitySet="Deltas" />
     </AssociationSet>
     <AssociationSet Name="FK_Commit_inherits_RepositoryObject" Association="Jawilliam.CDF.Labs.SQL.Store.FK_Commit_inherits_RepositoryObject">
@@ -98,28 +98,32 @@
       <End Role="RepositoryObject" EntitySet="RepositoryObjects" />
       <End Role="File" EntitySet="RepositoryObjects_File" />
     </AssociationSet>
+    <AssociationSet Name="FK_FileChange_inherits_RepositoryObject" Association="Jawilliam.CDF.Labs.SQL.Store.FK_FileChange_inherits_RepositoryObject">
+      <End Role="RepositoryObject" EntitySet="RepositoryObjects" />
+      <End Role="FileChange" EntitySet="RepositoryObjects_FileChange" />
+    </AssociationSet>
     <AssociationSet Name="FK_FileModifiedChange_inherits_FileChange" Association="Jawilliam.CDF.Labs.SQL.Store.FK_FileModifiedChange_inherits_FileChange">
-      <End Role="FileChange" EntitySet="FileChanges" />
-      <End Role="FileModifiedChange" EntitySet="FileChanges_FileModifiedChange" />
+      <End Role="FileChange" EntitySet="RepositoryObjects_FileChange" />
+      <End Role="FileModifiedChange" EntitySet="RepositoryObjects_FileModifiedChange" />
     </AssociationSet>
     <AssociationSet Name="FK_FileAddedChange_inherits_FileChange" Association="Jawilliam.CDF.Labs.SQL.Store.FK_FileAddedChange_inherits_FileChange">
-      <End Role="FileChange" EntitySet="FileChanges" />
-      <End Role="FileAddedChange" EntitySet="FileChanges_FileAddedChange" />
+      <End Role="FileChange" EntitySet="RepositoryObjects_FileChange" />
+      <End Role="FileAddedChange" EntitySet="RepositoryObjects_FileAddedChange" />
     </AssociationSet>
     <AssociationSet Name="FK_FileDeletedChange_inherits_FileChange" Association="Jawilliam.CDF.Labs.SQL.Store.FK_FileDeletedChange_inherits_FileChange">
-      <End Role="FileChange" EntitySet="FileChanges" />
-      <End Role="FileDeletedChange" EntitySet="FileChanges_FileDeletedChange" />
+      <End Role="FileChange" EntitySet="RepositoryObjects_FileChange" />
+      <End Role="FileDeletedChange" EntitySet="RepositoryObjects_FileDeletedChange" />
     </AssociationSet>
     <AssociationSet Name="FK_FileRenamedChange_inherits_FileModifiedChange" Association="Jawilliam.CDF.Labs.SQL.Store.FK_FileRenamedChange_inherits_FileModifiedChange">
-      <End Role="FileModifiedChange" EntitySet="FileChanges_FileModifiedChange" />
-      <End Role="FileRenamedChange" EntitySet="FileChanges_FileRenamedChange" />
+      <End Role="FileModifiedChange" EntitySet="RepositoryObjects_FileModifiedChange" />
+      <End Role="FileRenamedChange" EntitySet="RepositoryObjects_FileRenamedChange" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="RepositoryObjects">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="uniqueidentifier" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
     <Property Name="ExternalID" Type="nvarchar(max)" Nullable="true" />
     <Property Name="Annotations" Type="xml" Nullable="true" />
   </EntityType>
@@ -127,37 +131,23 @@
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="uniqueidentifier" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
     <Property Name="SourceCode" Type="nvarchar(max)" Nullable="true" />
     <Property Name="Annotations" Type="xml" Nullable="true" />
     <Property Name="FileVersion_Id" Type="uniqueidentifier" Nullable="false" />
-  </EntityType>
-  <EntityType Name="FileChanges">
-    <Key>
-      <PropertyRef Name="ParentCommitId" />
-      <PropertyRef Name="FileVersionId" />
-      <PropertyRef Name="ChildCommitId" />
-    </Key>
-    <Property Name="ParentCommitId" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="FileVersionId" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="ChildCommitId" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="LinesAdded" Type="int" Nullable="false" />
-    <Property Name="LinesDeleted" Type="int" Nullable="false" />
-    <Property Name="Patch" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="Annotations" Type="xml" Nullable="true" />
   </EntityType>
   <EntityType Name="FileContentSummaries">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="uniqueidentifier" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
     <Property Name="Size" Type="bigint" Nullable="false" />
     <Property Name="TotalLines" Type="bigint" Nullable="true" />
     <Property Name="BlankLines" Type="bigint" Nullable="true" />
     <Property Name="CommentLines" Type="bigint" Nullable="true" />
     <Property Name="CodeLines" Type="bigint" Nullable="true" />
     <Property Name="StatementLines" Type="bigint" Nullable="true" />
-    <Property Name="SyntaxKindAnnotations" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="SyntaxKindAnnotations" Type="xml" Nullable="true" />
     <Property Name="Annotations" Type="xml" Nullable="true" />
     <Property Name="FileVersion_Id" Type="uniqueidentifier" Nullable="false" />
   </EntityType>
@@ -165,15 +155,13 @@
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="uniqueidentifier" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
     <Property Name="Matching" Type="xml" Nullable="true" />
     <Property Name="Differencing" Type="xml" Nullable="true" />
     <Property Name="Report" Type="xml" Nullable="true" />
     <Property Name="Annotations" Type="xml" Nullable="true" />
     <Property Name="Approach" Type="int" Nullable="false" />
-    <Property Name="RevisionPair_ParentCommitId" Type="uniqueidentifier" Nullable="true" />
-    <Property Name="RevisionPair_FileVersionId" Type="uniqueidentifier" Nullable="true" />
-    <Property Name="RevisionPair_ChildCommitId" Type="uniqueidentifier" Nullable="true" />
+    <Property Name="RevisionPair_Id" Type="uniqueidentifier" Nullable="true" />
   </EntityType>
   <EntityType Name="RepositoryObjects_Commit">
     <Key>
@@ -216,48 +204,44 @@
     </Key>
     <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
   </EntityType>
-  <EntityType Name="FileChanges_FileModifiedChange">
+  <EntityType Name="RepositoryObjects_FileChange">
     <Key>
-      <PropertyRef Name="ParentCommitId" />
-      <PropertyRef Name="FileVersionId" />
-      <PropertyRef Name="ChildCommitId" />
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="LinesAdded" Type="int" Nullable="false" />
+    <Property Name="LinesDeleted" Type="int" Nullable="false" />
+    <Property Name="Patch" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="ToCommit_Id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="FromCommit_Id" Type="uniqueidentifier" Nullable="true" />
+    <Property Name="FileVersion_Id" Type="uniqueidentifier" Nullable="false" />
+  </EntityType>
+  <EntityType Name="RepositoryObjects_FileModifiedChange">
+    <Key>
+      <PropertyRef Name="Id" />
     </Key>
     <Property Name="ToPath" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="ParentCommitId" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="FileVersionId" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="ChildCommitId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
     <Property Name="FromFileVersion_Id" Type="uniqueidentifier" Nullable="false" />
   </EntityType>
-  <EntityType Name="FileChanges_FileAddedChange">
+  <EntityType Name="RepositoryObjects_FileAddedChange">
     <Key>
-      <PropertyRef Name="ParentCommitId" />
-      <PropertyRef Name="FileVersionId" />
-      <PropertyRef Name="ChildCommitId" />
+      <PropertyRef Name="Id" />
     </Key>
-    <Property Name="ParentCommitId" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="FileVersionId" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="ChildCommitId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
   </EntityType>
-  <EntityType Name="FileChanges_FileDeletedChange">
+  <EntityType Name="RepositoryObjects_FileDeletedChange">
     <Key>
-      <PropertyRef Name="ParentCommitId" />
-      <PropertyRef Name="FileVersionId" />
-      <PropertyRef Name="ChildCommitId" />
+      <PropertyRef Name="Id" />
     </Key>
-    <Property Name="ParentCommitId" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="FileVersionId" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="ChildCommitId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
   </EntityType>
-  <EntityType Name="FileChanges_FileRenamedChange">
+  <EntityType Name="RepositoryObjects_FileRenamedChange">
     <Key>
-      <PropertyRef Name="ParentCommitId" />
-      <PropertyRef Name="FileVersionId" />
-      <PropertyRef Name="ChildCommitId" />
+      <PropertyRef Name="Id" />
     </Key>
     <Property Name="FromPath" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="ParentCommitId" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="FileVersionId" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="ChildCommitId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
   </EntityType>
   <EntityType Name="Branch_Contains_Commits">
     <Key>
@@ -324,43 +308,43 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FileChange_DifferencingTo_Commit">
-    <End Role="FileChange" Type="Jawilliam.CDF.Labs.SQL.Store.FileChanges" Multiplicity="*" />
+    <End Role="FileChange" Type="Jawilliam.CDF.Labs.SQL.Store.RepositoryObjects_FileChange" Multiplicity="*" />
     <End Role="Commit" Type="Jawilliam.CDF.Labs.SQL.Store.RepositoryObjects_Commit" Multiplicity="1" />
     <ReferentialConstraint>
       <Principal Role="Commit">
         <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="FileChange">
-        <PropertyRef Name="ChildCommitId" />
+        <PropertyRef Name="ToCommit_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
   <Association Name="FileChange_DifferencingFrom_Commit">
-    <End Role="FileChange" Type="Jawilliam.CDF.Labs.SQL.Store.FileChanges" Multiplicity="*" />
-    <End Role="Commit" Type="Jawilliam.CDF.Labs.SQL.Store.RepositoryObjects_Commit" Multiplicity="1" />
+    <End Role="FileChange" Type="Jawilliam.CDF.Labs.SQL.Store.RepositoryObjects_FileChange" Multiplicity="*" />
+    <End Role="Commit" Type="Jawilliam.CDF.Labs.SQL.Store.RepositoryObjects_Commit" Multiplicity="0..1" />
     <ReferentialConstraint>
       <Principal Role="Commit">
         <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="FileChange">
-        <PropertyRef Name="ParentCommitId" />
+        <PropertyRef Name="FromCommit_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
   <Association Name="FileChanges_Originate_ManyFileVersions">
-    <End Role="FileChange" Type="Jawilliam.CDF.Labs.SQL.Store.FileChanges" Multiplicity="*" />
+    <End Role="FileChange" Type="Jawilliam.CDF.Labs.SQL.Store.RepositoryObjects_FileChange" Multiplicity="*" />
     <End Role="FileVersion" Type="Jawilliam.CDF.Labs.SQL.Store.RepositoryObjects_FileVersion" Multiplicity="1" />
     <ReferentialConstraint>
       <Principal Role="FileVersion">
         <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="FileChange">
-        <PropertyRef Name="FileVersionId" />
+        <PropertyRef Name="FileVersion_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
   <Association Name="OneFileVersion_CanBeModifiedFromBy_ManyFileChanges">
-    <End Role="FileModifiedChange" Type="Jawilliam.CDF.Labs.SQL.Store.FileChanges_FileModifiedChange" Multiplicity="*" />
+    <End Role="FileModifiedChange" Type="Jawilliam.CDF.Labs.SQL.Store.RepositoryObjects_FileModifiedChange" Multiplicity="*" />
     <End Role="FileVersion" Type="Jawilliam.CDF.Labs.SQL.Store.RepositoryObjects_FileVersion" Multiplicity="1" />
     <ReferentialConstraint>
       <Principal Role="FileVersion">
@@ -384,18 +368,14 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FileModifiedChanges_CanBeDescribedByDifferent_Deltas">
-    <End Role="FileModifiedChange" Type="Jawilliam.CDF.Labs.SQL.Store.FileChanges_FileModifiedChange" Multiplicity="0..1" />
+    <End Role="FileModifiedChange" Type="Jawilliam.CDF.Labs.SQL.Store.RepositoryObjects_FileModifiedChange" Multiplicity="0..1" />
     <End Role="Delta" Type="Jawilliam.CDF.Labs.SQL.Store.Deltas" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="FileModifiedChange">
-        <PropertyRef Name="ParentCommitId" />
-        <PropertyRef Name="FileVersionId" />
-        <PropertyRef Name="ChildCommitId" />
+        <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="Delta">
-        <PropertyRef Name="RevisionPair_ParentCommitId" />
-        <PropertyRef Name="RevisionPair_FileVersionId" />
-        <PropertyRef Name="RevisionPair_ChildCommitId" />
+        <PropertyRef Name="RevisionPair_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -517,75 +497,73 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_FileModifiedChange_inherits_FileChange">
-    <End Role="FileChange" Type="Jawilliam.CDF.Labs.SQL.Store.FileChanges" Multiplicity="1">
+  <Association Name="FK_FileChange_inherits_RepositoryObject">
+    <End Role="RepositoryObject" Type="Jawilliam.CDF.Labs.SQL.Store.RepositoryObjects" Multiplicity="1">
       <OnDelete Action="Cascade" />
     </End>
-    <End Role="FileModifiedChange" Type="Jawilliam.CDF.Labs.SQL.Store.FileChanges_FileModifiedChange" Multiplicity="0..1" />
+    <End Role="FileChange" Type="Jawilliam.CDF.Labs.SQL.Store.RepositoryObjects_FileChange" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="RepositoryObject">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="FileChange">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FileModifiedChange_inherits_FileChange">
+    <End Role="FileChange" Type="Jawilliam.CDF.Labs.SQL.Store.RepositoryObjects_FileChange" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="FileModifiedChange" Type="Jawilliam.CDF.Labs.SQL.Store.RepositoryObjects_FileModifiedChange" Multiplicity="0..1" />
     <ReferentialConstraint>
       <Principal Role="FileChange">
-        <PropertyRef Name="ParentCommitId" />
-        <PropertyRef Name="FileVersionId" />
-        <PropertyRef Name="ChildCommitId" />
+        <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="FileModifiedChange">
-        <PropertyRef Name="ParentCommitId" />
-        <PropertyRef Name="FileVersionId" />
-        <PropertyRef Name="ChildCommitId" />
+        <PropertyRef Name="Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_FileAddedChange_inherits_FileChange">
-    <End Role="FileChange" Type="Jawilliam.CDF.Labs.SQL.Store.FileChanges" Multiplicity="1">
+    <End Role="FileChange" Type="Jawilliam.CDF.Labs.SQL.Store.RepositoryObjects_FileChange" Multiplicity="1">
       <OnDelete Action="Cascade" />
     </End>
-    <End Role="FileAddedChange" Type="Jawilliam.CDF.Labs.SQL.Store.FileChanges_FileAddedChange" Multiplicity="0..1" />
+    <End Role="FileAddedChange" Type="Jawilliam.CDF.Labs.SQL.Store.RepositoryObjects_FileAddedChange" Multiplicity="0..1" />
     <ReferentialConstraint>
       <Principal Role="FileChange">
-        <PropertyRef Name="ParentCommitId" />
-        <PropertyRef Name="FileVersionId" />
-        <PropertyRef Name="ChildCommitId" />
+        <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="FileAddedChange">
-        <PropertyRef Name="ParentCommitId" />
-        <PropertyRef Name="FileVersionId" />
-        <PropertyRef Name="ChildCommitId" />
+        <PropertyRef Name="Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_FileDeletedChange_inherits_FileChange">
-    <End Role="FileChange" Type="Jawilliam.CDF.Labs.SQL.Store.FileChanges" Multiplicity="1">
+    <End Role="FileChange" Type="Jawilliam.CDF.Labs.SQL.Store.RepositoryObjects_FileChange" Multiplicity="1">
       <OnDelete Action="Cascade" />
     </End>
-    <End Role="FileDeletedChange" Type="Jawilliam.CDF.Labs.SQL.Store.FileChanges_FileDeletedChange" Multiplicity="0..1" />
+    <End Role="FileDeletedChange" Type="Jawilliam.CDF.Labs.SQL.Store.RepositoryObjects_FileDeletedChange" Multiplicity="0..1" />
     <ReferentialConstraint>
       <Principal Role="FileChange">
-        <PropertyRef Name="ParentCommitId" />
-        <PropertyRef Name="FileVersionId" />
-        <PropertyRef Name="ChildCommitId" />
+        <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="FileDeletedChange">
-        <PropertyRef Name="ParentCommitId" />
-        <PropertyRef Name="FileVersionId" />
-        <PropertyRef Name="ChildCommitId" />
+        <PropertyRef Name="Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_FileRenamedChange_inherits_FileModifiedChange">
-    <End Role="FileModifiedChange" Type="Jawilliam.CDF.Labs.SQL.Store.FileChanges_FileModifiedChange" Multiplicity="1">
+    <End Role="FileModifiedChange" Type="Jawilliam.CDF.Labs.SQL.Store.RepositoryObjects_FileModifiedChange" Multiplicity="1">
       <OnDelete Action="Cascade" />
     </End>
-    <End Role="FileRenamedChange" Type="Jawilliam.CDF.Labs.SQL.Store.FileChanges_FileRenamedChange" Multiplicity="0..1" />
+    <End Role="FileRenamedChange" Type="Jawilliam.CDF.Labs.SQL.Store.RepositoryObjects_FileRenamedChange" Multiplicity="0..1" />
     <ReferentialConstraint>
       <Principal Role="FileModifiedChange">
-        <PropertyRef Name="ParentCommitId" />
-        <PropertyRef Name="FileVersionId" />
-        <PropertyRef Name="ChildCommitId" />
+        <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="FileRenamedChange">
-        <PropertyRef Name="ParentCommitId" />
-        <PropertyRef Name="FileVersionId" />
-        <PropertyRef Name="ChildCommitId" />
+        <PropertyRef Name="Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -620,21 +598,20 @@
             <End Role="File" EntitySet="RepositoryObjects" />
             <End Role="FileVersion" EntitySet="RepositoryObjects" />
           </AssociationSet>
-          <EntitySet Name="FileChanges" EntityType="Jawilliam.CDF.Labs.SQL.FileChange" />
           <AssociationSet Name="FileChange_DifferencingTo_Commit" Association="Jawilliam.CDF.Labs.SQL.FileChange_DifferencingTo_Commit">
-            <End Role="FileChange" EntitySet="FileChanges" />
+            <End Role="FileChange" EntitySet="RepositoryObjects" />
             <End Role="Commit" EntitySet="RepositoryObjects" />
           </AssociationSet>
           <AssociationSet Name="FileChange_DifferencingFrom_Commit" Association="Jawilliam.CDF.Labs.SQL.FileChange_DifferencingFrom_Commit">
-            <End Role="FileChange" EntitySet="FileChanges" />
+            <End Role="FileChange" EntitySet="RepositoryObjects" />
             <End Role="Commit" EntitySet="RepositoryObjects" />
           </AssociationSet>
           <AssociationSet Name="FileChanges_Originate_ManyFileVersions" Association="Jawilliam.CDF.Labs.SQL.FileChanges_Originate_ManyFileVersions">
-            <End Role="FileChange" EntitySet="FileChanges" />
+            <End Role="FileChange" EntitySet="RepositoryObjects" />
             <End Role="FileVersion" EntitySet="RepositoryObjects" />
           </AssociationSet>
           <AssociationSet Name="OneFileVersion_CanBeModifiedFromBy_ManyFileChanges" Association="Jawilliam.CDF.Labs.SQL.OneFileVersion_CanBeModifiedFromBy_ManyFileChanges">
-            <End Role="FileModifiedChange" EntitySet="FileChanges" />
+            <End Role="FileModifiedChange" EntitySet="RepositoryObjects" />
             <End Role="FileVersion" EntitySet="RepositoryObjects" />
           </AssociationSet>
           <EntitySet Name="FileContentSummaries" EntityType="Jawilliam.CDF.Labs.SQL.FileContentSummary" />
@@ -644,7 +621,7 @@
           </AssociationSet>
           <EntitySet Name="Deltas" EntityType="Jawilliam.CDF.Labs.SQL.Delta" />
           <AssociationSet Name="FileModifiedChanges_CanBeDescribedByDifferent_Deltas" Association="Jawilliam.CDF.Labs.SQL.FileModifiedChanges_CanBeDescribedByDifferent_Deltas">
-            <End Role="FileModifiedChange" EntitySet="FileChanges" />
+            <End Role="FileModifiedChange" EntitySet="RepositoryObjects" />
             <End Role="Delta" EntitySet="Deltas" />
           </AssociationSet>
         </EntityContainer>
@@ -652,7 +629,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="None" />
           <Property Name="ExternalID" Type="String" Nullable="true" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Annotations" Type="String" Nullable="true" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
@@ -709,7 +686,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="None" />
           <Property Name="SourceCode" Type="String" Nullable="true" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Annotations" Type="String" Nullable="true" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="FileVersion" Relationship="Jawilliam.CDF.Labs.SQL.OneFileVersion_HasExactly_OneFileContent" FromRole="FileContent" ToRole="FileVersion" />
@@ -722,19 +699,10 @@
           <End Type="Jawilliam.CDF.Labs.SQL.File" Role="File" Multiplicity="0..1" />
           <End Type="Jawilliam.CDF.Labs.SQL.FileVersion" Role="FileVersion" Multiplicity="*" />
         </Association>
-        <EntityType Name="FileChange" Abstract="true" >
-          <Key>
-            <PropertyRef Name="ParentCommitId" />
-            <PropertyRef Name="FileVersionId" />
-            <PropertyRef Name="ChildCommitId" />
-          </Key>
-          <Property Name="ParentCommitId" Type="Guid" Nullable="false" />
-          <Property Name="FileVersionId" Type="Guid" Nullable="false" />
-          <Property Name="ChildCommitId" Type="Guid" Nullable="false" />
+        <EntityType Name="FileChange" Abstract="true" BaseType="Jawilliam.CDF.Labs.SQL.RepositoryObject" >
           <Property Name="LinesAdded" Type="Int32" Nullable="false" />
           <Property Name="LinesDeleted" Type="Int32" Nullable="false" />
           <Property Name="Patch" Type="String" Nullable="true" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Annotations" Type="String" Nullable="true" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="ToCommit" Relationship="Jawilliam.CDF.Labs.SQL.FileChange_DifferencingTo_Commit" FromRole="FileChange" ToRole="Commit" />
           <NavigationProperty Name="FromCommit" Relationship="Jawilliam.CDF.Labs.SQL.FileChange_DifferencingFrom_Commit" FromRole="FileChange" ToRole="Commit" />
           <NavigationProperty Name="FileVersion" Relationship="Jawilliam.CDF.Labs.SQL.FileChanges_Originate_ManyFileVersions" FromRole="FileChange" ToRole="FileVersion" />
@@ -742,38 +710,14 @@
         <Association Name="FileChange_DifferencingTo_Commit">
           <End Type="Jawilliam.CDF.Labs.SQL.FileChange" Role="FileChange" Multiplicity="*" />
           <End Type="Jawilliam.CDF.Labs.SQL.Commit" Role="Commit" Multiplicity="1" />
-          <ReferentialConstraint>
-            <Principal Role="Commit">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="FileChange">
-              <PropertyRef Name="ChildCommitId" />
-            </Dependent>
-          </ReferentialConstraint>
         </Association>
         <Association Name="FileChange_DifferencingFrom_Commit">
           <End Type="Jawilliam.CDF.Labs.SQL.FileChange" Role="FileChange" Multiplicity="*" />
-          <End Type="Jawilliam.CDF.Labs.SQL.Commit" Role="Commit" Multiplicity="1" />
-          <ReferentialConstraint>
-            <Principal Role="Commit">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="FileChange">
-              <PropertyRef Name="ParentCommitId" />
-            </Dependent>
-          </ReferentialConstraint>
+          <End Type="Jawilliam.CDF.Labs.SQL.Commit" Role="Commit" Multiplicity="0..1" />
         </Association>
         <Association Name="FileChanges_Originate_ManyFileVersions">
           <End Type="Jawilliam.CDF.Labs.SQL.FileChange" Role="FileChange" Multiplicity="*" />
           <End Type="Jawilliam.CDF.Labs.SQL.FileVersion" Role="FileVersion" Multiplicity="1" />
-          <ReferentialConstraint>
-            <Principal Role="FileVersion">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="FileChange">
-              <PropertyRef Name="FileVersionId" />
-            </Dependent>
-          </ReferentialConstraint>
         </Association>
         <EntityType Name="FileAddedChange" BaseType="Jawilliam.CDF.Labs.SQL.FileChange" />
         <EntityType Name="FileDeletedChange" BaseType="Jawilliam.CDF.Labs.SQL.FileChange" />
@@ -793,7 +737,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="None" />
           <Property Name="Size" Type="Int64" Nullable="false" />
           <Property Name="TotalLines" Type="Int64" Nullable="true" />
           <Property Name="BlankLines" Type="Int64" Nullable="true" />
@@ -812,7 +756,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="None" />
           <Property Name="Matching" Type="String" Nullable="true" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Differencing" Type="String" Nullable="true" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Report" Type="String" Nullable="true" MaxLength="Max" FixedLength="false" Unicode="true" />
@@ -874,6 +818,36 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>
+      <EntityTypeMapping TypeName="IsTypeOf(Jawilliam.CDF.Labs.SQL.FileChange)">
+        <MappingFragment StoreEntitySet="RepositoryObjects_FileChange">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="LinesAdded" ColumnName="LinesAdded" />
+          <ScalarProperty Name="LinesDeleted" ColumnName="LinesDeleted" />
+          <ScalarProperty Name="Patch" ColumnName="Patch" />
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="IsTypeOf(Jawilliam.CDF.Labs.SQL.FileModifiedChange)">
+        <MappingFragment StoreEntitySet="RepositoryObjects_FileModifiedChange">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="ToPath" ColumnName="ToPath" />
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="IsTypeOf(Jawilliam.CDF.Labs.SQL.FileAddedChange)">
+        <MappingFragment StoreEntitySet="RepositoryObjects_FileAddedChange">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="IsTypeOf(Jawilliam.CDF.Labs.SQL.FileDeletedChange)">
+        <MappingFragment StoreEntitySet="RepositoryObjects_FileDeletedChange">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="IsTypeOf(Jawilliam.CDF.Labs.SQL.FileRenamedChange)">
+        <MappingFragment StoreEntitySet="RepositoryObjects_FileRenamedChange">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="FromPath" ColumnName="FromPath" />
+        </MappingFragment>
+      </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="FileContents">
       <EntityTypeMapping TypeName="IsTypeOf(Jawilliam.CDF.Labs.SQL.FileContent)">
@@ -881,49 +855,6 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="SourceCode" ColumnName="SourceCode" />
           <ScalarProperty Name="Annotations" ColumnName="Annotations" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="FileChanges">
-      <EntityTypeMapping TypeName="IsTypeOf(Jawilliam.CDF.Labs.SQL.FileChange)">
-        <MappingFragment StoreEntitySet="FileChanges">
-          <ScalarProperty Name="ParentCommitId" ColumnName="ParentCommitId" />
-          <ScalarProperty Name="FileVersionId" ColumnName="FileVersionId" />
-          <ScalarProperty Name="ChildCommitId" ColumnName="ChildCommitId" />
-          <ScalarProperty Name="LinesAdded" ColumnName="LinesAdded" />
-          <ScalarProperty Name="LinesDeleted" ColumnName="LinesDeleted" />
-          <ScalarProperty Name="Patch" ColumnName="Patch" />
-          <ScalarProperty Name="Annotations" ColumnName="Annotations" />
-        </MappingFragment>
-      </EntityTypeMapping>
-      <EntityTypeMapping TypeName="IsTypeOf(Jawilliam.CDF.Labs.SQL.FileModifiedChange)">
-        <MappingFragment StoreEntitySet="FileChanges_FileModifiedChange">
-          <ScalarProperty Name="ParentCommitId" ColumnName="ParentCommitId" />
-          <ScalarProperty Name="FileVersionId" ColumnName="FileVersionId" />
-          <ScalarProperty Name="ChildCommitId" ColumnName="ChildCommitId" />
-          <ScalarProperty Name="ToPath" ColumnName="ToPath" />
-        </MappingFragment>
-      </EntityTypeMapping>
-      <EntityTypeMapping TypeName="IsTypeOf(Jawilliam.CDF.Labs.SQL.FileAddedChange)">
-        <MappingFragment StoreEntitySet="FileChanges_FileAddedChange">
-          <ScalarProperty Name="ParentCommitId" ColumnName="ParentCommitId" />
-          <ScalarProperty Name="FileVersionId" ColumnName="FileVersionId" />
-          <ScalarProperty Name="ChildCommitId" ColumnName="ChildCommitId" />
-        </MappingFragment>
-      </EntityTypeMapping>
-      <EntityTypeMapping TypeName="IsTypeOf(Jawilliam.CDF.Labs.SQL.FileDeletedChange)">
-        <MappingFragment StoreEntitySet="FileChanges_FileDeletedChange">
-          <ScalarProperty Name="ParentCommitId" ColumnName="ParentCommitId" />
-          <ScalarProperty Name="FileVersionId" ColumnName="FileVersionId" />
-          <ScalarProperty Name="ChildCommitId" ColumnName="ChildCommitId" />
-        </MappingFragment>
-      </EntityTypeMapping>
-      <EntityTypeMapping TypeName="IsTypeOf(Jawilliam.CDF.Labs.SQL.FileRenamedChange)">
-        <MappingFragment StoreEntitySet="FileChanges_FileRenamedChange">
-          <ScalarProperty Name="ParentCommitId" ColumnName="ParentCommitId" />
-          <ScalarProperty Name="FileVersionId" ColumnName="FileVersionId" />
-          <ScalarProperty Name="ChildCommitId" ColumnName="ChildCommitId" />
-          <ScalarProperty Name="FromPath" ColumnName="FromPath" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1003,14 +934,37 @@
       </EndProperty>
       <Condition ColumnName="File_Id" IsNull="false" />
     </AssociationSetMapping>
-    <AssociationSetMapping Name="OneFileVersion_CanBeModifiedFromBy_ManyFileChanges" TypeName="Jawilliam.CDF.Labs.SQL.OneFileVersion_CanBeModifiedFromBy_ManyFileChanges" StoreEntitySet="FileChanges_FileModifiedChange">
+    <AssociationSetMapping Name="FileChange_DifferencingTo_Commit" TypeName="Jawilliam.CDF.Labs.SQL.FileChange_DifferencingTo_Commit" StoreEntitySet="RepositoryObjects_FileChange">
+      <EndProperty Name="Commit">
+        <ScalarProperty Name="Id" ColumnName="ToCommit_Id" />
+      </EndProperty>
+      <EndProperty Name="FileChange">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FileChange_DifferencingFrom_Commit" TypeName="Jawilliam.CDF.Labs.SQL.FileChange_DifferencingFrom_Commit" StoreEntitySet="RepositoryObjects_FileChange">
+      <EndProperty Name="Commit">
+        <ScalarProperty Name="Id" ColumnName="FromCommit_Id" />
+      </EndProperty>
+      <EndProperty Name="FileChange">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="FromCommit_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FileChanges_Originate_ManyFileVersions" TypeName="Jawilliam.CDF.Labs.SQL.FileChanges_Originate_ManyFileVersions" StoreEntitySet="RepositoryObjects_FileChange">
+      <EndProperty Name="FileVersion">
+        <ScalarProperty Name="Id" ColumnName="FileVersion_Id" />
+      </EndProperty>
+      <EndProperty Name="FileChange">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="OneFileVersion_CanBeModifiedFromBy_ManyFileChanges" TypeName="Jawilliam.CDF.Labs.SQL.OneFileVersion_CanBeModifiedFromBy_ManyFileChanges" StoreEntitySet="RepositoryObjects_FileModifiedChange">
       <EndProperty Name="FileVersion">
         <ScalarProperty Name="Id" ColumnName="FromFileVersion_Id" />
       </EndProperty>
       <EndProperty Name="FileModifiedChange">
-        <ScalarProperty Name="ParentCommitId" ColumnName="ParentCommitId" />
-        <ScalarProperty Name="FileVersionId" ColumnName="FileVersionId" />
-        <ScalarProperty Name="ChildCommitId" ColumnName="ChildCommitId" />
+        <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>
     <AssociationSetMapping Name="OneFileVersion_HasExactly_OneFileContentSummary" TypeName="Jawilliam.CDF.Labs.SQL.OneFileVersion_HasExactly_OneFileContentSummary" StoreEntitySet="FileContentSummaries">
@@ -1023,16 +977,12 @@
     </AssociationSetMapping>
     <AssociationSetMapping Name="FileModifiedChanges_CanBeDescribedByDifferent_Deltas" TypeName="Jawilliam.CDF.Labs.SQL.FileModifiedChanges_CanBeDescribedByDifferent_Deltas" StoreEntitySet="Deltas">
       <EndProperty Name="FileModifiedChange">
-        <ScalarProperty Name="ParentCommitId" ColumnName="RevisionPair_ParentCommitId" />
-        <ScalarProperty Name="FileVersionId" ColumnName="RevisionPair_FileVersionId" />
-        <ScalarProperty Name="ChildCommitId" ColumnName="RevisionPair_ChildCommitId" />
+        <ScalarProperty Name="Id" ColumnName="RevisionPair_Id" />
       </EndProperty>
       <EndProperty Name="Delta">
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
-      <Condition ColumnName="RevisionPair_ParentCommitId" IsNull="false" />
-      <Condition ColumnName="RevisionPair_FileVersionId" IsNull="false" />
-      <Condition ColumnName="RevisionPair_ChildCommitId" IsNull="false" />
+      <Condition ColumnName="RevisionPair_Id" IsNull="false" />
     </AssociationSetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>

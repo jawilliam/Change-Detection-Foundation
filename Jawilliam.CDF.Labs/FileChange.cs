@@ -12,15 +12,11 @@ namespace Jawilliam.CDF.Labs
     using System;
     using System.Collections.Generic;
     
-    public abstract partial class FileChange
+    public abstract partial class FileChange : RepositoryObject
     {
-        public System.Guid ParentCommitId { get; set; }
-        public System.Guid FileVersionId { get; set; }
-        public System.Guid ChildCommitId { get; set; }
         public int LinesAdded { get; set; }
         public int LinesDeleted { get; set; }
         public string Patch { get; set; }
-        public string Annotations { get; set; }
     
         public virtual Commit ToCommit { get; set; }
         public virtual Commit FromCommit { get; set; }

@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 04/24/2017 12:46:56
--- Generated from EDMX file: E:\Projects\Change-Detection-Foundation\Jawilliam.CDF.Labs\GitRepository.edmx
+-- Date Created: 04/27/2017 09:07:29
+-- Generated from EDMX file: E:\MyRepositories\Change-Detection-Foundation\Jawilliam.CDF.Labs\GitRepository.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -17,11 +17,131 @@ GO
 -- Dropping existing FOREIGN KEY constraints
 -- --------------------------------------------------
 
+IF OBJECT_ID(N'[dbo].[FK_Contributor_IsAuthorOf_Commits]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[RepositoryObjects_Commit] DROP CONSTRAINT [FK_Contributor_IsAuthorOf_Commits];
+GO
+IF OBJECT_ID(N'[dbo].[FK_Branch_PointTo_OneCommit]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[RepositoryObjects_Branch] DROP CONSTRAINT [FK_Branch_PointTo_OneCommit];
+GO
+IF OBJECT_ID(N'[dbo].[FK_Branch_Contains_Commits_Commit]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Branch_Contains_Commits] DROP CONSTRAINT [FK_Branch_Contains_Commits_Commit];
+GO
+IF OBJECT_ID(N'[dbo].[FK_Branch_Contains_Commits_Branch]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Branch_Contains_Commits] DROP CONSTRAINT [FK_Branch_Contains_Commits_Branch];
+GO
+IF OBJECT_ID(N'[dbo].[FK_Commits_AreParentsOf_Commits_Commit]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Commits_AreParentsOf_Commits] DROP CONSTRAINT [FK_Commits_AreParentsOf_Commits_Commit];
+GO
+IF OBJECT_ID(N'[dbo].[FK_Commits_AreParentsOf_Commits_Commit1]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Commits_AreParentsOf_Commits] DROP CONSTRAINT [FK_Commits_AreParentsOf_Commits_Commit1];
+GO
+IF OBJECT_ID(N'[dbo].[FK_OneFileVersion_HasExactly_OneFileContent]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[FileContents] DROP CONSTRAINT [FK_OneFileVersion_HasExactly_OneFileContent];
+GO
+IF OBJECT_ID(N'[dbo].[FK_OneFile_HasMany_Versions]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[RepositoryObjects_FileVersion] DROP CONSTRAINT [FK_OneFile_HasMany_Versions];
+GO
+IF OBJECT_ID(N'[dbo].[FK_FileChange_DifferencingTo_Commit]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[RepositoryObjects_FileChange] DROP CONSTRAINT [FK_FileChange_DifferencingTo_Commit];
+GO
+IF OBJECT_ID(N'[dbo].[FK_FileChange_DifferencingFrom_Commit]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[RepositoryObjects_FileChange] DROP CONSTRAINT [FK_FileChange_DifferencingFrom_Commit];
+GO
+IF OBJECT_ID(N'[dbo].[FK_FileChanges_Originate_ManyFileVersions]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[RepositoryObjects_FileChange] DROP CONSTRAINT [FK_FileChanges_Originate_ManyFileVersions];
+GO
+IF OBJECT_ID(N'[dbo].[FK_OneFileVersion_CanBeModifiedFromBy_ManyFileChanges]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[RepositoryObjects_FileModifiedChange] DROP CONSTRAINT [FK_OneFileVersion_CanBeModifiedFromBy_ManyFileChanges];
+GO
+IF OBJECT_ID(N'[dbo].[FK_OneFileVersion_HasExactly_OneFileContentSummary]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[FileContentSummaries] DROP CONSTRAINT [FK_OneFileVersion_HasExactly_OneFileContentSummary];
+GO
+IF OBJECT_ID(N'[dbo].[FK_FileModifiedChanges_CanBeDescribedByDifferent_Deltas]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Deltas] DROP CONSTRAINT [FK_FileModifiedChanges_CanBeDescribedByDifferent_Deltas];
+GO
+IF OBJECT_ID(N'[dbo].[FK_Commit_inherits_RepositoryObject]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[RepositoryObjects_Commit] DROP CONSTRAINT [FK_Commit_inherits_RepositoryObject];
+GO
+IF OBJECT_ID(N'[dbo].[FK_Contributor_inherits_RepositoryObject]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[RepositoryObjects_Contributor] DROP CONSTRAINT [FK_Contributor_inherits_RepositoryObject];
+GO
+IF OBJECT_ID(N'[dbo].[FK_Branch_inherits_RepositoryObject]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[RepositoryObjects_Branch] DROP CONSTRAINT [FK_Branch_inherits_RepositoryObject];
+GO
+IF OBJECT_ID(N'[dbo].[FK_FileVersion_inherits_RepositoryObject]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[RepositoryObjects_FileVersion] DROP CONSTRAINT [FK_FileVersion_inherits_RepositoryObject];
+GO
+IF OBJECT_ID(N'[dbo].[FK_File_inherits_RepositoryObject]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[RepositoryObjects_File] DROP CONSTRAINT [FK_File_inherits_RepositoryObject];
+GO
+IF OBJECT_ID(N'[dbo].[FK_FileChange_inherits_RepositoryObject]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[RepositoryObjects_FileChange] DROP CONSTRAINT [FK_FileChange_inherits_RepositoryObject];
+GO
+IF OBJECT_ID(N'[dbo].[FK_FileModifiedChange_inherits_FileChange]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[RepositoryObjects_FileModifiedChange] DROP CONSTRAINT [FK_FileModifiedChange_inherits_FileChange];
+GO
+IF OBJECT_ID(N'[dbo].[FK_FileAddedChange_inherits_FileChange]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[RepositoryObjects_FileAddedChange] DROP CONSTRAINT [FK_FileAddedChange_inherits_FileChange];
+GO
+IF OBJECT_ID(N'[dbo].[FK_FileDeletedChange_inherits_FileChange]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[RepositoryObjects_FileDeletedChange] DROP CONSTRAINT [FK_FileDeletedChange_inherits_FileChange];
+GO
+IF OBJECT_ID(N'[dbo].[FK_FileRenamedChange_inherits_FileModifiedChange]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[RepositoryObjects_FileRenamedChange] DROP CONSTRAINT [FK_FileRenamedChange_inherits_FileModifiedChange];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
 -- --------------------------------------------------
 
+IF OBJECT_ID(N'[dbo].[RepositoryObjects]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[RepositoryObjects];
+GO
+IF OBJECT_ID(N'[dbo].[FileContents]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[FileContents];
+GO
+IF OBJECT_ID(N'[dbo].[FileContentSummaries]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[FileContentSummaries];
+GO
+IF OBJECT_ID(N'[dbo].[Deltas]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Deltas];
+GO
+IF OBJECT_ID(N'[dbo].[RepositoryObjects_Commit]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[RepositoryObjects_Commit];
+GO
+IF OBJECT_ID(N'[dbo].[RepositoryObjects_Contributor]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[RepositoryObjects_Contributor];
+GO
+IF OBJECT_ID(N'[dbo].[RepositoryObjects_Branch]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[RepositoryObjects_Branch];
+GO
+IF OBJECT_ID(N'[dbo].[RepositoryObjects_FileVersion]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[RepositoryObjects_FileVersion];
+GO
+IF OBJECT_ID(N'[dbo].[RepositoryObjects_File]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[RepositoryObjects_File];
+GO
+IF OBJECT_ID(N'[dbo].[RepositoryObjects_FileChange]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[RepositoryObjects_FileChange];
+GO
+IF OBJECT_ID(N'[dbo].[RepositoryObjects_FileModifiedChange]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[RepositoryObjects_FileModifiedChange];
+GO
+IF OBJECT_ID(N'[dbo].[RepositoryObjects_FileAddedChange]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[RepositoryObjects_FileAddedChange];
+GO
+IF OBJECT_ID(N'[dbo].[RepositoryObjects_FileDeletedChange]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[RepositoryObjects_FileDeletedChange];
+GO
+IF OBJECT_ID(N'[dbo].[RepositoryObjects_FileRenamedChange]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[RepositoryObjects_FileRenamedChange];
+GO
+IF OBJECT_ID(N'[dbo].[Branch_Contains_Commits]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Branch_Contains_Commits];
+GO
+IF OBJECT_ID(N'[dbo].[Commits_AreParentsOf_Commits]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Commits_AreParentsOf_Commits];
+GO
 
 -- --------------------------------------------------
 -- Creating all tables
@@ -44,18 +164,6 @@ CREATE TABLE [dbo].[FileContents] (
 );
 GO
 
--- Creating table 'FileChanges'
-CREATE TABLE [dbo].[FileChanges] (
-    [ParentCommitId] uniqueidentifier  NOT NULL,
-    [FileVersionId] uniqueidentifier  NOT NULL,
-    [ChildCommitId] uniqueidentifier  NOT NULL,
-    [LinesAdded] int  NOT NULL,
-    [LinesDeleted] int  NOT NULL,
-    [Patch] nvarchar(max)  NULL,
-    [Annotations] xml  NULL
-);
-GO
-
 -- Creating table 'FileContentSummaries'
 CREATE TABLE [dbo].[FileContentSummaries] (
     [Id] uniqueidentifier  NOT NULL,
@@ -65,7 +173,7 @@ CREATE TABLE [dbo].[FileContentSummaries] (
     [CommentLines] bigint  NULL,
     [CodeLines] bigint  NULL,
     [StatementLines] bigint  NULL,
-    [SyntaxKindAnnotations] nvarchar(max)  NULL,
+    [SyntaxKindAnnotations] xml  NULL,
     [Annotations] xml  NULL,
     [FileVersion_Id] uniqueidentifier  NOT NULL
 );
@@ -79,9 +187,7 @@ CREATE TABLE [dbo].[Deltas] (
     [Report] xml  NULL,
     [Annotations] xml  NULL,
     [Approach] int  NOT NULL,
-    [RevisionPair_ParentCommitId] uniqueidentifier  NULL,
-    [RevisionPair_FileVersionId] uniqueidentifier  NULL,
-    [RevisionPair_ChildCommitId] uniqueidentifier  NULL
+    [RevisionPair_Id] uniqueidentifier  NULL
 );
 GO
 
@@ -126,38 +232,42 @@ CREATE TABLE [dbo].[RepositoryObjects_File] (
 );
 GO
 
--- Creating table 'FileChanges_FileModifiedChange'
-CREATE TABLE [dbo].[FileChanges_FileModifiedChange] (
+-- Creating table 'RepositoryObjects_FileChange'
+CREATE TABLE [dbo].[RepositoryObjects_FileChange] (
+    [LinesAdded] int  NOT NULL,
+    [LinesDeleted] int  NOT NULL,
+    [Patch] nvarchar(max)  NULL,
+    [Id] uniqueidentifier  NOT NULL,
+    [ToCommit_Id] uniqueidentifier  NOT NULL,
+    [FromCommit_Id] uniqueidentifier  NULL,
+    [FileVersion_Id] uniqueidentifier  NOT NULL
+);
+GO
+
+-- Creating table 'RepositoryObjects_FileModifiedChange'
+CREATE TABLE [dbo].[RepositoryObjects_FileModifiedChange] (
     [ToPath] nvarchar(max)  NOT NULL,
-    [ParentCommitId] uniqueidentifier  NOT NULL,
-    [FileVersionId] uniqueidentifier  NOT NULL,
-    [ChildCommitId] uniqueidentifier  NOT NULL,
+    [Id] uniqueidentifier  NOT NULL,
     [FromFileVersion_Id] uniqueidentifier  NOT NULL
 );
 GO
 
--- Creating table 'FileChanges_FileAddedChange'
-CREATE TABLE [dbo].[FileChanges_FileAddedChange] (
-    [ParentCommitId] uniqueidentifier  NOT NULL,
-    [FileVersionId] uniqueidentifier  NOT NULL,
-    [ChildCommitId] uniqueidentifier  NOT NULL
+-- Creating table 'RepositoryObjects_FileAddedChange'
+CREATE TABLE [dbo].[RepositoryObjects_FileAddedChange] (
+    [Id] uniqueidentifier  NOT NULL
 );
 GO
 
--- Creating table 'FileChanges_FileDeletedChange'
-CREATE TABLE [dbo].[FileChanges_FileDeletedChange] (
-    [ParentCommitId] uniqueidentifier  NOT NULL,
-    [FileVersionId] uniqueidentifier  NOT NULL,
-    [ChildCommitId] uniqueidentifier  NOT NULL
+-- Creating table 'RepositoryObjects_FileDeletedChange'
+CREATE TABLE [dbo].[RepositoryObjects_FileDeletedChange] (
+    [Id] uniqueidentifier  NOT NULL
 );
 GO
 
--- Creating table 'FileChanges_FileRenamedChange'
-CREATE TABLE [dbo].[FileChanges_FileRenamedChange] (
+-- Creating table 'RepositoryObjects_FileRenamedChange'
+CREATE TABLE [dbo].[RepositoryObjects_FileRenamedChange] (
     [FromPath] nvarchar(max)  NOT NULL,
-    [ParentCommitId] uniqueidentifier  NOT NULL,
-    [FileVersionId] uniqueidentifier  NOT NULL,
-    [ChildCommitId] uniqueidentifier  NOT NULL
+    [Id] uniqueidentifier  NOT NULL
 );
 GO
 
@@ -189,12 +299,6 @@ GO
 ALTER TABLE [dbo].[FileContents]
 ADD CONSTRAINT [PK_FileContents]
     PRIMARY KEY CLUSTERED ([Id] ASC);
-GO
-
--- Creating primary key on [ParentCommitId], [FileVersionId], [ChildCommitId] in table 'FileChanges'
-ALTER TABLE [dbo].[FileChanges]
-ADD CONSTRAINT [PK_FileChanges]
-    PRIMARY KEY CLUSTERED ([ParentCommitId], [FileVersionId], [ChildCommitId] ASC);
 GO
 
 -- Creating primary key on [Id] in table 'FileContentSummaries'
@@ -239,28 +343,34 @@ ADD CONSTRAINT [PK_RepositoryObjects_File]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [ParentCommitId], [FileVersionId], [ChildCommitId] in table 'FileChanges_FileModifiedChange'
-ALTER TABLE [dbo].[FileChanges_FileModifiedChange]
-ADD CONSTRAINT [PK_FileChanges_FileModifiedChange]
-    PRIMARY KEY CLUSTERED ([ParentCommitId], [FileVersionId], [ChildCommitId] ASC);
+-- Creating primary key on [Id] in table 'RepositoryObjects_FileChange'
+ALTER TABLE [dbo].[RepositoryObjects_FileChange]
+ADD CONSTRAINT [PK_RepositoryObjects_FileChange]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [ParentCommitId], [FileVersionId], [ChildCommitId] in table 'FileChanges_FileAddedChange'
-ALTER TABLE [dbo].[FileChanges_FileAddedChange]
-ADD CONSTRAINT [PK_FileChanges_FileAddedChange]
-    PRIMARY KEY CLUSTERED ([ParentCommitId], [FileVersionId], [ChildCommitId] ASC);
+-- Creating primary key on [Id] in table 'RepositoryObjects_FileModifiedChange'
+ALTER TABLE [dbo].[RepositoryObjects_FileModifiedChange]
+ADD CONSTRAINT [PK_RepositoryObjects_FileModifiedChange]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [ParentCommitId], [FileVersionId], [ChildCommitId] in table 'FileChanges_FileDeletedChange'
-ALTER TABLE [dbo].[FileChanges_FileDeletedChange]
-ADD CONSTRAINT [PK_FileChanges_FileDeletedChange]
-    PRIMARY KEY CLUSTERED ([ParentCommitId], [FileVersionId], [ChildCommitId] ASC);
+-- Creating primary key on [Id] in table 'RepositoryObjects_FileAddedChange'
+ALTER TABLE [dbo].[RepositoryObjects_FileAddedChange]
+ADD CONSTRAINT [PK_RepositoryObjects_FileAddedChange]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [ParentCommitId], [FileVersionId], [ChildCommitId] in table 'FileChanges_FileRenamedChange'
-ALTER TABLE [dbo].[FileChanges_FileRenamedChange]
-ADD CONSTRAINT [PK_FileChanges_FileRenamedChange]
-    PRIMARY KEY CLUSTERED ([ParentCommitId], [FileVersionId], [ChildCommitId] ASC);
+-- Creating primary key on [Id] in table 'RepositoryObjects_FileDeletedChange'
+ALTER TABLE [dbo].[RepositoryObjects_FileDeletedChange]
+ADD CONSTRAINT [PK_RepositoryObjects_FileDeletedChange]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'RepositoryObjects_FileRenamedChange'
+ALTER TABLE [dbo].[RepositoryObjects_FileRenamedChange]
+ADD CONSTRAINT [PK_RepositoryObjects_FileRenamedChange]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
 -- Creating primary key on [Commits_Id], [Branches_Id] in table 'Branch_Contains_Commits'
@@ -387,10 +497,10 @@ ON [dbo].[RepositoryObjects_FileVersion]
     ([File_Id]);
 GO
 
--- Creating foreign key on [ChildCommitId] in table 'FileChanges'
-ALTER TABLE [dbo].[FileChanges]
+-- Creating foreign key on [ToCommit_Id] in table 'RepositoryObjects_FileChange'
+ALTER TABLE [dbo].[RepositoryObjects_FileChange]
 ADD CONSTRAINT [FK_FileChange_DifferencingTo_Commit]
-    FOREIGN KEY ([ChildCommitId])
+    FOREIGN KEY ([ToCommit_Id])
     REFERENCES [dbo].[RepositoryObjects_Commit]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
@@ -398,23 +508,29 @@ GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_FileChange_DifferencingTo_Commit'
 CREATE INDEX [IX_FK_FileChange_DifferencingTo_Commit]
-ON [dbo].[FileChanges]
-    ([ChildCommitId]);
+ON [dbo].[RepositoryObjects_FileChange]
+    ([ToCommit_Id]);
 GO
 
--- Creating foreign key on [ParentCommitId] in table 'FileChanges'
-ALTER TABLE [dbo].[FileChanges]
+-- Creating foreign key on [FromCommit_Id] in table 'RepositoryObjects_FileChange'
+ALTER TABLE [dbo].[RepositoryObjects_FileChange]
 ADD CONSTRAINT [FK_FileChange_DifferencingFrom_Commit]
-    FOREIGN KEY ([ParentCommitId])
+    FOREIGN KEY ([FromCommit_Id])
     REFERENCES [dbo].[RepositoryObjects_Commit]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
--- Creating foreign key on [FileVersionId] in table 'FileChanges'
-ALTER TABLE [dbo].[FileChanges]
+-- Creating non-clustered index for FOREIGN KEY 'FK_FileChange_DifferencingFrom_Commit'
+CREATE INDEX [IX_FK_FileChange_DifferencingFrom_Commit]
+ON [dbo].[RepositoryObjects_FileChange]
+    ([FromCommit_Id]);
+GO
+
+-- Creating foreign key on [FileVersion_Id] in table 'RepositoryObjects_FileChange'
+ALTER TABLE [dbo].[RepositoryObjects_FileChange]
 ADD CONSTRAINT [FK_FileChanges_Originate_ManyFileVersions]
-    FOREIGN KEY ([FileVersionId])
+    FOREIGN KEY ([FileVersion_Id])
     REFERENCES [dbo].[RepositoryObjects_FileVersion]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
@@ -422,12 +538,12 @@ GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_FileChanges_Originate_ManyFileVersions'
 CREATE INDEX [IX_FK_FileChanges_Originate_ManyFileVersions]
-ON [dbo].[FileChanges]
-    ([FileVersionId]);
+ON [dbo].[RepositoryObjects_FileChange]
+    ([FileVersion_Id]);
 GO
 
--- Creating foreign key on [FromFileVersion_Id] in table 'FileChanges_FileModifiedChange'
-ALTER TABLE [dbo].[FileChanges_FileModifiedChange]
+-- Creating foreign key on [FromFileVersion_Id] in table 'RepositoryObjects_FileModifiedChange'
+ALTER TABLE [dbo].[RepositoryObjects_FileModifiedChange]
 ADD CONSTRAINT [FK_OneFileVersion_CanBeModifiedFromBy_ManyFileChanges]
     FOREIGN KEY ([FromFileVersion_Id])
     REFERENCES [dbo].[RepositoryObjects_FileVersion]
@@ -437,7 +553,7 @@ GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_OneFileVersion_CanBeModifiedFromBy_ManyFileChanges'
 CREATE INDEX [IX_FK_OneFileVersion_CanBeModifiedFromBy_ManyFileChanges]
-ON [dbo].[FileChanges_FileModifiedChange]
+ON [dbo].[RepositoryObjects_FileModifiedChange]
     ([FromFileVersion_Id]);
 GO
 
@@ -456,19 +572,19 @@ ON [dbo].[FileContentSummaries]
     ([FileVersion_Id]);
 GO
 
--- Creating foreign key on [RevisionPair_ParentCommitId], [RevisionPair_FileVersionId], [RevisionPair_ChildCommitId] in table 'Deltas'
+-- Creating foreign key on [RevisionPair_Id] in table 'Deltas'
 ALTER TABLE [dbo].[Deltas]
 ADD CONSTRAINT [FK_FileModifiedChanges_CanBeDescribedByDifferent_Deltas]
-    FOREIGN KEY ([RevisionPair_ParentCommitId], [RevisionPair_FileVersionId], [RevisionPair_ChildCommitId])
-    REFERENCES [dbo].[FileChanges_FileModifiedChange]
-        ([ParentCommitId], [FileVersionId], [ChildCommitId])
+    FOREIGN KEY ([RevisionPair_Id])
+    REFERENCES [dbo].[RepositoryObjects_FileModifiedChange]
+        ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_FileModifiedChanges_CanBeDescribedByDifferent_Deltas'
 CREATE INDEX [IX_FK_FileModifiedChanges_CanBeDescribedByDifferent_Deltas]
 ON [dbo].[Deltas]
-    ([RevisionPair_ParentCommitId], [RevisionPair_FileVersionId], [RevisionPair_ChildCommitId]);
+    ([RevisionPair_Id]);
 GO
 
 -- Creating foreign key on [Id] in table 'RepositoryObjects_Commit'
@@ -516,39 +632,48 @@ ADD CONSTRAINT [FK_File_inherits_RepositoryObject]
     ON DELETE CASCADE ON UPDATE NO ACTION;
 GO
 
--- Creating foreign key on [ParentCommitId], [FileVersionId], [ChildCommitId] in table 'FileChanges_FileModifiedChange'
-ALTER TABLE [dbo].[FileChanges_FileModifiedChange]
+-- Creating foreign key on [Id] in table 'RepositoryObjects_FileChange'
+ALTER TABLE [dbo].[RepositoryObjects_FileChange]
+ADD CONSTRAINT [FK_FileChange_inherits_RepositoryObject]
+    FOREIGN KEY ([Id])
+    REFERENCES [dbo].[RepositoryObjects]
+        ([Id])
+    ON DELETE CASCADE ON UPDATE NO ACTION;
+GO
+
+-- Creating foreign key on [Id] in table 'RepositoryObjects_FileModifiedChange'
+ALTER TABLE [dbo].[RepositoryObjects_FileModifiedChange]
 ADD CONSTRAINT [FK_FileModifiedChange_inherits_FileChange]
-    FOREIGN KEY ([ParentCommitId], [FileVersionId], [ChildCommitId])
-    REFERENCES [dbo].[FileChanges]
-        ([ParentCommitId], [FileVersionId], [ChildCommitId])
+    FOREIGN KEY ([Id])
+    REFERENCES [dbo].[RepositoryObjects_FileChange]
+        ([Id])
     ON DELETE CASCADE ON UPDATE NO ACTION;
 GO
 
--- Creating foreign key on [ParentCommitId], [FileVersionId], [ChildCommitId] in table 'FileChanges_FileAddedChange'
-ALTER TABLE [dbo].[FileChanges_FileAddedChange]
+-- Creating foreign key on [Id] in table 'RepositoryObjects_FileAddedChange'
+ALTER TABLE [dbo].[RepositoryObjects_FileAddedChange]
 ADD CONSTRAINT [FK_FileAddedChange_inherits_FileChange]
-    FOREIGN KEY ([ParentCommitId], [FileVersionId], [ChildCommitId])
-    REFERENCES [dbo].[FileChanges]
-        ([ParentCommitId], [FileVersionId], [ChildCommitId])
+    FOREIGN KEY ([Id])
+    REFERENCES [dbo].[RepositoryObjects_FileChange]
+        ([Id])
     ON DELETE CASCADE ON UPDATE NO ACTION;
 GO
 
--- Creating foreign key on [ParentCommitId], [FileVersionId], [ChildCommitId] in table 'FileChanges_FileDeletedChange'
-ALTER TABLE [dbo].[FileChanges_FileDeletedChange]
+-- Creating foreign key on [Id] in table 'RepositoryObjects_FileDeletedChange'
+ALTER TABLE [dbo].[RepositoryObjects_FileDeletedChange]
 ADD CONSTRAINT [FK_FileDeletedChange_inherits_FileChange]
-    FOREIGN KEY ([ParentCommitId], [FileVersionId], [ChildCommitId])
-    REFERENCES [dbo].[FileChanges]
-        ([ParentCommitId], [FileVersionId], [ChildCommitId])
+    FOREIGN KEY ([Id])
+    REFERENCES [dbo].[RepositoryObjects_FileChange]
+        ([Id])
     ON DELETE CASCADE ON UPDATE NO ACTION;
 GO
 
--- Creating foreign key on [ParentCommitId], [FileVersionId], [ChildCommitId] in table 'FileChanges_FileRenamedChange'
-ALTER TABLE [dbo].[FileChanges_FileRenamedChange]
+-- Creating foreign key on [Id] in table 'RepositoryObjects_FileRenamedChange'
+ALTER TABLE [dbo].[RepositoryObjects_FileRenamedChange]
 ADD CONSTRAINT [FK_FileRenamedChange_inherits_FileModifiedChange]
-    FOREIGN KEY ([ParentCommitId], [FileVersionId], [ChildCommitId])
-    REFERENCES [dbo].[FileChanges_FileModifiedChange]
-        ([ParentCommitId], [FileVersionId], [ChildCommitId])
+    FOREIGN KEY ([Id])
+    REFERENCES [dbo].[RepositoryObjects_FileModifiedChange]
+        ([Id])
     ON DELETE CASCADE ON UPDATE NO ACTION;
 GO
 
