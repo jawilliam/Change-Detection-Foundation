@@ -55,15 +55,16 @@
         <Property index="2" name="Name" optional="false" changepoint="true" loa:lexical="Terminal" loa:syntactical="Identifier" loa:semantic="Containment"/>
       </Properties>
     </Type>
-    <Type name="ElementBindingExpressionSyntax" base="ExpressionSyntax" loa:hierarchical="NonEssential">
+    <Type name="ElementBindingExpressionSyntax" base="ExpressionSyntax" loa:hierarchical="Leaf">
       <Properties>
         <Property index="1" name="ArgumentList" optional="false" changepoint="true" loa:lexical="NonTerminal" loa:syntactical="ExpressionList" loa:semantic="Containment"/>
       </Properties>
     </Type>
-    <Type name="ImplicitElementAccessSyntax" base="ExpressionSyntax" loa:hierarchical="Internal">
+    <Type name="ImplicitElementAccessSyntax" base="ExpressionSyntax" loa:hierarchical="Leaf">
       <Properties>
         <Property index="0" name="ArgumentList" optional="false" changepoint="true" loa:lexical="NonTerminal" loa:syntactical="ExpressionList" loa:semantic="Containment"/>
       </Properties>
+      <!-- Could it be exploited in some kind of identity-based matching abstraction? -->
     </Type>
     
     <Type name="BinaryExpressionSyntax" base="ExpressionSyntax" abstract="true" cg:kind="Suppress" loa:hierarchical="LeafOrInternal">
@@ -82,6 +83,8 @@
     </Type>
    <!-- xsi:schemaLocation="SyntaxSpecification file:///E:/MyRepositories/Change-Detection-Foundation/SSXD.xsd" -->
 </Syntax>
+
+
 
 
 

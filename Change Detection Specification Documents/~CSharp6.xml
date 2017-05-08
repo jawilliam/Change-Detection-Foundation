@@ -12,18 +12,13 @@
       <Property index="2" name="CloseParenToken" readOnly="true" optional="false" loa:lexical="Terminal" loa:syntactical="Puntuactor" loa:semantic="None"/>
     </Properties>
    </Type>
+   
    <Type name="PrefixUnaryExpressionSyntax" base="ExpressionSyntax" cg:kind="Suppress" loa:hierarchical="LeafOrInternal">
       <Properties>
         <Property index="0" name="OperatorToken" optional="false" changepoint="true" loa:lexical="Terminal" loa:syntactical="Operator" loa:semantic="None"/>
         <Property index="1" name="Operand" optional="false" changepoint="true" loa:lexical="NonTerminal" loa:syntactical="Expression" loa:semantic="Containment"/>
       </Properties>
       <!-- e.g., can be leaf when the operand is a leaf, such as the increment and decrement, where the operand is always a variable -->
-   </Type>
-   <Type name="AwaitExpressionSyntax" base="ExpressionSyntax" loa:hierarchical="Internal">
-      <Properties>
-        <Property index="0" name="AwaitKeyword" readOnly="true" optional="false" loa:lexical="Terminal" loa:syntactical="Keyword" loa:semantic="None"/>
-        <Property index="1" name="Expression" optional="false" changepoint="true" loa:lexical="NonTerminal" loa:syntactical="Expression" loa:semantic="Containment"/>
-      </Properties>
    </Type>
    <Type name="PostfixUnaryExpressionSyntax" base="ExpressionSyntax" cg:kind="Suppress" loa:hierarchical="LeafOrInternal">
       <Properties>
@@ -32,6 +27,14 @@
       </Properties>
       <!-- e.g., can be leaf when the operand is a leaf, such as the increment and decrement, where the operand is always a variable -->
    </Type>
+   
+   <Type name="AwaitExpressionSyntax" base="ExpressionSyntax" loa:hierarchical="Internal">
+      <Properties>
+        <Property index="0" name="AwaitKeyword" readOnly="true" optional="false" loa:lexical="Terminal" loa:syntactical="Keyword" loa:semantic="None"/>
+        <Property index="1" name="Expression" optional="false" changepoint="true" loa:lexical="NonTerminal" loa:syntactical="Expression" loa:semantic="Containment"/>
+      </Properties>
+   </Type>
+   
    <Type name="MemberAccessExpressionSyntax" base="ExpressionSyntax" cg:kind="Suppress" loa:hierarchical="Internal">
       <Properties>
         <Property index="0" name="Expression" optional="false" changepoint="true" loa:lexical="NonTerminal" loa:syntactical="Expression" loa:semantic="Containment"/>
@@ -52,7 +55,7 @@
         <Property index="2" name="Name" optional="false" changepoint="true" loa:lexical="Terminal" loa:syntactical="Identifier" loa:semantic="Containment"/>
       </Properties>
     </Type>
-    <Type name="ElementBindingExpressionSyntax" base="ExpressionSyntax" loa:hierarchical="Internal">
+    <Type name="ElementBindingExpressionSyntax" base="ExpressionSyntax" loa:hierarchical="NonEssential">
       <Properties>
         <Property index="1" name="ArgumentList" optional="false" changepoint="true" loa:lexical="NonTerminal" loa:syntactical="ExpressionList" loa:semantic="Containment"/>
       </Properties>
@@ -62,18 +65,24 @@
         <Property index="0" name="ArgumentList" optional="false" changepoint="true" loa:lexical="NonTerminal" loa:syntactical="ExpressionList" loa:semantic="Containment"/>
       </Properties>
     </Type>
-    <Type name="BinaryExpressionSyntax" base="ExpressionSyntax" cg:kind="Suppress" loa:hierarchical="LeafOrInternal">
+    
+    <Type name="BinaryExpressionSyntax" base="ExpressionSyntax" abstract="true" cg:kind="Suppress" loa:hierarchical="LeafOrInternal">
       <Properties>
-        <Property index="0" name="Left" kind="Expression" optional="false" changepoint="true" loa:lexical="NonTerminal" loa:syntactical="Expression" loa:semantic="Containment"/>
-        <Property index="1" name="OperatorToken" kind="Token" optional="false" changepoint="true" loa:lexical="Terminal" loa:syntactical="Operator" loa:semantic="None"/>
-        <Property index="2" name="Right" kind="Expression" optional="false" changepoint="true" loa:lexical="NonTerminal" loa:syntactical="Expression" loa:semantic="Containment"/>
+        <Property index="0" name="Left" optional="false" changepoint="true" loa:lexical="NonTerminal" loa:syntactical="Expression" loa:semantic="Containment"/>
+        <Property index="1" name="OperatorToken" optional="false" changepoint="true" loa:lexical="Terminal" loa:syntactical="Operator" loa:semantic="None"/>
+        <Property index="2" name="Right" optional="false" changepoint="true" loa:lexical="NonTerminal" loa:syntactical="Expression" loa:semantic="Containment"/>
       </Properties>
-      <Annotations>
-        <Annotation context="Suppress" role="Kind"/>
-      </Annotations>
+    </Type>
+    <Type name="AssignmentExpressionSyntax" base="ExpressionSyntax" abstract="true" cg:kind="Suppress" loa:hierarchical="LeafOrInternal">
+      <Properties>
+        <Property index="0" name="Left" kind="Expression" optional="false" changepoint="true" loa:syntactical="Expression" loa:semantic="Containment"/>
+        <Property index="1" name="OperatorToken" kind="Token" optional="false" changepoint="true" loa:lexical="Terminal" loa:syntactical="Operator" loa:semantic="None"/>
+        <Property index="2" name="Right" kind="Expression" optional="false" changepoint="true" loa:syntactical="Expression" loa:semantic="Containment"/>
+      </Properties>
     </Type>
    <!-- xsi:schemaLocation="SyntaxSpecification file:///E:/MyRepositories/Change-Detection-Foundation/SSXD.xsd" -->
 </Syntax>
+
 
 
 
