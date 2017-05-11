@@ -12,6 +12,7 @@ namespace Jawilliam.CDF.Labs
         /// </summary>
         public static IEnumerable<Project> Projects => new[]
         {
+            new Project(), 
             //new Project{ Path = @"E:\Repositories\Force.com-Toolkit-for-NET", Name = "ForcecomToolkitForNET" },
             //new Project{ Path = @"E:\Repositories\Xamarin.Auth", Name = "XamarinAuth" },
             //new Project{ Path = @"E:\Repositories\netmf-interpreter", Name = "NetmfInterpreter" },
@@ -24,9 +25,7 @@ namespace Jawilliam.CDF.Labs
             //new Project{ Path = @"E:\Repositories\cecil", Name = "Cecil" },
             //new Project{ Path = @"E:\Repositories\AjaxControlToolkit", Name = "AjaxControlToolkit" },
             //new Project{ Path = @"E:\Repositories\Prism", Name = "Prism" },
-
-            // Missing ... new Project{ Path = @"E:\Repositories\MimeKit", Name = "MimeKit" },
-
+            //new Project{ Path = @"E:\Repositories\MimeKit", Name = "MimeKit" },
             //new Project{ Path = @"E:\Repositories\kudu", Name = "Kudu" },
             //new Project{ Path = @"E:\Repositories\wcf", Name = "Wcf" },
             //new Project{ Path = @"E:\Repositories\cake", Name = "Cake" },
@@ -41,9 +40,7 @@ namespace Jawilliam.CDF.Labs
             //new Project{ Path = @"E:\Repositories\EntityFramework", Name = "Ef7" },
             //new Project{ Path = @"E:\Repositories\Orchard", Name = "Orchard" },
             //new Project{ Path = @"E:\Repositories\azure-sdk-for-net", Name = "AzureSdkForNet" },
-
-            // Missing ... new Project{ Path = @"E:\Repositories\roslyn", Name = "Roslyn" },
-
+            //new Project{ Path = @"E:\Repositories\roslyn", Name = "Roslyn" },
             //new Project{ Path = @"E:\Repositories\xunit", Name = "XUnit" },
             //new Project{ Path = @"E:\Repositories\UWPCommunityToolkit", Name = "UWPCommunityToolkit" },
             //new Project{ Path = @"E:\Repositories\Rx.NET", Name = "RxNET" },
@@ -54,7 +51,7 @@ namespace Jawilliam.CDF.Labs
             //new Project{ Path = @"E:\Repositories\cli", Name = "Cli" },
             //new Project{ Path = @"E:\Repositories\coreclr", Name = "CoreClr" },
             //new Project{ Path = @"E:\Repositories\corefx", Name = "CoreFx" },
-            new Project{ Path = @"E:\Repositories\mono", Name = "mono" },
+            //new Project{ Path = @"E:\Repositories\mono", Name = "mono" },
         };
 
         /// <summary>

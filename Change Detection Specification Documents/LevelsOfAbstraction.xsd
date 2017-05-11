@@ -16,12 +16,14 @@
             <xs:enumeration value="ExpressionList"/>
             <xs:enumeration value="Operator"/>
             <xs:enumeration value="Identifier"/>
+            <xs:enumeration value="Literal"/>
         </xs:restriction>
   </xs:simpleType>
   <xs:simpleType name="THierarchical">
         <xs:restriction base="xs:string">
             <xs:enumeration value="None"/>
             <xs:enumeration value="Leaf"/>
+             <xs:enumeration value="NonLeaf"/>
             <xs:enumeration value="Internal"/>
             <xs:enumeration value="LeafOrInternal"/>
             <xs:enumeration value="NonEssential"/>
@@ -40,6 +42,8 @@
   <xs:attribute name="hierarchical" type="THierarchical"/>
   <xs:attribute name="semantic" type="TSemantic"/>
 </xs:schema>
+
+
 
 
 

@@ -55,15 +55,16 @@
         <Property index="2" name="Name" optional="false" changepoint="true" loa:lexical="Terminal" loa:syntactical="Identifier" loa:semantic="Containment"/>
       </Properties>
     </Type>
-    <Type name="ElementBindingExpressionSyntax" base="ExpressionSyntax" loa:hierarchical="NonEssential">
+    <Type name="ElementBindingExpressionSyntax" base="ExpressionSyntax" loa:hierarchical="Leaf">
       <Properties>
         <Property index="1" name="ArgumentList" optional="false" changepoint="true" loa:lexical="NonTerminal" loa:syntactical="ExpressionList" loa:semantic="Containment"/>
       </Properties>
     </Type>
-    <Type name="ImplicitElementAccessSyntax" base="ExpressionSyntax" loa:hierarchical="Internal">
+    <Type name="ImplicitElementAccessSyntax" base="ExpressionSyntax" loa:hierarchical="Leaf">
       <Properties>
         <Property index="0" name="ArgumentList" optional="false" changepoint="true" loa:lexical="NonTerminal" loa:syntactical="ExpressionList" loa:semantic="Containment"/>
       </Properties>
+      <!-- Could it be exploited in some kind of identity-based matching abstraction? -->
     </Type>
     
     <Type name="BinaryExpressionSyntax" base="ExpressionSyntax" abstract="true" cg:kind="Suppress" loa:hierarchical="LeafOrInternal">
@@ -75,13 +76,45 @@
     </Type>
     <Type name="AssignmentExpressionSyntax" base="ExpressionSyntax" abstract="true" cg:kind="Suppress" loa:hierarchical="LeafOrInternal">
       <Properties>
-        <Property index="0" name="Left" kind="Expression" optional="false" changepoint="true" loa:syntactical="Expression" loa:semantic="Containment"/>
+        <Property index="0" name="Left" kind="Expression" optional="false" changepoint="true" loa:lexical="NonTerminal" loa:syntactical="Expression" loa:semantic="Containment"/>
         <Property index="1" name="OperatorToken" kind="Token" optional="false" changepoint="true" loa:lexical="Terminal" loa:syntactical="Operator" loa:semantic="None"/>
-        <Property index="2" name="Right" kind="Expression" optional="false" changepoint="true" loa:syntactical="Expression" loa:semantic="Containment"/>
+        <Property index="2" name="Right" kind="Expression" optional="false" changepoint="true" loa:lexical="NonTerminal" loa:syntactical="Expression" loa:semantic="Containment"/>
+      </Properties>
+    </Type>
+    <Type name="ConditionalExpressionSyntax" base="ExpressionSyntax" loa:hierarchical="Leaf">
+      <Properties>
+        <Property index="0" name="Condition" kind="Expression" optional="false" changepoint="true" loa:lexical="NonTerminal"/>
+        <Property index="1" name="QuestionToken" kind="Token" readOnly="true" optional="false" loa:lexical="Terminal"/>
+        <Property index="2" name="WhenTrue" kind="Expression" optional="false" changepoint="true" loa:lexical="NonTerminal"/>
+        <Property index="3" name="ColonToken" kind="Token" readOnly="true" optional="false" loa:lexical="Terminal"/>
+        <Property index="4" name="WhenFalse" kind="Expression" optional="false" changepoint="true" loa:lexical="NonTerminal"/>
+      </Properties>
+    </Type>
+    <Type name="InstanceExpressionSyntax" abstract="true" base="ExpressionSyntax"/>
+    <Type name="ThisExpressionSyntax" base="InstanceExpressionSyntax" token="true" loa:hierarchical="Leaf">
+      <Properties>
+        <Property index="0" name="Token" kind="Token" readOnly="true" optional="false" loa:lexical="Terminal" loa:syntactical="Keyword" loa:semantic="None"/>
+      </Properties>
+    </Type>
+    <Type name="BaseExpressionSyntax" base="InstanceExpressionSyntax" loa:hierarchical="Leaf">
+      <Properties>
+        <Property index="0" name="Token" kind="Token" readOnly="true" optional="false" loa:lexical="Terminal" loa:syntactical="Keyword" loa:semantic="None"/>
+      </Properties>
+    </Type>
+    <Type name="LiteralExpressionSyntax" base="ExpressionSyntax" cg:kind="Suppress" loa:hierarchical="Leaf">
+      <Properties>
+        <Property index="0" name="Token" kind="Token" optional="false" changepoint="true" loa:lexical="Terminal"/>
       </Properties>
     </Type>
    <!-- xsi:schemaLocation="SyntaxSpecification file:///E:/MyRepositories/Change-Detection-Foundation/SSXD.xsd" -->
 </Syntax>
+
+
+
+
+
+
+
 
 
 
