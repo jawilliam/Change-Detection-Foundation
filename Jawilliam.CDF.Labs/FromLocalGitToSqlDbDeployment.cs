@@ -296,7 +296,12 @@ namespace Jawilliam.CDF.Labs
                         this.Warnings.AppendLine($"OutOfMemory - commit-{commit.ExternalID}({commit.Index})   parent-{parent?.ExternalID ?? "parent"}({parent?.Index ?? -1})");
                         //throw;
                     }
-                    
+                    catch (LibGit2SharpException lx) when ((lx.Message?.ToLowerInvariant() ?? "") == "out of memory")
+                    {
+                        this.Warnings.AppendLine($"OutOfMemory - commit-{commit.ExternalID}({commit.Index})   parent-{parent?.ExternalID ?? "parent"}({parent?.Index ?? -1})");
+                        //throw;
+                    }
+
                     if (patches != null)
                     {
                         foreach (var patch in patches.Where(p => Path.GetExtension(p.Path) == ".cs"))
