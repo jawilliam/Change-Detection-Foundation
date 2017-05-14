@@ -289,17 +289,26 @@ namespace Jawilliam.CDF.Labs
                     Patch patches = null;
                     try
                     {
-                        patches = localRepository.Diff.Compare<Patch>(nativeParent?.Tree, nativeCommit.Tree, compareOptions: comparationOptions);   
+                        patches = localRepository.Diff.Compare<Patch>(nativeParent?.Tree, nativeCommit.Tree,
+                            compareOptions: comparationOptions);
                     }
                     catch (OutOfMemoryException)
                     {
-                        this.Warnings.AppendLine($"OutOfMemory - commit-{commit.ExternalID}({commit.Index})   parent-{parent?.ExternalID ?? "parent"}({parent?.Index ?? -1})");
+                        this.Warnings.AppendLine(
+                            $"OutOfMemory - commit-{commit.ExternalID}({commit.Index})   parent-{parent?.ExternalID ?? "parent"}({parent?.Index ?? -1})");
                         //throw;
                     }
                     catch (LibGit2SharpException lx) when ((lx.Message?.ToLowerInvariant() ?? "") == "out of memory")
                     {
-                        this.Warnings.AppendLine($"OutOfMemory - commit-{commit.ExternalID}({commit.Index})   parent-{parent?.ExternalID ?? "parent"}({parent?.Index ?? -1})");
+                        this.Warnings.AppendLine(
+                            $"OutOfMemory - commit-{commit.ExternalID}({commit.Index})   parent-{parent?.ExternalID ?? "parent"}({parent?.Index ?? -1})");
                         //throw;
+                    }
+                    catch (LibGit2SharpException lx)
+                    {
+                        this.Warnings.AppendLine(
+                            $"OtherError - commit-{commit.ExternalID}({commit.Index})   parent-{parent?.ExternalID ?? "parent"}({parent?.Index ?? -1})");
+
                     }
 
                     if (patches != null)
