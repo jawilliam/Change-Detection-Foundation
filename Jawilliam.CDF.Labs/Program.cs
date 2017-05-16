@@ -1,6 +1,7 @@
 ﻿using System;
 using LibGit2Sharp;
 using System.Collections.Generic;
+using System.Data.Entity.Infrastructure;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -37,6 +38,7 @@ namespace Jawilliam.CDF.Labs
             //new Project{ Path = @"E:\Repositories\cli", Name = "Cli" },
             //new Project{ Path = @"E:\Repositories\code-cracker", Name = "CodeCracker" },
             //new Project{ Path = @"E:\Repositories\coreclr", Name = "CoreClr" },
+
             //new Project{ Path = @"E:\Repositories\corefx", Name = "CoreFx" },
             //new Project{ Path = @"E:\Repositories\couchbase-lite-net", Name = "CouchbaseLiteNet" },
             //new Project{ Path = @"E:\Repositories\Dapper", Name = "Dapper" },
@@ -65,61 +67,60 @@ namespace Jawilliam.CDF.Labs
             //new Project{ Path = @"E:\Repositories\Marten", Name = "Marten" },
             //new Project{ Path = @"E:\Repositories\MimeKit", Name = "MimeKit" },
             //new Project{ Path = @"E:\Repositories\MoneyFox", Name = "MoneyFox" },
-            //new Project{ Path = @"E:\Repositories\mono", Name = "mono" },
-            //new Project{ Path = @"E:\Repositories\MonoGame", Name = "MonoGame" },
-            //new Project{ Path = @"E:\Repositories\msbuild", Name = "Msbuild" },
-            //new Project{ Path = @"E:\Repositories\MvvmCross", Name = "MvvmCross" },
-            //new Project{ Path = @"E:\Repositories\Nancy", Name = "Nancy" },
-            //new Project{ Path = @"E:\Repositories\netmf-interpreter", Name = "NetmfInterpreter" },
-            //new Project{ Path = @"E:\Repositories\Newtonsoft.Json", Name = "NewtonsoftJson" },
-            //new Project{ Path = @"E:\Repositories\nhibernate-core", Name = "NhibernateCore" },
-            //new Project{ Path = @"E:\Repositories\NLog", Name = "NLog" },
-            //new Project{ Path = @"E:\Repositories\npgsql", Name = "Npgsql" },
-            //new Project{ Path = @"E:\Repositories\OpenRA", Name = "OpenRA" },
-            //new Project{ Path = @"E:\Repositories\Open-XML-SDK", Name = "OpenXmlSdk" },
-            //new Project{ Path = @"E:\Repositories\OptiKey", Name = "OptiKey" },
-            //new Project{ Path = @"E:\Repositories\Orchard", Name = "Orchard" },
-            //new Project{ Path = @"E:\Repositories\orleans", Name = "Orleans" },
-            //new Project{ Path = @"E:\Repositories\pickles", Name = "Pickles" },
-            //new Project{ Path = @"E:\Repositories\Polly", Name = "Polly" },
-            //new Project{ Path = @"E:\Repositories\PowerShell", Name = "PowerShell" },
-            //new Project{ Path = @"E:\Repositories\Prism", Name = "Prism" },
-            //new Project{ Path = @"E:\Repositories\Protobuild", Name = "Protobuild" },
-            //new Project{ Path = @"E:\Repositories\QuickGraph", Name = "QuickGraph" },
-            //new Project{ Path = @"E:\Repositories\Rebus", Name = "Rebus" },
-            //new Project{ Path = @"E:\Repositories\roslyn", Name = "Roslyn" },
-            //new Project{ Path = @"E:\Repositories\Rubberduck", Name = "Rubberduck" },
-            //new Project{ Path = @"E:\Repositories\Rx.NET", Name = "RxNET" },
-            //new Project{ Path = @"E:\Repositories\serilog", Name = "Serilog" },
-            //new Project{ Path = @"E:\Repositories\ServiceStack", Name = "ServiceStack" },
-            //new Project{ Path = @"E:\Repositories\ShareX", Name = "ShareX" },
-            //new Project{ Path = @"E:\Repositories\SignalR", Name = "SignalR" },
-            //new Project{ Path = @"E:\Repositories\Sonarr", Name = "Sonarr" },
-            //new Project{ Path = @"E:\Repositories\SparkleShare", Name = "SparkleShare" },
-            //new Project{ Path = @"E:\Repositories\SpecFlow", Name = "SpecFlow" },
-            //new Project{ Path = @"E:\Repositories\Umbraco-CMS", Name = "UmbracoCms" },
-            //new Project{ Path = @"E:\Repositories\UWPCommunityToolkit", Name = "UWPCommunityToolkit" },
-            //new Project{ Path = @"E:\Repositories\VsVim", Name = "VsVim" },
-            //new Project{ Path = @"E:\Repositories\wcf", Name = "Wcf" },
-            //new Project{ Path = @"E:\Repositories\WealthEconomy", Name = "WealthEconomy" },
-            //new Project{ Path = @"E:\Repositories\Wox", Name = "Wox" },
-            //new Project{ Path = @"E:\Repositories\Wyam", Name = "Wyam" },
-            //new Project{ Path = @"E:\Repositories\Xamarin.Auth", Name = "XamarinAuth" },
-            //new Project{ Path = @"E:\Repositories\Xamarin.Mobile", Name = "XamarinMobile" },
-            //new Project{ Path = @"E:\Repositories\xunit", Name = "XUnit" },
-
-            //new Project{ Path = @"E:\Repositories\PTVS", Name = "PTVS" },
-            //new Project{ Path = @"E:\Repositories\nodejstools", Name = "Nodejstools" },
-            //new Project{ Path = @"E:\Repositories\KestrelHttpServer", Name = "KestrelHttpServer" },
-            //new Project{ Path = @"E:\Repositories\dafny", Name = "Dafny" },
-            //new Project{ Path = @"E:\Repositories\corert", Name = "Corert" },
-            //new Project{ Path = @"E:\Repositories\azure-powershell", Name = "AzurePowershell" },
-            //new Project{ Path = @"E:\Repositories\sdk", Name = "Sdk" },
-            //new Project{ Path = @"E:\Repositories\buildtools", Name = "Buildtools" },
-            //new Project{ Path = @"E:\Repositories\docfx", Name = "Docfx" },
-            //new Project{ Path = @"E:\Repositories\vs-mef", Name = "VsMef" },
-            //new Project{ Path = @"E:\Repositories\RTVS", Name = "RTVS" },
-            //new Project{ Path = @"E:\Repositories\vsts-agent", Name = "VstsAgent" },
+            new Project{ Path = @"E:\Repositories\mono", Name = "mono" },
+            new Project{ Path = @"E:\Repositories\MonoGame", Name = "MonoGame" },
+            new Project{ Path = @"E:\Repositories\msbuild", Name = "Msbuild" },
+            new Project{ Path = @"E:\Repositories\MvvmCross", Name = "MvvmCross" },
+            new Project{ Path = @"E:\Repositories\Nancy", Name = "Nancy" },
+            new Project{ Path = @"E:\Repositories\netmf-interpreter", Name = "NetmfInterpreter" },
+            new Project{ Path = @"E:\Repositories\Newtonsoft.Json", Name = "NewtonsoftJson" },
+            new Project{ Path = @"E:\Repositories\nhibernate-core", Name = "NhibernateCore" },
+            new Project{ Path = @"E:\Repositories\NLog", Name = "NLog" },
+            new Project{ Path = @"E:\Repositories\npgsql", Name = "Npgsql" },
+            new Project{ Path = @"E:\Repositories\OpenRA", Name = "OpenRA" },
+            new Project{ Path = @"E:\Repositories\Open-XML-SDK", Name = "OpenXmlSdk" },
+            new Project{ Path = @"E:\Repositories\OptiKey", Name = "OptiKey" },
+            new Project{ Path = @"E:\Repositories\Orchard", Name = "Orchard" },
+            new Project{ Path = @"E:\Repositories\orleans", Name = "Orleans" },
+            new Project{ Path = @"E:\Repositories\pickles", Name = "Pickles" },
+            new Project{ Path = @"E:\Repositories\Polly", Name = "Polly" },
+            new Project{ Path = @"E:\Repositories\PowerShell", Name = "PowerShell" },
+            new Project{ Path = @"E:\Repositories\Prism", Name = "Prism" },
+            new Project{ Path = @"E:\Repositories\Protobuild", Name = "Protobuild" },
+            new Project{ Path = @"E:\Repositories\QuickGraph", Name = "QuickGraph" },
+            new Project{ Path = @"E:\Repositories\Rebus", Name = "Rebus" },
+            new Project{ Path = @"E:\Repositories\roslyn", Name = "Roslyn" },
+            new Project{ Path = @"E:\Repositories\Rubberduck", Name = "Rubberduck" },
+            new Project{ Path = @"E:\Repositories\Rx.NET", Name = "RxNET" },
+            new Project{ Path = @"E:\Repositories\serilog", Name = "Serilog" },
+            new Project{ Path = @"E:\Repositories\ServiceStack", Name = "ServiceStack" },
+            new Project{ Path = @"E:\Repositories\ShareX", Name = "ShareX" },
+            new Project{ Path = @"E:\Repositories\SignalR", Name = "SignalR" },
+            new Project{ Path = @"E:\Repositories\Sonarr", Name = "Sonarr" },
+            new Project{ Path = @"E:\Repositories\SparkleShare", Name = "SparkleShare" },
+            new Project{ Path = @"E:\Repositories\SpecFlow", Name = "SpecFlow" },
+            new Project{ Path = @"E:\Repositories\Umbraco-CMS", Name = "UmbracoCms" },
+            new Project{ Path = @"E:\Repositories\UWPCommunityToolkit", Name = "UWPCommunityToolkit" },
+            new Project{ Path = @"E:\Repositories\VsVim", Name = "VsVim" },
+            new Project{ Path = @"E:\Repositories\wcf", Name = "Wcf" },
+            new Project{ Path = @"E:\Repositories\WealthEconomy", Name = "WealthEconomy" },
+            new Project{ Path = @"E:\Repositories\Wox", Name = "Wox" },
+            new Project{ Path = @"E:\Repositories\Wyam", Name = "Wyam" },
+            new Project{ Path = @"E:\Repositories\Xamarin.Auth", Name = "XamarinAuth" },
+            new Project{ Path = @"E:\Repositories\Xamarin.Mobile", Name = "XamarinMobile" },
+            new Project{ Path = @"E:\Repositories\xunit", Name = "XUnit" },
+            new Project{ Path = @"E:\Repositories\PTVS", Name = "PTVS" },
+            new Project{ Path = @"E:\Repositories\nodejstools", Name = "Nodejstools" },
+            new Project{ Path = @"E:\Repositories\KestrelHttpServer", Name = "KestrelHttpServer" },
+            new Project{ Path = @"E:\Repositories\dafny", Name = "Dafny" },
+            new Project{ Path = @"E:\Repositories\corert", Name = "Corert" },
+            new Project{ Path = @"E:\Repositories\azure-powershell", Name = "AzurePowershell" },
+            new Project{ Path = @"E:\Repositories\sdk", Name = "Sdk" },
+            new Project{ Path = @"E:\Repositories\buildtools", Name = "Buildtools" },
+            new Project{ Path = @"E:\Repositories\docfx", Name = "Docfx" },
+            new Project{ Path = @"E:\Repositories\vs-mef", Name = "VsMef" },
+            new Project{ Path = @"E:\Repositories\RTVS", Name = "RTVS" },
+            new Project{ Path = @"E:\Repositories\vsts-agent", Name = "VstsAgent" },
             new Project{ Path = @"E:\Repositories\NuGetGallery", Name = "NuGetGallery" },
             new Project{ Path = @"E:\Repositories\ApplicationInsights-dotnet-server", Name = "ApplicationInsightsDotnetServer" },
             new Project{ Path = @"E:\Repositories\mobile-center-sdk-dotnet", Name = "MobileCenterSdkDotnet" },
@@ -148,6 +149,21 @@ namespace Jawilliam.CDF.Labs
         static void Main(string[] args)
         {
             #region Deploying the projects...
+            //var deployer = new FromLocalGitToSqlDbDeployment();
+            //foreach (var project in Projects)
+            //{
+            //    deployer.Warnings = new StringBuilder();
+
+            //    var localRepository = new Repository(project.Path);
+            //    var dbRepository = new GitRepository(project.Name) { Name = project.Name };
+
+            //    deployer.Deploy(localRepository, dbRepository);
+
+            //    System.IO.File.WriteAllText($@"E:\Repositories\{project.Name}Warnings.txt", deployer.Warnings.ToString());
+            //}
+            #endregion
+
+            #region Repairing the commits indexing...
             var deployer = new FromLocalGitToSqlDbDeployment();
             foreach (var project in Projects)
             {
@@ -155,12 +171,25 @@ namespace Jawilliam.CDF.Labs
 
                 var localRepository = new Repository(project.Path);
                 var dbRepository = new GitRepository(project.Name) { Name = project.Name };
+                ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 180;
 
-                deployer.Deploy(localRepository, dbRepository);
+                deployer.RepairCommitIndexes(localRepository, dbRepository);
 
-                System.IO.File.WriteAllText($@"E:\Repositories\{project.Name}Warnings.txt", deployer.Warnings.ToString());
+                System.IO.File.WriteAllText($@"E:\Repositories\RepairingIndexes{project.Name}Warnings.txt", deployer.Warnings.ToString());
             }
             #endregion
+
+            //#region Collecting file content summaries
+            //var summarizer = new FileContentSummarizer();
+            //foreach (var project in Projects)
+            //{
+            //    summarizer.Warnings = new StringBuilder();
+            //    var dbRepository = new GitRepository(project.Name) { Name = project.Name };
+            //    ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 180;
+            //    summarizer.Analyze(dbRepository);
+            //    System.IO.File.WriteAllText($@"E:\Repositories\{project.Name}FileContentSummaryWarnings.txt", summarizer.Warnings.ToString());
+            //}
+            //#endregion
 
             #region Deploying the projects...
             //StringBuilder report = new StringBuilder();

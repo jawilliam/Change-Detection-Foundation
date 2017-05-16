@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using System.IO;
+using System.Threading;
 
 namespace Jawilliam.CDF.Labs
 {
@@ -16,14 +17,25 @@ namespace Jawilliam.CDF.Labs
         /// Analyzes a given file version.
         /// </summary>
         /// <param name="fileVersion">the file version for analyzing.</param>
-        public override void Analyze(FileVersion fileVersion)
+        /// <param name="cancelToken">logic for receiving the cancellation notifications.</param>
+        public override void Analyze(FileVersion fileVersion, CancellationToken cancelToken)
         {
-            var contentNode = SyntaxFactory.ParseCompilationUnit(fileVersion.Content.SourceCode).SyntaxTree.GetRoot().NormalizeWhitespace("", Environment.NewLine);
+            if (fileVersion.Content?.SourceCode == null)
+                return;
+
+            var root = SyntaxFactory.ParseCompilationUnit(fileVersion.Content.SourceCode).SyntaxTree.GetRoot();
+            var contentNode = root.NormalizeWhitespace("", Environment.NewLine);
             this.SetLinesOfCodeMetrics(fileVersion, contentNode.ToFullString());
 
             Dictionary<string, XSyntaxElementTypeSummary> syntaxTypes = new Dictionary<string, XSyntaxElementTypeSummary>(300);
             foreach (var syntaxNode in contentNode.DescendantNodesAndSelf(descendIntoTrivia: true))
             {
+                if (cancelToken.IsCancellationRequested)
+                {
+                    // Clean up here, then...
+                    cancelToken.ThrowIfCancellationRequested();
+                }
+
                 string syntaxName = Enum.GetName(typeof(SyntaxKind), syntaxNode.RawKind);
                 XSyntaxElementTypeSummary syntaxType = null;
                 if (syntaxTypes.ContainsKey(syntaxName))
@@ -52,10 +64,9 @@ namespace Jawilliam.CDF.Labs
         /// <param name="content">the source code content of the file version for analyzing.</param>
         private void SetLinesOfCodeMetrics(FileVersion fileVersion, string content)
         {
-            CountOfLinesMetric countOfLinesMetric = null;
             try
             {
-                countOfLinesMetric = new CountOfLinesMetric(new StringReader(content));
+                var countOfLinesMetric = new CountOfLinesMetric(new StringReader(content));
 
                 fileVersion.ContentSummary.TotalLines = countOfLinesMetric.Lines.Count();
                 fileVersion.ContentSummary.CommentLines = countOfLinesMetric.Comments;
@@ -65,6 +76,7 @@ namespace Jawilliam.CDF.Labs
             }
             catch (Exception)
             {
+                this.Warnings.AppendLine($"LinesMetricException - fileversion-{fileVersion.Id}");
             }
         }
     }

@@ -91,12 +91,12 @@
       </Properties>
     </Type>
     <Type name="InstanceExpressionSyntax" abstract="true" base="ExpressionSyntax"/>
-    <Type name="ThisExpressionSyntax" base="InstanceExpressionSyntax" token="true" loa:hierarchical="Leaf">
+    <Type name="ThisExpressionSyntax" base="InstanceExpressionSyntax" token="true" loa:hierarchical="NonLeaf">
       <Properties>
         <Property index="0" name="Token" kind="Token" readOnly="true" optional="false" loa:lexical="Terminal" loa:syntactical="Keyword" loa:semantic="None"/>
       </Properties>
     </Type>
-    <Type name="BaseExpressionSyntax" base="InstanceExpressionSyntax" loa:hierarchical="Leaf">
+    <Type name="BaseExpressionSyntax" base="InstanceExpressionSyntax" loa:hierarchical="NonLeaf">
       <Properties>
         <Property index="0" name="Token" kind="Token" readOnly="true" optional="false" loa:lexical="Terminal" loa:syntactical="Keyword" loa:semantic="None"/>
       </Properties>

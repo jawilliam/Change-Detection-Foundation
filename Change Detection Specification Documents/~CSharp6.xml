@@ -103,7 +103,7 @@
     </Type>
     <Type name="LiteralExpressionSyntax" base="ExpressionSyntax" cg:kind="Suppress" loa:hierarchical="Leaf">
       <Properties>
-        <Property index="0" name="Token" kind="Token" optional="false" changepoint="true" loa:lexical="Terminal"/>
+        <Property index="0" name="Token" kind="Token" optional="false" changepoint="true" loa:lexical="Terminal" loa:syntactical="Literal" loa:semantic="None"/>
       </Properties>
     </Type>
    <!-- xsi:schemaLocation="SyntaxSpecification file:///E:/MyRepositories/Change-Detection-Foundation/SSXD.xsd" -->

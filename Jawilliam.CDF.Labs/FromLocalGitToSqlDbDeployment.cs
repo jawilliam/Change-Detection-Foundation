@@ -73,7 +73,6 @@ namespace Jawilliam.CDF.Labs
         /// <summary>
         /// Deploys the data set content into a folder.
         /// </summary>
-        ///// <param name="folderPath"></param>
         /// <param name="localRepository">the local Git repository from which to deploy.</param>
         /// <param name="sqlRepository">the SQL database repository in which to deploy.</param>
         public virtual void Deploy(Repository localRepository, GitRepository sqlRepository)
@@ -431,6 +430,54 @@ namespace Jawilliam.CDF.Labs
 
             repositoryDb.RepositoryObjects.Add(fileVersion);
             return fileVersion;
+        }
+
+        /// <summary>
+        /// Repairs the indexes for the initially deployed commits. 
+        /// </summary>
+        /// <param name="localRepository">the local Git repository from which the initial deployment was done.</param>
+        /// <param name="sqlRepository">the SQL database repository in which the initial deployment was done.</param>
+        /// <remarks>This is required because the initial deployment does not order well the commits that are no contained into the master branch.</remarks>
+        public virtual void RepairCommitIndexes(Repository localRepository, GitRepository sqlRepository)
+        {
+            const CommitSortStrategies sortBy = CommitSortStrategies.Topological | CommitSortStrategies.Time | CommitSortStrategies.Reverse;
+            var commits = localRepository.Commits.QueryBy(new CommitFilter { IncludeReachableFrom = localRepository.Refs, SortBy = sortBy }).ToArray();
+            var dbCommitIds = sqlRepository.RepositoryObjects.OfType<Commit>().Select(c => c.Id).ToArray();
+            //Debug.Assert(commits.Length > dbCommitIds.Count(), "There is any problem");
+
+            int j = 0;
+            foreach (var dbCommitId in dbCommitIds)
+            {
+                Console.Out.WriteLine($"Removing the index of the {++j}-commit (of {dbCommitIds.Count()}) of {sqlRepository.Name}");
+                var commit = sqlRepository.RepositoryObjects.OfType<Commit>().Single(c => c.Id == dbCommitId);
+                commit.Index = int.MaxValue;
+                sqlRepository.Flush();
+            }
+            
+            for (int i = 0; i < commits.Length; i++)
+            {
+                Console.Out.WriteLine($"Repairing the {i + 1}-commit (of {dbCommitIds.Count()}) of {sqlRepository.Name}");
+                var i1 = i;
+                var sha = commits[i1].Sha;
+                var commit = sqlRepository.RepositoryObjects.OfType<Commit>().SingleOrDefault(c => c.ExternalID == sha);
+                if (commit != null)
+                {
+                    commit.Index = i + 1;
+                    sqlRepository.Flush();
+                }
+            }
+
+            var uncoveredCommitIds = sqlRepository.RepositoryObjects.OfType<Commit>().Where(c => c.Index == int.MaxValue).Select(c => c.Id);
+            foreach (var dbCommitId in uncoveredCommitIds)
+            {
+                var hasFileVersions = (from co in sqlRepository.RepositoryObjects.OfType<Commit>()
+                    where co.Id == dbCommitId && (co.BackwardChanges.Any() || co.ForwardChanges.Any())
+                    select co).Any();
+
+                this.Warnings.AppendLine(hasFileVersions
+                    ? $"Commit {dbCommitId} is not covered and it has file versions"
+                    : $"Commit {dbCommitId} is not covered but it not has file versions");
+            }
         }
 
         /// <summary>
