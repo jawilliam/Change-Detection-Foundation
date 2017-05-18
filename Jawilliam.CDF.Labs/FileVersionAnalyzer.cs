@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Data.Entity;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -21,10 +22,12 @@ namespace Jawilliam.CDF.Labs
         /// Analyzes every file version of the given repository.
         /// </summary>
         /// <param name="sqlRepository">the SQL database repository in which to analyze the file versions.</param>
-        public virtual void Analyze(GitRepository sqlRepository)
+        /// <param name="onTheseFielVersions"></param>
+        public virtual void Analyze(GitRepository sqlRepository, Expression<Func<FileVersion, bool>> onTheseFielVersions)
         {
             var fileVersionIds = sqlRepository.RepositoryObjects.OfType<FileVersion>()
-                    .Where(fv => fv.Content.SourceCode != null && fv.ContentSummary.SyntaxKindAnnotations == null)
+                    .Where(onTheseFielVersions)
+                    //.Where(fv => fv.Id != new Guid("bce066c9-066d-46fe-a155-3e0c06e0830e")) a problematic file in CoreFx
                     .Select(fv => fv.Id).ToList();
             int counter = 0;
             foreach (var fileVersionId in fileVersionIds)

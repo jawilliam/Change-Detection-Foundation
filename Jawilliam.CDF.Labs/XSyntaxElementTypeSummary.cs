@@ -12,10 +12,22 @@ namespace Jawilliam.CDF.Labs
     public class XSyntaxElementTypeSummary : XmlColumn
     {
         /// <summary>
+        /// Gets or sets the base type (class, struct, interface, enum) containing the related element type according to the <see cref="Microsoft.CodeAnalysis.CSharp.SyntaxKind"/>.
+        /// </summary>
+        [XmlAttribute("parentSyntaxType")]
+        public virtual string ParentSyntaxType { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name of the base type (class, struct, interface, enum) containing the related element type according to the <see cref="Microsoft.CodeAnalysis.CSharp.SyntaxKind"/>.
+        /// </summary>
+        [XmlAttribute("parentName")]
+        public virtual string ParentName { get; set; }
+
+        /// <summary>
         /// Gets or sets the name of the related element type according to the <see cref="Microsoft.CodeAnalysis.CSharp.SyntaxKind"/>.
         /// </summary>
-        [XmlAttribute("name")]
-        public virtual string Name { get; set; }
+        [XmlAttribute("syntaxType")]
+        public virtual string SyntaxType { get; set; }
 
         /// <summary>
         /// Gets or sets the total count.

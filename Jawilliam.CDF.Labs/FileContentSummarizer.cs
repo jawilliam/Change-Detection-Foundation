@@ -5,6 +5,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using System.IO;
 using System.Threading;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Jawilliam.CDF.Labs
 {
@@ -28,26 +29,28 @@ namespace Jawilliam.CDF.Labs
             this.SetLinesOfCodeMetrics(fileVersion, contentNode.ToFullString());
 
             Dictionary<string, XSyntaxElementTypeSummary> syntaxTypes = new Dictionary<string, XSyntaxElementTypeSummary>(300);
-            foreach (var syntaxNode in contentNode.DescendantNodesAndSelf(descendIntoTrivia: true))
-            {
-                if (cancelToken.IsCancellationRequested)
-                {
-                    // Clean up here, then...
-                    cancelToken.ThrowIfCancellationRequested();
-                }
+            string parentSyntaxType;
+            string parentName;
+            var typeDeclarations = contentNode.DescendantNodesAndSelf(descendIntoTrivia: true)
+                .OfType<BaseTypeDeclarationSyntax>()
+                .ToList();
 
-                string syntaxName = Enum.GetName(typeof(SyntaxKind), syntaxNode.RawKind);
-                XSyntaxElementTypeSummary syntaxType = null;
-                if (syntaxTypes.ContainsKey(syntaxName))
+            foreach (var typeDeclaration in typeDeclarations)
+            {
+                parentSyntaxType = Enum.GetName(typeof (SyntaxKind), typeDeclaration.RawKind);
+                parentName = typeDeclaration.Identifier.Text;
+                foreach (var syntaxNode in typeDeclaration.DescendantNodesAndSelf(descendIntoTrivia: true, descendIntoChildren: node => node == typeDeclaration || !(node is BaseTypeDeclarationSyntax)))
                 {
-                    syntaxType = syntaxTypes[syntaxName];
+                    if (syntaxNode == typeDeclaration) continue;
+                    this.AnalyzeInParent(cancelToken, syntaxNode, parentName, parentSyntaxType, syntaxTypes);
                 }
-                else
-                {
-                    syntaxType = new XSyntaxElementTypeSummary { Name = syntaxName };
-                    syntaxTypes[syntaxName] = syntaxType;
-                }
-                syntaxType.Total += 1;
+            }
+
+            parentSyntaxType = "";
+            parentName = "";
+            foreach (var syntaxNode in contentNode.DescendantNodesAndSelf(descendIntoTrivia: true, descendIntoChildren: node => !(node is BaseTypeDeclarationSyntax)))
+            {
+                this.AnalyzeInParent(cancelToken, syntaxNode, parentName, parentSyntaxType, syntaxTypes);
             }
 
             XSyntaxKindAnnotations annotations = new XSyntaxKindAnnotations
@@ -55,6 +58,33 @@ namespace Jawilliam.CDF.Labs
                 ElementTypes = syntaxTypes.Values.ToArray()
             };
             fileVersion.ContentSummary.SyntaxKindAnnotations = annotations.WriteXmlColumn();
+        }
+
+        private void AnalyzeInParent(CancellationToken cancelToken, SyntaxNode syntaxNode, string parentName, string parentSyntaxType, Dictionary<string, XSyntaxElementTypeSummary> syntaxTypes)
+        {
+            if (cancelToken.IsCancellationRequested)
+            {
+                // Clean up here, then...
+                cancelToken.ThrowIfCancellationRequested();
+            }
+
+            string syntaxName = $"{Enum.GetName(typeof (SyntaxKind), syntaxNode.RawKind)}#{parentName}#{parentSyntaxType}";
+            XSyntaxElementTypeSummary syntaxType = null;
+            if (syntaxTypes.ContainsKey(syntaxName))
+            {
+                syntaxType = syntaxTypes[syntaxName];
+            }
+            else
+            {
+                syntaxType = new XSyntaxElementTypeSummary
+                {
+                    ParentSyntaxType = parentSyntaxType,
+                    ParentName = parentName,
+                    SyntaxType = Enum.GetName(typeof(SyntaxKind), syntaxNode.RawKind)
+                };
+                syntaxTypes[syntaxName] = syntaxType;
+            }
+            syntaxType.Total += 1;
         }
 
         /// <summary>

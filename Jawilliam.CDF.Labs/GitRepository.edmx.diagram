@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="bc52a17cf56e4bfd862931f460aa5cd6" Name="Repository Objects" DisplayType="true" ZoomLevel="62" >
+      <Diagram DiagramId="bc52a17cf56e4bfd862931f460aa5cd6" Name="Repository Objects" DisplayType="true" ZoomLevel="71" >
         <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.RepositoryObject" Width="2" PointX="4.5" PointY="0.5" />
         <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.Contributor" Width="1.5" PointX="0.5" PointY="2.875" />
         <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.Contributor" />
