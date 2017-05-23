@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{58D5A3A8-6A46-4930-81F3-ADF81CAB411F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Jawilliam.CDF</RootNamespace>
+    <AssemblyName>Jawilliam.CDF</AssemblyName>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Similarity.Metrics\AbstractAffineGapCost.cs" />
+    <Compile Include="Similarity.Metrics\AbstractStringMetric.cs" />
+    <Compile Include="Similarity.Metrics\AbstractTokenizerQGramN.cs" />
+    <Compile Include="Similarity.Metrics\AffineGapRange1To0Multiplier1Over3.cs" />
+    <Compile Include="Similarity.Metrics\AffineGapRange5To0Multiplier1.cs" />
+    <Compile Include="Similarity.Metrics\BaroniUrbaniBuser2Simetric.cs" />
+    <Compile Include="Similarity.Metrics\BaseSimetric.cs" />
+    <Compile Include="Similarity.Metrics\BlockDistanceSimetric.cs" />
+    <Compile Include="Similarity.Metrics\CanberraSimetric.cs" />
+    <Compile Include="Similarity.Metrics\ChapmanLengthDeviation.cs" />
+    <Compile Include="Similarity.Metrics\ChapmanMeanLength.cs" />
+    <Compile Include="Similarity.Metrics\ChawatheMatchingCriterion2Simetric.cs" />
+    <Compile Include="Similarity.Metrics\CosineSimetric.cs" />
+    <Compile Include="Similarity.Metrics\CzekanowskiSimetric.cs" />
+    <Compile Include="Similarity.Metrics\DiceCoefficientSimetric.cs" />
+    <Compile Include="Similarity.Metrics\DummyStopTermHandler.cs" />
+    <Compile Include="Similarity.Metrics\EuclideanDistanceSimetric.cs" />
+    <Compile Include="Similarity.Metrics\IAffineGapCost.cs" />
+    <Compile Include="Similarity.Metrics\IBinarySimetric.cs" />
+    <Compile Include="Similarity.Metrics\IDismetric.cs" />
+    <Compile Include="Similarity.Metrics\IntegratedSimetric.cs" />
+    <Compile Include="Similarity.Metrics\ISimetric.cs" />
+    <Compile Include="Similarity.Metrics\IStringMetric.cs" />
+    <Compile Include="Similarity.Metrics\ISubstitutionCost.cs" />
+    <Compile Include="Similarity.Metrics\ITermHandler.cs" />
+    <Compile Include="Similarity.Metrics\ITokenizer.cs" />
+    <Compile Include="Similarity.Metrics\JaccardSimetric.cs" />
+    <Compile Include="Similarity.Metrics\JaroSimetric.cs" />
+    <Compile Include="Similarity.Metrics\JaroWinklerSimetric.cs" />
+    <Compile Include="Similarity.Metrics\LevenshteinSimetric.cs" />
+    <Compile Include="Similarity.Metrics\LongestCommonSubsequenceSimetric.cs" />
+    <Compile Include="Similarity.Metrics\MathFuncs.cs" />
+    <Compile Include="Similarity.Metrics\MongeElkanSimetric.cs" />
+    <Compile Include="Similarity.Metrics\MotykaSimetric.cs" />
+    <Compile Include="Similarity.Metrics\NeedlemanWunschSimetric.cs" />
+    <Compile Include="Similarity.Metrics\NGramsSimetric.cs" />
+    <Compile Include="Similarity.Metrics\OverlapCoefficientSimetric.cs" />
+    <Compile Include="Similarity.Metrics\RogersTanimotoSimetric.cs" />
+    <Compile Include="Similarity.Metrics\RuzickaSimetric.cs" />
+    <Compile Include="Similarity.Metrics\SimpleMatchingCoefficientSimetric.cs" />
+    <Compile Include="Similarity.Metrics\SimpleSimetric.cs" />
+    <Compile Include="Similarity.Metrics\SmithWatermanGotoh.cs" />
+    <Compile Include="Similarity.Metrics\SmithWatermanGotohWindowedAffine.cs" />
+    <Compile Include="Similarity.Metrics\SmithWatermanSimetric.cs" />
+    <Compile Include="Similarity.Metrics\SoergelDistanceSimetric.cs" />
+    <Compile Include="Similarity.Metrics\SorensenSimetric.cs" />
+    <Compile Include="Similarity.Metrics\SubCostRange0To1.cs" />
+    <Compile Include="Similarity.Metrics\SubCostRange1ToMinus2.cs" />
+    <Compile Include="Similarity.Metrics\SubCostRange5ToMinus3.cs" />
+    <Compile Include="Similarity.Metrics\TokeniserUtilities.cs" />
+    <Compile Include="Similarity.Metrics\TokenizerQGram2.cs" />
+    <Compile Include="Similarity.Metrics\TokenizerQGram2Extended.cs" />
+    <Compile Include="Similarity.Metrics\TokenizerQGram3.cs" />
+    <Compile Include="Similarity.Metrics\TokenizerQGram3Extended.cs" />
+    <Compile Include="Similarity.Metrics\TokenizerSGram2.cs" />
+    <Compile Include="Similarity.Metrics\TokenizerSGram2Extended.cs" />
+    <Compile Include="Similarity.Metrics\TokenizerSGram3.cs" />
+    <Compile Include="Similarity.Metrics\TokenizerSGram3Extended.cs" />
+    <Compile Include="Similarity.Metrics\TokenizerWhitespace.cs" />
+    <Compile Include="Similarity.Metrics\VectorComponents.cs" />
+    <Compile Include="Similarity.Metrics\VectorSimetric.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
