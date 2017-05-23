@@ -178,6 +178,9 @@
     <Compile Include="ChangeDetectionApproaches.cs">
       <DependentUpon>GitRepository.tt</DependentUpon>
     </Compile>
+    <Compile Include="CodeCategory.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
     <Compile Include="Commit.cs">
       <DependentUpon>GitRepository.tt</DependentUpon>
     </Compile>
@@ -212,6 +215,9 @@
     <Compile Include="FileRenamedChange.cs">
       <DependentUpon>GitRepository.tt</DependentUpon>
     </Compile>
+    <Compile Include="FileRevisionPair.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
     <Compile Include="FileVersion.cs">
       <DependentUpon>GitRepository.tt</DependentUpon>
     </Compile>
@@ -234,6 +240,9 @@
       <DependentUpon>GitRepository.edmx</DependentUpon>
     </Compile>
     <Compile Include="LinesOfCodeMetric.cs" />
+    <Compile Include="PairRevisionInfo.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RepositoryObject.cs">

@@ -18,10 +18,13 @@ namespace Jawilliam.CDF.Labs
         public File()
         {
             this.Versions = new HashSet<FileVersion>();
+            this.RevisionPairs = new HashSet<FileRevisionPair>();
         }
     
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FileVersion> Versions { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<FileRevisionPair> RevisionPairs { get; set; }
     }
 }

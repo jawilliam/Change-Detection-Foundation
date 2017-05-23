@@ -1,124 +1,132 @@
-
--- --------------------------------------------------
--- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
--- --------------------------------------------------
--- Date Created: 04/27/2017 09:07:29
--- Generated from EDMX file: E:\MyRepositories\Change-Detection-Foundation\Jawilliam.CDF.Labs\GitRepository.edmx
--- --------------------------------------------------
 USE [master]
 GO
 
-/****** Object:  Database [XxXxYyYy]    Script Date: 11/05/2017 17:06:50 ******/
-CREATE DATABASE [XxXxYyYy]
- CONTAINMENT = NONE
- ON  PRIMARY 
-( NAME = N'XxXxYyYy', FILENAME = N'E:\DBs\XxXxYyYy.mdf' , SIZE = 2312192KB , MAXSIZE = UNLIMITED, FILEGROWTH = 1024KB )
- LOG ON 
-( NAME = N'XxXxYyYy_log', FILENAME = N'E:\DBs\XxXxYyYy_log.ldf' , SIZE = 268288KB , MAXSIZE = 2048GB , FILEGROWTH = 10240KB )
+/****** Object:  Database [GitRepository]    Script Date: 22/05/2017 17:14:35 ******/
+DROP DATABASE [GitRepository]
 GO
 
-ALTER DATABASE [XxXxYyYy] SET COMPATIBILITY_LEVEL = 120
+/****** Object:  Database [GitRepository]    Script Date: 22/05/2017 17:14:35 ******/
+CREATE DATABASE [GitRepository]
+ CONTAINMENT = NONE
+ ON  PRIMARY 
+( NAME = N'GitRepository', FILENAME = N'E:\DBs\GitRepository.mdf' , SIZE = 5120KB , MAXSIZE = UNLIMITED, FILEGROWTH = 1024KB )
+ LOG ON 
+( NAME = N'GitRepository_log', FILENAME = N'E:\DBs\GitRepository_log.ldf' , SIZE = 2048KB , MAXSIZE = 2048GB , FILEGROWTH = 10%)
+GO
+
+ALTER DATABASE [GitRepository] SET COMPATIBILITY_LEVEL = 120
 GO
 
 IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
 begin
-EXEC [XxXxYyYy].[dbo].[sp_fulltext_database] @action = 'enable'
+EXEC [GitRepository].[dbo].[sp_fulltext_database] @action = 'enable'
 end
 GO
 
-ALTER DATABASE [XxXxYyYy] SET ANSI_NULL_DEFAULT OFF 
+ALTER DATABASE [GitRepository] SET ANSI_NULL_DEFAULT OFF 
 GO
 
-ALTER DATABASE [XxXxYyYy] SET ANSI_NULLS OFF 
+ALTER DATABASE [GitRepository] SET ANSI_NULLS OFF 
 GO
 
-ALTER DATABASE [XxXxYyYy] SET ANSI_PADDING OFF 
+ALTER DATABASE [GitRepository] SET ANSI_PADDING OFF 
 GO
 
-ALTER DATABASE [XxXxYyYy] SET ANSI_WARNINGS OFF 
+ALTER DATABASE [GitRepository] SET ANSI_WARNINGS OFF 
 GO
 
-ALTER DATABASE [XxXxYyYy] SET ARITHABORT OFF 
+ALTER DATABASE [GitRepository] SET ARITHABORT OFF 
 GO
 
-ALTER DATABASE [XxXxYyYy] SET AUTO_CLOSE OFF 
+ALTER DATABASE [GitRepository] SET AUTO_CLOSE OFF 
 GO
 
-ALTER DATABASE [XxXxYyYy] SET AUTO_SHRINK OFF 
+ALTER DATABASE [GitRepository] SET AUTO_SHRINK OFF 
 GO
 
-ALTER DATABASE [XxXxYyYy] SET AUTO_UPDATE_STATISTICS ON 
+ALTER DATABASE [GitRepository] SET AUTO_UPDATE_STATISTICS ON 
 GO
 
-ALTER DATABASE [XxXxYyYy] SET CURSOR_CLOSE_ON_COMMIT OFF 
+ALTER DATABASE [GitRepository] SET CURSOR_CLOSE_ON_COMMIT OFF 
 GO
 
-ALTER DATABASE [XxXxYyYy] SET CURSOR_DEFAULT  GLOBAL 
+ALTER DATABASE [GitRepository] SET CURSOR_DEFAULT  GLOBAL 
 GO
 
-ALTER DATABASE [XxXxYyYy] SET CONCAT_NULL_YIELDS_NULL OFF 
+ALTER DATABASE [GitRepository] SET CONCAT_NULL_YIELDS_NULL OFF 
 GO
 
-ALTER DATABASE [XxXxYyYy] SET NUMERIC_ROUNDABORT OFF 
+ALTER DATABASE [GitRepository] SET NUMERIC_ROUNDABORT OFF 
 GO
 
-ALTER DATABASE [XxXxYyYy] SET QUOTED_IDENTIFIER OFF 
+ALTER DATABASE [GitRepository] SET QUOTED_IDENTIFIER OFF 
 GO
 
-ALTER DATABASE [XxXxYyYy] SET RECURSIVE_TRIGGERS OFF 
+ALTER DATABASE [GitRepository] SET RECURSIVE_TRIGGERS OFF 
 GO
 
-ALTER DATABASE [XxXxYyYy] SET  DISABLE_BROKER 
+ALTER DATABASE [GitRepository] SET  DISABLE_BROKER 
 GO
 
-ALTER DATABASE [XxXxYyYy] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
+ALTER DATABASE [GitRepository] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
 GO
 
-ALTER DATABASE [XxXxYyYy] SET DATE_CORRELATION_OPTIMIZATION OFF 
+ALTER DATABASE [GitRepository] SET DATE_CORRELATION_OPTIMIZATION OFF 
 GO
 
-ALTER DATABASE [XxXxYyYy] SET TRUSTWORTHY OFF 
+ALTER DATABASE [GitRepository] SET TRUSTWORTHY OFF 
 GO
 
-ALTER DATABASE [XxXxYyYy] SET ALLOW_SNAPSHOT_ISOLATION OFF 
+ALTER DATABASE [GitRepository] SET ALLOW_SNAPSHOT_ISOLATION OFF 
 GO
 
-ALTER DATABASE [XxXxYyYy] SET PARAMETERIZATION SIMPLE 
+ALTER DATABASE [GitRepository] SET PARAMETERIZATION SIMPLE 
 GO
 
-ALTER DATABASE [XxXxYyYy] SET READ_COMMITTED_SNAPSHOT OFF 
+ALTER DATABASE [GitRepository] SET READ_COMMITTED_SNAPSHOT OFF 
 GO
 
-ALTER DATABASE [XxXxYyYy] SET HONOR_BROKER_PRIORITY OFF 
+ALTER DATABASE [GitRepository] SET HONOR_BROKER_PRIORITY OFF 
 GO
 
-ALTER DATABASE [XxXxYyYy] SET RECOVERY SIMPLE 
+ALTER DATABASE [GitRepository] SET RECOVERY SIMPLE 
 GO
 
-ALTER DATABASE [XxXxYyYy] SET  MULTI_USER 
+ALTER DATABASE [GitRepository] SET  MULTI_USER 
 GO
 
-ALTER DATABASE [XxXxYyYy] SET PAGE_VERIFY CHECKSUM  
+ALTER DATABASE [GitRepository] SET PAGE_VERIFY CHECKSUM  
 GO
 
-ALTER DATABASE [XxXxYyYy] SET DB_CHAINING OFF 
+ALTER DATABASE [GitRepository] SET DB_CHAINING OFF 
 GO
 
-ALTER DATABASE [XxXxYyYy] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
+ALTER DATABASE [GitRepository] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
 GO
 
-ALTER DATABASE [XxXxYyYy] SET TARGET_RECOVERY_TIME = 0 SECONDS 
+ALTER DATABASE [GitRepository] SET TARGET_RECOVERY_TIME = 0 SECONDS 
 GO
 
-ALTER DATABASE [XxXxYyYy] SET DELAYED_DURABILITY = DISABLED 
+ALTER DATABASE [GitRepository] SET DELAYED_DURABILITY = DISABLED 
 GO
 
-ALTER DATABASE [XxXxYyYy] SET  READ_WRITE 
+ALTER DATABASE [GitRepository] SET  READ_WRITE 
 GO
+
+
+
+
+
+-- --------------------------------------------------
+-- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
+-- --------------------------------------------------
+-- Date Created: 05/22/2017 17:15:31
+-- Generated from EDMX file: E:\MyRepositories\Change-Detection-Foundation\Jawilliam.CDF.Labs\GitRepository.edmx
+-- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
 GO
-USE [XxXxYyYy];
+USE [GitRepository];
 GO
 IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
 GO
@@ -285,6 +293,7 @@ CREATE TABLE [dbo].[FileContentSummaries] (
     [StatementLines] bigint  NULL,
     [SyntaxKindAnnotations] xml  NULL,
     [Annotations] xml  NULL,
+    [CodeCategory] tinyint  NOT NULL,
     [FileVersion_Id] uniqueidentifier  NOT NULL
 );
 GO
@@ -298,6 +307,19 @@ CREATE TABLE [dbo].[Deltas] (
     [Annotations] xml  NULL,
     [Approach] int  NOT NULL,
     [RevisionPair_Id] uniqueidentifier  NULL
+);
+GO
+
+-- Creating table 'FileRevisionPairs'
+CREATE TABLE [dbo].[FileRevisionPairs] (
+    [Id] uniqueidentifier  NOT NULL,
+    [Annotations] xml  NULL,
+    [Versioning_Path] nvarchar(max)  NOT NULL,
+    [Versioning_FromVersion] int  NOT NULL,
+    [Versioning_ToVersion] int  NOT NULL,
+    [From_Id] uniqueidentifier  NOT NULL,
+    [To_Id] uniqueidentifier  NOT NULL,
+    [OneFile_CanHave_ManyRevisionPairs_FileRevisionPair_Id] uniqueidentifier  NOT NULL
 );
 GO
 
@@ -420,6 +442,12 @@ GO
 -- Creating primary key on [Id] in table 'Deltas'
 ALTER TABLE [dbo].[Deltas]
 ADD CONSTRAINT [PK_Deltas]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'FileRevisionPairs'
+ALTER TABLE [dbo].[FileRevisionPairs]
+ADD CONSTRAINT [PK_FileRevisionPairs]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -695,6 +723,51 @@ GO
 CREATE INDEX [IX_FK_FileModifiedChanges_CanBeDescribedByDifferent_Deltas]
 ON [dbo].[Deltas]
     ([RevisionPair_Id]);
+GO
+
+-- Creating foreign key on [From_Id] in table 'FileRevisionPairs'
+ALTER TABLE [dbo].[FileRevisionPairs]
+ADD CONSTRAINT [FK_OneFileRevisionPair_Contains_OneFromFileVersion]
+    FOREIGN KEY ([From_Id])
+    REFERENCES [dbo].[RepositoryObjects_FileVersion]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_OneFileRevisionPair_Contains_OneFromFileVersion'
+CREATE INDEX [IX_FK_OneFileRevisionPair_Contains_OneFromFileVersion]
+ON [dbo].[FileRevisionPairs]
+    ([From_Id]);
+GO
+
+-- Creating foreign key on [To_Id] in table 'FileRevisionPairs'
+ALTER TABLE [dbo].[FileRevisionPairs]
+ADD CONSTRAINT [FK_OneFileRevisionPair_Contains_OneToFileVersion]
+    FOREIGN KEY ([To_Id])
+    REFERENCES [dbo].[RepositoryObjects_FileVersion]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_OneFileRevisionPair_Contains_OneToFileVersion'
+CREATE INDEX [IX_FK_OneFileRevisionPair_Contains_OneToFileVersion]
+ON [dbo].[FileRevisionPairs]
+    ([To_Id]);
+GO
+
+-- Creating foreign key on [OneFile_CanHave_ManyRevisionPairs_FileRevisionPair_Id] in table 'FileRevisionPairs'
+ALTER TABLE [dbo].[FileRevisionPairs]
+ADD CONSTRAINT [FK_OneFile_CanHave_ManyRevisionPairs]
+    FOREIGN KEY ([OneFile_CanHave_ManyRevisionPairs_FileRevisionPair_Id])
+    REFERENCES [dbo].[RepositoryObjects_File]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_OneFile_CanHave_ManyRevisionPairs'
+CREATE INDEX [IX_FK_OneFile_CanHave_ManyRevisionPairs]
+ON [dbo].[FileRevisionPairs]
+    ([OneFile_CanHave_ManyRevisionPairs_FileRevisionPair_Id]);
 GO
 
 -- Creating foreign key on [Id] in table 'RepositoryObjects_Commit'

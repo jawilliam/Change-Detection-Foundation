@@ -12,19 +12,20 @@ namespace Jawilliam.CDF.Labs
     using System;
     using System.Collections.Generic;
     
-    public partial class FileContentSummary
+    public partial class FileRevisionPair
     {
-        public System.Guid Id { get; set; }
-        public long Size { get; set; }
-        public Nullable<long> TotalLines { get; set; }
-        public Nullable<long> BlankLines { get; set; }
-        public Nullable<long> CommentLines { get; set; }
-        public Nullable<long> CodeLines { get; set; }
-        public Nullable<long> StatementLines { get; set; }
-        public string SyntaxKindAnnotations { get; set; }
-        public string Annotations { get; set; }
-        public Nullable<CodeCategory> CodeCategory { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public FileRevisionPair()
+        {
+            this.Versioning = new PairRevisionInfo();
+        }
     
-        public virtual FileVersion FileVersion { get; set; }
+        public System.Guid Id { get; set; }
+        public string Annotations { get; set; }
+    
+        public PairRevisionInfo Versioning { get; set; }
+    
+        public virtual FileVersion From { get; set; }
+        public virtual FileVersion To { get; set; }
     }
 }
