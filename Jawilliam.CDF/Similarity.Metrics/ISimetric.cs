@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Jawilliam.Data.Mining.Simetric
+namespace Jawilliam.CDF.Similarity.Metrics
 {
     /// <summary>
     /// Defines a similarity (perhaps also supporting distance metric).

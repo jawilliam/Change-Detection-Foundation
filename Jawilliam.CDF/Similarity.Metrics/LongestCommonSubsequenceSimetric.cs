@@ -23,7 +23,7 @@ using System.Threading.Tasks;
  * the License.
  * #L%
  */
-namespace Jawilliam.Data.Mining.Simetric
+namespace Jawilliam.CDF.Similarity.Metrics
 {
     /// <summary>
     /// Implements the Longest Common Subsequence similarity metric.
@@ -54,7 +54,9 @@ namespace Jawilliam.Data.Mining.Simetric
                 {
                     v1[j] = this.Comparer.Equals(firstSequence[i - 1], secondSequence[j - 1]) ? v0[j - 1] + 1 : Math.Max(v1[j - 1], v0[j]);
                 }
-                int[] swap = v0; v0 = v1; v1 = swap;
+                int[] swap = v0;
+                v0 = v1;
+                v1 = swap;
             }
 
             // Because we swapped the results are in v0.

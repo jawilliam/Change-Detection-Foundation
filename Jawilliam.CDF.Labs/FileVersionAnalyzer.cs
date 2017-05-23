@@ -14,6 +14,13 @@ namespace Jawilliam.CDF.Labs
     public abstract class FileVersionAnalyzer
     {
         /// <summary>
+        /// Analyzes a given file version.
+        /// </summary>
+        /// <param name="fileVersion">the file version for analyzing.</param>
+        /// <param name="cancelToken">logic for receiving the cancellation notifications.</param>
+        public delegate void AnalyzeDelegate(FileVersion fileVersion, CancellationToken cancelToken);
+
+        /// <summary>
         /// Gets or sets the warnings to report.
         /// </summary>
         public StringBuilder Warnings { get; set; }
@@ -23,7 +30,7 @@ namespace Jawilliam.CDF.Labs
         /// </summary>
         /// <param name="sqlRepository">the SQL database repository in which to analyze the file versions.</param>
         /// <param name="onTheseFielVersions"></param>
-        public virtual void Analyze(GitRepository sqlRepository, Expression<Func<FileVersion, bool>> onTheseFielVersions)
+        public virtual void Analyze(GitRepository sqlRepository, Expression<Func<FileVersion, bool>> onTheseFielVersions, AnalyzeDelegate analysis = null)
         {
             var fileVersionIds = sqlRepository.RepositoryObjects.OfType<FileVersion>()
                     .Where(onTheseFielVersions)
@@ -44,7 +51,7 @@ namespace Jawilliam.CDF.Labs
                 {
                     try
                     {
-                        var t = Task.Run(() => this.Analyze(fileVersion, cancellationToken), cancellationToken);
+                        var t = Task.Run(() => (analysis ?? this.Analyze)(fileVersion, cancellationToken), cancellationToken);
                         t.Wait(300000);
                         cancellationTokenSource.Cancel();
 

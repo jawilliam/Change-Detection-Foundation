@@ -59,7 +59,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Jawilliam.Data.Mining.Simetric
+namespace Jawilliam.CDF.Similarity.Metrics
 {
     /// <summary>
     /// Implements the simple matching coefficient based similarity.

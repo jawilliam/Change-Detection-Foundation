@@ -212,6 +212,8 @@
     <Compile Include="FileModifiedChange.cs">
       <DependentUpon>GitRepository.tt</DependentUpon>
     </Compile>
+    <Compile Include="FileModifiedChange.Custom.cs" />
+    <Compile Include="FileModifiedChangeAnalyzer.cs" />
     <Compile Include="FileRenamedChange.cs">
       <DependentUpon>GitRepository.tt</DependentUpon>
     </Compile>
@@ -221,6 +223,7 @@
     <Compile Include="FileVersion.cs">
       <DependentUpon>GitRepository.tt</DependentUpon>
     </Compile>
+    <Compile Include="FileContentSummary.Custom.cs" />
     <Compile Include="FileVersionAnalyzer.cs" />
     <Compile Include="FromLocalGitToSqlDbDeployment.cs" />
     <Compile Include="GitRepository.Context.cs">
@@ -248,7 +251,12 @@
     <Compile Include="RepositoryObject.cs">
       <DependentUpon>GitRepository.tt</DependentUpon>
     </Compile>
+    <Compile Include="RepositoryObjectAnalyzer.cs" />
     <Compile Include="SourceCodeMetric.cs" />
+    <Compile Include="SyntaxTokenEqualityComparer.cs" />
+    <Compile Include="XDeltaAnnotations.cs" />
+    <Compile Include="XFileContentSummaryAnnotations.cs" />
+    <Compile Include="XFileModifiedChangeAnnotations.cs" />
     <Compile Include="XSyntaxKindAnnotations.cs" />
     <Compile Include="XSyntaxElementTypeSummary.cs" />
     <Compile Include="XmlColumn.cs" />
@@ -285,6 +293,12 @@
   <ItemGroup>
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.1.1.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll" />
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.1.1.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Jawilliam.CDF\Jawilliam.CDF.csproj">
+      <Project>{58d5a3a8-6a46-4930-81f3-adf81cab411f}</Project>
+      <Name>Jawilliam.CDF</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

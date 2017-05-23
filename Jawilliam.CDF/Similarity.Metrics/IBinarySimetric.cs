@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace Jawilliam.Data.Mining.Simetric
+namespace Jawilliam.CDF.Similarity.Metrics
 {
     /// <summary>
     /// Defines those similarity metrics that applies over binary data (absence/presence).

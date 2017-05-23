@@ -191,35 +191,48 @@ namespace Jawilliam.CDF.Labs
             #endregion
 
             #region Collecting statistics...
-            StringBuilder report = new StringBuilder();
-            //report.AppendLine("Project;Period;#Commits;#Contributors;#Branches;#FileVersions;#FileChanges;#FileAdded;#FileDeleted;#FileModified;#FileRenamed");
-            report.AppendLine("\\textbf{Project}&\\textbf{Period}\\\\\\hline");
+            //StringBuilder report = new StringBuilder();
+            ////report.AppendLine("Project;Period;#Commits;#Contributors;#Branches;#FileVersions;#FileChanges;#FileAdded;#FileDeleted;#FileModified;#FileRenamed");
+            //report.AppendLine("\\textbf{Project}&\\textbf{Period}\\\\\\hline");
 
-            //report.AppendLine("\\textbf{Project}&\\textbf{\\#Commits}&\\textbf{\\#Contributors}&\\textbf{\\#Branches}&" +
-            //                  "\\textbf{\\#FileVersions}&\\textbf{\\#FileChanges}&\\textbf{\\#FileAdded}&" +
-            //                  "\\textbf{\\#FileDeleted}&\\textbf{\\#FileModified}&\\textbf{\\#FileRenamed}\\\\\\hline");
+            ////report.AppendLine("\\textbf{Project}&\\textbf{\\#Commits}&\\textbf{\\#Contributors}&\\textbf{\\#Branches}&" +
+            ////                  "\\textbf{\\#FileVersions}&\\textbf{\\#FileChanges}&\\textbf{\\#FileAdded}&" +
+            ////                  "\\textbf{\\#FileDeleted}&\\textbf{\\#FileModified}&\\textbf{\\#FileRenamed}\\\\\\hline");
+            //foreach (var project in Projects)
+            //{
+            //    Console.Out.WriteLine($"Collecting the report of {project.Name}");
+            //    var dbRepository = new GitRepository(project.Name) { Name = project.Name };
+            //    var minDate = dbRepository.RepositoryObjects.OfType<Commit>().Min(c => c.Date);
+            //    var maxDate = dbRepository.RepositoryObjects.OfType<Commit>().Max(c => c.Date);
+            //    report.AppendLine($"{project.Name}&" + 
+            //                      $"{minDate.Date.ToString("MMM dd, yyyy", new CultureInfo("en-US", false))}" +
+            //                      $" - {maxDate.Date.ToString("MMM dd, yyyy", new CultureInfo("en-US", false))}" +
+            //                      $"(>{(int) ((maxDate - minDate).TotalDays/365.2425)} years)\\\\\\hline"/* +
+            //                      $" {dbRepository.RepositoryObjects.OfType<Commit>().Count()}&" +
+            //                      $" {dbRepository.RepositoryObjects.OfType<Contributor>().Count()}&" +
+            //                      $" {dbRepository.RepositoryObjects.OfType<Branch>().Count()}&" +
+            //                      $" {dbRepository.RepositoryObjects.OfType<FileVersion>().Count()}&" +
+            //                      $" {dbRepository.RepositoryObjects.OfType<FileChange>().Count()}&" +
+            //                      $" {dbRepository.RepositoryObjects.OfType<FileAddedChange>().Count()}&" +
+            //                      $" {dbRepository.RepositoryObjects.OfType<FileDeletedChange>().Count()}&" +
+            //                      $" {dbRepository.RepositoryObjects.OfType<FileModifiedChange>().Count()}&" +
+            //                      $" {dbRepository.RepositoryObjects.OfType<FileRenamedChange>().Count()}"*/);
+            //}
+            //Console.Out.WriteLine($"Report collected!!!");
+            //System.IO.File.WriteAllText($@"E:\Repositories\InitialCountsOfModifiedPairs.txt", report.ToString());
+            #endregion
+
+            #region Detecting not real source code changes
+            FileModifiedChangeAnalyzer analyzer = new FileModifiedChangeAnalyzer();
             foreach (var project in Projects)
             {
-                Console.Out.WriteLine($"Collecting the report of {project.Name}");
+                analyzer.Warnings = new StringBuilder();
                 var dbRepository = new GitRepository(project.Name) { Name = project.Name };
-                var minDate = dbRepository.RepositoryObjects.OfType<Commit>().Min(c => c.Date);
-                var maxDate = dbRepository.RepositoryObjects.OfType<Commit>().Max(c => c.Date);
-                report.AppendLine($"{project.Name}&" + 
-                                  $"{minDate.Date.ToString("MMM dd, yyyy", new CultureInfo("en-US", false))}" +
-                                  $" - {maxDate.Date.ToString("MMM dd, yyyy", new CultureInfo("en-US", false))}" +
-                                  $"(>{(int) ((maxDate - minDate).TotalDays/365.2425)} years)\\\\\\hline"/* +
-                                  $" {dbRepository.RepositoryObjects.OfType<Commit>().Count()}&" +
-                                  $" {dbRepository.RepositoryObjects.OfType<Contributor>().Count()}&" +
-                                  $" {dbRepository.RepositoryObjects.OfType<Branch>().Count()}&" +
-                                  $" {dbRepository.RepositoryObjects.OfType<FileVersion>().Count()}&" +
-                                  $" {dbRepository.RepositoryObjects.OfType<FileChange>().Count()}&" +
-                                  $" {dbRepository.RepositoryObjects.OfType<FileAddedChange>().Count()}&" +
-                                  $" {dbRepository.RepositoryObjects.OfType<FileDeletedChange>().Count()}&" +
-                                  $" {dbRepository.RepositoryObjects.OfType<FileModifiedChange>().Count()}&" +
-                                  $" {dbRepository.RepositoryObjects.OfType<FileRenamedChange>().Count()}"*/);
+                analyzer.AnalyzeIfThereAreSourceCodeChanges(dbRepository);
+
+                System.IO.File.WriteAllText($@"E:\Repositories\DetectingNonSourceChanges{project.Name}.txt", analyzer.Warnings.ToString());
             }
             Console.Out.WriteLine($"Report collected!!!");
-            System.IO.File.WriteAllText($@"E:\Repositories\InitialCountsOfModifiedPairs.txt", report.ToString());
             #endregion
 
             //int i = 0; // the warning reports!!!

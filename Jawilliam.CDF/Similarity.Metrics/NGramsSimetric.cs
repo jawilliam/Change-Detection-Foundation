@@ -60,7 +60,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Jawilliam.Data.Mining.Simetric
+namespace Jawilliam.CDF.Similarity.Metrics
 {
     /// <summary>
     /// Implements a N-Grams based similarity metric.
