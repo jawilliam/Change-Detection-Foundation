@@ -190,6 +190,7 @@
     <Compile Include="Delta.cs">
       <DependentUpon>GitRepository.tt</DependentUpon>
     </Compile>
+    <Compile Include="Delta.Custom.cs" />
     <Compile Include="File.cs">
       <DependentUpon>GitRepository.tt</DependentUpon>
     </Compile>

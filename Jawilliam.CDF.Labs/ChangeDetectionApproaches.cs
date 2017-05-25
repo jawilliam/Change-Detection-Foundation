@@ -13,6 +13,7 @@ namespace Jawilliam.CDF.Labs
     
     public enum ChangeDetectionApproaches : int
     {
-        Manually = 0
+        Manually = 0,
+        Simetrics = 1
     }
 }

@@ -59,6 +59,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Jawilliam.Data.Simetric;
 
 namespace Jawilliam.CDF.Similarity.Metrics
@@ -122,16 +123,25 @@ namespace Jawilliam.CDF.Similarity.Metrics
                 var distance = new double[2, m + 1];
                 
                 // Initialize the distance 'matrix'
-                for (var j = 1; j <= m; j++) distance[0, j] = j;
+                for (var j = 1; j <= m; j++)
+                {
+                    if (this.CancellationToken.IsCancellationRequested) this.CancellationToken.ThrowIfCancellationRequested();
+
+                    distance[0, j] = j;
+                }
 
                 var currentRow = 0;
                 for (var i = 1; i <= n; ++i)
                 {
+                    if (this.CancellationToken.IsCancellationRequested) this.CancellationToken.ThrowIfCancellationRequested();
+
                     currentRow = i & 1;
                     distance[currentRow, 0] = i;
                     var previousRow = currentRow ^ 1;
                     for (var j = 1; j <= m; j++)
                     {
+                        if (this.CancellationToken.IsCancellationRequested) this.CancellationToken.ThrowIfCancellationRequested();
+
                         var cost = DCostFunction.GetCost(firstSequence, i - 1, secondSequence, j - 1); // Step 5
                         distance[currentRow, j] = Math.Min(Math.Min(distance[previousRow, j] + 1, distance[currentRow, j - 1] + 1), distance[previousRow, j - 1] + cost);
                     }

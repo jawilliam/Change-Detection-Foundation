@@ -58,6 +58,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 
 namespace Jawilliam.CDF.Similarity.Metrics
 {
@@ -67,6 +68,11 @@ namespace Jawilliam.CDF.Similarity.Metrics
     /// <typeparam name="T">The concrete type of the elements to be compared.</typeparam>
     public class MongeElkanSimetric<T> : ISimetric<T> where T : IEquatable<T>
     {
+        /// <summary>
+        /// Gets or sets a token for receiving cancellation notifications and answering to them.
+        /// </summary>
+        public CancellationToken CancellationToken { get; set; }
+
         /// <summary>
         /// Internal similarity.
         /// </summary>

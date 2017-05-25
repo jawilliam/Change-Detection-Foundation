@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace Jawilliam.CDF.Similarity.Metrics
 {
@@ -9,6 +10,11 @@ namespace Jawilliam.CDF.Similarity.Metrics
     [Serializable]
     public abstract class IntegratedSimetric<T, TK> : ISimetric<T> where TK : IEquatable<TK>
     {
+        /// <summary>
+        /// Gets or sets a token for receiving cancellation notifications and answering to them.
+        /// </summary>
+        public CancellationToken CancellationToken { get; set; }
+
         /// <summary>
         /// Stores the value of the <see cref="InternalSimetric"/> property.
         /// </summary>

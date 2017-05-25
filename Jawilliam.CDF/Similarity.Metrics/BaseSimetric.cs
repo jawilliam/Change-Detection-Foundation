@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace Jawilliam.CDF.Similarity.Metrics
 {
@@ -8,6 +9,11 @@ namespace Jawilliam.CDF.Similarity.Metrics
     /// </summary>
     public abstract class BaseSimetric<T> : ISimetric<T>
     {
+        /// <summary>
+        /// Gets or sets a token for receiving cancellation notifications and answering to them.
+        /// </summary>
+        public CancellationToken CancellationToken { get; set; }
+
         /// <summary>
         /// Gets the logic to support comparisons of objects for equality.
         /// </summary>

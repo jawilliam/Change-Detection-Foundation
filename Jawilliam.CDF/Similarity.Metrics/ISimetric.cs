@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
 
 namespace Jawilliam.CDF.Similarity.Metrics
 {
@@ -12,6 +13,11 @@ namespace Jawilliam.CDF.Similarity.Metrics
         ///// Gets the logic to support comparisons of objects for equality.
         ///// </summary>
         //IEqualityComparer<T> Comparer { get; set; }
+
+        /// <summary>
+        /// Gets or sets a token for receiving cancellation notifications and answering to them.
+        /// </summary>
+        CancellationToken CancellationToken { get; set; }
 
         /// <summary>
         /// Compute the similarity value between two sequences.

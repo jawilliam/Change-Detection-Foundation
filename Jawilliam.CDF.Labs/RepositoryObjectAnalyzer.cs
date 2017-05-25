@@ -15,9 +15,14 @@ namespace Jawilliam.CDF.Labs
     public class RepositoryObjectAnalyzer<T> where T: RepositoryObject
     {
         /// <summary>
+        /// Gets or sets tthe count of milliseconds to declare a time out analysis.
+        /// </summary>
+        public int MillisecondsTimeout { get; set; } = 300000;
+
+        /// <summary>
         /// Analyzes a given repository object.
         /// </summary>
-        /// <param name="fileVersion">the repository object for analyzing.</param>
+        /// <param name="repositoryObject">the repository object for analyzing.</param>
         /// <param name="cancelToken">logic for receiving the cancellation notifications.</param>
         public delegate void AnalyzeDelegate(T repositoryObject, CancellationToken cancelToken);
 
@@ -30,10 +35,13 @@ namespace Jawilliam.CDF.Labs
         /// Analyzes every file version of the given repository.
         /// </summary>
         /// <param name="sqlRepository">the SQL database repository in which to analyze the file versions.</param>
-        /// <param name="onThese"></param>
+        /// <param name="repositoryObjectName"></param>
+        /// <param name="onThese">expression to filter the objects of interest.</param>
+        /// <param name="analysis">an action for characterizing the analysis.</param>
+        /// <param name="includes">paths to include in the query.</param>
         protected virtual void Analyze(GitRepository sqlRepository, string repositoryObjectName, Expression<Func<T, bool>> onThese, AnalyzeDelegate analysis, params string[] includes)
         {
-            if (analysis == null) throw new ArgumentNullException("analysis");
+            if (analysis == null) throw new ArgumentNullException(nameof(analysis));
 
             var repositoryObjectIds = sqlRepository.RepositoryObjects.OfType<T>()
                     .Where(onThese)
@@ -43,10 +51,7 @@ namespace Jawilliam.CDF.Labs
             foreach (var repositoryObjectId in repositoryObjectIds)
             {
                 var repositoryObjectQuery = sqlRepository.RepositoryObjects.OfType<T>();
-                foreach (var include in includes)
-                {
-                    repositoryObjectQuery = repositoryObjectQuery.Include(include);
-                }
+                repositoryObjectQuery = includes.Aggregate(repositoryObjectQuery, (current, include) => current.Include(include));
                 T repositoryObject = repositoryObjectQuery.Single(c => c.Id == repositoryObjectId);
 
                 Console.Out.WriteLine($"Analyzing the {++counter}-{repositoryObjectName} ({repositoryObjectIds.Count}) of {sqlRepository.Name}");
@@ -57,7 +62,7 @@ namespace Jawilliam.CDF.Labs
                     try
                     {
                         var t = Task.Run(() => analysis(repositoryObject, cancellationToken), cancellationToken);
-                        t.Wait(300000);
+                        t.Wait(this.MillisecondsTimeout);
                         cancellationTokenSource.Cancel();
 
                         t.Wait();

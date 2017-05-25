@@ -847,7 +847,8 @@
           <End Type="Jawilliam.CDF.Labs.SQL.Delta" Role="Delta" Multiplicity="*" />
         </Association>
         <EnumType Name="ChangeDetectionApproaches">
-        <Member Name="Manually" Value="0" />
+          <Member Name="Manually" Value="0" />
+          <Member Name="Simetrics" Value="1" />
         </EnumType>
         <EnumType Name="CodeCategory" UnderlyingType="Byte" IsFlags="true">
           <Member Name="MaintainedProduction" Value="1" />
