@@ -58,7 +58,7 @@
 using System;
 using System.Collections.ObjectModel;
 
-namespace Jawilliam.Data.Simetric
+namespace Jawilliam.CDF.Similarity.Metrics
 {
     ///// <summary>
     ///// implements a simple whitespace tokeniser. 

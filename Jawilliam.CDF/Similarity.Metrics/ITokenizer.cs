@@ -58,7 +58,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace Jawilliam.Data.Simetric
+namespace Jawilliam.CDF.Similarity.Metrics
 {
     /// <summary>
     /// Defines a logic to tokenize a word.

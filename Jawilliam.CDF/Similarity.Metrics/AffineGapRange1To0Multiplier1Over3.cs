@@ -57,7 +57,7 @@
 
 using System;
 
-namespace Jawilliam.Data.Simetric
+namespace Jawilliam.CDF.Similarity.Metrics
 {
     /// <summary>
     /// implements a Affine Gap cost function.

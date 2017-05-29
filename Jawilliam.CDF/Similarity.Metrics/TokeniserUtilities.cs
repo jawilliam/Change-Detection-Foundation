@@ -27,7 +27,7 @@
 //using System.Collections.ObjectModel;
 //using System.Linq;
 
-//namespace Jawilliam.Data.Simetric
+//namespace Jawilliam.CDF.Similarity.Metrics
 //{
 //    /// <summary>
 //    /// Class containing utility functions for the tokenisers to use. These are in two main version

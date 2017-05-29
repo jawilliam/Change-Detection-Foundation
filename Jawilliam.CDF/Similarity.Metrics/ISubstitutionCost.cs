@@ -57,7 +57,7 @@
 
 using System.Collections.Generic;
 
-namespace Jawilliam.Data.Simetric
+namespace Jawilliam.CDF.Similarity.Metrics
 {
     /// <summary>
     /// Defines a cost function d(i,j).

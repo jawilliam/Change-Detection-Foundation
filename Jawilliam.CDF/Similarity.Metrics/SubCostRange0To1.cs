@@ -58,7 +58,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Jawilliam.Data.Simetric
+namespace Jawilliam.CDF.Similarity.Metrics
 {
     /// <summary>
     /// Implements a substitution cost function where d(i,j) = 1 if i is not equal to j, 0 if i is equal to j.

@@ -57,7 +57,7 @@
 
 using System;
 
-namespace Jawilliam.Data.Simetric
+namespace Jawilliam.CDF.Similarity.Metrics
 {
     /// <summary>
     ///  abstract class used as a base for all affine gap classes

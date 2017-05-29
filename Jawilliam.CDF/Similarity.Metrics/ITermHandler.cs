@@ -57,7 +57,7 @@
 
 using System.Text;
 
-namespace Jawilliam.Data.Simetric
+namespace Jawilliam.CDF.Similarity.Metrics
 {
     /// <summary>
     /// defines an interface for stop word handlers.

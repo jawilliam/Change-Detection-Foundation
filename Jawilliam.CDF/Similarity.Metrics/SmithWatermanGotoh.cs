@@ -57,7 +57,7 @@
 
 //using System;
 
-//namespace Jawilliam.Data.Simetric
+//namespace Jawilliam.CDF.Similarity.Metrics
 //{
 //    /// <summary>
 //    /// implements the Gotoh extension of the smith waterman method incorporating affine gaps in the strings

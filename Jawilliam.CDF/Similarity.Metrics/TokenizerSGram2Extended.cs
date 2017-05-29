@@ -22,7 +22,7 @@
 // namespaces, code guidelines (naming and mode...) */
 //#endregion
 
-//namespace Jawilliam.Data.Simetric
+//namespace Jawilliam.CDF.Similarity.Metrics
 //{
 //    /// <summary>
 //    /// implementation of a SGram tokeniser using extended logic

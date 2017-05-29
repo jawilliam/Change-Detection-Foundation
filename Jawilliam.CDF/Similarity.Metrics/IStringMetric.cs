@@ -55,7 +55,7 @@
  namespaces, code guidelines (naming and mode...)*/
 #endregion
 
-namespace Jawilliam.Data.Simetric
+namespace Jawilliam.CDF.Similarity.Metrics
 {
     /// <summary>
     /// implements an interface for the string metrics

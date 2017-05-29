@@ -26,7 +26,7 @@
 //using System.Collections.ObjectModel;
 //using System.Text;
 
-//namespace Jawilliam.Data.Simetric {
+//namespace Jawilliam.CDF.Similarity.Metrics {
 //    /// <summary>
 //    /// Implements a QGram Tokenizer to cope with all gram sizes.
 //    /// </summary>

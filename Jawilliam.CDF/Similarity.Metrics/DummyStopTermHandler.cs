@@ -57,7 +57,7 @@
 
 using System.Text;
 
-namespace Jawilliam.Data.Simetric
+namespace Jawilliam.CDF.Similarity.Metrics
 {
     /// <summary>
     /// DummyStopTermHandler implements a dummy stop word handling function whereby no stopwords are considered.

@@ -24,7 +24,7 @@
 
 //using System.Collections.ObjectModel;
 
-//namespace Jawilliam.Data.Simetric
+//namespace Jawilliam.CDF.Similarity.Metrics
 //{
 //    /// <summary>
 //    /// implementaton of the Bigram tokeniser

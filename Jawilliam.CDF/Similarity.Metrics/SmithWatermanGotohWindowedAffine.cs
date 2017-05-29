@@ -60,7 +60,7 @@
 //using System.Linq;
 //using Jawilliam.Data.Mining.Simetric;
 
-//namespace Jawilliam.Data.Simetric
+//namespace Jawilliam.CDF.Similarity.Metrics
 //{
 //    /// <summary>
 //    /// Implements the smith waterman with gotoh extension using a windowed affine gap.

@@ -55,7 +55,7 @@
  namespaces, code guidelines (naming and mode...)*/
 #endregion
 
-namespace Jawilliam.Data.Simetric
+namespace Jawilliam.CDF.Similarity.Metrics
 {
     /// <summary>
     /// Defines an Interface for AffineGapCost functions to be interchanged.

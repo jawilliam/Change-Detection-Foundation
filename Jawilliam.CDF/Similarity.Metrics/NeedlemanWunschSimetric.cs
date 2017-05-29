@@ -58,7 +58,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Jawilliam.Data.Simetric;
+using Jawilliam.CDF.Similarity.Metrics;
 
 namespace Jawilliam.CDF.Similarity.Metrics
 {

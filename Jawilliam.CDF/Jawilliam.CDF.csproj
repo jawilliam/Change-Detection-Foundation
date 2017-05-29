@@ -40,6 +40,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Approach\DetectionStep.cs" />
+    <Compile Include="Approach\IApproach.cs" />
+    <Compile Include="Approach\IDelta.cs" />
+    <Compile Include="Approach\IMatchingCriterion.cs" />
+    <Compile Include="Approach\IProcedure.cs" />
+    <Compile Include="Approach\IMatchingTransformation.cs" />
+    <Compile Include="Approach\MatchingCriterion.cs" />
+    <Compile Include="Approach\Procedure.cs" />
+    <Compile Include="Approach\RevisionPair.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Similarity.Metrics\AbstractAffineGapCost.cs" />
     <Compile Include="Similarity.Metrics\AbstractStringMetric.cs" />
@@ -102,6 +111,9 @@
     <Compile Include="Similarity.Metrics\TokenizerWhitespace.cs" />
     <Compile Include="Similarity.Metrics\VectorComponents.cs" />
     <Compile Include="Similarity.Metrics\VectorSimetric.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Approach\Approach Type System.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

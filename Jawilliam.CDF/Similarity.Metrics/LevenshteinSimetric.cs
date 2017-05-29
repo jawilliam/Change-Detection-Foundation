@@ -60,7 +60,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using Jawilliam.Data.Simetric;
+using Jawilliam.CDF.Similarity.Metrics;
 
 namespace Jawilliam.CDF.Similarity.Metrics
 {

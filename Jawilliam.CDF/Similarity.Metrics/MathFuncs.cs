@@ -57,7 +57,7 @@
 
 using System;
 
-namespace Jawilliam.Data.Simetric
+namespace Jawilliam.CDF.Similarity.Metrics
 {
     /// <summary>
     /// MathFuncs implements a number of handy maths functions.
