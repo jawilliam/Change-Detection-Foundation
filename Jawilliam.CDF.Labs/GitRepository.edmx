@@ -849,6 +849,7 @@
         <EnumType Name="ChangeDetectionApproaches">
           <Member Name="Manually" Value="0" />
           <Member Name="Simetrics" Value="1" />
+          <Member Name="NativeGumTree" Value="2" />
         </EnumType>
         <EnumType Name="CodeCategory" UnderlyingType="Byte" IsFlags="true">
           <Member Name="MaintainedProduction" Value="1" />

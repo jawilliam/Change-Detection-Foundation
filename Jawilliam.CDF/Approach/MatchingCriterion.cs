@@ -17,7 +17,7 @@
         private DetectionStep<T> _detectionStep;
 
         /// <summary>
-        /// Gets the internally used detection step information.
+        /// Gets the internally and used detection step information. The contained elements are already transformed.
         /// </summary>
         protected virtual DetectionStep<T> DetectionStep => this._detectionStep ?? (this._detectionStep = new DetectionStep<T>());
 
@@ -25,10 +25,10 @@
         /// Determines if the given elements are or not similar.
         /// </summary>
         /// <param name="pair">the comparing elements and contextual information.</param>
-        /// <param name="distance">if it is sopported, it returns the distance value.</param>
-        /// <param name="similarity">if it is sopported, it returns a similarity value between 0 and 1 (0 = no similarity, 1 = perfectly similar).</param>
+        /// <param name="matchingPair">If the elements are similar it returns an structure describing the result, for example
+        /// the similarity and/or a distance value. If the the elements are not similar, it returns null.</param>
         /// <returns>True if the elements are similar, otherwise it returns false.</returns>
-        public bool Match(DetectionStep<T> pair, out double? distance, out double similarity)
+        public bool Match(DetectionStep<T> pair, out MatchingPair<T> matchingPair)
         {
             T transformedOriginal = pair.Original, transformedModified = pair.Modified;
             Transform?.Transform(pair, out transformedOriginal, out transformedModified);
@@ -36,15 +36,15 @@
             this.DetectionStep.Modified = transformedModified;
             this.DetectionStep.Approach = pair.Approach;
 
-            return this.CoreMatch(out distance, out similarity);
+            return this.CoreMatch(out matchingPair);
         }
 
         /// <summary>
-        /// Determines if the given elements are or not similar.
+        /// The core implementation for determining if the given elements are or not similar.
         /// </summary>
-        /// <param name="distance">if it is sopported, it returns the distance value.</param>
-        /// <param name="similarity">if it is sopported, it returns a similarity value between 0 and 1 (0 = no similarity, 1 = perfectly similar).</param>
+        /// <param name="matchingPair">If the elements are similar it returns an structure describing the result, for example
+        /// the similarity and/or a distance value. If the the elements are not similar, it returns null.</param>
         /// <returns>True if the elements are similar, otherwise it returns false.</returns>
-        protected abstract bool CoreMatch(out double? distance, out double similarity);
+        protected abstract bool CoreMatch(out MatchingPair<T> matchingPair);
     }
 }

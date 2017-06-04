@@ -7,6 +7,10 @@ using System.Threading;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using System.Linq.Expressions;
+using System.Text;
+using System.Xml.Linq;
+using Jawilliam.CDF.Approach;
+using Jawilliam.CDF.Approach.GumTree;
 using Jawilliam.CDF.Similarity.Metrics;
 
 namespace Jawilliam.CDF.Labs
@@ -99,7 +103,8 @@ namespace Jawilliam.CDF.Labs
         /// <param name="simetric"></param>
         public virtual void SimetricDiff(GitRepository sqlRepository, string simetricName, ISimetric<SyntaxToken> simetric)
         {
-            this.Analyze(sqlRepository, null,
+            this.Analyze(sqlRepository, 
+            (f => f.FromFileVersion.ContentSummary.TotalLines != null && f.FileVersion.ContentSummary.TotalLines != null && f.Deltas.All(d => d.Approach != ChangeDetectionApproaches.Simetrics)),
             delegate(FileModifiedChange repositoryObject, SyntaxNode original, SyntaxNode modified, CancellationToken token)
             {
                 if (!repositoryObject.XAnnotations.SourceCodeChanges)
@@ -137,6 +142,46 @@ namespace Jawilliam.CDF.Labs
 
                 simetricDelta.XAnnotations = xDeltaAnnotations;
             }, 
+            "FileVersion.Content", "FromFileVersion.Content");
+        }
+
+        /// <summary>
+        /// Analyzes the similarity in according with a given similarity metric, such as Levenshtein.
+        /// </summary>
+        /// <param name="sqlRepository">the SQL database repository in which to analyze the file versions.</param>
+        /// <param name="interopArgs">the arguments for the interoperability.</param>
+        /// <param name="gumTree">the native approach based on the GumTree interoperability.</param>
+        public virtual void NativeGumTreeDiff(GitRepository sqlRepository, GumTreeNativeApproach gumTree, InteropArgs interopArgs)
+        {
+            this.Analyze(sqlRepository,
+            f => f.Deltas.Any(d => d.Approach == ChangeDetectionApproaches.Simetrics) && 
+                 f.Deltas.All(d => d.Approach != ChangeDetectionApproaches.NativeGumTree), // I am running Levenshtein before, so the longer cases have been already rejected.
+            delegate (FileModifiedChange repositoryObject, SyntaxNode original, SyntaxNode modified, CancellationToken token)
+            {
+                if (!repositoryObject.XAnnotations.SourceCodeChanges)
+                    return;
+
+                sqlRepository.Deltas.Where(d => sqlRepository.RepositoryObjects.OfType<FileModifiedChange>()
+                    .Any(f => f.Id == repositoryObject.Id && f.Deltas.Any(fd => fd.Approach == ChangeDetectionApproaches.NativeGumTree)))
+                    .Load();
+
+                var simetricDelta = repositoryObject.Deltas.SingleOrDefault(d => d.Approach == ChangeDetectionApproaches.NativeGumTree);
+                if (simetricDelta == null)
+                {
+                    simetricDelta = new Delta { Id = Guid.NewGuid(), Approach = ChangeDetectionApproaches.NativeGumTree };
+                    //repositoryObject.Deltas.Add(simetricDelta);
+                }
+
+                System.IO.File.WriteAllText(interopArgs.Original, original.ToFullString());
+                System.IO.File.WriteAllText(interopArgs.Modified, modified.ToFullString());
+
+                gumTree.Proceed(interopArgs);
+                var writeXmlColumn = gumTree.Result.WriteXmlColumn();
+                var dr = DetectionResult.Read(writeXmlColumn, Encoding.Unicode);
+                XElement result = XElement.Parse(writeXmlColumn.Replace("﻿<?xml version=\"1.0\" encoding=\"utf-16\"?>", ""));
+                simetricDelta.Matching = new XDocument(result.Element("Matches")).ToString().Replace("\r\n", "").Replace(" />  <", "/><").Replace(">  <", "><");
+                simetricDelta.Differencing = new XDocument(result.Element("Actions")).ToString().Replace("\r\n", "").Replace(" />  <", "/><").Replace(">  <", "><");
+            },
             "FileVersion.Content", "FromFileVersion.Content");
         }
     }

@@ -6,7 +6,7 @@ namespace Jawilliam.CDF.Approach
     /// Defines an approach or algorithm of change detection.
     /// </summary>
     /// <typeparam name="TArgs">Concrete type of the arguments.</typeparam>
-    public interface IApproach<TArgs> : IProcedure<TArgs, IDelta>
+    public interface IApproach<TArgs> : IProcedure<TArgs, DetectionResult>
     {
     }
 

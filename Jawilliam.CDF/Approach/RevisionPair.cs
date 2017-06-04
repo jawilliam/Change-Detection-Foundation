@@ -1,8 +1,13 @@
+using System;
+using System.Xml.Serialization;
+
 namespace Jawilliam.CDF.Approach
 {
     /// <summary>
     /// Defines a pair of element versions, i.e., the original and the modified.
     /// </summary>
+    /// <typeparam name="T">Type of the elements.</typeparam>
+    [Serializable]
     public class RevisionPair<T>
     {
         /// <summary>

@@ -14,6 +14,7 @@ namespace Jawilliam.CDF.Labs
     public enum ChangeDetectionApproaches : int
     {
         Manually = 0,
-        Simetrics = 1
+        Simetrics = 1,
+        NativeGumTree = 2
     }
 }

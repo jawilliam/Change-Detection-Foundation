@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using Jawilliam.CDF.Approach.GumTree;
 using Jawilliam.CDF.Similarity.Metrics;
 using Microsoft.CodeAnalysis;
 
@@ -77,7 +78,7 @@ namespace Jawilliam.CDF.Labs
             new Project{ Path = @"E:\Repositories\MimeKit", Name = "MimeKit" },
             new Project{ Path = @"E:\Repositories\mobile-center-sdk-dotnet", Name = "MobileCenterSdkDotnet" },
             new Project{ Path = @"E:\Repositories\MoneyFox", Name = "MoneyFox" },
-            new Project{ Path = @"E:\Repositories\mono", Name = "mono" },
+            //new Project{ Path = @"E:\Repositories\mono", Name = "mono" },
             new Project{ Path = @"E:\Repositories\MonoGame", Name = "MonoGame" },
             new Project{ Path = @"E:\Repositories\msbuild", Name = "Msbuild" },
             new Project{ Path = @"E:\Repositories\MvvmCross", Name = "MvvmCross" },
@@ -224,12 +225,16 @@ namespace Jawilliam.CDF.Labs
             //System.IO.File.WriteAllText($@"E:\Repositories\InitialCountsOfModifiedPairs.txt", report.ToString());
             #endregion
 
-            //#region Detecting not real source code changes
+            #region Detecting not real source code changes
             //DetectingNotRealSourceCodeChanges();
+            #endregion
+
+            //#region Diff characterization in according to Levenshtein
+            //DetectingLevenshteinDiff();
             //#endregion
 
-            #region Diff characterization in according to Levenshtein
-            DetectingLevenshteinDiff();
+            #region Diff GumTree[native] deltas
+            DetectingNativeGumTreeDiff();
             #endregion
 
             //int i = 0; // the warning reports!!!
@@ -267,6 +272,24 @@ namespace Jawilliam.CDF.Labs
                 System.IO.File.WriteAllText($@"E:\Repositories\DetectingLevenshteinDiff{project.Name}.txt", analyzer.Warnings.ToString());
             }
             Console.Out.WriteLine($"Report collected!!!");
+        }
+
+        private static void DetectingNativeGumTreeDiff()
+        {
+            var analyzer = new FileModifiedChangeAnalyzer { MillisecondsTimeout = 600000 };
+            var gumTree = new GumTreeNativeApproach();
+            var interopArgs = new InteropArgs();
+
+            foreach (var project in Projects)
+            {
+                analyzer.Warnings = new StringBuilder();
+                var dbRepository = new GitRepository(project.Name) { Name = project.Name };
+                ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 180;
+                analyzer.NativeGumTreeDiff(dbRepository,  gumTree, interopArgs);
+
+                System.IO.File.WriteAllText($@"E:\Repositories\NativeGumTreeDiff{project.Name}.txt", analyzer.Warnings.ToString());
+            }
+            Console.Out.WriteLine($"GumTree native collected!!!");
         }
     }
 }

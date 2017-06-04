@@ -32,6 +32,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -40,13 +41,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Actions\AlignOperationDescriptor.cs" />
+    <Compile Include="Actions\BaseMoveOperationDescriptor.cs" />
+    <Compile Include="Actions\DeleteOperationDescriptor.cs" />
+    <Compile Include="Actions\InsertOperationDescriptor.cs" />
+    <Compile Include="Actions\MoveOperationDescriptor.cs" />
+    <Compile Include="Actions\OperationDescriptor.cs" />
+    <Compile Include="Actions\UpdateOperationDescriptor.cs" />
+    <Compile Include="Approach.GumTree\GumTreeNativeApproach.cs" />
+    <Compile Include="Actions\ActionDescriptor.cs" />
+    <Compile Include="Actions\ActionKind.cs" />
+    <Compile Include="Approach.GumTree\InteropArgs.cs" />
+    <Compile Include="Approach\DetectionResult.cs" />
     <Compile Include="Approach\DetectionStep.cs" />
+    <Compile Include="ElementDescriptor.cs" />
     <Compile Include="Approach\IApproach.cs" />
     <Compile Include="Approach\IDelta.cs" />
     <Compile Include="Approach\IMatchingCriterion.cs" />
     <Compile Include="Approach\IProcedure.cs" />
     <Compile Include="Approach\IMatchingTransformation.cs" />
     <Compile Include="Approach\MatchingCriterion.cs" />
+    <Compile Include="MissingValueException.cs" />
+    <Compile Include="Approach\RevisionDescriptor.cs" />
+    <Compile Include="Approach\MatchingPair.cs" />
     <Compile Include="Approach\Procedure.cs" />
     <Compile Include="Approach\RevisionPair.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -111,6 +128,7 @@
     <Compile Include="Similarity.Metrics\TokenizerWhitespace.cs" />
     <Compile Include="Similarity.Metrics\VectorComponents.cs" />
     <Compile Include="Similarity.Metrics\VectorSimetric.cs" />
+    <Compile Include="XmlHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Approach\Approach Type System.cd" />

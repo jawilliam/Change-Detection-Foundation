@@ -15,9 +15,9 @@
         /// Determines if the given elements are or not similar.
         /// </summary>
         /// <param name="pair">the comparing elements and contextual information.</param>
-        /// <param name="distance">if it is sopported, it returns the distance value.</param>
-        /// <param name="similarity">if it is sopported, it returns a similarity value between 0 and 1 (0 = no similarity, 1 = perfectly similar).</param>
+        /// <param name="matchingPair">If the elements are similar it returns an structure describing the result, for example
+        /// the similarity and/or a distance value. If the the elements are not similar, it returns null.</param>
         /// <returns>True if the elements are similar, otherwise it returns false.</returns>
-        bool Match(DetectionStep<T> pair, out double? distance, out double similarity);
+        bool Match(DetectionStep<T> pair, out MatchingPair<T> matchingPair);
     }
 }
