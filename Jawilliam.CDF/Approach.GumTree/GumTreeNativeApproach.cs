@@ -104,7 +104,7 @@ namespace Jawilliam.CDF.Approach.GumTree
         /// </summary>
         /// <param name="native"></param>
         /// <returns></returns>
-        private IEnumerable<ActionDescriptor> ToActionDescriptors(XDocument native)
+        public IEnumerable<ActionDescriptor> ToActionDescriptors(XDocument native)
         {
             var xActions = native.Root?.Element("actions");
             if (xActions != null)

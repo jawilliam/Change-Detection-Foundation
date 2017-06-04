@@ -28,11 +28,11 @@ namespace Jawilliam.CDF.Actions
         /// <param name="reader">The <see cref="T:System.Xml.XmlReader"/> stream from which the object is deserialized. </param>
         public virtual void ReadXml(XmlReader reader)
         {
-            var kind = reader.GetAttribute("kind");
-            if (kind == null) throw new MissingValueException("kind can not be null");
+            //var kind = reader.GetAttribute("kind");
+            //if (kind == null) throw new MissingValueException("kind can not be null");
 
-            if (!Equals(Enum.Parse(typeof(ActionKind), kind), this.Action))
-                throw new InvalidOperationException($"An {Enum.GetName(typeof(ActionKind), this.Action)} operation is expected.");
+            //if (!Equals(Enum.Parse(typeof(ActionKind), kind), this.Action))
+            //    throw new InvalidOperationException($"An {Enum.GetName(typeof(ActionKind), this.Action)} operation is expected.");
 
             this.Element = new ElementDescriptor
             {
@@ -47,7 +47,7 @@ namespace Jawilliam.CDF.Actions
         /// <param name="writer">The <see cref="T:System.Xml.XmlWriter"/> stream to which the object is serialized. </param>
         public virtual void WriteXml(XmlWriter writer)
         {
-            writer.WriteAttributeString("kind", Enum.GetName(typeof(ActionKind), this.Action));
+            //writer.WriteAttributeString("kind", Enum.GetName(typeof(ActionKind), this.Action));
 
             if (this.Element.Id != null)
                 writer.WriteAttributeString("eId", this.Element.Id);

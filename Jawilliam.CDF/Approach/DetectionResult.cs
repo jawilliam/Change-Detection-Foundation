@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Xml.Serialization;
 using Jawilliam.CDF.Actions;
@@ -24,7 +25,11 @@ namespace Jawilliam.CDF.Approach
         /// Gets or sets the actions set.
         /// </summary>
         [XmlArray("Actions")]
-        [XmlArrayItem("Action")]
+        [XmlArrayItem("Insert", typeof(InsertOperationDescriptor))]
+        [XmlArrayItem("Delete", typeof(DeleteOperationDescriptor))]
+        [XmlArrayItem("Update", typeof(UpdateOperationDescriptor))]
+        [XmlArrayItem("Move", typeof(MoveOperationDescriptor))]
+        [XmlArrayItem("Align", typeof(AlignOperationDescriptor))]
         public virtual List<ActionDescriptor> Actions { get; set; }
 
         /// <summary>
