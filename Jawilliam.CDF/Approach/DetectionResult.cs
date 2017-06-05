@@ -33,6 +33,12 @@ namespace Jawilliam.CDF.Approach
         public virtual List<ActionDescriptor> Actions { get; set; }
 
         /// <summary>
+        /// Gets or sets if some error interrupted the result.
+        /// </summary>
+        [XmlAttribute("error")]
+        public virtual string Error { get; set; }
+
+        /// <summary>
         /// Writes current instance like a XML document. 
         /// </summary>
         /// <returns>the serialized information.</returns>

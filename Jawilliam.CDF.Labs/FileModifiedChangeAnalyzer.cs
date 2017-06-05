@@ -165,11 +165,11 @@ namespace Jawilliam.CDF.Labs
                     .Any(f => f.Id == repositoryObject.Id && f.Deltas.Any(fd => fd.Approach == ChangeDetectionApproaches.NativeGumTree)))
                     .Load();
 
-                var simetricDelta = repositoryObject.Deltas.SingleOrDefault(d => d.Approach == ChangeDetectionApproaches.NativeGumTree);
-                if (simetricDelta == null)
+                var delta = repositoryObject.Deltas.SingleOrDefault(d => d.Approach == ChangeDetectionApproaches.NativeGumTree);
+                if (delta == null)
                 {
-                    simetricDelta = new Delta { Id = Guid.NewGuid(), Approach = ChangeDetectionApproaches.NativeGumTree };
-                    //repositoryObject.Deltas.Add(simetricDelta);
+                    delta = new Delta { Id = Guid.NewGuid(), Approach = ChangeDetectionApproaches.NativeGumTree };
+                    repositoryObject.Deltas.Add(delta);
                 }
 
                 System.IO.File.WriteAllText(interopArgs.Original, original.ToFullString());
@@ -177,10 +177,12 @@ namespace Jawilliam.CDF.Labs
 
                 gumTree.Proceed(interopArgs);
                 var writeXmlColumn = gumTree.Result.WriteXmlColumn();
-                var dr = DetectionResult.Read(writeXmlColumn, Encoding.Unicode);
                 XElement result = XElement.Parse(writeXmlColumn.Replace("﻿<?xml version=\"1.0\" encoding=\"utf-16\"?>", ""));
-                simetricDelta.Matching = new XDocument(result.Element("Matches")).ToString().Replace("\r\n", "").Replace(" />  <", "/><").Replace(">  <", "><");
-                simetricDelta.Differencing = new XDocument(result.Element("Actions")).ToString().Replace("\r\n", "").Replace(" />  <", "/><").Replace(">  <", "><");
+                delta.Matching = new XDocument(result.Element("Matches")).ToString().Replace("\r\n", "").Replace(" />  <", "/><").Replace(">  <", "><");
+                delta.Differencing = new XDocument(result.Element("Actions")).ToString().Replace("\r\n", "").Replace(" />  <", "/><").Replace(">  <", "><");
+
+                if (!string.IsNullOrEmpty(gumTree.Result.Error))
+                    delta.Report = result.ToString().Replace("\r\n", "").Replace(" />  <", "/><").Replace(">  <", "><");
             },
             "FileVersion.Content", "FromFileVersion.Content");
         }

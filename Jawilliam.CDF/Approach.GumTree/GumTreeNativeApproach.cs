@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
@@ -26,19 +27,29 @@ namespace Jawilliam.CDF.Approach.GumTree
 
             string header = "Microsoft Windows [Versión 10.0.10586]\r\n(c) 2015 Microsoft Corporation. Todos los derechos reservados.\r\n\r\nE:\\MyRepositories\\Change-Detection-Foundation\\Jawilliam.CDF.Labs\\bin\\Debug>E:\r\n\r\nE:\\MyRepositories\\Change-Detection-Foundation\\Jawilliam.CDF.Labs\\bin\\Debug>cd E:\\SourceCode\\gumtree-20170525-2.1.0-SNAPSHOT\\bin\r\n\r\nE:\\SourceCode\\gumtree-20170525-2.1.0-SNAPSHOT\\bin>set PATH=%PATH%;C:\\Program Files (x86)\\srcML 0.9.5\\bin\r\n\r\nE:\\SourceCode\\gumtree-20170525-2.1.0-SNAPSHOT\\bin>gumtree.bat axmldiff E:\\SourceCode\\OriginalAbstractBoardGame.cs E:\\SourceCode\\ModifiedAbstractBoardGame.cs\r\n";
             string output = ExecuteCommand(args, header, $"gumtree.bat axmldiff {args.Original} {args.Modified}", "\n");
-            XDocument axmlDiff = XDocument.Parse(output);
 
-            header = "Microsoft Windows [Versión 10.0.10586]\r\n(c) 2015 Microsoft Corporation. Todos los derechos reservados.\r\n\r\nE:\\MyRepositories\\Change-Detection-Foundation\\Jawilliam.CDF.Labs\\bin\\Debug>E:\r\n\r\nE:\\MyRepositories\\Change-Detection-Foundation\\Jawilliam.CDF.Labs\\bin\\Debug>cd E:\\SourceCode\\gumtree-20170525-2.1.0-SNAPSHOT\\bin\r\n\r\nE:\\SourceCode\\gumtree-20170525-2.1.0-SNAPSHOT\\bin>set PATH=%PATH%;C:\\Program Files (x86)\\srcML 0.9.5\\bin\r\n\r\nE:\\SourceCode\\gumtree-20170525-2.1.0-SNAPSHOT\\bin>gumtree.bat jsondiff E:\\SourceCode\\OriginalAbstractBoardGame.cs E:\\SourceCode\\ModifiedAbstractBoardGame.cs\r\n";
-            output = ExecuteCommand(args, header, $"gumtree.bat jsondiff {args.Original} {args.Modified}", "");
-            XDocument xjsonDiff;
-            using (var jsonReader = JsonReaderWriterFactory.CreateJsonReader(Encoding.UTF8.GetBytes(output), XmlDictionaryReaderQuotas.Max))
+            if (!string.IsNullOrEmpty(output))
             {
-                var xml = XElement.Load(jsonReader);
-                xjsonDiff = XDocument.Parse(xml.ToString());
-            }
+                XDocument axmlDiff = XDocument.Parse(output);
 
-            this.Result.Matches = this.ToMatchingDescriptors(xjsonDiff, axmlDiff).ToList();
-            this.Result.Actions = this.ToActionDescriptors(xjsonDiff).ToList();
+                header = "Microsoft Windows [Versión 10.0.10586]\r\n(c) 2015 Microsoft Corporation. Todos los derechos reservados.\r\n\r\nE:\\MyRepositories\\Change-Detection-Foundation\\Jawilliam.CDF.Labs\\bin\\Debug>E:\r\n\r\nE:\\MyRepositories\\Change-Detection-Foundation\\Jawilliam.CDF.Labs\\bin\\Debug>cd E:\\SourceCode\\gumtree-20170525-2.1.0-SNAPSHOT\\bin\r\n\r\nE:\\SourceCode\\gumtree-20170525-2.1.0-SNAPSHOT\\bin>set PATH=%PATH%;C:\\Program Files (x86)\\srcML 0.9.5\\bin\r\n\r\nE:\\SourceCode\\gumtree-20170525-2.1.0-SNAPSHOT\\bin>gumtree.bat jsondiff E:\\SourceCode\\OriginalAbstractBoardGame.cs E:\\SourceCode\\ModifiedAbstractBoardGame.cs\r\n";
+                output = ExecuteCommand(args, header, $"gumtree.bat jsondiff {args.Original} {args.Modified}", "");
+                XDocument xjsonDiff;
+                using (var jsonReader = JsonReaderWriterFactory.CreateJsonReader(Encoding.UTF8.GetBytes(output), XmlDictionaryReaderQuotas.Max))
+                {
+                    var xml = XElement.Load(jsonReader);
+                    xjsonDiff = XDocument.Parse(xml.ToString());
+                }
+
+                this.Result.Matches = this.ToMatchingDescriptors(xjsonDiff, axmlDiff).ToList();
+                this.Result.Actions = this.ToActionDescriptors(xjsonDiff).ToList();  
+            }
+            else
+            {
+                this.Result.Matches = new List<RevisionDescriptor>();
+                this.Result.Actions = new List<ActionDescriptor>();
+                this.Result.Error = "Error on the side of GumTree";
+            }
         }
 
         private string ExecuteCommand(InteropArgs args, string header, string command, string sPrefix)
@@ -65,7 +76,8 @@ namespace Jawilliam.CDF.Approach.GumTree
                 // Get the output into a string
                 //proc.WaitForExit();
                 result = proc.StandardOutput.ReadToEnd().Replace(header, "");
-                result = result.Replace($"{sPrefix}E:\\SourceCode\\gumtree-20170525-2.1.0-SNAPSHOT\\bin>", "");
+                result = result.Replace($"{sPrefix}E:\\SourceCode\\gumtree-20170525-2.1.0-SNAPSHOT\\bin>", "")
+                               .Replace($"E:\\SourceCode\\gumtree-20170525-2.1.0-SNAPSHOT\\bin>", "");
                 process.Close();
             }
 
@@ -91,12 +103,6 @@ namespace Jawilliam.CDF.Approach.GumTree
                     };
                 }
             }
-
-            //foreach (var matchingItem in axmlDiff.Elements())
-            //{
-
-            //}
-            //var xMatches = native.Root.Element("actions");
         }
 
         /// <summary>
@@ -147,12 +153,6 @@ namespace Jawilliam.CDF.Approach.GumTree
                     }
                 }
             }
-
-            //foreach (var matchingItem in this.MatchingResult)
-            //{
-
-            //}
-            //var xMatches = native.Root.Element("actions");
         }
     }
 }
