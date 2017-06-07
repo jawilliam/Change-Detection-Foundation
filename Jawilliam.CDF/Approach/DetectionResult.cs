@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
 using System.Text;
 using System.Xml.Serialization;
 using Jawilliam.CDF.Actions;
@@ -15,11 +14,25 @@ namespace Jawilliam.CDF.Approach
     public class DetectionResult : RevisionPair<ElementDescriptor>
     {
         /// <summary>
+        /// The backing field for the <see cref="Matches"/> property. 
+        /// </summary>
+        private List<RevisionDescriptor> _matches;
+
+        /// <summary>
         /// Gets or sets the matching set.
         /// </summary>
         [XmlArray("Matches")]
         [XmlArrayItem("Match")]
-        public virtual List<RevisionDescriptor> Matches { get; set; }
+        public virtual List<RevisionDescriptor> Matches
+        {
+            get { return this._matches ?? (this._matches = new List<RevisionDescriptor>()); }
+            set { this._matches = value; }
+        }
+
+        /// <summary>
+        /// The backing field for the <see cref="Actions"/> property. 
+        /// </summary>
+        private List<ActionDescriptor> _actions;
 
         /// <summary>
         /// Gets or sets the actions set.
@@ -30,7 +43,13 @@ namespace Jawilliam.CDF.Approach
         [XmlArrayItem("Update", typeof(UpdateOperationDescriptor))]
         [XmlArrayItem("Move", typeof(MoveOperationDescriptor))]
         [XmlArrayItem("Align", typeof(AlignOperationDescriptor))]
-        public virtual List<ActionDescriptor> Actions { get; set; }
+        public virtual List<ActionDescriptor> Actions
+        {
+            get { return this._actions ?? (this._actions = new List<ActionDescriptor>()); }
+            set { this._actions = value; }
+        }
+
+        // Delta
 
         /// <summary>
         /// Gets or sets if some error interrupted the result.
