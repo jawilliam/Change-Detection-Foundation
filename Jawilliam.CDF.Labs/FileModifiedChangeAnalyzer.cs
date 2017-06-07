@@ -11,7 +11,7 @@ using System.Text;
 using System.Xml.Linq;
 using Jawilliam.CDF.Approach;
 using Jawilliam.CDF.Approach.GumTree;
-using Jawilliam.CDF.Similarity.Metrics;
+using Jawilliam.CDF.Metrics.Similarity;
 
 namespace Jawilliam.CDF.Labs
 {
@@ -35,12 +35,13 @@ namespace Jawilliam.CDF.Labs
         /// <param name="sqlRepository">the SQL database repository in which to analyze the file versions.</param>
         /// <param name="onThese">expression to filter the objects of interest.</param>
         /// <param name="analysis">an action for characterizing the analysis.</param>
+        /// <param name="cancel">Action to execute cancellation logic.</param>
         /// <param name="includes">paths to include in the query.</param>
-        protected virtual void Analyze(GitRepository sqlRepository, Expression<Func<FileModifiedChange, bool>> onThese, AnalyzeDelegate analysis, params string[] includes)
+        protected virtual void Analyze(GitRepository sqlRepository, Expression<Func<FileModifiedChange, bool>> onThese, AnalyzeDelegate analysis, Action cancel, params string[] includes)
         {
             this.Analyze(sqlRepository, "file modified change",
                 onThese ?? (f => f.FromFileVersion.ContentSummary.TotalLines != null && f.FileVersion.ContentSummary.TotalLines != null),
-                analysis,
+                analysis, cancel,
                 includes ?? new []{"FileVersion.Content", "FileVersion.ContentSummary", "FromFileVersion.ContentSummary", "FromFileVersion.Content"});
         }
 
@@ -50,8 +51,9 @@ namespace Jawilliam.CDF.Labs
         /// <param name="sqlRepository">the SQL database repository in which to analyze the file versions.</param>
         /// <param name="onThese">expression to filter the objects of interest.</param>
         /// <param name="analysis">an action for characterizing the analysis given the normalized trees.</param>
+        /// <param name="cancel">Action to execute cancellation logic.</param>
         /// <param name="includes">paths to include in the query.</param>
-        protected virtual void Analyze(GitRepository sqlRepository, Expression<Func<FileModifiedChange, bool>> onThese, CoreAnalyzeDelegate analysis, params string[] includes)
+        protected virtual void Analyze(GitRepository sqlRepository, Expression<Func<FileModifiedChange, bool>> onThese, CoreAnalyzeDelegate analysis, Action cancel, params string[] includes)
         {
             this.Analyze(sqlRepository, "file modified change",
                 onThese ?? (f => f.FromFileVersion.ContentSummary.TotalLines != null && f.FileVersion.ContentSummary.TotalLines != null),
@@ -65,6 +67,7 @@ namespace Jawilliam.CDF.Labs
 
                     analysis(repositoryObject, originalContentNode, modifiedContentNode, cancelToken);
                 },
+                cancel,
             includes ?? new[] { "FileVersion.Content", "FileVersion.ContentSummary", "FromFileVersion.ContentSummary", "FromFileVersion.Content" });
         }
 
@@ -72,7 +75,8 @@ namespace Jawilliam.CDF.Labs
         /// Analyzes if there actually are source code changes between the file modified pairs of the given repository.
         /// </summary>
         /// <param name="sqlRepository">the SQL database repository in which to analyze the file versions.</param>
-        public virtual void AnalyzeIfThereAreSourceCodeChanges(GitRepository sqlRepository)
+        /// <param name="cancel">Action to execute cancellation logic.</param>
+        public virtual void AnalyzeIfThereAreSourceCodeChanges(GitRepository sqlRepository, Action cancel)
         {
             this.Analyze(sqlRepository, "file modified change", 
                 f => f.FromFileVersion.ContentSummary.TotalLines != null && f.FileVersion.ContentSummary.TotalLines != null, 
@@ -92,6 +96,7 @@ namespace Jawilliam.CDF.Labs
                 xAnnotations.SourceCodeChanges = originalContentNode.ToFullString() != modifiedContentNode.ToFullString();
                 repositoryObject.XAnnotations = xAnnotations;
             }, 
+            cancel,
             "FileVersion.Content", "FileVersion.ContentSummary", "FromFileVersion.ContentSummary", "FromFileVersion.Content");
         }
 
@@ -101,7 +106,8 @@ namespace Jawilliam.CDF.Labs
         /// <param name="sqlRepository">the SQL database repository in which to analyze the file versions.</param>
         /// <param name="simetricName">the name of the similarity metric</param>
         /// <param name="simetric"></param>
-        public virtual void SimetricDiff(GitRepository sqlRepository, string simetricName, ISimetric<SyntaxToken> simetric)
+        /// <param name="cancel">Action to execute cancellation logic.</param>
+        public virtual void SimetricDiff(GitRepository sqlRepository, string simetricName, ISimetric<SyntaxToken> simetric, Action cancel)
         {
             this.Analyze(sqlRepository, 
             (f => f.FromFileVersion.ContentSummary.TotalLines != null && f.FileVersion.ContentSummary.TotalLines != null && f.Deltas.All(d => d.Approach != ChangeDetectionApproaches.Simetrics)),
@@ -141,7 +147,7 @@ namespace Jawilliam.CDF.Labs
                 xSimetric.Distance = distance.Value;
 
                 simetricDelta.XAnnotations = xDeltaAnnotations;
-            }, 
+            }, cancel,
             "FileVersion.Content", "FromFileVersion.Content");
         }
 
@@ -151,7 +157,8 @@ namespace Jawilliam.CDF.Labs
         /// <param name="sqlRepository">the SQL database repository in which to analyze the file versions.</param>
         /// <param name="interopArgs">the arguments for the interoperability.</param>
         /// <param name="gumTree">the native approach based on the GumTree interoperability.</param>
-        public virtual void NativeGumTreeDiff(GitRepository sqlRepository, GumTreeNativeApproach gumTree, InteropArgs interopArgs)
+        /// <param name="cancel">Action to execute cancellation logic.</param>
+        public virtual void NativeGumTreeDiff(GitRepository sqlRepository, GumTreeNativeApproach gumTree, InteropArgs interopArgs, Action cancel)
         {
             this.Analyze(sqlRepository,
             f => f.Deltas.Any(d => d.Approach == ChangeDetectionApproaches.Simetrics) && 
@@ -175,15 +182,43 @@ namespace Jawilliam.CDF.Labs
                 System.IO.File.WriteAllText(interopArgs.Original, original.ToFullString());
                 System.IO.File.WriteAllText(interopArgs.Modified, modified.ToFullString());
 
-                gumTree.Proceed(interopArgs);
-                var writeXmlColumn = gumTree.Result.WriteXmlColumn();
-                XElement result = XElement.Parse(writeXmlColumn.Replace("﻿<?xml version=\"1.0\" encoding=\"utf-16\"?>", ""));
-                delta.Matching = new XDocument(result.Element("Matches")).ToString().Replace("\r\n", "").Replace(" />  <", "/><").Replace(">  <", "><");
-                delta.Differencing = new XDocument(result.Element("Actions")).ToString().Replace("\r\n", "").Replace(" />  <", "/><").Replace(">  <", "><");
+                try
+                {
+                    gumTree.Proceed(interopArgs);
+                }
+                catch (Exception e)
+                {
+                    if (string.IsNullOrEmpty(gumTree.Result.Error))
+                        gumTree.Result.Error = e.Message;
 
-                if (!string.IsNullOrEmpty(gumTree.Result.Error))
-                    delta.Report = result.ToString().Replace("\r\n", "").Replace(" />  <", "/><").Replace(">  <", "><");
+                    throw;
+                }
+                finally
+                {
+                    var writeXmlColumn = gumTree.Result.WriteXmlColumn();
+                    XElement result =
+                        XElement.Parse(writeXmlColumn.Replace("﻿<?xml version=\"1.0\" encoding=\"utf-16\"?>", ""));
+                    delta.Matching =
+                        new XDocument(result.Element("Matches")).ToString()
+                            .Replace("\r\n", "")
+                            .Replace(" />  <", "/><")
+                            .Replace(">  <", "><");
+                    delta.Differencing =
+                        new XDocument(result.Element("Actions")).ToString()
+                            .Replace("\r\n", "")
+                            .Replace(" />  <", "/><")
+                            .Replace(">  <", "><");
+
+                    if (!string.IsNullOrEmpty(gumTree.Result?.Error))
+                        delta.Report = result.ToString()
+                            .Replace("\r\n", "")
+                            .Replace(" />  <", "/><")
+                            .Replace(">  <", "><");
+                }
+
+
             },
+            cancel,
             "FileVersion.Content", "FromFileVersion.Content");
         }
     }

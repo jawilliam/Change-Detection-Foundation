@@ -38,8 +38,9 @@ namespace Jawilliam.CDF.Labs
         /// <param name="repositoryObjectName"></param>
         /// <param name="onThese">expression to filter the objects of interest.</param>
         /// <param name="analysis">an action for characterizing the analysis.</param>
+        /// <param name="cancel">Action to execute cancellation logic.</param>
         /// <param name="includes">paths to include in the query.</param>
-        protected virtual void Analyze(GitRepository sqlRepository, string repositoryObjectName, Expression<Func<T, bool>> onThese, AnalyzeDelegate analysis, params string[] includes)
+        protected virtual void Analyze(GitRepository sqlRepository, string repositoryObjectName, Expression<Func<T, bool>> onThese, AnalyzeDelegate analysis, Action cancel, params string[] includes)
         {
             if (analysis == null) throw new ArgumentNullException(nameof(analysis));
 
@@ -64,6 +65,7 @@ namespace Jawilliam.CDF.Labs
                         var t = Task.Run(() => analysis(repositoryObject, cancellationToken), cancellationToken);
                         t.Wait(this.MillisecondsTimeout);
                         cancellationTokenSource.Cancel();
+                        cancel?.Invoke();
 
                         t.Wait();
                     }

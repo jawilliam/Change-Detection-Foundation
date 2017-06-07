@@ -1,14 +1,15 @@
 ﻿using System;
-using LibGit2Sharp;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Globalization;
-using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
+using Jawilliam.CDF.Actions;
+using Jawilliam.CDF.Approach;
 using Jawilliam.CDF.Approach.GumTree;
-using Jawilliam.CDF.Similarity.Metrics;
+using Jawilliam.CDF.Metrics.Quality;
+using Jawilliam.CDF.Metrics.Similarity;
 using Microsoft.CodeAnalysis;
 
 namespace Jawilliam.CDF.Labs
@@ -21,13 +22,13 @@ namespace Jawilliam.CDF.Labs
         public static IEnumerable<Project> Projects => new[]
         {
             //new Project(), 
-            //new Project{ Path = @"E:\Repositories\AjaxControlToolkit", Name = "AjaxControlToolkit" },
-            //new Project{ Path = @"E:\Repositories\akka.net", Name = "AkkaNET" },
-            //new Project{ Path = @"E:\Repositories\albacore", Name = "Albacore" },
-            //new Project{ Path = @"E:\Repositories\allReady", Name = "AllReady" },
-            //new Project{ Path = @"E:\Repositories\ApplicationInsights-dotnet-server", Name = "ApplicationInsightsDotnetServer" },
-            //new Project{ Path = @"E:\Repositories\aspnetwebstack", Name = "AspnetWebStack" },
-            //new Project{ Path = @"E:\Repositories\AutoFixture", Name = "AutoFixture" },
+            new Project{ Path = @"E:\Repositories\AjaxControlToolkit", Name = "AjaxControlToolkit" },
+            new Project{ Path = @"E:\Repositories\akka.net", Name = "AkkaNET" },
+            new Project{ Path = @"E:\Repositories\albacore", Name = "Albacore" },
+            new Project{ Path = @"E:\Repositories\allReady", Name = "AllReady" },
+            new Project{ Path = @"E:\Repositories\ApplicationInsights-dotnet-server", Name = "ApplicationInsightsDotnetServer" },
+            new Project{ Path = @"E:\Repositories\aspnetwebstack", Name = "AspnetWebStack" },
+            new Project{ Path = @"E:\Repositories\AutoFixture", Name = "AutoFixture" },
             new Project{ Path = @"E:\Repositories\AutoMapper", Name = "AutoMapper" },
             new Project{ Path = @"E:\Repositories\Avalonia", Name = "Avalonia" },
             new Project{ Path = @"E:\Repositories\azure-powershell", Name = "AzurePowershell" },
@@ -44,92 +45,95 @@ namespace Jawilliam.CDF.Labs
             new Project{ Path = @"E:\Repositories\choco", Name = "Choco" },
             new Project{ Path = @"E:\Repositories\cli", Name = "Cli" },
             new Project{ Path = @"E:\Repositories\code-cracker", Name = "CodeCracker" },
-            new Project{ Path = @"E:\Repositories\coreclr", Name = "CoreClr" },
-            new Project{ Path = @"E:\Repositories\corefx", Name = "CoreFx" },
-            new Project{ Path = @"E:\Repositories\corert", Name = "Corert" },
-            new Project{ Path = @"E:\Repositories\couchbase-lite-net", Name = "CouchbaseLiteNet" },
-            new Project{ Path = @"E:\Repositories\dafny", Name = "Dafny" },
-            new Project{ Path = @"E:\Repositories\Dapper", Name = "Dapper" },
-            new Project{ Path = @"E:\Repositories\Dnn.Platform", Name = "Dnn" },
-            new Project{ Path = @"E:\Repositories\docfx", Name = "Docfx" },
-            new Project{ Path = @"E:\Repositories\DotNetOpenAuth", Name = "DotNetOpenAuth" },
-            new Project{ Path = @"E:\Repositories\duality", Name = "Duality" },
-            new Project{ Path = @"E:\Repositories\elasticsearch-net", Name = "ElasticsearchNet" },
-            new Project{ Path = @"E:\Repositories\Emby", Name = "Emby" },
-            new Project{ Path = @"E:\Repositories\EntityFramework", Name = "Ef7" },
-            new Project{ Path = @"E:\Repositories\FakeItEasy", Name = "FakeItEasy" },
-            new Project{ Path = @"E:\Repositories\FileHelpers", Name = "FileHelpers" },
-            new Project{ Path = @"E:\Repositories\Force.com-Toolkit-for-NET", Name = "ForcecomToolkitForNET" },
-            new Project{ Path = @"E:\Repositories\hadoopsdk", Name = "HadoopSdk" },
-            new Project{ Path = @"E:\Repositories\Hangfire", Name = "Hangfire" },
-            new Project{ Path = @"E:\Repositories\Hearthstone-Deck-Tracker", Name = "HDT" },
-            new Project{ Path = @"E:\Repositories\Humanizer", Name = "Humanizer" },
-            new Project{ Path = @"E:\Repositories\IdentityManager", Name = "IdentityManager" },
-            new Project{ Path = @"E:\Repositories\IdentityServer3", Name = "IdentityServer3" },
-            new Project{ Path = @"E:\Repositories\ILSpy", Name = "ILSpy" },
-            new Project{ Path = @"E:\Repositories\ImageProcessor", Name = "ImageProcessor" },
-            new Project{ Path = @"E:\Repositories\katanaproject", Name = "Katana" },
-            new Project{ Path = @"E:\Repositories\KestrelHttpServer", Name = "KestrelHttpServer" },
-            new Project{ Path = @"E:\Repositories\kudu", Name = "Kudu" },
-            new Project{ Path = @"E:\Repositories\libgit2sharp", Name = "Libgit2sharp" },
-            new Project{ Path = @"E:\Repositories\MahApps.Metro", Name = "MahAppsMetro" },
-            new Project{ Path = @"E:\Repositories\MailKit", Name = "MailKit" },
-            new Project{ Path = @"E:\Repositories\Marten", Name = "Marten" },
-            new Project{ Path = @"E:\Repositories\MimeKit", Name = "MimeKit" },
-            new Project{ Path = @"E:\Repositories\mobile-center-sdk-dotnet", Name = "MobileCenterSdkDotnet" },
-            new Project{ Path = @"E:\Repositories\MoneyFox", Name = "MoneyFox" },
-            //new Project{ Path = @"E:\Repositories\mono", Name = "mono" },
-            new Project{ Path = @"E:\Repositories\MonoGame", Name = "MonoGame" },
-            new Project{ Path = @"E:\Repositories\msbuild", Name = "Msbuild" },
-            new Project{ Path = @"E:\Repositories\MvvmCross", Name = "MvvmCross" },
-            new Project{ Path = @"E:\Repositories\Nancy", Name = "Nancy" },
-            new Project{ Path = @"E:\Repositories\netmf-interpreter", Name = "NetmfInterpreter" },
-            new Project{ Path = @"E:\Repositories\Newtonsoft.Json", Name = "NewtonsoftJson" },
-            new Project{ Path = @"E:\Repositories\nhibernate-core", Name = "NhibernateCore" },
-            new Project{ Path = @"E:\Repositories\NLog", Name = "NLog" },
-            new Project{ Path = @"E:\Repositories\nodejstools", Name = "Nodejstools" },
-            new Project{ Path = @"E:\Repositories\npgsql", Name = "Npgsql" },
-            new Project{ Path = @"E:\Repositories\NuGet.Client", Name = "NuGetClient" },
-            new Project{ Path = @"E:\Repositories\NuGetGallery", Name = "NuGetGallery" },
-            new Project{ Path = @"E:\Repositories\OpenRA", Name = "OpenRA" },
-            new Project{ Path = @"E:\Repositories\Open-XML-SDK", Name = "OpenXmlSdk" },
-            new Project{ Path = @"E:\Repositories\OptiKey", Name = "OptiKey" },
-            new Project{ Path = @"E:\Repositories\Orchard", Name = "Orchard" },
-            new Project{ Path = @"E:\Repositories\orleans", Name = "Orleans" },
-            new Project{ Path = @"E:\Repositories\pickles", Name = "Pickles" },
-            new Project{ Path = @"E:\Repositories\PnP-PowerShell", Name = "PnPPowerShell" },
-            new Project{ Path = @"E:\Repositories\Polly", Name = "Polly" },
-            new Project{ Path = @"E:\Repositories\PowerShell", Name = "PowerShell" },
-            new Project{ Path = @"E:\Repositories\Prism", Name = "Prism" },
-            new Project{ Path = @"E:\Repositories\Protobuild", Name = "Protobuild" },
-            new Project{ Path = @"E:\Repositories\PTVS", Name = "PTVS" },
-            new Project{ Path = @"E:\Repositories\QuickGraph", Name = "QuickGraph" },
-            new Project{ Path = @"E:\Repositories\Rebus", Name = "Rebus" },
-            new Project{ Path = @"E:\Repositories\roslyn", Name = "Roslyn" },
-            new Project{ Path = @"E:\Repositories\RTVS", Name = "RTVS" },
-            new Project{ Path = @"E:\Repositories\Rubberduck", Name = "Rubberduck" },
-            new Project{ Path = @"E:\Repositories\Rx.NET", Name = "RxNET" },
-            new Project{ Path = @"E:\Repositories\sdk", Name = "Sdk" },
-            new Project{ Path = @"E:\Repositories\serilog", Name = "Serilog" },
-            new Project{ Path = @"E:\Repositories\ServiceStack", Name = "ServiceStack" },
-            new Project{ Path = @"E:\Repositories\ShareX", Name = "ShareX" },
-            new Project{ Path = @"E:\Repositories\SignalR", Name = "SignalR" },
-            new Project{ Path = @"E:\Repositories\Sonarr", Name = "Sonarr" },
-            new Project{ Path = @"E:\Repositories\SparkleShare", Name = "SparkleShare" },
-            new Project{ Path = @"E:\Repositories\SpecFlow", Name = "SpecFlow" },
-            new Project{ Path = @"E:\Repositories\templating", Name = "Templating" },
-            new Project{ Path = @"E:\Repositories\Umbraco-CMS", Name = "UmbracoCms" },
-            new Project{ Path = @"E:\Repositories\UWPCommunityToolkit", Name = "UWPCommunityToolkit" },
-            new Project{ Path = @"E:\Repositories\vs-mef", Name = "VsMef" },
-            new Project{ Path = @"E:\Repositories\vsts-agent", Name = "VstsAgent" },
-            new Project{ Path = @"E:\Repositories\VsVim", Name = "VsVim" },
-            new Project{ Path = @"E:\Repositories\wcf", Name = "Wcf" },
-            new Project{ Path = @"E:\Repositories\WealthEconomy", Name = "WealthEconomy" },
-            new Project{ Path = @"E:\Repositories\Wox", Name = "Wox" },
-            new Project{ Path = @"E:\Repositories\Wyam", Name = "Wyam" },
-            new Project{ Path = @"E:\Repositories\Xamarin.Auth", Name = "XamarinAuth" },
-            new Project{ Path = @"E:\Repositories\Xamarin.Mobile", Name = "XamarinMobile" },
-            new Project{ Path = @"E:\Repositories\xunit", Name = "XUnit" },
+
+            //new Project{ Path = @"E:\Repositories\coreclr", Name = "CoreClr" },
+            //new Project{ Path = @"E:\Repositories\corefx", Name = "CoreFx" },
+            //new Project{ Path = @"E:\Repositories\corert", Name = "Corert" },
+            //new Project{ Path = @"E:\Repositories\couchbase-lite-net", Name = "CouchbaseLiteNet" },
+            //new Project{ Path = @"E:\Repositories\dafny", Name = "Dafny" },
+            //new Project{ Path = @"E:\Repositories\Dapper", Name = "Dapper" },
+            //new Project{ Path = @"E:\Repositories\Dnn.Platform", Name = "Dnn" },
+            //new Project{ Path = @"E:\Repositories\docfx", Name = "Docfx" },
+            //new Project{ Path = @"E:\Repositories\DotNetOpenAuth", Name = "DotNetOpenAuth" },
+            //new Project{ Path = @"E:\Repositories\duality", Name = "Duality" },
+            //new Project{ Path = @"E:\Repositories\elasticsearch-net", Name = "ElasticsearchNet" },
+            //new Project{ Path = @"E:\Repositories\Emby", Name = "Emby" },
+            //new Project{ Path = @"E:\Repositories\EntityFramework", Name = "Ef7" },
+            //new Project{ Path = @"E:\Repositories\FakeItEasy", Name = "FakeItEasy" },
+            //new Project{ Path = @"E:\Repositories\FileHelpers", Name = "FileHelpers" },
+            //new Project{ Path = @"E:\Repositories\Force.com-Toolkit-for-NET", Name = "ForcecomToolkitForNET" },
+            //new Project{ Path = @"E:\Repositories\hadoopsdk", Name = "HadoopSdk" },
+            //new Project{ Path = @"E:\Repositories\Hangfire", Name = "Hangfire" },
+            //new Project{ Path = @"E:\Repositories\Hearthstone-Deck-Tracker", Name = "HDT" },
+            //new Project{ Path = @"E:\Repositories\Humanizer", Name = "Humanizer" },
+            //new Project{ Path = @"E:\Repositories\IdentityManager", Name = "IdentityManager" },
+            //new Project{ Path = @"E:\Repositories\IdentityServer3", Name = "IdentityServer3" },
+            //new Project{ Path = @"E:\Repositories\ILSpy", Name = "ILSpy" },
+            //new Project{ Path = @"E:\Repositories\ImageProcessor", Name = "ImageProcessor" },
+            //new Project{ Path = @"E:\Repositories\katanaproject", Name = "Katana" },
+            //new Project{ Path = @"E:\Repositories\KestrelHttpServer", Name = "KestrelHttpServer" },
+            //new Project{ Path = @"E:\Repositories\kudu", Name = "Kudu" },
+            //new Project{ Path = @"E:\Repositories\libgit2sharp", Name = "Libgit2sharp" },
+            //new Project{ Path = @"E:\Repositories\MahApps.Metro", Name = "MahAppsMetro" },
+            //new Project{ Path = @"E:\Repositories\MailKit", Name = "MailKit" },
+            //new Project{ Path = @"E:\Repositories\Marten", Name = "Marten" },
+            //new Project{ Path = @"E:\Repositories\MimeKit", Name = "MimeKit" },
+            //new Project{ Path = @"E:\Repositories\mobile-center-sdk-dotnet", Name = "MobileCenterSdkDotnet" },
+            //new Project{ Path = @"E:\Repositories\MoneyFox", Name = "MoneyFox" },
+
+            ////new Project{ Path = @"E:\Repositories\mono", Name = "mono" },
+
+            //new Project{ Path = @"E:\Repositories\MonoGame", Name = "MonoGame" },
+            //new Project{ Path = @"E:\Repositories\msbuild", Name = "Msbuild" },
+            //new Project{ Path = @"E:\Repositories\MvvmCross", Name = "MvvmCross" },
+            //new Project{ Path = @"E:\Repositories\Nancy", Name = "Nancy" },
+            //new Project{ Path = @"E:\Repositories\netmf-interpreter", Name = "NetmfInterpreter" },
+            //new Project{ Path = @"E:\Repositories\Newtonsoft.Json", Name = "NewtonsoftJson" },
+            //new Project{ Path = @"E:\Repositories\nhibernate-core", Name = "NhibernateCore" },
+            //new Project{ Path = @"E:\Repositories\NLog", Name = "NLog" },
+            //new Project{ Path = @"E:\Repositories\nodejstools", Name = "Nodejstools" },
+            //new Project{ Path = @"E:\Repositories\npgsql", Name = "Npgsql" },
+            //new Project{ Path = @"E:\Repositories\NuGet.Client", Name = "NuGetClient" },
+            //new Project{ Path = @"E:\Repositories\NuGetGallery", Name = "NuGetGallery" },
+            //new Project{ Path = @"E:\Repositories\OpenRA", Name = "OpenRA" },
+            //new Project{ Path = @"E:\Repositories\Open-XML-SDK", Name = "OpenXmlSdk" },
+            //new Project{ Path = @"E:\Repositories\OptiKey", Name = "OptiKey" },
+            //new Project{ Path = @"E:\Repositories\Orchard", Name = "Orchard" },
+            //new Project{ Path = @"E:\Repositories\orleans", Name = "Orleans" },
+            //new Project{ Path = @"E:\Repositories\pickles", Name = "Pickles" },
+            //new Project{ Path = @"E:\Repositories\PnP-PowerShell", Name = "PnPPowerShell" },
+            //new Project{ Path = @"E:\Repositories\Polly", Name = "Polly" },
+            //new Project{ Path = @"E:\Repositories\PowerShell", Name = "PowerShell" },
+            //new Project{ Path = @"E:\Repositories\Prism", Name = "Prism" },
+            //new Project{ Path = @"E:\Repositories\Protobuild", Name = "Protobuild" },
+            //new Project{ Path = @"E:\Repositories\PTVS", Name = "PTVS" },
+            //new Project{ Path = @"E:\Repositories\QuickGraph", Name = "QuickGraph" },
+            //new Project{ Path = @"E:\Repositories\Rebus", Name = "Rebus" },
+            //new Project{ Path = @"E:\Repositories\roslyn", Name = "Roslyn" },
+            //new Project{ Path = @"E:\Repositories\RTVS", Name = "RTVS" },
+            //new Project{ Path = @"E:\Repositories\Rubberduck", Name = "Rubberduck" },
+            //new Project{ Path = @"E:\Repositories\Rx.NET", Name = "RxNET" },
+            //new Project{ Path = @"E:\Repositories\sdk", Name = "Sdk" },
+            //new Project{ Path = @"E:\Repositories\serilog", Name = "Serilog" },
+            //new Project{ Path = @"E:\Repositories\ServiceStack", Name = "ServiceStack" },
+            //new Project{ Path = @"E:\Repositories\ShareX", Name = "ShareX" },
+            //new Project{ Path = @"E:\Repositories\SignalR", Name = "SignalR" },
+            //new Project{ Path = @"E:\Repositories\Sonarr", Name = "Sonarr" },
+            //new Project{ Path = @"E:\Repositories\SparkleShare", Name = "SparkleShare" },
+            //new Project{ Path = @"E:\Repositories\SpecFlow", Name = "SpecFlow" },
+            //new Project{ Path = @"E:\Repositories\templating", Name = "Templating" },
+            //new Project{ Path = @"E:\Repositories\Umbraco-CMS", Name = "UmbracoCms" },
+            //new Project{ Path = @"E:\Repositories\UWPCommunityToolkit", Name = "UWPCommunityToolkit" },
+            //new Project{ Path = @"E:\Repositories\vs-mef", Name = "VsMef" },
+            //new Project{ Path = @"E:\Repositories\vsts-agent", Name = "VstsAgent" },
+            //new Project{ Path = @"E:\Repositories\VsVim", Name = "VsVim" },
+            //new Project{ Path = @"E:\Repositories\wcf", Name = "Wcf" },
+            //new Project{ Path = @"E:\Repositories\WealthEconomy", Name = "WealthEconomy" },
+            //new Project{ Path = @"E:\Repositories\Wox", Name = "Wox" },
+            //new Project{ Path = @"E:\Repositories\Wyam", Name = "Wyam" },
+            //new Project{ Path = @"E:\Repositories\Xamarin.Auth", Name = "XamarinAuth" },
+            //new Project{ Path = @"E:\Repositories\Xamarin.Mobile", Name = "XamarinMobile" },
+            //new Project{ Path = @"E:\Repositories\xunit", Name = "XUnit" },
         };
 
         /// <summary>
@@ -237,6 +241,10 @@ namespace Jawilliam.CDF.Labs
             DetectingNativeGumTreeDiff();
             #endregion
 
+            #region Diff GumTree[native] deltas
+            //ReportGumTreeAndLevenshtein();
+            #endregion
+
             //int i = 0; // the warning reports!!!
             System.Console.ReadKey();
         }
@@ -249,7 +257,7 @@ namespace Jawilliam.CDF.Labs
                 analyzer.Warnings = new StringBuilder();
                 var dbRepository = new GitRepository(project.Name) {Name = project.Name};
                 ((IObjectContextAdapter) dbRepository).ObjectContext.CommandTimeout = 180;
-                analyzer.AnalyzeIfThereAreSourceCodeChanges(dbRepository);
+                analyzer.AnalyzeIfThereAreSourceCodeChanges(dbRepository, null);
 
                 System.IO.File.WriteAllText($@"E:\Repositories\DetectingNonSourceChanges{project.Name}.txt",
                     analyzer.Warnings.ToString());
@@ -267,7 +275,7 @@ namespace Jawilliam.CDF.Labs
                 analyzer.Warnings = new StringBuilder();
                 var dbRepository = new GitRepository(project.Name) { Name = project.Name };
                 ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 180;
-                analyzer.SimetricDiff(dbRepository, "Levenshtein", levenshteinSimetric);
+                analyzer.SimetricDiff(dbRepository, "Levenshtein", levenshteinSimetric, null);
 
                 System.IO.File.WriteAllText($@"E:\Repositories\DetectingLevenshteinDiff{project.Name}.txt", analyzer.Warnings.ToString());
             }
@@ -285,9 +293,65 @@ namespace Jawilliam.CDF.Labs
                 analyzer.Warnings = new StringBuilder();
                 var dbRepository = new GitRepository(project.Name) { Name = project.Name };
                 ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 180;
-                analyzer.NativeGumTreeDiff(dbRepository,  gumTree, interopArgs);
+                analyzer.NativeGumTreeDiff(dbRepository,  gumTree, interopArgs, () => gumTree.Cancel());
 
                 System.IO.File.WriteAllText($@"E:\Repositories\NativeGumTreeDiff{project.Name}.txt", analyzer.Warnings.ToString());
+            }
+            Console.Out.WriteLine($"GumTree native collected!!!");
+        }
+
+        private static void ReportGumTreeAndLevenshtein()
+        {
+            var gtDistance = new EditDistance<ActionDescriptor>();
+            var report = new StringBuilder();
+
+            report.AppendLine("Project;RevisionPair;GumTree;Levenshtein-d;Levenshtein-s");
+            System.IO.File.AppendAllText($@"{Environment.CurrentDirectory}\GumTreeLevenshtein.csv", report.ToString());
+            report.Clear();
+
+            var numberFormatInfo = new NumberFormatInfo { CurrencyDecimalSeparator = "." };
+            foreach (var project in Projects)
+            {
+                //analyzer.Warnings = new StringBuilder();
+                var dbRepository = new GitRepository(project.Name) { Name = project.Name };
+                ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 180;
+
+                var fileModifiedChanges = from rp in dbRepository.RepositoryObjects.AsNoTracking().OfType<FileModifiedChange>()
+                    where rp.Deltas.Any(d => d.Approach == ChangeDetectionApproaches.Simetrics && d.Annotations != null) &&
+                          rp.Deltas.Any(d => d.Approach == ChangeDetectionApproaches.NativeGumTree && d.Report == null)
+                    select rp;
+                var revisionPairs = from rp in fileModifiedChanges
+                    select new
+                    {
+                        rp,
+                        Levenstein = rp.Deltas.Where(d => d.Approach == ChangeDetectionApproaches.Simetrics),
+                        NativeGumTree = rp.Deltas.Where(d => d.Approach == ChangeDetectionApproaches.NativeGumTree)
+                    };
+
+                int total = fileModifiedChanges.Count();
+                int counter = 0;
+                foreach (var rp in revisionPairs)
+                {
+                    //dbRepository.Deltas.Where(d => rp.Deltas.Contains(d) && (d.Approach == ChangeDetectionApproaches.NativeGumTree ||
+                    //                                                         d.Approach == ChangeDetectionApproaches.Simetrics))
+                    //    .Load();
+
+                    var lv = rp.Levenstein.Single(d => d.Approach == ChangeDetectionApproaches.Simetrics).XAnnotations.Simetrics.Single(d => d.Name == "Levenshtein");
+                    var gt = (DetectionResult)rp.NativeGumTree.Single(d => d.Approach == ChangeDetectionApproaches.NativeGumTree).DetectionResult;
+
+                   
+                    report.AppendLine($"{project.Name};" +
+                                      $"{rp.rp.Id.ToString("D")};" +
+                                      $"{gtDistance.Compute(gt.Actions)};" +
+                                      $"{lv.Distance.ToString(numberFormatInfo)};" +
+                                      $"{lv.Similarity.ToString(numberFormatInfo)}");
+                    Console.WriteLine($"Reported {++counter}-({total}) of {project.Name}");
+                }
+
+                System.IO.File.WriteAllText($@"{Environment.CurrentDirectory}\GumTreeLevenshtein{project.Name}.csv", "Project;RevisionPair;GumTree;Levenshtein-d;Levenshtein-s" + Environment.NewLine + report);
+                System.IO.File.AppendAllText($@"{Environment.CurrentDirectory}\GumTreeLevenshtein.csv", report.ToString());
+
+                report.Clear();
             }
             Console.Out.WriteLine($"GumTree native collected!!!");
         }
