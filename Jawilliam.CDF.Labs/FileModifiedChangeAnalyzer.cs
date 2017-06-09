@@ -7,9 +7,7 @@ using System.Threading;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using System.Linq.Expressions;
-using System.Text;
 using System.Xml.Linq;
-using Jawilliam.CDF.Approach;
 using Jawilliam.CDF.Approach.GumTree;
 using Jawilliam.CDF.Metrics.Similarity;
 

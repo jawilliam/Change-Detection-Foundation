@@ -253,6 +253,7 @@
       <DependentUpon>GitRepository.tt</DependentUpon>
     </Compile>
     <Compile Include="RepositoryObjectAnalyzer.cs" />
+    <Compile Include="RevisionPairReview.cs" />
     <Compile Include="SourceCodeMetric.cs" />
     <Compile Include="SyntaxTokenEqualityComparer.cs" />
     <Compile Include="XDeltaAnnotations.cs" />
