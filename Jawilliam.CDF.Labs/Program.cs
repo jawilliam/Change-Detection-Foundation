@@ -22,30 +22,29 @@ namespace Jawilliam.CDF.Labs
         public static IEnumerable<Project> Projects => new[]
         {
             //new Project(), 
-            new Project{ Path = @"E:\Repositories\AjaxControlToolkit", Name = "AjaxControlToolkit" },
-            new Project{ Path = @"E:\Repositories\akka.net", Name = "AkkaNET" },
-            new Project{ Path = @"E:\Repositories\albacore", Name = "Albacore" },
-            new Project{ Path = @"E:\Repositories\allReady", Name = "AllReady" },
-            new Project{ Path = @"E:\Repositories\ApplicationInsights-dotnet-server", Name = "ApplicationInsightsDotnetServer" },
-            new Project{ Path = @"E:\Repositories\aspnetwebstack", Name = "AspnetWebStack" },
-            new Project{ Path = @"E:\Repositories\AutoFixture", Name = "AutoFixture" },
-            new Project{ Path = @"E:\Repositories\AutoMapper", Name = "AutoMapper" },
-            new Project{ Path = @"E:\Repositories\Avalonia", Name = "Avalonia" },
-            new Project{ Path = @"E:\Repositories\azure-powershell", Name = "AzurePowershell" },
-            new Project{ Path = @"E:\Repositories\azure-sdk-for-net", Name = "AzureSdkForNet" },
-            new Project{ Path = @"E:\Repositories\azure-webjobs-sdk", Name = "AzureWebJobsSdk" },
-            new Project{ Path = @"E:\Repositories\BenchmarkDotNet", Name = "BenchmarkDotNet" },
-            new Project{ Path = @"E:\Repositories\BotBuilder", Name = "BotBuilder" },
-            new Project{ Path = @"E:\Repositories\Bridge", Name = "BridgeNET" },
-            new Project{ Path = @"E:\Repositories\buildtools", Name = "Buildtools" },
-            new Project{ Path = @"E:\Repositories\BusinessPlatformApps", Name = "BusinessPlatformApps" },
-            new Project{ Path = @"E:\Repositories\cake", Name = "Cake" },
-            new Project{ Path = @"E:\Repositories\cecil", Name = "Cecil" },
-            new Project{ Path = @"E:\Repositories\CefSharp", Name = "CefSharp" },
-            new Project{ Path = @"E:\Repositories\choco", Name = "Choco" },
-            new Project{ Path = @"E:\Repositories\cli", Name = "Cli" },
-            new Project{ Path = @"E:\Repositories\code-cracker", Name = "CodeCracker" },
-
+            //new Project{ Path = @"E:\Repositories\AjaxControlToolkit", Name = "AjaxControlToolkit" },
+            //new Project{ Path = @"E:\Repositories\akka.net", Name = "AkkaNET" },
+            //new Project{ Path = @"E:\Repositories\albacore", Name = "Albacore" },
+            //new Project{ Path = @"E:\Repositories\allReady", Name = "AllReady" },
+            //new Project{ Path = @"E:\Repositories\ApplicationInsights-dotnet-server", Name = "ApplicationInsightsDotnetServer" },
+            //new Project{ Path = @"E:\Repositories\aspnetwebstack", Name = "AspnetWebStack" },
+            //new Project{ Path = @"E:\Repositories\AutoFixture", Name = "AutoFixture" },
+            //new Project{ Path = @"E:\Repositories\AutoMapper", Name = "AutoMapper" },
+            //new Project{ Path = @"E:\Repositories\Avalonia", Name = "Avalonia" },
+            //new Project{ Path = @"E:\Repositories\azure-powershell", Name = "AzurePowershell" },
+            //new Project{ Path = @"E:\Repositories\azure-sdk-for-net", Name = "AzureSdkForNet" },
+            //new Project{ Path = @"E:\Repositories\azure-webjobs-sdk", Name = "AzureWebJobsSdk" },
+            //new Project{ Path = @"E:\Repositories\BenchmarkDotNet", Name = "BenchmarkDotNet" },
+            //new Project{ Path = @"E:\Repositories\BotBuilder", Name = "BotBuilder" },
+            //new Project{ Path = @"E:\Repositories\Bridge", Name = "BridgeNET" },
+            //new Project{ Path = @"E:\Repositories\buildtools", Name = "Buildtools" },
+            //new Project{ Path = @"E:\Repositories\BusinessPlatformApps", Name = "BusinessPlatformApps" },
+            //new Project{ Path = @"E:\Repositories\cake", Name = "Cake" },
+            //new Project{ Path = @"E:\Repositories\cecil", Name = "Cecil" },
+            //new Project{ Path = @"E:\Repositories\CefSharp", Name = "CefSharp" },
+            //new Project{ Path = @"E:\Repositories\choco", Name = "Choco" },
+            //new Project{ Path = @"E:\Repositories\cli", Name = "Cli" },
+            //new Project{ Path = @"E:\Repositories\code-cracker", Name = "CodeCracker" },
             //new Project{ Path = @"E:\Repositories\coreclr", Name = "CoreClr" },
             //new Project{ Path = @"E:\Repositories\corefx", Name = "CoreFx" },
             //new Project{ Path = @"E:\Repositories\corert", Name = "Corert" },
@@ -57,7 +56,7 @@ namespace Jawilliam.CDF.Labs
             //new Project{ Path = @"E:\Repositories\DotNetOpenAuth", Name = "DotNetOpenAuth" },
             //new Project{ Path = @"E:\Repositories\duality", Name = "Duality" },
             //new Project{ Path = @"E:\Repositories\elasticsearch-net", Name = "ElasticsearchNet" },
-            //new Project{ Path = @"E:\Repositories\Emby", Name = "Emby" },
+            new Project{ Path = @"E:\Repositories\Emby", Name = "Emby" },
             //new Project{ Path = @"E:\Repositories\EntityFramework", Name = "Ef7" },
             //new Project{ Path = @"E:\Repositories\FakeItEasy", Name = "FakeItEasy" },
             //new Project{ Path = @"E:\Repositories\FileHelpers", Name = "FileHelpers" },
@@ -238,11 +237,11 @@ namespace Jawilliam.CDF.Labs
             //#endregion
 
             #region Diff GumTree[native] deltas
-            DetectingNativeGumTreeDiff();
+            //DetectingNativeGumTreeDiff();
             #endregion
 
             #region Diff GumTree[native] deltas
-            //ReportGumTreeAndLevenshtein();
+            ReportGumTreeAndLevenshtein();
             #endregion
 
             //int i = 0; // the warning reports!!!
@@ -302,23 +301,23 @@ namespace Jawilliam.CDF.Labs
 
         private static void ReportGumTreeAndLevenshtein()
         {
-            var gtDistance = new EditDistance<ActionDescriptor>();
+            var editDistance = new EditDistance<ActionDescriptor>();
             var report = new StringBuilder();
 
-            report.AppendLine("Project;RevisionPair;GumTree;Levenshtein-d;Levenshtein-s");
-            System.IO.File.AppendAllText($@"{Environment.CurrentDirectory}\GumTreeLevenshtein.csv", report.ToString());
-            report.Clear();
+            var header = "Project;RevisionPair;Gt-d;Lv-d;Lv-s;RT(LvGt);RT(GtLv);Score(GtImprovedLv);iScore(Gt-Lv)";
+            //report.AppendLine(header);
+            //System.IO.File.AppendAllText($@"{Environment.CurrentDirectory}\GumTreeLevenshtein.csv", report.ToString());
+            //report.Clear();
 
             var numberFormatInfo = new NumberFormatInfo { CurrencyDecimalSeparator = "." };
             foreach (var project in Projects)
             {
-                //analyzer.Warnings = new StringBuilder();
                 var dbRepository = new GitRepository(project.Name) { Name = project.Name };
                 ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 180;
 
                 var fileModifiedChanges = from rp in dbRepository.RepositoryObjects.AsNoTracking().OfType<FileModifiedChange>()
                     where rp.Deltas.Any(d => d.Approach == ChangeDetectionApproaches.Simetrics && d.Annotations != null) &&
-                          rp.Deltas.Any(d => d.Approach == ChangeDetectionApproaches.NativeGumTree && d.Report == null)
+                          rp.Deltas.Any(d => d.Approach == ChangeDetectionApproaches.NativeGumTree && d.Report == null && d.Matching != null && d.Differencing != null)
                     select rp;
                 var revisionPairs = from rp in fileModifiedChanges
                     select new
@@ -328,27 +327,60 @@ namespace Jawilliam.CDF.Labs
                         NativeGumTree = rp.Deltas.Where(d => d.Approach == ChangeDetectionApproaches.NativeGumTree)
                     };
 
-                int total = fileModifiedChanges.Count();
                 int counter = 0;
+                var items = new Tuple<string,string, double, Tuple<double, double>, double, double, Tuple<int,int>>[fileModifiedChanges.Count()];
                 foreach (var rp in revisionPairs)
                 {
-                    //dbRepository.Deltas.Where(d => rp.Deltas.Contains(d) && (d.Approach == ChangeDetectionApproaches.NativeGumTree ||
-                    //                                                         d.Approach == ChangeDetectionApproaches.Simetrics))
-                    //    .Load();
-
                     var lv = rp.Levenstein.Single(d => d.Approach == ChangeDetectionApproaches.Simetrics).XAnnotations.Simetrics.Single(d => d.Name == "Levenshtein");
                     var gt = (DetectionResult)rp.NativeGumTree.Single(d => d.Approach == ChangeDetectionApproaches.NativeGumTree).DetectionResult;
+                    
+                    var gtDistance = editDistance.Compute(gt.Actions);
+                    items[counter] = new Tuple<string, string, double, Tuple<double, double>, double, double, Tuple<int, int>>(
+                        project.Name, // Item1
+                        rp.rp.Id.ToString("D"), // Item2 
+                        gtDistance,  // Item3
+                        new Tuple<double, double>(lv.Distance, Math.Round(lv.Similarity, 4)), // Item4
+                        Math.Round(lv.Distance / gtDistance, 4), // Item5
+                        Math.Round(gtDistance / lv.Distance, 4), // Item6
+                        new Tuple<int, int>(0,0) // Item7
+                    );
 
-                   
-                    report.AppendLine($"{project.Name};" +
-                                      $"{rp.rp.Id.ToString("D")};" +
-                                      $"{gtDistance.Compute(gt.Actions)};" +
-                                      $"{lv.Distance.ToString(numberFormatInfo)};" +
-                                      $"{lv.Similarity.ToString(numberFormatInfo)}");
-                    Console.WriteLine($"Reported {++counter}-({total}) of {project.Name}");
+                    Console.WriteLine($"Collecting {++counter}-({items.Length}) of {project.Name}");
                 }
 
-                System.IO.File.WriteAllText($@"{Environment.CurrentDirectory}\GumTreeLevenshtein{project.Name}.csv", "Project;RevisionPair;GumTree;Levenshtein-d;Levenshtein-s" + Environment.NewLine + report);
+                // Computing GumTree and Levenshtein indexes.
+                Console.WriteLine($"Computing indexes of {project.Name}");
+                var gtOrdering = items.OrderBy(i => i.Item3).ToList();
+                var lvOrdering = items.OrderBy(i => i.Item4.Item1).ToList();
+                for (int i = 0; i < items.Length; i++)
+                {
+                    items[i] = new Tuple<string, string, double, Tuple<double, double>, double, double, Tuple<int, int>>
+                        (
+                            items[i].Item1,
+                            items[i].Item2,
+                            items[i].Item3,
+                            items[i].Item4,
+                            items[i].Item5,
+                            items[i].Item6,
+                            new Tuple<int, int>(gtOrdering.IndexOf(items[i]) + 1, lvOrdering.IndexOf(items[i]) + 1)
+                        );
+                }
+
+                Console.WriteLine($"Generating the report of {project.Name}");
+                foreach (var item in items)
+                {
+                    report.AppendLine($"{item.Item1};" +
+                                      $"{item.Item2};" +
+                                      $"{item.Item3};" +
+                                      $"{item.Item4.Item1.ToString(numberFormatInfo)};" +
+                                      $"{item.Item4.Item2.ToString(numberFormatInfo)};" +
+                                      $"{item.Item5.ToString(numberFormatInfo)};" +
+                                      $"{item.Item6.ToString(numberFormatInfo)};" +
+                                      $"{(item.Item3 < item.Item4.Item1 ? 1 : 0) - (item.Item3 > item.Item4.Item1 ? 1 : 0)};" +
+                                      $"{Math.Abs(item.Item7.Item1 - item.Item7.Item2)}");
+                }
+
+                System.IO.File.WriteAllText($@"{Environment.CurrentDirectory}\GumTreeLevenshtein{project.Name}.csv", header + Environment.NewLine + report);
                 System.IO.File.AppendAllText($@"{Environment.CurrentDirectory}\GumTreeLevenshtein.csv", report.ToString());
 
                 report.Clear();
