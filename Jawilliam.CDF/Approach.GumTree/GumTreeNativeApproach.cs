@@ -68,7 +68,7 @@ namespace Jawilliam.CDF.Approach.GumTree
             throw new OperationCanceledException();
         }
 
-        private string ExecuteCommand(InteropArgs args, string header, string command, string sPrefix)
+        public string ExecuteCommand(InteropArgs args, string header, string command, string sPrefix)
         {
             string result;
             using (_process = new Process())
