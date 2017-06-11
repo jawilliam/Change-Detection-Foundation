@@ -99,6 +99,46 @@ namespace Jawilliam.CDF.Labs
         }
 
         /// <summary>
+        /// Analyzes if there actually are only comment changes between the file modified pairs of the given repository.
+        /// </summary>
+        /// <param name="sqlRepository">the SQL database repository in which to analyze the file versions.</param>
+        /// <param name="cancel">Action to execute cancellation logic.</param>
+        public virtual void AnalyzeIfThereAreOnlyCommentChanges(GitRepository sqlRepository, Action cancel)
+        {
+            this.Analyze(sqlRepository, "file modified change",
+                f => f.FromFileVersion.ContentSummary.TotalLines != null && f.FileVersion.ContentSummary.TotalLines != null,
+                delegate (FileModifiedChange repositoryObject, CancellationToken cancelToken)
+                {
+                    if (repositoryObject.FromFileVersion.Content.SourceCode == null ||
+                        repositoryObject.FileVersion.Content.SourceCode == null)
+                        return;
+
+                    SourceCodeCleaner cleaner = new SourceCodeCleaner
+                    {
+                        Normalize = true,
+                        Indentation = "",
+                        NewLine = Environment.NewLine,
+                        RemoveComments = true
+                    };
+
+                    var xAnnotations = repositoryObject.XAnnotations;
+                    if (!xAnnotations.SourceCodeChanges)
+                        return;
+
+                    var originalRoot = SyntaxFactory.ParseCompilationUnit(repositoryObject.FromFileVersion.Content.SourceCode).SyntaxTree.GetRoot();
+                    var originalContentNode = cleaner.Clean(originalRoot);
+
+                    var modifiedRoot = SyntaxFactory.ParseCompilationUnit(repositoryObject.FileVersion.Content.SourceCode).SyntaxTree.GetRoot();
+                    var modifiedContentNode = cleaner.Clean(modifiedRoot);
+                    
+                    xAnnotations.OnlyCommentChanges = originalContentNode.ToFullString() == modifiedContentNode.ToFullString();
+                    repositoryObject.XAnnotations = xAnnotations;
+                },
+            cancel,
+            "FileVersion.Content", "FileVersion.ContentSummary", "FromFileVersion.ContentSummary", "FromFileVersion.Content");
+        }
+
+        /// <summary>
         /// Analyzes the similarity in according with a given similarity metric, such as Levenshtein.
         /// </summary>
         /// <param name="sqlRepository">the SQL database repository in which to analyze the file versions.</param>

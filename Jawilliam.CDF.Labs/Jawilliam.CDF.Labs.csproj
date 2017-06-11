@@ -255,6 +255,7 @@
     <Compile Include="RepositoryObjectAnalyzer.cs" />
     <Compile Include="RevisionPairReview.cs" />
     <Compile Include="SourceCodeMetric.cs" />
+    <Compile Include="SourceCodeCleaner.cs" />
     <Compile Include="SyntaxTokenEqualityComparer.cs" />
     <Compile Include="XDeltaAnnotations.cs" />
     <Compile Include="XFileContentSummaryAnnotations.cs" />

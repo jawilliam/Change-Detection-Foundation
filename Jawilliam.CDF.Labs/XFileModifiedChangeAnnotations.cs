@@ -18,6 +18,12 @@ namespace Jawilliam.CDF.Labs
         public virtual bool SourceCodeChanges { get; set; }
 
         /// <summary>
+        /// Gets or sets whether or not the related content registers only comment changes.
+        /// </summary>
+        [XmlAttribute("onlyCommentChanges")]
+        public virtual bool OnlyCommentChanges { get; set; }
+
+        /// <summary>
         /// Gets or sets all the review notes.
         /// </summary>
         [XmlArray("Reviews")]
