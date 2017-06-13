@@ -196,7 +196,8 @@ namespace Jawilliam.CDF.Labs
         /// <param name="interopArgs">the arguments for the interoperability.</param>
         /// <param name="gumTree">the native approach based on the GumTree interoperability.</param>
         /// <param name="cancel">Action to execute cancellation logic.</param>
-        public virtual void NativeGumTreeDiff(GitRepository sqlRepository, GumTreeNativeApproach gumTree, InteropArgs interopArgs, Action cancel)
+        /// <param name="cleaner">A preprocessor for the source code in case it is desired.</param>
+        public virtual void NativeGumTreeDiff(GitRepository sqlRepository, GumTreeNativeApproach gumTree, InteropArgs interopArgs, Action cancel, SourceCodeCleaner cleaner = null)
         {
             this.Analyze(sqlRepository,
             f => f.Deltas.Any(d => d.Approach == ChangeDetectionApproaches.Simetrics) && 
@@ -217,8 +218,10 @@ namespace Jawilliam.CDF.Labs
                     repositoryObject.Deltas.Add(delta);
                 }
 
-                System.IO.File.WriteAllText(interopArgs.Original, original.ToFullString());
-                System.IO.File.WriteAllText(interopArgs.Modified, modified.ToFullString());
+                var preprocessedOriginal = cleaner != null ? cleaner.Clean(original) : original;
+                var preprocessedModified = cleaner != null ? cleaner.Clean(modified) : modified;
+                System.IO.File.WriteAllText(interopArgs.Original, preprocessedOriginal.ToFullString());
+                System.IO.File.WriteAllText(interopArgs.Modified, preprocessedModified.ToFullString());
 
                 try
                 {
