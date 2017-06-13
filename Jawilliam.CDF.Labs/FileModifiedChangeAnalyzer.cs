@@ -196,25 +196,27 @@ namespace Jawilliam.CDF.Labs
         /// <param name="interopArgs">the arguments for the interoperability.</param>
         /// <param name="gumTree">the native approach based on the GumTree interoperability.</param>
         /// <param name="cancel">Action to execute cancellation logic.</param>
+        /// <param name="gumTreeApproach"></param>
+        /// <param name="skipThese">local criterion for determining elements that should be ignored.</param>
         /// <param name="cleaner">A preprocessor for the source code in case it is desired.</param>
-        public virtual void NativeGumTreeDiff(GitRepository sqlRepository, GumTreeNativeApproach gumTree, InteropArgs interopArgs, Action cancel, SourceCodeCleaner cleaner = null)
+        public virtual void NativeGumTreeDiff(GitRepository sqlRepository, GumTreeNativeApproach gumTree, InteropArgs interopArgs, Action cancel, ChangeDetectionApproaches gumTreeApproach, Func<FileModifiedChange, bool> skipThese, SourceCodeCleaner cleaner = null)
         {
             this.Analyze(sqlRepository,
             f => f.Deltas.Any(d => d.Approach == ChangeDetectionApproaches.Simetrics) && 
-                 f.Deltas.All(d => d.Approach != ChangeDetectionApproaches.NativeGumTree), // I am running Levenshtein before, so the longer cases have been already rejected.
+                 f.Deltas.All(d => d.Approach != gumTreeApproach), // I am running Levenshtein before, so the longer cases have been already rejected.
             delegate (FileModifiedChange repositoryObject, SyntaxNode original, SyntaxNode modified, CancellationToken token)
             {
-                if (!repositoryObject.XAnnotations.SourceCodeChanges)
+                if (!repositoryObject.XAnnotations.SourceCodeChanges || (skipThese?.Invoke(repositoryObject) ?? false))
                     return;
 
                 sqlRepository.Deltas.Where(d => sqlRepository.RepositoryObjects.OfType<FileModifiedChange>()
-                    .Any(f => f.Id == repositoryObject.Id && f.Deltas.Any(fd => fd.Approach == ChangeDetectionApproaches.NativeGumTree)))
+                    .Any(f => f.Id == repositoryObject.Id && f.Deltas.Any(fd => fd.Approach == gumTreeApproach)))
                     .Load();
 
-                var delta = repositoryObject.Deltas.SingleOrDefault(d => d.Approach == ChangeDetectionApproaches.NativeGumTree);
+                var delta = repositoryObject.Deltas.SingleOrDefault(d => d.Approach == gumTreeApproach);
                 if (delta == null)
                 {
-                    delta = new Delta { Id = Guid.NewGuid(), Approach = ChangeDetectionApproaches.NativeGumTree };
+                    delta = new Delta { Id = Guid.NewGuid(), Approach = gumTreeApproach };
                     repositoryObject.Deltas.Add(delta);
                 }
 

@@ -850,6 +850,7 @@
           <Member Name="Manually" Value="0" />
           <Member Name="Simetrics" Value="1" />
           <Member Name="NativeGumTree" Value="2" />
+          <Member Name="NativeGumTreeWithoutComments" Value="3" />
         </EnumType>
         <EnumType Name="CodeCategory" UnderlyingType="Byte" IsFlags="true">
           <Member Name="MaintainedProduction" Value="1" />

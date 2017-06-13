@@ -240,12 +240,14 @@ namespace Jawilliam.CDF.Labs
             //#endregion
 
             #region Diff GumTree[native] deltas
-            //DetectingNativeGumTreeDiff();
-            DetectingNativeGumTreeDiff(new SourceCodeCleaner
-            {
-                Normalize = false,
-                RemoveComments = true
-            });
+            //DetectingNativeGumTreeDiff(ChangeDetectionApproaches.NativeGumTree);
+            DetectingNativeGumTreeDiff(ChangeDetectionApproaches.NativeGumTreeWithoutComments, 
+                change => change.XAnnotations.OnlyCommentChanges, 
+                new SourceCodeCleaner
+                {
+                    Normalize = false,
+                    RemoveComments = true
+                });
             #endregion
 
             #region GumTree-Levenshtein Diff GumTree[native] deltas
@@ -320,8 +322,10 @@ namespace Jawilliam.CDF.Labs
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="gumTreeApproach"></param>
+        /// <param name="skipThese"></param>
         /// <param name="cleaner">A preprocessor for the source code in case it is desired.</param>
-        private static void DetectingNativeGumTreeDiff(SourceCodeCleaner cleaner = null)
+        private static void DetectingNativeGumTreeDiff(ChangeDetectionApproaches gumTreeApproach, Func<FileModifiedChange, bool> skipThese = null, SourceCodeCleaner cleaner = null)
         {
             var analyzer = new FileModifiedChangeAnalyzer { MillisecondsTimeout = 600000 };
             var gumTree = new GumTreeNativeApproach();
@@ -332,7 +336,7 @@ namespace Jawilliam.CDF.Labs
                 analyzer.Warnings = new StringBuilder();
                 var dbRepository = new GitRepository(project.Name) { Name = project.Name };
                 ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 180;
-                analyzer.NativeGumTreeDiff(dbRepository,  gumTree, interopArgs, () => gumTree.Cancel(), cleaner);
+                analyzer.NativeGumTreeDiff(dbRepository,  gumTree, interopArgs, () => gumTree.Cancel(), gumTreeApproach, skipThese, cleaner);
 
                 System.IO.File.WriteAllText($@"E:\Repositories\NativeGumTreeDiff{project.Name}.txt", analyzer.Warnings.ToString());
             }

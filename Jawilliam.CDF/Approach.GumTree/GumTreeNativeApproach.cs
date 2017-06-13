@@ -34,14 +34,14 @@ namespace Jawilliam.CDF.Approach.GumTree
             throw new OperationCanceledException();
 #endif
 
-            string header = $"Microsoft Windows [Versión 10.0.10586]\r\n(c) 2015 Microsoft Corporation. Todos los derechos reservados.\r\n\r\n{Environment.CurrentDirectory}>E:\r\n\r\n{Environment.CurrentDirectory}>cd E:\\SourceCode\\gumtree-20170525-2.1.0-SNAPSHOT\\bin\r\n\r\nE:\\SourceCode\\gumtree-20170525-2.1.0-SNAPSHOT\\bin>set PATH=%PATH%;C:\\Program Files (x86)\\srcML 0.9.5\\bin\r\n\r\nE:\\SourceCode\\gumtree-20170525-2.1.0-SNAPSHOT\\bin>gumtree.bat axmldiff E:\\SourceCode\\OriginalAbstractBoardGame.cs E:\\SourceCode\\ModifiedAbstractBoardGame.cs\r\n";
+            string header = $"Microsoft Windows [Versión 10.0.10586]\r\n(c) 2015 Microsoft Corporation. Todos los derechos reservados.\r\n\r\n{Environment.CurrentDirectory}>E:\r\n\r\n{Environment.CurrentDirectory}>cd {args.GumTreePath}\\bin\r\n\r\n{args.GumTreePath}\\bin>set PATH=%PATH%;C:\\Program Files (x86)\\srcML 0.9.5\\bin\r\n\r\n{args.GumTreePath}\\bin>gumtree.bat axmldiff {args.Original} {args.Modified}\r\n";
             string output = ExecuteCommand(args, header, $"gumtree.bat axmldiff {args.Original} {args.Modified}", "\n");
 
             if (!string.IsNullOrEmpty(output))
             {
                 XDocument axmlDiff = XDocument.Parse(output);
 
-                header = $"Microsoft Windows [Versión 10.0.10586]\r\n(c) 2015 Microsoft Corporation. Todos los derechos reservados.\r\n\r\n{Environment.CurrentDirectory}>E:\r\n\r\n{Environment.CurrentDirectory}>cd E:\\SourceCode\\gumtree-20170525-2.1.0-SNAPSHOT\\bin\r\n\r\nE:\\SourceCode\\gumtree-20170525-2.1.0-SNAPSHOT\\bin>set PATH=%PATH%;C:\\Program Files (x86)\\srcML 0.9.5\\bin\r\n\r\nE:\\SourceCode\\gumtree-20170525-2.1.0-SNAPSHOT\\bin>gumtree.bat jsondiff E:\\SourceCode\\OriginalAbstractBoardGame.cs E:\\SourceCode\\ModifiedAbstractBoardGame.cs\r\n";
+                header = $"Microsoft Windows [Versión 10.0.10586]\r\n(c) 2015 Microsoft Corporation. Todos los derechos reservados.\r\n\r\n{Environment.CurrentDirectory}>E:\r\n\r\n{Environment.CurrentDirectory}>cd {args.GumTreePath}\\bin\r\n\r\n{args.GumTreePath}\\bin>set PATH=%PATH%;C:\\Program Files (x86)\\srcML 0.9.5\\bin\r\n\r\n{args.GumTreePath}\\bin>gumtree.bat jsondiff {args.Original} {args.Modified}\r\n";
                 output = ExecuteCommand(args, header, $"gumtree.bat jsondiff {args.Original} {args.Modified}", "");
                 XDocument xjsonDiff;
                 using (var jsonReader = JsonReaderWriterFactory.CreateJsonReader(Encoding.UTF8.GetBytes(output), XmlDictionaryReaderQuotas.Max))
@@ -63,7 +63,9 @@ namespace Jawilliam.CDF.Approach.GumTree
 
         public virtual void Cancel()
         {
-            this.Result.Error = "Omitted element > 10 min";
+            if(this.Result != null)
+                this.Result.Error = "Omitted element > 10 min";
+
             this._process?.Close();
             throw new OperationCanceledException();
         }
@@ -92,8 +94,8 @@ namespace Jawilliam.CDF.Approach.GumTree
                 // Get the output into a string
                 //proc.WaitForExit();
                 result = proc.StandardOutput.ReadToEnd().Replace(header, "");
-                result = result.Replace($"{sPrefix}E:\\SourceCode\\gumtree-20170525-2.1.0-SNAPSHOT\\bin>", "")
-                               .Replace($"E:\\SourceCode\\gumtree-20170525-2.1.0-SNAPSHOT\\bin>", "");
+                result = result.Replace($@"{sPrefix}{args.GumTreePath}\bin>", "")
+                               .Replace($@"{args.GumTreePath}\bin>", "");
                 _process.Close();
             }
 
