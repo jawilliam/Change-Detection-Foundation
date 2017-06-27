@@ -5,6 +5,7 @@ using System.Data.Entity.Infrastructure;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using Jawilliam.CDF.Actions;
@@ -13,6 +14,7 @@ using Jawilliam.CDF.Approach.GumTree;
 using Jawilliam.CDF.Metrics.Quality;
 using Jawilliam.CDF.Metrics.Similarity;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 
 namespace Jawilliam.CDF.Labs
 {
@@ -26,13 +28,15 @@ namespace Jawilliam.CDF.Labs
             //new Project(),
             new Project{ Path = @"E:\Repositories\AjaxControlToolkit", Name = "AjaxControlToolkit" },
             new Project{ Path = @"E:\Repositories\akka.net", Name = "AkkaNET" },
-            new Project{ Path = @"E:\Repositories\albacore", Name = "Albacore" },
-            new Project{ Path = @"E:\Repositories\allReady", Name = "AllReady" },
-            new Project{ Path = @"E:\Repositories\ApplicationInsights-dotnet-server", Name = "ApplicationInsightsDotnetServer" },
-            new Project{ Path = @"E:\Repositories\aspnetwebstack", Name = "AspnetWebStack" },
-            new Project{ Path = @"E:\Repositories\AutoFixture", Name = "AutoFixture" },
-            new Project{ Path = @"E:\Repositories\AutoMapper", Name = "AutoMapper" },
-            new Project{ Path = @"E:\Repositories\Avalonia", Name = "Avalonia" },
+            //new Project{ Path = @"E:\Repositories\albacore", Name = "Albacore" },
+            //new Project{ Path = @"E:\Repositories\allReady", Name = "AllReady" },
+            //new Project{ Path = @"E:\Repositories\ApplicationInsights-dotnet-server", Name = "ApplicationInsightsDotnetServer" },
+            //new Project{ Path = @"E:\Repositories\aspnetwebstack", Name = "AspnetWebStack" },
+            //new Project{ Path = @"E:\Repositories\AutoFixture", Name = "AutoFixture" },
+            //new Project{ Path = @"E:\Repositories\AutoMapper", Name = "AutoMapper" },
+            //new Project{ Path = @"E:\Repositories\Avalonia", Name = "Avalonia" },
+
+
             new Project{ Path = @"E:\Repositories\azure-powershell", Name = "AzurePowershell" },
             new Project{ Path = @"E:\Repositories\azure-sdk-for-net", Name = "AzureSdkForNet" },
             new Project{ Path = @"E:\Repositories\azure-webjobs-sdk", Name = "AzureWebJobsSdk" },
@@ -82,7 +86,7 @@ namespace Jawilliam.CDF.Labs
             new Project{ Path = @"E:\Repositories\mobile-center-sdk-dotnet", Name = "MobileCenterSdkDotnet" },
             new Project{ Path = @"E:\Repositories\MoneyFox", Name = "MoneyFox" },
 
-            //new Project{ Path = @"E:\Repositories\mono", Name = "mono" },
+            new Project{ Path = @"E:\Repositories\mono", Name = "mono" },
 
             new Project{ Path = @"E:\Repositories\MonoGame", Name = "MonoGame" },
             new Project{ Path = @"E:\Repositories\msbuild", Name = "Msbuild" },
@@ -99,43 +103,43 @@ namespace Jawilliam.CDF.Labs
             new Project{ Path = @"E:\Repositories\OpenRA", Name = "OpenRA" },
             new Project{ Path = @"E:\Repositories\Open-XML-SDK", Name = "OpenXmlSdk" },
 
-            //new Project{ Path = @"E:\Repositories\OptiKey", Name = "OptiKey" },
-            //new Project{ Path = @"E:\Repositories\Orchard", Name = "Orchard" },
-            //new Project{ Path = @"E:\Repositories\orleans", Name = "Orleans" },
-            //new Project{ Path = @"E:\Repositories\pickles", Name = "Pickles" },
-            //new Project{ Path = @"E:\Repositories\PnP-PowerShell", Name = "PnPPowerShell" },
-            //new Project{ Path = @"E:\Repositories\Polly", Name = "Polly" },
-            //new Project{ Path = @"E:\Repositories\PowerShell", Name = "PowerShell" },
-            //new Project{ Path = @"E:\Repositories\Prism", Name = "Prism" },
-            //new Project{ Path = @"E:\Repositories\Protobuild", Name = "Protobuild" },
-            //new Project{ Path = @"E:\Repositories\PTVS", Name = "PTVS" },
-            //new Project{ Path = @"E:\Repositories\QuickGraph", Name = "QuickGraph" },
-            //new Project{ Path = @"E:\Repositories\Rebus", Name = "Rebus" },
-            //new Project{ Path = @"E:\Repositories\roslyn", Name = "Roslyn" },
-            //new Project{ Path = @"E:\Repositories\RTVS", Name = "RTVS" },
-            //new Project{ Path = @"E:\Repositories\Rubberduck", Name = "Rubberduck" },
-            //new Project{ Path = @"E:\Repositories\Rx.NET", Name = "RxNET" },
-            //new Project{ Path = @"E:\Repositories\sdk", Name = "Sdk" },
-            //new Project{ Path = @"E:\Repositories\serilog", Name = "Serilog" },
-            //new Project{ Path = @"E:\Repositories\ServiceStack", Name = "ServiceStack" },
-            //new Project{ Path = @"E:\Repositories\ShareX", Name = "ShareX" },
-            //new Project{ Path = @"E:\Repositories\SignalR", Name = "SignalR" },
-            //new Project{ Path = @"E:\Repositories\Sonarr", Name = "Sonarr" },
-            //new Project{ Path = @"E:\Repositories\SparkleShare", Name = "SparkleShare" },
-            //new Project{ Path = @"E:\Repositories\SpecFlow", Name = "SpecFlow" },
-            //new Project{ Path = @"E:\Repositories\templating", Name = "Templating" },
-            //new Project{ Path = @"E:\Repositories\Umbraco-CMS", Name = "UmbracoCms" },
-            //new Project{ Path = @"E:\Repositories\UWPCommunityToolkit", Name = "UWPCommunityToolkit" },
-            //new Project{ Path = @"E:\Repositories\vs-mef", Name = "VsMef" },
-            //new Project{ Path = @"E:\Repositories\vsts-agent", Name = "VstsAgent" },
-            //new Project{ Path = @"E:\Repositories\VsVim", Name = "VsVim" },
-            //new Project{ Path = @"E:\Repositories\wcf", Name = "Wcf" },
-            //new Project{ Path = @"E:\Repositories\WealthEconomy", Name = "WealthEconomy" },
-            //new Project{ Path = @"E:\Repositories\Wox", Name = "Wox" },
-            //new Project{ Path = @"E:\Repositories\Wyam", Name = "Wyam" },
-            //new Project{ Path = @"E:\Repositories\Xamarin.Auth", Name = "XamarinAuth" },
-            //new Project{ Path = @"E:\Repositories\Xamarin.Mobile", Name = "XamarinMobile" },
-            //new Project{ Path = @"E:\Repositories\xunit", Name = "XUnit" },
+            new Project{ Path = @"E:\Repositories\OptiKey", Name = "OptiKey" },
+            new Project{ Path = @"E:\Repositories\Orchard", Name = "Orchard" },
+            new Project{ Path = @"E:\Repositories\orleans", Name = "Orleans" },
+            new Project{ Path = @"E:\Repositories\pickles", Name = "Pickles" },
+            new Project{ Path = @"E:\Repositories\PnP-PowerShell", Name = "PnPPowerShell" },
+            new Project{ Path = @"E:\Repositories\Polly", Name = "Polly" },
+            new Project{ Path = @"E:\Repositories\PowerShell", Name = "PowerShell" },
+            new Project{ Path = @"E:\Repositories\Prism", Name = "Prism" },
+            new Project{ Path = @"E:\Repositories\Protobuild", Name = "Protobuild" },
+            new Project{ Path = @"E:\Repositories\PTVS", Name = "PTVS" },
+            new Project{ Path = @"E:\Repositories\QuickGraph", Name = "QuickGraph" },
+            new Project{ Path = @"E:\Repositories\Rebus", Name = "Rebus" },
+            new Project{ Path = @"E:\Repositories\roslyn", Name = "Roslyn" },
+            new Project{ Path = @"E:\Repositories\RTVS", Name = "RTVS" },
+            new Project{ Path = @"E:\Repositories\Rubberduck", Name = "Rubberduck" },
+            new Project{ Path = @"E:\Repositories\Rx.NET", Name = "RxNET" },
+            new Project{ Path = @"E:\Repositories\sdk", Name = "Sdk" },
+            new Project{ Path = @"E:\Repositories\serilog", Name = "Serilog" },
+            new Project{ Path = @"E:\Repositories\ServiceStack", Name = "ServiceStack" },
+            new Project{ Path = @"E:\Repositories\ShareX", Name = "ShareX" },
+            new Project{ Path = @"E:\Repositories\SignalR", Name = "SignalR" },
+            new Project{ Path = @"E:\Repositories\Sonarr", Name = "Sonarr" },
+            new Project{ Path = @"E:\Repositories\SparkleShare", Name = "SparkleShare" },
+            new Project{ Path = @"E:\Repositories\SpecFlow", Name = "SpecFlow" },
+            new Project{ Path = @"E:\Repositories\templating", Name = "Templating" },
+            new Project{ Path = @"E:\Repositories\Umbraco-CMS", Name = "UmbracoCms" },
+            new Project{ Path = @"E:\Repositories\UWPCommunityToolkit", Name = "UWPCommunityToolkit" },
+            new Project{ Path = @"E:\Repositories\vs-mef", Name = "VsMef" },
+            new Project{ Path = @"E:\Repositories\vsts-agent", Name = "VstsAgent" },
+            new Project{ Path = @"E:\Repositories\VsVim", Name = "VsVim" },
+            new Project{ Path = @"E:\Repositories\wcf", Name = "Wcf" },
+            new Project{ Path = @"E:\Repositories\WealthEconomy", Name = "WealthEconomy" },
+            new Project{ Path = @"E:\Repositories\Wox", Name = "Wox" },
+            new Project{ Path = @"E:\Repositories\Wyam", Name = "Wyam" },
+            new Project{ Path = @"E:\Repositories\Xamarin.Auth", Name = "XamarinAuth" },
+            new Project{ Path = @"E:\Repositories\Xamarin.Mobile", Name = "XamarinMobile" },
+            new Project{ Path = @"E:\Repositories\xunit", Name = "XUnit" },
         };
 
         /// <summary>
@@ -235,31 +239,61 @@ namespace Jawilliam.CDF.Labs
             //DetectingNotRealSourceCodeChanges();
             #endregion
 
-            //#region Diff characterization in according to Levenshtein
-            //DetectingLevenshteinDiff();
-            //#endregion
+            #region Diff characterization in according to Levenshtein
+            //DetectingLevenshteinDiff("Levenshtein", (f => f.FromFileVersion.ContentSummary.TotalLines != null && f.FileVersion.ContentSummary.TotalLines != null && f.Deltas.All(d => d.Approach != ChangeDetectionApproaches.Simetrics)));
+            //DetectingLevenshteinDiff("LevenshteinWithoutComments",
+            //    f => f.Deltas.Any(d => d.Approach == ChangeDetectionApproaches.Simetrics),
+            //    delegate (FileModifiedChange change)
+            //    {
+            //        var ann = change.XAnnotations;
+            //        return !ann.SourceCodeChanges || change.XAnnotations.OnlyCommentChanges;
+            //    },
+            //    new SourceCodeCleaner
+            //    {
+            //        Normalize = false,
+            //        RemoveComments = true
+            //    });
+            #endregion
 
             #region Diff GumTree[native] deltas
             //DetectingNativeGumTreeDiff(ChangeDetectionApproaches.NativeGumTree);
-            DetectingNativeGumTreeDiff(ChangeDetectionApproaches.NativeGumTreeWithoutComments, 
-                change => change.XAnnotations.OnlyCommentChanges, 
-                new SourceCodeCleaner
-                {
-                    Normalize = false,
-                    RemoveComments = true
-                });
+            //DetectingNativeGumTreeDiff(ChangeDetectionApproaches.NativeGumTreeWithoutComments,
+            //    change => change.XAnnotations.OnlyCommentChanges,
+            //    new SourceCodeCleaner
+            //    {
+            //        Normalize = false,
+            //        RemoveComments = true
+            //    });
             #endregion
 
             #region GumTree-Levenshtein Diff GumTree[native] deltas
-            //ReportGumTreeAndLevenshtein(delegate(FileModifiedChange change)
+            //// Reporting GumTree vs. Levenshtein (rejecting the files over which the changes involve comments)
+            //ReportGumTreeAndLevenshtein(delegate (FileModifiedChange change)
             //{
             //    var ann = change.XAnnotations;
             //    return ann.SourceCodeChanges && !ann.OnlyCommentChanges;
-            //}, "RejectOnlyCommentChanges");
+            //}, "RejectOnlyCommentChanges", ChangeDetectionApproaches.NativeGumTree, "Levenshtein");
+
+            // Reporting GumTree vs. Levenshtein (ignring the comment changes)
+            //ReportGumTreeAndLevenshtein(delegate (FileModifiedChange change)
+            //{
+            //    var ann = change.XAnnotations;
+            //    return ann.SourceCodeChanges && !ann.OnlyCommentChanges;
+            //}, "IgnoringCommentChanges", ChangeDetectionApproaches.NativeGumTreeWithoutComments, "LevenshteinWithoutComments");
             #endregion
 
-            #region Diff GumTree[native] deltas
-            //ReviewRevisionPairs(@"E:\Phd\Analysis\AjaxControlToolkitOutliersRejectOnlyCommentChanges.csv", @"E:\Phd\Analysis\Original.cs", @"E:\Phd\Analysis\Modified.cs");
+            #region Reviwing revision pairs
+            //ReviewRevisionPairs(@"E:\Phd\Analysis\AjaxControlToolkitOutliersIgnoringCommentChanges.csv", @"E:\Phd\Analysis\Original.cs", @"E:\Phd\Analysis\Modified.cs", "Ratio-LevenshteinGumTree-RejectOnlyCommentChangesOutliers");
+            ReviewRevisionPairs(@"E:\Phd\Analysis\AjaxControlToolkit"+
+/*AkkaNET*/"OutliersIgnoringCommentChanges.csv",
+                @"E:\Phd\Analysis\Original.cs", @"E:\Phd\Analysis\Modified.cs",
+                "Ratio-LevenshteinGumTree-IgnoringCommentChangesLocalOutliers"/*,
+                new SourceCodeCleaner
+                {
+                    Normalize = true,
+                    Indentation = "   ",
+                    RemoveComments = true
+                }*/);
             #endregion
 
             #region Detecting not real source code changes
@@ -302,7 +336,7 @@ namespace Jawilliam.CDF.Labs
             Console.Out.WriteLine($"Report collected!!!");
         }
 
-        private static void DetectingLevenshteinDiff()
+        private static void DetectingLevenshteinDiff(string simetricName, Expression<Func<FileModifiedChange, bool>> onThese, Func<FileModifiedChange, bool> skipThese = null, SourceCodeCleaner cleaner = null)
         {
             var analyzer = new FileModifiedChangeAnalyzer { MillisecondsTimeout = 600000 };
             var levenshteinSimetric = new LevenshteinSimetric<SyntaxToken> { Comparer = new SyntaxTokenEqualityComparer() };
@@ -312,9 +346,9 @@ namespace Jawilliam.CDF.Labs
                 analyzer.Warnings = new StringBuilder();
                 var dbRepository = new GitRepository(project.Name) { Name = project.Name };
                 ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 180;
-                analyzer.SimetricDiff(dbRepository, "Levenshtein", levenshteinSimetric, null);
+                analyzer.SimetricDiff(dbRepository, simetricName, levenshteinSimetric, null, skipThese, onThese, cleaner);
 
-                System.IO.File.WriteAllText($@"E:\Repositories\DetectingLevenshteinDiff{project.Name}.txt", analyzer.Warnings.ToString());
+                //System.IO.File.WriteAllText($@"E:\Repositories\DetectingLevenshteinWithoutCommentsDiff{project.Name}.txt", analyzer.Warnings.ToString());
             }
             Console.Out.WriteLine($"Report collected!!!");
         }
@@ -331,7 +365,7 @@ namespace Jawilliam.CDF.Labs
             var gumTree = new GumTreeNativeApproach();
             var interopArgs = new InteropArgs();
 
-            foreach (var project in Projects)
+            foreach (var project in Projects.Reverse())
             {
                 analyzer.Warnings = new StringBuilder();
                 var dbRepository = new GitRepository(project.Name) { Name = project.Name };
@@ -343,15 +377,15 @@ namespace Jawilliam.CDF.Labs
             Console.Out.WriteLine($"GumTree native collected!!!");
         }
 
-        private static void ReportGumTreeAndLevenshtein(Func<FileModifiedChange, bool> filter, string postfix)
+        private static void ReportGumTreeAndLevenshtein(Func<FileModifiedChange, bool> filter, string postfix, ChangeDetectionApproaches gumTreeVariant, string levenshteinVariant)
         {
             var editDistance = new EditDistance<ActionDescriptor>();
             var report = new StringBuilder();
 
             var header = "Project;RevisionPair;GtD;LvD;LvS;LvGt;GtLv;ScoreGtImprovedLv;iGtLv";
-            //report.AppendLine(header);
-            //System.IO.File.AppendAllText($@"{Environment.CurrentDirectory}\GumTreeLevenshtein.csv", report.ToString());
-            //report.Clear();
+            report.AppendLine(header);
+            System.IO.File.AppendAllText($@"{Environment.CurrentDirectory}\GumTreeLevenshtein{postfix ?? ""}.csv", report.ToString());
+            report.Clear();
 
             var numberFormatInfo = new NumberFormatInfo { CurrencyDecimalSeparator = "." };
             foreach (var project in Projects)
@@ -361,14 +395,16 @@ namespace Jawilliam.CDF.Labs
 
                 var fileModifiedChanges = from rp in dbRepository.RepositoryObjects.AsNoTracking().OfType<FileModifiedChange>()
                     where rp.Deltas.Any(d => d.Approach == ChangeDetectionApproaches.Simetrics && d.Annotations != null) &&
-                          rp.Deltas.Any(d => d.Approach == ChangeDetectionApproaches.NativeGumTree && d.Report == null && d.Matching != null && d.Differencing != null)
+                          rp.Deltas.Any(d => d.Approach == gumTreeVariant && d.Report == null && 
+                          d.Matching != null && d.Differencing != null)
                     select rp;
                 var revisionPairs = from rp in fileModifiedChanges
                     select new
                     {
                         rp,
                         Levenstein = rp.Deltas.Where(d => d.Approach == ChangeDetectionApproaches.Simetrics),
-                        NativeGumTree = rp.Deltas.Where(d => d.Approach == ChangeDetectionApproaches.NativeGumTree)
+                        NativeGumTree = rp.Deltas.Where(d => d.Approach == gumTreeVariant),
+                        //GumTreeWithoutComments = rp.Deltas.Where(d => d.Approach == ChangeDetectionApproaches.NativeGumTreeWithoutComments)
                     };
 
                 int counter = 0;
@@ -377,9 +413,9 @@ namespace Jawilliam.CDF.Labs
                 {
                     if (filter?.Invoke(rp.rp) ?? true)
                     {
-                        var lv = rp.Levenstein.Single(d => d.Approach == ChangeDetectionApproaches.Simetrics).XAnnotations.Simetrics.Single(d => d.Name == "Levenshtein");
-                        var gt = (DetectionResult)rp.NativeGumTree.Single(d => d.Approach == ChangeDetectionApproaches.NativeGumTree).DetectionResult;
-                        
+                        var lv = rp.Levenstein.Single(d => d.Approach == ChangeDetectionApproaches.Simetrics).XAnnotations.Simetrics.Single(d => d.Name == levenshteinVariant);
+                        var gt = (DetectionResult)rp.NativeGumTree.Single(d => d.Approach == gumTreeVariant).DetectionResult;
+
                         var gtDistance = editDistance.Compute(gt.Actions);
                         items[counter] = new Tuple<string, string, double, Tuple<double, double>, double, double, Tuple<int, int>>(
                             project.Name, // Item1
@@ -443,11 +479,11 @@ namespace Jawilliam.CDF.Labs
         /// <param name="revisionPairsCsvPath">file path of the CSV containing the revision pairs of interest.</param>
         /// <param name="originalFilePath">file path where store the original source code.</param>
         /// <param name="modifiedFilePath">file path where store the modified source code.</param>
-        private static void ReviewRevisionPairs(string revisionPairsCsvPath, string originalFilePath, string modifiedFilePath)
+        /// <param name="currentReview"></param>
+        private static void ReviewRevisionPairs(string revisionPairsCsvPath, string originalFilePath, string modifiedFilePath, string currentReview, SourceCodeCleaner cleaner = null)
         {
             string[] lines = System.IO.File.ReadAllLines(revisionPairsCsvPath);
-            //"Project;RevisionPair;Gt-d;Lv-d;Lv-s;RT(LvGt);RT(GtLv);Score(GtImprovedLv);iScore(Gt-Lv)";
-            RevisionPairReview loader = new RevisionPairReview();
+            var loader = new RevisionPairReview();
 
             foreach (var line in lines.Skip(1))
             {
@@ -460,68 +496,37 @@ namespace Jawilliam.CDF.Labs
                 using (var dbRepository = new GitRepository(project.Name) { Name = project.Name })
                 {
                     ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 180;
-                    var revisionPair = loader.Load(dbRepository, Guid.Parse(values[1]), "FileVersion.Content", "FromFileVersion.Content");
+                    var revisionPair = loader.Load(dbRepository, /*Guid.Parse(values[1])*/Guid.Parse("CCB7BD2E-AA30-4E3E-923E-B131C07C3D05"), "FileVersion.Content", "FromFileVersion.Content");
 
-                    System.IO.File.WriteAllText(originalFilePath, revisionPair.FromFileVersion.Content.SourceCode);
-                    System.IO.File.WriteAllText(modifiedFilePath, revisionPair.FileVersion.Content.SourceCode);
+                    var original = SyntaxFactory.ParseCompilationUnit(revisionPair.FromFileVersion.Content.SourceCode).SyntaxTree.GetRoot();
+                    var modified = SyntaxFactory.ParseCompilationUnit(revisionPair.FileVersion.Content.SourceCode).SyntaxTree.GetRoot();
+
+                    var preprocessedOriginal = cleaner != null ? cleaner.Clean(original) : original;
+                    var preprocessedModified = cleaner != null ? cleaner.Clean(modified) : modified;
+                    System.IO.File.WriteAllText(originalFilePath, preprocessedOriginal.ToFullString());
+                    System.IO.File.WriteAllText(modifiedFilePath, preprocessedModified.ToFullString());
 
                     var xAnnotations = revisionPair.XAnnotations;
                     var notes = (xAnnotations.ReviewNotes ?? new XFileModifiedChangeAnnotations.ReviewNote[0]).ToList();
                     if (notes.Count > 0)
                         continue;
 
-                    var currentReview = "Ratio-LevenshteinGumTree-RejectOnlyCommentChangesOutliers";
                     //var gtOutput = gumTree.ExecuteCommand(interopArgs, " ", $"gumtree.bat jsondiff {interopArgs.Original} {interopArgs.Modified}", " ");
 
                     notes.AddRange(new List<XFileModifiedChangeAnnotations.ReviewNote>
                     {
-                        XFileModifiedChangeAnnotations.ReviewNote.WellDetectedButBadStructuredComments(currentReview /*,"Line comments changed to documentation comments"*/),
-                        //XFileModifiedChangeAnnotations.ReviewNote.BadMovedElements(currentReview, "Elements such as the summmary XML elements do not move, just insert, delete or update. They must not match everywhere, just in the context of their parents"),
                         //new XFileModifiedChangeAnnotations.ReviewNote
                         //{
-                        //    Kind = XFileModifiedChangeAnnotations.ReviewNoteKind.GoodBut,
+                        //    Kind = XFileModifiedChangeAnnotations.ReviewNoteKind.Good,
                         //    Review = currentReview,
-                        //    Title = "Well-detected directive changes, but they are not well-structured",
-                        //    Text = null,
-                        //},
-                        //new XFileModifiedChangeAnnotations.ReviewNote
-                        //{
-                        //    Kind = XFileModifiedChangeAnnotations.ReviewNoteKind.Bad,
-                        //    Review = currentReview,
-                        //    Title = "Bad updated and moved elements",
-                        //    Text = "Page.ClientIDMode cannot match with ajaxFileUpload.ID. In fact was initialized after"
-                        //    //Title = "Since the bad-structured comments, bad moves were detected",
+                        //    //Title = "x",
                         //    //Text = "null"
-                        //},
-                        //new XFileModifiedChangeAnnotations.ReviewNote
-                        //{
-                        //    Kind = XFileModifiedChangeAnnotations.ReviewNoteKind.Bad,
-                        //    Review = currentReview,
-                        //    Title = "Bad renamed function",
-                        //    Text = "Part of the OnInit was refactored into a new AreFileUploadParamsPresent. OnInit was not renamed"
-                        //    //Title = "Since the bad-structured comments, bad moves were detected",
-                        //    //Text = "null"
-                        //},
-                        //new XFileModifiedChangeAnnotations.ReviewNote
-                        //{
-                        //    Kind = XFileModifiedChangeAnnotations.ReviewNoteKind.Bad,
-                        //    Review = currentReview,
-                        //    Title = "Bad renamed function",
-                        //    Text = "Part of the OnPreRender was refactored into a new ProcessRequest. OnPreRender was not renamed. Event handlers (i.e., method with EventArgs parameter) must not match with standard methods."
-                        //    //Title = "Since the bad-structured comments, bad moves were detected",
-                        //    //Text = "null"
-                        //},
-                        //new XFileModifiedChangeAnnotations.ReviewNote
-                        //{
-                        //    Kind = XFileModifiedChangeAnnotations.ReviewNoteKind.Unclear,
-                        //    Review = currentReview,
-                        //    Title = "x",
-                        //    Text = "null"
                         //}
                     });
                     xAnnotations.ReviewNotes = notes.ToArray();
                     revisionPair.XAnnotations = xAnnotations;
-                    dbRepository.Flush();
+                    //revisionPair.Annotations = "<Annotations xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" sourceCodeChanges=\"true\" onlyCommentChanges=\"false\"><Reviews><Note review=\"Ratio-LevenshteinGumTree-IgnoringCommentChangesLocalOutliers\" kind=\"Bad\" title=\"Bad reported deletions: the initializer expression of the fields hiddenFieldName (line 318) and combinedScripts (line 319) moved to the assignments of lines 324 and 325, respectively.\" text=\"These changes were well detected, but both initializations were reported as being deleted and their expressions as moved. They were completely moved, but their movements also require that their element types change from initializer to assignment. An example of none-same labeled but still compatible elements. From the point of view of a developer, nothing was deleted\"/></Reviews></Annotations>";
+                    //dbRepository.Flush();
                 }
             }
         }

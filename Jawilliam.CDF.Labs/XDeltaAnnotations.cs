@@ -19,6 +19,12 @@ namespace Jawilliam.CDF.Labs
         public virtual XSimetric[] Simetrics { get; set; }
 
         /// <summary>
+        /// Gets or sets if some error interrupted the result.
+        /// </summary>
+        [XmlAttribute("error")]
+        public virtual string Error { get; set; }
+
+        /// <summary>
         /// Reconstructs an object from the associated XML string.
         /// </summary>
         /// <param name="text">the raw XML.</param>

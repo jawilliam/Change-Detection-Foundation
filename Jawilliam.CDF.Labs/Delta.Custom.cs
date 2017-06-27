@@ -34,7 +34,9 @@ namespace Jawilliam.CDF.Labs
             {
                 switch (this.Approach)
                 {
-                    case ChangeDetectionApproaches.NativeGumTree: return this.GetNativeGumTreeResult();
+                    case ChangeDetectionApproaches.NativeGumTree:
+                    case ChangeDetectionApproaches.NativeGumTreeWithoutComments:
+                        return this.GetNativeGumTreeResult();
                     default:
                         throw new InvalidEnumArgumentException();
                 }
@@ -43,7 +45,10 @@ namespace Jawilliam.CDF.Labs
             {
                 switch (this.Approach)
                 {
-                    case ChangeDetectionApproaches.NativeGumTree: this.SetNativeGumTreeResult(value); break;
+                    case ChangeDetectionApproaches.NativeGumTree:
+                    case ChangeDetectionApproaches.NativeGumTreeWithoutComments:
+                        this.SetNativeGumTreeResult(value);
+                        break;
                     default:
                         throw new InvalidEnumArgumentException();
                 }

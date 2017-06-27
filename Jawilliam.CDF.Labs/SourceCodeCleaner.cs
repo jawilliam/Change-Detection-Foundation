@@ -1,4 +1,5 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using System;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 
 namespace Jawilliam.CDF.Labs
@@ -11,12 +12,12 @@ namespace Jawilliam.CDF.Labs
         /// <summary>
         /// Gets or sets the indentation string.
         /// </summary>
-        public virtual string Indentation { get; set; }
+        public virtual string Indentation { get; set; } = "";
 
         /// <summary>
         /// Gets or sets the new line string.
         /// </summary>
-        public virtual string NewLine { get; set; }
+        public virtual string NewLine { get; set; } = Environment.NewLine;
 
         /// <summary>
         /// Whether or not the whitespaces will be normalized.

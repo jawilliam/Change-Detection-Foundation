@@ -89,7 +89,7 @@ namespace Jawilliam.CDF.Labs
                 }
 
                 Console.Out.WriteLine($"Saving the {counter}-file version ({repositoryObjectIds.Count}) of {sqlRepository.Name}");
-                //sqlRepository.Flush();
+                sqlRepository.Flush();
             }
         }
     }

@@ -7,6 +7,7 @@ using System.Threading;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using System.Linq.Expressions;
+using System.Reflection.Metadata.Ecma335;
 using System.Xml.Linq;
 using Jawilliam.CDF.Approach.GumTree;
 using Jawilliam.CDF.Metrics.Similarity;
@@ -145,20 +146,27 @@ namespace Jawilliam.CDF.Labs
         /// <param name="simetricName">the name of the similarity metric</param>
         /// <param name="simetric"></param>
         /// <param name="cancel">Action to execute cancellation logic.</param>
-        public virtual void SimetricDiff(GitRepository sqlRepository, string simetricName, ISimetric<SyntaxToken> simetric, Action cancel)
+        /// <param name="skipThese">local criterion for determining elements that should be ignored.</param>
+        /// <param name="onThese"></param>
+        /// <param name="cleaner">A preprocessor for the source code in case it is desired.</param>
+        public virtual void SimetricDiff(GitRepository sqlRepository, string simetricName, ISimetric<SyntaxToken> simetric, Action cancel, Func<FileModifiedChange, bool> skipThese, Expression<Func<FileModifiedChange, bool>> onThese, SourceCodeCleaner cleaner = null)
         {
             this.Analyze(sqlRepository, 
-            (f => f.FromFileVersion.ContentSummary.TotalLines != null && f.FileVersion.ContentSummary.TotalLines != null && f.Deltas.All(d => d.Approach != ChangeDetectionApproaches.Simetrics)),
+            onThese,
             delegate(FileModifiedChange repositoryObject, SyntaxNode original, SyntaxNode modified, CancellationToken token)
             {
-                if (!repositoryObject.XAnnotations.SourceCodeChanges)
+                if (!repositoryObject.XAnnotations.SourceCodeChanges || (skipThese?.Invoke(repositoryObject) ?? false))
                     return;
 
-                var originalTokens = original.DescendantTokens(descendIntoTrivia: true).ToList();
-                var modifiedTokens = modified.DescendantTokens(descendIntoTrivia: true).ToList();
+                var preprocessedOriginal = cleaner != null ? cleaner.Clean(original) : original;
+                var preprocessedModified = cleaner != null ? cleaner.Clean(modified) : modified;
+                var originalTokens = preprocessedOriginal.DescendantTokens(descendIntoTrivia: true).ToList();
+                var modifiedTokens = preprocessedModified.DescendantTokens(descendIntoTrivia: true).ToList();
 
-                sqlRepository.Deltas.Where(d => sqlRepository.RepositoryObjects.OfType<FileModifiedChange>()
-                    .Any(f => f.Id == repositoryObject.Id && f.Deltas.Any(fd => fd.Approach == ChangeDetectionApproaches.Simetrics)))
+                //sqlRepository.Deltas.Where(d => sqlRepository.RepositoryObjects.OfType<FileModifiedChange>()
+                //    .Any(f => f.Id == repositoryObject.Id && f.Deltas.Any(fd => fd.Approach == ChangeDetectionApproaches.Simetrics)))
+                //    .Load();
+                sqlRepository.Deltas.Where(d => d.RevisionPair.Id == repositoryObject.Id && d.Approach == ChangeDetectionApproaches.Simetrics)
                     .Load();
 
                 var simetricDelta = repositoryObject.Deltas.SingleOrDefault(d => d.Approach == ChangeDetectionApproaches.Simetrics);
@@ -209,8 +217,7 @@ namespace Jawilliam.CDF.Labs
                 if (!repositoryObject.XAnnotations.SourceCodeChanges || (skipThese?.Invoke(repositoryObject) ?? false))
                     return;
 
-                sqlRepository.Deltas.Where(d => sqlRepository.RepositoryObjects.OfType<FileModifiedChange>()
-                    .Any(f => f.Id == repositoryObject.Id && f.Deltas.Any(fd => fd.Approach == gumTreeApproach)))
+                sqlRepository.Deltas.Where(d => d.RevisionPair.Id == repositoryObject.Id && d.Approach == gumTreeApproach)
                     .Load();
 
                 var delta = repositoryObject.Deltas.SingleOrDefault(d => d.Approach == gumTreeApproach);
