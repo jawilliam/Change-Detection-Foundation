@@ -363,7 +363,12 @@ namespace Jawilliam.CDF.Labs
         {
             var analyzer = new FileModifiedChangeAnalyzer { MillisecondsTimeout = 600000 };
             var gumTree = new GumTreeNativeApproach();
-            var interopArgs = new InteropArgs();
+            //var interopArgs = new InteropArgs()
+            //{
+            //    GumTreePath = @"C:\CDF\gumtree-20170525-2.1.0-SNAPSHOT",
+            //    Original = @"C:\CDF\Original.cs",
+            //    Modified = @"C:\CDF\Modified.cs"
+            //};
 
             foreach (var project in Projects.Reverse())
             {
@@ -372,7 +377,7 @@ namespace Jawilliam.CDF.Labs
                 ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 180;
                 analyzer.NativeGumTreeDiff(dbRepository,  gumTree, interopArgs, () => gumTree.Cancel(), gumTreeApproach, skipThese, cleaner);
 
-                System.IO.File.WriteAllText($@"E:\Repositories\NativeGumTreeDiff{project.Name}.txt", analyzer.Warnings.ToString());
+                System.IO.File.WriteAllText($@"C:\CDF\NativeGumTreeDiff{project.Name}.txt", analyzer.Warnings.ToString());
             }
             Console.Out.WriteLine($"GumTree native collected!!!");
         }
