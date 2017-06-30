@@ -221,11 +221,12 @@ namespace Jawilliam.CDF.Labs
                     .Load();
 
                 var delta = repositoryObject.Deltas.SingleOrDefault(d => d.Approach == gumTreeApproach);
-                if (delta == null)
-                {
+                if (delta != null) return; ///TODO: Remove these...
+                //if (delta == null)
+                //{
                     delta = new Delta { Id = Guid.NewGuid(), Approach = gumTreeApproach };
                     repositoryObject.Deltas.Add(delta);
-                }
+                //}
 
                 var preprocessedOriginal = cleaner != null ? cleaner.Clean(original) : original;
                 var preprocessedModified = cleaner != null ? cleaner.Clean(modified) : modified;

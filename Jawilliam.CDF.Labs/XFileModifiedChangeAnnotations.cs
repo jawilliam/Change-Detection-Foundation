@@ -69,7 +69,12 @@ namespace Jawilliam.CDF.Labs
             /// <summary>
             /// Denotes an interesting note.
             /// </summary>
-            Attention = 4
+            Attention = 4,
+
+            /// <summary>
+            /// Denotes a found case that is non-relevant.
+            /// </summary>
+            Found = 5
         }
 
         /// <summary>
