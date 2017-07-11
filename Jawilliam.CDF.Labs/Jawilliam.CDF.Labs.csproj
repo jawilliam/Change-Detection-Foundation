@@ -175,6 +175,9 @@
     <Compile Include="Branch.cs">
       <DependentUpon>GitRepository.tt</DependentUpon>
     </Compile>
+    <Compile Include="CaseKind.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
     <Compile Include="ChangeDetectionApproaches.cs">
       <DependentUpon>GitRepository.tt</DependentUpon>
     </Compile>
@@ -248,15 +251,30 @@
       <DependentUpon>GitRepository.tt</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
+    <Compile Include="Project.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RepositoryObject.cs">
       <DependentUpon>GitRepository.tt</DependentUpon>
     </Compile>
     <Compile Include="RepositoryObjectAnalyzer.cs" />
+    <Compile Include="Review.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ReviewKind.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ReviewSeverity.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
     <Compile Include="RevisionPairReview.cs" />
     <Compile Include="SourceCodeMetric.cs" />
     <Compile Include="SourceCodeCleaner.cs" />
     <Compile Include="SyntaxTokenEqualityComparer.cs" />
+    <Compile Include="Topics.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
     <Compile Include="XDeltaAnnotations.cs" />
     <Compile Include="XFileContentSummaryAnnotations.cs" />
     <Compile Include="XFileModifiedChangeAnnotations.cs" />

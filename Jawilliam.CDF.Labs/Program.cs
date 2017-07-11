@@ -363,12 +363,12 @@ namespace Jawilliam.CDF.Labs
         {
             var analyzer = new FileModifiedChangeAnalyzer { MillisecondsTimeout = 600000 };
             var gumTree = new GumTreeNativeApproach();
-            var interopArgs = new InteropArgs();
-            //{
-            //    GumTreePath = @"C:\CDF\gumtree-20170525-2.1.0-SNAPSHOT",
-            //    Original = @"C:\CDF\Original.cs",
-            //    Modified = @"C:\CDF\Modified.cs"
-            //};
+            var interopArgs = new InteropArgs()
+            {
+                GumTreePath = @"C:\CDF\gumtree-20170525-2.1.0-SNAPSHOT",
+                Original = @"C:\CDF\Original.cs",
+                Modified = @"C:\CDF\Modified.cs"
+            };
 
             foreach (var project in Projects.Reverse())
             {

@@ -11,6 +11,8 @@
     <EntitySet Name="FileContentSummaries" EntityType="Jawilliam.CDF.Labs.SQL.Store.FileContentSummaries" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Deltas" EntityType="Jawilliam.CDF.Labs.SQL.Store.Deltas" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="FileRevisionPairs" EntityType="Jawilliam.CDF.Labs.SQL.Store.FileRevisionPairs" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Reviews" EntityType="Jawilliam.CDF.Labs.SQL.Store.Reviews" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Project" EntityType="Jawilliam.CDF.Labs.SQL.Store.Project" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="RepositoryObjects_Commit" EntityType="Jawilliam.CDF.Labs.SQL.Store.RepositoryObjects_Commit" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="RepositoryObjects_Contributor" EntityType="Jawilliam.CDF.Labs.SQL.Store.RepositoryObjects_Contributor" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="RepositoryObjects_Branch" EntityType="Jawilliam.CDF.Labs.SQL.Store.RepositoryObjects_Branch" store:Type="Tables" Schema="dbo" />
@@ -79,17 +81,21 @@
       <End Role="FileModifiedChange" EntitySet="RepositoryObjects_FileModifiedChange" />
       <End Role="Delta" EntitySet="Deltas" />
     </AssociationSet>
-    <AssociationSet Name="OneFileRevisionPair_Contains_OneFromFileVersion" Association="Jawilliam.CDF.Labs.SQL.Store.OneFileRevisionPair_Contains_OneFromFileVersion">
-      <End Role="FileRevisionPair" EntitySet="FileRevisionPairs" />
-      <End Role="FileVersion" EntitySet="RepositoryObjects_FileVersion" />
-    </AssociationSet>
-    <AssociationSet Name="OneFileRevisionPair_Contains_OneToFileVersion" Association="Jawilliam.CDF.Labs.SQL.Store.OneFileRevisionPair_Contains_OneToFileVersion">
-      <End Role="FileRevisionPair" EntitySet="FileRevisionPairs" />
-      <End Role="FileVersion" EntitySet="RepositoryObjects_FileVersion" />
-    </AssociationSet>
     <AssociationSet Name="OneFile_CanHave_ManyRevisionPairs" Association="Jawilliam.CDF.Labs.SQL.Store.OneFile_CanHave_ManyRevisionPairs">
       <End Role="File" EntitySet="RepositoryObjects_File" />
       <End Role="FileRevisionPair" EntitySet="FileRevisionPairs" />
+    </AssociationSet>
+    <AssociationSet Name="FileRevisionPairFileModifiedChange" Association="Jawilliam.CDF.Labs.SQL.Store.FileRevisionPairFileModifiedChange">
+      <End Role="FileRevisionPair" EntitySet="FileRevisionPairs" />
+      <End Role="FileModifiedChange" EntitySet="RepositoryObjects_FileModifiedChange" />
+    </AssociationSet>
+    <AssociationSet Name="FileRevisionPair_AlsoReferences_TheDuplicatedFileModifiedChanges" Association="Jawilliam.CDF.Labs.SQL.Store.FileRevisionPair_AlsoReferences_TheDuplicatedFileModifiedChanges">
+      <End Role="FileRevisionPair" EntitySet="FileRevisionPairs" />
+      <End Role="FileModifiedChange" EntitySet="RepositoryObjects_FileModifiedChange" />
+    </AssociationSet>
+    <AssociationSet Name="OneFileRevisionPair_MayHave_ManyReview" Association="Jawilliam.CDF.Labs.SQL.Store.OneFileRevisionPair_MayHave_ManyReview">
+      <End Role="FileRevisionPair" EntitySet="FileRevisionPairs" />
+      <End Role="Review" EntitySet="Reviews" />
     </AssociationSet>
     <AssociationSet Name="FK_Commit_inherits_RepositoryObject" Association="Jawilliam.CDF.Labs.SQL.Store.FK_Commit_inherits_RepositoryObject">
       <End Role="RepositoryObject" EntitySet="RepositoryObjects" />
@@ -186,9 +192,35 @@
     <Property Name="Versioning_Path" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Versioning_FromVersion" Type="int" Nullable="false" />
     <Property Name="Versioning_ToVersion" Type="int" Nullable="false" />
-    <Property Name="From_Id" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="To_Id" Type="uniqueidentifier" Nullable="false" />
     <Property Name="OneFile_CanHave_ManyRevisionPairs_FileRevisionPair_Id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Principal_Id" Type="uniqueidentifier" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Reviews">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Kind" Type="int" Nullable="false" />
+    <Property Name="Severity" Type="int" Nullable="false" />
+    <Property Name="Subject" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Comments" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Topics" Type="smallint" Nullable="false" />
+    <Property Name="Annotations" Type="xml" Nullable="true" />
+    <Property Name="CaseKind" Type="int" Nullable="false" />
+    <Property Name="RevisionPair_Id" Type="uniqueidentifier" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Project">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="FullName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="AbbreviatedName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="From" Type="datetime" Nullable="false" />
+    <Property Name="To" Type="datetime" Nullable="false" />
+    <Property Name="Link" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Annotations" Type="xml" Nullable="true" />
   </EntityType>
   <EntityType Name="RepositoryObjects_Commit">
     <Key>
@@ -250,6 +282,7 @@
     <Property Name="ToPath" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
     <Property Name="FromFileVersion_Id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="FileRevisionPair_AlsoReferences_TheDuplicatedFileModifiedChanges_FileModifiedChange_Id" Type="uniqueidentifier" Nullable="true" />
   </EntityType>
   <EntityType Name="RepositoryObjects_FileAddedChange">
     <Key>
@@ -406,30 +439,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="OneFileRevisionPair_Contains_OneFromFileVersion">
-    <End Role="FileRevisionPair" Type="Jawilliam.CDF.Labs.SQL.Store.FileRevisionPairs" Multiplicity="*" />
-    <End Role="FileVersion" Type="Jawilliam.CDF.Labs.SQL.Store.RepositoryObjects_FileVersion" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="FileVersion">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="FileRevisionPair">
-        <PropertyRef Name="From_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="OneFileRevisionPair_Contains_OneToFileVersion">
-    <End Role="FileRevisionPair" Type="Jawilliam.CDF.Labs.SQL.Store.FileRevisionPairs" Multiplicity="*" />
-    <End Role="FileVersion" Type="Jawilliam.CDF.Labs.SQL.Store.RepositoryObjects_FileVersion" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="FileVersion">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="FileRevisionPair">
-        <PropertyRef Name="To_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="OneFile_CanHave_ManyRevisionPairs">
     <End Role="File" Type="Jawilliam.CDF.Labs.SQL.Store.RepositoryObjects_File" Multiplicity="1" />
     <End Role="FileRevisionPair" Type="Jawilliam.CDF.Labs.SQL.Store.FileRevisionPairs" Multiplicity="*" />
@@ -439,6 +448,42 @@
       </Principal>
       <Dependent Role="FileRevisionPair">
         <PropertyRef Name="OneFile_CanHave_ManyRevisionPairs_FileRevisionPair_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FileRevisionPairFileModifiedChange">
+    <End Role="FileRevisionPair" Type="Jawilliam.CDF.Labs.SQL.Store.FileRevisionPairs" Multiplicity="*" />
+    <End Role="FileModifiedChange" Type="Jawilliam.CDF.Labs.SQL.Store.RepositoryObjects_FileModifiedChange" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="FileModifiedChange">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="FileRevisionPair">
+        <PropertyRef Name="Principal_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FileRevisionPair_AlsoReferences_TheDuplicatedFileModifiedChanges">
+    <End Role="FileRevisionPair" Type="Jawilliam.CDF.Labs.SQL.Store.FileRevisionPairs" Multiplicity="0..1" />
+    <End Role="FileModifiedChange" Type="Jawilliam.CDF.Labs.SQL.Store.RepositoryObjects_FileModifiedChange" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FileRevisionPair">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="FileModifiedChange">
+        <PropertyRef Name="FileRevisionPair_AlsoReferences_TheDuplicatedFileModifiedChanges_FileModifiedChange_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="OneFileRevisionPair_MayHave_ManyReview">
+    <End Role="FileRevisionPair" Type="Jawilliam.CDF.Labs.SQL.Store.FileRevisionPairs" Multiplicity="1" />
+    <End Role="Review" Type="Jawilliam.CDF.Labs.SQL.Store.Reviews" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FileRevisionPair">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Review">
+        <PropertyRef Name="RevisionPair_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -688,18 +733,24 @@
             <End Role="Delta" EntitySet="Deltas" />
           </AssociationSet>
           <EntitySet Name="FileRevisionPairs" EntityType="Jawilliam.CDF.Labs.SQL.FileRevisionPair" />
-          <AssociationSet Name="OneFileRevisionPair_Contains_OneFromFileVersion" Association="Jawilliam.CDF.Labs.SQL.OneFileRevisionPair_Contains_OneFromFileVersion">
-            <End Role="FileRevisionPair" EntitySet="FileRevisionPairs" />
-            <End Role="FileVersion" EntitySet="RepositoryObjects" />
-          </AssociationSet>
-          <AssociationSet Name="OneFileRevisionPair_Contains_OneToFileVersion" Association="Jawilliam.CDF.Labs.SQL.OneFileRevisionPair_Contains_OneToFileVersion">
-            <End Role="FileRevisionPair" EntitySet="FileRevisionPairs" />
-            <End Role="FileVersion" EntitySet="RepositoryObjects" />
-          </AssociationSet>
           <AssociationSet Name="OneFile_CanHave_ManyRevisionPairs" Association="Jawilliam.CDF.Labs.SQL.OneFile_CanHave_ManyRevisionPairs">
             <End Role="File" EntitySet="RepositoryObjects" />
             <End Role="FileRevisionPair" EntitySet="FileRevisionPairs" />
           </AssociationSet>
+          <AssociationSet Name="FileRevisionPairFileModifiedChange" Association="Jawilliam.CDF.Labs.SQL.FileRevisionPairFileModifiedChange">
+            <End Role="FileRevisionPair" EntitySet="FileRevisionPairs" />
+            <End Role="FileModifiedChange" EntitySet="RepositoryObjects" />
+          </AssociationSet>
+          <AssociationSet Name="FileRevisionPair_AlsoReferences_TheDuplicatedFileModifiedChanges" Association="Jawilliam.CDF.Labs.SQL.FileRevisionPair_AlsoReferences_TheDuplicatedFileModifiedChanges">
+            <End Role="FileRevisionPair" EntitySet="FileRevisionPairs" />
+            <End Role="FileModifiedChange" EntitySet="RepositoryObjects" />
+          </AssociationSet>
+          <EntitySet Name="Reviews" EntityType="Jawilliam.CDF.Labs.SQL.Review" />
+          <AssociationSet Name="OneFileRevisionPair_MayHave_ManyReview" Association="Jawilliam.CDF.Labs.SQL.OneFileRevisionPair_MayHave_ManyReview">
+            <End Role="FileRevisionPair" EntitySet="FileRevisionPairs" />
+            <End Role="Review" EntitySet="Reviews" />
+          </AssociationSet>
+          <EntitySet Name="Project" EntityType="Jawilliam.CDF.Labs.SQL.Project" />
         </EntityContainer>
         <EntityType Name="RepositoryObject" Abstract="true">
           <Key>
@@ -877,26 +928,77 @@
           <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="None" />
           <Property Name="Annotations" Type="String" Nullable="true" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Versioning" Type="Jawilliam.CDF.Labs.SQL.PairRevisionInfo" Nullable="false" />
-          <NavigationProperty Name="From" Relationship="Jawilliam.CDF.Labs.SQL.OneFileRevisionPair_Contains_OneFromFileVersion" FromRole="FileRevisionPair" ToRole="FileVersion" />
-          <NavigationProperty Name="To" Relationship="Jawilliam.CDF.Labs.SQL.OneFileRevisionPair_Contains_OneToFileVersion" FromRole="FileRevisionPair" ToRole="FileVersion" />
+          <NavigationProperty Name="Principal" Relationship="Jawilliam.CDF.Labs.SQL.FileRevisionPairFileModifiedChange" FromRole="FileRevisionPair" ToRole="FileModifiedChange" />
+          <NavigationProperty Name="Copies" Relationship="Jawilliam.CDF.Labs.SQL.FileRevisionPair_AlsoReferences_TheDuplicatedFileModifiedChanges" FromRole="FileRevisionPair" ToRole="FileModifiedChange" />
+          <NavigationProperty Name="Reviews" Relationship="Jawilliam.CDF.Labs.SQL.OneFileRevisionPair_MayHave_ManyReview" FromRole="FileRevisionPair" ToRole="Review" />
         </EntityType>
         <ComplexType Name="PairRevisionInfo" >
           <Property Type="String" Name="Path" Nullable="false" />
           <Property Type="Int32" Name="FromVersion" Nullable="false" />
           <Property Type="Int32" Name="ToVersion" Nullable="false" />
         </ComplexType>
-        <Association Name="OneFileRevisionPair_Contains_OneFromFileVersion">
-          <End Type="Jawilliam.CDF.Labs.SQL.FileRevisionPair" Role="FileRevisionPair" Multiplicity="*" />
-          <End Type="Jawilliam.CDF.Labs.SQL.FileVersion" Role="FileVersion" Multiplicity="1" />
-        </Association>
-        <Association Name="OneFileRevisionPair_Contains_OneToFileVersion">
-          <End Type="Jawilliam.CDF.Labs.SQL.FileRevisionPair" Role="FileRevisionPair" Multiplicity="*" />
-          <End Type="Jawilliam.CDF.Labs.SQL.FileVersion" Role="FileVersion" Multiplicity="1" />
-        </Association>
         <Association Name="OneFile_CanHave_ManyRevisionPairs">
           <End Type="Jawilliam.CDF.Labs.SQL.File" Role="File" Multiplicity="1" />
           <End Type="Jawilliam.CDF.Labs.SQL.FileRevisionPair" Role="FileRevisionPair" Multiplicity="*" />
         </Association>
+        <Association Name="FileRevisionPairFileModifiedChange">
+          <End Type="Jawilliam.CDF.Labs.SQL.FileRevisionPair" Role="FileRevisionPair" Multiplicity="0..1" />
+          <End Type="Jawilliam.CDF.Labs.SQL.FileModifiedChange" Role="FileModifiedChange" Multiplicity="1" />
+        </Association>
+        <Association Name="FileRevisionPair_AlsoReferences_TheDuplicatedFileModifiedChanges">
+          <End Type="Jawilliam.CDF.Labs.SQL.FileRevisionPair" Role="FileRevisionPair" Multiplicity="0..1" />
+          <End Type="Jawilliam.CDF.Labs.SQL.FileModifiedChange" Role="FileModifiedChange" Multiplicity="*" />
+        </Association>
+        <EntityType Name="Review">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="None" />
+          <Property Name="Kind" Type="Jawilliam.CDF.Labs.SQL.ReviewKind" Nullable="false" />
+          <Property Name="Severity" Type="Jawilliam.CDF.Labs.SQL.ReviewSeverity" Nullable="false" />
+          <Property Name="Subject" Type="String" Nullable="false" />
+          <Property Name="Comments" Type="String" Nullable="true" />
+          <Property Name="Topics" Type="Jawilliam.CDF.Labs.SQL.Topics" Nullable="false" />
+          <Property Name="Annotations" Type="String" Nullable="true" />
+          <NavigationProperty Name="RevisionPair" Relationship="Jawilliam.CDF.Labs.SQL.OneFileRevisionPair_MayHave_ManyReview" FromRole="Review" ToRole="FileRevisionPair" />
+          <Property Name="CaseKind" Type="Jawilliam.CDF.Labs.SQL.CaseKind" Nullable="false" />
+        </EntityType>
+        <EnumType Name="ReviewSeverity">
+          <Member Name="Good" Value="2" />
+          <Member Name="GoodBut" Value="1" />
+          <Member Name="Unclear" Value="0" />
+          <Member Name="Bad" Value="3" />
+          <Member Name="Attention" Value="4" />
+          <Member Name="Found" Value="5" />
+        </EnumType>
+        <EnumType Name="ReviewKind" />
+        <EnumType Name="Topics" UnderlyingType="Int16" IsFlags="true">
+          <Member Name="Domain" Value="1" />
+          <Member Name="Matching" Value="2" />
+          <Member Name="Differencing" Value="4" />
+          <Member Name="Report" Value="8" />
+        </EnumType>
+        <Association Name="OneFileRevisionPair_MayHave_ManyReview">
+          <End Type="Jawilliam.CDF.Labs.SQL.FileRevisionPair" Role="FileRevisionPair" Multiplicity="1" />
+          <End Type="Jawilliam.CDF.Labs.SQL.Review" Role="Review" Multiplicity="*" />
+        </Association>
+        <EntityType Name="Project">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="None" />
+          <Property Name="FullName" Type="String" Nullable="false" />
+          <Property Name="AbbreviatedName" Type="String" Nullable="false" />
+          <Property Name="From" Type="DateTime" Nullable="false" />
+          <Property Name="To" Type="DateTime" Nullable="false" />
+          <Property Name="Link" Type="String" Nullable="false" />
+          <Property Name="Description" Type="String" Nullable="false" />
+          <Property Name="Annotations" Type="String" Nullable="true" />
+        </EntityType>
+        <EnumType Name="CaseKind">
+          <Member Name="LowerOutlierTukeyBoxplot" Value="1" />
+          <Member Name="HigherOutlierTukeyBoxplot" Value="2" />
+        </EnumType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1025,6 +1127,34 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Reviews">
+      <EntityTypeMapping TypeName="IsTypeOf(Jawilliam.CDF.Labs.SQL.Review)">
+        <MappingFragment StoreEntitySet="Reviews">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Kind" ColumnName="Kind" />
+          <ScalarProperty Name="Severity" ColumnName="Severity" />
+          <ScalarProperty Name="Subject" ColumnName="Subject" />
+          <ScalarProperty Name="Comments" ColumnName="Comments" />
+          <ScalarProperty Name="Topics" ColumnName="Topics" />
+          <ScalarProperty Name="Annotations" ColumnName="Annotations" />
+          <ScalarProperty Name="CaseKind" ColumnName="CaseKind" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Project">
+      <EntityTypeMapping TypeName="IsTypeOf(Jawilliam.CDF.Labs.SQL.Project)">
+        <MappingFragment StoreEntitySet="Project">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="FullName" ColumnName="FullName" />
+          <ScalarProperty Name="AbbreviatedName" ColumnName="AbbreviatedName" />
+          <ScalarProperty Name="From" ColumnName="From" />
+          <ScalarProperty Name="To" ColumnName="To" />
+          <ScalarProperty Name="Link" ColumnName="Link" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Annotations" ColumnName="Annotations" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <AssociationSetMapping Name="Contributor_IsAuthorOf_Commits" TypeName="Jawilliam.CDF.Labs.SQL.Contributor_IsAuthorOf_Commits" StoreEntitySet="RepositoryObjects_Commit">
       <EndProperty Name="Committer">
         <ScalarProperty Name="Id" ColumnName="Committer_Id" />
@@ -1124,27 +1254,36 @@
       </EndProperty>
       <Condition ColumnName="RevisionPair_Id" IsNull="false" />
     </AssociationSetMapping>
-    <AssociationSetMapping Name="OneFileRevisionPair_Contains_OneFromFileVersion" TypeName="Jawilliam.CDF.Labs.SQL.OneFileRevisionPair_Contains_OneFromFileVersion" StoreEntitySet="FileRevisionPairs">
-      <EndProperty Name="FileVersion">
-        <ScalarProperty Name="Id" ColumnName="From_Id" />
-      </EndProperty>
-      <EndProperty Name="FileRevisionPair">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="OneFileRevisionPair_Contains_OneToFileVersion" TypeName="Jawilliam.CDF.Labs.SQL.OneFileRevisionPair_Contains_OneToFileVersion" StoreEntitySet="FileRevisionPairs">
-      <EndProperty Name="FileVersion">
-        <ScalarProperty Name="Id" ColumnName="To_Id" />
-      </EndProperty>
-      <EndProperty Name="FileRevisionPair">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-    </AssociationSetMapping>
     <AssociationSetMapping Name="OneFile_CanHave_ManyRevisionPairs" TypeName="Jawilliam.CDF.Labs.SQL.OneFile_CanHave_ManyRevisionPairs" StoreEntitySet="FileRevisionPairs">
       <EndProperty Name="File">
         <ScalarProperty Name="Id" ColumnName="OneFile_CanHave_ManyRevisionPairs_FileRevisionPair_Id" />
       </EndProperty>
       <EndProperty Name="FileRevisionPair">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FileRevisionPairFileModifiedChange" TypeName="Jawilliam.CDF.Labs.SQL.FileRevisionPairFileModifiedChange" StoreEntitySet="FileRevisionPairs">
+      <EndProperty Name="FileModifiedChange">
+        <ScalarProperty Name="Id" ColumnName="Principal_Id" />
+      </EndProperty>
+      <EndProperty Name="FileRevisionPair">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FileRevisionPair_AlsoReferences_TheDuplicatedFileModifiedChanges" TypeName="Jawilliam.CDF.Labs.SQL.FileRevisionPair_AlsoReferences_TheDuplicatedFileModifiedChanges" StoreEntitySet="RepositoryObjects_FileModifiedChange">
+      <EndProperty Name="FileRevisionPair">
+        <ScalarProperty Name="Id" ColumnName="FileRevisionPair_AlsoReferences_TheDuplicatedFileModifiedChanges_FileModifiedChange_Id" />
+      </EndProperty>
+      <EndProperty Name="FileModifiedChange">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="FileRevisionPair_AlsoReferences_TheDuplicatedFileModifiedChanges_FileModifiedChange_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="OneFileRevisionPair_MayHave_ManyReview" TypeName="Jawilliam.CDF.Labs.SQL.OneFileRevisionPair_MayHave_ManyReview" StoreEntitySet="Reviews">
+      <EndProperty Name="FileRevisionPair">
+        <ScalarProperty Name="Id" ColumnName="RevisionPair_Id" />
+      </EndProperty>
+      <EndProperty Name="Review">
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>

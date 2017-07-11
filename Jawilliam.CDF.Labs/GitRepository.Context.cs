@@ -31,5 +31,7 @@ namespace Jawilliam.CDF.Labs
         public virtual DbSet<FileContentSummary> FileContentSummaries { get; set; }
         public virtual DbSet<Delta> Deltas { get; set; }
         public virtual DbSet<FileRevisionPair> FileRevisionPairs { get; set; }
+        public virtual DbSet<Review> Reviews { get; set; }
+        public virtual DbSet<Project> Project { get; set; }
     }
 }

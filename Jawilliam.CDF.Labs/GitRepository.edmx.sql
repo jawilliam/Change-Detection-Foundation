@@ -1,132 +1,14 @@
-USE [master]
-GO
-
-/****** Object:  Database [GitRepository]    Script Date: 22/05/2017 17:14:35 ******/
-DROP DATABASE [GitRepository]
-GO
-
-/****** Object:  Database [GitRepository]    Script Date: 22/05/2017 17:14:35 ******/
-CREATE DATABASE [GitRepository]
- CONTAINMENT = NONE
- ON  PRIMARY 
-( NAME = N'GitRepository', FILENAME = N'E:\DBs\GitRepository.mdf' , SIZE = 5120KB , MAXSIZE = UNLIMITED, FILEGROWTH = 1024KB )
- LOG ON 
-( NAME = N'GitRepository_log', FILENAME = N'E:\DBs\GitRepository_log.ldf' , SIZE = 2048KB , MAXSIZE = 2048GB , FILEGROWTH = 10%)
-GO
-
-ALTER DATABASE [GitRepository] SET COMPATIBILITY_LEVEL = 120
-GO
-
-IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
-begin
-EXEC [GitRepository].[dbo].[sp_fulltext_database] @action = 'enable'
-end
-GO
-
-ALTER DATABASE [GitRepository] SET ANSI_NULL_DEFAULT OFF 
-GO
-
-ALTER DATABASE [GitRepository] SET ANSI_NULLS OFF 
-GO
-
-ALTER DATABASE [GitRepository] SET ANSI_PADDING OFF 
-GO
-
-ALTER DATABASE [GitRepository] SET ANSI_WARNINGS OFF 
-GO
-
-ALTER DATABASE [GitRepository] SET ARITHABORT OFF 
-GO
-
-ALTER DATABASE [GitRepository] SET AUTO_CLOSE OFF 
-GO
-
-ALTER DATABASE [GitRepository] SET AUTO_SHRINK OFF 
-GO
-
-ALTER DATABASE [GitRepository] SET AUTO_UPDATE_STATISTICS ON 
-GO
-
-ALTER DATABASE [GitRepository] SET CURSOR_CLOSE_ON_COMMIT OFF 
-GO
-
-ALTER DATABASE [GitRepository] SET CURSOR_DEFAULT  GLOBAL 
-GO
-
-ALTER DATABASE [GitRepository] SET CONCAT_NULL_YIELDS_NULL OFF 
-GO
-
-ALTER DATABASE [GitRepository] SET NUMERIC_ROUNDABORT OFF 
-GO
-
-ALTER DATABASE [GitRepository] SET QUOTED_IDENTIFIER OFF 
-GO
-
-ALTER DATABASE [GitRepository] SET RECURSIVE_TRIGGERS OFF 
-GO
-
-ALTER DATABASE [GitRepository] SET  DISABLE_BROKER 
-GO
-
-ALTER DATABASE [GitRepository] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
-GO
-
-ALTER DATABASE [GitRepository] SET DATE_CORRELATION_OPTIMIZATION OFF 
-GO
-
-ALTER DATABASE [GitRepository] SET TRUSTWORTHY OFF 
-GO
-
-ALTER DATABASE [GitRepository] SET ALLOW_SNAPSHOT_ISOLATION OFF 
-GO
-
-ALTER DATABASE [GitRepository] SET PARAMETERIZATION SIMPLE 
-GO
-
-ALTER DATABASE [GitRepository] SET READ_COMMITTED_SNAPSHOT OFF 
-GO
-
-ALTER DATABASE [GitRepository] SET HONOR_BROKER_PRIORITY OFF 
-GO
-
-ALTER DATABASE [GitRepository] SET RECOVERY SIMPLE 
-GO
-
-ALTER DATABASE [GitRepository] SET  MULTI_USER 
-GO
-
-ALTER DATABASE [GitRepository] SET PAGE_VERIFY CHECKSUM  
-GO
-
-ALTER DATABASE [GitRepository] SET DB_CHAINING OFF 
-GO
-
-ALTER DATABASE [GitRepository] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
-GO
-
-ALTER DATABASE [GitRepository] SET TARGET_RECOVERY_TIME = 0 SECONDS 
-GO
-
-ALTER DATABASE [GitRepository] SET DELAYED_DURABILITY = DISABLED 
-GO
-
-ALTER DATABASE [GitRepository] SET  READ_WRITE 
-GO
-
-
-
-
 
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 05/22/2017 17:15:31
--- Generated from EDMX file: E:\MyRepositories\Change-Detection-Foundation\Jawilliam.CDF.Labs\GitRepository.edmx
+-- Date Created: 07/11/2017 18:06:34
+-- Generated from EDMX file: C:\CDF\CdfRepository\Jawilliam.CDF.Labs\GitRepository.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
 GO
-USE [GitRepository];
+--USE [GitRepositoryDb];
 GO
 IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
 GO
@@ -177,6 +59,15 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_FileModifiedChanges_CanBeDescribedByDifferent_Deltas]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Deltas] DROP CONSTRAINT [FK_FileModifiedChanges_CanBeDescribedByDifferent_Deltas];
 GO
+IF OBJECT_ID(N'[dbo].[FK_OneFileRevisionPair_Contains_OneFromFileVersion]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[FileRevisionPairs] DROP CONSTRAINT [FK_OneFileRevisionPair_Contains_OneFromFileVersion];
+GO
+IF OBJECT_ID(N'[dbo].[FK_OneFileRevisionPair_Contains_OneToFileVersion]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[FileRevisionPairs] DROP CONSTRAINT [FK_OneFileRevisionPair_Contains_OneToFileVersion];
+GO
+IF OBJECT_ID(N'[dbo].[FK_OneFile_CanHave_ManyRevisionPairs]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[FileRevisionPairs] DROP CONSTRAINT [FK_OneFile_CanHave_ManyRevisionPairs];
+GO
 IF OBJECT_ID(N'[dbo].[FK_Commit_inherits_RepositoryObject]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[RepositoryObjects_Commit] DROP CONSTRAINT [FK_Commit_inherits_RepositoryObject];
 GO
@@ -223,6 +114,9 @@ IF OBJECT_ID(N'[dbo].[FileContentSummaries]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[Deltas]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Deltas];
+GO
+IF OBJECT_ID(N'[dbo].[FileRevisionPairs]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[FileRevisionPairs];
 GO
 IF OBJECT_ID(N'[dbo].[RepositoryObjects_Commit]', 'U') IS NOT NULL
     DROP TABLE [dbo].[RepositoryObjects_Commit];
@@ -293,7 +187,7 @@ CREATE TABLE [dbo].[FileContentSummaries] (
     [StatementLines] bigint  NULL,
     [SyntaxKindAnnotations] xml  NULL,
     [Annotations] xml  NULL,
-    [CodeCategory] tinyint  NOT NULL,
+    [CodeCategory] tinyint  NULL,
     [FileVersion_Id] uniqueidentifier  NOT NULL
 );
 GO
@@ -317,9 +211,35 @@ CREATE TABLE [dbo].[FileRevisionPairs] (
     [Versioning_Path] nvarchar(max)  NOT NULL,
     [Versioning_FromVersion] int  NOT NULL,
     [Versioning_ToVersion] int  NOT NULL,
-    [From_Id] uniqueidentifier  NOT NULL,
-    [To_Id] uniqueidentifier  NOT NULL,
-    [OneFile_CanHave_ManyRevisionPairs_FileRevisionPair_Id] uniqueidentifier  NOT NULL
+    [OneFile_CanHave_ManyRevisionPairs_FileRevisionPair_Id] uniqueidentifier  NOT NULL,
+    [Principal_Id] uniqueidentifier  NOT NULL
+);
+GO
+
+-- Creating table 'Reviews'
+CREATE TABLE [dbo].[Reviews] (
+    [Id] uniqueidentifier  NOT NULL,
+    [Kind] int  NOT NULL,
+    [Severity] int  NOT NULL,
+    [Subject] nvarchar(max)  NOT NULL,
+    [Comments] nvarchar(max)  NULL,
+    [Topics] smallint  NOT NULL,
+    [Annotations] xml  NULL,
+    [CaseKind] int  NOT NULL,
+    [RevisionPair_Id] uniqueidentifier  NOT NULL
+);
+GO
+
+-- Creating table 'Project'
+CREATE TABLE [dbo].[Project] (
+    [Id] uniqueidentifier  NOT NULL,
+    [FullName] nvarchar(max)  NOT NULL,
+    [AbbreviatedName] nvarchar(max)  NOT NULL,
+    [From] datetime  NOT NULL,
+    [To] datetime  NOT NULL,
+    [Link] nvarchar(max)  NOT NULL,
+    [Description] nvarchar(max)  NOT NULL,
+    [Annotations] xml  NULL
 );
 GO
 
@@ -380,7 +300,8 @@ GO
 CREATE TABLE [dbo].[RepositoryObjects_FileModifiedChange] (
     [ToPath] nvarchar(max)  NOT NULL,
     [Id] uniqueidentifier  NOT NULL,
-    [FromFileVersion_Id] uniqueidentifier  NOT NULL
+    [FromFileVersion_Id] uniqueidentifier  NOT NULL,
+    [FileRevisionPair_AlsoReferences_TheDuplicatedFileModifiedChanges_FileModifiedChange_Id] uniqueidentifier  NULL
 );
 GO
 
@@ -448,6 +369,18 @@ GO
 -- Creating primary key on [Id] in table 'FileRevisionPairs'
 ALTER TABLE [dbo].[FileRevisionPairs]
 ADD CONSTRAINT [PK_FileRevisionPairs]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'Reviews'
+ALTER TABLE [dbo].[Reviews]
+ADD CONSTRAINT [PK_Reviews]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'Project'
+ALTER TABLE [dbo].[Project]
+ADD CONSTRAINT [PK_Project]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -725,36 +658,6 @@ ON [dbo].[Deltas]
     ([RevisionPair_Id]);
 GO
 
--- Creating foreign key on [From_Id] in table 'FileRevisionPairs'
-ALTER TABLE [dbo].[FileRevisionPairs]
-ADD CONSTRAINT [FK_OneFileRevisionPair_Contains_OneFromFileVersion]
-    FOREIGN KEY ([From_Id])
-    REFERENCES [dbo].[RepositoryObjects_FileVersion]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_OneFileRevisionPair_Contains_OneFromFileVersion'
-CREATE INDEX [IX_FK_OneFileRevisionPair_Contains_OneFromFileVersion]
-ON [dbo].[FileRevisionPairs]
-    ([From_Id]);
-GO
-
--- Creating foreign key on [To_Id] in table 'FileRevisionPairs'
-ALTER TABLE [dbo].[FileRevisionPairs]
-ADD CONSTRAINT [FK_OneFileRevisionPair_Contains_OneToFileVersion]
-    FOREIGN KEY ([To_Id])
-    REFERENCES [dbo].[RepositoryObjects_FileVersion]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_OneFileRevisionPair_Contains_OneToFileVersion'
-CREATE INDEX [IX_FK_OneFileRevisionPair_Contains_OneToFileVersion]
-ON [dbo].[FileRevisionPairs]
-    ([To_Id]);
-GO
-
 -- Creating foreign key on [OneFile_CanHave_ManyRevisionPairs_FileRevisionPair_Id] in table 'FileRevisionPairs'
 ALTER TABLE [dbo].[FileRevisionPairs]
 ADD CONSTRAINT [FK_OneFile_CanHave_ManyRevisionPairs]
@@ -768,6 +671,51 @@ GO
 CREATE INDEX [IX_FK_OneFile_CanHave_ManyRevisionPairs]
 ON [dbo].[FileRevisionPairs]
     ([OneFile_CanHave_ManyRevisionPairs_FileRevisionPair_Id]);
+GO
+
+-- Creating foreign key on [Principal_Id] in table 'FileRevisionPairs'
+ALTER TABLE [dbo].[FileRevisionPairs]
+ADD CONSTRAINT [FK_FileRevisionPairFileModifiedChange]
+    FOREIGN KEY ([Principal_Id])
+    REFERENCES [dbo].[RepositoryObjects_FileModifiedChange]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_FileRevisionPairFileModifiedChange'
+CREATE INDEX [IX_FK_FileRevisionPairFileModifiedChange]
+ON [dbo].[FileRevisionPairs]
+    ([Principal_Id]);
+GO
+
+-- Creating foreign key on [FileRevisionPair_AlsoReferences_TheDuplicatedFileModifiedChanges_FileModifiedChange_Id] in table 'RepositoryObjects_FileModifiedChange'
+ALTER TABLE [dbo].[RepositoryObjects_FileModifiedChange]
+ADD CONSTRAINT [FK_FileRevisionPair_AlsoReferences_TheDuplicatedFileModifiedChanges]
+    FOREIGN KEY ([FileRevisionPair_AlsoReferences_TheDuplicatedFileModifiedChanges_FileModifiedChange_Id])
+    REFERENCES [dbo].[FileRevisionPairs]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_FileRevisionPair_AlsoReferences_TheDuplicatedFileModifiedChanges'
+CREATE INDEX [IX_FK_FileRevisionPair_AlsoReferences_TheDuplicatedFileModifiedChanges]
+ON [dbo].[RepositoryObjects_FileModifiedChange]
+    ([FileRevisionPair_AlsoReferences_TheDuplicatedFileModifiedChanges_FileModifiedChange_Id]);
+GO
+
+-- Creating foreign key on [RevisionPair_Id] in table 'Reviews'
+ALTER TABLE [dbo].[Reviews]
+ADD CONSTRAINT [FK_OneFileRevisionPair_MayHave_ManyReview]
+    FOREIGN KEY ([RevisionPair_Id])
+    REFERENCES [dbo].[FileRevisionPairs]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_OneFileRevisionPair_MayHave_ManyReview'
+CREATE INDEX [IX_FK_OneFileRevisionPair_MayHave_ManyReview]
+ON [dbo].[Reviews]
+    ([RevisionPair_Id]);
 GO
 
 -- Creating foreign key on [Id] in table 'RepositoryObjects_Commit'

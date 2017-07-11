@@ -46,7 +46,7 @@ namespace Jawilliam.CDF.Labs
 
             var repositoryObjectIds = sqlRepository.RepositoryObjects.OfType<T>()
                     .Where(onThese)
-                    .Select(fv => fv.Id).Reverse().ToList(); ///TODO: Remove the reverse here...
+                    .Select(fv => fv.Id).ToList(); ///TODO: Remove the reverse here...
 
             int counter = 0;
             foreach (var repositoryObjectId in repositoryObjectIds)

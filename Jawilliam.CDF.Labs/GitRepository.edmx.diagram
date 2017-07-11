@@ -41,20 +41,23 @@
         <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.FileVersion" />
         <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.FileChange" />
       </Diagram>
-      <Diagram DiagramId="ac5c40058cf243809cab6af57bb45588" Name="Change Detection" DisplayType="true" ZoomLevel="86" >
-        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.FileContentSummary" Width="3.625" PointX="9.75" PointY="3.625" />
-        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.FileVersion" Width="2.125" PointX="6.375" PointY="3.625" />
+      <Diagram DiagramId="ac5c40058cf243809cab6af57bb45588" Name="Change Detection" DisplayType="true" ZoomLevel="98" >
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.FileContentSummary" Width="3.625" PointX="10.125" PointY="3.625" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.FileVersion" Width="2.125" PointX="6.75" PointY="3.625" />
         <AssociationConnector Association="Jawilliam.CDF.Labs.SQL.OneFileVersion_HasExactly_OneFileContentSummary" />
-        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.FileModifiedChange" Width="2.125" PointX="6.375" PointY="7.125" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.FileModifiedChange" Width="2.125" PointX="6.75" PointY="7.125" />
         <AssociationConnector Association="Jawilliam.CDF.Labs.SQL.OneFileVersion_CanBeModifiedFromBy_ManyFileChanges" />
-        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.Delta" Width="3.625" PointX="9.75" PointY="7.125" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.Delta" Width="3.625" PointX="10.125" PointY="7.125" />
         <AssociationConnector Association="Jawilliam.CDF.Labs.SQL.FileModifiedChanges_CanBeDescribedByDifferent_Deltas" />
-        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.File" Width="2.125" PointX="6.375" PointY="1.5" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.File" Width="2.125" PointX="6.75" PointY="1.5" />
         <AssociationConnector Association="Jawilliam.CDF.Labs.SQL.OneFile_HasMany_Versions" />
-        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.FileRevisionPair" Width="2.5" PointX="2.375" PointY="3.625" />
-        <AssociationConnector Association="Jawilliam.CDF.Labs.SQL.OneFileRevisionPair_Contains_OneFromFileVersion" />
-        <AssociationConnector Association="Jawilliam.CDF.Labs.SQL.OneFileRevisionPair_Contains_OneToFileVersion" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.FileRevisionPair" Width="2.5" PointX="3.125" PointY="3.625" />
         <AssociationConnector Association="Jawilliam.CDF.Labs.SQL.OneFile_CanHave_ManyRevisionPairs" />
+        <AssociationConnector Association="Jawilliam.CDF.Labs.SQL.FileRevisionPairFileModifiedChange" />
+        <AssociationConnector Association="Jawilliam.CDF.Labs.SQL.FileRevisionPair_AlsoReferences_TheDuplicatedFileModifiedChanges" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.Review" Width="2" PointX="0.5" PointY="3.625" />
+        <AssociationConnector Association="Jawilliam.CDF.Labs.SQL.OneFileRevisionPair_MayHave_ManyReview" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.Project" Width="2.375" PointX="2" PointY="7.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
