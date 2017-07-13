@@ -510,5 +510,127 @@ namespace Jawilliam.CDF.Labs
                 return (obj.Name + obj.Email).GetHashCode();
             }
         }
+
+        /// <summary>
+        /// Deploys the file revision pairs and their relation with the conceptual file.
+        /// </summary> 
+        /// <param name="sqlRepository">the SQL database repository in which the initial deployment was done.</param>
+        public virtual void DeployFileRevisionPairs(GitRepository sqlRepository)
+        {
+            var revisionPairIds = sqlRepository.RepositoryObjects.OfType<FileModifiedChange>()
+                .Select(m => new { FromVersion = m.FromFileVersion.Id, ToVersion = m.FileVersion.Id }).ToList()
+                .Select(m => $"{m.FromVersion.ToString()}##{m.ToVersion.ToString()}")
+                .Distinct()
+                .ToList();
+
+            int i = 0;
+            foreach (var revisionPairId in revisionPairIds)
+            {
+                var ids = revisionPairId.Split(new []{"##"}, StringSplitOptions.RemoveEmptyEntries);
+                var fromId = Guid.Parse(ids[0]);
+                var toId = Guid.Parse(ids[1]);
+
+                var revisionPairs = (from fmc in sqlRepository.RepositoryObjects.OfType<FileModifiedChange>()
+                    where fmc.FromFileVersion.Id == fromId && fmc.FileVersion.Id == toId
+                    orderby fmc.ToCommit.Index/*, fmc.FromCommit.Index*/
+                    select new
+                    {
+                        RevisionPair = fmc,
+                        FromCommit = fmc.FromCommit.Index,
+                        ToCommit = fmc.ToCommit.Index
+                    }).ToList();
+
+                sqlRepository.RepositoryObjects.Add(new File
+                {
+                    Id = Guid.NewGuid(),
+                    RevisionPairs = new List<FileRevisionPair>
+                    {
+                        new FileRevisionPair
+                        {
+                            Id = Guid.NewGuid(),
+                            Principal = revisionPairs[0].RevisionPair,
+                            Copies = revisionPairs.Skip(1).Select(rp => rp.RevisionPair).ToList(),
+                            Versioning = new PairRevisionInfo {FromVersion = -1, Path = "", ToVersion = -1}
+                        }
+                    }
+                });
+
+                sqlRepository.Flush();
+                Console.Out.WriteLine($"{sqlRepository.Name}: Revision pair #{++i} of ({revisionPairIds.Count})");
+            }
+        }
+
+        /// <summary>
+        /// Checks some concerns about the file revision pairs, such as the fact that the principal contains all the required information.
+        /// </summary> 
+        /// <param name="sqlRepository">the SQL database repository in which the initial deployment was done.</param>
+        public virtual void CheckFileRevisionPairs(GitRepository sqlRepository)
+        {
+            var revisionPairIds = sqlRepository.FileRevisionPairs.Select(frp => frp.Id).ToList();
+
+            //var revisionPairs = sqlRepository.FileRevisionPairs.AsNoTracking()
+            //    .Include(frp => frp.Principal.Deltas)
+            //    .Include(frp => frp.Copies.Select(c => c.Deltas));
+            int total = sqlRepository.FileRevisionPairs.Count();
+            int i = 0;
+            foreach (var revisionPairId in revisionPairIds)
+            {
+                var fileRevisionPair = sqlRepository.FileRevisionPairs.AsNoTracking()
+                    .Where(frp => frp.Id == revisionPairId)
+                    .Include(frp => frp.Principal/*.Deltas*/)
+                    .Include(frp => frp.Copies/*.Select(c => c.Deltas)*/)
+                    .Single();
+
+                Debug.Assert(fileRevisionPair.Copies.All(c => c.XAnnotations.SourceCodeChanges == fileRevisionPair.Principal.XAnnotations.SourceCodeChanges));
+                Debug.Assert(fileRevisionPair.Copies.All(c => c.XAnnotations.OnlyCommentChanges == fileRevisionPair.Principal.XAnnotations.OnlyCommentChanges));
+
+                var principalDeltas = sqlRepository.Deltas.AsNoTracking().Where(d => d.RevisionPair.Id == fileRevisionPair.Principal.Id).ToList();
+                foreach (var copy in fileRevisionPair.Copies)
+                {
+                    Debug.Assert(fileRevisionPair.Principal.Annotations == copy.Annotations);
+
+                    var copyDeltas = sqlRepository.Deltas.AsNoTracking().Where(d => d.RevisionPair.Id == copy.Id).ToList();
+                    foreach (var copyDelta in copyDeltas)
+                    {
+                        var principalDelta = principalDeltas.SingleOrDefault(d => d.Approach == copyDelta.Approach);
+                        Debug.Assert(principalDelta != null);
+                        //Debug.Assert(principalDelta.Annotations == copyDelta.Annotations);
+                        if (principalDelta.Annotations != copyDelta.Annotations)
+                        {
+                            this.Warnings.AppendLine($"annotations##{sqlRepository.Name}##{revisionPairId}##{copyDelta.Id}");
+                        }
+                        //Debug.Assert(principalDelta.DetectionResult. == copyDelta.DetectionResult);
+                        //Debug.Assert(principalDelta.Differencing == copyDelta.Differencing);
+                        if (principalDelta.Differencing != copyDelta.Differencing)
+                        {
+                            this.Warnings.AppendLine($"differencing##{sqlRepository.Name}##{revisionPairId}##{copyDelta.Id}");
+                        }
+                        if (principalDelta.Matching != copyDelta.Matching)
+                        {
+                            this.Warnings.AppendLine($"matching##{sqlRepository.Name}##{revisionPairId}##{copyDelta.Id}");
+                            //;
+
+                            //var p = principalDelta.Matching.ToArray();
+                            //var d = copyDelta.Matching.ToArray();
+                            //int min = Math.Min(p.Length, d.Length);
+                            //for (int j = 0; j < min; j++)
+                            //{
+                            //    if (p[j] != d[j])
+                            //        ;
+                            //}
+                        }
+                        //Debug.Assert(principalDelta.Matching == copyDelta.Matching);
+                        Debug.Assert(principalDelta.Report == copyDelta.Report);
+                    }
+                }
+
+                Console.Out.WriteLine($"{sqlRepository.Name}: Revision pair #{++i} checked of ({total})");
+
+                //foreach (var dbEntityEntry in sqlRepository.ChangeTracker.Entries().ToArray())
+                //{
+                //    dbEntityEntry.State = System.Data.Entity.EntityState.Detached;
+                //}
+            }
+        }
     }
 }

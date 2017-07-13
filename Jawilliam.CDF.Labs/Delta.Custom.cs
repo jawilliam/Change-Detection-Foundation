@@ -61,7 +61,7 @@ namespace Jawilliam.CDF.Labs
         {
             var detectionResult = value as DetectionResult;
             if (detectionResult == null)
-                throw new ApplicationException("The value is expeted to be a detection result.");
+                throw new ApplicationException("The value is expected to be a detection result.");
 
             var writeXmlColumn = detectionResult.WriteXmlColumn();
             XElement result = XElement.Parse(writeXmlColumn.Replace("﻿<?xml version=\"1.0\" encoding=\"utf-16\"?>", ""));
