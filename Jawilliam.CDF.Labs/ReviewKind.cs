@@ -13,5 +13,8 @@ namespace Jawilliam.CDF.Labs
     
     public enum ReviewKind : int
     {
+        Ratio_LevenshteinGumTree_IgnoringCommentChanges_LocalOutliers = 3,
+        Ratio_LevenshteinGumTree_RejectOnlyCommentChanges_Outliers = 2,
+        Ratio_LevenshteinGumTree_Outliers = 1
     }
 }

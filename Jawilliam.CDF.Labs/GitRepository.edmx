@@ -971,12 +971,17 @@
           <Member Name="Attention" Value="4" />
           <Member Name="Found" Value="5" />
         </EnumType>
-        <EnumType Name="ReviewKind" />
+        <EnumType Name="ReviewKind" >
+        <Member Name="Ratio_LevenshteinGumTree_IgnoringCommentChanges_LocalOutliers" Value="3" />
+          <Member Name="Ratio_LevenshteinGumTree_RejectOnlyCommentChanges_Outliers" Value="2" />
+          <Member Name="Ratio_LevenshteinGumTree_Outliers" Value="1" />
+        </EnumType>
         <EnumType Name="Topics" UnderlyingType="Int16" IsFlags="true">
           <Member Name="Domain" Value="1" />
           <Member Name="Matching" Value="2" />
           <Member Name="Differencing" Value="4" />
           <Member Name="Report" Value="8" />
+          <Member Name="None" Value="0" />
         </EnumType>
         <Association Name="OneFileRevisionPair_MayHave_ManyReview">
           <End Type="Jawilliam.CDF.Labs.SQL.FileRevisionPair" Role="FileRevisionPair" Multiplicity="1" />
@@ -998,6 +1003,7 @@
         <EnumType Name="CaseKind">
           <Member Name="LowerOutlierTukeyBoxplot" Value="1" />
           <Member Name="HigherOutlierTukeyBoxplot" Value="2" />
+          <Member Name="Unknown" Value="0" />
         </EnumType>
       </Schema>
     </edmx:ConceptualModels>

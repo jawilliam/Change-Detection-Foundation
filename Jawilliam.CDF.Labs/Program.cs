@@ -294,7 +294,8 @@ namespace Jawilliam.CDF.Labs
 
             #region Deploying file revision pairs
             //DeployFileRevisionPairs();
-            CheckFileRevisionPairs();
+            //CheckFileRevisionPairs();
+            DeployReviewsForFileRevisionPairs();
             #endregion
 
             //int i = 0; // the warning reports!!!
@@ -569,6 +570,23 @@ namespace Jawilliam.CDF.Labs
            
 
             Console.Out.WriteLine($"GumTree native collected!!!");
+        }
+
+        /// <summary>
+        /// Deploy the typed review notes for the new file revision pairs.
+        /// </summary> 
+        /// <param name="sqlRepository">the SQL database repository in which the initial deployment was done.</param>
+        public static void DeployReviewsForFileRevisionPairs()
+        {
+            var deployer = new FromLocalGitToSqlDbDeployment();
+            //foreach (var project in Projects.First())
+            //{
+            var project = Projects.First();
+                deployer.Warnings = new StringBuilder();
+                var dbRepository = new GitRepository(project.Name) { Name = project.Name };
+                ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 180;
+                deployer.DeployReviewsForFileRevisionPairs(dbRepository);
+            //}
         }
     }
 }

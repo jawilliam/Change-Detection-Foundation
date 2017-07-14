@@ -632,5 +632,57 @@ namespace Jawilliam.CDF.Labs
                 //}
             }
         }
+
+        /// <summary>
+        /// Deploy the typed review notes for the new file revision pairs.
+        /// </summary> 
+        /// <param name="sqlRepository">the SQL database repository in which the initial deployment was done.</param>
+        public virtual void DeployReviewsForFileRevisionPairs(GitRepository sqlRepository)
+        {
+            var revisionPairIds = sqlRepository.FileRevisionPairs.Select(frp => frp.Id).ToList();
+
+            //var revisionPairs = sqlRepository.FileRevisionPairs.AsNoTracking()
+            //    .Include(frp => frp.Principal.Deltas)
+            //    .Include(frp => frp.Copies.Select(c => c.Deltas));
+            int total = sqlRepository.FileRevisionPairs.Count();
+            int i = 0;
+            foreach (var revisionPairId in revisionPairIds)
+            {
+                var fileRevisionPair = sqlRepository.FileRevisionPairs
+                    .Where(frp => frp.Id == revisionPairId)
+                    .Include(frp => frp.Principal/*.Deltas*/)
+                    .Include(frp => frp.Copies/*.Select(c => c.Deltas)*/)
+                    .Single();
+
+                var reviewNotes = fileRevisionPair.Principal.XAnnotations.ReviewNotes?.ToList();
+                if ((reviewNotes?.Count(x => x.Review == "Ratio-LevenshteinGumTree-IgnoringCommentChangesLocalOutliers") ?? 0) == 0)
+                    //reviewNotes.All(x => x.Review != "Ratio-LevenshteinGumTree-IgnoringCommentChangesLocalOutliers")
+                    continue;
+
+                //var reviewNotes = fileRevisionPair.Principal.XAnnotations.ReviewNotes.ToList();
+                foreach (var rv in reviewNotes.ToList())
+                {
+                    var review = new Review
+                    {
+                        Id = Guid.NewGuid(),
+                        CaseKind = CaseKind.Unknown,
+                        Severity = (ReviewSeverity)Enum.Parse(typeof(ReviewSeverity), Enum.GetName(typeof(XFileModifiedChangeAnnotations.ReviewNoteKind), rv.Kind)),
+                        Subject = rv.Title ?? "",
+                        Comments = rv.Text,
+                        Kind = ReviewKind.Ratio_LevenshteinGumTree_IgnoringCommentChanges_LocalOutliers,
+                        Topics = Topics.None/*Topics.Domain*/ /*| Topics.Matching*/ /* | Topics.Differencing | Topics.Report*/,
+                    };
+
+                    fileRevisionPair.Reviews.Add(review);
+                    reviewNotes.Remove(rv);
+                }
+
+                //sqlRepository.SaveChanges();
+                var ann = fileRevisionPair.Principal.XAnnotations;
+                ann.ReviewNotes = reviewNotes.ToArray();
+                fileRevisionPair.Principal.XAnnotations = ann;
+                //sqlRepository.SaveChanges();
+            }
+        }
     }
 }

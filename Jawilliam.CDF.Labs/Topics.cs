@@ -17,6 +17,7 @@ namespace Jawilliam.CDF.Labs
         Domain = 1,
         Matching = 2,
         Differencing = 4,
-        Report = 8
+        Report = 8,
+        None = 0
     }
 }

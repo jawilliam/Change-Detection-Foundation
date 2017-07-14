@@ -14,6 +14,7 @@ namespace Jawilliam.CDF.Labs
     public enum CaseKind : int
     {
         LowerOutlierTukeyBoxplot = 1,
-        HigherOutlierTukeyBoxplot = 2
+        HigherOutlierTukeyBoxplot = 2,
+        Unknown = 0
     }
 }
