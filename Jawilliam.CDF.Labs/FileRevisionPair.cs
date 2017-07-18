@@ -24,6 +24,7 @@ namespace Jawilliam.CDF.Labs
     
         public System.Guid Id { get; set; }
         public string Annotations { get; set; }
+        public Nullable<RevisionPairFlags> Flags { get; set; }
     
         public PairRevisionInfo Versioning { get; set; }
     

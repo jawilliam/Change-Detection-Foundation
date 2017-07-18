@@ -903,23 +903,17 @@
           <Member Name="NativeGumTree" Value="2" />
           <Member Name="NativeGumTreeWithoutComments" Value="3" />
         </EnumType>
-        <EnumType Name="CodeCategory" UnderlyingType="Byte" IsFlags="true">
-          <Member Name="MaintainedProduction" Value="1" />
-          <Member Name="MaintainedTest" Value="9" />
-          <Member Name="GeneratedProduction" Value="2" />
-          <Member Name="GeneratedTest" Value="10" />
-          <Member Name="LibraryProduction" Value="3" />
-          <Member Name="LibraryTest" Value="11" />
-          <Member Name="ExampleProduction" Value="4" />
-          <Member Name="ExampleTest" Value="12" />
-          <Member Name="UnusedProduction" Value="5" />
-          <Member Name="TemporaryProduction" Value="6" />
-          <Member Name="ExtraneousProduction" Value="7" />
-          <Member Name="DecompiledProduction" Value="8" />
-          <Member Name="UnusedTest" Value="13" />
-          <Member Name="TemporaryTest" Value="14" />
-          <Member Name="ExtraneousTest" Value="15" />
-          <Member Name="DecompiledTest" Value="16" />
+        <EnumType Name="CodeCategory" UnderlyingType="Int16" IsFlags="true">
+          <Member Name="Maintained" Value="1" />
+          <Member Name="Generated" Value="2" />
+          <Member Name="Library" Value="4" />
+          <Member Name="Example" Value="8" />
+          <Member Name="Unused" Value="16" />
+          <Member Name="Temporary" Value="32" />
+          <Member Name="Extraneous" Value="64" />
+          <Member Name="Decompiled" Value="128" />
+          <Member Name="Production" Value="256" />
+          <Member Name="Test" Value="512" />
         </EnumType>
         <EntityType Name="FileRevisionPair" >
           <Key>
@@ -931,6 +925,7 @@
           <NavigationProperty Name="Principal" Relationship="Jawilliam.CDF.Labs.SQL.FileRevisionPairFileModifiedChange" FromRole="FileRevisionPair" ToRole="FileModifiedChange" />
           <NavigationProperty Name="Copies" Relationship="Jawilliam.CDF.Labs.SQL.FileRevisionPair_AlsoReferences_TheDuplicatedFileModifiedChanges" FromRole="FileRevisionPair" ToRole="FileModifiedChange" />
           <NavigationProperty Name="Reviews" Relationship="Jawilliam.CDF.Labs.SQL.OneFileRevisionPair_MayHave_ManyReview" FromRole="FileRevisionPair" ToRole="Review" />
+          <Property Name="Flags" Type="Jawilliam.CDF.Labs.SQL.RevisionPairFlags" Nullable="true" />
         </EntityType>
         <ComplexType Name="PairRevisionInfo" >
           <Property Type="String" Name="Path" Nullable="false" />
@@ -1004,6 +999,10 @@
           <Member Name="LowerOutlierTukeyBoxplot" Value="1" />
           <Member Name="HigherOutlierTukeyBoxplot" Value="2" />
           <Member Name="Unknown" Value="0" />
+        </EnumType>
+        <EnumType Name="RevisionPairFlags" UnderlyingType="Int64" IsFlags="true">
+          <Member Name="SourceCodeChanged" Value="1" />
+          <Member Name="OnlyCommentChanged" Value="2" />
         </EnumType>
       </Schema>
     </edmx:ConceptualModels>
