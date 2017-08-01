@@ -13,8 +13,12 @@ namespace Jawilliam.CDF.Labs
     
     public enum CaseKind : int
     {
-        LowerOutlierTukeyBoxplot = 1,
-        HigherOutlierTukeyBoxplot = 2,
-        Unknown = 0
+        LowOutlier = 1,
+        HighOutlier = 2,
+        Unknown = 0,
+        SamplingAll = 3,
+        SamplingMedianCloser = 4,
+        SamplingNonOutliers = 5,
+        SamplingNormal = 6
     }
 }

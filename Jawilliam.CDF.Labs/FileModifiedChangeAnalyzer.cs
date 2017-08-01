@@ -8,9 +8,12 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using System.Linq.Expressions;
 using System.Reflection.Metadata.Ecma335;
+using System.Xml;
 using System.Xml.Linq;
 using Jawilliam.CDF.Approach.GumTree;
+using Jawilliam.CDF.Approach.Matching.CSharp;
 using Jawilliam.CDF.Metrics.Similarity;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Jawilliam.CDF.Labs
 {
@@ -221,12 +224,11 @@ namespace Jawilliam.CDF.Labs
                     .Load();
 
                 var delta = repositoryObject.Deltas.SingleOrDefault(d => d.Approach == gumTreeApproach);
-                if (delta != null) return; ///TODO: Remove these...
-                //if (delta == null)
-                //{
+                if (delta == null)
+                {
                     delta = new Delta { Id = Guid.NewGuid(), Approach = gumTreeApproach };
                     repositoryObject.Deltas.Add(delta);
-                //}
+                }
 
                 var preprocessedOriginal = cleaner != null ? cleaner.Clean(original) : original;
                 var preprocessedModified = cleaner != null ? cleaner.Clean(modified) : modified;
@@ -271,6 +273,194 @@ namespace Jawilliam.CDF.Labs
             },
             cancel,
             "FileVersion.Content", "FromFileVersion.Content");
+        }
+
+        /// <summary>
+        /// Analyzes the similarity in according with a given similarity metric, such as Levenshtein.
+        /// </summary>
+        /// <param name="sqlRepository">the SQL database repository in which to analyze the file versions.</param>
+        /// <param name="interopArgs">the arguments for the interoperability.</param>
+        /// <param name="gumTree">the native approach based on the GumTree interoperability.</param>
+        /// <param name="simetricName">the name of the similarity metric</param>
+        /// <param name="simetric"></param>
+        /// <param name="cancel">Action to execute cancellation logic.</param>
+        /// <param name="gumTreeApproach"></param>
+        /// <param name="skipThese">local criterion for determining elements that should be ignored.</param>
+        /// <param name="cleaner">A preprocessor for the source code in case it is desired.</param>
+        public virtual void NativeGumTreeAndSimetricDiffByMethods(GitRepository sqlRepository, GumTreeNativeApproach gumTree, string simetricName, ISimetric<SyntaxToken> simetric, InteropArgs interopArgs, Action cancel, ChangeDetectionApproaches gumTreeApproach, Func<FileModifiedChange, bool> skipThese, SourceCodeCleaner cleaner = null)
+        {
+            this.Analyze(sqlRepository,
+            f => f.Deltas.Any(d => d.Approach == ChangeDetectionApproaches.Simetrics) &&
+                 f.Deltas.Any(d => d.Approach == ChangeDetectionApproaches.NativeGumTreeWithoutComments),
+            delegate (FileModifiedChange repositoryObject, SyntaxNode original, SyntaxNode modified, CancellationToken token)
+            {
+                if (!repositoryObject.XAnnotations.SourceCodeChanges || (skipThese?.Invoke(repositoryObject) ?? false))
+                    return;
+
+                sqlRepository.Deltas.Where(d => d.RevisionPair.Id == repositoryObject.Id && d.Approach == gumTreeApproach)
+                    .Load();
+
+                var delta = repositoryObject.Deltas.SingleOrDefault(d => d.Approach == gumTreeApproach);
+                if (delta == null)
+                {
+                    delta = new Delta {Id = Guid.NewGuid(), Approach = gumTreeApproach};
+                    repositoryObject.Deltas.Add(delta);
+                }
+                else return;
+
+                var preprocessedOriginal = cleaner != null ? cleaner.Clean(original) : original;
+                var preprocessedModified = cleaner != null ? cleaner.Clean(modified) : modified;
+
+                Func<MethodDeclarationSyntax, string> getName =
+                    syntax => syntax.Ancestors().OfType<TypeDeclarationSyntax>().Reverse()
+                        .Aggregate("", (s, a) => s + (s == "" ? "" : ".") + a.Identifier.ValueText)
+                              + $".{syntax.Identifier.ValueText}";
+
+                //Action getFullName = 
+                var originalMethods = (from m in preprocessedOriginal.DescendantNodes().OfType<MethodDeclarationSyntax>()
+                                       select new Data1 { Name = getName(m), Method = m, Matched = false }).ToList();
+                var modifiedMethods = (from m in preprocessedModified.DescendantNodes().OfType<MethodDeclarationSyntax>()
+                                       select new Data1 { Name = getName(m), Method = m, Matched = false }).ToList();
+                //if (originalMethods.All(m => m.Method.Identifier.ValueText != "CreateHardLink"))
+                //    return;
+
+                List<Tuple<MethodDeclarationSyntax, MethodDeclarationSyntax, string, string>> sameNamedMethods = new List<Tuple<MethodDeclarationSyntax, MethodDeclarationSyntax, string, string>>();
+                System.IO.File.WriteAllText(@"E:\Phd\Analysis\Original.cs", preprocessedOriginal.ToFullString());
+                System.IO.File.WriteAllText(@"E:\Phd\Analysis\Modified.cs", preprocessedModified.ToFullString());
+                var matcher = new MatchingProvider();
+                foreach (var originalMethod in originalMethods)
+                {
+                    if (modifiedMethods.Count(mm => mm.Method.Identifier.ValueText == originalMethod.Method.Identifier.ValueText) > 1)
+                        ;
+
+                    sameNamedMethods.AddRange(modifiedMethods.Where(modifiedMethod =>
+                    {
+                        var matchingResult = matcher.Match(originalMethod.Method, modifiedMethod.Method, MethodDeclarationMatchingOptions.GlobalKey);
+                        if (matchingResult.HasFlag(MethodDeclarationMatchingOptions.GlobalKey))
+                        {
+                            Debug.Assert(!modifiedMethod.Matched);
+                            originalMethod.Matched = true;
+                            modifiedMethod.Matched = true;
+                            return true;
+                        }
+                        if (matchingResult.HasFlag(MethodDeclarationMatchingOptions.RelativeKey))
+                        {
+                            Debug.Assert(!modifiedMethod.Matched);
+                            ;
+                            //originalMethod.Matched = true;
+                            //modifiedMethod.Matched = true;
+                            //return true;
+                        }
+                        if (matchingResult.HasFlag(MethodDeclarationMatchingOptions.LocalKey))
+                        {
+                            Debug.Assert(!modifiedMethod.Matched);
+                            ;
+                            //originalMethod.Matched = true;
+                            //modifiedMethod.Matched = true;
+                            //return true;
+                        }
+
+                        if (matchingResult.HasFlag(MethodDeclarationMatchingOptions.Name) && !modifiedMethod.Matched)
+                        {
+                            ; //Check if it is a same conceptual but moved method
+                            // return true;
+                        }
+
+                        return false;
+                    })
+                    .Select(p => new Tuple<MethodDeclarationSyntax, MethodDeclarationSyntax, string, string>(originalMethod.Method, p.Method, originalMethod.Name, p.Name))
+                    .ToList());
+                }
+                //sameNamedMethods = sameNamedMethods.Where(m => m.Item1.ToFullString() != m.Item2.ToFullString()).ToList();
+
+                if (!sameNamedMethods.Any())
+                {
+                    repositoryObject.Deltas.Remove(delta);
+                    //sqlRepository.Deltas.Remove(delta);
+                    return;
+                }
+
+                XElement matches = new XElement("Matching"), diffs = new XElement("Differencing");
+                foreach (var sameNamedMethod in sameNamedMethods)
+                {
+                    var originalContent = sameNamedMethod.Item1.ToFullString();
+                    var modifiedContent = sameNamedMethod.Item2.ToFullString();
+                    var unchangedMethod = originalContent == modifiedContent;
+
+                    var id = Guid.NewGuid();
+                    var matching = new XElement("MethodRevision", new XAttribute("sourceCodeChanges", XmlConvert.ToString(!unchangedMethod)));
+                    this.SetPairInfo(matching, id, sameNamedMethod);
+                    matches.Add(matching);
+                    if (unchangedMethod)
+                        continue;
+
+                    System.IO.File.WriteAllText(interopArgs.Original, originalContent);
+                    System.IO.File.WriteAllText(interopArgs.Modified, modifiedContent);
+                    try
+                    {
+                        gumTree.Proceed(interopArgs);
+                    }
+                    catch (Exception e)
+                    {
+                        if (string.IsNullOrEmpty(gumTree.Result.Error))
+                            gumTree.Result.Error = e.Message;
+                        throw;
+                    }
+                    finally
+                    {
+                        var writeXmlColumn = gumTree.Result.WriteXmlColumn();
+                        XElement result = XElement.Parse(writeXmlColumn.Replace("﻿<?xml version=\"1.0\" encoding=\"utf-16\"?>", ""));
+                        matching.Add(XElement.Parse(result.Element("Matches").ToString().Replace("\r\n", "").Replace(" />  <", "/><").Replace(">  <", "><")));
+                        var differencing = XElement.Parse(result.Element("Actions").ToString().Replace("\r\n", "").Replace(" />  <", "/><").Replace(">  <", "><"));
+                        this.SetPairInfo(differencing, id, sameNamedMethod);
+                        differencing.Add(new XAttribute("id", id));
+                        diffs.Add(differencing);
+
+                        var originalTokens = sameNamedMethod.Item1.DescendantTokens(descendIntoTrivia: true).ToList();
+                        var modifiedTokens = sameNamedMethod.Item2.DescendantTokens(descendIntoTrivia: true).ToList();
+
+                        double? distance;
+                        //simetric.CancellationToken = token;
+                        var similarity = simetric.GetSimilarity(originalTokens, modifiedTokens, out distance);
+                        Debug.Assert(distance != null, "distance != null");
+                        differencing.Add(new XAttribute($"{simetricName}Similarity", similarity));
+                        differencing.Add(new XAttribute($"{simetricName}Distance", distance.Value));
+                    }
+                }
+
+                delta.Matching = matches.ToString();
+                delta.Differencing = diffs.HasElements ? diffs.ToString().Replace("\r\n", "").Replace(" />  <", "/><").Replace(">  <", "><") : null;
+            },
+            cancel,
+            "FileVersion.Content", "FromFileVersion.Content");
+        }
+
+        private void SetPairInfo(XElement element, Guid id, Tuple<MethodDeclarationSyntax, MethodDeclarationSyntax, string, string> sameNamedMethod)
+        {
+            element.Add(new XAttribute("id", id));
+
+            if (sameNamedMethod.Item1.ExplicitInterfaceSpecifier != null)
+                element.Add("omeis", sameNamedMethod.Item1.ExplicitInterfaceSpecifier.ToFullString().Replace("<", "&lt;").Replace(">", "&gt;"));
+            element.Add(new XAttribute("om",
+                $"{sameNamedMethod.Item3}" +
+                $"{sameNamedMethod.Item1.TypeParameterList?.ToFullString() ?? ""}" +
+                $"{sameNamedMethod.Item1.ParameterList.ToFullString()}"
+                    .Replace("\r\n", "").Replace("<", "&lt;").Replace(">", "&gt;")));
+
+            if (sameNamedMethod.Item2.ExplicitInterfaceSpecifier != null)
+                element.Add("mmeis", sameNamedMethod.Item2.ExplicitInterfaceSpecifier.ToFullString().Replace("<", "&lt;").Replace(">", "&gt;"));
+            element.Add(new XAttribute("mm",
+                $"{sameNamedMethod.Item4}" +
+                $"{sameNamedMethod.Item2.TypeParameterList?.ToFullString() ?? ""}" +
+                $"{sameNamedMethod.Item2.ParameterList.ToFullString()}"
+                    .Replace("\r\n", "").Replace("<", "&lt;").Replace(">", "&gt;")));
+        }
+
+        class Data1
+        {
+            internal string Name { get; set; }
+            internal MethodDeclarationSyntax Method { get; set; }
+            internal bool Matched { get; set; }
         }
     }
 }

@@ -1,24 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\LibGit2Sharp.NativeBinaries.1.0.165\build\LibGit2Sharp.NativeBinaries.props" Condition="Exists('..\packages\LibGit2Sharp.NativeBinaries.1.0.165\build\LibGit2Sharp.NativeBinaries.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A3D8BB28-BE2B-4E8A-B5DB-FB81529EAA49}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{A16A803D-E152-48EE-96A5-AC6085930DA2}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Jawilliam.CDF.Labs</RootNamespace>
-    <AssemblyName>Jawilliam.CDF.Labs</AssemblyName>
+    <RootNamespace>Jawilliam.CDF.CSharp</RootNamespace>
+    <AssemblyName>Jawilliam.CDF.CSharp</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -28,7 +22,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -37,18 +30,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="LibGit2Sharp, Version=0.24.0.0, Culture=neutral, PublicKeyToken=7cbde695407f0333, processorArchitecture=MSIL">
-      <HintPath>..\packages\LibGit2Sharp.0.24.0-pre20170124092542\lib\net40\LibGit2Sharp.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Microsoft.CodeAnalysis, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeAnalysis.Common.2.1.0\lib\netstandard1.3\Microsoft.CodeAnalysis.dll</HintPath>
       <Private>True</Private>
@@ -67,7 +48,6 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System.ComponentModel.Composition" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Console, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Console.4.3.0\lib\net46\System.Console.dll</HintPath>
       <Private>True</Private>
@@ -79,10 +59,6 @@
     </Reference>
     <Reference Include="System.Diagnostics.StackTrace, Version=4.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Diagnostics.StackTrace.4.3.0\lib\net46\System.Diagnostics.StackTrace.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.IO, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.IO.4.3.0\lib\net462\System.IO.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.IO.Compression, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
@@ -118,8 +94,6 @@
       <HintPath>..\packages\System.Runtime.InteropServices.4.3.0\lib\net462\System.Runtime.InteropServices.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Security" />
     <Reference Include="System.Security.Cryptography.Algorithms, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Security.Cryptography.Algorithms.4.3.0\lib\net461\System.Security.Cryptography.Algorithms.dll</HintPath>
       <Private>True</Private>
@@ -172,170 +146,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Approach.Matching\Matchable.cs" />
-    <Compile Include="Branch.cs">
-      <DependentUpon>GitRepository.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CaseKind.cs">
-      <DependentUpon>GitRepository.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ChangeDetectionApproaches.cs">
-      <DependentUpon>GitRepository.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CodeCategory.cs">
-      <DependentUpon>GitRepository.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Commit.cs">
-      <DependentUpon>GitRepository.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Contributor.cs">
-      <DependentUpon>GitRepository.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Delta.cs">
-      <DependentUpon>GitRepository.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Delta.Custom.cs" />
-    <Compile Include="File.cs">
-      <DependentUpon>GitRepository.tt</DependentUpon>
-    </Compile>
-    <Compile Include="FileAddedChange.cs">
-      <DependentUpon>GitRepository.tt</DependentUpon>
-    </Compile>
-    <Compile Include="FileChange.cs">
-      <DependentUpon>GitRepository.tt</DependentUpon>
-    </Compile>
-    <Compile Include="FileContent.cs">
-      <DependentUpon>GitRepository.tt</DependentUpon>
-    </Compile>
-    <Compile Include="FileContentSummarizer.cs" />
-    <Compile Include="FileContentSummary.cs">
-      <DependentUpon>GitRepository.tt</DependentUpon>
-    </Compile>
-    <Compile Include="FileDeletedChange.cs">
-      <DependentUpon>GitRepository.tt</DependentUpon>
-    </Compile>
-    <Compile Include="FileModifiedChange.cs">
-      <DependentUpon>GitRepository.tt</DependentUpon>
-    </Compile>
-    <Compile Include="FileModifiedChange.Custom.cs" />
-    <Compile Include="FileModifiedChangeAnalyzer.cs" />
-    <Compile Include="FileRenamedChange.cs">
-      <DependentUpon>GitRepository.tt</DependentUpon>
-    </Compile>
-    <Compile Include="FileRevisionPair.cs">
-      <DependentUpon>GitRepository.tt</DependentUpon>
-    </Compile>
-    <Compile Include="FileVersion.cs">
-      <DependentUpon>GitRepository.tt</DependentUpon>
-    </Compile>
-    <Compile Include="FileContentSummary.Custom.cs" />
-    <Compile Include="FileVersionAnalyzer.cs" />
-    <Compile Include="FromLocalGitToSqlDbDeployment.cs" />
-    <Compile Include="GitRepository.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>GitRepository.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="GitRepository.Context.Custom.cs" />
-    <Compile Include="GitRepository.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>GitRepository.tt</DependentUpon>
-    </Compile>
-    <Compile Include="GitRepository.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>GitRepository.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="LinesOfCodeMetric.cs" />
-    <Compile Include="PairRevisionInfo.cs">
-      <DependentUpon>GitRepository.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Program.cs" />
-    <Compile Include="Project.cs">
-      <DependentUpon>GitRepository.tt</DependentUpon>
-    </Compile>
+    <Compile Include="Approach.Matching.CSharp\MatchingProvider.cs" />
+    <Compile Include="Approach.Matching.CSharp\MethodDeclarationMatchingOptions.cs" />
+    <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RepositoryObject.cs">
-      <DependentUpon>GitRepository.tt</DependentUpon>
-    </Compile>
-    <Compile Include="RepositoryObjectAnalyzer.cs" />
-    <Compile Include="Review.cs">
-      <DependentUpon>GitRepository.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ReviewKind.cs">
-      <DependentUpon>GitRepository.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ReviewSeverity.cs">
-      <DependentUpon>GitRepository.tt</DependentUpon>
-    </Compile>
-    <Compile Include="RevisionPairReview.cs" />
-    <Compile Include="SourceCodeMetric.cs" />
-    <Compile Include="SourceCodeCleaner.cs" />
-    <Compile Include="SyntaxTokenEqualityComparer.cs" />
-    <Compile Include="Topics.cs">
-      <DependentUpon>GitRepository.tt</DependentUpon>
-    </Compile>
-    <Compile Include="XDeltaAnnotations.cs" />
-    <Compile Include="XFileContentSummaryAnnotations.cs" />
-    <Compile Include="XFileModifiedChangeAnnotations.cs" />
-    <Compile Include="XSyntaxKindAnnotations.cs" />
-    <Compile Include="XSyntaxElementTypeSummary.cs" />
-    <Compile Include="XmlColumn.cs" />
-    <Compile Include="XmlHelper.cs" />
-    <Compile Include="XmlValidationHelper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-    <EntityDeploy Include="GitRepository.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>GitRepository.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <None Include="GitRepository.edmx.diagram">
-      <DependentUpon>GitRepository.edmx</DependentUpon>
-    </None>
+    <None Include="app.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="GitRepository.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>GitRepository.Context.cs</LastGenOutput>
-      <DependentUpon>GitRepository.edmx</DependentUpon>
-    </Content>
-    <Content Include="GitRepository.edmx.sql" />
-    <Content Include="GitRepository.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>GitRepository.cs</LastGenOutput>
-      <DependentUpon>GitRepository.edmx</DependentUpon>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.1.1.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll" />
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.1.1.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Jawilliam.CDF.CSharp\Jawilliam.CDF.CSharp.csproj">
-      <Project>{A16A803D-E152-48EE-96A5-AC6085930DA2}</Project>
-      <Name>Jawilliam.CDF.CSharp</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Jawilliam.CDF\Jawilliam.CDF.csproj">
-      <Project>{58d5a3a8-6a46-4930-81f3-adf81cab411f}</Project>
-      <Name>Jawilliam.CDF</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Reports\" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\LibGit2Sharp.NativeBinaries.1.0.165\build\LibGit2Sharp.NativeBinaries.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\LibGit2Sharp.NativeBinaries.1.0.165\build\LibGit2Sharp.NativeBinaries.props'))" />
-  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

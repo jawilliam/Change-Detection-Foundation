@@ -670,7 +670,7 @@ namespace Jawilliam.CDF.Labs
                         Subject = rv.Title ?? "",
                         Comments = rv.Text,
                         Kind = ReviewKind.Ratio_LevenshteinGumTree_IgnoringCommentChanges_LocalOutliers,
-                        Topics = Topics.None/*Topics.Domain*/ /*| Topics.Matching*/ /* | Topics.Differencing | Topics.Report*/,
+                        Topics = /*Topics.None*//**/Topics.Domain /* | Topics.Matching *//*| Topics.Differencing*/ /*| Topics.Report*/,
                     };
 
                     fileRevisionPair.Reviews.Add(review);

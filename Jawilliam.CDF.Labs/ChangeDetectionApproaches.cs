@@ -16,6 +16,7 @@ namespace Jawilliam.CDF.Labs
         Manually = 0,
         Simetrics = 1,
         NativeGumTree = 2,
-        NativeGumTreeWithoutComments = 3
+        NativeGumTreeWithoutComments = 3,
+        NativeGumTreeMethodsWithoutComments = 4
     }
 }

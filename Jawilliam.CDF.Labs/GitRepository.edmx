@@ -902,6 +902,7 @@
           <Member Name="Simetrics" Value="1" />
           <Member Name="NativeGumTree" Value="2" />
           <Member Name="NativeGumTreeWithoutComments" Value="3" />
+          <Member Name="NativeGumTreeMethodsWithoutComments" Value="4" />
         </EnumType>
         <EnumType Name="CodeCategory" UnderlyingType="Byte" IsFlags="true">
           <Member Name="MaintainedProduction" Value="1" />
@@ -972,7 +973,7 @@
           <Member Name="Found" Value="5" />
         </EnumType>
         <EnumType Name="ReviewKind" >
-        <Member Name="Ratio_LevenshteinGumTree_IgnoringCommentChanges_LocalOutliers" Value="3" />
+          <Member Name="Ratio_LevenshteinGumTree_IgnoringCommentChanges_LocalOutliers" Value="3" />
           <Member Name="Ratio_LevenshteinGumTree_RejectOnlyCommentChanges_Outliers" Value="2" />
           <Member Name="Ratio_LevenshteinGumTree_Outliers" Value="1" />
         </EnumType>
@@ -1001,9 +1002,13 @@
           <Property Name="Annotations" Type="String" Nullable="true" />
         </EntityType>
         <EnumType Name="CaseKind">
-          <Member Name="LowerOutlierTukeyBoxplot" Value="1" />
-          <Member Name="HigherOutlierTukeyBoxplot" Value="2" />
+          <Member Name="LowOutlier" Value="1" />
+          <Member Name="HighOutlier" Value="2" />
           <Member Name="Unknown" Value="0" />
+          <Member Name="SamplingAll" Value="3" />
+          <Member Name="SamplingMedianCloser" Value="4" />
+          <Member Name="SamplingNonOutliers" Value="5" />
+          <Member Name="SamplingNormal" Value="6" />
         </EnumType>
       </Schema>
     </edmx:ConceptualModels>

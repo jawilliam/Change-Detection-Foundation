@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity.Infrastructure;
+using System.Data.Entity;
 using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
@@ -25,7 +26,7 @@ namespace Jawilliam.CDF.Labs
             //new Project(),
             new Project{ Path = @"E:\Repositories\AjaxControlToolkit", Name = "AjaxControlToolkit" },
             new Project{ Path = @"E:\Repositories\akka.net", Name = "AkkaNET" },
-            new Project{ Path = @"E:\Repositories\albacore", Name = "Albacore" },
+            //new Project{ Path = @"E:\Repositories\albacore", Name = "Albacore" }, -- it does not have enought data
             new Project{ Path = @"E:\Repositories\allReady", Name = "AllReady" },
             new Project{ Path = @"E:\Repositories\ApplicationInsights-dotnet-server", Name = "ApplicationInsightsDotnetServer" },
             new Project{ Path = @"E:\Repositories\aspnetwebstack", Name = "AspnetWebStack" },
@@ -266,20 +267,28 @@ namespace Jawilliam.CDF.Labs
             //    return ann.SourceCodeChanges && !ann.OnlyCommentChanges;
             //}, "RejectOnlyCommentChanges", ChangeDetectionApproaches.NativeGumTree, "Levenshtein");
 
-            // Reporting GumTree vs. Levenshtein (ignring the comment changes)
+            // Reporting GumTree vs. Levenshtein (ignoring the comment changes)
             //ReportGumTreeAndLevenshtein(delegate (FileModifiedChange change)
             //{
             //    var ann = change.XAnnotations;
             //    return ann.SourceCodeChanges && !ann.OnlyCommentChanges;
-            //}, "IgnoringCommentChanges", ChangeDetectionApproaches.NativeGumTreeWithoutComments, "LevenshteinWithoutComments");
+            //}, "UniquePairsIgnoringCommentChanges", ChangeDetectionApproaches.NativeGumTreeWithoutComments, "LevenshteinWithoutComments");
             #endregion
 
-            #region Reviwing revision pairs
+            #region Reviewing revision pairs
             //ReviewRevisionPairs(@"E:\Phd\Analysis\AjaxControlToolkitOutliersIgnoringCommentChanges.csv", @"E:\Phd\Analysis\Original.cs", @"E:\Phd\Analysis\Modified.cs", "Ratio-LevenshteinGumTree-RejectOnlyCommentChangesOutliers");
             //            ReviewRevisionPairs(@"E:\Phd\Analysis\AjaxControlToolkit"+
             // /*AkkaNET*/"OutliersIgnoringCommentChanges.csv",
             //                @"E:\Phd\Analysis\Original.cs", @"E:\Phd\Analysis\Modified.cs",
             //                "Ratio-LevenshteinGumTree-IgnoringCommentChangesLocalOutliers"/*,
+            //                new SourceCodeCleaner
+            //                {
+            //                    Normalize = true,
+            //                    Indentation = "   ",
+            //                    RemoveComments = true
+            //                }*/);
+            //ReviewRevisionPairs2(@"E:\Phd\Analysis\Original.cs", @"E:\Phd\Analysis\Modified.cs",
+            //    ReviewKind.Ratio_LevenshteinGumTree_IgnoringCommentChanges_LocalOutliers/*,
             //                new SourceCodeCleaner
             //                {
             //                    Normalize = true,
@@ -295,7 +304,19 @@ namespace Jawilliam.CDF.Labs
             #region Deploying file revision pairs
             //DeployFileRevisionPairs();
             //CheckFileRevisionPairs();
-            DeployReviewsForFileRevisionPairs();
+            //DeployReviewsForFileRevisionPairs();
+            #endregion
+
+            #region Diff GumTree[native] and Levenshtein by methods deltas
+            //DetectingNativeGumTreeDiff(ChangeDetectionApproaches.NativeGumTree);
+            DetectingNativeGumTreeAndLevenshteinDiffByMethods(ChangeDetectionApproaches.NativeGumTreeMethodsWithoutComments,
+                "LevenshteinWithoutComments",
+                change => change.XAnnotations.OnlyCommentChanges,
+                new SourceCodeCleaner
+                {
+                    Normalize = false,
+                    RemoveComments = true
+                });
             #endregion
 
             //int i = 0; // the warning reports!!!
@@ -338,12 +359,11 @@ namespace Jawilliam.CDF.Labs
         {
             var analyzer = new FileModifiedChangeAnalyzer { MillisecondsTimeout = 600000 };
             var levenshteinSimetric = new LevenshteinSimetric<SyntaxToken> { Comparer = new SyntaxTokenEqualityComparer() };
-
             foreach (var project in Projects)
             {
                 analyzer.Warnings = new StringBuilder();
                 var dbRepository = new GitRepository(project.Name) { Name = project.Name };
-                ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 180;
+                ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 600;
                 analyzer.SimetricDiff(dbRepository, simetricName, levenshteinSimetric, null, skipThese, onThese, cleaner);
 
                 //System.IO.File.WriteAllText($@"E:\Repositories\DetectingLevenshteinWithoutCommentsDiff{project.Name}.txt", analyzer.Warnings.ToString());
@@ -384,23 +404,24 @@ namespace Jawilliam.CDF.Labs
         {
             var editDistance = new EditDistance<ActionDescriptor>();
             var report = new StringBuilder();
+            int nonExisting = 0;
 
             var header = "Project;RevisionPair;GtD;LvD;LvS;LvGt;GtLv;ScoreGtImprovedLv;iGtLv";
             report.AppendLine(header);
-            System.IO.File.AppendAllText($@"{Environment.CurrentDirectory}\GumTreeLevenshtein{postfix ?? ""}.csv", report.ToString());
+            System.IO.File.AppendAllText($@"E:\Phd\Analysis\GumTreeLevenshtein{postfix ?? ""}.csv", report.ToString());
             report.Clear();
 
             var numberFormatInfo = new NumberFormatInfo { CurrencyDecimalSeparator = "." };
             foreach (var project in Projects)
             {
                 var dbRepository = new GitRepository(project.Name) { Name = project.Name };
-                ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 180;
+                ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 600;
 
-                var fileModifiedChanges = from rp in dbRepository.RepositoryObjects.AsNoTracking().OfType<FileModifiedChange>()
-                    where rp.Deltas.Any(d => d.Approach == ChangeDetectionApproaches.Simetrics && d.Annotations != null) &&
-                          rp.Deltas.Any(d => d.Approach == gumTreeVariant && d.Report == null && 
+                var fileModifiedChanges = from frp in dbRepository.FileRevisionPairs.AsNoTracking()
+                    where frp.Principal.Deltas.Any(d => d.Approach == ChangeDetectionApproaches.Simetrics && d.Annotations != null) &&
+                          frp.Principal.Deltas.Any(d => d.Approach == gumTreeVariant && d.Report == null && 
                           d.Matching != null && d.Differencing != null)
-                    select rp;
+                    select frp.Principal;
                 var revisionPairs = from rp in fileModifiedChanges
                     select new
                     {
@@ -416,8 +437,13 @@ namespace Jawilliam.CDF.Labs
                 {
                     if (filter?.Invoke(rp.rp) ?? true)
                     {
-                        var lv = rp.Levenstein.Single(d => d.Approach == ChangeDetectionApproaches.Simetrics).XAnnotations.Simetrics.Single(d => d.Name == levenshteinVariant);
+                        var lv = rp.Levenstein.Single(d => d.Approach == ChangeDetectionApproaches.Simetrics).XAnnotations.Simetrics.SingleOrDefault(d => d.Name == levenshteinVariant);
                         var gt = (DetectionResult)rp.NativeGumTree.Single(d => d.Approach == gumTreeVariant).DetectionResult;
+                        if (lv == null)
+                        {
+                            nonExisting++;
+                            continue;
+                        }
 
                         var gtDistance = editDistance.Compute(gt.Actions);
                         items[counter] = new Tuple<string, string, double, Tuple<double, double>, double, double, Tuple<int, int>>(
@@ -431,7 +457,7 @@ namespace Jawilliam.CDF.Labs
                         );
                     }
 
-                    Console.WriteLine($"Collecting {++counter}-({items.Length}) of {project.Name}");
+                    Console.WriteLine($"Collecting {++counter}-({items.Length}) of {project.Name}, {nonExisting}-skipped");
                 }
 
                 items = items.Where(it => it != null).ToArray();
@@ -468,70 +494,129 @@ namespace Jawilliam.CDF.Labs
                                       $"{Math.Abs(item.Item7.Item1 - item.Item7.Item2)}");
                 }
 
-                System.IO.File.WriteAllText($@"{Environment.CurrentDirectory}\GumTreeLevenshtein{project.Name}{postfix ?? ""}.csv", header + Environment.NewLine + report);
-                System.IO.File.AppendAllText($@"{Environment.CurrentDirectory}\GumTreeLevenshtein{postfix ?? ""}.csv", report.ToString());
+                //System.IO.File.WriteAllText($@"{Environment.CurrentDirectory}\GumTreeLevenshtein{project.Name}{postfix ?? ""}.csv", header + Environment.NewLine + report);
+                System.IO.File.AppendAllText($@"E:\Phd\Analysis\GumTreeLevenshtein{postfix ?? ""}.csv", report.ToString());
 
                 report.Clear();
+            }
+            Console.Out.WriteLine($"Report done!!!");
+        }
+
+        ///// <summary>
+        ///// Inspecting revision pairs.
+        ///// </summary>
+        ///// <param name="revisionPairsCsvPath">file path of the CSV containing the revision pairs of interest.</param>
+        ///// <param name="originalFilePath">file path where store the original source code.</param>
+        ///// <param name="modifiedFilePath">file path where store the modified source code.</param>
+        ///// <param name="currentReview"></param>
+        //private static void ReviewRevisionPairs(string revisionPairsCsvPath, string originalFilePath, string modifiedFilePath, string currentReview, SourceCodeCleaner cleaner = null)
+        //{
+        //    string[] lines = System.IO.File.ReadAllLines(revisionPairsCsvPath);
+        //    var loader = new RevisionPairReview();
+
+        //    foreach (var line in lines.Skip(1))
+        //    {
+        //        string[] values = line.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+        //        values = values.Select(d => d.Trim('"')).ToArray();
+
+        //        var project = Projects.Single(p => p.Name == values[0].Trim('"'));
+        //        var gumTree = new GumTreeNativeApproach();
+        //        var interopArgs = new InteropArgs { Original = originalFilePath, Modified  = modifiedFilePath };
+        //        using (var dbRepository = new GitRepository(project.Name) { Name = project.Name })
+        //        {
+        //            ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 180;
+        //            var guid = Guid.Parse(values[1]);
+        //            ReviewRevisionPair(originalFilePath, modifiedFilePath, currentReview, cleaner, loader, dbRepository, guid);
+        //        }
+        //    }
+        //}
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="gumTreeApproach"></param>
+        /// <param name="skipThese"></param>
+        /// <param name="cleaner">A preprocessor for the source code in case it is desired.</param>
+        private static void DetectingNativeGumTreeAndLevenshteinDiffByMethods(ChangeDetectionApproaches gumTreeApproach, string simetricName, Func<FileModifiedChange, bool> skipThese = null, SourceCodeCleaner cleaner = null)
+        {
+            var analyzer = new FileModifiedChangeAnalyzer { MillisecondsTimeout = 600000 };
+            var gumTree = new GumTreeNativeApproach();
+            var levenshteinSimetric = new LevenshteinSimetric<SyntaxToken> { Comparer = new SyntaxTokenEqualityComparer() };
+
+            var interopArgs = new InteropArgs()
+            {
+                //GumTreePath = @"C:\CDF\gumtree-20170525-2.1.0-SNAPSHOT",
+                //Original = @"C:\CDF\Original.cs",
+                //Modified = @"C:\CDF\Modified.cs"
+            };
+
+            foreach (var project in Projects)
+            {
+                analyzer.Warnings = new StringBuilder();
+                var dbRepository = new GitRepository(project.Name) { Name = project.Name };
+                ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 600000;
+                analyzer.NativeGumTreeAndSimetricDiffByMethods(dbRepository, gumTree, simetricName, levenshteinSimetric, interopArgs, () => gumTree.Cancel(), gumTreeApproach, skipThese, cleaner);
+
+                //System.IO.File.WriteAllText($@"C:\CDF\NativeGumTreeDiff{project.Name}.txt", analyzer.Warnings.ToString());
             }
             Console.Out.WriteLine($"GumTree native collected!!!");
         }
 
+
         /// <summary>
         /// Inspecting revision pairs.
         /// </summary>
-        /// <param name="revisionPairsCsvPath">file path of the CSV containing the revision pairs of interest.</param>
         /// <param name="originalFilePath">file path where store the original source code.</param>
         /// <param name="modifiedFilePath">file path where store the modified source code.</param>
         /// <param name="currentReview"></param>
-        private static void ReviewRevisionPairs(string revisionPairsCsvPath, string originalFilePath, string modifiedFilePath, string currentReview, SourceCodeCleaner cleaner = null)
+        private static void ReviewRevisionPairs2(string originalFilePath, string modifiedFilePath, ReviewKind currentReview, SourceCodeCleaner cleaner = null)
         {
-            string[] lines = System.IO.File.ReadAllLines(revisionPairsCsvPath);
-            var loader = new RevisionPairReview();
-
-            foreach (var line in lines.Skip(1))
+            while (true)
             {
-                string[] values = line.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
-                values = values.Select(d => d.Trim('"')).ToArray();
+                var loader = new RevisionPairReview();
 
-                var project = Projects.Single(p => p.Name == values[0].Trim('"'));
+                var project = Projects.Single(p => p.Name == "AjaxControlToolkit");
                 var gumTree = new GumTreeNativeApproach();
-                var interopArgs = new InteropArgs { Original = originalFilePath, Modified  = modifiedFilePath };
+                var interopArgs = new InteropArgs { Original = originalFilePath, Modified = modifiedFilePath };
                 using (var dbRepository = new GitRepository(project.Name) { Name = project.Name })
                 {
                     ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 180;
-                    var revisionPair = loader.Load(dbRepository, Guid.Parse(values[1])/*Guid.Parse("37606744-2D90-4151-9DBB-2DB3DD7BA14F")*/, "FileVersion.Content", "FromFileVersion.Content");
-
-                    var original = SyntaxFactory.ParseCompilationUnit(revisionPair.FromFileVersion.Content.SourceCode).SyntaxTree.GetRoot();
-                    var modified = SyntaxFactory.ParseCompilationUnit(revisionPair.FileVersion.Content.SourceCode).SyntaxTree.GetRoot();
-
-                    var preprocessedOriginal = cleaner != null ? cleaner.Clean(original) : original;
-                    var preprocessedModified = cleaner != null ? cleaner.Clean(modified) : modified;
-                    System.IO.File.WriteAllText(originalFilePath, preprocessedOriginal.ToFullString());
-                    System.IO.File.WriteAllText(modifiedFilePath, preprocessedModified.ToFullString());
-
-                    var xAnnotations = revisionPair.XAnnotations;
-                    var notes = (xAnnotations.ReviewNotes ?? new XFileModifiedChangeAnnotations.ReviewNote[0]).ToList();
-                    if (notes.Count(n => n.Review == currentReview) > 0)
-                        continue;
-
-                    //var gtOutput = gumTree.ExecuteCommand(interopArgs, " ", $"gumtree.bat jsondiff {interopArgs.Original} {interopArgs.Modified}", " ");
-
-                    notes.AddRange(new List<XFileModifiedChangeAnnotations.ReviewNote>
-                    {
-                        new XFileModifiedChangeAnnotations.ReviewNote
-                        {
-                            Kind = XFileModifiedChangeAnnotations.ReviewNoteKind.Found,
-                            Review = currentReview,
-                            //Title = "x",
-                            //Text = "null"
-                        }
-                    });
-                    xAnnotations.ReviewNotes = notes.ToArray();
-                    revisionPair.XAnnotations = xAnnotations;
-                    //revisionPair.Annotations = "<Annotations xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" sourceCodeChanges=\"true\" onlyCommentChanges=\"false\"><Reviews><Note review=\"Ratio-LevenshteinGumTree-IgnoringCommentChangesLocalOutliers\" kind=\"Bad\" title=\"Bad reported deletions: the initializer expression of the fields hiddenFieldName (line 318) and combinedScripts (line 319) moved to the assignments of lines 324 and 325, respectively.\" text=\"These changes were well detected, but both initializations were reported as being deleted and their expressions as moved. They were completely moved, but their movements also require that their element types change from initializer to assignment. An example of none-same labeled but still compatible elements. From the point of view of a developer, nothing was deleted\"/></Reviews></Annotations>";
-                    //dbRepository.Flush();
+                    var guid = Guid.Parse("88b033f8-8235-47ff-ba4c-6845fdd3a66f");
+                    ReviewRevisionPair(originalFilePath, modifiedFilePath, currentReview, cleaner, loader, dbRepository, guid);
                 }
             }
+        }
+
+        private static void ReviewRevisionPair(string originalFilePath, string modifiedFilePath, ReviewKind currentReview,
+            SourceCodeCleaner cleaner, RevisionPairReview loader, GitRepository dbRepository, Guid guid)
+        {
+            var revisionPair = dbRepository.FileRevisionPairs
+                .Include(frp => frp.Principal.FileVersion.Content)
+                .Include(frp => frp.Principal.FromFileVersion.Content)
+                .Include(frp => frp.Reviews)
+                .Single(frp => frp.Principal.Id == guid);
+
+            var original = SyntaxFactory.ParseCompilationUnit(revisionPair.Principal.FromFileVersion.Content.SourceCode).SyntaxTree.GetRoot();
+            var modified = SyntaxFactory.ParseCompilationUnit(revisionPair.Principal.FileVersion.Content.SourceCode).SyntaxTree.GetRoot();
+
+            var preprocessedOriginal = cleaner != null ? cleaner.Clean(original) : original;
+            var preprocessedModified = cleaner != null ? cleaner.Clean(modified) : modified;
+            System.IO.File.WriteAllText(originalFilePath, preprocessedOriginal.ToFullString());
+            System.IO.File.WriteAllText(modifiedFilePath, preprocessedModified.ToFullString());
+
+            //var gtOutput = gumTree.ExecuteCommand(interopArgs, " ", $"gumtree.bat jsondiff {interopArgs.Original} {interopArgs.Modified}", " ");
+            ;
+            revisionPair.Reviews.Add(new Review
+            {
+                Id = Guid.NewGuid(),
+                CaseKind = CaseKind.HighOutlier,
+                Severity = ReviewSeverity.Good,
+                Subject = "",
+                Comments = null,
+                Kind = currentReview,
+                Topics = Topics.None/**//*Topics.Domain*/ /* | Topics.Matching *//*| Topics.Differencing*/ /*| Topics.Report*/,
+            });
+            dbRepository.Flush();
         }
 
         /// <summary>
