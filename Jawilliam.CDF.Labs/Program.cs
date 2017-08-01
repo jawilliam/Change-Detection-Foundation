@@ -267,12 +267,24 @@ namespace Jawilliam.CDF.Labs
             //    return ann.SourceCodeChanges && !ann.OnlyCommentChanges;
             //}, "RejectOnlyCommentChanges", ChangeDetectionApproaches.NativeGumTree, "Levenshtein");
 
-            // Reporting GumTree vs. Levenshtein (ignoring the comment changes)
+            //Reporting GumTree vs.Levenshtein(ignoring the comment changes) - Count of actions
             //ReportGumTreeAndLevenshtein(delegate (FileModifiedChange change)
             //{
             //    var ann = change.XAnnotations;
             //    return ann.SourceCodeChanges && !ann.OnlyCommentChanges;
-            //}, "UniquePairsIgnoringCommentChanges", ChangeDetectionApproaches.NativeGumTreeWithoutComments, "LevenshteinWithoutComments");
+            //}, "UniquePairsIgnoringCommentChanges",
+            //ChangeDetectionApproaches.NativeGumTreeWithoutComments, 
+            //"LevenshteinWithoutComments", 
+            //new EditDistance<ActionDescriptor>());
+            //Reporting GumTree vs.Levenshtein(ignoring the comment changes) - #Additions
+            ReportGumTreeAndLevenshtein(delegate (FileModifiedChange change)
+            {
+                var ann = change.XAnnotations;
+                return ann.SourceCodeChanges && !ann.OnlyCommentChanges;
+            }, "UniquePairsIgnoringCommentChangesJustAdditions",
+            ChangeDetectionApproaches.NativeGumTreeWithoutComments,
+            "LevenshteinWithoutComments",
+            new EditDistance<ActionDescriptor> { CostModel = descriptor => descriptor.Action == ActionKind.Insert ? 1 : 0});
             #endregion
 
             #region Reviewing revision pairs
@@ -309,14 +321,14 @@ namespace Jawilliam.CDF.Labs
 
             #region Diff GumTree[native] and Levenshtein by methods deltas
             //DetectingNativeGumTreeDiff(ChangeDetectionApproaches.NativeGumTree);
-            DetectingNativeGumTreeAndLevenshteinDiffByMethods(ChangeDetectionApproaches.NativeGumTreeMethodsWithoutComments,
-                "LevenshteinWithoutComments",
-                change => change.XAnnotations.OnlyCommentChanges,
-                new SourceCodeCleaner
-                {
-                    Normalize = false,
-                    RemoveComments = true
-                });
+            //DetectingNativeGumTreeAndLevenshteinDiffByMethods(ChangeDetectionApproaches.NativeGumTreeMethodsWithoutComments,
+            //    "LevenshteinWithoutComments",
+            //    change => change.XAnnotations.OnlyCommentChanges,
+            //    new SourceCodeCleaner
+            //    {
+            //        Normalize = false,
+            //        RemoveComments = true
+            //    });
             #endregion
 
             //int i = 0; // the warning reports!!!
@@ -400,9 +412,8 @@ namespace Jawilliam.CDF.Labs
             Console.Out.WriteLine($"GumTree native collected!!!");
         }
 
-        private static void ReportGumTreeAndLevenshtein(Func<FileModifiedChange, bool> filter, string postfix, ChangeDetectionApproaches gumTreeVariant, string levenshteinVariant)
+        private static void ReportGumTreeAndLevenshtein(Func<FileModifiedChange, bool> filter, string postfix, ChangeDetectionApproaches gumTreeVariant, string levenshteinVariant, EditDistance<ActionDescriptor> editDistance)
         {
-            var editDistance = new EditDistance<ActionDescriptor>();
             var report = new StringBuilder();
             int nonExisting = 0;
 
