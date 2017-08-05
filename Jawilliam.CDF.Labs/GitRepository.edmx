@@ -976,6 +976,7 @@
           <Member Name="Ratio_LevenshteinGumTree_IgnoringCommentChanges_LocalOutliers" Value="3" />
           <Member Name="Ratio_LevenshteinGumTree_RejectOnlyCommentChanges_Outliers" Value="2" />
           <Member Name="Ratio_LevenshteinGumTree_Outliers" Value="1" />
+          <Member Name="Ratio_LevenshteinGumTreeAdditions_LocalOutliers" Value="4" />
         </EnumType>
         <EnumType Name="Topics" UnderlyingType="Int16" IsFlags="true">
           <Member Name="Domain" Value="1" />

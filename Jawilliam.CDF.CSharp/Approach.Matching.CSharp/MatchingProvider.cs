@@ -32,7 +32,8 @@ namespace Jawilliam.CDF.Approach.Matching.CSharp
                                 a.Kind() == SyntaxKind.InterfaceDeclaration)
                     .Aggregate("", (s, a) => s + (s == "" ? "" : ".") + (a.Kind() == SyntaxKind.NamespaceDeclaration
                         ? ((NamespaceDeclarationSyntax)a).Name.ToFullString()
-                        : ((BaseTypeDeclarationSyntax)a).Identifier.ValueText));
+                        : ((TypeDeclarationSyntax)a).Identifier.ValueText +
+                          ((TypeDeclarationSyntax)a).TypeParameterList?.ToFullString() ?? "")).Replace("\r\n", "");
 
                 var originalPath = getPath(original);
                 var modifiedPath = getPath(modified);
@@ -51,7 +52,7 @@ namespace Jawilliam.CDF.Approach.Matching.CSharp
                     .Select(a => a.Kind() == SyntaxKind.NamespaceDeclaration
                         ? ((NamespaceDeclarationSyntax)a).Name.ToFullString()
                         : ((BaseTypeDeclarationSyntax)a).Identifier.ValueText)
-                    .FirstOrDefault() ?? "";
+                    .FirstOrDefault()?.Replace("\r\n", "") ?? "";
 
                 var originalPath = getDeclaringPath(original);
                 var modifiedPath = getDeclaringPath(modified);
@@ -62,13 +63,13 @@ namespace Jawilliam.CDF.Approach.Matching.CSharp
 
             if (options.HasFlag(MethodDeclarationMatchingOptions.ExplicitInterfaceSpecifier))
             {
-                if (original.ExplicitInterfaceSpecifier.ToFullString() == modified.ExplicitInterfaceSpecifier.ToFullString())
+                if (original.ExplicitInterfaceSpecifier?.ToFullString() == modified.ExplicitInterfaceSpecifier?.ToFullString())
                     result |= MethodDeclarationMatchingOptions.ExplicitInterfaceSpecifier;
             }
 
             if (options.HasFlag(MethodDeclarationMatchingOptions.TypeParameters))
             {
-                if (original.TypeParameterList.ToFullString() == modified.TypeParameterList.ToFullString())
+                if (original.TypeParameterList?.ToFullString() == modified.TypeParameterList?.ToFullString())
                     result |= MethodDeclarationMatchingOptions.TypeParameters;
             }
 

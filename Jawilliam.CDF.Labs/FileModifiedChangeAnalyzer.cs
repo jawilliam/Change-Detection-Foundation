@@ -306,15 +306,20 @@ namespace Jawilliam.CDF.Labs
                     delta = new Delta {Id = Guid.NewGuid(), Approach = gumTreeApproach};
                     repositoryObject.Deltas.Add(delta);
                 }
-                else return;
+                //else return;
 
                 var preprocessedOriginal = cleaner != null ? cleaner.Clean(original) : original;
                 var preprocessedModified = cleaner != null ? cleaner.Clean(modified) : modified;
-
-                Func<MethodDeclarationSyntax, string> getName =
-                    syntax => syntax.Ancestors().OfType<TypeDeclarationSyntax>().Reverse()
-                        .Aggregate("", (s, a) => s + (s == "" ? "" : ".") + a.Identifier.ValueText)
-                              + $".{syntax.Identifier.ValueText}";
+                Func<MethodDeclarationSyntax, string> getName = syntax => syntax.Ancestors().Reverse()
+                    .Where(a => a.Kind() == SyntaxKind.NamespaceDeclaration ||
+                                a.Kind() == SyntaxKind.ClassDeclaration ||
+                                a.Kind() == SyntaxKind.StructDeclaration ||
+                                a.Kind() == SyntaxKind.InterfaceDeclaration)
+                    .Aggregate("", (s, a) => s + (s == "" ? "" : ".") + (a.Kind() == SyntaxKind.NamespaceDeclaration
+                        ? ((NamespaceDeclarationSyntax)a).Name.ToFullString()
+                        : ((BaseTypeDeclarationSyntax)a).Identifier.ValueText +
+                          ((TypeDeclarationSyntax)a).TypeParameterList?.ToFullString() ?? ""))?.Replace("\r\n", "")
+                    + $".{syntax.Identifier.ValueText}";
 
                 //Action getFullName = 
                 var originalMethods = (from m in preprocessedOriginal.DescendantNodes().OfType<MethodDeclarationSyntax>()
@@ -328,36 +333,62 @@ namespace Jawilliam.CDF.Labs
                 System.IO.File.WriteAllText(@"E:\Phd\Analysis\Original.cs", preprocessedOriginal.ToFullString());
                 System.IO.File.WriteAllText(@"E:\Phd\Analysis\Modified.cs", preprocessedModified.ToFullString());
                 var matcher = new MatchingProvider();
+
                 foreach (var originalMethod in originalMethods)
                 {
-                    if (modifiedMethods.Count(mm => mm.Method.Identifier.ValueText == originalMethod.Method.Identifier.ValueText) > 1)
-                        ;
-
                     sameNamedMethods.AddRange(modifiedMethods.Where(modifiedMethod =>
                     {
                         var matchingResult = matcher.Match(originalMethod.Method, modifiedMethod.Method, MethodDeclarationMatchingOptions.GlobalKey);
                         if (matchingResult.HasFlag(MethodDeclarationMatchingOptions.GlobalKey))
                         {
-                            Debug.Assert(!modifiedMethod.Matched);
+                            Debug.Assert(!modifiedMethod.Matched && !originalMethod.Matched);
+                            originalMethod.Matched = true;
+                            modifiedMethod.Matched = true;
+                            return true;
+                        }
+                        return false;
+                    })
+                    .Select(p => new Tuple<MethodDeclarationSyntax, MethodDeclarationSyntax, string, string>(originalMethod.Method, p.Method, originalMethod.Name, p.Name))
+                    .ToList());
+                }
+
+                foreach (var originalMethod in originalMethods.Where(o => !o.Matched))
+                {
+                    if (modifiedMethods.Count(mm => !mm.Matched && mm.Method.Identifier.ValueText == originalMethod.Method.Identifier.ValueText) > 1)
+                        ;
+
+                    sameNamedMethods.AddRange(modifiedMethods.Where(o => !o.Matched).Where(modifiedMethod =>
+                    {
+                        if (originalMethod.Matched)
+                            return false;
+                        var matchingResult = matcher.Match(originalMethod.Method, modifiedMethod.Method, MethodDeclarationMatchingOptions.GlobalKey);
+                        //if (matchingResult.HasFlag(MethodDeclarationMatchingOptions.GlobalKey))
+                        //{
+                        //    Debug.Assert(!modifiedMethod.Matched);
+                        //    originalMethod.Matched = true;
+                        //    modifiedMethod.Matched = true;
+                        //    return true;
+                        //}
+                        if (originalMethod.Name == modifiedMethod.Name.Replace("Akka.Cluster.Proto.Msg", "Akka.Cluster.Proto") && matchingResult.HasFlag(MethodDeclarationMatchingOptions.RelativeKey))
+                        {
+                            Debug.Assert(!modifiedMethod.Matched && !originalMethod.Matched);
                             originalMethod.Matched = true;
                             modifiedMethod.Matched = true;
                             return true;
                         }
                         if (matchingResult.HasFlag(MethodDeclarationMatchingOptions.RelativeKey))
                         {
-                            Debug.Assert(!modifiedMethod.Matched);
-                            ;
-                            //originalMethod.Matched = true;
-                            //modifiedMethod.Matched = true;
-                            //return true;
+                            Debug.Assert(!modifiedMethod.Matched && !originalMethod.Matched);
+                            originalMethod.Matched = true;
+                            modifiedMethod.Matched = true;
+                            return true;
                         }
                         if (matchingResult.HasFlag(MethodDeclarationMatchingOptions.LocalKey))
                         {
-                            Debug.Assert(!modifiedMethod.Matched);
-                            ;
-                            //originalMethod.Matched = true;
-                            //modifiedMethod.Matched = true;
-                            //return true;
+                            Debug.Assert(!modifiedMethod.Matched && !originalMethod.Matched);
+                            originalMethod.Matched = true;
+                            modifiedMethod.Matched = true;
+                            return true;
                         }
 
                         if (matchingResult.HasFlag(MethodDeclarationMatchingOptions.Name) && !modifiedMethod.Matched)
@@ -413,7 +444,7 @@ namespace Jawilliam.CDF.Labs
                         matching.Add(XElement.Parse(result.Element("Matches").ToString().Replace("\r\n", "").Replace(" />  <", "/><").Replace(">  <", "><")));
                         var differencing = XElement.Parse(result.Element("Actions").ToString().Replace("\r\n", "").Replace(" />  <", "/><").Replace(">  <", "><"));
                         this.SetPairInfo(differencing, id, sameNamedMethod);
-                        differencing.Add(new XAttribute("id", id));
+                        //differencing.Add(new XAttribute("id", id));
                         diffs.Add(differencing);
 
                         var originalTokens = sameNamedMethod.Item1.DescendantTokens(descendIntoTrivia: true).ToList();

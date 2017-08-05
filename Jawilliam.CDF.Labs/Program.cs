@@ -277,14 +277,14 @@ namespace Jawilliam.CDF.Labs
             //"LevenshteinWithoutComments", 
             //new EditDistance<ActionDescriptor>());
             //Reporting GumTree vs.Levenshtein(ignoring the comment changes) - #Additions
-            ReportGumTreeAndLevenshtein(delegate (FileModifiedChange change)
-            {
-                var ann = change.XAnnotations;
-                return ann.SourceCodeChanges && !ann.OnlyCommentChanges;
-            }, "UniquePairsIgnoringCommentChangesJustAdditions",
-            ChangeDetectionApproaches.NativeGumTreeWithoutComments,
-            "LevenshteinWithoutComments",
-            new EditDistance<ActionDescriptor> { CostModel = descriptor => descriptor.Action == ActionKind.Insert ? 1 : 0});
+            //ReportGumTreeAndLevenshtein(delegate (FileModifiedChange change)
+            //{
+            //    var ann = change.XAnnotations;
+            //    return ann.SourceCodeChanges && !ann.OnlyCommentChanges;
+            //}, "UniquePairsIgnoringCommentChangesJustAdditions",
+            //ChangeDetectionApproaches.NativeGumTreeWithoutComments,
+            //"LevenshteinWithoutComments",
+            //new EditDistance<ActionDescriptor> { CostModel = descriptor => descriptor.Action == ActionKind.Insert ? 1 : 0});
             #endregion
 
             #region Reviewing revision pairs
@@ -299,14 +299,14 @@ namespace Jawilliam.CDF.Labs
             //                    Indentation = "   ",
             //                    RemoveComments = true
             //                }*/);
-            //ReviewRevisionPairs2(@"E:\Phd\Analysis\Original.cs", @"E:\Phd\Analysis\Modified.cs",
-            //    ReviewKind.Ratio_LevenshteinGumTree_IgnoringCommentChanges_LocalOutliers/*,
-            //                new SourceCodeCleaner
-            //                {
-            //                    Normalize = true,
-            //                    Indentation = "   ",
-            //                    RemoveComments = true
-            //                }*/);
+            ReviewRevisionPairs2(@"E:\Phd\Analysis\Original.cs", @"E:\Phd\Analysis\Modified.cs",
+                ReviewKind.Ratio_LevenshteinGumTreeAdditions_LocalOutliers/*,
+                            new SourceCodeCleaner
+                            {
+                                Normalize = true,
+                                Indentation = "   ",
+                                RemoveComments = true
+                            }*/);
             #endregion
 
             #region Detecting not real source code changes
@@ -550,7 +550,7 @@ namespace Jawilliam.CDF.Labs
         /// <param name="cleaner">A preprocessor for the source code in case it is desired.</param>
         private static void DetectingNativeGumTreeAndLevenshteinDiffByMethods(ChangeDetectionApproaches gumTreeApproach, string simetricName, Func<FileModifiedChange, bool> skipThese = null, SourceCodeCleaner cleaner = null)
         {
-            var analyzer = new FileModifiedChangeAnalyzer { MillisecondsTimeout = 600000 };
+            var analyzer = new FileModifiedChangeAnalyzer { MillisecondsTimeout = int.MaxValue };
             var gumTree = new GumTreeNativeApproach();
             var levenshteinSimetric = new LevenshteinSimetric<SyntaxToken> { Comparer = new SyntaxTokenEqualityComparer() };
 
@@ -565,7 +565,7 @@ namespace Jawilliam.CDF.Labs
             {
                 analyzer.Warnings = new StringBuilder();
                 var dbRepository = new GitRepository(project.Name) { Name = project.Name };
-                ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 600000;
+                ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = int.MaxValue;
                 analyzer.NativeGumTreeAndSimetricDiffByMethods(dbRepository, gumTree, simetricName, levenshteinSimetric, interopArgs, () => gumTree.Cancel(), gumTreeApproach, skipThese, cleaner);
 
                 //System.IO.File.WriteAllText($@"C:\CDF\NativeGumTreeDiff{project.Name}.txt", analyzer.Warnings.ToString());
@@ -592,7 +592,7 @@ namespace Jawilliam.CDF.Labs
                 using (var dbRepository = new GitRepository(project.Name) { Name = project.Name })
                 {
                     ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 180;
-                    var guid = Guid.Parse("88b033f8-8235-47ff-ba4c-6845fdd3a66f");
+                    var guid = Guid.Parse("58d1b077-55b6-41d8-8f7d-d125141cd8ff");
                     ReviewRevisionPair(originalFilePath, modifiedFilePath, currentReview, cleaner, loader, dbRepository, guid);
                 }
             }
@@ -621,12 +621,28 @@ namespace Jawilliam.CDF.Labs
             {
                 Id = Guid.NewGuid(),
                 CaseKind = CaseKind.HighOutlier,
-                Severity = ReviewSeverity.Good,
-                Subject = "",
-                Comments = null,
+                Severity = ReviewSeverity.Bad,
+                Subject = "Imprecise changes",
+                Comments = "move \"attribute.Value =\" (ol:142;ml:132) does not seem a good change" + Environment.NewLine +
+                           "update \"HttpUtility\" (ol:142) by \"attribute\" (ml:132) does not seem a good change" + Environment.NewLine +
+                           "update the second \"attribute\" (ol:142) by \"Value\" (ml:132) does not seem a good change" + Environment.NewLine +
+                           "update the second \"Value\" (ol:142) by \"Replace\" (ml:132) does not seem a good change" + Environment.NewLine +
+                           "update the \"href\" (ol:144) by \"Replace\" (ml:132) does not seem a good change" + Environment.NewLine +
+                           "update the \"\"src\"\" (ol:145) by \"\"\"\" (ml:132) does not seem a good change",
                 Kind = currentReview,
-                Topics = Topics.None/**//*Topics.Domain*/ /* | Topics.Matching *//*| Topics.Differencing*/ /*| Topics.Report*/,
+                Topics = Topics.Matching | Topics.Domain | Topics.Differencing/**//*Topics.Domain*/ /* | Topics.Matching *//*| Topics.Differencing*/ /*| Topics.Report*/,
             });
+            revisionPair.Reviews.Add(new Review
+            {
+                Id = Guid.NewGuid(),
+                CaseKind = CaseKind.HighOutlier,
+                Severity = ReviewSeverity.Bad,
+                Subject = "Bad changes - IF (ol:147-151;ml:135-139) do not match",
+                Comments = "The original IF (ol:147-151) was commented and such comments are wrapped into a new IF (ml:135-139)",
+                Kind = currentReview,
+                Topics = Topics.Matching/**//*Topics.Domain*/ /* | Topics.Matching *//*| Topics.Differencing*/ /*| Topics.Report*/,
+            });
+
             dbRepository.Flush();
         }
 
