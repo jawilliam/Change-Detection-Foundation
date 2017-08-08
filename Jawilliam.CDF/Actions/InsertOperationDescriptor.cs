@@ -35,7 +35,8 @@ namespace Jawilliam.CDF.Actions
             var parent = new ElementDescriptor
             {
                 Id = reader.GetAttribute("pId"),
-                Label = reader.GetAttribute("pLb")
+                Label = reader.GetAttribute("pLb"),
+                Value = reader.GetAttribute("pVl")
             };
             this.Parent = parent.Id != null || parent.Label != null ? parent : null;
 
@@ -61,6 +62,9 @@ namespace Jawilliam.CDF.Actions
 
                 if (this.Parent.Label != null)
                     writer.WriteAttributeString("pLb", this.Parent.Label);
+
+                if (this.Parent.Value != null)
+                    writer.WriteAttributeString("pVl", this.Parent.Value);
             }
 
             writer.WriteAttributeString("pos", XmlConvert.ToString(this.Position));

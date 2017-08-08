@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using System.Xml.Linq;
 using Jawilliam.CDF.Actions;
 using Jawilliam.CDF.Approach;
 using Jawilliam.CDF.Approach.GumTree;
@@ -257,6 +258,20 @@ namespace Jawilliam.CDF.Labs
             //        Normalize = false,
             //        RemoveComments = true
             //    });
+            DetectingNativeGumTreeDiff(ChangeDetectionApproaches.NativeGumTreeWithoutComments,
+               null,
+               new SourceCodeCleaner
+               {
+                   Normalize = false,
+                   RemoveComments = true
+               });
+            //ComplementDeltaInfos(ChangeDetectionApproaches.NativeGumTreeWithoutComments,
+            //    null,
+            //    new SourceCodeCleaner
+            //    {
+            //        Normalize = false,
+            //        RemoveComments = true
+            //});
             #endregion
 
             #region GumTree-Levenshtein Diff GumTree[native] deltas
@@ -299,14 +314,14 @@ namespace Jawilliam.CDF.Labs
             //                    Indentation = "   ",
             //                    RemoveComments = true
             //                }*/);
-            ReviewRevisionPairs2(@"E:\Phd\Analysis\Original.cs", @"E:\Phd\Analysis\Modified.cs",
-                ReviewKind.Ratio_LevenshteinGumTreeAdditions_LocalOutliers/*,
-                            new SourceCodeCleaner
-                            {
-                                Normalize = true,
-                                Indentation = "   ",
-                                RemoveComments = true
-                            }*/);
+            //ReviewRevisionPairs2(@"E:\Phd\Analysis\Original.cs", @"E:\Phd\Analysis\Modified.cs",
+            //    ReviewKind.Ratio_LevenshteinGumTreeAdditions_LocalOutliers/*,
+            //                new SourceCodeCleaner
+            //                {
+            //                    Normalize = true,
+            //                    Indentation = "   ",
+            //                    RemoveComments = true
+            //                }*/);
             #endregion
 
             #region Detecting not real source code changes
@@ -391,7 +406,7 @@ namespace Jawilliam.CDF.Labs
         /// <param name="cleaner">A preprocessor for the source code in case it is desired.</param>
         private static void DetectingNativeGumTreeDiff(ChangeDetectionApproaches gumTreeApproach, Func<FileModifiedChange, bool> skipThese = null, SourceCodeCleaner cleaner = null)
         {
-            var analyzer = new FileModifiedChangeAnalyzer { MillisecondsTimeout = 600000 };
+            var analyzer = new FileModifiedChangeAnalyzer { MillisecondsTimeout = int.MaxValue/*600000*/ };
             var gumTree = new GumTreeNativeApproach();
             var interopArgs = new InteropArgs()
             {
@@ -404,10 +419,10 @@ namespace Jawilliam.CDF.Labs
             {
                 analyzer.Warnings = new StringBuilder();
                 var dbRepository = new GitRepository(project.Name) { Name = project.Name };
-                ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 180;
+                ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = int.MaxValue/*180*/;
                 analyzer.NativeGumTreeDiff(dbRepository,  gumTree, interopArgs, () => gumTree.Cancel(), gumTreeApproach, skipThese, cleaner);
 
-                //System.IO.File.WriteAllText($@"C:\CDF\NativeGumTreeDiff{project.Name}.txt", analyzer.Warnings.ToString());
+                System.IO.File.WriteAllText($@"E:\Repositories\NativeGumTreeDiff2{project.Name}.txt", analyzer.Warnings.ToString());
             }
             Console.Out.WriteLine($"GumTree native collected!!!");
         }
@@ -573,7 +588,6 @@ namespace Jawilliam.CDF.Labs
             Console.Out.WriteLine($"GumTree native collected!!!");
         }
 
-
         /// <summary>
         /// Inspecting revision pairs.
         /// </summary>
@@ -699,6 +713,29 @@ namespace Jawilliam.CDF.Labs
                 ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 180;
                 deployer.DeployReviewsForFileRevisionPairs(dbRepository);
             //}
+        }
+
+        public static void ComplementDeltaInfos(ChangeDetectionApproaches gumTreeApproach, Func<FileModifiedChange, bool> skipThese = null, SourceCodeCleaner cleaner = null)
+        {
+            var analyzer = new FileModifiedChangeAnalyzer { MillisecondsTimeout = int.MaxValue };
+            var gumTree = new GumTreeNativeApproach();
+            var interopArgs = new InteropArgs()
+            {
+                //GumTreePath = @"C:\CDF\gumtree-20170525-2.1.0-SNAPSHOT",
+                //Original = @"C:\CDF\Original.cs",
+                //Modified = @"C:\CDF\Modified.cs"
+            };
+
+            foreach (var project in Projects)
+            {
+                analyzer.Warnings = new StringBuilder();
+                var dbRepository = new GitRepository(project.Name) { Name = project.Name };
+                ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = int.MaxValue;
+                analyzer.ComplementDeltaInfos(dbRepository, gumTree, interopArgs, () => gumTree.Cancel(), gumTreeApproach, skipThese, cleaner);
+
+                //System.IO.File.WriteAllText($@"C:\CDF\NativeGumTreeDiff{project.Name}.txt", analyzer.Warnings.ToString());
+            }
+            Console.Out.WriteLine($"DONE!!!");
         }
     }
 }

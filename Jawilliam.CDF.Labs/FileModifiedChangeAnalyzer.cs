@@ -8,8 +8,11 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using System.Linq.Expressions;
 using System.Reflection.Metadata.Ecma335;
+using System.Text;
 using System.Xml;
 using System.Xml.Linq;
+using Jawilliam.CDF.Actions;
+using Jawilliam.CDF.Approach;
 using Jawilliam.CDF.Approach.GumTree;
 using Jawilliam.CDF.Approach.Matching.CSharp;
 using Jawilliam.CDF.Metrics.Similarity;
@@ -213,8 +216,9 @@ namespace Jawilliam.CDF.Labs
         public virtual void NativeGumTreeDiff(GitRepository sqlRepository, GumTreeNativeApproach gumTree, InteropArgs interopArgs, Action cancel, ChangeDetectionApproaches gumTreeApproach, Func<FileModifiedChange, bool> skipThese, SourceCodeCleaner cleaner = null)
         {
             this.Analyze(sqlRepository,
-            f => f.Deltas.Any(d => d.Approach == ChangeDetectionApproaches.Simetrics) && 
-                 f.Deltas.All(d => d.Approach != gumTreeApproach), // I am running Levenshtein before, so the longer cases have been already rejected.
+                f => f.Deltas.Any(d => d.Approach == gumTreeApproach),
+            //f => f.Deltas.Any(d => d.Approach == ChangeDetectionApproaches.Simetrics) && 
+            //     f.Deltas.All(d => d.Approach != gumTreeApproach), // I am running Levenshtein before, so the longer cases have been already rejected.
             delegate (FileModifiedChange repositoryObject, SyntaxNode original, SyntaxNode modified, CancellationToken token)
             {
                 if (!repositoryObject.XAnnotations.SourceCodeChanges || (skipThese?.Invoke(repositoryObject) ?? false))
@@ -411,7 +415,7 @@ namespace Jawilliam.CDF.Labs
                     return;
                 }
 
-                XElement matches = new XElement("Matching"), diffs = new XElement("Differencing");
+                XElement matches = new XElement("Matches"), diffs = new XElement("Actions");
                 foreach (var sameNamedMethod in sameNamedMethods)
                 {
                     var originalContent = sameNamedMethod.Item1.ToFullString();
@@ -492,6 +496,74 @@ namespace Jawilliam.CDF.Labs
             internal string Name { get; set; }
             internal MethodDeclarationSyntax Method { get; set; }
             internal bool Matched { get; set; }
+        }
+
+        /// <summary>
+        /// Analyzes the similarity in according with a given similarity metric, such as Levenshtein.
+        /// </summary>
+        /// <param name="sqlRepository">the SQL database repository in which to analyze the file versions.</param>
+        /// <param name="interopArgs">the arguments for the interoperability.</param>
+        /// <param name="gumTree">the native approach based on the GumTree interoperability.</param>
+        /// <param name="cancel">Action to execute cancellation logic.</param>
+        /// <param name="gumTreeApproach"></param>
+        /// <param name="skipThese">local criterion for determining elements that should be ignored.</param>
+        /// <param name="cleaner">A preprocessor for the source code in case it is desired.</param>
+        public virtual void ComplementDeltaInfos(GitRepository sqlRepository, GumTreeNativeApproach gumTree, InteropArgs interopArgs, Action cancel, ChangeDetectionApproaches gumTreeApproach, Func<FileModifiedChange, bool> skipThese, SourceCodeCleaner cleaner = null)
+        {
+            this.Analyze(sqlRepository,
+            f => f.Deltas.Any(d => d.Approach == gumTreeApproach),
+            delegate (FileModifiedChange repositoryObject, SyntaxNode original, SyntaxNode modified, CancellationToken token)
+            {
+                if (!repositoryObject.XAnnotations.SourceCodeChanges || (skipThese?.Invoke(repositoryObject) ?? false))
+                    return;
+
+                sqlRepository.Deltas.Where(d => d.RevisionPair.Id == repositoryObject.Id && d.Approach == gumTreeApproach).Load();
+                var delta = repositoryObject.Deltas.Single(d => d.Approach == gumTreeApproach);
+
+                var preprocessedOriginal = cleaner != null ? cleaner.Clean(original) : original;
+                var preprocessedModified = cleaner != null ? cleaner.Clean(modified) : modified;
+                System.IO.File.WriteAllText(interopArgs.Original, preprocessedOriginal.ToFullString());
+                System.IO.File.WriteAllText(interopArgs.Modified, preprocessedModified.ToFullString());
+
+                var detectionResult = DetectionResult.Read($"<Result>{delta.Matching}{delta.Differencing}</Result>", Encoding.Unicode);
+
+                var diff = gumTree.ExecuteDiffCommand(new InteropArgs());
+                var lines = diff.Split(new[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
+                var temp = "";
+                var lines1 = lines;
+                lines = lines.Select(delegate(string s, int p)
+                {
+                    temp += s + "\n";
+                    if (p < lines1.Length - 1 &&
+                        !lines1[p + 1].StartsWith("Match ") &&
+                        !lines1[p + 1].StartsWith("Insert ") &&
+                        !lines1[p + 1].StartsWith("Update ") &&
+                        !lines1[p + 1].StartsWith("Delete ") &&
+                        !lines1[p + 1].StartsWith("Move "))
+                    {
+                        return null;
+                    }
+
+                    string g = temp.TrimEnd('\n');
+                    temp = "";
+                    return g;
+                }).ToArray();
+                lines = lines.Where(l => l != null).ToArray();
+                gumTree.CompleteDeltaInfo(detectionResult.Matches, detectionResult.Actions.OfType<OperationDescriptor>(), lines);
+
+                var writeXmlColumn = detectionResult.WriteXmlColumn();
+                XElement result = XElement.Parse(writeXmlColumn.Replace("﻿<?xml version=\"1.0\" encoding=\"utf-16\"?>", ""));
+                delta.Matching = new XDocument(result.Element("Matches")).ToString()
+                        .Replace("\r\n", "")
+                        .Replace(" />  <", "/><")
+                        .Replace(">  <", "><");
+                delta.Differencing = new XDocument(result.Element("Actions")).ToString()
+                        .Replace("\r\n", "")
+                        .Replace(" />  <", "/><")
+                        .Replace(">  <", "><");
+            },
+            cancel,
+            "FileVersion.Content", "FromFileVersion.Content");
         }
     }
 }

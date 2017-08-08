@@ -37,7 +37,8 @@ namespace Jawilliam.CDF.Actions
             this.Element = new ElementDescriptor
             {
                 Id = reader.GetAttribute("eId"),
-                Label = reader.GetAttribute("eLb")
+                Label = reader.GetAttribute("eLb"),
+                Value = reader.GetAttribute("eVl")
             };
         }
 
@@ -54,6 +55,9 @@ namespace Jawilliam.CDF.Actions
 
             if (this.Element.Label != null)
                 writer.WriteAttributeString("eLb", this.Element.Label);
+
+            if (this.Element.Value != null)
+                writer.WriteAttributeString("eVl", this.Element.Value);
         }
 
         /// <summary>

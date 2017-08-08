@@ -87,6 +87,10 @@ namespace Jawilliam.CDF.Labs
                 {
                     this.Warnings.AppendLine($"5 minutes Timeout - {repositoryObjectName}-{repositoryObject.Id}");
                 }
+                catch (InvalidOperationException)
+                {
+                    this.Warnings.AppendLine($"ERROR - {repositoryObjectName}-{repositoryObject.Id}");
+                }
 
                 Console.Out.WriteLine($"Saving the {counter}-file version ({repositoryObjectIds.Count}) of {sqlRepository.Name}");
                 sqlRepository.Flush();

@@ -17,5 +17,10 @@ namespace Jawilliam.CDF
         /// Gets or sets an value identifying the current element.
         /// </summary>
         public virtual string Label { get; set; }
+
+        /// <summary>
+        /// Gets or sets an value identifying the current element.
+        /// </summary>
+        public virtual string Value { get; set; }
     }
 }

@@ -3,10 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Json;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Xml;
 using System.Xml.Linq;
 using Jawilliam.CDF.Actions;
@@ -34,15 +36,17 @@ namespace Jawilliam.CDF.Approach.GumTree
             throw new OperationCanceledException();
 #endif
 
-            string header = $"Microsoft Windows [Versión 10.0.10586]\r\n(c) 2015 Microsoft Corporation. Todos los derechos reservados.\r\n\r\n{Environment.CurrentDirectory}>E:\r\n\r\n{Environment.CurrentDirectory}>cd {args.GumTreePath}\\bin\r\n\r\n{args.GumTreePath}\\bin>set PATH=%PATH%;C:\\Program Files (x86)\\srcML 0.9.5\\bin\r\n\r\n{args.GumTreePath}\\bin>gumtree.bat axmldiff {args.Original} {args.Modified}\r\n";
-            string output = ExecuteCommand(args, header, $"gumtree.bat axmldiff {args.Original} {args.Modified}", "\n");
-
+            //string header = $"Microsoft Windows [Versión 10.0.10586]\r\n(c) 2015 Microsoft Corporation. Todos los derechos reservados.\r\n\r\n{Environment.CurrentDirectory}>E:\r\n\r\n{Environment.CurrentDirectory}>cd {args.GumTreePath}\\bin\r\n\r\n{args.GumTreePath}\\bin>set PATH=%PATH%;C:\\Program Files (x86)\\srcML 0.9.5\\bin\r\n\r\n{args.GumTreePath}\\bin>gumtree.bat axmldiff {args.Original} {args.Modified}\r\n";
+            //string output = ExecuteCommand(args, header, $"gumtree.bat axmldiff {args.Original} {args.Modified}", "\n");
+            //string header = $"Microsoft Windows [Versión 10.0.10586]\r\n(c) 2015 Microsoft Corporation. Todos los derechos reservados.\r\n\r\n{Environment.CurrentDirectory}>E:\r\n\r\n{Environment.CurrentDirectory}>cd {args.GumTreePath}\\bin\r\n\r\n{args.GumTreePath}\\bin>set PATH=%PATH%;C:\\Program Files (x86)\\srcML 0.9.5\\bin\r\n\r\n{args.GumTreePath}\\bin>gumtree.bat jsondiff {args.Original} {args.Modified}\r\n";
+            //string output = ExecuteCommand(args, header, $"gumtree.bat jsondiff {args.Original} {args.Modified}", "");
+            string output = ExecuteJsonDiffCommand(args);
             if (!string.IsNullOrEmpty(output))
             {
-                XDocument axmlDiff = XDocument.Parse(output);
+                //XDocument axmlDiff = XDocument.Parse(output);
 
-                header = $"Microsoft Windows [Versión 10.0.10586]\r\n(c) 2015 Microsoft Corporation. Todos los derechos reservados.\r\n\r\n{Environment.CurrentDirectory}>E:\r\n\r\n{Environment.CurrentDirectory}>cd {args.GumTreePath}\\bin\r\n\r\n{args.GumTreePath}\\bin>set PATH=%PATH%;C:\\Program Files (x86)\\srcML 0.9.5\\bin\r\n\r\n{args.GumTreePath}\\bin>gumtree.bat jsondiff {args.Original} {args.Modified}\r\n";
-                output = ExecuteCommand(args, header, $"gumtree.bat jsondiff {args.Original} {args.Modified}", "");
+                //header = $"Microsoft Windows [Versión 10.0.10586]\r\n(c) 2015 Microsoft Corporation. Todos los derechos reservados.\r\n\r\n{Environment.CurrentDirectory}>E:\r\n\r\n{Environment.CurrentDirectory}>cd {args.GumTreePath}\\bin\r\n\r\n{args.GumTreePath}\\bin>set PATH=%PATH%;C:\\Program Files (x86)\\srcML 0.9.5\\bin\r\n\r\n{args.GumTreePath}\\bin>gumtree.bat jsondiff {args.Original} {args.Modified}\r\n";
+                //output = ExecuteCommand(args, header, $"gumtree.bat jsondiff {args.Original} {args.Modified}", "");
                 XDocument xjsonDiff;
                 using (var jsonReader = JsonReaderWriterFactory.CreateJsonReader(Encoding.UTF8.GetBytes(output), XmlDictionaryReaderQuotas.Max))
                 {
@@ -50,8 +54,33 @@ namespace Jawilliam.CDF.Approach.GumTree
                     xjsonDiff = XDocument.Parse(xml.ToString());
                 }
 
-                this.Result.Matches = this.ToMatchingDescriptors(xjsonDiff, axmlDiff).ToList();
-                this.Result.Actions = this.ToActionDescriptors(xjsonDiff).ToList();  
+                this.Result.Matches = this.ToMatchingDescriptors(xjsonDiff).ToList();
+                this.Result.Actions = this.ToActionDescriptors(xjsonDiff).ToList();
+
+                var diff = this.ExecuteDiffCommand(new InteropArgs());
+                var lines = diff.Split(new[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
+                var temp = "";
+                var lines1 = lines;
+                lines = lines.Select(delegate (string s, int p)
+                {
+                    temp += s + "\n";
+                    if (p < lines1.Length - 1 &&
+                        !lines1[p + 1].StartsWith("Match ") &&
+                        !lines1[p + 1].StartsWith("Insert ") &&
+                        !lines1[p + 1].StartsWith("Update ") &&
+                        !lines1[p + 1].StartsWith("Delete ") &&
+                        !lines1[p + 1].StartsWith("Move "))
+                    {
+                        return null;
+                    }
+
+                    string g = temp.TrimEnd('\n');
+                    temp = "";
+                    return g;
+                }).ToArray();
+                lines = lines.Where(l => l != null).ToArray();
+                this.CompleteDeltaInfo(this.Result.Matches, this.Result.Actions.OfType<OperationDescriptor>(), lines);
+
             }
             else
             {
@@ -68,6 +97,19 @@ namespace Jawilliam.CDF.Approach.GumTree
 
             this._process?.Close();
             throw new OperationCanceledException();
+        }
+
+        public string ExecuteJsonDiffCommand(InteropArgs args)
+        {
+            //¢
+            string header = $"Microsoft Windows [Versión 10.0.10586]\r\n(c) 2015 Microsoft Corporation. Todos los derechos reservados.\r\n\r\n{Environment.CurrentDirectory}>E:\r\n\r\n{Environment.CurrentDirectory}>cd {args.GumTreePath}\\bin\r\n\r\n{args.GumTreePath}\\bin>set PATH=%PATH%;C:\\Program Files (x86)\\srcML 0.9.5\\bin\r\n\r\n{args.GumTreePath}\\bin>gumtree.bat jsondiff {args.Original} {args.Modified}\r\n";
+            return ExecuteCommand(args, header, $"gumtree.bat jsondiff {args.Original} {args.Modified}", "");
+        }
+
+        public string ExecuteDiffCommand(InteropArgs args)
+        {
+            string header = $"Microsoft Windows [Versión 10.0.10586]\r\n(c) 2015 Microsoft Corporation. Todos los derechos reservados.\r\n\r\n{Environment.CurrentDirectory}>E:\r\n\r\n{Environment.CurrentDirectory}>cd {args.GumTreePath}\\bin\r\n\r\n{args.GumTreePath}\\bin>set PATH=%PATH%;C:\\Program Files (x86)\\srcML 0.9.5\\bin\r\n\r\n{args.GumTreePath}\\bin>gumtree.bat diff {args.Original} {args.Modified}\r\n";
+            return ExecuteCommand(args, header, $"gumtree.bat diff {args.Original} {args.Modified}", "");
         }
 
         public string ExecuteCommand(InteropArgs args, string header, string command, string sPrefix)
@@ -107,7 +149,7 @@ namespace Jawilliam.CDF.Approach.GumTree
         /// </summary>
         /// <param name="native"></param>
         /// <returns></returns>
-        private IEnumerable<RevisionDescriptor> ToMatchingDescriptors(XDocument native, XDocument axmlDiff)
+        private IEnumerable<RevisionDescriptor> ToMatchingDescriptors(XDocument native)
         {
             var xMatches = native.Root?.Element("matches");
             if (xMatches != null)
@@ -169,6 +211,260 @@ namespace Jawilliam.CDF.Approach.GumTree
                         default:
                             throw new InvalidEnumArgumentException(xItem.Element("action").Value);
                     }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Completes the information of existing descriptions of matches and edit actions.
+        /// </summary>
+        /// <param name="matches">existing matches to complete.</param>
+        /// <param name="actions">existing actions to complete.</param>
+        /// <param name="diffOutput">informations to complete from.</param>
+        public virtual void CompleteDeltaInfo(IEnumerable<RevisionDescriptor> matches, IEnumerable<OperationDescriptor> actions, string[] diffOutput)
+        {
+            var matchPatterns = new[]
+            {
+                new
+                {
+                    Pattern = new Regex(@"^Match ([^:]*): (.*)\((\d+)\) to ([^:]*): (.*)\((\d+)\)"),
+                    Selector = new Func<string[], RevisionDescriptor>(captures => new RevisionDescriptor
+                    {
+                        Original = new ElementDescriptor {Id = captures[2], Label = captures[0], Value = captures[0] == "name" ? captures[1] : "##"},
+                        Modified = new ElementDescriptor {Id = captures[5], Label = captures[3], Value = captures[3] == "name" ? captures[4] : "##"},
+                    })
+                },
+                new
+                {
+                    Pattern = new Regex(@"^Match (.*)\((\d+)\) to (.*)\((\d+)\)"),
+                    Selector = new Func<string[], RevisionDescriptor>(captures => new RevisionDescriptor
+                    {
+                        Original = new ElementDescriptor {Id = captures[1], Label = captures[0]},
+                        Modified = new ElementDescriptor {Id = captures[3], Label = captures[2]},
+                    })
+                }
+            };
+            var diffMatches = diffOutput.Where(l => l.StartsWith("Match ")).Select(delegate (string s)
+            {
+                try
+                {
+                    var pattern = matchPatterns.First(p => p.Pattern.IsMatch(s));
+                    var matchGroups = pattern.Pattern.Matches(s)[0].Groups;
+                    var m = new Group[matchGroups.Count];
+                    matchGroups.CopyTo(m, 0);
+                    return pattern.Selector(m.Select(m1 => m1.Value).Where(m1 => m1 != s).ToArray());
+                }
+                catch (Exception)
+                {
+                    
+                    throw;
+                }
+                //return new RevisionDescriptor
+                //{
+                //    Original = new ElementDescriptor { Id = "45", Label = "literal", Value = "##" },
+                //    Modified = new ElementDescriptor { Id = "47", Label = "literal", Value = "##" }
+                //};
+            }).ToArray();
+            this.CompleteDeltaMatchesInfo(matches, diffMatches);
+
+            var actionPatterns = new[]
+            {
+                new
+                {
+                    Pattern = new Regex(@"^Insert ([^:]*): (.*)\((\d+)\) into (.*)\((\d+)\) at (\d+)"),
+                    Selector = new Func<string[], OperationDescriptor>(captures => new InsertOperationDescriptor
+                    {
+                        Element = new ElementDescriptor { Id = captures[2], Label = captures[0], Value = captures[0] == "name" ? captures[1] : "##"},
+                        Parent = new ElementDescriptor { Id = captures[4], Label = captures[3] },
+                        Position = int.Parse(captures[5], CultureInfo.InvariantCulture)
+                    })
+                },
+                new
+                {
+                    Pattern = new Regex(@"^Insert (.*)\((\d+)\) into (.*)\((\d+)\) at (\d+)"),
+                    Selector = new Func<string[], OperationDescriptor>(captures => new InsertOperationDescriptor
+                    {
+                        Element = new ElementDescriptor { Id = captures[1], Label = captures[0] },
+                        Parent = new ElementDescriptor { Id = captures[3], Label = captures[2] },
+                        Position = int.Parse(captures[4], CultureInfo.InvariantCulture)
+                    })
+                },
+                new
+                {
+                    Pattern = new Regex(@"^Update ([^:]*): (.*)\((\d+)\) to (.*)"),
+                    Selector = new Func<string[], OperationDescriptor>(captures => new UpdateOperationDescriptor
+                    {
+                        Element = new ElementDescriptor { Id = captures[2], Label = captures[0], Value = captures[0] == "name" ? captures[1] : "##" },
+                        Value = captures[3]
+                    })
+                },
+                new
+                {
+                    Pattern = new Regex(@"^Update (.*)\((\d+)\) to (.*)"),
+                    Selector = new Func<string[], OperationDescriptor>(captures => new UpdateOperationDescriptor
+                    {
+                        Element = new ElementDescriptor { Id = captures[1], Label = captures[0] },
+                        Value = captures[2]
+                    })
+                },/*,
+                new
+                {
+                    Pattern = new Regex(@"^Update ([^:]*): (.*)\((\d+)\) (.*) to (.*)"),
+                    Selector = new Func<string[], OperationDescriptor>(captures => new UpdateOperationDescriptor
+                    {
+                        Element = new ElementDescriptor { Id = captures[2], Label = captures[0] },
+                        Value = captures[4]
+                    })
+                },
+                new
+                {
+                    Pattern = new Regex(@"^Update (.*)\((\d+)\) (.*) to (.*)"),
+                    Selector = new Func<string[], OperationDescriptor>(captures => new UpdateOperationDescriptor
+                    {
+                        Element = new ElementDescriptor { Id = captures[1], Label = captures[0] },
+                        Value = captures[3]
+                    })
+                },*/
+                new
+                {
+                    Pattern = new Regex(@"^Move ([^:]*): (.*)\((\d+)\) into (.*)\((\d+)\) at (\d+)"),
+                    Selector = new Func<string[], OperationDescriptor>(captures => new MoveOperationDescriptor
+                    {
+                        Element = new ElementDescriptor { Id = captures[2], Label = captures[0], Value = captures[0] == "name" ? captures[1] : "##" },
+                        Parent = new ElementDescriptor { Id = captures[4], Label = captures[3] },
+                        Position = Int32.Parse(captures[5], CultureInfo.InvariantCulture)
+                    })
+                },
+                new
+                {
+                    Pattern = new Regex(@"^Move (.*)\((\d+)\) into (.*)\((\d+)\) at (\d+)"),
+                    Selector = new Func<string[], OperationDescriptor>(captures => new MoveOperationDescriptor
+                    {
+                        Element = new ElementDescriptor { Id = captures[1], Label = captures[0] },
+                        Parent = new ElementDescriptor { Id = captures[3], Label = captures[2] },
+                        Position = Int32.Parse(captures[4], CultureInfo.InvariantCulture)
+                    })
+                },
+                new { Pattern = new Regex(@"^Delete ([^:]*): (.*)\((\d+)\)"),
+                    Selector = new Func<string[], OperationDescriptor>(captures => new DeleteOperationDescriptor
+                    {
+                        Element = new ElementDescriptor { Id = captures[2], Label = captures[0], Value = captures[0] == "name" ? captures[1] : "##" }
+                    })
+                },
+                new
+                {
+                    Pattern = new Regex(@"^Delete (.*)\((\d+)\)"),
+                    Selector = new Func<string[], OperationDescriptor>(captures => new DeleteOperationDescriptor
+                    {
+                        Element = new ElementDescriptor { Id = captures[1], Label = captures[0] }
+                    })
+                }
+            };
+            var diffActions = diffOutput.Where(l => !l.StartsWith("Match ")).Select(delegate (string s)
+            {
+                try
+                {
+                    var pattern = actionPatterns.First(p => p.Pattern.IsMatch(s));
+                    var actionGroups = pattern.Pattern.Matches(s)[0].Groups;
+                    var m = new Group[actionGroups.Count];
+                    actionGroups.CopyTo(m, 0);
+                    return pattern.Selector(m.Select(m1 => m1.Value).Where(m1 => m1 != s).ToArray());
+                }
+                catch (Exception)
+                {
+                    
+                    throw;
+                }
+                //return new InsertOperationDescriptor
+                //{
+                //    Element = new ElementDescriptor { Id = "179", Label = "literal", Value =  "##" },
+                //    Parent = new ElementDescriptor { Id = "180", Label = "expr" },
+                //    Position = 0
+                //};
+            }).ToArray();
+            this.CompleteDeltaActionsInfo(actions, diffActions);
+        }
+
+        /// <summary>
+        /// Completes the information of existing descriptions of matches.
+        /// </summary>
+        /// <param name="matches">existing matches to complete.</param>
+        /// <param name="diffMatches">informations to complete from.</param>
+        public virtual void CompleteDeltaMatchesInfo(IEnumerable<RevisionDescriptor> matches, RevisionDescriptor[] diffMatches)
+        {
+            var matchesToComplete = matches as RevisionDescriptor[] ?? matches.ToArray();
+            foreach (var revisionDescriptor in diffMatches)
+            {
+                var matchToComplete = matchesToComplete.Single(m => m.Original.Id == revisionDescriptor.Original.Id &&
+                                                                    m.Modified.Id == revisionDescriptor.Modified.Id);
+
+                matchToComplete.Original.Id = revisionDescriptor.Original.Id;
+                matchToComplete.Original.Label = revisionDescriptor.Original.Label;
+                matchToComplete.Original.Value = revisionDescriptor.Original.Value;
+                matchToComplete.Modified.Id = revisionDescriptor.Modified.Id;
+                matchToComplete.Modified.Label = revisionDescriptor.Modified.Label;
+                matchToComplete.Modified.Value = revisionDescriptor.Modified.Value;
+            }
+        }
+
+        /// <summary>
+        /// Completes the information of existing descriptions of edit actions.
+        /// </summary>
+        /// <param name="actions">existing actions to complete.</param>
+        /// <param name="diffActions">informations to complete from.</param>
+        public virtual void CompleteDeltaActionsInfo(IEnumerable<OperationDescriptor> actions, OperationDescriptor[] diffActions)
+        {
+            var actionsToComplete = actions as OperationDescriptor[] ?? actions.ToArray();
+            foreach (var diffAction in diffActions)
+            {
+                switch (diffAction.Action)
+                {
+                    case ActionKind.Update:
+                        var update = (UpdateOperationDescriptor) diffAction;
+                        var updateToComplete = actionsToComplete.OfType<UpdateOperationDescriptor>()
+                            .Single(u => u.Element.Id == update.Element.Id && u.Value == update.Value);
+                        updateToComplete.Element.Label = update.Element.Label;
+                        updateToComplete.Element.Value = update.Element.Value;
+                        break;
+                    case ActionKind.Insert:
+                        var insert = (InsertOperationDescriptor) diffAction;
+                        var insertToComplete = actionsToComplete.OfType<InsertOperationDescriptor>()
+                            .Single(i => i.Element.Id == insert.Element.Id &&
+                                         i.Parent.Id == insert.Parent.Id &&
+                                         i.Position == insert.Position);
+                        insertToComplete.Element.Label = insert.Element.Label;
+                        insertToComplete.Element.Value = insert.Element.Value;
+                        insertToComplete.Parent.Label = insert.Parent.Label;
+                        insertToComplete.Parent.Value = insert.Parent.Value;
+                        break;
+                    case ActionKind.Delete:
+                        var delete = (DeleteOperationDescriptor) diffAction;
+                        var deleteToComplete = actionsToComplete.OfType<DeleteOperationDescriptor>()
+                            .Single(i => i.Element.Id == delete.Element.Id);
+                        deleteToComplete.Element.Label = delete.Element.Label;
+                        deleteToComplete.Element.Value = delete.Element.Value;
+                        break;
+                    case ActionKind.Move:
+                        var move = (MoveOperationDescriptor) diffAction;
+                        var moveToComplete = actionsToComplete.OfType<MoveOperationDescriptor>()
+                            .Single(i => i.Element.Id == move.Element.Id &&
+                                         i.Parent.Id == move.Parent.Id &&
+                                         i.Position == move.Position);
+                        moveToComplete.Element.Label = move.Element.Label;
+                        moveToComplete.Parent.Label = move.Parent.Label;
+                        moveToComplete.Element.Value = move.Element.Value;
+                        moveToComplete.Parent.Value = move.Parent.Value;
+                        break;
+                    case ActionKind.Align:
+                        var align = (AlignOperationDescriptor) diffAction;
+                        var alignToComplete = actionsToComplete.OfType<AlignOperationDescriptor>()
+                            .Single(i => i.Element.Id == align.Element.Id &&
+                                         i.Position == align.Position);
+                        alignToComplete.Element.Label = align.Element.Label;
+                        alignToComplete.Element.Value = align.Element.Value;
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
                 }
             }
         }

@@ -163,12 +163,17 @@
   <ItemGroup>
     <Compile Include="Actions\OperationDescriptorsTests.cs" />
     <Compile Include="Approach.Matching.CSharp\MatchingProvider.cs" />
+    <Compile Include="NativeGumTreeResultParsing.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Jawilliam.CDF.CSharp\Jawilliam.CDF.CSharp.csproj">
       <Project>{a16a803d-e152-48ee-96a5-ac6085930da2}</Project>
       <Name>Jawilliam.CDF.CSharp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Jawilliam.CDF.Labs\Jawilliam.CDF.Labs.csproj">
+      <Project>{A3D8BB28-BE2B-4E8A-B5DB-FB81529EAA49}</Project>
+      <Name>Jawilliam.CDF.Labs</Name>
     </ProjectReference>
     <ProjectReference Include="..\Jawilliam.CDF\Jawilliam.CDF.csproj">
       <Project>{58D5A3A8-6A46-4930-81F3-ADF81CAB411F}</Project>

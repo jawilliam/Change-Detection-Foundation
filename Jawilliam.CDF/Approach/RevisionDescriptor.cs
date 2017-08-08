@@ -31,13 +31,15 @@ namespace Jawilliam.CDF.Approach
             this.Original = new ElementDescriptor
             {
                 Id = reader.GetAttribute("oId"),
-                Label = reader.GetAttribute("oLb")
+                Label = reader.GetAttribute("oLb"),
+                Value = reader.GetAttribute("oVl")
             };
 
             this.Modified = new ElementDescriptor
             {
                 Id = reader.GetAttribute("mId"),
-                Label = reader.GetAttribute("mLb")
+                Label = reader.GetAttribute("mLb"),
+                Value = reader.GetAttribute("mVl")
             };
 
             reader.Read();
@@ -54,8 +56,12 @@ namespace Jawilliam.CDF.Approach
 
             if(this.Original.Label != null)
                 writer.WriteAttributeString("oLb", this.Original.Label);
+            if (this.Original.Value != null)
+                writer.WriteAttributeString("oVl", this.Original.Value);
             if (this.Modified.Label != null)
                 writer.WriteAttributeString("mLb", this.Modified.Label);
+            if (this.Modified.Value != null)
+                writer.WriteAttributeString("mVl", this.Modified.Value);
         }
     }
 }
