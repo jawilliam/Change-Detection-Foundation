@@ -40,47 +40,33 @@ namespace Jawilliam.CDF.Approach.GumTree
             //string output = ExecuteCommand(args, header, $"gumtree.bat axmldiff {args.Original} {args.Modified}", "\n");
             //string header = $"Microsoft Windows [Versión 10.0.10586]\r\n(c) 2015 Microsoft Corporation. Todos los derechos reservados.\r\n\r\n{Environment.CurrentDirectory}>E:\r\n\r\n{Environment.CurrentDirectory}>cd {args.GumTreePath}\\bin\r\n\r\n{args.GumTreePath}\\bin>set PATH=%PATH%;C:\\Program Files (x86)\\srcML 0.9.5\\bin\r\n\r\n{args.GumTreePath}\\bin>gumtree.bat jsondiff {args.Original} {args.Modified}\r\n";
             //string output = ExecuteCommand(args, header, $"gumtree.bat jsondiff {args.Original} {args.Modified}", "");
-            string output = ExecuteJsonDiffCommand(args);
-            if (!string.IsNullOrEmpty(output))
+            var diff = this.ExecuteDiffCommand(args);
+            var lines = diff.Split(new[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
+            var temp = "";
+            var lines1 = lines;
+            lines = lines.Select(delegate (string s, int p)
             {
-                //XDocument axmlDiff = XDocument.Parse(output);
-
-                //header = $"Microsoft Windows [Versión 10.0.10586]\r\n(c) 2015 Microsoft Corporation. Todos los derechos reservados.\r\n\r\n{Environment.CurrentDirectory}>E:\r\n\r\n{Environment.CurrentDirectory}>cd {args.GumTreePath}\\bin\r\n\r\n{args.GumTreePath}\\bin>set PATH=%PATH%;C:\\Program Files (x86)\\srcML 0.9.5\\bin\r\n\r\n{args.GumTreePath}\\bin>gumtree.bat jsondiff {args.Original} {args.Modified}\r\n";
-                //output = ExecuteCommand(args, header, $"gumtree.bat jsondiff {args.Original} {args.Modified}", "");
-                XDocument xjsonDiff;
-                using (var jsonReader = JsonReaderWriterFactory.CreateJsonReader(Encoding.UTF8.GetBytes(output), XmlDictionaryReaderQuotas.Max))
+                temp += s + "\n";
+                if (p < lines1.Length - 1 &&
+                    !lines1[p + 1].StartsWith("Match ") &&
+                    !lines1[p + 1].StartsWith("Insert ") &&
+                    !lines1[p + 1].StartsWith("Update ") &&
+                    !lines1[p + 1].StartsWith("Delete ") &&
+                    !lines1[p + 1].StartsWith("Move "))
                 {
-                    var xml = XElement.Load(jsonReader);
-                    xjsonDiff = XDocument.Parse(xml.ToString());
+                    return null;
                 }
 
-                this.Result.Matches = this.ToMatchingDescriptors(xjsonDiff).ToList();
-                this.Result.Actions = this.ToActionDescriptors(xjsonDiff).ToList();
+                string g = temp.TrimEnd('\n');
+                temp = "";
+                return g;
+            }).ToArray();
+            lines = lines.Where(l => l != null).ToArray();
 
-                var diff = this.ExecuteDiffCommand(args);
-                var lines = diff.Split(new[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
-                var temp = "";
-                var lines1 = lines;
-                lines = lines.Select(delegate (string s, int p)
-                {
-                    temp += s + "\n";
-                    if (p < lines1.Length - 1 &&
-                        !lines1[p + 1].StartsWith("Match ") &&
-                        !lines1[p + 1].StartsWith("Insert ") &&
-                        !lines1[p + 1].StartsWith("Update ") &&
-                        !lines1[p + 1].StartsWith("Delete ") &&
-                        !lines1[p + 1].StartsWith("Move "))
-                    {
-                        return null;
-                    }
-
-                    string g = temp.TrimEnd('\n');
-                    temp = "";
-                    return g;
-                }).ToArray();
-                lines = lines.Where(l => l != null).ToArray();
-                this.CompleteDeltaInfo(this.Result.Matches, this.Result.Actions.OfType<OperationDescriptor>(), lines);
-
+            if (lines.Any())
+            {
+                this.Result.Matches = this.GetMatches(lines).ToList();
+                this.Result.Actions = this.GetActions(lines).Cast<ActionDescriptor>().ToList();
             }
             else
             {
@@ -88,6 +74,186 @@ namespace Jawilliam.CDF.Approach.GumTree
                 this.Result.Actions = new List<ActionDescriptor>();
                 this.Result.Error = "Error on the side of GumTree";
             }
+        }
+
+        /// <summary>
+        /// Returns structured descriptions of matches.
+        /// </summary>
+        /// <param name="diffOutput">informations to select from.</param>
+        public virtual IEnumerable<RevisionDescriptor> GetMatches(string[] diffOutput)
+        {
+            var matchPatterns = new[]
+            {
+                new
+                {
+                    Pattern = new Regex(@"^Match ([^:]*): (.*)\((\d+)\) to ([^:]*): (.*)\((\d+)\)", RegexOptions.Singleline),
+                    Selector = new Func<string[], RevisionDescriptor>(captures => new RevisionDescriptor
+                    {
+                        Original = new ElementDescriptor {Id = captures[2], Label = captures[0], Value = captures[0] == "name" ? captures[1] : "##"},
+                        Modified = new ElementDescriptor {Id = captures[5], Label = captures[3], Value = captures[3] == "name" ? captures[4] : "##"},
+                    })
+                },
+                new
+                {
+                    Pattern = new Regex(@"^Match (.*)\((\d+)\) to (.*)\((\d+)\)", RegexOptions.Singleline),
+                    Selector = new Func<string[], RevisionDescriptor>(captures => new RevisionDescriptor
+                    {
+                        Original = new ElementDescriptor {Id = captures[1], Label = captures[0]},
+                        Modified = new ElementDescriptor {Id = captures[3], Label = captures[2]},
+                    })
+                }
+            };
+            return diffOutput.Where(l => l.StartsWith("Match ")).Select(delegate (string s)
+            {
+                try
+                {
+                    //foreach (var item in matchPatterns)
+                    //{
+                    //    var r = item.Pattern.Matches(s);
+                    //    if (item.Pattern.IsMatch(s))
+                    //        ;
+                    //}
+                    var pattern = matchPatterns.First(p => p.Pattern.IsMatch(s));
+                    //var pattern = matchPatterns.First(p => p.Pattern.IsMatch(s.Replace("\"",  "").Replace("\n", "").Replace("@", "")));
+                    var matchGroups = pattern.Pattern.Matches(s)[0].Groups;
+                    var m = new Group[matchGroups.Count];
+                    matchGroups.CopyTo(m, 0);
+                    return pattern.Selector(m.Select(m1 => m1.Value).Where(m1 => m1 != s).ToArray());
+                }
+                catch (Exception e)
+                {
+
+                    throw;
+                }
+                //return new RevisionDescriptor
+                //{
+                //    Original = new ElementDescriptor { Id = "45", Label = "literal", Value = "##" },
+                //    Modified = new ElementDescriptor { Id = "47", Label = "literal", Value = "##" }
+                //};
+            });
+        }
+
+        /// <summary>
+        /// Returns structured information of edit actions.
+        /// </summary>
+        /// <param name="diffOutput">informations to select from.</param>
+        public virtual IEnumerable<OperationDescriptor> GetActions(string[] diffOutput)
+        {
+            var actionPatterns = new[]
+            {
+                new
+                {
+                    Pattern = new Regex(@"^Insert ([^:]*): (.*)\((\d+)\) into (.*)\((\d+)\) at (\d+)", RegexOptions.Singleline),
+                    Selector = new Func<string[], OperationDescriptor>(captures => new InsertOperationDescriptor
+                    {
+                        Element = new ElementDescriptor { Id = captures[2], Label = captures[0], Value = captures[0] == "name" ? captures[1] : "##"},
+                        Parent = new ElementDescriptor { Id = captures[4], Label = captures[3] },
+                        Position = int.Parse(captures[5], CultureInfo.InvariantCulture)
+                    })
+                },
+                new
+                {
+                    Pattern = new Regex(@"^Insert (.*)\((\d+)\) into (.*)\((\d+)\) at (\d+)", RegexOptions.Singleline),
+                    Selector = new Func<string[], OperationDescriptor>(captures => new InsertOperationDescriptor
+                    {
+                        Element = new ElementDescriptor { Id = captures[1], Label = captures[0] },
+                        Parent = new ElementDescriptor { Id = captures[3], Label = captures[2] },
+                        Position = int.Parse(captures[4], CultureInfo.InvariantCulture)
+                    })
+                },
+                new
+                {
+                    Pattern = new Regex(@"^Update ([^:]*): (.*)\((\d+)\) to (.*)", RegexOptions.Singleline),
+                    Selector = new Func<string[], OperationDescriptor>(captures => new UpdateOperationDescriptor
+                    {
+                        Element = new ElementDescriptor { Id = captures[2], Label = captures[0], Value = captures[0] == "name" ? captures[1] : "##" },
+                        Value = captures[3]
+                    })
+                },
+                new
+                {
+                    Pattern = new Regex(@"^Update (.*)\((\d+)\) to (.*)", RegexOptions.Singleline),
+                    Selector = new Func<string[], OperationDescriptor>(captures => new UpdateOperationDescriptor
+                    {
+                        Element = new ElementDescriptor { Id = captures[1], Label = captures[0] },
+                        Value = captures[2]
+                    })
+                },/*,
+                new
+                {
+                    Pattern = new Regex(@"^Update ([^:]*): (.*)\((\d+)\) (.*) to (.*)"),
+                    Selector = new Func<string[], OperationDescriptor>(captures => new UpdateOperationDescriptor
+                    {
+                        Element = new ElementDescriptor { Id = captures[2], Label = captures[0] },
+                        Value = captures[4]
+                    })
+                },
+                new
+                {
+                    Pattern = new Regex(@"^Update (.*)\((\d+)\) (.*) to (.*)"),
+                    Selector = new Func<string[], OperationDescriptor>(captures => new UpdateOperationDescriptor
+                    {
+                        Element = new ElementDescriptor { Id = captures[1], Label = captures[0] },
+                        Value = captures[3]
+                    })
+                },*/
+                new
+                {
+                    Pattern = new Regex(@"^Move ([^:]*): (.*)\((\d+)\) into (.*)\((\d+)\) at (\d+)", RegexOptions.Singleline),
+                    Selector = new Func<string[], OperationDescriptor>(captures => new MoveOperationDescriptor
+                    {
+                        Element = new ElementDescriptor { Id = captures[2], Label = captures[0], Value = captures[0] == "name" ? captures[1] : "##" },
+                        Parent = new ElementDescriptor { Id = captures[4], Label = captures[3] },
+                        Position = Int32.Parse(captures[5], CultureInfo.InvariantCulture)
+                    })
+                },
+                new
+                {
+                    Pattern = new Regex(@"^Move (.*)\((\d+)\) into (.*)\((\d+)\) at (\d+)", RegexOptions.Singleline),
+                    Selector = new Func<string[], OperationDescriptor>(captures => new MoveOperationDescriptor
+                    {
+                        Element = new ElementDescriptor { Id = captures[1], Label = captures[0] },
+                        Parent = new ElementDescriptor { Id = captures[3], Label = captures[2] },
+                        Position = Int32.Parse(captures[4], CultureInfo.InvariantCulture)
+                    })
+                },
+                new { Pattern = new Regex(@"^Delete ([^:]*): (.*)\((\d+)\)", RegexOptions.Singleline),
+                    Selector = new Func<string[], OperationDescriptor>(captures => new DeleteOperationDescriptor
+                    {
+                        Element = new ElementDescriptor { Id = captures[2], Label = captures[0], Value = captures[0] == "name" ? captures[1] : "##" }
+                    })
+                },
+                new
+                {
+                    Pattern = new Regex(@"^Delete (.*)\((\d+)\)", RegexOptions.Singleline),
+                    Selector = new Func<string[], OperationDescriptor>(captures => new DeleteOperationDescriptor
+                    {
+                        Element = new ElementDescriptor { Id = captures[1], Label = captures[0] }
+                    })
+                }
+            };
+            return diffOutput.Where(l => !l.StartsWith("Match ")).Select(delegate (string s)
+            {
+                try
+                {
+                    var pattern = actionPatterns.First(p => p.Pattern.IsMatch(s));
+                    var actionGroups = pattern.Pattern.Matches(s)[0].Groups;
+                    var m = new Group[actionGroups.Count];
+                    actionGroups.CopyTo(m, 0);
+                    return pattern.Selector(m.Select(m1 => m1.Value).Where(m1 => m1 != s).ToArray());
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+                //return new InsertOperationDescriptor
+                //{
+                //    Element = new ElementDescriptor { Id = "179", Label = "literal", Value =  "##" },
+                //    Parent = new ElementDescriptor { Id = "180", Label = "expr" },
+                //    Position = 0
+                //};
+            });
         }
 
         public virtual void Cancel()
