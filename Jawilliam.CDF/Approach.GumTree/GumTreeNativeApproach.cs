@@ -57,7 +57,7 @@ namespace Jawilliam.CDF.Approach.GumTree
                 this.Result.Matches = this.ToMatchingDescriptors(xjsonDiff).ToList();
                 this.Result.Actions = this.ToActionDescriptors(xjsonDiff).ToList();
 
-                var diff = this.ExecuteDiffCommand(new InteropArgs());
+                var diff = this.ExecuteDiffCommand(args);
                 var lines = diff.Split(new[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
                 var temp = "";
                 var lines1 = lines;

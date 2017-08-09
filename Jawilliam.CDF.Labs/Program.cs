@@ -258,13 +258,13 @@ namespace Jawilliam.CDF.Labs
             //        Normalize = false,
             //        RemoveComments = true
             //    });
-            DetectingNativeGumTreeDiff(ChangeDetectionApproaches.NativeGumTreeWithoutComments,
-               null,
-               new SourceCodeCleaner
-               {
-                   Normalize = false,
-                   RemoveComments = true
-               });
+            //DetectingNativeGumTreeDiff(ChangeDetectionApproaches.NativeGumTreeWithoutComments,
+            //   null,
+            //   new SourceCodeCleaner
+            //   {
+            //       Normalize = false,
+            //       RemoveComments = true
+            //   });
             //ComplementDeltaInfos(ChangeDetectionApproaches.NativeGumTreeWithoutComments,
             //    null,
             //    new SourceCodeCleaner
@@ -314,14 +314,14 @@ namespace Jawilliam.CDF.Labs
             //                    Indentation = "   ",
             //                    RemoveComments = true
             //                }*/);
-            //ReviewRevisionPairs2(@"E:\Phd\Analysis\Original.cs", @"E:\Phd\Analysis\Modified.cs",
-            //    ReviewKind.Ratio_LevenshteinGumTreeAdditions_LocalOutliers/*,
-            //                new SourceCodeCleaner
-            //                {
-            //                    Normalize = true,
-            //                    Indentation = "   ",
-            //                    RemoveComments = true
-            //                }*/);
+            ReviewRevisionPairs2(@"E:\Phd\Analysis\Original.cs", @"E:\Phd\Analysis\Modified.cs",
+                ReviewKind.Ratio_LevenshteinGumTreeAdditions_LocalOutliers/*,
+                            new SourceCodeCleaner
+                            {
+                                Normalize = true,
+                                Indentation = "   ",
+                                RemoveComments = true
+                            }*/);
             #endregion
 
             #region Detecting not real source code changes
@@ -606,7 +606,7 @@ namespace Jawilliam.CDF.Labs
                 using (var dbRepository = new GitRepository(project.Name) { Name = project.Name })
                 {
                     ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 180;
-                    var guid = Guid.Parse("58d1b077-55b6-41d8-8f7d-d125141cd8ff");
+                    var guid = Guid.Parse("ba4a60c7-cd44-4781-953f-9b9c09722141");
                     ReviewRevisionPair(originalFilePath, modifiedFilePath, currentReview, cleaner, loader, dbRepository, guid);
                 }
             }
@@ -629,6 +629,8 @@ namespace Jawilliam.CDF.Labs
             System.IO.File.WriteAllText(originalFilePath, preprocessedOriginal.ToFullString());
             System.IO.File.WriteAllText(modifiedFilePath, preprocessedModified.ToFullString());
 
+            if (revisionPair.Reviews.Count > 0)
+                ;
             //var gtOutput = gumTree.ExecuteCommand(interopArgs, " ", $"gumtree.bat jsondiff {interopArgs.Original} {interopArgs.Modified}", " ");
             ;
             revisionPair.Reviews.Add(new Review
@@ -636,25 +638,23 @@ namespace Jawilliam.CDF.Labs
                 Id = Guid.NewGuid(),
                 CaseKind = CaseKind.HighOutlier,
                 Severity = ReviewSeverity.Bad,
-                Subject = "Imprecise changes",
-                Comments = "move \"attribute.Value =\" (ol:142;ml:132) does not seem a good change" + Environment.NewLine +
-                           "update \"HttpUtility\" (ol:142) by \"attribute\" (ml:132) does not seem a good change" + Environment.NewLine +
-                           "update the second \"attribute\" (ol:142) by \"Value\" (ml:132) does not seem a good change" + Environment.NewLine +
-                           "update the second \"Value\" (ol:142) by \"Replace\" (ml:132) does not seem a good change" + Environment.NewLine +
-                           "update the \"href\" (ol:144) by \"Replace\" (ml:132) does not seem a good change" + Environment.NewLine +
-                           "update the \"\"src\"\" (ol:145) by \"\"\"\" (ml:132) does not seem a good change",
+                Subject = "Ghost changes - Many changes are bad computed as a consequence of missed matches among bigger trees",
+                Comments = "e.g., the same container namespace's block (ol:21) and its modified counterpart (ol:21) is restaured by moving the container class's block (ol:36)." + Environment.NewLine +
+                           "e.g., the same class (ol:35) is deleted and (re-)inserted (ml:35)." + Environment.NewLine +
+                           "attributes (ol:26-34,ml:26-34) and other declarations are moved from the deleted fragment to its reinserted counterpart",
                 Kind = currentReview,
-                Topics = Topics.Matching | Topics.Domain | Topics.Differencing/**//*Topics.Domain*/ /* | Topics.Matching *//*| Topics.Differencing*/ /*| Topics.Report*/,
+                Topics = Topics.Matching /**//*Topics.Domain*/ /* | Topics.Matching *//*| Topics.Differencing*/ /*| Topics.Report*/,
             });
             revisionPair.Reviews.Add(new Review
             {
                 Id = Guid.NewGuid(),
                 CaseKind = CaseKind.HighOutlier,
                 Severity = ReviewSeverity.Bad,
-                Subject = "Bad changes - IF (ol:147-151;ml:135-139) do not match",
-                Comments = "The original IF (ol:147-151) was commented and such comments are wrapped into a new IF (ml:135-139)",
+                Subject = "Unnatural matches - Bad matched elements: \"ToolbarButtons\"'s get body-(ol:65) and \"EnsureButtons\"'s body -(ml:72) are not a same conceptual property",
+                Comments = "\"ToolbarButtons\"'s get body-(ol:65) should match with \"ToolbarButtons\"'s get body-(ml:65)" + Environment.NewLine +
+                           "Consequence(s): ghost move of the statement-(ol:71) to (ml:70).",
                 Kind = currentReview,
-                Topics = Topics.Matching/**//*Topics.Domain*/ /* | Topics.Matching *//*| Topics.Differencing*/ /*| Topics.Report*/,
+                Topics = Topics.Domain | Topics.Differencing /**//*Topics.Domain*/ /* | Topics.Matching *//*| Topics.Differencing*/ /*| Topics.Report*/,
             });
 
             dbRepository.Flush();
