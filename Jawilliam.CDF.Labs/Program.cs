@@ -259,7 +259,7 @@ namespace Jawilliam.CDF.Labs
             //        RemoveComments = true
             //    });
             DetectingNativeGumTreeDiff(ChangeDetectionApproaches.NativeGumTreeWithoutComments,
-               null,
+               change => change.Principal.XAnnotations.OnlyCommentChanges,
                new SourceCodeCleaner
                {
                    Normalize = false,
@@ -404,9 +404,9 @@ namespace Jawilliam.CDF.Labs
         /// <param name="gumTreeApproach"></param>
         /// <param name="skipThese"></param>
         /// <param name="cleaner">A preprocessor for the source code in case it is desired.</param>
-        private static void DetectingNativeGumTreeDiff(ChangeDetectionApproaches gumTreeApproach, Func<FileModifiedChange, bool> skipThese = null, SourceCodeCleaner cleaner = null)
+        private static void DetectingNativeGumTreeDiff(ChangeDetectionApproaches gumTreeApproach, Func<FileRevisionPair, bool> skipThese = null, SourceCodeCleaner cleaner = null)
         {
-            var analyzer = new FileModifiedChangeAnalyzer { MillisecondsTimeout = 600000 };
+            var analyzer = new FileRevisionPairAnalyzer { MillisecondsTimeout = 600000 };
             var gumTree = new GumTreeNativeApproach();
             var interopArgs = new InteropArgs()
             {
@@ -415,11 +415,11 @@ namespace Jawilliam.CDF.Labs
                 //Modified = @"C:\CDF\Modified.cs"
             };
 
-            foreach (var project in Projects.Reverse().Skip(12))
+            foreach (var project in Projects.Reverse())
             {
                 analyzer.Warnings = new StringBuilder();
                 var dbRepository = new GitRepository(project.Name) { Name = project.Name };
-                ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 180;
+                ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 600;
                 analyzer.NativeGumTreeDiff(dbRepository,  gumTree, interopArgs, () => gumTree.Cancel(), gumTreeApproach, skipThese, cleaner);
 
                 System.IO.File.WriteAllText($@"E:\Phd\Analysis\NativeGumTreeDiff2{project.Name}.txt", analyzer.Warnings.ToString());

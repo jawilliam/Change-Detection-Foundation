@@ -225,6 +225,7 @@
     <Compile Include="FileRevisionPair.cs">
       <DependentUpon>GitRepository.tt</DependentUpon>
     </Compile>
+    <Compile Include="FileRevisionPairAnalyzer.cs" />
     <Compile Include="FileVersion.cs">
       <DependentUpon>GitRepository.tt</DependentUpon>
     </Compile>
