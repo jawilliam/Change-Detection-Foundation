@@ -258,11 +258,13 @@ namespace Jawilliam.CDF.Approach.GumTree
 
         public virtual void Cancel()
         {
-            if(this.Result != null)
+            if (!this.Result.Matches.Any() && !this.Result.Actions.Any())
+            {
                 this.Result.Error = "Omitted element > 10 min";
 
-            this._process?.Close();
-            throw new OperationCanceledException();
+                this._process?.Close();
+                throw new OperationCanceledException();
+            }
         }
 
         public string ExecuteJsonDiffCommand(InteropArgs args)
