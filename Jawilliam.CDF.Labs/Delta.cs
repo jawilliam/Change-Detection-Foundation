@@ -20,6 +20,8 @@ namespace Jawilliam.CDF.Labs
         public string Report { get; set; }
         public string Annotations { get; set; }
         public ChangeDetectionApproaches Approach { get; set; }
+        public string OriginalTree { get; set; }
+        public string ModifiedlTree { get; set; }
     
         public virtual FileModifiedChange RevisionPair { get; set; }
     }

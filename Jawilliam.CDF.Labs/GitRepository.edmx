@@ -168,7 +168,7 @@
     <Property Name="StatementLines" Type="bigint" Nullable="true" />
     <Property Name="SyntaxKindAnnotations" Type="xml" Nullable="true" />
     <Property Name="Annotations" Type="xml" Nullable="true" />
-    <Property Name="CodeCategory" Type="tinyint" Nullable="true" />
+    <Property Name="CodeCategory" Type="smallint" Nullable="true" />
     <Property Name="FileVersion_Id" Type="uniqueidentifier" Nullable="false" />
   </EntityType>
   <EntityType Name="Deltas">
@@ -181,6 +181,8 @@
     <Property Name="Report" Type="xml" Nullable="true" />
     <Property Name="Annotations" Type="xml" Nullable="true" />
     <Property Name="Approach" Type="int" Nullable="false" />
+    <Property Name="OriginalTree" Type="xml" Nullable="true" />
+    <Property Name="ModifiedlTree" Type="xml" Nullable="true" />
     <Property Name="RevisionPair_Id" Type="uniqueidentifier" Nullable="true" />
   </EntityType>
   <EntityType Name="FileRevisionPairs">
@@ -192,6 +194,7 @@
     <Property Name="Versioning_Path" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Versioning_FromVersion" Type="int" Nullable="false" />
     <Property Name="Versioning_ToVersion" Type="int" Nullable="false" />
+    <Property Name="Flags" Type="bigint" Nullable="true" />
     <Property Name="OneFile_CanHave_ManyRevisionPairs_FileRevisionPair_Id" Type="uniqueidentifier" Nullable="false" />
     <Property Name="Principal_Id" Type="uniqueidentifier" Nullable="false" />
   </EntityType>
@@ -892,6 +895,8 @@
           <Property Name="Annotations" Type="String" Nullable="true" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="RevisionPair" Relationship="Jawilliam.CDF.Labs.SQL.FileModifiedChanges_CanBeDescribedByDifferent_Deltas" FromRole="Delta" ToRole="FileModifiedChange" />
           <Property Name="Approach" Type="Jawilliam.CDF.Labs.SQL.ChangeDetectionApproaches" Nullable="false" />
+          <Property Name="OriginalTree" Type="String" Nullable="true" />
+          <Property Name="ModifiedlTree" Type="String" Nullable="true" />
         </EntityType>
         <Association Name="FileModifiedChanges_CanBeDescribedByDifferent_Deltas">
           <End Type="Jawilliam.CDF.Labs.SQL.FileModifiedChange" Role="FileModifiedChange" Multiplicity="0..1" />
@@ -1116,6 +1121,8 @@
           <ScalarProperty Name="Report" ColumnName="Report" />
           <ScalarProperty Name="Annotations" ColumnName="Annotations" />
           <ScalarProperty Name="Approach" ColumnName="Approach" />
+          <ScalarProperty Name="OriginalTree" ColumnName="OriginalTree" />
+          <ScalarProperty Name="ModifiedlTree" ColumnName="ModifiedlTree" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1129,6 +1136,7 @@
             <ScalarProperty Name="FromVersion" ColumnName="Versioning_FromVersion" />
             <ScalarProperty Name="ToVersion" ColumnName="Versioning_ToVersion" />
           </ComplexProperty>
+          <ScalarProperty Name="Flags" ColumnName="Flags" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
