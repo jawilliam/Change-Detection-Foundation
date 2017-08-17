@@ -424,7 +424,7 @@ namespace Jawilliam.CDF.Labs
                 ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 600;
                 analyzer.NativeGumTreeDiff(dbRepository,  gumTree, interopArgs, () => gumTree.Cancel(), gumTreeApproach, skipThese, cleaner);
 
-                System.IO.File.WriteAllText($@"E:\Phd\Analysis\NativeGumTreeDiff2{project.Name}.txt", analyzer.Warnings.ToString());
+                System.IO.File.WriteAllText($@"C:\CDF\NativeGumTreeDiff3{project.Name}.txt", analyzer.Warnings.ToString());
             }
             Console.Out.WriteLine($"GumTree native collected!!!");
         }

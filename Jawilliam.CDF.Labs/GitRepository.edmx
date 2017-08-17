@@ -168,7 +168,7 @@
     <Property Name="StatementLines" Type="bigint" Nullable="true" />
     <Property Name="SyntaxKindAnnotations" Type="xml" Nullable="true" />
     <Property Name="Annotations" Type="xml" Nullable="true" />
-    <Property Name="CodeCategory" Type="tinyint" Nullable="true" />
+    <Property Name="CodeCategory" Type="smallint" Nullable="true" />
     <Property Name="FileVersion_Id" Type="uniqueidentifier" Nullable="false" />
   </EntityType>
   <EntityType Name="Deltas">
@@ -181,6 +181,8 @@
     <Property Name="Report" Type="xml" Nullable="true" />
     <Property Name="Annotations" Type="xml" Nullable="true" />
     <Property Name="Approach" Type="int" Nullable="false" />
+    <Property Name="OriginalTree" Type="xml" Nullable="true" />
+    <Property Name="ModifiedlTree" Type="xml" Nullable="true" />
     <Property Name="RevisionPair_Id" Type="uniqueidentifier" Nullable="true" />
   </EntityType>
   <EntityType Name="FileRevisionPairs">
@@ -192,6 +194,7 @@
     <Property Name="Versioning_Path" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Versioning_FromVersion" Type="int" Nullable="false" />
     <Property Name="Versioning_ToVersion" Type="int" Nullable="false" />
+    <Property Name="Flags" Type="bigint" Nullable="true" />
     <Property Name="OneFile_CanHave_ManyRevisionPairs_FileRevisionPair_Id" Type="uniqueidentifier" Nullable="false" />
     <Property Name="Principal_Id" Type="uniqueidentifier" Nullable="false" />
   </EntityType>
@@ -892,6 +895,8 @@
           <Property Name="Annotations" Type="String" Nullable="true" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="RevisionPair" Relationship="Jawilliam.CDF.Labs.SQL.FileModifiedChanges_CanBeDescribedByDifferent_Deltas" FromRole="Delta" ToRole="FileModifiedChange" />
           <Property Name="Approach" Type="Jawilliam.CDF.Labs.SQL.ChangeDetectionApproaches" Nullable="false" />
+          <Property Name="OriginalTree" Type="String" Nullable="true" />
+          <Property Name="ModifiedlTree" Type="String" Nullable="true" />
         </EntityType>
         <Association Name="FileModifiedChanges_CanBeDescribedByDifferent_Deltas">
           <End Type="Jawilliam.CDF.Labs.SQL.FileModifiedChange" Role="FileModifiedChange" Multiplicity="0..1" />
@@ -904,23 +909,17 @@
           <Member Name="NativeGumTreeWithoutComments" Value="3" />
           <Member Name="NativeGumTreeMethodsWithoutComments" Value="4" />
         </EnumType>
-        <EnumType Name="CodeCategory" UnderlyingType="Byte" IsFlags="true">
-          <Member Name="MaintainedProduction" Value="1" />
-          <Member Name="MaintainedTest" Value="9" />
-          <Member Name="GeneratedProduction" Value="2" />
-          <Member Name="GeneratedTest" Value="10" />
-          <Member Name="LibraryProduction" Value="3" />
-          <Member Name="LibraryTest" Value="11" />
-          <Member Name="ExampleProduction" Value="4" />
-          <Member Name="ExampleTest" Value="12" />
-          <Member Name="UnusedProduction" Value="5" />
-          <Member Name="TemporaryProduction" Value="6" />
-          <Member Name="ExtraneousProduction" Value="7" />
-          <Member Name="DecompiledProduction" Value="8" />
-          <Member Name="UnusedTest" Value="13" />
-          <Member Name="TemporaryTest" Value="14" />
-          <Member Name="ExtraneousTest" Value="15" />
-          <Member Name="DecompiledTest" Value="16" />
+        <EnumType Name="CodeCategory" UnderlyingType="Int16" IsFlags="true">
+          <Member Name="Maintained" Value="1" />
+          <Member Name="Generated" Value="2" />
+          <Member Name="Library" Value="4" />
+          <Member Name="Example" Value="8" />
+          <Member Name="Unused" Value="16" />
+          <Member Name="Temporary" Value="32" />
+          <Member Name="Extraneous" Value="64" />
+          <Member Name="Decompiled" Value="128" />
+          <Member Name="Production" Value="256" />
+          <Member Name="Test" Value="512" />
         </EnumType>
         <EntityType Name="FileRevisionPair" >
           <Key>
@@ -932,6 +931,7 @@
           <NavigationProperty Name="Principal" Relationship="Jawilliam.CDF.Labs.SQL.FileRevisionPairFileModifiedChange" FromRole="FileRevisionPair" ToRole="FileModifiedChange" />
           <NavigationProperty Name="Copies" Relationship="Jawilliam.CDF.Labs.SQL.FileRevisionPair_AlsoReferences_TheDuplicatedFileModifiedChanges" FromRole="FileRevisionPair" ToRole="FileModifiedChange" />
           <NavigationProperty Name="Reviews" Relationship="Jawilliam.CDF.Labs.SQL.OneFileRevisionPair_MayHave_ManyReview" FromRole="FileRevisionPair" ToRole="Review" />
+          <Property Name="Flags" Type="Jawilliam.CDF.Labs.SQL.RevisionPairFlags" Nullable="true" />
         </EntityType>
         <ComplexType Name="PairRevisionInfo" >
           <Property Type="String" Name="Path" Nullable="false" />
@@ -1010,6 +1010,10 @@
           <Member Name="SamplingMedianCloser" Value="4" />
           <Member Name="SamplingNonOutliers" Value="5" />
           <Member Name="SamplingNormal" Value="6" />
+        </EnumType>
+        <EnumType Name="RevisionPairFlags" UnderlyingType="Int64" IsFlags="true">
+          <Member Name="SourceCodeChanged" Value="1" />
+          <Member Name="OnlyCommentChanged" Value="2" />
         </EnumType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1123,6 +1127,8 @@
           <ScalarProperty Name="Report" ColumnName="Report" />
           <ScalarProperty Name="Annotations" ColumnName="Annotations" />
           <ScalarProperty Name="Approach" ColumnName="Approach" />
+          <ScalarProperty Name="OriginalTree" ColumnName="OriginalTree" />
+          <ScalarProperty Name="ModifiedlTree" ColumnName="ModifiedlTree" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1136,6 +1142,7 @@
             <ScalarProperty Name="FromVersion" ColumnName="Versioning_FromVersion" />
             <ScalarProperty Name="ToVersion" ColumnName="Versioning_ToVersion" />
           </ComplexProperty>
+          <ScalarProperty Name="Flags" ColumnName="Flags" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

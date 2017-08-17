@@ -12,17 +12,9 @@ namespace Jawilliam.CDF.Labs
     using System;
     
     [Flags]
-    public enum CodeCategory : short
+    public enum RevisionPairFlags : long
     {
-        Maintained = 1,
-        Generated = 2,
-        Library = 4,
-        Example = 8,
-        Unused = 16,
-        Temporary = 32,
-        Extraneous = 64,
-        Decompiled = 128,
-        Production = 256,
-        Test = 512
+        SourceCodeChanged = 1,
+        OnlyCommentChanged = 2
     }
 }
