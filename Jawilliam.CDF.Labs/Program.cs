@@ -258,13 +258,13 @@ namespace Jawilliam.CDF.Labs
             //        Normalize = false,
             //        RemoveComments = true
             //    });
-            DetectingNativeGumTreeDiff(ChangeDetectionApproaches.NativeGumTreeWithoutComments,
-               change => change.Principal.XAnnotations.OnlyCommentChanges,
-               new SourceCodeCleaner
-               {
-                   Normalize = false,
-                   RemoveComments = true
-               });
+            //DetectingNativeGumTreeDiff(ChangeDetectionApproaches.NativeGumTreeWithoutComments,
+            //   change => change.Principal.XAnnotations.OnlyCommentChanges,
+            //   new SourceCodeCleaner
+            //   {
+            //       Normalize = false,
+            //       RemoveComments = true
+            //   });
             //ComplementDeltaInfos(ChangeDetectionApproaches.NativeGumTreeWithoutComments,
             //    null,
             //    new SourceCodeCleaner
@@ -315,13 +315,13 @@ namespace Jawilliam.CDF.Labs
             //                    RemoveComments = true
             //                }*/);
             //ReviewRevisionPairs2(@"E:\Phd\Analysis\Original.cs", @"E:\Phd\Analysis\Modified.cs",
-            //    ReviewKind.Ratio_LevenshteinGumTreeAdditions_LocalOutliers/*,
+            //    ReviewKind.Ratio_LevenshteinGumTreeAdditions_LocalOutliers,
             //                new SourceCodeCleaner
             //                {
             //                    Normalize = true,
-            //                    Indentation = "   ",
-            //                    RemoveComments = true
-            //                }*/);
+            //                    Indentation = "",
+            //                    //RemoveComments = true
+            //                });
             #endregion
 
             #region Detecting not real source code changes
@@ -345,6 +345,8 @@ namespace Jawilliam.CDF.Labs
             //        RemoveComments = true
             //    });
             #endregion
+
+            //ReportBadRenamingCandidates(ChangeDetectionApproaches.NativeGumTreeWithoutComments);
 
             //int i = 0; // the warning reports!!!
             System.Console.ReadKey();
@@ -415,7 +417,7 @@ namespace Jawilliam.CDF.Labs
                 //Modified = @"C:\CDF\Modified.cs"
             };
 
-            foreach (var project in Projects.Reverse())
+            foreach (var project in Projects)
             {
                 analyzer.Warnings = new StringBuilder();
                 var dbRepository = new GitRepository(project.Name) { Name = project.Name };
@@ -606,7 +608,8 @@ namespace Jawilliam.CDF.Labs
                 using (var dbRepository = new GitRepository(project.Name) { Name = project.Name })
                 {
                     ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 180;
-                    var guid = Guid.Parse("ba4a60c7-cd44-4781-953f-9b9c09722141");
+                    var guid = Guid.Parse("399b8612-856d-4213-8b3d-2876961bbe2d");
+                    //var guid = Guid.Parse("ba4a60c7-cd44-4781-953f-9b9c09722141");
                     ReviewRevisionPair(originalFilePath, modifiedFilePath, currentReview, cleaner, loader, dbRepository, guid);
                 }
             }
@@ -626,36 +629,36 @@ namespace Jawilliam.CDF.Labs
 
             var preprocessedOriginal = cleaner != null ? cleaner.Clean(original) : original;
             var preprocessedModified = cleaner != null ? cleaner.Clean(modified) : modified;
-            System.IO.File.WriteAllText(originalFilePath, preprocessedOriginal.ToFullString());
-            System.IO.File.WriteAllText(modifiedFilePath, preprocessedModified.ToFullString());
+            System.IO.File.WriteAllText(originalFilePath, preprocessedOriginal.ToFullString(), Encoding.Default);
+            System.IO.File.WriteAllText(modifiedFilePath, preprocessedModified.ToFullString(), Encoding.Default);
 
             if (revisionPair.Reviews.Count > 0)
                 ;
             //var gtOutput = gumTree.ExecuteCommand(interopArgs, " ", $"gumtree.bat jsondiff {interopArgs.Original} {interopArgs.Modified}", " ");
             ;
-            revisionPair.Reviews.Add(new Review
-            {
-                Id = Guid.NewGuid(),
-                CaseKind = CaseKind.HighOutlier,
-                Severity = ReviewSeverity.Bad,
-                Subject = "Ghost changes - Many changes are bad computed as a consequence of missed matches among bigger trees",
-                Comments = "e.g., the same container namespace's block (ol:21) and its modified counterpart (ol:21) is restaured by moving the container class's block (ol:36)." + Environment.NewLine +
-                           "e.g., the same class (ol:35) is deleted and (re-)inserted (ml:35)." + Environment.NewLine +
-                           "attributes (ol:26-34,ml:26-34) and other declarations are moved from the deleted fragment to its reinserted counterpart",
-                Kind = currentReview,
-                Topics = Topics.Matching /**//*Topics.Domain*/ /* | Topics.Matching *//*| Topics.Differencing*/ /*| Topics.Report*/,
-            });
-            revisionPair.Reviews.Add(new Review
-            {
-                Id = Guid.NewGuid(),
-                CaseKind = CaseKind.HighOutlier,
-                Severity = ReviewSeverity.Bad,
-                Subject = "Unnatural matches - Bad matched elements: \"ToolbarButtons\"'s get body-(ol:65) and \"EnsureButtons\"'s body -(ml:72) are not a same conceptual property",
-                Comments = "\"ToolbarButtons\"'s get body-(ol:65) should match with \"ToolbarButtons\"'s get body-(ml:65)" + Environment.NewLine +
-                           "Consequence(s): ghost move of the statement-(ol:71) to (ml:70).",
-                Kind = currentReview,
-                Topics = Topics.Domain | Topics.Differencing /**//*Topics.Domain*/ /* | Topics.Matching *//*| Topics.Differencing*/ /*| Topics.Report*/,
-            });
+            //revisionPair.Reviews.Add(new Review
+            //{
+            //    Id = Guid.NewGuid(),
+            //    CaseKind = CaseKind.HighOutlier,
+            //    Severity = ReviewSeverity.Bad,
+            //    Subject = "Ghost changes - Many changes are bad computed as a consequence of missed matches among bigger trees",
+            //    Comments = "e.g., the same container namespace's block (ol:21) and its modified counterpart (ol:21) is restaured by moving the container class's block (ol:36)." + Environment.NewLine +
+            //               "e.g., the same class (ol:35) is deleted and (re-)inserted (ml:35)." + Environment.NewLine +
+            //               "attributes (ol:26-34,ml:26-34) and other declarations are moved from the deleted fragment to its reinserted counterpart",
+            //    Kind = currentReview,
+            //    Topics = Topics.Matching /**//*Topics.Domain*/ /* | Topics.Matching *//*| Topics.Differencing*/ /*| Topics.Report*/,
+            //});
+            //revisionPair.Reviews.Add(new Review
+            //{
+            //    Id = Guid.NewGuid(),
+            //    CaseKind = CaseKind.HighOutlier,
+            //    Severity = ReviewSeverity.Bad,
+            //    Subject = "Unnatural matches - Bad matched elements: \"ToolbarButtons\"'s get body-(ol:65) and \"EnsureButtons\"'s body -(ml:72) are not a same conceptual property",
+            //    Comments = "\"ToolbarButtons\"'s get body-(ol:65) should match with \"ToolbarButtons\"'s get body-(ml:65)" + Environment.NewLine +
+            //               "Consequence(s): ghost move of the statement-(ol:71) to (ml:70).",
+            //    Kind = currentReview,
+            //    Topics = Topics.Domain | Topics.Differencing /**//*Topics.Domain*/ /* | Topics.Matching *//*| Topics.Differencing*/ /*| Topics.Report*/,
+            //});
 
             dbRepository.Flush();
         }
@@ -734,6 +737,95 @@ namespace Jawilliam.CDF.Labs
                 analyzer.ComplementDeltaInfos(dbRepository, gumTree, interopArgs, () => gumTree.Cancel(), gumTreeApproach, skipThese, cleaner);
 
                 //System.IO.File.WriteAllText($@"C:\CDF\NativeGumTreeDiff{project.Name}.txt", analyzer.Warnings.ToString());
+            }
+            Console.Out.WriteLine($"DONE!!!");
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="approach"></param>
+        private static void ReportBadRenamingCandidates(ChangeDetectionApproaches approach)
+        {
+            var analyzer = new FileRevisionPairAnalyzer { MillisecondsTimeout = 600000 };
+            var interopArgs = new InteropArgs()
+            {
+                //GumTreePath = @"C:\CDF\gumtree-20170525-2.1.0-SNAPSHOT",
+                //Original = @"C:\CDF\Original.cs",
+                //Modified = @"C:\CDF\Modified.cs"
+            };
+
+            foreach (var project in Projects)
+            {
+                
+                var dbRepository = new GitRepository(project.Name) { Name = project.Name };
+                ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 600;
+                analyzer.ForEach(dbRepository, project.Name, pair => pair.Principal.Deltas.Any(d => d.Approach == approach), delegate(FileRevisionPair pair)
+                {
+                    analyzer.Warnings = new StringBuilder();
+                    try
+                    {
+                        dbRepository.Deltas.Where(d => d.RevisionPair.Id == pair.Principal.Id && d.Approach == approach).Load();
+                        var delta = pair.Principal.Deltas.Single(d => d.Approach == approach);
+
+                        var detectionResult = DetectionResult.Read($"<Result>{delta.Matching}{delta.Differencing}</Result>", Encoding.Unicode);
+                        var candidateBadCases = from m in detectionResult.Actions.OfType<InsertOperationDescriptor>()
+                                                    //let matchingPair = detectionResult.Matches.Single(mp => mp.Original.Id == m.Element.Id)
+                                                    //let insert = detectionResult.Actions.OfType<InsertOperationDescriptor>().SingleOrDefault(i => i.)
+                                                where m.Element.Label == "name" &&
+                                                      m.Element.Value != "get" &&
+                                                      m.Element.Value != "set" &&
+                                                      m.Element.Value != "add" &&
+                                                      m.Element.Value != "remove" &&
+                                                      !string.IsNullOrWhiteSpace(m.Element.Value) &&
+                                                      !string.IsNullOrEmpty(m.Element.Value) &&
+                                                      (m.Parent.Label == "function" ||
+                                                       m.Parent.Label == "function_decl" ||
+                                                       m.Parent.Label == "namespace" ||
+                                                       m.Parent.Label == "class" ||
+                                                       m.Parent.Label == "struct" ||
+                                                       m.Parent.Label == "interface" ||
+                                                       m.Parent.Label == "decl_stmt" ||
+                                                       m.Parent.Label == "constructor" ||
+                                                       m.Parent.Label == "destructor" ||
+                                                       m.Parent.Label == "enum") &&
+                                                      detectionResult.Matches.Any(n => n.Original.Label == "name" &&
+                                                                                       n.Original.Value == m.Element.Value)
+                                                select m;
+
+                        var candidateBadCases2 = from m in detectionResult.Actions.OfType<UpdateOperationDescriptor>()
+                                                //let matchingPair = detectionResult.Matches.Single(mp => mp.Original.Id == m.Element.Id)
+                                                //let insert = detectionResult.Actions.OfType<InsertOperationDescriptor>().SingleOrDefault(i => i.)
+                                            where m.Element.Label == "name" &&
+                                                  m.Element.Value != "get" &&
+                                                  m.Element.Value != "set" &&
+                                                  m.Element.Value != "add" &&
+                                                  m.Element.Value != "remove" &&
+                                                  !string.IsNullOrWhiteSpace(m.Element.Value) &&
+                                                  !string.IsNullOrEmpty(m.Element.Value) &&
+                                                  detectionResult.Matches.Any(n => n.Original.Label == "name" &&
+                                                                                   n.Original.Value == m.Element.Value)
+                                            select m;
+
+                        foreach (var badCase in candidateBadCases)
+                        {
+                            analyzer.Warnings.AppendLine($"{project.Name};{pair.Principal.Id};{badCase.Parent.Label};{badCase.Element.Label}:{badCase.Element.Value}");
+                        }
+
+                        foreach (var badCase in candidateBadCases2)
+                        {
+                            analyzer.Warnings.AppendLine($"{project.Name};{pair.Principal.Id};#DELETION#;{badCase.Element.Label}:{badCase.Element.Value}");
+                        }
+
+                        System.IO.File.AppendAllText($@"E:\Phd\Analysis\BadRenamesFor{Enum.GetName(typeof(ChangeDetectionApproaches), approach)}.txt", analyzer.Warnings.ToString());
+
+                    }
+                    catch (Exception)
+                    {
+                    }
+                }, "Principal");
+
+                System.IO.File.AppendAllText($@"E:\Phd\Analysis\BadRenamesFor{Enum.GetName(typeof(ChangeDetectionApproaches), approach)}.txt", analyzer.Warnings.ToString());
             }
             Console.Out.WriteLine($"DONE!!!");
         }

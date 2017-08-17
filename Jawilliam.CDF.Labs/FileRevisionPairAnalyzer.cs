@@ -172,10 +172,11 @@ namespace Jawilliam.CDF.Labs
                 if (!repositoryObject.Principal.XAnnotations.SourceCodeChanges || (skipThese?.Invoke(repositoryObject) ?? false))
                     return;
 
-                sqlRepository.Deltas.Where(d => d.RevisionPair.Id == repositoryObject.Id && d.Approach == gumTreeApproach)
+                sqlRepository.Deltas.Where(d => d.RevisionPair.Id == repositoryObject.Principal.Id && d.Approach == gumTreeApproach)
                     .Load();
 
                 var delta = repositoryObject.Principal.Deltas.SingleOrDefault(d => d.Approach == gumTreeApproach);
+                //if (delta != null) return;
                 if (delta == null)
                 {
                     delta = new Delta { Id = Guid.NewGuid(), Approach = gumTreeApproach };
@@ -222,5 +223,30 @@ namespace Jawilliam.CDF.Labs
             "Principal.FileVersion.Content", "Principal.FromFileVersion.Content");
         }
 
+        /// <summary>
+        /// Filters the file revision pairs that satisfy a particular criterion.
+        /// </summary>
+        /// <param name="sqlRepository">the SQL database repository in which to analyze the file versions.</param>
+        /// <param name="repositoryObjectName">name of the repository</param>
+        /// <param name="onThese">expression to filter the objects of interest.</param>
+        /// <param name="action">the filtering criterion</param>
+        /// <param name="includes">paths to include in the query.</param>
+        public virtual void ForEach(GitRepository sqlRepository, string repositoryObjectName, Expression<Func<FileRevisionPair, bool>> onThese, Action<FileRevisionPair> action, params string[] includes)
+        {
+            var repositoryObjectIds = sqlRepository.FileRevisionPairs
+                   .Where(onThese)
+                   .Select(fv => fv.Id).ToList();
+
+            var counter = 0;
+            foreach (var repositoryObjectId in repositoryObjectIds)
+            {
+                var repositoryObjectQuery = sqlRepository.FileRevisionPairs.AsQueryable();
+                repositoryObjectQuery = includes.Aggregate(repositoryObjectQuery, (current, include) => current.Include(include));
+                var repositoryObject = repositoryObjectQuery.Single(c => c.Id == repositoryObjectId);
+
+                Console.Out.WriteLine($"Analyzing the {++counter}-{repositoryObjectName} ({repositoryObjectIds.Count}) of {sqlRepository.Name}");
+                action(repositoryObject);
+            }
+        }
     }
 }
