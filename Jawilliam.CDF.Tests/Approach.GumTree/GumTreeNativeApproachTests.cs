@@ -1,15 +1,18 @@
-﻿using System.Linq;
+﻿using System;
+using System.IO;
+using System.Linq;
 using System.Text;
+using System.Xml;
 using System.Xml.Linq;
 using Jawilliam.CDF.Actions;
 using Jawilliam.CDF.Approach;
 using Jawilliam.CDF.Approach.GumTree;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Jawilliam.CDF.Tests.Actions
+namespace Jawilliam.CDF.Tests.Approach.GumTree
 {
     [TestClass]
-    public class OperationDescriptorsTests
+    public class GumTreeNativeApproachTests
     {
         [TestMethod]
         public void GumTreeNativeApproach_ActionsConversion_OK()
@@ -25,7 +28,7 @@ namespace Jawilliam.CDF.Tests.Actions
                    "<item type=\"object\">" +
                       "<action type=\"string\">delete</action>" +
                       "<tree type=\"number\">90</tree>" +
-                   "</item>" + 
+                   "</item>" +
                    "<item type=\"object\">" +
                       "<action type=\"string\">update</action>" +
                       "<tree type=\"number\">91</tree>" +
@@ -72,6 +75,37 @@ namespace Jawilliam.CDF.Tests.Actions
             Assert.AreEqual(move.Parent.Id, "197");
             Assert.AreEqual(move.Parent.Label, null);
             Assert.AreEqual(move.Position, 2);
+        }
+
+        [TestMethod]
+        public void GumTreeNativeApproach_ParseTree_OK()
+        {
+            var gt = new GumTreeNativeApproach();
+            var args = new InteropArgs()
+            {
+                Original = @"E:\Phd\Analysis\Original.cs",
+                Modified = @"E:\Phd\Analysis\Modified.cs"
+            };
+
+            var r = gt.ParseTree(args);
+        }
+
+        [TestMethod]
+        public void ElementTree_XMLSerialization_OK()
+        {
+            string content =
+            "<?xml version=\"1.0\" encoding=\"utf-16\"?>" +
+            "<Item eId=\"0\" eLb=\"A\" eVl=\"B\">" +
+            "   <Item eId=\"1\" eLb=\"A1\" eVl=\"B1\"/>" +
+            "   <Item eId=\"2\" eLb=\"A2\" eVl=\"B2\">" +
+            "       <Item eId=\"3\" eLb=\"A3\" eVl=\"B3\"/>" +
+            "   </Item>" +
+            "   <Item eId=\"4\" eLb=\"A4\" eVl=\"B4\"/>" +
+            "</Item>";
+
+            var tree = ElementTree.Read(content, Encoding.Unicode);
+
+            var c = tree.WriteXmlColumn();
         }
     }
 }

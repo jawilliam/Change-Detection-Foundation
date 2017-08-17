@@ -182,7 +182,7 @@
     <Property Name="Annotations" Type="xml" Nullable="true" />
     <Property Name="Approach" Type="int" Nullable="false" />
     <Property Name="OriginalTree" Type="xml" Nullable="true" />
-    <Property Name="ModifiedlTree" Type="xml" Nullable="true" />
+    <Property Name="ModifiedTree" Type="xml" Nullable="true" />
     <Property Name="RevisionPair_Id" Type="uniqueidentifier" Nullable="true" />
   </EntityType>
   <EntityType Name="FileRevisionPairs">
@@ -896,7 +896,7 @@
           <NavigationProperty Name="RevisionPair" Relationship="Jawilliam.CDF.Labs.SQL.FileModifiedChanges_CanBeDescribedByDifferent_Deltas" FromRole="Delta" ToRole="FileModifiedChange" />
           <Property Name="Approach" Type="Jawilliam.CDF.Labs.SQL.ChangeDetectionApproaches" Nullable="false" />
           <Property Name="OriginalTree" Type="String" Nullable="true" />
-          <Property Name="ModifiedlTree" Type="String" Nullable="true" />
+          <Property Name="ModifiedTree" Type="String" Nullable="true" />
         </EntityType>
         <Association Name="FileModifiedChanges_CanBeDescribedByDifferent_Deltas">
           <End Type="Jawilliam.CDF.Labs.SQL.FileModifiedChange" Role="FileModifiedChange" Multiplicity="0..1" />
@@ -1128,7 +1128,7 @@
           <ScalarProperty Name="Annotations" ColumnName="Annotations" />
           <ScalarProperty Name="Approach" ColumnName="Approach" />
           <ScalarProperty Name="OriginalTree" ColumnName="OriginalTree" />
-          <ScalarProperty Name="ModifiedlTree" ColumnName="ModifiedlTree" />
+          <ScalarProperty Name="ModifiedTree" ColumnName="ModifiedTree" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

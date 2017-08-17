@@ -61,6 +61,7 @@
     <Compile Include="Approach\IProcedure.cs" />
     <Compile Include="Approach\IMatchingTransformation.cs" />
     <Compile Include="Approach\MatchingCriterion.cs" />
+    <Compile Include="ElementTree.cs" />
     <Compile Include="Metrics.Quality\EditDistance.cs" />
     <Compile Include="Metrics\IMetric.cs" />
     <Compile Include="MissingValueException.cs" />

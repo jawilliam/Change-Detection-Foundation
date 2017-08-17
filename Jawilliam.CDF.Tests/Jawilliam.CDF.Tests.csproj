@@ -161,7 +161,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Actions\OperationDescriptorsTests.cs" />
+    <Compile Include="Approach.GumTree\GumTreeNativeApproachTests.cs" />
     <Compile Include="Approach.Matching.CSharp\MatchingProvider.cs" />
     <Compile Include="NativeGumTreeResultParsing.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -187,6 +187,9 @@
   <ItemGroup>
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.1.1.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll" />
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.1.1.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Actions\" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

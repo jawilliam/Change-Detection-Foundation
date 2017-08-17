@@ -280,19 +280,45 @@ namespace Jawilliam.CDF.Approach.GumTree
             return ExecuteCommand(args, header, $"gumtree.bat diff {args.Original} {args.Modified}", "");
         }
 
-        public virtual void ParseTree(InteropArgs args, bool modified = false)
+        public virtual ElementTree ParseTree(InteropArgs args, bool modified = false)
         {
             var file = !modified ? args.Original : args.Modified;
-            string header = $"Microsoft Windows [Versión 10.0.10586]\r\n(c) 2015 Microsoft Corporation. Todos los derechos reservados.\r\n\r\n{Environment.CurrentDirectory}>E:\r\n\r\n{Environment.CurrentDirectory}>cd {args.GumTreePath}\\bin\r\n\r\n{args.GumTreePath}\\bin>set PATH=%PATH%;C:\\Program Files (x86)\\srcML 0.9.5\\bin\r\n\r\n{args.GumTreePath}\\bin>gumtree.bat parse {file}\r\n";
+            string header = $"Microsoft Windows [Versi¢n 10.0.10586]\r\n(c) 2015 Microsoft Corporation. Todos los derechos reservados.\r\n\r\n{Environment.CurrentDirectory}>E:\r\n\r\n{Environment.CurrentDirectory}>cd {args.GumTreePath}\\bin\r\n\r\n{args.GumTreePath}\\bin>set PATH=%PATH%;C:\\Program Files (x86)\\srcML 0.9.5\\bin\r\n\r\n{args.GumTreePath}\\bin>gumtree.bat parse {file}\r\n";
             var result = ExecuteCommand(args, header, $"gumtree.bat parse {file}", "");
-
             XDocument xjsonDiff;
             using (var jsonReader = JsonReaderWriterFactory.CreateJsonReader(Encoding.UTF8.GetBytes(result), XmlDictionaryReaderQuotas.Max))
             {
                 var xml = XElement.Load(jsonReader);
                 xjsonDiff = XDocument.Parse(xml.ToString());
             }
-            //xjsonDiff.Root.
+
+            return this.ToElementDescriptor(xjsonDiff.Root.Elements("root").Single());
+        }
+
+        private ElementTree ToElementDescriptor(XElement root)
+        {
+            var tree = new ElementTree
+            {
+                Root = new ElementDescriptor
+                {
+                    Label = root.Elements("typeLabel").Single().Value,
+                    Value = root.Elements("label").SingleOrDefault()?.Value
+                }
+            };
+
+            var xChildren = root.Elements("children").SingleOrDefault();
+            if (xChildren != null)
+            {
+                var children = new List<ElementTree>(xChildren.Elements("item").Count());
+                foreach (var child in xChildren.Elements("item").Select(this.ToElementDescriptor))
+                {
+                    child.Parent = tree;
+                    children.Add(child);
+                }
+                tree.Children = children;
+            }
+
+            return tree;
         }
 
         public string ExecuteCommand(InteropArgs args, string header, string command, string sPrefix)
