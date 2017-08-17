@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 07/11/2017 18:06:34
+-- Date Created: 08/17/2017 14:45:25
 -- Generated from EDMX file: C:\CDF\CdfRepository\Jawilliam.CDF.Labs\GitRepository.edmx
 -- --------------------------------------------------
 
@@ -59,14 +59,17 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_FileModifiedChanges_CanBeDescribedByDifferent_Deltas]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Deltas] DROP CONSTRAINT [FK_FileModifiedChanges_CanBeDescribedByDifferent_Deltas];
 GO
-IF OBJECT_ID(N'[dbo].[FK_OneFileRevisionPair_Contains_OneFromFileVersion]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[FileRevisionPairs] DROP CONSTRAINT [FK_OneFileRevisionPair_Contains_OneFromFileVersion];
-GO
-IF OBJECT_ID(N'[dbo].[FK_OneFileRevisionPair_Contains_OneToFileVersion]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[FileRevisionPairs] DROP CONSTRAINT [FK_OneFileRevisionPair_Contains_OneToFileVersion];
-GO
 IF OBJECT_ID(N'[dbo].[FK_OneFile_CanHave_ManyRevisionPairs]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[FileRevisionPairs] DROP CONSTRAINT [FK_OneFile_CanHave_ManyRevisionPairs];
+GO
+IF OBJECT_ID(N'[dbo].[FK_FileRevisionPairFileModifiedChange]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[FileRevisionPairs] DROP CONSTRAINT [FK_FileRevisionPairFileModifiedChange];
+GO
+IF OBJECT_ID(N'[dbo].[FK_FileRevisionPair_AlsoReferences_TheDuplicatedFileModifiedChanges]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[RepositoryObjects_FileModifiedChange] DROP CONSTRAINT [FK_FileRevisionPair_AlsoReferences_TheDuplicatedFileModifiedChanges];
+GO
+IF OBJECT_ID(N'[dbo].[FK_OneFileRevisionPair_MayHave_ManyReview]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Reviews] DROP CONSTRAINT [FK_OneFileRevisionPair_MayHave_ManyReview];
 GO
 IF OBJECT_ID(N'[dbo].[FK_Commit_inherits_RepositoryObject]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[RepositoryObjects_Commit] DROP CONSTRAINT [FK_Commit_inherits_RepositoryObject];
@@ -117,6 +120,12 @@ IF OBJECT_ID(N'[dbo].[Deltas]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[FileRevisionPairs]', 'U') IS NOT NULL
     DROP TABLE [dbo].[FileRevisionPairs];
+GO
+IF OBJECT_ID(N'[dbo].[Reviews]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Reviews];
+GO
+IF OBJECT_ID(N'[dbo].[Project]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Project];
 GO
 IF OBJECT_ID(N'[dbo].[RepositoryObjects_Commit]', 'U') IS NOT NULL
     DROP TABLE [dbo].[RepositoryObjects_Commit];
@@ -187,7 +196,7 @@ CREATE TABLE [dbo].[FileContentSummaries] (
     [StatementLines] bigint  NULL,
     [SyntaxKindAnnotations] xml  NULL,
     [Annotations] xml  NULL,
-    [CodeCategory] tinyint  NULL,
+    [CodeCategory] smallint  NULL,
     [FileVersion_Id] uniqueidentifier  NOT NULL
 );
 GO
@@ -200,6 +209,8 @@ CREATE TABLE [dbo].[Deltas] (
     [Report] xml  NULL,
     [Annotations] xml  NULL,
     [Approach] int  NOT NULL,
+    [OriginalTree] xml  NULL,
+    [ModifiedlTree] xml  NULL,
     [RevisionPair_Id] uniqueidentifier  NULL
 );
 GO
@@ -211,6 +222,7 @@ CREATE TABLE [dbo].[FileRevisionPairs] (
     [Versioning_Path] nvarchar(max)  NOT NULL,
     [Versioning_FromVersion] int  NOT NULL,
     [Versioning_ToVersion] int  NOT NULL,
+    [Flags] bigint  NULL,
     [OneFile_CanHave_ManyRevisionPairs_FileRevisionPair_Id] uniqueidentifier  NOT NULL,
     [Principal_Id] uniqueidentifier  NOT NULL
 );

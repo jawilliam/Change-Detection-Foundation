@@ -238,6 +238,11 @@
       <DependentUpon>GitRepository.Context.tt</DependentUpon>
     </Compile>
     <Compile Include="GitRepository.Context.Custom.cs" />
+    <Compile Include="GitRepository.Context1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GitRepository.Context.tt</DependentUpon>
+    </Compile>
     <Compile Include="GitRepository.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -270,6 +275,9 @@
     <Compile Include="ReviewSeverity.cs">
       <DependentUpon>GitRepository.tt</DependentUpon>
     </Compile>
+    <Compile Include="RevisionPairFlags.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
     <Compile Include="RevisionPairReview.cs" />
     <Compile Include="SourceCodeMetric.cs" />
     <Compile Include="SourceCodeCleaner.cs" />
@@ -300,8 +308,8 @@
   <ItemGroup>
     <Content Include="GitRepository.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>GitRepository.Context.cs</LastGenOutput>
       <DependentUpon>GitRepository.edmx</DependentUpon>
+      <LastGenOutput>GitRepository.Context1.cs</LastGenOutput>
     </Content>
     <Content Include="GitRepository.edmx.sql" />
     <Content Include="GitRepository.tt">
