@@ -258,12 +258,12 @@ namespace Jawilliam.CDF.Labs
             //        Normalize = false,
             //        RemoveComments = true
             //    });
-            DetectingNativeGumTreeDiff(ChangeDetectionApproaches.NativeGumTreeWithoutComments,
+            DetectingNativeGumTreeDiff(ChangeDetectionApproaches.NativeGumTree,
                change => change.Principal.XAnnotations.OnlyCommentChanges,
                new SourceCodeCleaner
                {
                    Normalize = false,
-                   RemoveComments = true
+                   //RemoveComments = true
                });
             //ComplementDeltaInfos(ChangeDetectionApproaches.NativeGumTreeWithoutComments,
             //    null,
@@ -410,19 +410,19 @@ namespace Jawilliam.CDF.Labs
             var gumTree = new GumTreeNativeApproach();
             var interopArgs = new InteropArgs()
             {
-                //GumTreePath = @"C:\CDF\gumtree-20170525-2.1.0-SNAPSHOT",
-                //Original = @"C:\CDF\Original.cs",
-                //Modified = @"C:\CDF\Modified.cs"
+                GumTreePath = @"C:\CDF\gumtree-20170525-2.1.0-SNAPSHOT",
+                Original = @"C:\CDF\Original.cs",
+                Modified = @"C:\CDF\Modified.cs"
             };
 
-            foreach (var project in Projects.Reverse())
+            foreach (var project in Projects)
             {
                 analyzer.Warnings = new StringBuilder();
                 var dbRepository = new GitRepository(project.Name) { Name = project.Name };
                 ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 600;
                 analyzer.NativeGumTreeDiff(dbRepository,  gumTree, interopArgs, () => gumTree.Cancel(), gumTreeApproach, skipThese, cleaner);
 
-                System.IO.File.WriteAllText($@"E:\Phd\Analysis\NativeGumTreeDiff2{project.Name}.txt", analyzer.Warnings.ToString());
+                System.IO.File.WriteAllText($@"C:\CDF\NativeGumTreeDiff3{project.Name}.txt", analyzer.Warnings.ToString());
             }
             Console.Out.WriteLine($"GumTree native collected!!!");
         }

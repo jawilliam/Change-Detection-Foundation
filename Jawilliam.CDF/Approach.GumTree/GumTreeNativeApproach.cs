@@ -258,7 +258,7 @@ namespace Jawilliam.CDF.Approach.GumTree
 
         public virtual void Cancel()
         {
-            if (!this.Result.Matches.Any() && !this.Result.Actions.Any())
+            if (this.Result != null && !this.Result.Matches.Any() && !this.Result.Actions.Any())
             {
                 this.Result.Error = "Omitted element > 10 min";
 
