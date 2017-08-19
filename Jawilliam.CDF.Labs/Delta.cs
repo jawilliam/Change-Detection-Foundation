@@ -21,7 +21,7 @@ namespace Jawilliam.CDF.Labs
         public string Annotations { get; set; }
         public ChangeDetectionApproaches Approach { get; set; }
         public string OriginalTree { get; set; }
-        public string ModifiedlTree { get; set; }
+        public string ModifiedTree { get; set; }
     
         public virtual FileModifiedChange RevisionPair { get; set; }
     }

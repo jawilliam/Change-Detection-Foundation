@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -77,18 +78,18 @@ namespace Jawilliam.CDF.Tests.Approach.GumTree
             Assert.AreEqual(move.Position, 2);
         }
 
-        [TestMethod]
-        public void GumTreeNativeApproach_ParseTree_OK()
-        {
-            var gt = new GumTreeNativeApproach();
-            var args = new InteropArgs()
-            {
-                Original = @"E:\Phd\Analysis\Original.cs",
-                Modified = @"E:\Phd\Analysis\Modified.cs"
-            };
+        //[TestMethod]
+        //public void GumTreeNativeApproach_ParseTree_OK()
+        //{
+        //    var gt = new GumTreeNativeApproach();
+        //    var args = new InteropArgs()
+        //    {
+        //        Original = @"E:\Phd\Analysis\Original.cs",
+        //        Modified = @"E:\Phd\Analysis\Modified.cs"
+        //    };
 
-            var r = gt.ParseTree(args);
-        }
+        //    var r = gt.ParseTree(args);
+        //}
 
         [TestMethod]
         public void ElementTree_XMLSerialization_OK()
@@ -104,8 +105,148 @@ namespace Jawilliam.CDF.Tests.Approach.GumTree
             "</Item>";
 
             var tree = ElementTree.Read(content, Encoding.Unicode);
+            Assert.AreEqual(tree.Root.Id, "0");
+            Assert.AreEqual(tree.Root.Label, "A");
+            Assert.AreEqual(tree.Root.Value, "B");
+            Assert.AreEqual(tree.Children.Count(), 3);
 
-            var c = tree.WriteXmlColumn();
+            var children = tree.Children.ToArray();
+            Assert.AreEqual(children[0].Root.Id, "1");
+            Assert.AreEqual(children[0].Root.Label, "A1");
+            Assert.AreEqual(children[0].Root.Value, "B1");
+            Assert.AreEqual(children[0].Children.Count(), 0);
+            Assert.AreEqual(children[1].Root.Id, "2");
+            Assert.AreEqual(children[1].Root.Label, "A2");
+            Assert.AreEqual(children[1].Root.Value, "B2");
+            Assert.AreEqual(children[1].Children.Count(), 1);
+            Assert.AreEqual(children[1].Children.ToArray()[0].Root.Id, "3");
+            Assert.AreEqual(children[1].Children.ToArray()[0].Root.Label, "A3");
+            Assert.AreEqual(children[1].Children.ToArray()[0].Root.Value, "B3");
+            Assert.AreEqual(children[1].Children.ToArray()[0].Children.Count(), 0);
+            Assert.AreEqual(children[2].Root.Id, "4");
+            Assert.AreEqual(children[2].Root.Label, "A4");
+            Assert.AreEqual(children[2].Root.Value, "B4");
+            Assert.AreEqual(children[2].Children.Count(), 0);
+
+            var backup = tree.WriteXmlColumn();
+
+            var restoredTree = ElementTree.Read(backup, Encoding.Unicode);
+
+            Assert.AreEqual(restoredTree.Root.Id, "0");
+            Assert.AreEqual(restoredTree.Root.Label, "A");
+            Assert.AreEqual(restoredTree.Root.Value, "B");
+            Assert.AreEqual(restoredTree.Children.Count(), 3);
+
+            children = restoredTree.Children.ToArray();
+            Assert.AreEqual(children[0].Root.Id, "1");
+            Assert.AreEqual(children[0].Root.Label, "A1");
+            Assert.AreEqual(children[0].Root.Value, "B1");
+            Assert.AreEqual(children[0].Children.Count(), 0);
+            Assert.AreEqual(children[1].Root.Id, "2");
+            Assert.AreEqual(children[1].Root.Label, "A2");
+            Assert.AreEqual(children[1].Root.Value, "B2");
+            Assert.AreEqual(children[1].Children.Count(), 1);
+            Assert.AreEqual(children[1].Children.ToArray()[0].Root.Id, "3");
+            Assert.AreEqual(children[1].Children.ToArray()[0].Root.Label, "A3");
+            Assert.AreEqual(children[1].Children.ToArray()[0].Root.Value, "B3");
+            Assert.AreEqual(children[1].Children.ToArray()[0].Children.Count(), 0);
+            Assert.AreEqual(children[2].Root.Id, "4");
+            Assert.AreEqual(children[2].Root.Label, "A4");
+            Assert.AreEqual(children[2].Root.Value, "B4");
+            Assert.AreEqual(children[2].Children.Count(), 0);
+        }
+
+        [TestMethod]
+        public void ElementTree_PreOrder_OK()
+        {
+            string content =
+            "<?xml version=\"1.0\" encoding=\"utf-16\"?>" +
+            "<Item eId=\"0\" eLb=\"A\" eVl=\"B\">" +
+            "   <Item eId=\"1\" eLb=\"A1\" eVl=\"B1\"/>" +
+            "   <Item eId=\"2\" eLb=\"A2\" eVl=\"B2\">" +
+            "       <Item eId=\"3\" eLb=\"A3\" eVl=\"B3\"/>" +
+            "   </Item>" +
+            "   <Item eId=\"4\" eLb=\"A4\" eVl=\"B4\"/>" +
+            "</Item>";
+
+            var tree = ElementTree.Read(content, Encoding.Unicode);
+            var order = tree.PreOrder(t => t.Children).ToArray();
+
+            Assert.AreEqual(order[0].Root.Id, "0");
+            Assert.AreEqual(order[1].Root.Id, "1");
+            Assert.AreEqual(order[2].Root.Id, "2");
+            Assert.AreEqual(order[3].Root.Id, "3");
+            Assert.AreEqual(order[4].Root.Id, "4");
+
+            int index = 0;
+            tree.PreOrder(t => t.Children).ForEach(t => t.Root.Id = index++.ToString(CultureInfo.InvariantCulture));
+            Assert.AreEqual(order[0].Root.Id, "0");
+            Assert.AreEqual(order[1].Root.Id, "1");
+            Assert.AreEqual(order[2].Root.Id, "2");
+            Assert.AreEqual(order[3].Root.Id, "3");
+            Assert.AreEqual(order[4].Root.Id, "4");
+        }
+
+        [TestMethod]
+        public void ElementTree_PostOrder_OK()
+        {
+            string content =
+            "<?xml version=\"1.0\" encoding=\"utf-16\"?>" +
+            "<Item eId=\"0\" eLb=\"A\" eVl=\"B\">" +
+            "   <Item eId=\"1\" eLb=\"A1\" eVl=\"B1\"/>" +
+            "   <Item eId=\"2\" eLb=\"A2\" eVl=\"B2\">" +
+            "       <Item eId=\"3\" eLb=\"A3\" eVl=\"B3\"/>" +
+            "   </Item>" +
+            "   <Item eId=\"4\" eLb=\"A4\" eVl=\"B4\"/>" +
+            "</Item>";
+
+            var tree = ElementTree.Read(content, Encoding.Unicode);
+            var order = tree.PostOrder(t => t.Children).ToArray();
+
+            Assert.AreEqual(order[0].Root.Id, "1");
+            Assert.AreEqual(order[1].Root.Id, "3");
+            Assert.AreEqual(order[2].Root.Id, "2");
+            Assert.AreEqual(order[3].Root.Id, "4");
+            Assert.AreEqual(order[4].Root.Id, "0");
+
+            int index = 0;
+            tree.PostOrder(t => t.Children).ForEach(t => t.Root.Id = index++.ToString(CultureInfo.InvariantCulture));
+            Assert.AreEqual(order[0].Root.Id, "0");
+            Assert.AreEqual(order[1].Root.Id, "1");
+            Assert.AreEqual(order[2].Root.Id, "2");
+            Assert.AreEqual(order[3].Root.Id, "3");
+            Assert.AreEqual(order[4].Root.Id, "4");
+        }
+
+        [TestMethod]
+        public void ElementTree_BreadthFirstOrder_OK()
+        {
+            string content =
+            "<?xml version=\"1.0\" encoding=\"utf-16\"?>" +
+            "<Item eId=\"0\" eLb=\"A\" eVl=\"B\">" +
+            "   <Item eId=\"1\" eLb=\"A1\" eVl=\"B1\"/>" +
+            "   <Item eId=\"2\" eLb=\"A2\" eVl=\"B2\">" +
+            "       <Item eId=\"3\" eLb=\"A3\" eVl=\"B3\"/>" +
+            "   </Item>" +
+            "   <Item eId=\"4\" eLb=\"A4\" eVl=\"B4\"/>" +
+            "</Item>";
+
+            var tree = ElementTree.Read(content, Encoding.Unicode);
+            var order = tree.BreadthFirstOrder(t => t.Children).ToArray();
+
+            Assert.AreEqual(order[0].Root.Id, "0");
+            Assert.AreEqual(order[1].Root.Id, "1");
+            Assert.AreEqual(order[2].Root.Id, "2");
+            Assert.AreEqual(order[3].Root.Id, "4");
+            Assert.AreEqual(order[4].Root.Id, "3");
+
+            int index = 0;
+            tree.BreadthFirstOrder(t => t.Children).ForEach(t => t.Root.Id = index++.ToString(CultureInfo.InvariantCulture));
+            Assert.AreEqual(order[0].Root.Id, "0");
+            Assert.AreEqual(order[1].Root.Id, "1");
+            Assert.AreEqual(order[2].Root.Id, "2");
+            Assert.AreEqual(order[3].Root.Id, "3");
+            Assert.AreEqual(order[4].Root.Id, "4");
         }
     }
 }

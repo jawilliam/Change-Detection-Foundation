@@ -27,10 +27,18 @@ namespace Jawilliam.CDF
         public virtual ElementTree Parent { get; set; }
 
         /// <summary>
+        /// Backing field for the <see cref="Children"/> property.
+        /// </summary>
+        private IEnumerable<ElementTree> _children;
+
+        /// <summary>
         /// Gets or sets the element descriptor children.
         /// </summary>
-        public virtual IEnumerable<ElementTree> Children { get; set; }
-
+        public virtual IEnumerable<ElementTree> Children
+        {
+            get { return this._children ?? (this._children = new List<ElementTree>(0)); }
+            set { this._children = value; }
+        }
 
         /// <summary>
         /// Writes current instance like a XML document. 

@@ -281,9 +281,9 @@ namespace Jawilliam.CDF.Approach.GumTree
         }
 
         public virtual ElementTree ParseTree(InteropArgs args, bool modified = false)
-        {
+        {//¢
             var file = !modified ? args.Original : args.Modified;
-            string header = $"Microsoft Windows [Versi¢n 10.0.10586]\r\n(c) 2015 Microsoft Corporation. Todos los derechos reservados.\r\n\r\n{Environment.CurrentDirectory}>E:\r\n\r\n{Environment.CurrentDirectory}>cd {args.GumTreePath}\\bin\r\n\r\n{args.GumTreePath}\\bin>set PATH=%PATH%;C:\\Program Files (x86)\\srcML 0.9.5\\bin\r\n\r\n{args.GumTreePath}\\bin>gumtree.bat parse {file}\r\n";
+            string header = $"Microsoft Windows [Versión 10.0.10586]\r\n(c) 2015 Microsoft Corporation. Todos los derechos reservados.\r\n\r\n{Environment.CurrentDirectory}>E:\r\n\r\n{Environment.CurrentDirectory}>cd {args.GumTreePath}\\bin\r\n\r\n{args.GumTreePath}\\bin>set PATH=%PATH%;C:\\Program Files (x86)\\srcML 0.9.5\\bin\r\n\r\n{args.GumTreePath}\\bin>gumtree.bat parse {file}\r\n";
             var result = ExecuteCommand(args, header, $"gumtree.bat parse {file}", "");
             XDocument xjsonDiff;
             using (var jsonReader = JsonReaderWriterFactory.CreateJsonReader(Encoding.UTF8.GetBytes(result), XmlDictionaryReaderQuotas.Max))

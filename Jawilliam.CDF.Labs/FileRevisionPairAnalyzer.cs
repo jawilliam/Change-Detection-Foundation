@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using Jawilliam.CDF.Actions;
+using Jawilliam.CDF.Approach;
 using Jawilliam.CDF.Approach.GumTree;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -219,6 +223,84 @@ namespace Jawilliam.CDF.Labs
                             .Replace(">  <", "><");
                 }
             },
+            cancel,
+            "Principal.FileVersion.Content", "Principal.FromFileVersion.Content");
+        }
+        
+        /// <summary>
+        /// Analyzes the similarity in according with a given similarity metric, such as Levenshtein.
+        /// </summary>
+        /// <param name="sqlRepository">the SQL database repository in which to analyze the file versions.</param>
+        /// <param name="interopArgs">the arguments for the interoperability.</param>
+        /// <param name="gumTree">the native approach based on the GumTree interoperability.</param>
+        /// <param name="cancel">Action to execute cancellation logic.</param>
+        /// <param name="gumTreeApproach"></param>
+        /// <param name="skipThese">local criterion for determining elements that should be ignored.</param>
+        /// <param name="cleaner">A preprocessor for the source code in case it is desired.</param>
+        public virtual void SaveNativeTrees(GitRepository sqlRepository, GumTreeNativeApproach gumTree, InteropArgs interopArgs, Action cancel, ChangeDetectionApproaches gumTreeApproach, Func<FileRevisionPair, bool> skipThese, SourceCodeCleaner cleaner = null)
+        {
+            this.Analyze(sqlRepository,
+              f => f.Principal.Deltas.Any(d => d.Approach == gumTreeApproach), 
+              delegate (FileRevisionPair repositoryObject, SyntaxNode original, SyntaxNode modified, CancellationToken token)
+              {
+                  if (!repositoryObject.Principal.XAnnotations.SourceCodeChanges || (skipThese?.Invoke(repositoryObject) ?? false))
+                      return;
+
+                  sqlRepository.Deltas.Where(d => d.RevisionPair.Id == repositoryObject.Principal.Id && d.Approach == gumTreeApproach)
+                      .Load();
+
+                  var delta = repositoryObject.Principal.Deltas.Single(d => d.Approach == gumTreeApproach);
+                  if (delta.Report != null || (delta.OriginalTree != null && delta.ModifiedTree != null))
+                      return;
+
+                  var preprocessedOriginal = cleaner != null ? cleaner.Clean(original) : original;
+                  var preprocessedModified = cleaner != null ? cleaner.Clean(modified) : modified;
+                  System.IO.File.WriteAllText(interopArgs.Original, preprocessedOriginal.ToFullString());
+                  System.IO.File.WriteAllText(interopArgs.Modified, preprocessedModified.ToFullString());
+
+                  try
+                  {
+                      var originalTree = gumTree.ParseTree(interopArgs, false);
+                      var modifiedTree = gumTree.ParseTree(interopArgs, true);
+
+                      int index = 0;
+                      originalTree.PostOrder(t => t.Children).ForEach(t => t.Root.Id = index++.ToString(CultureInfo.InvariantCulture));
+                      delta.OriginalTree = originalTree.WriteXmlColumn();
+
+                      index = 0;
+                      modifiedTree.PostOrder(t => t.Children).ForEach(t => t.Root.Id = index++.ToString(CultureInfo.InvariantCulture));
+                      delta.ModifiedTree = modifiedTree.WriteXmlColumn();
+
+                      // Checking heuristics 
+                      //var detectionResult = (DetectionResult)delta.DetectionResult;
+                      //foreach (var match in detectionResult.Matches)
+                      //{
+                      //    var o = originalTree.PreOrder(t => t.Children).Single(t => t.Root.Id == match.Original.Id);
+                      //    var m = modifiedTree.PreOrder(t => t.Children).Single(t => t.Root.Id == match.Modified.Id);
+                      //    Debug.Assert(o.Root.Label == match.Original.Label);
+                      //    Debug.Assert(m.Root.Label == match.Original.Label);
+                      //}
+
+                      //foreach (var insert in detectionResult.Actions.OfType<InsertOperationDescriptor>())
+                      //{
+                      //    var element = modifiedTree.PreOrder(t => t.Children).Single(t => t.Root.Id == insert.Element.Id);
+                      //    //var parent = originalTree.PreOrder(t => t.Children).Single(t => t.Root.Id == insert.Parent.Id);
+                      //    Debug.Assert(element.Root.Label == insert.Element.Label);
+                      //    //Debug.Assert(parent.Root.Label == insert.Parent.Label);
+                      //}
+
+                      //foreach (var delete in detectionResult.Actions.OfType<DeleteOperationDescriptor>())
+                      //{
+                      //    var element = originalTree.PreOrder(t => t.Children).Single(t => t.Root.Id == delete.Element.Id);
+                      //    Debug.Assert(element.Root.Label == delete.Element.Label);
+                      //}
+                  }
+                  catch (Exception e)
+                  {
+                      ;
+                      throw;
+                  }
+              },
             cancel,
             "Principal.FileVersion.Content", "Principal.FromFileVersion.Content");
         }
