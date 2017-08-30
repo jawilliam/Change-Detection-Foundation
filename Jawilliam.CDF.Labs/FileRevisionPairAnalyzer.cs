@@ -52,7 +52,11 @@ namespace Jawilliam.CDF.Labs
         {
             if (analysis == null) throw new ArgumentNullException(nameof(analysis));
 
-            var repositoryObjectIds = sqlRepository.FileRevisionPairs
+            var repositoryObjectIds = sqlRepository.Name == "OpenRA" 
+                ? sqlRepository.FileRevisionPairs
+                    .Where(onThese)
+                    .Select(fv => fv.Id).ToList().Skip(1638).ToList()
+                : sqlRepository.FileRevisionPairs
                     .Where(onThese)
                     .Select(fv => fv.Id).ToList();
 
@@ -85,6 +89,10 @@ namespace Jawilliam.CDF.Labs
                     {
                         this.Warnings.AppendLine($"5 minutes Timeout - {repositoryObjectName}-{repositoryObject.Id}");
                     }
+                    catch (OutOfMemoryException)
+                    {
+                        this.Warnings.AppendLine($"ERROR - {repositoryObjectName}-{repositoryObject.Id}");
+                    }
 
                 }
                 catch (InsufficientExecutionStackException)
@@ -96,6 +104,10 @@ namespace Jawilliam.CDF.Labs
                     this.Warnings.AppendLine($"5 minutes Timeout - {repositoryObjectName}-{repositoryObject.Id}");
                 }
                 catch (InvalidOperationException)
+                {
+                    this.Warnings.AppendLine($"ERROR - {repositoryObjectName}-{repositoryObject.Id}");
+                }
+                catch (OutOfMemoryException)
                 {
                     this.Warnings.AppendLine($"ERROR - {repositoryObjectName}-{repositoryObject.Id}");
                 }
@@ -250,7 +262,14 @@ namespace Jawilliam.CDF.Labs
                       .Load();
 
                   var delta = repositoryObject.Principal.Deltas.Single(d => d.Approach == gumTreeApproach);
-                  if (delta.Report != null || (delta.OriginalTree != null && delta.ModifiedTree != null))
+                  if (delta.Report != null || (delta.OriginalTree != null && delta.ModifiedTree != null)/* ||
+                      delta.Id == Guid.Parse("0f962b83-5d9d-4206-98e8-aebce28b96ce") ||
+                      delta.Id == Guid.Parse("dd055762-51a7-4fe2-8f0b-1fbeb0a058e0") ||
+                      delta.Id == Guid.Parse("3cf9f44c-6542-41d5-9ee2-3c3359a47166") ||
+                      delta.Id == Guid.Parse("a52d6658-64e9-4903-a650-302c5a2ac0ee") ||
+                      delta.Id == Guid.Parse("5cdb1d99-555c-4395-9d4a-a97b25be5fc6") ||
+                      delta.Id == Guid.Parse("8ccb108d-c8e6-457b-bf68-3f41069e7ed9") ||
+                      delta.Id == Guid.Parse("5fd16607-6089-4ab9-91f0-788c88fb4c5c")*/)
                       return;
 
                   var preprocessedOriginal = cleaner != null ? cleaner.Clean(original) : original;
@@ -258,8 +277,8 @@ namespace Jawilliam.CDF.Labs
                   System.IO.File.WriteAllText(interopArgs.Original, preprocessedOriginal.ToFullString());
                   System.IO.File.WriteAllText(interopArgs.Modified, preprocessedModified.ToFullString());
 
-                  try
-                  {
+                  //try
+                  //{
                       var originalTree = gumTree.ParseTree(interopArgs, false);
                       var modifiedTree = gumTree.ParseTree(interopArgs, true);
 
@@ -294,12 +313,12 @@ namespace Jawilliam.CDF.Labs
                       //    var element = originalTree.PreOrder(t => t.Children).Single(t => t.Root.Id == delete.Element.Id);
                       //    Debug.Assert(element.Root.Label == delete.Element.Label);
                       //}
-                  }
-                  catch (Exception e)
-                  {
-                      ;
-                      throw;
-                  }
+                  //}
+                  //catch (Exception e)
+                  //{
+                  //    ;
+                  //    throw new InvalidOperationException();
+                  //}
               },
             cancel,
             "Principal.FileVersion.Content", "Principal.FromFileVersion.Content");
@@ -328,6 +347,124 @@ namespace Jawilliam.CDF.Labs
 
                 Console.Out.WriteLine($"Analyzing the {++counter}-{repositoryObjectName} ({repositoryObjectIds.Count}) of {sqlRepository.Name}");
                 action(repositoryObject);
+            }
+        }
+
+        //public virtual void FindMissedMatchesAOfKeyedElement(Delta delta)
+        //{
+        //    this.Warnings = new StringBuilder();
+        //    try
+        //    {
+        //        var detectionResult = DetectionResult.Read($"<Result>{delta.Matching}{delta.Differencing}</Result>", Encoding.Unicode);
+        //        var candidateBadCases = from m in detectionResult.Actions.OfType<InsertOperationDescriptor>()
+        //                                    //let matchingPair = detectionResult.Matches.Single(mp => mp.Original.Id == m.Element.Id)
+        //                                    //let insert = detectionResult.Actions.OfType<InsertOperationDescriptor>().SingleOrDefault(i => i.)
+        //                                where m.Element.Label == "name" &&
+        //                                      m.Element.Value != "get" &&
+        //                                      m.Element.Value != "set" &&
+        //                                      m.Element.Value != "add" &&
+        //                                      m.Element.Value != "remove" &&
+        //                                      !string.IsNullOrWhiteSpace(m.Element.Value) &&
+        //                                      !string.IsNullOrEmpty(m.Element.Value) &&
+        //                                      (m.Parent.Label == "function" ||
+        //                                       m.Parent.Label == "function_decl" ||
+        //                                       m.Parent.Label == "namespace" ||
+        //                                       m.Parent.Label == "class" ||
+        //                                       m.Parent.Label == "struct" ||
+        //                                       m.Parent.Label == "interface" ||
+        //                                       m.Parent.Label == "decl_stmt" ||
+        //                                       m.Parent.Label == "constructor" ||
+        //                                       m.Parent.Label == "destructor" ||
+        //                                       m.Parent.Label == "enum") &&
+        //                                      detectionResult.Matches.Any(n => n.Original.Label == "name" &&
+        //                                                                       n.Original.Value == m.Element.Value)
+        //                                select m;
+
+        //        var candidateBadCases2 = from m in detectionResult.Actions.OfType<UpdateOperationDescriptor>()
+        //                                     //let matchingPair = detectionResult.Matches.Single(mp => mp.Original.Id == m.Element.Id)
+        //                                     //let insert = detectionResult.Actions.OfType<InsertOperationDescriptor>().SingleOrDefault(i => i.)
+        //                                 where m.Element.Label == "name" &&
+        //                                       m.Element.Value != "get" &&
+        //                                       m.Element.Value != "set" &&
+        //                                       m.Element.Value != "add" &&
+        //                                       m.Element.Value != "remove" &&
+        //                                       !string.IsNullOrWhiteSpace(m.Element.Value) &&
+        //                                       !string.IsNullOrEmpty(m.Element.Value) &&
+        //                                       detectionResult.Matches.Any(n => n.Original.Label == "name" &&
+        //                                                                        n.Original.Value == m.Element.Value)
+        //                                 select m;
+
+        //        foreach (var badCase in candidateBadCases)
+        //        {
+        //            analyzer.Warnings.AppendLine($"{project.Name};{pair.Principal.Id};{badCase.Parent.Label};{badCase.Element.Label}:{badCase.Element.Value}");
+        //        }
+
+        //        foreach (var badCase in candidateBadCases2)
+        //        {
+        //            analyzer.Warnings.AppendLine($"{project.Name};{pair.Principal.Id};#DELETION#;{badCase.Element.Label}:{badCase.Element.Value}");
+        //        }
+
+        //        System.IO.File.AppendAllText($@"E:\Phd\Analysis\BadRenamesFor{Enum.GetName(typeof(ChangeDetectionApproaches), approach)}.txt", analyzer.Warnings.ToString());
+
+        //    }
+        //    catch (Exception)
+        //    {
+        //    }
+        //}
+
+        /// <summary>
+        /// Finds possible missed matches MM.a (i.e., both t1 and t2 do not match to other element)
+        /// </summary>
+        /// <param name="delta">delta to analyze.</param>
+        /// <returns>a collection of the candidate missed matches found in the given delta (element: <see cref="Tuple{T1,T2}.Item1"/>, ancestor: <see cref="Tuple{T1,T2}.Item2"/>).</returns>
+        public virtual IEnumerable<Tuple<ElementTree, ElementTree>> FindMissedMatchesAOfKeyedElement(Delta delta)
+        {
+            var detectionResult = DetectionResult.Read($"<Result>{delta.Matching}{delta.Differencing}</Result>", Encoding.Unicode);
+            var insertedNames = detectionResult.Actions.OfType<InsertOperationDescriptor>()
+                .Where(m => m.Element.Label == "name" &&
+                            !string.IsNullOrWhiteSpace(m.Element.Value) &&
+                            !string.IsNullOrEmpty(m.Element.Value))
+                .Select(t => delta.GetModifiedNode(t.Element.Id))
+                .ToList();
+            var deletedNames = detectionResult.Actions.OfType<DeleteOperationDescriptor>()
+                .Where(m => m.Element.Label == "name" &&
+                            !string.IsNullOrWhiteSpace(m.Element.Value) &&
+                            !string.IsNullOrEmpty(m.Element.Value))
+                .Select(t => delta.GetOriginalNode(t.Element.Id))
+                .ToList();
+
+            if(!deletedNames.Any())
+                yield break;
+            
+            foreach (var insertedName in insertedNames)
+            {
+                var matchedAncestors = (from a in insertedName.Ancestors()
+                                       let ancestorMatching = detectionResult.Matches.SingleOrDefault(m => m.Modified.Id == a.Root.Id)
+                                       where ancestorMatching != null
+                                       select new { Modified = a, Original = ancestorMatching.Original })
+                                       .ToList();
+
+                var candidate = matchedAncestors.FirstOrDefault(ancestor =>
+                    deletedNames.Any(t => t.Root.Value == insertedName.Root.Value &&
+                                          t.Ancestors().Any(a => ancestor.Original.Id == a.Root.Id)));
+
+                if(candidate != null)
+                    yield return new Tuple<ElementTree, ElementTree>(insertedName, candidate.Modified);
+
+                ////var redundantCandidates = new List<Tuple<ElementTree, ElementTree>>();
+                //foreach (var ancestor in matchedAncestors)
+                //{
+                //    var localCandidates = deletedNames.Where()
+                //                                                  .ToList();
+                //    if (localCandidates.Any())
+                //    {
+                //        foreach (var localCandidate in localCandidates)
+                //        {
+                //            yield return new Tuple<ElementTree, ElementTree>(localCandidate, ancestor.Ancestor);
+
+                //        }
+                //    }
+                //}
             }
         }
     }

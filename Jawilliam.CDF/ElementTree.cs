@@ -144,5 +144,19 @@ namespace Jawilliam.CDF
                 }
             }
         }
+
+        /// <summary>
+        /// Returns the ancestors of the current subtree.
+        /// </summary>
+        /// <returns>the ancestors from the current node until the root.</returns>
+        public virtual IEnumerable<ElementTree> Ancestors()
+        {
+            var current = this;
+            while (current.Parent != null)
+            {
+                yield return current.Parent;
+                current = current.Parent;
+            }
+        }
     }
 }

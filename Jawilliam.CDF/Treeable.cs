@@ -80,5 +80,20 @@ namespace Jawilliam.CDF
 
             foreach (var item in source) action(item);
         }
+
+        /// <summary>
+        /// Returns the ancestors of the current subtree.
+        /// </summary>
+        /// <returns>the ancestors from the current node until the root.</returns>
+        public static IEnumerable<T> Ancestors<T>(this T source, Func<T, T> parent)
+        {
+            if (parent == null) throw new ArgumentNullException(nameof(parent));
+            var current = source;
+            while (parent(current) != null)
+            {
+                yield return parent(current);
+                current = parent(current);
+            }
+        }
     }
 }

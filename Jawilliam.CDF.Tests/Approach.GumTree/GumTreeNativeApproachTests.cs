@@ -248,5 +248,33 @@ namespace Jawilliam.CDF.Tests.Approach.GumTree
             Assert.AreEqual(order[3].Root.Id, "3");
             Assert.AreEqual(order[4].Root.Id, "4");
         }
+
+        [TestMethod]
+        public void ElementTree_Ancestors_OK()
+        {
+            string content =
+            "<?xml version=\"1.0\" encoding=\"utf-16\"?>" +
+            "<Item eId=\"0\" eLb=\"A\" eVl=\"B\">" +
+            "   <Item eId=\"1\" eLb=\"A1\" eVl=\"B1\"/>" +
+            "   <Item eId=\"2\" eLb=\"A2\" eVl=\"B2\">" +
+            "       <Item eId=\"3\" eLb=\"A3\" eVl=\"B3\"/>" +
+            "   </Item>" +
+            "   <Item eId=\"4\" eLb=\"A4\" eVl=\"B4\"/>" +
+            "</Item>";
+
+            var tree = ElementTree.Read(content, Encoding.Unicode);
+            var order = tree.BreadthFirstOrder(t => t.Children).ToArray();
+
+            Assert.AreEqual(order[0].Root.Id, "0");
+            Assert.AreEqual(order[0].Ancestors().Aggregate("", (s, elementTree) => s+ elementTree.Root.Id), "");
+            Assert.AreEqual(order[1].Root.Id, "1");
+            Assert.AreEqual(order[1].Ancestors().Aggregate("", (s, elementTree) => s + elementTree.Root.Id), "0");
+            Assert.AreEqual(order[2].Root.Id, "2");
+            Assert.AreEqual(order[2].Ancestors().Aggregate("", (s, elementTree) => s + elementTree.Root.Id), "0");
+            Assert.AreEqual(order[3].Root.Id, "4");
+            Assert.AreEqual(order[3].Ancestors().Aggregate("", (s, elementTree) => s + elementTree.Root.Id), "0");
+            Assert.AreEqual(order[4].Root.Id, "3");
+            Assert.AreEqual(order[4].Ancestors().Aggregate("", (s, elementTree) => s + elementTree.Root.Id), "20");
+        }
     }
 }

@@ -91,5 +91,31 @@ namespace Jawilliam.CDF.Labs
                 matches, actions);
             return CDF.Approach.DetectionResult.Read(result.ToString(SaveOptions.DisableFormatting), Encoding.Unicode);
         }
+
+        /// <summary>
+        /// Returns a specified node of the original tree.
+        /// </summary>
+        /// <param name="id">a key to specify the node of interest.</param>
+        /// <returns>the node with the given key on the original tree.</returns>
+        public virtual ElementTree GetOriginalNode(string id)
+        {
+            if(this.OriginalTree == null) throw new InvalidOperationException("Original tree information not found!");
+            var tree = ElementTree.Read(this.OriginalTree, Encoding.Unicode);
+
+            return tree.PostOrder(t => t.Children).First(t => t.Root.Id == id);
+        }
+
+        /// <summary>
+        /// Returns a specified node of the modified tree.
+        /// </summary>
+        /// <param name="id">a key to specify the node of interest.</param>
+        /// <returns>the node with the given key on the modified tree.</returns>
+        public virtual ElementTree GetModifiedNode(string id)
+        {
+            if (this.ModifiedTree == null) throw new InvalidOperationException("Modified tree information not found!");
+            var tree = ElementTree.Read(this.ModifiedTree, Encoding.Unicode);
+
+            return tree.PostOrder(t => t.Children).First(t => t.Root.Id == id);
+        }
     }
 }

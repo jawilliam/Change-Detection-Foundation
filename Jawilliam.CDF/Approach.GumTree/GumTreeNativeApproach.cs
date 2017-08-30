@@ -258,9 +258,10 @@ namespace Jawilliam.CDF.Approach.GumTree
 
         public virtual void Cancel()
         {
-            if (this.Result != null && !this.Result.Matches.Any() && !this.Result.Actions.Any())
+            if (this.Result == null || (this.Result != null && !this.Result.Matches.Any() && !this.Result.Actions.Any()))
             {
-                this.Result.Error = "Omitted element > 10 min";
+                if(this.Result != null)
+                    this.Result.Error = "Omitted element > 10 min";
 
                 this._process?.Close();
                 throw new OperationCanceledException();
@@ -285,14 +286,15 @@ namespace Jawilliam.CDF.Approach.GumTree
             var file = !modified ? args.Original : args.Modified;
             string header = $"Microsoft Windows [Versión 10.0.10586]\r\n(c) 2015 Microsoft Corporation. Todos los derechos reservados.\r\n\r\n{Environment.CurrentDirectory}>E:\r\n\r\n{Environment.CurrentDirectory}>cd {args.GumTreePath}\\bin\r\n\r\n{args.GumTreePath}\\bin>set PATH=%PATH%;C:\\Program Files (x86)\\srcML 0.9.5\\bin\r\n\r\n{args.GumTreePath}\\bin>gumtree.bat parse {file}\r\n";
             var result = ExecuteCommand(args, header, $"gumtree.bat parse {file}", "");
-            XDocument xjsonDiff;
+            //XDocument xjsonDiff;
+            XElement xml;
             using (var jsonReader = JsonReaderWriterFactory.CreateJsonReader(Encoding.UTF8.GetBytes(result), XmlDictionaryReaderQuotas.Max))
             {
-                var xml = XElement.Load(jsonReader);
-                xjsonDiff = XDocument.Parse(xml.ToString());
+                xml = XElement.Load(jsonReader);
+                //xjsonDiff = XDocument.Parse(xml.ToString());
             }
 
-            return this.ToElementDescriptor(xjsonDiff.Root.Elements("root").Single());
+            return this.ToElementDescriptor(xml.Elements("root").Single());
         }
 
         private ElementTree ToElementDescriptor(XElement root)
