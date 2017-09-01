@@ -52,11 +52,7 @@ namespace Jawilliam.CDF.Labs
         {
             if (analysis == null) throw new ArgumentNullException(nameof(analysis));
 
-            var repositoryObjectIds = sqlRepository.Name == "OpenRA" 
-                ? sqlRepository.FileRevisionPairs
-                    .Where(onThese)
-                    .Select(fv => fv.Id).ToList().Skip(1638).ToList()
-                : sqlRepository.FileRevisionPairs
+            var repositoryObjectIds = sqlRepository.FileRevisionPairs
                     .Where(onThese)
                     .Select(fv => fv.Id).ToList();
 
@@ -413,24 +409,68 @@ namespace Jawilliam.CDF.Labs
         //}
 
         /// <summary>
+        /// Describes a candidate missed match.
+        /// </summary>
+        public class MissedMatchA
+        {
+            /// <summary>
+            /// Gets or sets the inserted (modified) version of a candidate conceptual element.
+            /// </summary>
+            public virtual ElementTree Insertion { get; set; }
+
+            /// <summary>
+            /// Gets or sets the modified version of the conceptual ancestor of reference. This is ancestor of the <see cref="Insertion"/>. 
+            /// </summary>
+            public virtual ElementTree InsertionReference { get; set; }
+
+            /// <summary>
+            /// Gets or sets the deleted (original) version of a candidate conceptual element.
+            /// </summary>
+            public virtual ElementTree Deletion { get; set; }
+
+            /// <summary>
+            /// Gets or sets the original version of the conceptual ancestor of reference.  This is ancestor of the <see cref="Deletion"/>. 
+            /// </summary>
+            public virtual ElementTree DeletionReference { get; set; }
+        }
+
+        /// <summary>
         /// Finds possible missed matches MM.a (i.e., both t1 and t2 do not match to other element)
         /// </summary>
         /// <param name="delta">delta to analyze.</param>
-        /// <returns>a collection of the candidate missed matches found in the given delta (element: <see cref="Tuple{T1,T2}.Item1"/>, ancestor: <see cref="Tuple{T1,T2}.Item2"/>).</returns>
-        public virtual IEnumerable<Tuple<ElementTree, ElementTree>> FindMissedMatchesAOfKeyedElement(Delta delta)
+        /// <returns>a collection of the candidate missed matches found in the given delta.</returns>
+        public virtual IEnumerable<MissedMatchA> FindMissedMatchesAOfKeyedElement(Delta delta)
         {
-            var detectionResult = DetectionResult.Read($"<Result>{delta.Matching}{delta.Differencing}</Result>", Encoding.Unicode);
+            var namesOf = new[]
+            {
+                "decl"
+                ,"function_decl"
+                ,"function"
+                ,"namespace"
+                ,"using"
+                ,"class"
+                ,"struct"
+                ,"interface"
+                ,"property"
+                ,"constructor"
+                ,"destructor"
+                ,"enum"
+            };
+
+            var detectionResult = (DetectionResult)delta.DetectionResult;
             var insertedNames = detectionResult.Actions.OfType<InsertOperationDescriptor>()
                 .Where(m => m.Element.Label == "name" &&
                             !string.IsNullOrWhiteSpace(m.Element.Value) &&
                             !string.IsNullOrEmpty(m.Element.Value))
                 .Select(t => delta.GetModifiedNode(t.Element.Id))
+                .Where(t => namesOf.Contains(t.LabelOf(t1 => t1.Parent, t1 => t1.Root.Label == "name").Last().Root.Label))
                 .ToList();
             var deletedNames = detectionResult.Actions.OfType<DeleteOperationDescriptor>()
                 .Where(m => m.Element.Label == "name" &&
                             !string.IsNullOrWhiteSpace(m.Element.Value) &&
                             !string.IsNullOrEmpty(m.Element.Value))
                 .Select(t => delta.GetOriginalNode(t.Element.Id))
+                .Where(t => namesOf.Contains(t.LabelOf(t1 => t1.Parent, t1 => t1.Root.Label == "name").Last().Root.Label))
                 .ToList();
 
             if(!deletedNames.Any())
@@ -438,18 +478,85 @@ namespace Jawilliam.CDF.Labs
             
             foreach (var insertedName in insertedNames)
             {
-                var matchedAncestors = (from a in insertedName.Ancestors()
-                                       let ancestorMatching = detectionResult.Matches.SingleOrDefault(m => m.Modified.Id == a.Root.Id)
-                                       where ancestorMatching != null
-                                       select new { Modified = a, Original = ancestorMatching.Original })
+                int foundBlocks = 0;
+                var insertionScopes = insertedName.Ancestors()/*.TakeWhile(tree =>
+                {
+                    if (foundBlocks > 1) return false;
+                    if (tree.Root.Label == "block")
+                        foundBlocks++;
+                    return true;
+                })*/.ToList();
+
+                var matchedAncestors = (from a in insertionScopes
+                                        let ancestorMatching = detectionResult.Matches.SingleOrDefault(m => m.Modified.Id == a.Root.Id)
+                                        where ancestorMatching != null
+                                        select new { Modified = a, Original = ancestorMatching.Original })
                                        .ToList();
 
-                var candidate = matchedAncestors.FirstOrDefault(ancestor =>
-                    deletedNames.Any(t => t.Root.Value == insertedName.Root.Value &&
-                                          t.Ancestors().Any(a => ancestor.Original.Id == a.Root.Id)));
+                foreach (var deletedName in deletedNames.Where(d => d.Root.Value == insertedName.Root.Value))
+                {
+                    foundBlocks = 0;
+                    var deletionScopes = deletedName.Ancestors()/*.TakeWhile(tree =>
+                    {
+                        if (foundBlocks > 1) return false;
+                        if (tree.Root.Label == "block")
+                            foundBlocks++;
+                        return true;
+                    })*/.ToList();
+                    //{
+                    //    if (tree.Root.Label == "block")
+                    //        foundBlocks++;
+                    //    return foundBlocks <= 1;
+                    //}).ToList();
 
-                if(candidate != null)
-                    yield return new Tuple<ElementTree, ElementTree>(insertedName, candidate.Modified);
+                    var candidate = matchedAncestors.FirstOrDefault(ma => deletionScopes.Any(a => a.Root.Id == ma.Original.Id));
+                    if (candidate != null)
+                    {
+                        yield return new MissedMatchA
+                        {
+                            Insertion = insertedName,
+                            InsertionReference = candidate.Modified,
+                            Deletion = deletedName,
+                            DeletionReference = deletionScopes.Single(a => a.Root.Id == candidate.Original.Id)
+                        };
+                    }
+                }
+
+                //var candidates = matchedAncestors.Where(ancestor =>
+                //{
+
+                //    int foundBlocks = 0;
+                //    return deletedNames.Any(t => t.Root.Value == insertedName.Root.Value && 
+                //                                 t.Ancestors().TakeWhile(delegate (ElementTree tree)
+                //                                 {
+                //                                     if (tree.Root.Label == "block")
+                //                                         foundBlocks++;
+                //                                     return foundBlocks <= 1;
+                //                                 })
+                //                                 .Any(a => ancestor.Original.Id == a.Root.Id));
+                //});
+
+                //foreach (var candidate in candidates)
+                //{
+                //    yield return candidate;
+                //}
+
+                //var candidate = matchedAncestors.FirstOrDefault(ancestor =>
+                //{
+
+                //    int foundBlocks = 0;
+                //    return deletedNames.Any(t => t.Root.Value == insertedName.Root.Value &&
+                //                          t.Ancestors().TakeWhile(delegate(ElementTree tree)
+                //                          {
+                //                              if (tree.Root.Label == "block")
+                //                                  foundBlocks++;
+                //                              return foundBlocks <= 1;
+                //                          })
+                //                              .Any(a => ancestor.Original.Id == a.Root.Id));
+                //});
+
+                //if (candidate != null)
+                //    yield return new Tuple<ElementTree, ElementTree>(insertedName, candidate.Modified);
 
                 ////var redundantCandidates = new List<Tuple<ElementTree, ElementTree>>();
                 //foreach (var ancestor in matchedAncestors)

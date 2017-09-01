@@ -54,6 +54,7 @@
     <Compile Include="Approach.GumTree\InteropArgs.cs" />
     <Compile Include="Approach\DetectionResult.cs" />
     <Compile Include="Approach\DetectionStep.cs" />
+    <Compile Include="Domain.cs" />
     <Compile Include="ElementDescriptor.cs" />
     <Compile Include="Approach\IApproach.cs" />
     <Compile Include="Approach\IDelta.cs" />

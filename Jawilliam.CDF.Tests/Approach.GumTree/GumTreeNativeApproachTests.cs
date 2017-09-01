@@ -276,5 +276,48 @@ namespace Jawilliam.CDF.Tests.Approach.GumTree
             Assert.AreEqual(order[4].Root.Id, "3");
             Assert.AreEqual(order[4].Ancestors().Aggregate("", (s, elementTree) => s + elementTree.Root.Id), "20");
         }
+
+        [TestMethod]
+        public void ElementTree_NameOf1_OK()
+        {
+            string content = "<?xml version=\"1.0\" encoding=\"utf-16\"?>" +
+            "<Item eId=\"0\" eLb=\"name\" eVl=\"B\">" +
+            "   <Item eId=\"1\" eLb=\"A1\" eVl=\"B1\"/>" +
+            "   <Item eId=\"2\" eLb=\"A2\" eVl=\"B2\">" +
+            "       <Item eId=\"3\" eLb=\"A3\" eVl=\"B3\"/>" +
+            "   </Item>" +
+            "   <Item eId=\"4\" eLb=\"A4\" eVl=\"B4\"/>" +
+            "</Item>";
+            var tree = ElementTree.Read(content, Encoding.Unicode);
+            Assert.IsFalse(tree.LabelOf(t => t.Parent, t => t.Root.Label == "name").Any());
+
+            content = "<?xml version=\"1.0\" encoding=\"utf-16\"?>" +
+            "<Item eId=\"0\" eLb=\"A\" eVl=\"B\">" +
+            "   <Item eId=\"1\" eLb=\"A1\" eVl=\"B1\"/>" +
+            "   <Item eId=\"2\" eLb=\"name\" eVl=\"B2\">" +
+            "       <Item eId=\"3\" eLb=\"A3\" eVl=\"B3\"/>" +
+            "   </Item>" +
+            "   <Item eId=\"4\" eLb=\"A4\" eVl=\"B4\"/>" +
+            "</Item>";
+            tree = ElementTree.Read(content, Encoding.Unicode);
+            var order = tree.BreadthFirstOrder(t => t.Children).ToArray();
+            order = order[2].LabelOf(t => t.Parent, t => t.Root.Label == "name").ToArray();
+            Assert.IsFalse(order.Single().Root.Id == "A1");
+
+            content = "<?xml version=\"1.0\" encoding=\"utf-16\"?>" +
+            "<Item eId=\"0\" eLb=\"name\" eVl=\"B\">" +
+            "   <Item eId=\"1\" eLb=\"A1\" eVl=\"B1\"/>" +
+            "   <Item eId=\"2\" eLb=\"name\" eVl=\"B2\">" +
+            "       <Item eId=\"3\" eLb=\"name\" eVl=\"B3\"/>" +
+            "   </Item>" +
+            "   <Item eId=\"4\" eLb=\"A4\" eVl=\"B4\"/>" +
+            "</Item>";
+            tree = ElementTree.Read(content, Encoding.Unicode);
+            order = tree.BreadthFirstOrder(t => t.Children).ToArray();
+            order = order[4].LabelOf(t => t.Parent, t => t.Root.Label == "name").ToArray();
+            Assert.IsTrue(order.Length == 2);
+            Assert.IsFalse(order[0].Root.Id == "name");
+            Assert.IsFalse(order[1].Root.Id == "A1");
+        }
     }
 }

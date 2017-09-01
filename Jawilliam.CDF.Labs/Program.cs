@@ -280,13 +280,14 @@ namespace Jawilliam.CDF.Labs
             //       Normalize = false,
             //       RemoveComments = true
             //   });
-            SaveNativeTreesOfNativeGumTree(ChangeDetectionApproaches.NativeGumTree,
-               change => change.Principal.XAnnotations.OnlyCommentChanges/*,
-               new SourceCodeCleaner
-               {
-                   Normalize = false,
-                   RemoveComments = true
-               }*/);
+
+            //SaveNativeTreesOfNativeGumTree(ChangeDetectionApproaches.NativeGumTree,
+            //   change => change.Principal.XAnnotations.OnlyCommentChanges/*,
+            //   new SourceCodeCleaner
+            //   {
+            //       Normalize = false,
+            //       RemoveComments = true
+            //   }*/);
             #endregion
 
             #region GumTree-Levenshtein Diff GumTree[native] deltas
@@ -362,7 +363,7 @@ namespace Jawilliam.CDF.Labs
             //    });
             #endregion
 
-            //ReportBadRenamingCandidates(ChangeDetectionApproaches.NativeGumTree);
+            ReportMissedMatchesAOfKeyedElement(ChangeDetectionApproaches.NativeGumTree);
 
             //int i = 0; // the warning reports!!!
             System.Console.ReadKey();
@@ -462,7 +463,7 @@ namespace Jawilliam.CDF.Labs
                 //Modified = @"C:\CDF\Modified.cs"
             };
 
-            foreach (var project in Projects.Skip(69))
+            foreach (var project in Projects)
             {
                 analyzer.Warnings = new StringBuilder();
                 var dbRepository = new GitRepository(project.Name) { Name = project.Name };
@@ -686,7 +687,7 @@ namespace Jawilliam.CDF.Labs
             {
                 Id = Guid.NewGuid(),
                 CaseKind = CaseKind.HighOutlier,
-                Severity = ReviewSeverity.Found,
+                Severity = ReviewSeverity.Bad,
                 Subject = "Bad matches - the fields \"TempDirectory\"-(ol:67) \"ContextKey\"-(ml:51) should not match.",
                 Comments = "The versions of the field \"ContextKey\" are-(ol:66,ml:51)" + Environment.NewLine +
                            "Consequences: spurious update - \"TempDirectory\" by \"ContextKey\"." + Environment.NewLine +
@@ -698,7 +699,7 @@ namespace Jawilliam.CDF.Labs
             {
                 Id = Guid.NewGuid(),
                 CaseKind = CaseKind.HighOutlier,
-                Severity = ReviewSeverity.Found,
+                Severity = ReviewSeverity.Bad,
                 Subject = "Unnatural updates - the operators \"==\"-(ol:213) and \"=\"-(ml:194) should not match.",
                 Comments = null,
                 Kind = currentReview,
@@ -708,11 +709,83 @@ namespace Jawilliam.CDF.Labs
             {
                 Id = Guid.NewGuid(),
                 CaseKind = CaseKind.HighOutlier,
-                Severity = ReviewSeverity.Found,
+                Severity = ReviewSeverity.Bad,
                 Subject = "Bad matches - the \"string\" sender of the expression \"string.IsNullOrEmpty\"-(ol:213) should not match with the \"uploadedFile\" of the \"uploadedFile.ContentLength\"-(ml:199) should not match.",
                 Comments = "the names should not match in terms of their text. Furthermore, the first is a type name while the second is a variable name.",
                 Kind = currentReview,
                 Topics = Topics.Matching | Topics.Differencing | Topics.Domain /**//*Topics.Domain*/ /* | Topics.Matching *//*| Topics.Differencing*/ /*| Topics.Report*/,
+            });
+            revisionPair.Reviews.Add(new Review
+            {
+                Id = Guid.NewGuid(),
+                CaseKind = CaseKind.HighOutlier,
+                Severity = ReviewSeverity.Bad,
+                Subject = "Bad matches - the \"fileId\" argument-(ol:217) should not match with \"buffer\"-(ml:203).",
+                Comments = "Consequences: spurious move and update involving these arguments.",
+                Kind = currentReview,
+                Topics = Topics.Matching /**//*Topics.Domain*/ /* | Topics.Matching *//*| Topics.Differencing*/ /*| Topics.Report*/,
+            });
+            revisionPair.Reviews.Add(new Review
+            {
+                Id = Guid.NewGuid(),
+                CaseKind = CaseKind.HighOutlier,
+                Severity = ReviewSeverity.Bad,
+                Subject = "Bad matches - the \"fileId\" argument-(ol:217) should not match with \"bufferSize\"-(ml:203).",
+                Comments = "Indeed, the \"fileId\" cannot be updated to different names simultaneously (i.e., to \"buffer\" and \"bufferSize\")." + Environment.NewLine +
+                           "Consequences: spurious move and update involving these arguments.",
+                Kind = currentReview,
+                Topics = Topics.Matching /**//*Topics.Domain*/ /* | Topics.Matching *//*| Topics.Differencing*/ /*| Topics.Report*/,
+            });
+            revisionPair.Reviews.Add(new Review
+            {
+                Id = Guid.NewGuid(),
+                CaseKind = CaseKind.HighOutlier,
+                Severity = ReviewSeverity.Bad,
+                Subject = "Bad matches - the \"this\" instance expression -(ol:209) should not match with \"uploadedFile\"-(ml:202).",
+                Comments = "\"this\" is an instance expression and \"uploadedFile\" is a variable name. These are incompatible element types.",
+                Kind = currentReview,
+                Topics = Topics.Matching | Topics.Domain /**//*Topics.Domain*/ /* | Topics.Matching *//*| Topics.Differencing*/ /*| Topics.Report*/,
+            });
+            revisionPair.Reviews.Add(new Review
+            {
+                Id = Guid.NewGuid(),
+                CaseKind = CaseKind.HighOutlier,
+                Severity = ReviewSeverity.Bad,
+                Subject = "Bad matches - the \"Page\"-(ol:217) should not match with \"InputStream\"-(ml:202).",
+                Comments = "Neither, \"Request\"-(ol:217) with \"Read\"-(ml:202). These may be anomalies of the similarity metric (the hash? and/or the RTED?).",
+                Kind = currentReview,
+                Topics = Topics.Matching /**//*Topics.Domain*/ /* | Topics.Matching *//*| Topics.Differencing*/ /*| Topics.Report*/,
+            });
+            revisionPair.Reviews.Add(new Review
+            {
+                Id = Guid.NewGuid(),
+                CaseKind = CaseKind.HighOutlier,
+                Severity = ReviewSeverity.Bad,
+                Subject = "Unnatural updates - the string literal \"done\"-(ol:217) should not match with numeric literal 0-(ml:202).",
+                Comments = "",
+                Kind = currentReview,
+                Topics = Topics.Matching | Topics.Domain /**//*Topics.Domain*/ /* | Topics.Matching *//*| Topics.Differencing*/ /*| Topics.Report*/,
+            });
+            revisionPair.Reviews.Add(new Review
+            {
+                Id = Guid.NewGuid(),
+                CaseKind = CaseKind.HighOutlier,
+                Severity = ReviewSeverity.Bad,
+                Subject = "Missed matches - the IF-(ol:220,ml:210) should match.",
+                Comments = "Consequences: ghost updates - e.g., move the condition",
+                Kind = currentReview,
+                Topics = Topics.Matching /**//*Topics.Domain*/ /* | Topics.Matching *//*| Topics.Differencing*/ /*| Topics.Report*/,
+            });
+            revisionPair.Reviews.Add(new Review
+            {
+                Id = Guid.NewGuid(),
+                CaseKind = CaseKind.HighOutlier,
+                Severity = ReviewSeverity.Bad,
+                Subject = "Missed matches - the statements-(ol:222,ml:205) should not match.",
+                Comments = "the original statement was deleted, and the modified one was inserted." + Environment.NewLine +
+                           "Consequences: spurious updates, insertions and deletions.",
+                Kind = currentReview,
+                Topics = Topics.Matching /**//*Topics.Domain*/ /* | Topics.Matching *//*| Topics.Differencing*/ /*| Topics.Report*/,
             });
 
             dbRepository.Flush();
@@ -800,7 +873,7 @@ namespace Jawilliam.CDF.Labs
         /// 
         /// </summary>
         /// <param name="approach"></param>
-        private static void ReportBadRenamingCandidates(ChangeDetectionApproaches approach)
+        private static void ReportMissedMatchesAOfKeyedElement(ChangeDetectionApproaches approach)
         {
             var analyzer = new FileRevisionPairAnalyzer { MillisecondsTimeout = 600000 };
             var interopArgs = new InteropArgs()
@@ -824,8 +897,10 @@ namespace Jawilliam.CDF.Labs
                 return $"{path}({element.Root.Label}[{countOfSameLabeled}])";
             };
 
+            System.IO.File.AppendAllText($@"E:\Phd\Analysis\MissedMatchesA{Enum.GetName(typeof(ChangeDetectionApproaches), approach)}.txt",
+                "Indicator;Project;FileRevisionPair;Insertion;Deletion;InsertionIsNameOf;DeletionIsNameOf;InsertionReference;DeletionReference;InsertionReferenceIsBlockOf;DeletionReferenceIsBlockOf" + Environment.NewLine);
             int counter = 0;
-            foreach (var project in Projects.Take(66))
+            foreach (var project in Projects)
             {
                 var dbRepository = new GitRepository(project.Name) { Name = project.Name };
                 ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 600;
@@ -840,7 +915,30 @@ namespace Jawilliam.CDF.Labs
 
                         foreach (var missedMatchA in missedMatchesA)
                         {
-                            analyzer.Warnings.AppendLine($"MM.a;{project.Name};{pair.Principal.Id};Element-{missedMatchA.Item1.Root.Id};Element-{missedMatchA.Item1.Root.Label}({missedMatchA.Item1.Root.Value});Ancestor-{missedMatchA.Item1.Root.Id};Ancestor-{missedMatchA.Item2.Root.Label}({missedMatchA.Item2.Root.Value})");
+                            var insertionIsNameOf = missedMatchA.Insertion.LabelOf(t => t.Parent, t => t.Root.Label == "name")
+                               .Reverse().Aggregate("", (s, t) => s == "" ? t.Root.Label : $"{s}##{t.Root.Label}");
+                            var deletionIsNameOf = missedMatchA.Deletion.LabelOf(t => t.Parent, t => t.Root.Label == "name")
+                               .Reverse().Aggregate("", (s, t) => s == "" ? t.Root.Label : $"{s}##{t.Root.Label}");
+                            var insertionReferenceIsBlockOf = missedMatchA.InsertionReference.Root.Label == "block"
+                                ? missedMatchA.InsertionReference.LabelOf(t => t.Parent, t => t.Root.Label == "block")
+                                    .Reverse().Aggregate("", (s, t) => s == "" ? t.Root.Label : $"{s}##{t.Root.Label}")
+                                : "";
+                            var deletionReferenceIsBlockOf = missedMatchA.DeletionReference.Root.Label == "block"
+                                ? missedMatchA.DeletionReference.LabelOf(t => t.Parent, t => t.Root.Label == "block")
+                                    .Reverse().Aggregate("", (s, t) => s == "" ? t.Root.Label : $"{s}##{t.Root.Label}")
+                                : "";
+
+                            analyzer.Warnings.AppendLine($"MM.a;" +
+                                                         $"{project.Name};" +
+                                                         $"{pair.Principal.Id};" +
+                                                         $"{missedMatchA.Insertion.Root.Label}:{missedMatchA.Insertion.Root.Id}({missedMatchA.Insertion.Root.Value});" +
+                                                         $"{missedMatchA.Deletion.Root.Label}:{missedMatchA.Deletion.Root.Id}({missedMatchA.Deletion.Root.Value});" +
+                                                         $"{insertionIsNameOf};" +
+                                                         $"{deletionIsNameOf};" +
+                                                         $"{missedMatchA.InsertionReference.Root.Label}:{missedMatchA.InsertionReference.Root.Id}({missedMatchA.InsertionReference.Root.Value});" +
+                                                         $"{missedMatchA.DeletionReference.Root.Label}:{missedMatchA.DeletionReference.Root.Id}({missedMatchA.DeletionReference.Root.Value});" +
+                                                         $"{insertionReferenceIsBlockOf};" +
+                                                         $"{deletionReferenceIsBlockOf}");
                         }
 
                         //foreach (var badCase in candidateBadCases2)
@@ -848,16 +946,16 @@ namespace Jawilliam.CDF.Labs
                         //    analyzer.Warnings.AppendLine($"{project.Name};{pair.Principal.Id};#DELETION#;{badCase.Element.Label}:{badCase.Element.Value}");
                         //}
 
-                        System.IO.File.AppendAllText($@"E:\Phd\Analysis\MissedMatches{Enum.GetName(typeof(ChangeDetectionApproaches), approach)}.txt", analyzer.Warnings.ToString());
+                        System.IO.File.AppendAllText($@"E:\Phd\Analysis\MissedMatchesA{Enum.GetName(typeof(ChangeDetectionApproaches), approach)}.txt", analyzer.Warnings.ToString());
 
                     }
                     catch (Exception e)
                     {
-                        counter++;
+                        System.IO.File.AppendAllText($@"E:\Phd\Analysis\MissedMatchesAErrors.txt", $"{project.Name};{pair.Id}" + Environment.NewLine);
                     }
                 }, "Principal");
 
-                System.IO.File.AppendAllText($@"E:\Phd\Analysis\BadRenamesFor{Enum.GetName(typeof(ChangeDetectionApproaches), approach)}.txt", analyzer.Warnings.ToString());
+                //System.IO.File.AppendAllText($@"E:\Phd\Analysis\BadRenamesFor{Enum.GetName(typeof(ChangeDetectionApproaches), approach)}.txt", analyzer.Warnings.ToString());
             }
             Console.Out.WriteLine($"DONE!!!");
         }

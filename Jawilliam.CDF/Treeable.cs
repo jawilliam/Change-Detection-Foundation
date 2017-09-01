@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +21,7 @@ namespace Jawilliam.CDF
         /// <returns>The nodes of the tree enumerated in pre order.</returns>
         public static IEnumerable<T> PreOrder<T>(this T source, Func<T, IEnumerable<T>> children)
         {
+            Debug.Assert(children != null);
             yield return source;
             foreach (var descendant in children(source).SelectMany(child => child.PreOrder(children)))
             {
@@ -36,6 +38,7 @@ namespace Jawilliam.CDF
         /// <returns>The nodes of the tree enumerated in post order.</returns>
         public static IEnumerable<T> PostOrder<T>(this T source, Func<T, IEnumerable<T>> children)
         {
+            Debug.Assert(children != null);
             foreach (var childDescendant in children(source).SelectMany(child => child.PostOrder(children)))
             {
                 yield return childDescendant;
@@ -52,6 +55,7 @@ namespace Jawilliam.CDF
         /// <returns>The nodes of the tree enumerated in breadth-first order.</returns>
         public static IEnumerable<T> BreadthFirstOrder<T>(this T source, Func<T, IEnumerable<T>> children)
         {
+            Debug.Assert(children != null);
             var queue = new Queue<T>();
             queue.Enqueue(source);
 
@@ -75,19 +79,19 @@ namespace Jawilliam.CDF
         /// <param name="action">the action to apply for each element.</param>
         public static void ForEach<T>(this IEnumerable<T> source, Action<T> action)
         {
-            if (action == null)
-                throw new ArgumentNullException(nameof(action));
-
+            Debug.Assert(action != null);
             foreach (var item in source) action(item);
         }
 
         /// <summary>
         /// Returns the ancestors of the current subtree.
         /// </summary>
+        /// <param name="source">element for which returning the ancestors.</param>
+        /// <param name="parent">the how to access the parent for each element.</param>
         /// <returns>the ancestors from the current node until the root.</returns>
         public static IEnumerable<T> Ancestors<T>(this T source, Func<T, T> parent)
         {
-            if (parent == null) throw new ArgumentNullException(nameof(parent));
+            Debug.Assert(parent != null);
             var current = source;
             while (parent(current) != null)
             {
