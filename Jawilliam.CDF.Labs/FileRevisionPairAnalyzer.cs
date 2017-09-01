@@ -443,34 +443,219 @@ namespace Jawilliam.CDF.Labs
         {
             var namesOf = new[]
             {
-                "decl"
-                ,"function_decl"
-                ,"function"
-                ,"namespace"
-                ,"using"
-                ,"class"
-                ,"struct"
-                ,"interface"
-                ,"property"
-                ,"constructor"
-                ,"destructor"
-                ,"enum"
+                new
+                {
+                    Label = "decl",
+                    IsNameOf = new Func<ElementTree, bool>(t => t.IsVariableDeclarationName(n => n.Parent, n => n.Root.Label)),
+                    OuterScopes = new Func<ElementTree, IEnumerable<ElementTree>>(delegate(ElementTree tree)
+                    {
+                        List<ElementTree> scopes = new List<ElementTree>(18);
+                        foreach (var ancestor in tree.Ancestors().Where(ancestor => ancestor.Root.Label == "block"))
+                        {
+                            scopes.Add(ancestor);
+                            //if (ancestor.Parent != null && (ancestor.Parent.Root.Label == "function" ||
+                            //                                ancestor.Parent.Root.Label == "function_decl" ||
+                            //                                ancestor.Parent.Root.Label == "class"))
+                            //    return scopes;
+                        }
+                        return scopes;
+                    })
+                //},
+                ////,"function_decl"
+                //new
+                //{
+                //    Label = "function",
+                //    IsNameOf = new Func<ElementTree, bool>(t => t.IsFunctionDefinitionName(n => n.Parent, n => n.Root.Label)),
+                //    OuterScopes = new Func<ElementTree, IEnumerable<ElementTree>>(delegate(ElementTree tree)
+                //    {
+                //        List<ElementTree> scopes = new List<ElementTree>(18);
+                //        foreach (var ancestor in tree.Ancestors().Where(ancestor => ancestor.Root.Label == "block"))
+                //        {
+                //            scopes.Add(ancestor);
+                //            if (ancestor.Parent != null && (ancestor.Parent.Root.Label == "function" ||
+                //                                            ancestor.Parent.Root.Label == "function_decl" ||
+                //                                            ancestor.Parent.Root.Label == "class"))
+                //                return scopes;
+                //        }
+                //        return scopes;
+                //    })
+                //},
+                //new
+                //{
+                //    Label = "namespace",
+                //    IsNameOf = new Func<ElementTree, bool>(t => t.IsNamespaceName(n => n.Parent, n => n.Root.Label)),
+                //    OuterScopes = new Func<ElementTree, IEnumerable<ElementTree>>(delegate(ElementTree tree)
+                //    {
+                //        List<ElementTree> scopes = new List<ElementTree>(18);
+                //        foreach (var ancestor in tree.Ancestors().Where(ancestor => ancestor.Root.Label == "block"))
+                //        {
+                //            scopes.Add(ancestor);
+                //            if (ancestor.Parent != null && (ancestor.Parent.Root.Label == "function" ||
+                //                                            ancestor.Parent.Root.Label == "function_decl" ||
+                //                                            ancestor.Parent.Root.Label == "class"))
+                //                return scopes;
+                //        }
+                //        return scopes;
+                //    })
+                //},
+                //new
+                //{
+                //    Label = "using",
+                //    IsNameOf = new Func<ElementTree, bool>(t => t.IsUsingDirectiveName(n => n.Parent, n => n.Root.Label)),
+                //    OuterScopes = new Func<ElementTree, IEnumerable<ElementTree>>(delegate(ElementTree tree)
+                //    {
+                //        List<ElementTree> scopes = new List<ElementTree>(18);
+                //        foreach (var ancestor in tree.Ancestors().Where(ancestor => ancestor.Root.Label == "block"))
+                //        {
+                //            scopes.Add(ancestor);
+                //            if (ancestor.Parent != null && (ancestor.Parent.Root.Label == "function" ||
+                //                                            ancestor.Parent.Root.Label == "function_decl" ||
+                //                                            ancestor.Parent.Root.Label == "class"))
+                //                return scopes;
+                //        }
+                //        return scopes;
+                //    })
+                //},
+                //new
+                //{
+                //    Label = "class",
+                //    IsNameOf = new Func<ElementTree, bool>(t => t.IsClassName(n => n.Parent, n => n.Root.Label)),
+                //    OuterScopes = new Func<ElementTree, IEnumerable<ElementTree>>(delegate(ElementTree tree)
+                //    {
+                //        List<ElementTree> scopes = new List<ElementTree>(18);
+                //        foreach (var ancestor in tree.Ancestors().Where(ancestor => ancestor.Root.Label == "block"))
+                //        {
+                //            scopes.Add(ancestor);
+                //            if (ancestor.Parent != null && (ancestor.Parent.Root.Label == "function" ||
+                //                                            ancestor.Parent.Root.Label == "function_decl" ||
+                //                                            ancestor.Parent.Root.Label == "class"))
+                //                return scopes;
+                //        }
+                //        return scopes;
+                //    })
+                //},
+                //new
+                //{
+                //    Label = "struct",
+                //    IsNameOf = new Func<ElementTree, bool>(t => t.IsStructName(n => n.Parent, n => n.Root.Label)),
+                //    OuterScopes = new Func<ElementTree, IEnumerable<ElementTree>>(delegate(ElementTree tree)
+                //    {
+                //        List<ElementTree> scopes = new List<ElementTree>(18);
+                //        foreach (var ancestor in tree.Ancestors().Where(ancestor => ancestor.Root.Label == "block"))
+                //        {
+                //            scopes.Add(ancestor);
+                //            if (ancestor.Parent != null && (ancestor.Parent.Root.Label == "function" ||
+                //                                            ancestor.Parent.Root.Label == "function_decl" ||
+                //                                            ancestor.Parent.Root.Label == "class"))
+                //                return scopes;
+                //        }
+                //        return scopes;
+                //    })
+                //},
+                //new
+                //{
+                //    Label = "interface",
+                //    IsNameOf = new Func<ElementTree, bool>(t => t.IsInterfaceName(n => n.Parent, n => n.Root.Label)),
+                //    OuterScopes = new Func<ElementTree, IEnumerable<ElementTree>>(delegate(ElementTree tree)
+                //    {
+                //        List<ElementTree> scopes = new List<ElementTree>(18);
+                //        foreach (var ancestor in tree.Ancestors().Where(ancestor => ancestor.Root.Label == "block"))
+                //        {
+                //            scopes.Add(ancestor);
+                //            if (ancestor.Parent != null && (ancestor.Parent.Root.Label == "function" ||
+                //                                            ancestor.Parent.Root.Label == "function_decl" ||
+                //                                            ancestor.Parent.Root.Label == "class"))
+                //                return scopes;
+                //        }
+                //        return scopes;
+                //    })
+                //},
+                //new
+                //{
+                //    Label = "property",
+                //    IsNameOf = new Func<ElementTree, bool>(t => t.IsPropertyName(n => n.Parent, n => n.Root.Label)),
+                //    OuterScopes = new Func<ElementTree, IEnumerable<ElementTree>>(delegate(ElementTree tree)
+                //    {
+                //        List<ElementTree> scopes = new List<ElementTree>(18);
+                //        foreach (var ancestor in tree.Ancestors().Where(ancestor => ancestor.Root.Label == "block"))
+                //        {
+                //            scopes.Add(ancestor);
+                //            if (ancestor.Parent != null && (ancestor.Parent.Root.Label == "function" ||
+                //                                            ancestor.Parent.Root.Label == "function_decl" ||
+                //                                            ancestor.Parent.Root.Label == "class"))
+                //                return scopes;
+                //        }
+                //        return scopes;
+                //    })
+                //},
+                //new
+                //{
+                //    Label = "constructor",
+                //    IsNameOf = new Func<ElementTree, bool>(t => t.IsConstructorName(n => n.Parent, n => n.Root.Label)),
+                //    OuterScopes = new Func<ElementTree, IEnumerable<ElementTree>>(delegate(ElementTree tree)
+                //    {
+                //        List<ElementTree> scopes = new List<ElementTree>(18);
+                //        foreach (var ancestor in tree.Ancestors().Where(ancestor => ancestor.Root.Label == "block"))
+                //        {
+                //            scopes.Add(ancestor);
+                //            if (ancestor.Parent != null && (ancestor.Parent.Root.Label == "function" ||
+                //                                            ancestor.Parent.Root.Label == "function_decl" ||
+                //                                            ancestor.Parent.Root.Label == "class"))
+                //                return scopes;
+                //        }
+                //        return scopes;
+                //    })
+                //},
+                //new
+                //{
+                //    Label = "destructor",
+                //    IsNameOf = new Func<ElementTree, bool>(t => t.IsDestructorName(n => n.Parent, n => n.Root.Label)),
+                //    OuterScopes = new Func<ElementTree, IEnumerable<ElementTree>>(delegate(ElementTree tree)
+                //    {
+                //        List<ElementTree> scopes = new List<ElementTree>(18);
+                //        foreach (var ancestor in tree.Ancestors().Where(ancestor => ancestor.Root.Label == "block"))
+                //        {
+                //            scopes.Add(ancestor);
+                //            if (ancestor.Parent != null && (ancestor.Parent.Root.Label == "function" ||
+                //                                            ancestor.Parent.Root.Label == "function_decl" ||
+                //                                            ancestor.Parent.Root.Label == "class"))
+                //                return scopes;
+                //        }
+                //        return scopes;
+                //    })
+                //},
+                //new
+                //{
+                //    Label = "enum",
+                //    IsNameOf = new Func<ElementTree, bool>(t => t.IsEnumName(n => n.Parent, n => n.Root.Label)),
+                //    OuterScopes = new Func<ElementTree, IEnumerable<ElementTree>>(delegate(ElementTree tree)
+                //    {
+                //        List<ElementTree> scopes = new List<ElementTree>(18);
+                //        foreach (var ancestor in tree.Ancestors().Where(ancestor => ancestor.Root.Label == "block"))
+                //        {
+                //            scopes.Add(ancestor);
+                //            if (ancestor.Parent != null && (ancestor.Parent.Root.Label == "function" ||
+                //                                            ancestor.Parent.Root.Label == "function_decl" ||
+                //                                            ancestor.Parent.Root.Label == "class"))
+                //                return scopes;
+                //        }
+                //        return scopes;
+                //    })
+                }
             };
 
             var detectionResult = (DetectionResult)delta.DetectionResult;
             var insertedNames = detectionResult.Actions.OfType<InsertOperationDescriptor>()
-                .Where(m => m.Element.Label == "name" &&
-                            !string.IsNullOrWhiteSpace(m.Element.Value) &&
-                            !string.IsNullOrEmpty(m.Element.Value))
+                .Where(m => m.Element.Label == "name")
                 .Select(t => delta.GetModifiedNode(t.Element.Id))
-                .Where(t => namesOf.Contains(t.LabelOf(t1 => t1.Parent, t1 => t1.Root.Label == "name").Last().Root.Label))
+                .Select(t => new { Tree = t, NameInfo = namesOf.SingleOrDefault(nm => nm.IsNameOf(t)) })
+                .Where(t => t.NameInfo != null)
                 .ToList();
             var deletedNames = detectionResult.Actions.OfType<DeleteOperationDescriptor>()
-                .Where(m => m.Element.Label == "name" &&
-                            !string.IsNullOrWhiteSpace(m.Element.Value) &&
-                            !string.IsNullOrEmpty(m.Element.Value))
+                .Where(m => m.Element.Label == "name")
                 .Select(t => delta.GetOriginalNode(t.Element.Id))
-                .Where(t => namesOf.Contains(t.LabelOf(t1 => t1.Parent, t1 => t1.Root.Label == "name").Last().Root.Label))
+                .Select(t => new { Tree = t, NameInfo = namesOf.SingleOrDefault(nm => nm.IsNameOf(t)) })
+                .Where(t => t.NameInfo != null)
                 .ToList();
 
             if(!deletedNames.Any())
@@ -478,101 +663,125 @@ namespace Jawilliam.CDF.Labs
             
             foreach (var insertedName in insertedNames)
             {
-                int foundBlocks = 0;
-                var insertionScopes = insertedName.Ancestors()/*.TakeWhile(tree =>
-                {
-                    if (foundBlocks > 1) return false;
-                    if (tree.Root.Label == "block")
-                        foundBlocks++;
-                    return true;
-                })*/.ToList();
-
-                var matchedAncestors = (from a in insertionScopes
-                                        let ancestorMatching = detectionResult.Matches.SingleOrDefault(m => m.Modified.Id == a.Root.Id)
+                var matchedAncestors = (from a in insertedNames
+                                        from outerScope in a.NameInfo.OuterScopes(a.Tree)
+                                        let ancestorMatching = detectionResult.Matches.SingleOrDefault(m => m.Modified.Id == outerScope.Root.Id)
                                         where ancestorMatching != null
-                                        select new { Modified = a, Original = ancestorMatching.Original })
-                                       .ToList();
-
-                foreach (var deletedName in deletedNames.Where(d => d.Root.Value == insertedName.Root.Value))
+                                        select new { Modified = outerScope, Original = ancestorMatching.Original })
+                                   .ToList();
+                foreach (var deletedName in deletedNames.Where(d => d.Tree.Root.Value == insertedName.Tree.Root.Value))
                 {
-                    foundBlocks = 0;
-                    var deletionScopes = deletedName.Ancestors()/*.TakeWhile(tree =>
-                    {
-                        if (foundBlocks > 1) return false;
-                        if (tree.Root.Label == "block")
-                            foundBlocks++;
-                        return true;
-                    })*/.ToList();
-                    //{
-                    //    if (tree.Root.Label == "block")
-                    //        foundBlocks++;
-                    //    return foundBlocks <= 1;
-                    //}).ToList();
-
+                    var deletionScopes = deletedName.NameInfo.OuterScopes(deletedName.Tree);
                     var candidate = matchedAncestors.FirstOrDefault(ma => deletionScopes.Any(a => a.Root.Id == ma.Original.Id));
                     if (candidate != null)
                     {
                         yield return new MissedMatchA
                         {
-                            Insertion = insertedName,
+                            Insertion = insertedName.Tree,
                             InsertionReference = candidate.Modified,
-                            Deletion = deletedName,
+                            Deletion = deletedName.Tree,
                             DeletionReference = deletionScopes.Single(a => a.Root.Id == candidate.Original.Id)
                         };
                     }
                 }
-
-                //var candidates = matchedAncestors.Where(ancestor =>
-                //{
-
-                //    int foundBlocks = 0;
-                //    return deletedNames.Any(t => t.Root.Value == insertedName.Root.Value && 
-                //                                 t.Ancestors().TakeWhile(delegate (ElementTree tree)
-                //                                 {
-                //                                     if (tree.Root.Label == "block")
-                //                                         foundBlocks++;
-                //                                     return foundBlocks <= 1;
-                //                                 })
-                //                                 .Any(a => ancestor.Original.Id == a.Root.Id));
-                //});
-
-                //foreach (var candidate in candidates)
-                //{
-                //    yield return candidate;
-                //}
-
-                //var candidate = matchedAncestors.FirstOrDefault(ancestor =>
-                //{
-
-                //    int foundBlocks = 0;
-                //    return deletedNames.Any(t => t.Root.Value == insertedName.Root.Value &&
-                //                          t.Ancestors().TakeWhile(delegate(ElementTree tree)
-                //                          {
-                //                              if (tree.Root.Label == "block")
-                //                                  foundBlocks++;
-                //                              return foundBlocks <= 1;
-                //                          })
-                //                              .Any(a => ancestor.Original.Id == a.Root.Id));
-                //});
-
-                //if (candidate != null)
-                //    yield return new Tuple<ElementTree, ElementTree>(insertedName, candidate.Modified);
-
-                ////var redundantCandidates = new List<Tuple<ElementTree, ElementTree>>();
-                //foreach (var ancestor in matchedAncestors)
-                //{
-                //    var localCandidates = deletedNames.Where()
-                //                                                  .ToList();
-                //    if (localCandidates.Any())
-                //    {
-                //        foreach (var localCandidate in localCandidates)
-                //        {
-                //            yield return new Tuple<ElementTree, ElementTree>(localCandidate, ancestor.Ancestor);
-
-                //        }
-                //    }
-                //}
             }
+
+            //foreach (var insertedName in insertedNames)
+            //{
+            //int foundBlocks = 0;
+            //var insertionScopes = insertedName.Ancestors()/*.TakeWhile(tree =>
+            //{
+            //    if (foundBlocks > 1) return false;
+            //    if (tree.Root.Label == "block")
+            //        foundBlocks++;
+            //    return true;
+            //})*/.ToList();
+
+            //var matchedAncestors = (from a in insertionScopes
+            //                        let ancestorMatching = detectionResult.Matches.SingleOrDefault(m => m.Modified.Id == a.Root.Id)
+            //                        where ancestorMatching != null
+            //                        select new { Modified = a, Original = ancestorMatching.Original })
+            //                       .ToList();
+
+            //foreach (var deletedName in deletedNames.Where(d => d.Root.Value == insertedName.Root.Value))
+            //{
+            //    foundBlocks = 0;
+            //    var deletionScopes = deletedName.Ancestors()/*.TakeWhile(tree =>
+            //    {
+            //        if (foundBlocks > 1) return false;
+            //        if (tree.Root.Label == "block")
+            //            foundBlocks++;
+            //        return true;
+            //    })*/.ToList();
+            //    //{
+            //    //    if (tree.Root.Label == "block")
+            //    //        foundBlocks++;
+            //    //    return foundBlocks <= 1;
+            //    //}).ToList();
+
+            //    var candidate = matchedAncestors.FirstOrDefault(ma => deletionScopes.Any(a => a.Root.Id == ma.Original.Id));
+            //    if (candidate != null)
+            //    {
+            //        yield return new MissedMatchA
+            //        {
+            //            Insertion = insertedName,
+            //            InsertionReference = candidate.Modified,
+            //            Deletion = deletedName,
+            //            DeletionReference = deletionScopes.Single(a => a.Root.Id == candidate.Original.Id)
+            //        };
+            //    }
+            //}
+
+            //var candidates = matchedAncestors.Where(ancestor =>
+            //{
+
+            //    int foundBlocks = 0;
+            //    return deletedNames.Any(t => t.Root.Value == insertedName.Root.Value && 
+            //                                 t.Ancestors().TakeWhile(delegate (ElementTree tree)
+            //                                 {
+            //                                     if (tree.Root.Label == "block")
+            //                                         foundBlocks++;
+            //                                     return foundBlocks <= 1;
+            //                                 })
+            //                                 .Any(a => ancestor.Original.Id == a.Root.Id));
+            //});
+
+            //foreach (var candidate in candidates)
+            //{
+            //    yield return candidate;
+            //}
+
+            //var candidate = matchedAncestors.FirstOrDefault(ancestor =>
+            //{
+
+            //    int foundBlocks = 0;
+            //    return deletedNames.Any(t => t.Root.Value == insertedName.Root.Value &&
+            //                          t.Ancestors().TakeWhile(delegate(ElementTree tree)
+            //                          {
+            //                              if (tree.Root.Label == "block")
+            //                                  foundBlocks++;
+            //                              return foundBlocks <= 1;
+            //                          })
+            //                              .Any(a => ancestor.Original.Id == a.Root.Id));
+            //});
+
+            //if (candidate != null)
+            //    yield return new Tuple<ElementTree, ElementTree>(insertedName, candidate.Modified);
+
+            ////var redundantCandidates = new List<Tuple<ElementTree, ElementTree>>();
+            //foreach (var ancestor in matchedAncestors)
+            //{
+            //    var localCandidates = deletedNames.Where()
+            //                                                  .ToList();
+            //    if (localCandidates.Any())
+            //    {
+            //        foreach (var localCandidate in localCandidates)
+            //        {
+            //            yield return new Tuple<ElementTree, ElementTree>(localCandidate, ancestor.Ancestor);
+
+            //        }
+            //    }
+            //}
         }
     }
 }

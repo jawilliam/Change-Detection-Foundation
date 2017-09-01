@@ -132,6 +132,7 @@
     <Compile Include="Metrics.Similarity\TokenizerWhitespace.cs" />
     <Compile Include="Metrics.Similarity\VectorComponents.cs" />
     <Compile Include="Metrics.Similarity\VectorSimetric.cs" />
+    <Compile Include="SrcmlDomain.cs" />
     <Compile Include="Treeable.cs" />
     <Compile Include="XmlHelper.cs" />
   </ItemGroup>
