@@ -19,6 +19,16 @@ namespace Jawilliam.CDF.Labs
         SamplingAll = 3,
         SamplingMedianCloser = 4,
         SamplingNonOutliers = 5,
-        SamplingNormal = 6
+        SamplingNormal = 6,
+        MissedMatchesDI = 7,
+        MissedMatchesDU = 8,
+        MissedMatchesUI = 9,
+        MissedMatchesUU = 10,
+        MissedMatchesDM = 11,
+        MissedMatchesMI = 12,
+        MissedMatchesMM = 13,
+        MissedMatchesUM = 14,
+        MissedMatchesMU = 15,
+        MissedMatchesM = 16
     }
 }

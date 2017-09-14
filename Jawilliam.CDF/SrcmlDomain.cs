@@ -13,13 +13,13 @@ namespace Jawilliam.CDF
     public static class SrcmlDomain
     {
         /// <summary>
-        /// 
+        /// Determines if the source node represents a name of a element type.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="source"></param>
-        /// <param name="parent"></param>
-        /// <param name="label"></param>
-        /// <param name="name"></param>
+        /// <typeparam name="T">type of the node representing the elements.</typeparam>
+        /// <param name="source">the node to check.</param>
+        /// <param name="parent">the how to access the parent of each element.</param>
+        /// <param name="label">the how to access the label of each element.</param>
+        /// <param name="name">the expected label of the ancestor of interest.</param>
         /// <returns></returns>
         private static bool IsNameOf<T>(T source, Func<T, T> parent, Func<T, string> label, string name)
         {
@@ -27,6 +27,7 @@ namespace Jawilliam.CDF
             Debug.Assert(label != null);
             return label(source) == "name" && parent(source) != null && label(parent(source)) == name;
         }
+
         /// <summary>
         /// Determines if the source node represents a name of a variable declaration.
         /// </summary>
@@ -183,6 +184,28 @@ namespace Jawilliam.CDF
             return IsNameOf(source, parent, label, "decl") && 
                    label(parent(parent(source))) == "block" &&
                    label(parent(parent(parent(source)))) == "enum";
+        }
+
+        /// <summary>
+        /// Returns the name of a given element.
+        /// </summary>
+        /// <typeparam name="T">type of the node representing the elements.</typeparam>
+        /// <param name="source">the node to check.</param>
+        /// <param name="children">the how to access the children of each element.</param>
+        /// <param name="label">the how to access the label of each element.</param>
+        /// <param name="value">the how to access the value of each element.</param>
+        /// <returns>if the given name has a child labeled "name" it returns the resulting name, otherwise it returns null.</returns>
+        public static string NameOf<T>(this T source, Func<T, IEnumerable<T>> children, Func<T, string> label, Func<T, string> value)
+        {
+            Debug.Assert(children != null);
+            Debug.Assert(label != null);
+            Debug.Assert(value != null);
+
+            var name = children(source).SingleOrDefault(c => label(c) == "name");
+            if (name == null) return null;
+
+            var nameComposition = (children(name) ?? new T[0]).ToList();
+            return !nameComposition.Any() ? value(name) : nameComposition.Aggregate("", (s, nc) => s + value(nc));
         }
     }
 }

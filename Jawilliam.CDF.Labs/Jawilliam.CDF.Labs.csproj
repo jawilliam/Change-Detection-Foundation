@@ -249,6 +249,9 @@
       <DependentUpon>GitRepository.edmx</DependentUpon>
     </Compile>
     <Compile Include="LinesOfCodeMetric.cs" />
+    <Compile Include="MissedMatch.cs" />
+    <Compile Include="MissedNameContext.cs" />
+    <Compile Include="MissedVersion.cs" />
     <Compile Include="PairRevisionInfo.cs">
       <DependentUpon>GitRepository.tt</DependentUpon>
     </Compile>

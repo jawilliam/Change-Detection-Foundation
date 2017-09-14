@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Diagnostics;
+using System.Diagnostics.Eventing.Reader;
 using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
@@ -408,30 +409,125 @@ namespace Jawilliam.CDF.Labs
         //    }
         //}
 
+        protected virtual IEnumerable<MissedNameContext> NameContexts
+        {
+            get
+            {
+                Func<ElementTree, ElementTree> containerScope = t => t.Ancestors().First(
+                    a => a.Root.Label == "unit" ||
+                         a.Root.Label == "namespace" ||
+                         a.Root.Label == "class" ||
+                         a.Root.Label == "struct" ||
+                         a.Root.Label == "enum" ||
+                         a.Root.Label == "function" ||
+                         a.Root.Label == "function_decl" ||
+                         a.Root.Label == "constructor" ||
+                         a.Root.Label == "destructor" ||
+                         a.Root.Label == "property" ||
+                         a.Root.Label == "call" ||
+                         a.Root.Label == "parameter");
+
+                yield return new MissedNameContext
+                {
+                    Label = "decl", /*Type = "Field",*/
+                    NameOf = delegate(ElementTree tree)
+                    {
+                        var scope = containerScope(tree);
+                        switch (scope.Root.Label)
+                        {
+                            case "class":
+                            case "struct": return "field";
+                            case "enum": return "enumvalue";
+                            case "call": return "actual argument";
+                            case "parameter": return "formal argument";
+                            default: return "variable";
+                        }
+                    },
+                    Criterion = t => t.IsVariableDeclarationName(n => n.Parent, n => n.Root.Label),
+                    OuterScopes = tree => tree.Ancestors().Where(ancestor => ancestor.Root.Label == "block")
+                };
+                yield return new MissedNameContext
+                {
+                    Label = "function", /*Type = "Function",*/
+                    NameOf = t => "function",
+                    Criterion = t => t.IsFunctionDefinitionName(n => n.Parent, n => n.Root.Label) &&
+                                     t.Root.Value != "get" && t.Root.Value != "set" &&
+                                     t.Root.Value != "add" && t.Root.Value != "remove" &&
+                                     !string.IsNullOrEmpty(t.Root.Value),
+                    OuterScopes = tree => tree.Ancestors().Where(ancestor => ancestor.Root.Label == "block")
+                };
+                yield return new MissedNameContext
+                {
+                    Label = "constructor", /*Type = "Property",*/
+                    NameOf = t => "constructor",
+                    Criterion = t => t.IsConstructorName(n => n.Parent, n => n.Root.Label),
+                    OuterScopes = tree => tree.Ancestors().Where(ancestor => ancestor.Root.Label == "block")
+                };
+                yield return new MissedNameContext
+                {
+                    Label = "destructor", /*Type = "Property",*/
+                    NameOf = t => "destructor",
+                    Criterion = t => t.IsDestructorName(n => n.Parent, n => n.Root.Label),
+                    OuterScopes = tree => tree.Ancestors().Where(ancestor => ancestor.Root.Label == "block")
+                };
+                yield return new MissedNameContext
+                {
+                    Label = "property", /*Type = "Property",*/
+                    NameOf = t => "property",
+                    Criterion = t => t.IsPropertyName(n => n.Parent, n => n.Root.Label),
+                    OuterScopes = tree => tree.Ancestors().Where(ancestor => ancestor.Root.Label == "block")
+                };
+                yield return new MissedNameContext
+                {
+                    Label = "class", /*Type = "Property",*/
+                    NameOf = t => "class",
+                    Criterion = t => t.IsClassName(n => n.Parent, n => n.Root.Label),
+                    OuterScopes = tree => tree.Ancestors().Where(ancestor => ancestor.Root.Label == "block")
+                };
+                yield return new MissedNameContext
+                {
+                    Label = "struct", /*Type = "Property",*/
+                    NameOf = t => "struct",
+                    Criterion = t => t.IsStructName(n => n.Parent, n => n.Root.Label),
+                    OuterScopes = tree => tree.Ancestors().Where(ancestor => ancestor.Root.Label == "block" ||
+                                                                             ancestor.Root.Label == "namespace" ||
+                                                                             ancestor.Root.Label == "unit")
+                };
+                yield return new MissedNameContext
+                {
+                    Label = "interface", /*Type = "Property",*/
+                    NameOf = t => "interface",
+                    Criterion = t => t.IsInterfaceName(n => n.Parent, n => n.Root.Label),
+                    OuterScopes = tree => tree.Ancestors().Where(ancestor => ancestor.Root.Label == "block" ||
+                                                                             ancestor.Root.Label == "namespace" ||
+                                                                             ancestor.Root.Label == "unit")
+                };
+                yield return new MissedNameContext
+                {
+                    Label = "enum", /*Type = "Property",*/
+                    NameOf = t => "enum",
+                    Criterion = t => t.IsEnumName(n => n.Parent, n => n.Root.Label),
+                    OuterScopes = tree => tree.Ancestors().Where(ancestor => ancestor.Root.Label == "block" ||
+                                                                             ancestor.Root.Label == "namespace" ||
+                                                                             ancestor.Root.Label == "unit")
+                };
+            }
+        }
+
         /// <summary>
-        /// Describes a candidate missed match.
+        /// Represents an element name must be analyzed.
         /// </summary>
-        public class MissedMatchA
+        protected class CandidateName
         {
             /// <summary>
-            /// Gets or sets the inserted (modified) version of a candidate conceptual element.
+            /// Gets or sets the tree representing the candidate element name.
             /// </summary>
-            public virtual ElementTree Insertion { get; set; }
+            public virtual ElementTree Tree { get; set; }
 
             /// <summary>
-            /// Gets or sets the modified version of the conceptual ancestor of reference. This is ancestor of the <see cref="Insertion"/>. 
+            /// Gets or sets the context of the candidate element name.
             /// </summary>
-            public virtual ElementTree InsertionReference { get; set; }
-
-            /// <summary>
-            /// Gets or sets the deleted (original) version of a candidate conceptual element.
-            /// </summary>
-            public virtual ElementTree Deletion { get; set; }
-
-            /// <summary>
-            /// Gets or sets the original version of the conceptual ancestor of reference.  This is ancestor of the <see cref="Deletion"/>. 
-            /// </summary>
-            public virtual ElementTree DeletionReference { get; set; }
+            public virtual MissedNameContext Context { get; set; }
         }
 
         /// <summary>
@@ -439,349 +535,153 @@ namespace Jawilliam.CDF.Labs
         /// </summary>
         /// <param name="delta">delta to analyze.</param>
         /// <returns>a collection of the candidate missed matches found in the given delta.</returns>
-        public virtual IEnumerable<MissedMatchA> FindMissedMatchesAOfKeyedElement(Delta delta)
+        public virtual IEnumerable<MissedMatch> FindMissedMatchesAOfKeyedElement(Delta delta)
         {
-            var namesOf = new[]
-            {
-                new
-                {
-                    Label = "decl",
-                    IsNameOf = new Func<ElementTree, bool>(t => t.IsVariableDeclarationName(n => n.Parent, n => n.Root.Label)),
-                    OuterScopes = new Func<ElementTree, IEnumerable<ElementTree>>(delegate(ElementTree tree)
-                    {
-                        List<ElementTree> scopes = new List<ElementTree>(18);
-                        foreach (var ancestor in tree.Ancestors().Where(ancestor => ancestor.Root.Label == "block"))
-                        {
-                            scopes.Add(ancestor);
-                            //if (ancestor.Parent != null && (ancestor.Parent.Root.Label == "function" ||
-                            //                                ancestor.Parent.Root.Label == "function_decl" ||
-                            //                                ancestor.Parent.Root.Label == "class"))
-                            //    return scopes;
-                        }
-                        return scopes;
-                    })
-                //},
-                ////,"function_decl"
-                //new
-                //{
-                //    Label = "function",
-                //    IsNameOf = new Func<ElementTree, bool>(t => t.IsFunctionDefinitionName(n => n.Parent, n => n.Root.Label)),
-                //    OuterScopes = new Func<ElementTree, IEnumerable<ElementTree>>(delegate(ElementTree tree)
-                //    {
-                //        List<ElementTree> scopes = new List<ElementTree>(18);
-                //        foreach (var ancestor in tree.Ancestors().Where(ancestor => ancestor.Root.Label == "block"))
-                //        {
-                //            scopes.Add(ancestor);
-                //            if (ancestor.Parent != null && (ancestor.Parent.Root.Label == "function" ||
-                //                                            ancestor.Parent.Root.Label == "function_decl" ||
-                //                                            ancestor.Parent.Root.Label == "class"))
-                //                return scopes;
-                //        }
-                //        return scopes;
-                //    })
-                //},
-                //new
-                //{
-                //    Label = "namespace",
-                //    IsNameOf = new Func<ElementTree, bool>(t => t.IsNamespaceName(n => n.Parent, n => n.Root.Label)),
-                //    OuterScopes = new Func<ElementTree, IEnumerable<ElementTree>>(delegate(ElementTree tree)
-                //    {
-                //        List<ElementTree> scopes = new List<ElementTree>(18);
-                //        foreach (var ancestor in tree.Ancestors().Where(ancestor => ancestor.Root.Label == "block"))
-                //        {
-                //            scopes.Add(ancestor);
-                //            if (ancestor.Parent != null && (ancestor.Parent.Root.Label == "function" ||
-                //                                            ancestor.Parent.Root.Label == "function_decl" ||
-                //                                            ancestor.Parent.Root.Label == "class"))
-                //                return scopes;
-                //        }
-                //        return scopes;
-                //    })
-                //},
-                //new
-                //{
-                //    Label = "using",
-                //    IsNameOf = new Func<ElementTree, bool>(t => t.IsUsingDirectiveName(n => n.Parent, n => n.Root.Label)),
-                //    OuterScopes = new Func<ElementTree, IEnumerable<ElementTree>>(delegate(ElementTree tree)
-                //    {
-                //        List<ElementTree> scopes = new List<ElementTree>(18);
-                //        foreach (var ancestor in tree.Ancestors().Where(ancestor => ancestor.Root.Label == "block"))
-                //        {
-                //            scopes.Add(ancestor);
-                //            if (ancestor.Parent != null && (ancestor.Parent.Root.Label == "function" ||
-                //                                            ancestor.Parent.Root.Label == "function_decl" ||
-                //                                            ancestor.Parent.Root.Label == "class"))
-                //                return scopes;
-                //        }
-                //        return scopes;
-                //    })
-                //},
-                //new
-                //{
-                //    Label = "class",
-                //    IsNameOf = new Func<ElementTree, bool>(t => t.IsClassName(n => n.Parent, n => n.Root.Label)),
-                //    OuterScopes = new Func<ElementTree, IEnumerable<ElementTree>>(delegate(ElementTree tree)
-                //    {
-                //        List<ElementTree> scopes = new List<ElementTree>(18);
-                //        foreach (var ancestor in tree.Ancestors().Where(ancestor => ancestor.Root.Label == "block"))
-                //        {
-                //            scopes.Add(ancestor);
-                //            if (ancestor.Parent != null && (ancestor.Parent.Root.Label == "function" ||
-                //                                            ancestor.Parent.Root.Label == "function_decl" ||
-                //                                            ancestor.Parent.Root.Label == "class"))
-                //                return scopes;
-                //        }
-                //        return scopes;
-                //    })
-                //},
-                //new
-                //{
-                //    Label = "struct",
-                //    IsNameOf = new Func<ElementTree, bool>(t => t.IsStructName(n => n.Parent, n => n.Root.Label)),
-                //    OuterScopes = new Func<ElementTree, IEnumerable<ElementTree>>(delegate(ElementTree tree)
-                //    {
-                //        List<ElementTree> scopes = new List<ElementTree>(18);
-                //        foreach (var ancestor in tree.Ancestors().Where(ancestor => ancestor.Root.Label == "block"))
-                //        {
-                //            scopes.Add(ancestor);
-                //            if (ancestor.Parent != null && (ancestor.Parent.Root.Label == "function" ||
-                //                                            ancestor.Parent.Root.Label == "function_decl" ||
-                //                                            ancestor.Parent.Root.Label == "class"))
-                //                return scopes;
-                //        }
-                //        return scopes;
-                //    })
-                //},
-                //new
-                //{
-                //    Label = "interface",
-                //    IsNameOf = new Func<ElementTree, bool>(t => t.IsInterfaceName(n => n.Parent, n => n.Root.Label)),
-                //    OuterScopes = new Func<ElementTree, IEnumerable<ElementTree>>(delegate(ElementTree tree)
-                //    {
-                //        List<ElementTree> scopes = new List<ElementTree>(18);
-                //        foreach (var ancestor in tree.Ancestors().Where(ancestor => ancestor.Root.Label == "block"))
-                //        {
-                //            scopes.Add(ancestor);
-                //            if (ancestor.Parent != null && (ancestor.Parent.Root.Label == "function" ||
-                //                                            ancestor.Parent.Root.Label == "function_decl" ||
-                //                                            ancestor.Parent.Root.Label == "class"))
-                //                return scopes;
-                //        }
-                //        return scopes;
-                //    })
-                //},
-                //new
-                //{
-                //    Label = "property",
-                //    IsNameOf = new Func<ElementTree, bool>(t => t.IsPropertyName(n => n.Parent, n => n.Root.Label)),
-                //    OuterScopes = new Func<ElementTree, IEnumerable<ElementTree>>(delegate(ElementTree tree)
-                //    {
-                //        List<ElementTree> scopes = new List<ElementTree>(18);
-                //        foreach (var ancestor in tree.Ancestors().Where(ancestor => ancestor.Root.Label == "block"))
-                //        {
-                //            scopes.Add(ancestor);
-                //            if (ancestor.Parent != null && (ancestor.Parent.Root.Label == "function" ||
-                //                                            ancestor.Parent.Root.Label == "function_decl" ||
-                //                                            ancestor.Parent.Root.Label == "class"))
-                //                return scopes;
-                //        }
-                //        return scopes;
-                //    })
-                //},
-                //new
-                //{
-                //    Label = "constructor",
-                //    IsNameOf = new Func<ElementTree, bool>(t => t.IsConstructorName(n => n.Parent, n => n.Root.Label)),
-                //    OuterScopes = new Func<ElementTree, IEnumerable<ElementTree>>(delegate(ElementTree tree)
-                //    {
-                //        List<ElementTree> scopes = new List<ElementTree>(18);
-                //        foreach (var ancestor in tree.Ancestors().Where(ancestor => ancestor.Root.Label == "block"))
-                //        {
-                //            scopes.Add(ancestor);
-                //            if (ancestor.Parent != null && (ancestor.Parent.Root.Label == "function" ||
-                //                                            ancestor.Parent.Root.Label == "function_decl" ||
-                //                                            ancestor.Parent.Root.Label == "class"))
-                //                return scopes;
-                //        }
-                //        return scopes;
-                //    })
-                //},
-                //new
-                //{
-                //    Label = "destructor",
-                //    IsNameOf = new Func<ElementTree, bool>(t => t.IsDestructorName(n => n.Parent, n => n.Root.Label)),
-                //    OuterScopes = new Func<ElementTree, IEnumerable<ElementTree>>(delegate(ElementTree tree)
-                //    {
-                //        List<ElementTree> scopes = new List<ElementTree>(18);
-                //        foreach (var ancestor in tree.Ancestors().Where(ancestor => ancestor.Root.Label == "block"))
-                //        {
-                //            scopes.Add(ancestor);
-                //            if (ancestor.Parent != null && (ancestor.Parent.Root.Label == "function" ||
-                //                                            ancestor.Parent.Root.Label == "function_decl" ||
-                //                                            ancestor.Parent.Root.Label == "class"))
-                //                return scopes;
-                //        }
-                //        return scopes;
-                //    })
-                //},
-                //new
-                //{
-                //    Label = "enum",
-                //    IsNameOf = new Func<ElementTree, bool>(t => t.IsEnumName(n => n.Parent, n => n.Root.Label)),
-                //    OuterScopes = new Func<ElementTree, IEnumerable<ElementTree>>(delegate(ElementTree tree)
-                //    {
-                //        List<ElementTree> scopes = new List<ElementTree>(18);
-                //        foreach (var ancestor in tree.Ancestors().Where(ancestor => ancestor.Root.Label == "block"))
-                //        {
-                //            scopes.Add(ancestor);
-                //            if (ancestor.Parent != null && (ancestor.Parent.Root.Label == "function" ||
-                //                                            ancestor.Parent.Root.Label == "function_decl" ||
-                //                                            ancestor.Parent.Root.Label == "class"))
-                //                return scopes;
-                //        }
-                //        return scopes;
-                //    })
-                }
-            };
-
+            //    Label = "namespace",
+            //    Label = "using",
+            var originalTree = ElementTree.Read(delta.OriginalTree, Encoding.Unicode);
+            var modifiedTree = ElementTree.Read(delta.ModifiedTree, Encoding.Unicode);
             var detectionResult = (DetectionResult)delta.DetectionResult;
+
+            // Missed matches - Deleted and Inserted
             var insertedNames = detectionResult.Actions.OfType<InsertOperationDescriptor>()
                 .Where(m => m.Element.Label == "name")
-                .Select(t => delta.GetModifiedNode(t.Element.Id))
-                .Select(t => new { Tree = t, NameInfo = namesOf.SingleOrDefault(nm => nm.IsNameOf(t)) })
-                .Where(t => t.NameInfo != null)
+                .Select(t => modifiedTree.PostOrder(n => n.Children).First(n => n.Root.Id == t.Element.Id))
+                .Select(t => new CandidateName { Tree = t, Context = this.NameContexts.SingleOrDefault(nm => nm.Criterion(t)) })
+                .Where(t => t.Context != null)
                 .ToList();
             var deletedNames = detectionResult.Actions.OfType<DeleteOperationDescriptor>()
                 .Where(m => m.Element.Label == "name")
-                .Select(t => delta.GetOriginalNode(t.Element.Id))
-                .Select(t => new { Tree = t, NameInfo = namesOf.SingleOrDefault(nm => nm.IsNameOf(t)) })
-                .Where(t => t.NameInfo != null)
+                .Select(t => originalTree.PostOrder(n => n.Children).First(n => n.Root.Id == t.Element.Id))
+                .Select(t => new CandidateName { Tree = t, Context = this.NameContexts.SingleOrDefault(nm => nm.Criterion(t)) })
+                .Where(t => t.Context != null)
                 .ToList();
+            var matchedInsertionAncestors = (from a in insertedNames
+                                             from outerScope in a.Context.OuterScopes(a.Tree)
+                                             let ancestorMatching = detectionResult.Matches.SingleOrDefault(m => m.Modified.Id == outerScope.Root.Id)
+                                             where ancestorMatching != null
+                                             select new RevisionPair<ElementDescriptor, ElementTree> { Modified = outerScope, Original = ancestorMatching.Original })
+                                            .ToList();
+            foreach (var missedMatch in this.FindMissedMatches("MM.DI", deletedNames, insertedNames, matchedInsertionAncestors))
+                yield return missedMatch;
 
-            if(!deletedNames.Any())
-                yield break;
-            
-            foreach (var insertedName in insertedNames)
-            {
-                var matchedAncestors = (from a in insertedNames
-                                        from outerScope in a.NameInfo.OuterScopes(a.Tree)
+            // Missed matches - Updated and Inserted
+            var updatedNamesO = detectionResult.Actions.OfType<UpdateOperationDescriptor>()
+                .Where(m => m.Element.Label == "name")
+                .Select(t => originalTree.PostOrder(n => n.Children).First(n => n.Root.Id == t.Element.Id))
+                .Select(t => new CandidateName { Tree = t, Context = this.NameContexts.SingleOrDefault(nm => nm.Criterion(t)) })
+                .Where(t => t.Context != null)
+                .ToList();
+            foreach (var missedMatch in this.FindMissedMatches("MM.UI", updatedNamesO, insertedNames, matchedInsertionAncestors))
+                yield return missedMatch;
+
+            // Missed matches - Deleted and Updated
+            var updatedNamesM = detectionResult.Actions.OfType<UpdateOperationDescriptor>()
+                .Where(m => m.Element.Label == "name")
+                .Select(delegate(UpdateOperationDescriptor t)
+                {
+                    var match = detectionResult.Matches.Single(m => m.Original.Id == t.Element.Id);
+                    return modifiedTree.PostOrder(n => n.Children).First(n => n.Root.Id == match.Modified.Id);
+                })
+                .Select(t => new CandidateName { Tree = t, Context = this.NameContexts.SingleOrDefault(nm => nm.Criterion(t)) })
+                .Where(t => t.Context != null)
+                .ToList();
+            var matchedUpdateAncestors = (from a in updatedNamesM
+                                          from outerScope in a.Context.OuterScopes(a.Tree)
+                                          let ancestorMatching = detectionResult.Matches.SingleOrDefault(m => m.Modified.Id == outerScope.Root.Id)
+                                          where ancestorMatching != null
+                                          select new RevisionPair<ElementDescriptor, ElementTree> { Modified = outerScope, Original = ancestorMatching.Original })
+                                         .ToList();
+            foreach (var missedMatch in this.FindMissedMatches("MM.DU", deletedNames, updatedNamesM, matchedUpdateAncestors))
+                yield return missedMatch;
+
+            foreach (var missedMatch in this.FindMissedMatches("MM.UU", updatedNamesO, updatedNamesM, matchedUpdateAncestors, 
+                (or, mo) => detectionResult.Matches.Any(m => m.Original.Id == or.Tree.Root.Id && m.Modified.Id == mo.Tree.Root.Id)))
+                yield return missedMatch;
+
+            var movedNamesM = detectionResult.Actions.OfType<MoveOperationDescriptor>()
+                .Where(m => m.Element.Label == "name")
+                .Select(delegate (MoveOperationDescriptor t)
+                {
+                    var match = detectionResult.Matches.Single(m => m.Original.Id == t.Element.Id);
+                    return modifiedTree.PostOrder(n => n.Children).First(n => n.Root.Id == match.Modified.Id);
+                })
+                .Select(t => new CandidateName { Tree = t, Context = this.NameContexts.SingleOrDefault(nm => nm.Criterion(t)) })
+                .Where(t => t.Context != null)
+                .ToList();
+            var matchedMoveAncestors = (from a in movedNamesM
+                                        from outerScope in a.Context.OuterScopes(a.Tree)
                                         let ancestorMatching = detectionResult.Matches.SingleOrDefault(m => m.Modified.Id == outerScope.Root.Id)
                                         where ancestorMatching != null
-                                        select new { Modified = outerScope, Original = ancestorMatching.Original })
-                                   .ToList();
-                foreach (var deletedName in deletedNames.Where(d => d.Tree.Root.Value == insertedName.Tree.Root.Value))
+                                        select new RevisionPair<ElementDescriptor, ElementTree> { Modified = outerScope, Original = ancestorMatching.Original })
+                                       .ToList();
+            foreach (var missedMatch in this.FindMissedMatches("MM.DM", deletedNames, movedNamesM, matchedMoveAncestors))
+                yield return missedMatch;
+
+            var movedNamesO = detectionResult.Actions.OfType<MoveOperationDescriptor>()
+                .Where(m => m.Element.Label == "name")
+                .Select(delegate (MoveOperationDescriptor t)
                 {
-                    var deletionScopes = deletedName.NameInfo.OuterScopes(deletedName.Tree);
-                    var candidate = matchedAncestors.FirstOrDefault(ma => deletionScopes.Any(a => a.Root.Id == ma.Original.Id));
-                    if (candidate != null)
+                    var match = detectionResult.Matches.Single(m => m.Original.Id == t.Element.Id);
+                    return originalTree.PostOrder(n => n.Children).First(n => n.Root.Id == match.Original.Id);
+                })
+                .Select(t => new CandidateName { Tree = t, Context = this.NameContexts.SingleOrDefault(nm => nm.Criterion(t)) })
+                .Where(t => t.Context != null)
+                .ToList();
+            foreach (var missedMatch in this.FindMissedMatches("MM.MI", movedNamesO, insertedNames, matchedInsertionAncestors))
+                yield return missedMatch;
+
+            foreach (var missedMatch in this.FindMissedMatches("MM.MM", movedNamesO, movedNamesM, matchedMoveAncestors,
+                (or, mo) => detectionResult.Matches.Any(m => m.Original.Id == or.Tree.Root.Id && m.Modified.Id == mo.Tree.Root.Id)))
+                yield return missedMatch;
+
+            foreach (var missedMatch in this.FindMissedMatches("MM.M", movedNamesO, movedNamesM, matchedMoveAncestors))
+                yield return missedMatch;
+
+            foreach (var missedMatch in this.FindMissedMatches("MM.UM", updatedNamesO, movedNamesM, matchedMoveAncestors))
+                yield return missedMatch;
+
+            foreach (var missedMatch in this.FindMissedMatches("MM.MU", movedNamesO, updatedNamesM, matchedUpdateAncestors))
+                yield return missedMatch;
+        }
+
+        protected virtual IEnumerable<MissedMatch> FindMissedMatches(string mismatchingCase, List<CandidateName> originalNames, List<CandidateName> modifiedNames, List<RevisionPair<ElementDescriptor, ElementTree>> matchedModifiedAncestors, Func<CandidateName, CandidateName, bool> skipThese = null)
+        {
+            if (originalNames.Any() && modifiedNames.Any())
+            {
+                foreach (var modifiedName in modifiedNames)
+                {
+                    foreach (var originalName in originalNames.Where(d => d.Tree.Root.Value == modifiedName.Tree.Root.Value))
                     {
-                        yield return new MissedMatchA
+                        if (skipThese != null && skipThese(originalName, modifiedName))
+                            continue;
+
+                        var originalScopes = originalName.Context.OuterScopes(originalName.Tree);
+                        var candidate = matchedModifiedAncestors.FirstOrDefault(ma => originalScopes.Any(a => a.Root.Id == ma.Original.Id));
+                        if (candidate != null)
                         {
-                            Insertion = insertedName.Tree,
-                            InsertionReference = candidate.Modified,
-                            Deletion = deletedName.Tree,
-                            DeletionReference = deletionScopes.Single(a => a.Root.Id == candidate.Original.Id)
-                        };
+                            yield return new MissedMatch
+                            {
+                                Case = mismatchingCase,
+                                Modified = new MissedVersion
+                                {
+                                    Type = modifiedName.Context.NameOf(modifiedName.Tree),
+                                    Element = modifiedName.Tree,
+                                    MatchedReference = candidate.Modified,
+                                    Scopes = modifiedName.Context.OuterScopes(modifiedName.Tree)
+                                },
+                                Original = new MissedVersion
+                                {
+                                    Type = originalName.Context.NameOf(originalName.Tree),
+                                    Element = originalName.Tree,
+                                    MatchedReference = originalScopes.Single(a => a.Root.Id == candidate.Original.Id),
+                                    Scopes = originalName.Context.OuterScopes(originalName.Tree)
+                                }
+                            };
+                        }
                     }
                 }
             }
-
-            //foreach (var insertedName in insertedNames)
-            //{
-            //int foundBlocks = 0;
-            //var insertionScopes = insertedName.Ancestors()/*.TakeWhile(tree =>
-            //{
-            //    if (foundBlocks > 1) return false;
-            //    if (tree.Root.Label == "block")
-            //        foundBlocks++;
-            //    return true;
-            //})*/.ToList();
-
-            //var matchedAncestors = (from a in insertionScopes
-            //                        let ancestorMatching = detectionResult.Matches.SingleOrDefault(m => m.Modified.Id == a.Root.Id)
-            //                        where ancestorMatching != null
-            //                        select new { Modified = a, Original = ancestorMatching.Original })
-            //                       .ToList();
-
-            //foreach (var deletedName in deletedNames.Where(d => d.Root.Value == insertedName.Root.Value))
-            //{
-            //    foundBlocks = 0;
-            //    var deletionScopes = deletedName.Ancestors()/*.TakeWhile(tree =>
-            //    {
-            //        if (foundBlocks > 1) return false;
-            //        if (tree.Root.Label == "block")
-            //            foundBlocks++;
-            //        return true;
-            //    })*/.ToList();
-            //    //{
-            //    //    if (tree.Root.Label == "block")
-            //    //        foundBlocks++;
-            //    //    return foundBlocks <= 1;
-            //    //}).ToList();
-
-            //    var candidate = matchedAncestors.FirstOrDefault(ma => deletionScopes.Any(a => a.Root.Id == ma.Original.Id));
-            //    if (candidate != null)
-            //    {
-            //        yield return new MissedMatchA
-            //        {
-            //            Insertion = insertedName,
-            //            InsertionReference = candidate.Modified,
-            //            Deletion = deletedName,
-            //            DeletionReference = deletionScopes.Single(a => a.Root.Id == candidate.Original.Id)
-            //        };
-            //    }
-            //}
-
-            //var candidates = matchedAncestors.Where(ancestor =>
-            //{
-
-            //    int foundBlocks = 0;
-            //    return deletedNames.Any(t => t.Root.Value == insertedName.Root.Value && 
-            //                                 t.Ancestors().TakeWhile(delegate (ElementTree tree)
-            //                                 {
-            //                                     if (tree.Root.Label == "block")
-            //                                         foundBlocks++;
-            //                                     return foundBlocks <= 1;
-            //                                 })
-            //                                 .Any(a => ancestor.Original.Id == a.Root.Id));
-            //});
-
-            //foreach (var candidate in candidates)
-            //{
-            //    yield return candidate;
-            //}
-
-            //var candidate = matchedAncestors.FirstOrDefault(ancestor =>
-            //{
-
-            //    int foundBlocks = 0;
-            //    return deletedNames.Any(t => t.Root.Value == insertedName.Root.Value &&
-            //                          t.Ancestors().TakeWhile(delegate(ElementTree tree)
-            //                          {
-            //                              if (tree.Root.Label == "block")
-            //                                  foundBlocks++;
-            //                              return foundBlocks <= 1;
-            //                          })
-            //                              .Any(a => ancestor.Original.Id == a.Root.Id));
-            //});
-
-            //if (candidate != null)
-            //    yield return new Tuple<ElementTree, ElementTree>(insertedName, candidate.Modified);
-
-            ////var redundantCandidates = new List<Tuple<ElementTree, ElementTree>>();
-            //foreach (var ancestor in matchedAncestors)
-            //{
-            //    var localCandidates = deletedNames.Where()
-            //                                                  .ToList();
-            //    if (localCandidates.Any())
-            //    {
-            //        foreach (var localCandidate in localCandidates)
-            //        {
-            //            yield return new Tuple<ElementTree, ElementTree>(localCandidate, ancestor.Ancestor);
-
-            //        }
-            //    }
-            //}
         }
     }
 }

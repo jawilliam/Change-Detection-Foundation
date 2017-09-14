@@ -84,12 +84,25 @@ namespace Jawilliam.CDF.Labs
         {
             Debug.Assert(this.Matching != null && this.Differencing != null, "Why are we analyzing this element");
             XElement matches = XElement.Parse(this.Matching ?? "<Matches/>");
-            XElement actions = XElement.Parse(this.Differencing ?? "<Actions/>");
+            XElement actions = XElement.Parse("<Actions/>");
             XElement result = new XElement("Result",
                 new XAttribute(XNamespace.Xmlns + "xsi", "http://www.w3.org/2001/XMLSchema-instance"),
                 new XAttribute(XNamespace.Xmlns + "xsd", "http://www.w3.org/2001/XMLSchema"),
                 matches, actions);
-            return CDF.Approach.DetectionResult.Read(result.ToString(SaveOptions.DisableFormatting), Encoding.Unicode);
+
+            var dMatches = CDF.Approach.DetectionResult.Read(result.ToString(SaveOptions.DisableFormatting), Encoding.Unicode);
+
+            matches = XElement.Parse("<Matches/>");
+            actions = XElement.Parse(this.Differencing ?? "<Actions/>");
+            result = new XElement("Result",
+                new XAttribute(XNamespace.Xmlns + "xsi", "http://www.w3.org/2001/XMLSchema-instance"),
+                new XAttribute(XNamespace.Xmlns + "xsd", "http://www.w3.org/2001/XMLSchema"),
+                matches, actions);
+
+            var dActions = CDF.Approach.DetectionResult.Read(result.ToString(SaveOptions.DisableFormatting), Encoding.Unicode);
+            dActions.Matches = dMatches.Matches;
+
+            return dActions;
         }
 
         /// <summary>

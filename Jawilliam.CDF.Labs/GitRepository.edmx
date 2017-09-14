@@ -977,6 +977,8 @@
           <Member Name="Ratio_LevenshteinGumTree_RejectOnlyCommentChanges_Outliers" Value="2" />
           <Member Name="Ratio_LevenshteinGumTree_Outliers" Value="1" />
           <Member Name="Ratio_LevenshteinGumTreeAdditions_LocalOutliers" Value="4" />
+          <Member Name="MissedNameMatches" Value="5" />
+          <Member Name="Ratio_LevenshteinGumTreeDeletions_LocalOutliers" Value="6" />
         </EnumType>
         <EnumType Name="Topics" UnderlyingType="Int16" IsFlags="true">
           <Member Name="Domain" Value="1" />
@@ -1010,6 +1012,16 @@
           <Member Name="SamplingMedianCloser" Value="4" />
           <Member Name="SamplingNonOutliers" Value="5" />
           <Member Name="SamplingNormal" Value="6" />
+          <Member Name="MissedMatchesDI" Value="7" />
+          <Member Name="MissedMatchesDU" Value="8" />
+          <Member Name="MissedMatchesUI" Value="9" />
+          <Member Name="MissedMatchesUU" Value="10" />
+          <Member Name="MissedMatchesDM" Value="11" />
+          <Member Name="MissedMatchesMI" Value="12" />
+          <Member Name="MissedMatchesMM" Value="13" />
+          <Member Name="MissedMatchesUM" Value="14" />
+          <Member Name="MissedMatchesMU" Value="15" />
+          <Member Name="MissedMatchesM" Value="16" />
         </EnumType>
         <EnumType Name="RevisionPairFlags" UnderlyingType="Int64" IsFlags="true">
           <Member Name="SourceCodeChanged" Value="1" />
