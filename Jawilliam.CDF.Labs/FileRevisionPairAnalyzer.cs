@@ -65,7 +65,10 @@ namespace Jawilliam.CDF.Labs
             int counter = 0;
             foreach (var repositoryObjectId in repositoryObjectIds)
             {
-                var repositoryObjectQuery = sqlRepository.FileRevisionPairs.AsQueryable();
+                var repositoryObjectQuery = saveChanges 
+                    ? sqlRepository.FileRevisionPairs.AsQueryable()
+                    : sqlRepository.FileRevisionPairs.AsQueryable().AsNoTracking();
+
                 repositoryObjectQuery = includes.Aggregate(repositoryObjectQuery, (current, include) => current.Include(include));
                 FileRevisionPair repositoryObject = repositoryObjectQuery.Single(c => c.Id == repositoryObjectId);
 
@@ -394,8 +397,7 @@ namespace Jawilliam.CDF.Labs
                 {
                     if (skipThese?.Invoke(pair) ?? false) return;
 
-                    sqlRepository.Deltas.Where(d => d.RevisionPair.Id == pair.Principal.Id && d.Approach == approach).Load();
-                    var delta = pair.Principal.Deltas.Single(d => d.Approach == approach);
+                    var delta = sqlRepository.Deltas.Single(d => d.RevisionPair.Id == pair.Principal.Id && d.Approach == approach);
                     var missedMatchesA = this.FindMissedMatchesAOfKeyedElement(delta, token);
 
                     foreach (var missedMatchA in missedMatchesA)

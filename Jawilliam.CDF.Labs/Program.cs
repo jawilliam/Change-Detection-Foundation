@@ -1069,7 +1069,7 @@ namespace Jawilliam.CDF.Labs
                 ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 600;
 
                 analyzer.Warnings = new StringBuilder();
-                //analyzer.Report = new StringBuilder();
+                analyzer.Report = new StringBuilder();
                 analyzer.FindMissedMatchesAOf(dbRepository, () => {}, approach, pair => false, reportFilePath);
 
                 System.IO.File.AppendAllText(errorFilePath, analyzer.Warnings.ToString());
