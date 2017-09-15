@@ -20,9 +20,11 @@ namespace Jawilliam.CDF.Labs
         /// <summary>
         /// Save all the changes so far and detach all the entities.
         /// </summary>
-        public virtual void Flush()
+        public virtual void Flush(bool saveChanges = true)
         {
-            this.SaveChanges();
+            if(saveChanges)
+                this.SaveChanges();
+
             foreach (var dbEntityEntry in this.ChangeTracker.Entries().ToArray())
             {
                 dbEntityEntry.State = System.Data.Entity.EntityState.Detached;

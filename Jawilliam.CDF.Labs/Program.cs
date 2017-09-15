@@ -1051,98 +1051,128 @@ namespace Jawilliam.CDF.Labs
         /// 
         /// </summary>
         /// <param name="approach"></param>
-        private static void ReportMissedMatchesAOfKeyedElement(ChangeDetectionApproaches approach)
+        private static void ReportMissedMatchesAOfNamedElements(ChangeDetectionApproaches approach)
         {
             var analyzer = new FileRevisionPairAnalyzer { MillisecondsTimeout = 600000 };
-            var interopArgs = new InteropArgs()
+            var errorFilePath = $@"E:\Phd\Analysis\MissedMatchesAErrors.txt";
+            foreach (var project in Projects)
             {
-                //GumTreePath = @"C:\CDF\gumtree-20170525-2.1.0-SNAPSHOT",
-                //Original = @"C:\CDF\Original.cs",
-                //Modified = @"C:\CDF\Modified.cs"
-            };
-
-            Func<ElementTree, string> getName = tree => !string.IsNullOrEmpty(tree.Root.Value) &&
-                                                        !string.IsNullOrWhiteSpace(tree.Root.Value) &&
-                                                        tree.Root.Value != "##"
-                                                        ? $"{tree.Root.Label}({tree.Root.Value})"
-                                                        : tree.Root.Label;
-
-            Func<ElementTree, string> getBreadcrum = delegate (ElementTree element)
-            {
-                string elementName = null;
-                if (element.Root.Label == "block")
-                {
-                    var blockOf = element.LabelOf(t => t.Parent, t => t.Root.Label == "block")
-                                         .First(t => t.Root.Label != "block");
-
-                    elementName = blockOf.NameOf(t => t.Children, t => t.Root.Label, t => t.Root.Value);
-                    return elementName != null
-                        ? $"{element.Root.Label}:{element.Root.Id}({blockOf.Root.Label}-{elementName})"
-                        : $"{element.Root.Label}:{element.Root.Id}({blockOf.Root.Label})";
-                }
-
-                elementName = element.NameOf(t => t.Children, t => t.Root.Label, t => t.Root.Value);
-                return elementName != null
-                    ? $"{element.Root.Label}:{element.Root.Id}({elementName})"
-                    : $"{element.Root.Label}:{element.Root.Id}";
-            };
-
-
-            Func<IEnumerable<ElementTree>, string> getPath = trees =>  trees.Aggregate("", (s, ancestor) => s != "" 
-                ? $"{s}##{getBreadcrum(ancestor)}" 
-                : getBreadcrum(ancestor));
-
-           //int counter = 0;
-            foreach (var project in Projects.Take(1))
-            {
-                System.IO.File.AppendAllText($@"E:\Phd\Analysis\MissedMatches{Enum.GetName(typeof(ChangeDetectionApproaches), approach)}-{project.Name}.txt", //;InsertionScopes;DeletionScopes
-               "Indicator;Project;FileRevisionPair;Original;Modified;OriginalType;ModifiedType;OriginalReference;ModifiedReference;OriginalPath;ModifiedPath" + Environment.NewLine);
+                var reportFilePath = $@"E:\Phd\Analysis\MissedMatches{Enum.GetName(typeof(ChangeDetectionApproaches), approach)}-{project.Name}.txt";
+                System.IO.File.AppendAllText(reportFilePath, 
+                    "Indicator;Project;FileRevisionPair;" +
+                    "Original;Modified;" +
+                    "OriginalType;ModifiedType;" +
+                    "OriginalReference;ModifiedReference;" +
+                    "OriginalPath;ModifiedPath" + Environment.NewLine);
 
                 var dbRepository = new GitRepository(project.Name) { Name = project.Name };
                 ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 600;
-                try
-                {
-                    analyzer.ForEach(dbRepository, project.Name, pair => pair.Principal.Deltas.Any(d => d.Approach == approach), delegate(FileRevisionPair pair)
-                    {
-                        analyzer.Warnings = new StringBuilder();
-                       
-                            dbRepository.Deltas.Where(d => d.RevisionPair.Id == pair.Principal.Id && d.Approach == approach).Load();
-                            var delta = pair.Principal.Deltas.Single(d => d.Approach == approach);
-                            var missedMatchesA = analyzer.FindMissedMatchesAOfKeyedElement(delta);
 
-                            foreach (var missedMatchA in missedMatchesA)
-                            {
-                                analyzer.Warnings.AppendLine($"{missedMatchA.Case};" +
-                                                             $"{project.Name};" +
-                                                             $"{pair.Principal.Id};" +
-                                                             $"{missedMatchA.Original.Element.Root.Label}:{missedMatchA.Original.Element.Root.Id}({missedMatchA.Original.Element.Root.Value});" +
-                                                             $"{missedMatchA.Modified.Element.Root.Label}:{missedMatchA.Modified.Element.Root.Id}({missedMatchA.Modified.Element.Root.Value});" +
-                                                             $"{missedMatchA.Original.Type};" +
-                                                             $"{missedMatchA.Modified.Type};" +
-                                                             //$"{missedMatchA.Modified.MatchedReference.Root.Label}:{missedMatchA.Modified.MatchedReference.Root.Id}({missedMatchA.Modified.MatchedReference.Root.Value});" +
-                                                             //$"{missedMatchA.Original.MatchedReference.Root.Label}:{missedMatchA.Original.MatchedReference.Root.Id}({missedMatchA.Original.MatchedReference.Root.Value});" +
-                                                             $"{getBreadcrum(missedMatchA.Original.MatchedReference)};" +
-                                                             $"{getBreadcrum(missedMatchA.Modified.MatchedReference)};" +
-                                                             //$"{getPath(missedMatchA.Modified.Scopes)};" +
-                                                             //$"{getPath(missedMatchA.Original.Scopes)};" +
-                                                             $"{getPath(missedMatchA.Original.Element.LabelOf(t => t.Parent, t => t.Root.Label == "name").First(a => a.Root.Label != "name").Ancestors())};" +
-                                                             $"{getPath(missedMatchA.Modified.Element.LabelOf(t => t.Parent, t => t.Root.Label == "name").First(a => a.Root.Label != "name").Ancestors())}");
-                           }
+                analyzer.Warnings = new StringBuilder();
+                //analyzer.Report = new StringBuilder();
+                analyzer.FindMissedMatchesAOf(dbRepository, () => {}, approach, pair => false, reportFilePath);
 
-                            System.IO.File.AppendAllText($@"E:\Phd\Analysis\MissedMatches{Enum.GetName(typeof(ChangeDetectionApproaches), approach)}-{project.Name}.txt", analyzer.Warnings.ToString());
-                    }, "Principal");
-                }
-                catch (OutOfMemoryException e)
-                {
-                    System.IO.File.AppendAllText($@"E:\Phd\Analysis\MissedMatchesAErrors.txt", $"OOM;{project.Name}" + Environment.NewLine);
-                }
-                catch (Exception e)
-                {
-                    System.IO.File.AppendAllText($@"E:\Phd\Analysis\MissedMatchesAErrors.txt", $"ERROR;{project.Name}" + Environment.NewLine);
-                }
-                //System.IO.File.AppendAllText($@"E:\Phd\Analysis\BadRenamesFor{Enum.GetName(typeof(ChangeDetectionApproaches), approach)}.txt", analyzer.Warnings.ToString());
+                System.IO.File.AppendAllText(errorFilePath, analyzer.Warnings.ToString());
             }
             Console.Out.WriteLine($"DONE!!!");
         }
+
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        ///// <param name="approach"></param>
+        //private static void ReportMissedMatchesAOfKeyedElement(ChangeDetectionApproaches approach)
+        //{
+        //    var analyzer = new FileRevisionPairAnalyzer { MillisecondsTimeout = 600000 };
+        //    var interopArgs = new InteropArgs()
+        //    {
+        //        //GumTreePath = @"C:\CDF\gumtree-20170525-2.1.0-SNAPSHOT",
+        //        //Original = @"C:\CDF\Original.cs",
+        //        //Modified = @"C:\CDF\Modified.cs"
+        //    };
+
+        //    Func<ElementTree, string> getName = tree => !string.IsNullOrEmpty(tree.Root.Value) &&
+        //                                                !string.IsNullOrWhiteSpace(tree.Root.Value) &&
+        //                                                tree.Root.Value != "##"
+        //                                                ? $"{tree.Root.Label}({tree.Root.Value})"
+        //                                                : tree.Root.Label;
+
+        //    Func<ElementTree, string> getBreadcrum = delegate (ElementTree element)
+        //    {
+        //        string elementName = null;
+        //        if (element.Root.Label == "block")
+        //        {
+        //            var blockOf = element.LabelOf(t => t.Parent, t => t.Root.Label == "block")
+        //                                 .First(t => t.Root.Label != "block");
+
+        //            elementName = blockOf.NameOf(t => t.Children, t => t.Root.Label, t => t.Root.Value);
+        //            return elementName != null
+        //                ? $"{element.Root.Label}:{element.Root.Id}({blockOf.Root.Label}-{elementName})"
+        //                : $"{element.Root.Label}:{element.Root.Id}({blockOf.Root.Label})";
+        //        }
+
+        //        elementName = element.NameOf(t => t.Children, t => t.Root.Label, t => t.Root.Value);
+        //        return elementName != null
+        //            ? $"{element.Root.Label}:{element.Root.Id}({elementName})"
+        //            : $"{element.Root.Label}:{element.Root.Id}";
+        //    };
+
+
+        //    Func<IEnumerable<ElementTree>, string> getPath = trees =>  trees.Aggregate("", (s, ancestor) => s != "" 
+        //        ? $"{s}##{getBreadcrum(ancestor)}" 
+        //        : getBreadcrum(ancestor));
+
+        //   //int counter = 0;
+        //    foreach (var project in Projects.Take(1))
+        //    {
+        //        System.IO.File.AppendAllText($@"E:\Phd\Analysis\MissedMatches{Enum.GetName(typeof(ChangeDetectionApproaches), approach)}-{project.Name}.txt", //;InsertionScopes;DeletionScopes
+        //       "Indicator;Project;FileRevisionPair;Original;Modified;OriginalType;ModifiedType;OriginalReference;ModifiedReference;OriginalPath;ModifiedPath" + Environment.NewLine);
+
+        //        var dbRepository = new GitRepository(project.Name) { Name = project.Name };
+        //        ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 600;
+        //        try
+        //        {
+        //            analyzer.ForEach(dbRepository, project.Name, pair => pair.Principal.Deltas.Any(d => d.Approach == approach), delegate(FileRevisionPair pair)
+        //            {
+        //                analyzer.Warnings = new StringBuilder();
+
+        //                    dbRepository.Deltas.Where(d => d.RevisionPair.Id == pair.Principal.Id && d.Approach == approach).Load();
+        //                    var delta = pair.Principal.Deltas.Single(d => d.Approach == approach);
+        //                    var missedMatchesA = analyzer.FindMissedMatchesAOfKeyedElement(delta);
+
+        //                    foreach (var missedMatchA in missedMatchesA)
+        //                    {
+        //                        analyzer.Warnings.AppendLine($"{missedMatchA.Case};" +
+        //                                                     $"{project.Name};" +
+        //                                                     $"{pair.Principal.Id};" +
+        //                                                     $"{missedMatchA.Original.Element.Root.Label}:{missedMatchA.Original.Element.Root.Id}({missedMatchA.Original.Element.Root.Value});" +
+        //                                                     $"{missedMatchA.Modified.Element.Root.Label}:{missedMatchA.Modified.Element.Root.Id}({missedMatchA.Modified.Element.Root.Value});" +
+        //                                                     $"{missedMatchA.Original.Type};" +
+        //                                                     $"{missedMatchA.Modified.Type};" +
+        //                                                     //$"{missedMatchA.Modified.MatchedReference.Root.Label}:{missedMatchA.Modified.MatchedReference.Root.Id}({missedMatchA.Modified.MatchedReference.Root.Value});" +
+        //                                                     //$"{missedMatchA.Original.MatchedReference.Root.Label}:{missedMatchA.Original.MatchedReference.Root.Id}({missedMatchA.Original.MatchedReference.Root.Value});" +
+        //                                                     $"{getBreadcrum(missedMatchA.Original.MatchedReference)};" +
+        //                                                     $"{getBreadcrum(missedMatchA.Modified.MatchedReference)};" +
+        //                                                     //$"{getPath(missedMatchA.Modified.Scopes)};" +
+        //                                                     //$"{getPath(missedMatchA.Original.Scopes)};" +
+        //                                                     $"{getPath(missedMatchA.Original.Element.LabelOf(t => t.Parent, t => t.Root.Label == "name").First(a => a.Root.Label != "name").Ancestors())};" +
+        //                                                     $"{getPath(missedMatchA.Modified.Element.LabelOf(t => t.Parent, t => t.Root.Label == "name").First(a => a.Root.Label != "name").Ancestors())}");
+        //                   }
+
+        //                    System.IO.File.AppendAllText($@"E:\Phd\Analysis\MissedMatches{Enum.GetName(typeof(ChangeDetectionApproaches), approach)}-{project.Name}.txt", analyzer.Warnings.ToString());
+        //            }, "Principal");
+        //        }
+        //        catch (OutOfMemoryException e)
+        //        {
+        //            System.IO.File.AppendAllText($@"E:\Phd\Analysis\MissedMatchesAErrors.txt", $"OOM;{project.Name}" + Environment.NewLine);
+        //        }
+        //        catch (Exception e)
+        //        {
+        //            System.IO.File.AppendAllText($@"E:\Phd\Analysis\MissedMatchesAErrors.txt", $"ERROR;{project.Name}" + Environment.NewLine);
+        //        }
+        //        //System.IO.File.AppendAllText($@"E:\Phd\Analysis\BadRenamesFor{Enum.GetName(typeof(ChangeDetectionApproaches), approach)}.txt", analyzer.Warnings.ToString());
+        //    }
+        //    Console.Out.WriteLine($"DONE!!!");
+        //}
     }
 }

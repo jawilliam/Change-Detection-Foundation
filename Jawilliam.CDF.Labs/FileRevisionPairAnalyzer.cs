@@ -34,6 +34,11 @@ namespace Jawilliam.CDF.Labs
         public StringBuilder Warnings { get; set; }
 
         /// <summary>
+        /// Gets or sets the warnings to report.
+        /// </summary>
+        public StringBuilder Report { get; set; }
+
+        /// <summary>
         /// Analyzes a given repository object.
         /// </summary>
         /// <param name="repositoryObject">the repository object for analyzing.</param>
@@ -49,7 +54,7 @@ namespace Jawilliam.CDF.Labs
         /// <param name="analysis">an action for characterizing the analysis.</param>
         /// <param name="cancel">Action to execute cancellation logic.</param>
         /// <param name="includes">paths to include in the query.</param>
-        protected virtual void Analyze(GitRepository sqlRepository, string repositoryObjectName, Expression<Func<FileRevisionPair, bool>> onThese, AnalyzeDelegate analysis, Action cancel, params string[] includes)
+        protected virtual void Analyze(GitRepository sqlRepository, string repositoryObjectName, Expression<Func<FileRevisionPair, bool>> onThese, AnalyzeDelegate analysis, Action cancel, bool saveChanges = true, params string[] includes)
         {
             if (analysis == null) throw new ArgumentNullException(nameof(analysis));
 
@@ -90,7 +95,6 @@ namespace Jawilliam.CDF.Labs
                     {
                         this.Warnings.AppendLine($"ERROR - {repositoryObjectName}-{repositoryObject.Id}");
                     }
-
                 }
                 catch (InsufficientExecutionStackException)
                 {
@@ -131,11 +135,11 @@ namespace Jawilliam.CDF.Labs
         /// <param name="analysis">an action for characterizing the analysis.</param>
         /// <param name="cancel">Action to execute cancellation logic.</param>
         /// <param name="includes">paths to include in the query.</param>
-        protected virtual void Analyze(GitRepository sqlRepository, Expression<Func<FileRevisionPair, bool>> onThese, AnalyzeDelegate analysis, Action cancel, params string[] includes)
+        protected virtual void Analyze(GitRepository sqlRepository, Expression<Func<FileRevisionPair, bool>> onThese, AnalyzeDelegate analysis, Action cancel, bool saveChanges = true, params string[] includes)
         {
             this.Analyze(sqlRepository, "file modified change",
                 onThese ?? (f => f.Principal.FromFileVersion.ContentSummary.TotalLines != null && f.Principal.FileVersion.ContentSummary.TotalLines != null),
-                analysis, cancel,
+                analysis, cancel, saveChanges,
                 includes ?? new[] { "Principal.FileVersion.Content", "Principal.FileVersion.ContentSummary", "Principal.FromFileVersion.ContentSummary", "Principal.FromFileVersion.Content" });
         }
 
@@ -147,7 +151,7 @@ namespace Jawilliam.CDF.Labs
         /// <param name="analysis">an action for characterizing the analysis given the normalized trees.</param>
         /// <param name="cancel">Action to execute cancellation logic.</param>
         /// <param name="includes">paths to include in the query.</param>
-        protected virtual void Analyze(GitRepository sqlRepository, Expression<Func<FileRevisionPair, bool>> onThese, CoreAnalyzeDelegate analysis, Action cancel, params string[] includes)
+        protected virtual void Analyze(GitRepository sqlRepository, Expression<Func<FileRevisionPair, bool>> onThese, CoreAnalyzeDelegate analysis, Action cancel, bool saveChanges = true, params string[] includes)
         {
             this.Analyze(sqlRepository, "file modified change",
                 onThese ?? (f => f.Principal.FromFileVersion.ContentSummary.TotalLines != null && f.Principal.FileVersion.ContentSummary.TotalLines != null),
@@ -161,7 +165,7 @@ namespace Jawilliam.CDF.Labs
 
                     analysis(repositoryObject, originalContentNode, modifiedContentNode, cancelToken);
                 },
-                cancel,
+                cancel, saveChanges,
             includes ?? new[] { "Principal.FileVersion.Content", "Principal.FileVersion.ContentSummary", "Principal.FromFileVersion.ContentSummary", "Principal.FromFileVersion.Content" });
         }
 
@@ -232,7 +236,7 @@ namespace Jawilliam.CDF.Labs
                             .Replace(">  <", "><");
                 }
             },
-            cancel,
+            cancel, true,
             "Principal.FileVersion.Content", "Principal.FromFileVersion.Content");
         }
         
@@ -317,7 +321,7 @@ namespace Jawilliam.CDF.Labs
                   //    throw new InvalidOperationException();
                   //}
               },
-            cancel,
+            cancel, true,
             "Principal.FileVersion.Content", "Principal.FromFileVersion.Content");
         }
 
@@ -345,6 +349,78 @@ namespace Jawilliam.CDF.Labs
                 Console.Out.WriteLine($"Analyzing the {++counter}-{repositoryObjectName} ({repositoryObjectIds.Count}) of {sqlRepository.Name}");
                 action(repositoryObject);
             }
+        }
+
+        private string GetBreadcrum(ElementTree element)
+        {
+            string elementName = null;
+            if (element.Root.Label == "block")
+            {
+                var blockOf = element.LabelOf(t => t.Parent, t => t.Root.Label == "block")
+                                     .First(t => t.Root.Label != "block");
+
+                elementName = blockOf.NameOf(t => t.Children, t => t.Root.Label, t => t.Root.Value);
+                return elementName != null
+                    ? $"{element.Root.Label}:{element.Root.Id}({blockOf.Root.Label}-{elementName})"
+                    : $"{element.Root.Label}:{element.Root.Id}({blockOf.Root.Label})";
+            }
+
+            elementName = element.NameOf(t => t.Children, t => t.Root.Label, t => t.Root.Value);
+            return elementName != null
+                ? $"{element.Root.Label}:{element.Root.Id}({elementName})"
+                : $"{element.Root.Label}:{element.Root.Id}";
+        }
+
+        private string GetPath(IEnumerable<ElementTree> trees) => trees.Aggregate("", (s, ancestor) => s != ""
+           ? $"{s}##{this.GetBreadcrum(ancestor)}"
+           : this.GetBreadcrum(ancestor));
+
+        /// <summary>
+        /// Analyzes the similarity in according with a given similarity metric, such as Levenshtein.
+        /// </summary>
+        /// <param name="sqlRepository">the SQL database repository in which to analyze the file versions.</param>
+        /// <param name="cancel">Action to execute cancellation logic.</param>
+        /// <param name="approach"></param>
+        /// <param name="skipThese">local criterion for determining elements that should be ignored.</param>
+        /// <param name="reportFilePath"></param>
+        public virtual void FindMissedMatchesAOf(GitRepository sqlRepository, Action cancel, ChangeDetectionApproaches approach, Func<FileRevisionPair, bool> skipThese, string reportFilePath)
+        {
+            this.Analyze(sqlRepository, "file revision pair",
+              f => f.Principal.Deltas.Any(d => d.Approach == approach &&
+                                               d.Matching != null &&
+                                               d.Differencing != null &&
+                                               d.Report == null),
+                delegate(FileRevisionPair pair, CancellationToken token)
+                {
+                    if (skipThese?.Invoke(pair) ?? false) return;
+
+                    sqlRepository.Deltas.Where(d => d.RevisionPair.Id == pair.Principal.Id && d.Approach == approach).Load();
+                    var delta = pair.Principal.Deltas.Single(d => d.Approach == approach);
+                    var missedMatchesA = this.FindMissedMatchesAOfKeyedElement(delta, token);
+
+                    foreach (var missedMatchA in missedMatchesA)
+                    {
+                        this.Report.AppendLine($"{missedMatchA.Case};" +
+                                               $"{sqlRepository.Name};" +
+                                               $"{pair.Principal.Id};" +
+                                               $"{missedMatchA.Original.Element.Root.Label}:{missedMatchA.Original.Element.Root.Id}({missedMatchA.Original.Element.Root.Value});" +
+                                               $"{missedMatchA.Modified.Element.Root.Label}:{missedMatchA.Modified.Element.Root.Id}({missedMatchA.Modified.Element.Root.Value});" +
+                                               $"{missedMatchA.Original.Type};" +
+                                               $"{missedMatchA.Modified.Type};" +
+                                               //$"{missedMatchA.Modified.MatchedReference.Root.Label}:{missedMatchA.Modified.MatchedReference.Root.Id}({missedMatchA.Modified.MatchedReference.Root.Value});" +
+                                               //$"{missedMatchA.Original.MatchedReference.Root.Label}:{missedMatchA.Original.MatchedReference.Root.Id}({missedMatchA.Original.MatchedReference.Root.Value});" +
+                                               $"{this.GetBreadcrum(missedMatchA.Original.MatchedReference)};" +
+                                               $"{this.GetBreadcrum(missedMatchA.Modified.MatchedReference)};" +
+                                               //$"{getPath(missedMatchA.Modified.Scopes)};" +
+                                               //$"{getPath(missedMatchA.Original.Scopes)};" +
+                                               $"{this.GetPath(missedMatchA.Original.Element.LabelOf(t => t.Parent, t => t.Root.Label == "name").First(a => a.Root.Label != "name").Ancestors())};" +
+                                               $"{this.GetPath(missedMatchA.Modified.Element.LabelOf(t => t.Parent, t => t.Root.Label == "name").First(a => a.Root.Label != "name").Ancestors())}");
+                    }
+
+                    System.IO.File.AppendAllText(reportFilePath, this.Report.ToString());
+                    this.Report.Clear();
+                },
+            cancel, false, new string[0]);
         }
 
         //public virtual void FindMissedMatchesAOfKeyedElement(Delta delta)
@@ -535,7 +611,7 @@ namespace Jawilliam.CDF.Labs
         /// </summary>
         /// <param name="delta">delta to analyze.</param>
         /// <returns>a collection of the candidate missed matches found in the given delta.</returns>
-        public virtual IEnumerable<MissedMatch> FindMissedMatchesAOfKeyedElement(Delta delta)
+        public virtual IEnumerable<MissedMatch> FindMissedMatchesAOfKeyedElement(Delta delta, CancellationToken token)
         {
             //    Label = "namespace",
             //    Label = "using",
@@ -562,7 +638,7 @@ namespace Jawilliam.CDF.Labs
                                              where ancestorMatching != null
                                              select new RevisionPair<ElementDescriptor, ElementTree> { Modified = outerScope, Original = ancestorMatching.Original })
                                             .ToList();
-            foreach (var missedMatch in this.FindMissedMatches("MM.DI", deletedNames, insertedNames, matchedInsertionAncestors))
+            foreach (var missedMatch in this.FindMissedMatches("MM.DI", deletedNames, insertedNames, matchedInsertionAncestors, token))
                 yield return missedMatch;
 
             // Missed matches - Updated and Inserted
@@ -572,7 +648,7 @@ namespace Jawilliam.CDF.Labs
                 .Select(t => new CandidateName { Tree = t, Context = this.NameContexts.SingleOrDefault(nm => nm.Criterion(t)) })
                 .Where(t => t.Context != null)
                 .ToList();
-            foreach (var missedMatch in this.FindMissedMatches("MM.UI", updatedNamesO, insertedNames, matchedInsertionAncestors))
+            foreach (var missedMatch in this.FindMissedMatches("MM.UI", updatedNamesO, insertedNames, matchedInsertionAncestors, token))
                 yield return missedMatch;
 
             // Missed matches - Deleted and Updated
@@ -592,10 +668,10 @@ namespace Jawilliam.CDF.Labs
                                           where ancestorMatching != null
                                           select new RevisionPair<ElementDescriptor, ElementTree> { Modified = outerScope, Original = ancestorMatching.Original })
                                          .ToList();
-            foreach (var missedMatch in this.FindMissedMatches("MM.DU", deletedNames, updatedNamesM, matchedUpdateAncestors))
+            foreach (var missedMatch in this.FindMissedMatches("MM.DU", deletedNames, updatedNamesM, matchedUpdateAncestors, token))
                 yield return missedMatch;
 
-            foreach (var missedMatch in this.FindMissedMatches("MM.UU", updatedNamesO, updatedNamesM, matchedUpdateAncestors, 
+            foreach (var missedMatch in this.FindMissedMatches("MM.UU", updatedNamesO, updatedNamesM, matchedUpdateAncestors, token, 
                 (or, mo) => detectionResult.Matches.Any(m => m.Original.Id == or.Tree.Root.Id && m.Modified.Id == mo.Tree.Root.Id)))
                 yield return missedMatch;
 
@@ -615,7 +691,7 @@ namespace Jawilliam.CDF.Labs
                                         where ancestorMatching != null
                                         select new RevisionPair<ElementDescriptor, ElementTree> { Modified = outerScope, Original = ancestorMatching.Original })
                                        .ToList();
-            foreach (var missedMatch in this.FindMissedMatches("MM.DM", deletedNames, movedNamesM, matchedMoveAncestors))
+            foreach (var missedMatch in this.FindMissedMatches("MM.DM", deletedNames, movedNamesM, matchedMoveAncestors, token))
                 yield return missedMatch;
 
             var movedNamesO = detectionResult.Actions.OfType<MoveOperationDescriptor>()
@@ -628,24 +704,24 @@ namespace Jawilliam.CDF.Labs
                 .Select(t => new CandidateName { Tree = t, Context = this.NameContexts.SingleOrDefault(nm => nm.Criterion(t)) })
                 .Where(t => t.Context != null)
                 .ToList();
-            foreach (var missedMatch in this.FindMissedMatches("MM.MI", movedNamesO, insertedNames, matchedInsertionAncestors))
+            foreach (var missedMatch in this.FindMissedMatches("MM.MI", movedNamesO, insertedNames, matchedInsertionAncestors, token))
                 yield return missedMatch;
 
-            foreach (var missedMatch in this.FindMissedMatches("MM.MM", movedNamesO, movedNamesM, matchedMoveAncestors,
+            foreach (var missedMatch in this.FindMissedMatches("MM.MM", movedNamesO, movedNamesM, matchedMoveAncestors, token,
                 (or, mo) => detectionResult.Matches.Any(m => m.Original.Id == or.Tree.Root.Id && m.Modified.Id == mo.Tree.Root.Id)))
                 yield return missedMatch;
 
-            foreach (var missedMatch in this.FindMissedMatches("MM.M", movedNamesO, movedNamesM, matchedMoveAncestors))
+            foreach (var missedMatch in this.FindMissedMatches("MM.M", movedNamesO, movedNamesM, matchedMoveAncestors, token))
                 yield return missedMatch;
 
-            foreach (var missedMatch in this.FindMissedMatches("MM.UM", updatedNamesO, movedNamesM, matchedMoveAncestors))
+            foreach (var missedMatch in this.FindMissedMatches("MM.UM", updatedNamesO, movedNamesM, matchedMoveAncestors, token))
                 yield return missedMatch;
 
-            foreach (var missedMatch in this.FindMissedMatches("MM.MU", movedNamesO, updatedNamesM, matchedUpdateAncestors))
+            foreach (var missedMatch in this.FindMissedMatches("MM.MU", movedNamesO, updatedNamesM, matchedUpdateAncestors, token))
                 yield return missedMatch;
         }
 
-        protected virtual IEnumerable<MissedMatch> FindMissedMatches(string mismatchingCase, List<CandidateName> originalNames, List<CandidateName> modifiedNames, List<RevisionPair<ElementDescriptor, ElementTree>> matchedModifiedAncestors, Func<CandidateName, CandidateName, bool> skipThese = null)
+        protected virtual IEnumerable<MissedMatch> FindMissedMatches(string mismatchingCase, List<CandidateName> originalNames, List<CandidateName> modifiedNames, List<RevisionPair<ElementDescriptor, ElementTree>> matchedModifiedAncestors, CancellationToken token, Func<CandidateName, CandidateName, bool> skipThese = null)
         {
             if (originalNames.Any() && modifiedNames.Any())
             {
@@ -653,6 +729,9 @@ namespace Jawilliam.CDF.Labs
                 {
                     foreach (var originalName in originalNames.Where(d => d.Tree.Root.Value == modifiedName.Tree.Root.Value))
                     {
+                        if (token.IsCancellationRequested)
+                            yield break;
+
                         if (skipThese != null && skipThese(originalName, modifiedName))
                             continue;
 
