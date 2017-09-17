@@ -422,7 +422,7 @@ namespace Jawilliam.CDF.Labs
                     System.IO.File.AppendAllText(reportFilePath, this.Report.ToString());
                     this.Report.Clear();
                 },
-            cancel, false, new string[0]);
+            cancel, false, "Principal");
         }
 
         //public virtual void FindMissedMatchesAOfKeyedElement(Delta delta)
@@ -732,7 +732,7 @@ namespace Jawilliam.CDF.Labs
                     foreach (var originalName in originalNames.Where(d => d.Tree.Root.Value == modifiedName.Tree.Root.Value))
                     {
                         if (token.IsCancellationRequested)
-                            yield break;
+                            token.ThrowIfCancellationRequested();
 
                         if (skipThese != null && skipThese(originalName, modifiedName))
                             continue;
