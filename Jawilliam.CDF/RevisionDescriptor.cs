@@ -3,7 +3,7 @@ using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 
-namespace Jawilliam.CDF.Approach
+namespace Jawilliam.CDF
 {
     /// <summary>
     /// Describes a basic result of a change detection step.

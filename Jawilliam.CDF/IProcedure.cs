@@ -1,11 +1,10 @@
-﻿namespace Jawilliam.CDF.Approach
+namespace Jawilliam.CDF
 {
     /// <summary>
-    /// Defines a procedure of change detection.
+    /// Defines a procedure.
     /// </summary>
     /// <typeparam name="TArgs">Concrete type of the arguments.</typeparam>
-    /// <typeparam name="TResult">Concrete type of the result.</typeparam>
-    public interface IProcedure<TArgs, out TResult>
+    public interface IProcedure<TArgs>
     {
         /// <summary>
         /// Executes the current procedure given a particular input.
@@ -17,10 +16,5 @@
         /// Gets the arguments initially given, i.e., the input with which the current procedure is currently executing.
         /// </summary>
         TArgs Args { get; }
-
-        /// <summary>
-        /// Gets the output information.
-        /// </summary>
-        TResult Result { get; }
     }
 }

@@ -1,7 +1,6 @@
 using System;
-using System.Xml.Serialization;
 
-namespace Jawilliam.CDF.Approach
+namespace Jawilliam.CDF
 {
     /// <summary>
     /// Defines a pair of element versions, i.e., the original and the modified.

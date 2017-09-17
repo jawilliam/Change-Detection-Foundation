@@ -3,7 +3,7 @@ using System.Text;
 using System.Xml.Linq;
 using Jawilliam.CDF.Actions;
 using Jawilliam.CDF.Approach;
-using Jawilliam.CDF.Approach.GumTree;
+using Jawilliam.CDF.GumTree;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Jawilliam.CDF.Tests.Actions

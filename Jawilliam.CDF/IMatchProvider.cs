@@ -1,16 +1,14 @@
-﻿namespace Jawilliam.CDF.Approach
+﻿using Jawilliam.CDF.Approach;
+
+namespace Jawilliam.CDF
 {
     /// <summary>
-    /// Defines a logic for determining if two elements match or not.
+    /// Defines how to determine if two elements are similar or not.
     /// </summary>
+    /// <typeparam name="TApproach">Type of the supported approaches.</typeparam>
     /// <typeparam name="T">Type of the comparing elements.</typeparam>
-    public interface IMatchingCriterion<T> : IProcedure<RevisionPair<T>, bool>
+    public interface IMatchProvider<TApproach, T>
     {
-        /// <summary>
-        /// Gets or sets a transformation to apply before the matching occurs.
-        /// </summary>
-        IMatchingTransformation<T> Transform { get; set; }
-
         /// <summary>
         /// Determines if the given elements are or not similar.
         /// </summary>
@@ -18,6 +16,6 @@
         /// <param name="matchingPair">If the elements are similar it returns an structure describing the result, for example
         /// the similarity and/or a distance value. If the the elements are not similar, it returns null.</param>
         /// <returns>True if the elements are similar, otherwise it returns false.</returns>
-        bool Match(DetectionStep<T> pair, out MatchingPair<T> matchingPair);
+        bool? Match(DetectionStep<TApproach, T> pair, out MatchingPair<T> matchingPair);
     }
 }

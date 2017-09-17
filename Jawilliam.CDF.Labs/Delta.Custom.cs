@@ -89,7 +89,7 @@ namespace Jawilliam.CDF.Labs
                 new XAttribute(XNamespace.Xmlns + "xsi", "http://www.w3.org/2001/XMLSchema-instance"),
                 new XAttribute(XNamespace.Xmlns + "xsd", "http://www.w3.org/2001/XMLSchema"),
                 matches, actions);
-            return CDF.Approach.DetectionResult.Read(result.ToString(SaveOptions.DisableFormatting), Encoding.Unicode);
+            return CDF.DetectionResult.Read(result.ToString(SaveOptions.DisableFormatting), Encoding.Unicode);
         }
     }
 }

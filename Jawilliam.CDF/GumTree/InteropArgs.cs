@@ -1,4 +1,6 @@
-namespace Jawilliam.CDF.Approach.GumTree
+using Jawilliam.CDF.Approach;
+
+namespace Jawilliam.CDF.GumTree
 {
     /// <summary>
     /// Represents the arguments for a console call to a native GumTree snapshot.

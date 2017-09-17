@@ -8,7 +8,7 @@ using System.Linq.Expressions;
 using System.Text;
 using Jawilliam.CDF.Actions;
 using Jawilliam.CDF.Approach;
-using Jawilliam.CDF.Approach.GumTree;
+using Jawilliam.CDF.GumTree;
 using Jawilliam.CDF.Metrics.Quality;
 using Jawilliam.CDF.Metrics.Similarity;
 using Microsoft.CodeAnalysis;

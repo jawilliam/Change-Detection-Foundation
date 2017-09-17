@@ -10,8 +10,8 @@ using System.Linq.Expressions;
 using System.Reflection.Metadata.Ecma335;
 using System.Xml;
 using System.Xml.Linq;
-using Jawilliam.CDF.Approach.GumTree;
 using Jawilliam.CDF.Approach.Matching.CSharp;
+using Jawilliam.CDF.GumTree;
 using Jawilliam.CDF.Metrics.Similarity;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 

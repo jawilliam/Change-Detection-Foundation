@@ -4,7 +4,7 @@ using System.Text;
 using System.Xml.Serialization;
 using Jawilliam.CDF.Actions;
 
-namespace Jawilliam.CDF.Approach
+namespace Jawilliam.CDF
 {
     /// <summary>
     /// Defines the standard output for a change detection approach over a pair of element versions, i.e., the original and the modified.

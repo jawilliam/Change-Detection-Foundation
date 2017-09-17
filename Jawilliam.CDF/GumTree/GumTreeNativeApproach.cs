@@ -1,9 +1,9 @@
 ﻿//#define SKIPELEMENT
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Json;
 using System.Text;
@@ -11,12 +11,12 @@ using System.Xml;
 using System.Xml.Linq;
 using Jawilliam.CDF.Actions;
 
-namespace Jawilliam.CDF.Approach.GumTree
+namespace Jawilliam.CDF.GumTree
 {
     /// <summary>
     /// Implements a console call to a native GumTree snapshot.
     /// </summary>
-    public class GumTreeNativeApproach : Procedure<InteropArgs, DetectionResult>, IApproach<InteropArgs>
+    public class GumTreeNativeApproach : Algorithm<InteropArgs, DetectionResult>, IApproach<InteropArgs>
     {
         private Process _process;
 

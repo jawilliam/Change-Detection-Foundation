@@ -1,11 +1,11 @@
-﻿namespace Jawilliam.CDF.Approach
+﻿namespace Jawilliam.CDF
 {
     /// <summary>
     /// Base class for the implementations of a procedure of change detection.
     /// </summary>
     /// <typeparam name="TArgs">Concrete type of the arguments.</typeparam>
     /// <typeparam name="TResult">Concrete type of the result.</typeparam>
-    public abstract class Procedure<TArgs, TResult> : IProcedure<TArgs, TResult>
+    public abstract class Algorithm<TArgs, TResult> : IAlgorithm<TArgs, TResult>
     {
         /// <summary>
         /// Gets the arguments initially given, i.e., the input with which the current procedure is currently executing.

@@ -1,4 +1,4 @@
-﻿namespace Jawilliam.CDF.Approach
+﻿namespace Jawilliam.CDF
 {
     /// <summary>
     /// Defines the standard output for a change detection procedure.
