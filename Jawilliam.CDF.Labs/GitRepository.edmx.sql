@@ -2,13 +2,13 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 08/17/2017 14:45:25
--- Generated from EDMX file: C:\CDF\CdfRepository\Jawilliam.CDF.Labs\GitRepository.edmx
+-- Date Created: 09/17/2017 16:36:28
+-- Generated from EDMX file: E:\Projects\Change-Detection-Foundation\Jawilliam.CDF.Labs\GitRepository.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
 GO
---USE [GitRepositoryDb];
+USE [GitRepositoryDb];
 GO
 IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
 GO
@@ -172,7 +172,7 @@ GO
 CREATE TABLE [dbo].[RepositoryObjects] (
     [Id] uniqueidentifier  NOT NULL,
     [ExternalID] nvarchar(max)  NULL,
-    [Annotations] xml  NULL
+    [Annotations] nvarchar(max)  NULL
 );
 GO
 
@@ -180,7 +180,7 @@ GO
 CREATE TABLE [dbo].[FileContents] (
     [Id] uniqueidentifier  NOT NULL,
     [SourceCode] nvarchar(max)  NULL,
-    [Annotations] xml  NULL,
+    [Annotations] nvarchar(max)  NULL,
     [FileVersion_Id] uniqueidentifier  NOT NULL
 );
 GO
@@ -194,8 +194,8 @@ CREATE TABLE [dbo].[FileContentSummaries] (
     [CommentLines] bigint  NULL,
     [CodeLines] bigint  NULL,
     [StatementLines] bigint  NULL,
-    [SyntaxKindAnnotations] xml  NULL,
-    [Annotations] xml  NULL,
+    [SyntaxKindAnnotations] nvarchar(max)  NULL,
+    [Annotations] nvarchar(max)  NULL,
     [CodeCategory] smallint  NULL,
     [FileVersion_Id] uniqueidentifier  NOT NULL
 );
@@ -204,13 +204,13 @@ GO
 -- Creating table 'Deltas'
 CREATE TABLE [dbo].[Deltas] (
     [Id] uniqueidentifier  NOT NULL,
-    [Matching] xml  NULL,
-    [Differencing] xml  NULL,
-    [Report] xml  NULL,
-    [Annotations] xml  NULL,
+    [Matching] nvarchar(max)  NULL,
+    [Differencing] nvarchar(max)  NULL,
+    [Report] nvarchar(max)  NULL,
+    [Annotations] nvarchar(max)  NULL,
     [Approach] int  NOT NULL,
-    [OriginalTree] xml  NULL,
-    [ModifiedlTree] xml  NULL,
+    [OriginalTree] nvarchar(max)  NULL,
+    [ModifiedTree] nvarchar(max)  NULL,
     [RevisionPair_Id] uniqueidentifier  NULL
 );
 GO
@@ -218,7 +218,7 @@ GO
 -- Creating table 'FileRevisionPairs'
 CREATE TABLE [dbo].[FileRevisionPairs] (
     [Id] uniqueidentifier  NOT NULL,
-    [Annotations] xml  NULL,
+    [Annotations] nvarchar(max)  NULL,
     [Versioning_Path] nvarchar(max)  NOT NULL,
     [Versioning_FromVersion] int  NOT NULL,
     [Versioning_ToVersion] int  NOT NULL,
@@ -236,7 +236,7 @@ CREATE TABLE [dbo].[Reviews] (
     [Subject] nvarchar(max)  NOT NULL,
     [Comments] nvarchar(max)  NULL,
     [Topics] smallint  NOT NULL,
-    [Annotations] xml  NULL,
+    [Annotations] nvarchar(max)  NULL,
     [CaseKind] int  NOT NULL,
     [RevisionPair_Id] uniqueidentifier  NOT NULL
 );
@@ -251,7 +251,14 @@ CREATE TABLE [dbo].[Project] (
     [To] datetime  NOT NULL,
     [Link] nvarchar(max)  NOT NULL,
     [Description] nvarchar(max)  NOT NULL,
-    [Annotations] xml  NULL
+    [Annotations] nvarchar(max)  NULL
+);
+GO
+
+-- Creating table 'Symptoms'
+CREATE TABLE [dbo].[Symptoms] (
+    [Id] uniqueidentifier  NOT NULL,
+    [Delta_Id] uniqueidentifier  NOT NULL
 );
 GO
 
@@ -336,6 +343,41 @@ CREATE TABLE [dbo].[RepositoryObjects_FileRenamedChange] (
 );
 GO
 
+-- Creating table 'Symptoms_MissedElementSymptom'
+CREATE TABLE [dbo].[Symptoms_MissedElementSymptom] (
+    [Pattern] nvarchar(max)  NOT NULL,
+    [Original_Hint] nvarchar(max)  NULL,
+    [Original_Element_Type] nvarchar(max)  NOT NULL,
+    [Original_Element_Id] nvarchar(max)  NOT NULL,
+    [Original_Element_Hint] nvarchar(max)  NULL,
+    [Original_AncestorOfReference_Type] nvarchar(max)  NOT NULL,
+    [Original_AncestorOfReference_Id] nvarchar(max)  NOT NULL,
+    [Original_AncestorOfReference_Hint] nvarchar(max)  NULL,
+    [Original_CommonAncestorOfReference_Type] nvarchar(max)  NOT NULL,
+    [Original_CommonAncestorOfReference_Id] nvarchar(max)  NOT NULL,
+    [Original_CommonAncestorOfReference_Hint] nvarchar(max)  NULL,
+    [Original_ScopeHint] nvarchar(max)  NULL,
+    [Modified_Hint] nvarchar(max)  NULL,
+    [Modified_Element_Type] nvarchar(max)  NOT NULL,
+    [Modified_Element_Id] nvarchar(max)  NOT NULL,
+    [Modified_Element_Hint] nvarchar(max)  NULL,
+    [Modified_AncestorOfReference_Type] nvarchar(max)  NOT NULL,
+    [Modified_AncestorOfReference_Id] nvarchar(max)  NOT NULL,
+    [Modified_AncestorOfReference_Hint] nvarchar(max)  NULL,
+    [Modified_CommonAncestorOfReference_Type] nvarchar(max)  NOT NULL,
+    [Modified_CommonAncestorOfReference_Id] nvarchar(max)  NOT NULL,
+    [Modified_CommonAncestorOfReference_Hint] nvarchar(max)  NULL,
+    [Modified_ScopeHint] nvarchar(max)  NULL,
+    [Id] uniqueidentifier  NOT NULL
+);
+GO
+
+-- Creating table 'Symptoms_MissedNameSymptom'
+CREATE TABLE [dbo].[Symptoms_MissedNameSymptom] (
+    [Id] uniqueidentifier  NOT NULL
+);
+GO
+
 -- Creating table 'Branch_Contains_Commits'
 CREATE TABLE [dbo].[Branch_Contains_Commits] (
     [Commits_Id] uniqueidentifier  NOT NULL,
@@ -396,6 +438,12 @@ ADD CONSTRAINT [PK_Project]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
+-- Creating primary key on [Id] in table 'Symptoms'
+ALTER TABLE [dbo].[Symptoms]
+ADD CONSTRAINT [PK_Symptoms]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
 -- Creating primary key on [Id] in table 'RepositoryObjects_Commit'
 ALTER TABLE [dbo].[RepositoryObjects_Commit]
 ADD CONSTRAINT [PK_RepositoryObjects_Commit]
@@ -453,6 +501,18 @@ GO
 -- Creating primary key on [Id] in table 'RepositoryObjects_FileRenamedChange'
 ALTER TABLE [dbo].[RepositoryObjects_FileRenamedChange]
 ADD CONSTRAINT [PK_RepositoryObjects_FileRenamedChange]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'Symptoms_MissedElementSymptom'
+ALTER TABLE [dbo].[Symptoms_MissedElementSymptom]
+ADD CONSTRAINT [PK_Symptoms_MissedElementSymptom]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'Symptoms_MissedNameSymptom'
+ALTER TABLE [dbo].[Symptoms_MissedNameSymptom]
+ADD CONSTRAINT [PK_Symptoms_MissedNameSymptom]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -730,6 +790,21 @@ ON [dbo].[Reviews]
     ([RevisionPair_Id]);
 GO
 
+-- Creating foreign key on [Delta_Id] in table 'Symptoms'
+ALTER TABLE [dbo].[Symptoms]
+ADD CONSTRAINT [FK_OneDelta_MayHave_ManySymptoms]
+    FOREIGN KEY ([Delta_Id])
+    REFERENCES [dbo].[Deltas]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_OneDelta_MayHave_ManySymptoms'
+CREATE INDEX [IX_FK_OneDelta_MayHave_ManySymptoms]
+ON [dbo].[Symptoms]
+    ([Delta_Id]);
+GO
+
 -- Creating foreign key on [Id] in table 'RepositoryObjects_Commit'
 ALTER TABLE [dbo].[RepositoryObjects_Commit]
 ADD CONSTRAINT [FK_Commit_inherits_RepositoryObject]
@@ -816,6 +891,24 @@ ALTER TABLE [dbo].[RepositoryObjects_FileRenamedChange]
 ADD CONSTRAINT [FK_FileRenamedChange_inherits_FileModifiedChange]
     FOREIGN KEY ([Id])
     REFERENCES [dbo].[RepositoryObjects_FileModifiedChange]
+        ([Id])
+    ON DELETE CASCADE ON UPDATE NO ACTION;
+GO
+
+-- Creating foreign key on [Id] in table 'Symptoms_MissedElementSymptom'
+ALTER TABLE [dbo].[Symptoms_MissedElementSymptom]
+ADD CONSTRAINT [FK_MissedElementSymptom_inherits_Symptom]
+    FOREIGN KEY ([Id])
+    REFERENCES [dbo].[Symptoms]
+        ([Id])
+    ON DELETE CASCADE ON UPDATE NO ACTION;
+GO
+
+-- Creating foreign key on [Id] in table 'Symptoms_MissedNameSymptom'
+ALTER TABLE [dbo].[Symptoms_MissedNameSymptom]
+ADD CONSTRAINT [FK_MissedNameSymptom_inherits_MissedElementSymptom]
+    FOREIGN KEY ([Id])
+    REFERENCES [dbo].[Symptoms_MissedElementSymptom]
         ([Id])
     ON DELETE CASCADE ON UPDATE NO ACTION;
 GO

@@ -11,20 +11,10 @@ namespace Jawilliam.CDF.Labs
 {
     using System;
     
-    public partial class MissedMatch
+    public partial class ElementDescription
     {
-        public MissedMatch()
-        {
-            this.Element = new ElementDescription();
-            this.AncestorOfReference = new ElementDescription();
-            this.CommonAncestorOfReference = new ElementDescription();
-        }
-    
+        public string Type { get; set; }
+        public string Id { get; set; }
         public string Hint { get; set; }
-        public string ScopeHint { get; set; }
-    
-        public ElementDescription Element { get; set; }
-        public ElementDescription AncestorOfReference { get; set; }
-        public ElementDescription CommonAncestorOfReference { get; set; }
     }
 }

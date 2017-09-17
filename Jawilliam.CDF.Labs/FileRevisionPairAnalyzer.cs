@@ -386,7 +386,7 @@ namespace Jawilliam.CDF.Labs
         /// <param name="approach"></param>
         /// <param name="skipThese">local criterion for determining elements that should be ignored.</param>
         /// <param name="reportFilePath"></param>
-        public virtual void FindMissedMatchesAOf(GitRepository sqlRepository, Action cancel, ChangeDetectionApproaches approach, Func<FileRevisionPair, bool> skipThese, string reportFilePath)
+        public virtual void SaveMissedNames(GitRepository sqlRepository, Action cancel, ChangeDetectionApproaches approach, Func<FileRevisionPair, bool> skipThese, string reportFilePath)
         {
             this.Analyze(sqlRepository, "file revision pair",
               f => f.Principal.Deltas.Any(d => d.Approach == approach &&
@@ -402,25 +402,60 @@ namespace Jawilliam.CDF.Labs
 
                     foreach (var missedMatchA in missedMatchesA)
                     {
-                        this.Report.AppendLine($"{missedMatchA.Case};" +
-                                               $"{sqlRepository.Name};" +
-                                               $"{pair.Principal.Id};" +
-                                               $"{missedMatchA.Original.Element.Root.Label}:{missedMatchA.Original.Element.Root.Id}({missedMatchA.Original.Element.Root.Value});" +
-                                               $"{missedMatchA.Modified.Element.Root.Label}:{missedMatchA.Modified.Element.Root.Id}({missedMatchA.Modified.Element.Root.Value});" +
-                                               $"{missedMatchA.Original.Type};" +
-                                               $"{missedMatchA.Modified.Type};" +
-                                               //$"{missedMatchA.Modified.MatchedReference.Root.Label}:{missedMatchA.Modified.MatchedReference.Root.Id}({missedMatchA.Modified.MatchedReference.Root.Value});" +
-                                               //$"{missedMatchA.Original.MatchedReference.Root.Label}:{missedMatchA.Original.MatchedReference.Root.Id}({missedMatchA.Original.MatchedReference.Root.Value});" +
-                                               $"{this.GetBreadcrum(missedMatchA.Original.MatchedReference)};" +
-                                               $"{this.GetBreadcrum(missedMatchA.Modified.MatchedReference)};" +
-                                               //$"{getPath(missedMatchA.Modified.Scopes)};" +
-                                               //$"{getPath(missedMatchA.Original.Scopes)};" +
-                                               $"{this.GetPath(missedMatchA.Original.Element.LabelOf(t => t.Parent, t => t.Root.Label == "name").First(a => a.Root.Label != "name").Ancestors())};" +
-                                               $"{this.GetPath(missedMatchA.Modified.Element.LabelOf(t => t.Parent, t => t.Root.Label == "name").First(a => a.Root.Label != "name").Ancestors())}");
+                        var originalAncestorOfReference = missedMatchA.Original.Element.LabelOf(t => t.Parent, t => t.Root.Label == "name")
+                            .First(a => a.Root.Label != "name");
+                        var modifiedAncestorOfReference = missedMatchA.Modified.Element.LabelOf(t => t.Parent, t => t.Root.Label == "name")
+                            .First(a => a.Root.Label != "name");
+                        delta.Symptoms.Add(new MissedNameSymptom
+                        {
+                            Id = Guid.NewGuid(),
+                            Pattern = missedMatchA.Case,
+                            Original = new MissedMatch
+                            {
+                                Element = new ElementDescription
+                                {
+                                    Hint = missedMatchA.Original.Element.Root.Value,
+                                    Id = missedMatchA.Original.Element.Root.Id,
+                                    Type = missedMatchA.Original.Type
+                                },
+                                AncestorOfReference = new ElementDescription
+                                {
+                                    Hint = originalAncestorOfReference.Root.Value,
+                                    Id = originalAncestorOfReference.Root.Id,
+                                    Type = originalAncestorOfReference.Root.Label
+                                },
+                                CommonAncestorOfReference = new ElementDescription
+                                {
+                                    Hint = missedMatchA.Original.MatchedReference.Root.Value,
+                                    Id = missedMatchA.Original.MatchedReference.Root.Id,
+                                    Type = missedMatchA.Original.MatchedReference.Root.Label
+                                },
+                                ScopeHint = this.GetPath(missedMatchA.Original.Element.LabelOf(t => t.Parent, t => t.Root.Label == "name").First(a => a.Root.Label != "name").Ancestors())
+                            },
+                            Modified = new MissedMatch
+                            {
+                                Element = new ElementDescription
+                                {
+                                    Hint = missedMatchA.Modified.Element.Root.Value,
+                                    Id = missedMatchA.Modified.Element.Root.Id,
+                                    Type = missedMatchA.Modified.Type
+                                },
+                                AncestorOfReference = new ElementDescription
+                                {
+                                    Hint = modifiedAncestorOfReference.Root.Value,
+                                    Id = modifiedAncestorOfReference.Root.Id,
+                                    Type = modifiedAncestorOfReference.Root.Label
+                                },
+                                CommonAncestorOfReference = new ElementDescription
+                                {
+                                    Hint = missedMatchA.Modified.MatchedReference.Root.Value,
+                                    Id = missedMatchA.Modified.MatchedReference.Root.Id,
+                                    Type = missedMatchA.Modified.MatchedReference.Root.Label
+                                },
+                                ScopeHint = this.GetPath(missedMatchA.Modified.Element.LabelOf(t => t.Parent, t => t.Root.Label == "name").First(a => a.Root.Label != "name").Ancestors())
+                            }
+                        });
                     }
-
-                    System.IO.File.AppendAllText(reportFilePath, this.Report.ToString());
-                    this.Report.Clear();
                 },
             cancel, false, new string[0]);
         }
@@ -613,7 +648,7 @@ namespace Jawilliam.CDF.Labs
         /// </summary>
         /// <param name="delta">delta to analyze.</param>
         /// <returns>a collection of the candidate missed matches found in the given delta.</returns>
-        public virtual IEnumerable<MissedMatch> FindMissedMatchesAOfKeyedElement(Delta delta, CancellationToken token)
+        public virtual IEnumerable<MissedElement> FindMissedMatchesAOfKeyedElement(Delta delta, CancellationToken token)
         {
             //    Label = "namespace",
             //    Label = "using",
@@ -723,7 +758,7 @@ namespace Jawilliam.CDF.Labs
                 yield return missedMatch;
         }
 
-        protected virtual IEnumerable<MissedMatch> FindMissedMatches(string mismatchingCase, List<CandidateName> originalNames, List<CandidateName> modifiedNames, List<RevisionPair<ElementDescriptor, ElementTree>> matchedModifiedAncestors, CancellationToken token, Func<CandidateName, CandidateName, bool> skipThese = null)
+        protected virtual IEnumerable<MissedElement> FindMissedMatches(string mismatchingCase, List<CandidateName> originalNames, List<CandidateName> modifiedNames, List<RevisionPair<ElementDescriptor, ElementTree>> matchedModifiedAncestors, CancellationToken token, Func<CandidateName, CandidateName, bool> skipThese = null)
         {
             if (originalNames.Any() && modifiedNames.Any())
             {
@@ -741,7 +776,7 @@ namespace Jawilliam.CDF.Labs
                         var candidate = matchedModifiedAncestors.FirstOrDefault(ma => originalScopes.Any(a => a.Root.Id == ma.Original.Id));
                         if (candidate != null)
                         {
-                            yield return new MissedMatch
+                            yield return new MissedElement
                             {
                                 Case = mismatchingCase,
                                 Modified = new MissedVersion
