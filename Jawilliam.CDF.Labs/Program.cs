@@ -1070,7 +1070,7 @@ namespace Jawilliam.CDF.Labs
 
                 analyzer.Warnings = new StringBuilder();
                 analyzer.Report = new StringBuilder();
-                analyzer.FindMissedMatchesAOf(dbRepository, () => {}, approach, pair => false, reportFilePath);
+                analyzer.SaveMissedNames(dbRepository, () => {}, approach, pair => false, reportFilePath);
 
                 System.IO.File.AppendAllText(errorFilePath, analyzer.Warnings.ToString());
             }

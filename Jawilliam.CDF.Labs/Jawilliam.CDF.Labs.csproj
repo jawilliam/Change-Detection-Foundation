@@ -195,6 +195,9 @@
       <DependentUpon>GitRepository.tt</DependentUpon>
     </Compile>
     <Compile Include="Delta.Custom.cs" />
+    <Compile Include="ElementDescription.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
     <Compile Include="File.cs">
       <DependentUpon>GitRepository.tt</DependentUpon>
     </Compile>
@@ -249,8 +252,17 @@
       <DependentUpon>GitRepository.edmx</DependentUpon>
     </Compile>
     <Compile Include="LinesOfCodeMetric.cs" />
-    <Compile Include="MissedMatch.cs" />
+    <Compile Include="MissedElement.cs" />
+    <Compile Include="MissedElementSymptom.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MissedMatch.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
     <Compile Include="MissedNameContext.cs" />
+    <Compile Include="MissedNameSymptom.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
     <Compile Include="MissedVersion.cs" />
     <Compile Include="PairRevisionInfo.cs">
       <DependentUpon>GitRepository.tt</DependentUpon>
@@ -279,6 +291,9 @@
     <Compile Include="RevisionPairReview.cs" />
     <Compile Include="SourceCodeMetric.cs" />
     <Compile Include="SourceCodeCleaner.cs" />
+    <Compile Include="Symptom.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
     <Compile Include="SyntaxTokenEqualityComparer.cs" />
     <Compile Include="Topics.cs">
       <DependentUpon>GitRepository.tt</DependentUpon>

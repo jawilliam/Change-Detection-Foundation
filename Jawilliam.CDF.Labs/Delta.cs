@@ -14,6 +14,12 @@ namespace Jawilliam.CDF.Labs
     
     public partial class Delta
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Delta()
+        {
+            this.Symptoms = new HashSet<Symptom>();
+        }
+    
         public System.Guid Id { get; set; }
         public string Matching { get; set; }
         public string Differencing { get; set; }
@@ -24,5 +30,7 @@ namespace Jawilliam.CDF.Labs
         public string ModifiedTree { get; set; }
     
         public virtual FileModifiedChange RevisionPair { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Symptom> Symptoms { get; set; }
     }
 }

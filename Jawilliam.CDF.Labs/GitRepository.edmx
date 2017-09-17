@@ -13,6 +13,7 @@
     <EntitySet Name="FileRevisionPairs" EntityType="Jawilliam.CDF.Labs.SQL.Store.FileRevisionPairs" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Reviews" EntityType="Jawilliam.CDF.Labs.SQL.Store.Reviews" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Project" EntityType="Jawilliam.CDF.Labs.SQL.Store.Project" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Symptoms" EntityType="Jawilliam.CDF.Labs.SQL.Store.Symptoms" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="RepositoryObjects_Commit" EntityType="Jawilliam.CDF.Labs.SQL.Store.RepositoryObjects_Commit" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="RepositoryObjects_Contributor" EntityType="Jawilliam.CDF.Labs.SQL.Store.RepositoryObjects_Contributor" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="RepositoryObjects_Branch" EntityType="Jawilliam.CDF.Labs.SQL.Store.RepositoryObjects_Branch" store:Type="Tables" Schema="dbo" />
@@ -23,6 +24,8 @@
     <EntitySet Name="RepositoryObjects_FileAddedChange" EntityType="Jawilliam.CDF.Labs.SQL.Store.RepositoryObjects_FileAddedChange" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="RepositoryObjects_FileDeletedChange" EntityType="Jawilliam.CDF.Labs.SQL.Store.RepositoryObjects_FileDeletedChange" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="RepositoryObjects_FileRenamedChange" EntityType="Jawilliam.CDF.Labs.SQL.Store.RepositoryObjects_FileRenamedChange" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Symptoms_MissedElementSymptom" EntityType="Jawilliam.CDF.Labs.SQL.Store.Symptoms_MissedElementSymptom" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Symptoms_MissedNameSymptom" EntityType="Jawilliam.CDF.Labs.SQL.Store.Symptoms_MissedNameSymptom" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Branch_Contains_Commits" EntityType="Jawilliam.CDF.Labs.SQL.Store.Branch_Contains_Commits" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Commits_AreParentsOf_Commits" EntityType="Jawilliam.CDF.Labs.SQL.Store.Commits_AreParentsOf_Commits" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="Contributor_IsAuthorOf_Commits" Association="Jawilliam.CDF.Labs.SQL.Store.Contributor_IsAuthorOf_Commits">
@@ -97,6 +100,10 @@
       <End Role="FileRevisionPair" EntitySet="FileRevisionPairs" />
       <End Role="Review" EntitySet="Reviews" />
     </AssociationSet>
+    <AssociationSet Name="OneDelta_MayHave_ManySymptoms" Association="Jawilliam.CDF.Labs.SQL.Store.OneDelta_MayHave_ManySymptoms">
+      <End Role="Delta" EntitySet="Deltas" />
+      <End Role="Symptom" EntitySet="Symptoms" />
+    </AssociationSet>
     <AssociationSet Name="FK_Commit_inherits_RepositoryObject" Association="Jawilliam.CDF.Labs.SQL.Store.FK_Commit_inherits_RepositoryObject">
       <End Role="RepositoryObject" EntitySet="RepositoryObjects" />
       <End Role="Commit" EntitySet="RepositoryObjects_Commit" />
@@ -136,6 +143,14 @@
     <AssociationSet Name="FK_FileRenamedChange_inherits_FileModifiedChange" Association="Jawilliam.CDF.Labs.SQL.Store.FK_FileRenamedChange_inherits_FileModifiedChange">
       <End Role="FileModifiedChange" EntitySet="RepositoryObjects_FileModifiedChange" />
       <End Role="FileRenamedChange" EntitySet="RepositoryObjects_FileRenamedChange" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MissedElementSymptom_inherits_Symptom" Association="Jawilliam.CDF.Labs.SQL.Store.FK_MissedElementSymptom_inherits_Symptom">
+      <End Role="Symptom" EntitySet="Symptoms" />
+      <End Role="MissedElementSymptom" EntitySet="Symptoms_MissedElementSymptom" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MissedNameSymptom_inherits_MissedElementSymptom" Association="Jawilliam.CDF.Labs.SQL.Store.FK_MissedNameSymptom_inherits_MissedElementSymptom">
+      <End Role="MissedElementSymptom" EntitySet="Symptoms_MissedElementSymptom" />
+      <End Role="MissedNameSymptom" EntitySet="Symptoms_MissedNameSymptom" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="RepositoryObjects">
@@ -225,6 +240,13 @@
     <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Annotations" Type="xml" Nullable="true" />
   </EntityType>
+  <EntityType Name="Symptoms">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Delta_Id" Type="uniqueidentifier" Nullable="false" />
+  </EntityType>
   <EntityType Name="RepositoryObjects_Commit">
     <Key>
       <PropertyRef Name="Id" />
@@ -304,6 +326,41 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="FromPath" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Symptoms_MissedElementSymptom">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Pattern" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Original_Hint" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Original_Element_Type" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Original_Element_Id" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Original_Element_Hint" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Original_AncestorOfReference_Type" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Original_AncestorOfReference_Id" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Original_AncestorOfReference_Hint" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Original_CommonAncestorOfReference_Type" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Original_CommonAncestorOfReference_Id" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Original_CommonAncestorOfReference_Hint" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Original_ScopeHint" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Modified_Hint" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Modified_Element_Type" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Modified_Element_Id" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Modified_Element_Hint" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Modified_AncestorOfReference_Type" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Modified_AncestorOfReference_Id" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Modified_AncestorOfReference_Hint" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Modified_CommonAncestorOfReference_Type" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Modified_CommonAncestorOfReference_Id" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Modified_CommonAncestorOfReference_Hint" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Modified_ScopeHint" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Symptoms_MissedNameSymptom">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
     <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
   </EntityType>
   <EntityType Name="Branch_Contains_Commits">
@@ -487,6 +544,18 @@
       </Principal>
       <Dependent Role="Review">
         <PropertyRef Name="RevisionPair_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="OneDelta_MayHave_ManySymptoms">
+    <End Role="Delta" Type="Jawilliam.CDF.Labs.SQL.Store.Deltas" Multiplicity="1" />
+    <End Role="Symptom" Type="Jawilliam.CDF.Labs.SQL.Store.Symptoms" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Delta">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Symptom">
+        <PropertyRef Name="Delta_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -678,6 +747,34 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_MissedElementSymptom_inherits_Symptom">
+    <End Role="Symptom" Type="Jawilliam.CDF.Labs.SQL.Store.Symptoms" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="MissedElementSymptom" Type="Jawilliam.CDF.Labs.SQL.Store.Symptoms_MissedElementSymptom" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Symptom">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="MissedElementSymptom">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MissedNameSymptom_inherits_MissedElementSymptom">
+    <End Role="MissedElementSymptom" Type="Jawilliam.CDF.Labs.SQL.Store.Symptoms_MissedElementSymptom" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="MissedNameSymptom" Type="Jawilliam.CDF.Labs.SQL.Store.Symptoms_MissedNameSymptom" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="MissedElementSymptom">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="MissedNameSymptom">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -754,7 +851,12 @@
             <End Role="Review" EntitySet="Reviews" />
           </AssociationSet>
           <EntitySet Name="Project" EntityType="Jawilliam.CDF.Labs.SQL.Project" />
-        </EntityContainer>
+          <EntitySet Name="Symptoms" EntityType="Jawilliam.CDF.Labs.SQL.Symptom" />
+          <AssociationSet Name="OneDelta_MayHave_ManySymptoms" Association="Jawilliam.CDF.Labs.SQL.OneDelta_MayHave_ManySymptoms">
+            <End Role="Delta" EntitySet="Deltas" />
+            <End Role="Symptom" EntitySet="Symptoms" />
+          </AssociationSet>
+          </EntityContainer>
         <EntityType Name="RepositoryObject" Abstract="true">
           <Key>
             <PropertyRef Name="Id" />
@@ -897,6 +999,7 @@
           <Property Name="Approach" Type="Jawilliam.CDF.Labs.SQL.ChangeDetectionApproaches" Nullable="false" />
           <Property Name="OriginalTree" Type="String" Nullable="true" />
           <Property Name="ModifiedTree" Type="String" Nullable="true" />
+          <NavigationProperty Name="Symptoms" Relationship="Jawilliam.CDF.Labs.SQL.OneDelta_MayHave_ManySymptoms" FromRole="Delta" ToRole="Symptom" />
         </EntityType>
         <Association Name="FileModifiedChanges_CanBeDescribedByDifferent_Deltas">
           <End Type="Jawilliam.CDF.Labs.SQL.FileModifiedChange" Role="FileModifiedChange" Multiplicity="0..1" />
@@ -1027,6 +1130,35 @@
           <Member Name="SourceCodeChanged" Value="1" />
           <Member Name="OnlyCommentChanged" Value="2" />
         </EnumType>
+        <EntityType Name="Symptom" Abstract="true">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="None" />
+          <NavigationProperty Name="Delta" Relationship="Jawilliam.CDF.Labs.SQL.OneDelta_MayHave_ManySymptoms" FromRole="Symptom" ToRole="Delta" />
+        </EntityType>
+        <ComplexType Name="ElementDescription" >
+          <Property Type="String" Name="Type" Nullable="false" />
+          <Property Type="String" Name="Id" Nullable="false" />
+          <Property Type="String" Name="Hint" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="MissedMatch" >
+          <Property Type="String" Name="Hint" Nullable="true" />
+          <Property Type="Jawilliam.CDF.Labs.SQL.ElementDescription" Name="Element" Nullable="false" />
+          <Property Type="Jawilliam.CDF.Labs.SQL.ElementDescription" Name="AncestorOfReference" Nullable="false" />
+          <Property Type="Jawilliam.CDF.Labs.SQL.ElementDescription" Name="CommonAncestorOfReference" Nullable="false" />
+          <Property Type="String" Name="ScopeHint" Nullable="true" />
+        </ComplexType>
+        <EntityType Name="MissedNameSymptom" BaseType="Jawilliam.CDF.Labs.SQL.MissedElementSymptom" />
+        <EntityType Name="MissedElementSymptom" BaseType="Jawilliam.CDF.Labs.SQL.Symptom" Abstract="true" >
+          <Property Name="Pattern" Type="String" Nullable="false" />
+          <Property Name="Original" Type="Jawilliam.CDF.Labs.SQL.MissedMatch" Nullable="false" />
+          <Property Name="Modified" Type="Jawilliam.CDF.Labs.SQL.MissedMatch" Nullable="false" />
+        </EntityType>
+        <Association Name="OneDelta_MayHave_ManySymptoms">
+          <End Type="Jawilliam.CDF.Labs.SQL.Delta" Role="Delta" Multiplicity="1" />
+          <End Type="Jawilliam.CDF.Labs.SQL.Symptom" Role="Symptom" Multiplicity="*" />
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1186,6 +1318,62 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Symptoms">
+      <EntityTypeMapping TypeName="IsTypeOf(Jawilliam.CDF.Labs.SQL.Symptom)">
+        <MappingFragment StoreEntitySet="Symptoms">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="IsTypeOf(Jawilliam.CDF.Labs.SQL.MissedElementSymptom)">
+        <MappingFragment StoreEntitySet="Symptoms_MissedElementSymptom">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Pattern" ColumnName="Pattern" />
+          <ComplexProperty Name="Original" TypeName="Jawilliam.CDF.Labs.SQL.MissedMatch">
+            <ScalarProperty Name="Hint" ColumnName="Original_Hint" />
+            <ComplexProperty Name="Element" TypeName="Jawilliam.CDF.Labs.SQL.ElementDescription">
+              <ScalarProperty Name="Type" ColumnName="Original_Element_Type" />
+              <ScalarProperty Name="Id" ColumnName="Original_Element_Id" />
+              <ScalarProperty Name="Hint" ColumnName="Original_Element_Hint" />
+            </ComplexProperty>
+            <ComplexProperty Name="AncestorOfReference" TypeName="Jawilliam.CDF.Labs.SQL.ElementDescription">
+              <ScalarProperty Name="Type" ColumnName="Original_AncestorOfReference_Type" />
+              <ScalarProperty Name="Id" ColumnName="Original_AncestorOfReference_Id" />
+              <ScalarProperty Name="Hint" ColumnName="Original_AncestorOfReference_Hint" />
+            </ComplexProperty>
+            <ComplexProperty Name="CommonAncestorOfReference" TypeName="Jawilliam.CDF.Labs.SQL.ElementDescription">
+              <ScalarProperty Name="Type" ColumnName="Original_CommonAncestorOfReference_Type" />
+              <ScalarProperty Name="Id" ColumnName="Original_CommonAncestorOfReference_Id" />
+              <ScalarProperty Name="Hint" ColumnName="Original_CommonAncestorOfReference_Hint" />
+            </ComplexProperty>
+            <ScalarProperty Name="ScopeHint" ColumnName="Original_ScopeHint" />
+          </ComplexProperty>
+          <ComplexProperty Name="Modified" TypeName="Jawilliam.CDF.Labs.SQL.MissedMatch">
+            <ScalarProperty Name="Hint" ColumnName="Modified_Hint" />
+            <ComplexProperty Name="Element" TypeName="Jawilliam.CDF.Labs.SQL.ElementDescription">
+              <ScalarProperty Name="Type" ColumnName="Modified_Element_Type" />
+              <ScalarProperty Name="Id" ColumnName="Modified_Element_Id" />
+              <ScalarProperty Name="Hint" ColumnName="Modified_Element_Hint" />
+            </ComplexProperty>
+            <ComplexProperty Name="AncestorOfReference" TypeName="Jawilliam.CDF.Labs.SQL.ElementDescription">
+              <ScalarProperty Name="Type" ColumnName="Modified_AncestorOfReference_Type" />
+              <ScalarProperty Name="Id" ColumnName="Modified_AncestorOfReference_Id" />
+              <ScalarProperty Name="Hint" ColumnName="Modified_AncestorOfReference_Hint" />
+            </ComplexProperty>
+            <ComplexProperty Name="CommonAncestorOfReference" TypeName="Jawilliam.CDF.Labs.SQL.ElementDescription">
+              <ScalarProperty Name="Type" ColumnName="Modified_CommonAncestorOfReference_Type" />
+              <ScalarProperty Name="Id" ColumnName="Modified_CommonAncestorOfReference_Id" />
+              <ScalarProperty Name="Hint" ColumnName="Modified_CommonAncestorOfReference_Hint" />
+            </ComplexProperty>
+            <ScalarProperty Name="ScopeHint" ColumnName="Modified_ScopeHint" />
+          </ComplexProperty>
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="IsTypeOf(Jawilliam.CDF.Labs.SQL.MissedNameSymptom)">
+        <MappingFragment StoreEntitySet="Symptoms_MissedNameSymptom">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <AssociationSetMapping Name="Contributor_IsAuthorOf_Commits" TypeName="Jawilliam.CDF.Labs.SQL.Contributor_IsAuthorOf_Commits" StoreEntitySet="RepositoryObjects_Commit">
       <EndProperty Name="Committer">
         <ScalarProperty Name="Id" ColumnName="Committer_Id" />
@@ -1315,6 +1503,14 @@
         <ScalarProperty Name="Id" ColumnName="RevisionPair_Id" />
       </EndProperty>
       <EndProperty Name="Review">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="OneDelta_MayHave_ManySymptoms" TypeName="Jawilliam.CDF.Labs.SQL.OneDelta_MayHave_ManySymptoms" StoreEntitySet="Symptoms">
+      <EndProperty Name="Delta">
+        <ScalarProperty Name="Id" ColumnName="Delta_Id" />
+      </EndProperty>
+      <EndProperty Name="Symptom">
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>

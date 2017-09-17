@@ -33,5 +33,6 @@ namespace Jawilliam.CDF.Labs
         public virtual DbSet<FileRevisionPair> FileRevisionPairs { get; set; }
         public virtual DbSet<Review> Reviews { get; set; }
         public virtual DbSet<Project> Project { get; set; }
+        public virtual DbSet<Symptom> Symptoms { get; set; }
     }
 }
