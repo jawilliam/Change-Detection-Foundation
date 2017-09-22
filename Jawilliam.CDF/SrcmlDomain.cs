@@ -201,7 +201,7 @@ namespace Jawilliam.CDF
             Debug.Assert(label != null);
             Debug.Assert(value != null);
 
-            var name = children(source).SingleOrDefault(c => label(c) == "name");
+            var name = children(source).FirstOrDefault(c => label(c) == "name");
             if (name == null) return null;
 
             var nameComposition = (children(name) ?? new T[0]).ToList();

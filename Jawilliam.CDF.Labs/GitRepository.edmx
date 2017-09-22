@@ -24,7 +24,6 @@
     <EntitySet Name="RepositoryObjects_FileAddedChange" EntityType="Jawilliam.CDF.Labs.SQL.Store.RepositoryObjects_FileAddedChange" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="RepositoryObjects_FileDeletedChange" EntityType="Jawilliam.CDF.Labs.SQL.Store.RepositoryObjects_FileDeletedChange" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="RepositoryObjects_FileRenamedChange" EntityType="Jawilliam.CDF.Labs.SQL.Store.RepositoryObjects_FileRenamedChange" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Symptoms_MissedElementSymptom" EntityType="Jawilliam.CDF.Labs.SQL.Store.Symptoms_MissedElementSymptom" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Symptoms_MissedNameSymptom" EntityType="Jawilliam.CDF.Labs.SQL.Store.Symptoms_MissedNameSymptom" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Branch_Contains_Commits" EntityType="Jawilliam.CDF.Labs.SQL.Store.Branch_Contains_Commits" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Commits_AreParentsOf_Commits" EntityType="Jawilliam.CDF.Labs.SQL.Store.Commits_AreParentsOf_Commits" store:Type="Tables" Schema="dbo" />
@@ -144,12 +143,8 @@
       <End Role="FileModifiedChange" EntitySet="RepositoryObjects_FileModifiedChange" />
       <End Role="FileRenamedChange" EntitySet="RepositoryObjects_FileRenamedChange" />
     </AssociationSet>
-    <AssociationSet Name="FK_MissedElementSymptom_inherits_Symptom" Association="Jawilliam.CDF.Labs.SQL.Store.FK_MissedElementSymptom_inherits_Symptom">
+    <AssociationSet Name="FK_MissedNameSymptom_inherits_Symptom" Association="Jawilliam.CDF.Labs.SQL.Store.FK_MissedNameSymptom_inherits_Symptom">
       <End Role="Symptom" EntitySet="Symptoms" />
-      <End Role="MissedElementSymptom" EntitySet="Symptoms_MissedElementSymptom" />
-    </AssociationSet>
-    <AssociationSet Name="FK_MissedNameSymptom_inherits_MissedElementSymptom" Association="Jawilliam.CDF.Labs.SQL.Store.FK_MissedNameSymptom_inherits_MissedElementSymptom">
-      <End Role="MissedElementSymptom" EntitySet="Symptoms_MissedElementSymptom" />
       <End Role="MissedNameSymptom" EntitySet="Symptoms_MissedNameSymptom" />
     </AssociationSet>
   </EntityContainer>
@@ -328,7 +323,7 @@
     <Property Name="FromPath" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
   </EntityType>
-  <EntityType Name="Symptoms_MissedElementSymptom">
+  <EntityType Name="Symptoms_MissedNameSymptom">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
@@ -355,12 +350,6 @@
     <Property Name="Modified_CommonAncestorOfReference_Id" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Modified_CommonAncestorOfReference_Hint" Type="nvarchar(max)" Nullable="true" />
     <Property Name="Modified_ScopeHint" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Symptoms_MissedNameSymptom">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
     <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
   </EntityType>
   <EntityType Name="Branch_Contains_Commits">
@@ -747,27 +736,13 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_MissedElementSymptom_inherits_Symptom">
+  <Association Name="FK_MissedNameSymptom_inherits_Symptom">
     <End Role="Symptom" Type="Jawilliam.CDF.Labs.SQL.Store.Symptoms" Multiplicity="1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <End Role="MissedElementSymptom" Type="Jawilliam.CDF.Labs.SQL.Store.Symptoms_MissedElementSymptom" Multiplicity="0..1" />
-    <ReferentialConstraint>
-      <Principal Role="Symptom">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="MissedElementSymptom">
-        <PropertyRef Name="Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_MissedNameSymptom_inherits_MissedElementSymptom">
-    <End Role="MissedElementSymptom" Type="Jawilliam.CDF.Labs.SQL.Store.Symptoms_MissedElementSymptom" Multiplicity="1">
       <OnDelete Action="Cascade" />
     </End>
     <End Role="MissedNameSymptom" Type="Jawilliam.CDF.Labs.SQL.Store.Symptoms_MissedNameSymptom" Multiplicity="0..1" />
     <ReferentialConstraint>
-      <Principal Role="MissedElementSymptom">
+      <Principal Role="Symptom">
         <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="MissedNameSymptom">
@@ -1324,8 +1299,8 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>
-      <EntityTypeMapping TypeName="IsTypeOf(Jawilliam.CDF.Labs.SQL.MissedElementSymptom)">
-        <MappingFragment StoreEntitySet="Symptoms_MissedElementSymptom">
+      <EntityTypeMapping TypeName="IsTypeOf(Jawilliam.CDF.Labs.SQL.MissedNameSymptom)">
+        <MappingFragment StoreEntitySet="Symptoms_MissedNameSymptom">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Pattern" ColumnName="Pattern" />
           <ComplexProperty Name="Original" TypeName="Jawilliam.CDF.Labs.SQL.MissedMatch">
@@ -1366,11 +1341,6 @@
             </ComplexProperty>
             <ScalarProperty Name="ScopeHint" ColumnName="Modified_ScopeHint" />
           </ComplexProperty>
-        </MappingFragment>
-      </EntityTypeMapping>
-      <EntityTypeMapping TypeName="IsTypeOf(Jawilliam.CDF.Labs.SQL.MissedNameSymptom)">
-        <MappingFragment StoreEntitySet="Symptoms_MissedNameSymptom">
-          <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

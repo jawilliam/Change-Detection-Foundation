@@ -8,10 +8,10 @@
 
 SET QUOTED_IDENTIFIER OFF;
 GO
-USE [GitRepositoryDb];
-GO
-IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
-GO
+--USE [GitRepositoryDb];
+--GO
+--IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
+--GO
 
 -- --------------------------------------------------
 -- Dropping existing FOREIGN KEY constraints
@@ -343,8 +343,8 @@ CREATE TABLE [dbo].[RepositoryObjects_FileRenamedChange] (
 );
 GO
 
--- Creating table 'Symptoms_MissedElementSymptom'
-CREATE TABLE [dbo].[Symptoms_MissedElementSymptom] (
+-- Creating table 'Symptoms_MissedNameSymptom'
+CREATE TABLE [dbo].[Symptoms_MissedNameSymptom] (
     [Pattern] nvarchar(max)  NOT NULL,
     [Original_Hint] nvarchar(max)  NULL,
     [Original_Element_Type] nvarchar(max)  NOT NULL,
@@ -368,12 +368,6 @@ CREATE TABLE [dbo].[Symptoms_MissedElementSymptom] (
     [Modified_CommonAncestorOfReference_Id] nvarchar(max)  NOT NULL,
     [Modified_CommonAncestorOfReference_Hint] nvarchar(max)  NULL,
     [Modified_ScopeHint] nvarchar(max)  NULL,
-    [Id] uniqueidentifier  NOT NULL
-);
-GO
-
--- Creating table 'Symptoms_MissedNameSymptom'
-CREATE TABLE [dbo].[Symptoms_MissedNameSymptom] (
     [Id] uniqueidentifier  NOT NULL
 );
 GO
@@ -501,12 +495,6 @@ GO
 -- Creating primary key on [Id] in table 'RepositoryObjects_FileRenamedChange'
 ALTER TABLE [dbo].[RepositoryObjects_FileRenamedChange]
 ADD CONSTRAINT [PK_RepositoryObjects_FileRenamedChange]
-    PRIMARY KEY CLUSTERED ([Id] ASC);
-GO
-
--- Creating primary key on [Id] in table 'Symptoms_MissedElementSymptom'
-ALTER TABLE [dbo].[Symptoms_MissedElementSymptom]
-ADD CONSTRAINT [PK_Symptoms_MissedElementSymptom]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -895,20 +883,11 @@ ADD CONSTRAINT [FK_FileRenamedChange_inherits_FileModifiedChange]
     ON DELETE CASCADE ON UPDATE NO ACTION;
 GO
 
--- Creating foreign key on [Id] in table 'Symptoms_MissedElementSymptom'
-ALTER TABLE [dbo].[Symptoms_MissedElementSymptom]
+-- Creating foreign key on [Id] in table 'Symptoms_MissedNameSymptom'
+ALTER TABLE [dbo].[Symptoms_MissedNameSymptom]
 ADD CONSTRAINT [FK_MissedElementSymptom_inherits_Symptom]
     FOREIGN KEY ([Id])
     REFERENCES [dbo].[Symptoms]
-        ([Id])
-    ON DELETE CASCADE ON UPDATE NO ACTION;
-GO
-
--- Creating foreign key on [Id] in table 'Symptoms_MissedNameSymptom'
-ALTER TABLE [dbo].[Symptoms_MissedNameSymptom]
-ADD CONSTRAINT [FK_MissedNameSymptom_inherits_MissedElementSymptom]
-    FOREIGN KEY ([Id])
-    REFERENCES [dbo].[Symptoms_MissedElementSymptom]
         ([Id])
     ON DELETE CASCADE ON UPDATE NO ACTION;
 GO

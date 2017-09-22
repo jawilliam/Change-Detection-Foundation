@@ -58,7 +58,11 @@ namespace Jawilliam.CDF.Labs
         {
             if (analysis == null) throw new ArgumentNullException(nameof(analysis));
 
-            var repositoryObjectIds = sqlRepository.FileRevisionPairs
+            var repositoryObjectIds = sqlRepository.Name == "mono"
+                ? sqlRepository.FileRevisionPairs
+                    .Where(onThese)
+                    .Select(fv => fv.Id).ToList().Skip(7634).ToList()
+                : sqlRepository.FileRevisionPairs
                     .Where(onThese)
                     .Select(fv => fv.Id).ToList();
 
@@ -92,11 +96,11 @@ namespace Jawilliam.CDF.Labs
                     }
                     catch (OperationCanceledException)
                     {
-                        this.Warnings.AppendLine($"5 minutes Timeout - {repositoryObjectName}-{repositoryObject.Id}");
+                        this.Warnings.AppendLine($"TIMEOUT - {repositoryObjectName}-{repositoryObject.Id}");
                     }
                     catch (OutOfMemoryException)
                     {
-                        this.Warnings.AppendLine($"ERROR - {repositoryObjectName}-{repositoryObject.Id}");
+                        this.Warnings.AppendLine($"OUTOFMEMORY - {repositoryObjectName}-{repositoryObject.Id}");
                     }
                 }
                 catch (InsufficientExecutionStackException)
@@ -105,13 +109,17 @@ namespace Jawilliam.CDF.Labs
                 }
                 catch (OperationCanceledException)
                 {
-                    this.Warnings.AppendLine($"5 minutes Timeout - {repositoryObjectName}-{repositoryObject.Id}");
+                    this.Warnings.AppendLine($"TIMEOUT - {repositoryObjectName}-{repositoryObject.Id}");
                 }
                 catch (InvalidOperationException)
                 {
-                    this.Warnings.AppendLine($"ERROR - {repositoryObjectName}-{repositoryObject.Id}");
+                    this.Warnings.AppendLine($"INVALIDOPERATION - {repositoryObjectName}-{repositoryObject.Id}");
                 }
                 catch (OutOfMemoryException)
+                {
+                    this.Warnings.AppendLine($"OUTOFMEMORY - {repositoryObjectName}-{repositoryObject.Id}");
+                }
+                catch (Exception)
                 {
                     this.Warnings.AppendLine($"ERROR - {repositoryObjectName}-{repositoryObject.Id}");
                 }
@@ -385,8 +393,7 @@ namespace Jawilliam.CDF.Labs
         /// <param name="cancel">Action to execute cancellation logic.</param>
         /// <param name="approach"></param>
         /// <param name="skipThese">local criterion for determining elements that should be ignored.</param>
-        /// <param name="reportFilePath"></param>
-        public virtual void SaveMissedNames(GitRepository sqlRepository, Action cancel, ChangeDetectionApproaches approach, Func<FileRevisionPair, bool> skipThese, string reportFilePath)
+        public virtual void SaveMissedNames(GitRepository sqlRepository, Action cancel, ChangeDetectionApproaches approach, Func<FileRevisionPair, bool> skipThese)
         {
             this.Analyze(sqlRepository, "file revision pair",
               f => f.Principal.Deltas.Any(d => d.Approach == approach &&
@@ -398,67 +405,100 @@ namespace Jawilliam.CDF.Labs
                     if (skipThese?.Invoke(pair) ?? false) return;
 
                     var delta = sqlRepository.Deltas.Single(d => d.RevisionPair.Id == pair.Principal.Id && d.Approach == approach);
-                    var missedMatchesA = this.FindMissedMatchesAOfKeyedElement(delta, token);
-
-                    foreach (var missedMatchA in missedMatchesA)
+                    try
                     {
-                        var originalAncestorOfReference = missedMatchA.Original.Element.LabelOf(t => t.Parent, t => t.Root.Label == "name")
-                            .First(a => a.Root.Label != "name");
-                        var modifiedAncestorOfReference = missedMatchA.Modified.Element.LabelOf(t => t.Parent, t => t.Root.Label == "name")
-                            .First(a => a.Root.Label != "name");
-                        delta.Symptoms.Add(new MissedNameSymptom
+                        var missedMatchesA = this.FindMissedMatchesAOfKeyedElement(delta, token);
+
+                        foreach (var missedMatchA in missedMatchesA)
                         {
-                            Id = Guid.NewGuid(),
-                            Pattern = missedMatchA.Case,
-                            Original = new MissedMatch
+                            var originalAncestorOfReference = missedMatchA.Original.Element.LabelOf(t => t.Parent, t => t.Root.Label == "name")
+                                .First(a => a.Root.Label != "name").Ancestors().First();
+                            var modifiedAncestorOfReference = missedMatchA.Modified.Element.LabelOf(t => t.Parent, t => t.Root.Label == "name")
+                                .First(a => a.Root.Label != "name").Ancestors().First();
+                            delta.Symptoms.Add(new MissedNameSymptom
                             {
-                                Element = new ElementDescription
+                                Id = Guid.NewGuid(),
+                                Pattern = missedMatchA.Case,
+                                Original = new MissedMatch
                                 {
-                                    Hint = missedMatchA.Original.Element.Root.Value,
-                                    Id = missedMatchA.Original.Element.Root.Id,
-                                    Type = missedMatchA.Original.Type
+                                    Element = new ElementDescription
+                                    {
+                                        Hint = missedMatchA.Original.Element.Root.Value,
+                                        Id = missedMatchA.Original.Element.Root.Id,
+                                        Type = missedMatchA.Original.Type
+                                    },
+                                    AncestorOfReference = new ElementDescription
+                                    {
+                                        Hint = this.GetBreadcrum(originalAncestorOfReference),
+                                        Id = originalAncestorOfReference.Root.Id,
+                                        Type = originalAncestorOfReference.Root.Label
+                                    },
+                                    CommonAncestorOfReference = new ElementDescription
+                                    {
+                                        Hint = this.GetBreadcrum(missedMatchA.Original.MatchedReference),
+                                        Id = missedMatchA.Original.MatchedReference.Root.Id,
+                                        Type = missedMatchA.Original.MatchedReference.Root.Label
+                                    },
+                                    ScopeHint = this.GetPath(missedMatchA.Original.Element.LabelOf(t => t.Parent, t => t.Root.Label == "name").First(a => a.Root.Label != "name").Ancestors())
                                 },
-                                AncestorOfReference = new ElementDescription
+                                Modified = new MissedMatch
                                 {
-                                    Hint = originalAncestorOfReference.Root.Value,
-                                    Id = originalAncestorOfReference.Root.Id,
-                                    Type = originalAncestorOfReference.Root.Label
-                                },
-                                CommonAncestorOfReference = new ElementDescription
-                                {
-                                    Hint = missedMatchA.Original.MatchedReference.Root.Value,
-                                    Id = missedMatchA.Original.MatchedReference.Root.Id,
-                                    Type = missedMatchA.Original.MatchedReference.Root.Label
-                                },
-                                ScopeHint = this.GetPath(missedMatchA.Original.Element.LabelOf(t => t.Parent, t => t.Root.Label == "name").First(a => a.Root.Label != "name").Ancestors())
-                            },
-                            Modified = new MissedMatch
-                            {
-                                Element = new ElementDescription
-                                {
-                                    Hint = missedMatchA.Modified.Element.Root.Value,
-                                    Id = missedMatchA.Modified.Element.Root.Id,
-                                    Type = missedMatchA.Modified.Type
-                                },
-                                AncestorOfReference = new ElementDescription
-                                {
-                                    Hint = modifiedAncestorOfReference.Root.Value,
-                                    Id = modifiedAncestorOfReference.Root.Id,
-                                    Type = modifiedAncestorOfReference.Root.Label
-                                },
-                                CommonAncestorOfReference = new ElementDescription
-                                {
-                                    Hint = missedMatchA.Modified.MatchedReference.Root.Value,
-                                    Id = missedMatchA.Modified.MatchedReference.Root.Id,
-                                    Type = missedMatchA.Modified.MatchedReference.Root.Label
-                                },
-                                ScopeHint = this.GetPath(missedMatchA.Modified.Element.LabelOf(t => t.Parent, t => t.Root.Label == "name").First(a => a.Root.Label != "name").Ancestors())
-                            }
-                        });
+                                    Element = new ElementDescription
+                                    {
+                                        Hint = missedMatchA.Modified.Element.Root.Value,
+                                        Id = missedMatchA.Modified.Element.Root.Id,
+                                        Type = missedMatchA.Modified.Type
+                                    },
+                                    AncestorOfReference = new ElementDescription
+                                    {
+                                        Hint = this.GetBreadcrum(modifiedAncestorOfReference),
+                                        Id = modifiedAncestorOfReference.Root.Id,
+                                        Type = modifiedAncestorOfReference.Root.Label
+                                    },
+                                    CommonAncestorOfReference = new ElementDescription
+                                    {
+                                        Hint = this.GetBreadcrum(missedMatchA.Modified.MatchedReference),
+                                        Id = missedMatchA.Modified.MatchedReference.Root.Id,
+                                        Type = missedMatchA.Modified.MatchedReference.Root.Label
+                                    },
+                                    ScopeHint = this.GetPath(missedMatchA.Modified.Element.LabelOf(t => t.Parent, t => t.Root.Label == "name").First(a => a.Root.Label != "name").Ancestors())
+                                }
+                            });
+                        }
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        this.Report.AppendLine($"CANCELED;{pair.Id}");
+                        throw;
+                    }
+                    catch (OutOfMemoryException)
+                    {
+                        this.Report.AppendLine($"OUTOFMEMORY;{pair.Id}");
+                        throw;
                     }
                 },
-            cancel, false, "Principal");
+            cancel, true, "Principal");
         }
+
+        //private ElementTree GetReference(ElementTree element)
+        //{
+        //    string elementName = null;
+        //    if (element.Root.Label == "block")
+        //    {
+        //        var blockOf = element.LabelOf(t => t.Parent, t => t.Root.Label == "block")
+        //                             .First(t => t.Root.Label != "block");
+
+        //        return blockOf.NameOf(t => t.Children, t => t.Root.Label, t => t.Root.Value);
+        //        return elementName != null
+        //            ? $"{element.Root.Label}:{element.Root.Id}({blockOf.Root.Label}-{elementName})"
+        //            : $"{element.Root.Label}:{element.Root.Id}({blockOf.Root.Label})";
+        //    }
+
+        //    elementName = element.NameOf(t => t.Children, t => t.Root.Label, t => t.Root.Value);
+        //    return elementName != null
+        //        ? $"{element.Root.Label}:{element.Root.Id}({elementName})"
+        //        : $"{element.Root.Label}:{element.Root.Id}";
+        //}
 
         //public virtual void FindMissedMatchesAOfKeyedElement(Delta delta)
         //{
@@ -522,11 +562,7 @@ namespace Jawilliam.CDF.Labs
         //    }
         //}
 
-        protected virtual IEnumerable<MissedNameContext> NameContexts
-        {
-            get
-            {
-                Func<ElementTree, ElementTree> containerScope = t => t.Ancestors().First(
+        private ElementTree ContainerScope(ElementTree t) => t.Ancestors().First(
                     a => a.Root.Label == "unit" ||
                          a.Root.Label == "namespace" ||
                          a.Root.Label == "class" ||
@@ -540,12 +576,16 @@ namespace Jawilliam.CDF.Labs
                          a.Root.Label == "call" ||
                          a.Root.Label == "parameter");
 
+        protected virtual IEnumerable<MissedNameContext> NameContexts
+        {
+            get
+            {
                 yield return new MissedNameContext
                 {
                     Label = "decl", /*Type = "Field",*/
                     NameOf = delegate(ElementTree tree)
                     {
-                        var scope = containerScope(tree);
+                        var scope = ContainerScope(tree);
                         switch (scope.Root.Label)
                         {
                             case "class":
@@ -798,6 +838,27 @@ namespace Jawilliam.CDF.Labs
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Reports a summary of the file revision pairs of the given Git SQL database.
+        /// </summary>
+        /// <param name="sqlRepository">the SQL database repository.</param>
+        /// <returns><see cref="Tuple{T1,T2,T3}.Item1"/> total of file revision pairs, <see cref="Tuple{T1,T2,T3}.Item2"/> count 
+        /// of revision pairs with source code changes, and <see cref="Tuple{T1,T2,T3}.Item3"/> of revision pairs with only comment changes.</returns>
+        public virtual Tuple<int, int, int> Summarize(GitRepository sqlRepository)
+        {
+            int frpWithCodeChanges = 0, frpWithOnlyCommentChanges = 0;
+            foreach (var fileRevisionPair in sqlRepository.FileRevisionPairs.AsNoTracking().Include(frp => frp.Principal))
+            {
+                var sourceCodeChanges = fileRevisionPair.Principal.XAnnotations.SourceCodeChanges;
+                frpWithCodeChanges += sourceCodeChanges ? 1 : 0;
+                frpWithOnlyCommentChanges += sourceCodeChanges && fileRevisionPair.Principal.XAnnotations.OnlyCommentChanges ? 1 : 0;
+            }
+
+            return new Tuple<int, int, int>(sqlRepository.FileRevisionPairs.Count(),
+                                            frpWithCodeChanges,
+                                            frpWithOnlyCommentChanges);
         }
     }
 }

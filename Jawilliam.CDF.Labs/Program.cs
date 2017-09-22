@@ -351,16 +351,16 @@ namespace Jawilliam.CDF.Labs
             //                                //RemoveComments = true
             //                            }*/);
 
-            ReviewRevisionPairs2(@"E:\Phd\Analysis\Original.cs", @"E:\Phd\Analysis\Modified.cs",
-                ReviewKind.Ratio_LevenshteinGumTreeDeletions_LocalOutliers,
-                ReviewRevisionPair
-                                                    /*,
-                                                                new SourceCodeCleaner
-                                                                {
-                                                                    Normalize = true,
-                                                                    Indentation = "",
-                                                                    //RemoveComments = true
-                                                                }*/);
+            //ReviewRevisionPairs2(@"E:\Phd\Analysis\Original.cs", @"E:\Phd\Analysis\Modified.cs",
+            //    ReviewKind.Ratio_LevenshteinGumTreeDeletions_LocalOutliers,
+            //    ReviewRevisionPair
+            //                                        /*,
+            //                                                    new SourceCodeCleaner
+            //                                                    {
+            //                                                        Normalize = true,
+            //                                                        Indentation = "",
+            //                                                        //RemoveComments = true
+            //                                                    }*/);
 
             #endregion
 
@@ -386,10 +386,49 @@ namespace Jawilliam.CDF.Labs
             //    });
             #endregion
 
-            //ReportMissedMatchesAOfKeyedElement(ChangeDetectionApproaches.NativeGumTree);
+            //ReportMissedMatchesAOfNamedElements(ChangeDetectionApproaches.NativeGumTree);
+            //SummarizeFileRevisionPairs();
 
             //int i = 0; // the warning reports!!!
             System.Console.ReadKey();
+        }
+
+        public static void SummarizeFileRevisionPairs()
+        {
+            var analyzer = new FileRevisionPairAnalyzer();
+            System.IO.File.WriteAllText(@"E:\Phd\Analysis\FileRevisionPairsSummary.txt",
+                                        $"Project;Frp;FrpSCC;FrpOCC;RelevantFrp{Environment.NewLine}");
+
+            int allFrp = 0, allFrpScc = 0, allFrpOcc = 0; 
+            foreach (var project in Projects)
+            {
+                var dbRepository = new GitRepository(project.Name) { Name = project.Name };
+                ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 360;
+
+                var summary = analyzer.Summarize(dbRepository);
+                allFrp += summary.Item1;
+                allFrpScc += summary.Item2;
+                allFrpOcc += summary.Item3;
+
+                var projectSummary = $"{project.Name};" +
+                        $"{summary.Item1};" +
+                        $"{summary.Item2};" +
+                        $"{summary.Item3};" +
+                        $"{summary.Item2 - summary.Item3}";
+                System.IO.File.AppendAllText($@"E:\Phd\Analysis\FileRevisionPairsSummary.txt", 
+                                             projectSummary +
+                                             $"{Environment.NewLine}");
+                Console.Out.WriteLine(projectSummary);
+            }
+
+            var allSummary = $"ALL;" +
+                           $"{allFrp};" +
+                           $"{allFrpScc};" +
+                           $"{allFrpOcc};" +
+                           $"{allFrpScc - allFrpOcc}";
+            System.IO.File.AppendAllText($@"E:\Phd\Analysis\FileRevisionPairsSummary.txt", allSummary);
+            Console.Out.WriteLine(allSummary);
+            Console.Out.WriteLine($"Report collected!!!");
         }
 
         private static void DetectingNotRealSourceCodeChanges()
@@ -1055,24 +1094,25 @@ namespace Jawilliam.CDF.Labs
         {
             var analyzer = new FileRevisionPairAnalyzer { MillisecondsTimeout = 600000 };
             var errorFilePath = $@"E:\Phd\Analysis\MissedMatchesAErrors.txt";
-            foreach (var project in Projects)
+            foreach (var project in Projects.Skip(56))
             {
-                var reportFilePath = $@"E:\Phd\Analysis\MissedMatches{Enum.GetName(typeof(ChangeDetectionApproaches), approach)}-{project.Name}.txt";
-                System.IO.File.AppendAllText(reportFilePath, 
-                    "Indicator;Project;FileRevisionPair;" +
-                    "Original;Modified;" +
-                    "OriginalType;ModifiedType;" +
-                    "OriginalReference;ModifiedReference;" +
-                    "OriginalPath;ModifiedPath" + Environment.NewLine);
+                //var reportFilePath = $@"E:\Phd\Analysis\MissedMatches{Enum.GetName(typeof(ChangeDetectionApproaches), approach)}-{project.Name}.txt";
+                //System.IO.File.AppendAllText(reportFilePath, 
+                //    "Indicator;Project;FileRevisionPair;" +
+                //    "Original;Modified;" +
+                //    "OriginalType;ModifiedType;" +
+                //    "OriginalReference;ModifiedReference;" +
+                //    "OriginalPath;ModifiedPath" + Environment.NewLine);
 
                 var dbRepository = new GitRepository(project.Name) { Name = project.Name };
                 ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 600;
 
                 analyzer.Warnings = new StringBuilder();
                 analyzer.Report = new StringBuilder();
-                analyzer.SaveMissedNames(dbRepository, () => {}, approach, pair => false, reportFilePath);
+                analyzer.SaveMissedNames(dbRepository, () => {}, approach, pair => false);
 
                 System.IO.File.AppendAllText(errorFilePath, analyzer.Warnings.ToString());
+                System.IO.File.AppendAllText($@"E:\Phd\Analysis\MissedMatchesReportOfErrors.txt", analyzer.Report.ToString());
             }
             Console.Out.WriteLine($"DONE!!!");
         }
