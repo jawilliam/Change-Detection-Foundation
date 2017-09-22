@@ -1111,6 +1111,8 @@
           </Key>
           <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="None" />
           <NavigationProperty Name="Delta" Relationship="Jawilliam.CDF.Labs.SQL.OneDelta_MayHave_ManySymptoms" FromRole="Symptom" ToRole="Delta" />
+          <Property Name="Flags" Type="Int64" Nullable="true" />
+          <Property Name="Severity" Type="Byte" Nullable="true" />
         </EntityType>
         <ComplexType Name="ElementDescription" >
           <Property Type="String" Name="Type" Nullable="false" />

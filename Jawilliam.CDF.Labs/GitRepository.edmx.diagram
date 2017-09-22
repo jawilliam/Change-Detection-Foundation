@@ -59,8 +59,8 @@
         <AssociationConnector Association="Jawilliam.CDF.Labs.SQL.OneFileRevisionPair_MayHave_ManyReview" />
         <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.Project" Width="2.375" PointX="2" PointY="7.75" />
         <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.Symptom" Width="4.5" PointX="16.25" PointY="7" />
-        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.MissedNameSymptom" Width="2.125" PointX="14.75" PointY="11.125" />
-        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.MissedElementSymptom" Width="2.25" PointX="16.25" PointY="8.875" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.MissedNameSymptom" Width="2.125" PointX="14.75" PointY="11.625" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.MissedElementSymptom" Width="2.25" PointX="16.25" PointY="9.375" />
         <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.MissedElementSymptom" />
         <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.MissedNameSymptom" />
         <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.MissedNameSymptom" />

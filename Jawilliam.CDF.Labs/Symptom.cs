@@ -15,6 +15,8 @@ namespace Jawilliam.CDF.Labs
     public abstract partial class Symptom
     {
         public System.Guid Id { get; set; }
+        public Nullable<long> Flags { get; set; }
+        public Nullable<byte> Severity { get; set; }
     
         public virtual Delta Delta { get; set; }
     }
