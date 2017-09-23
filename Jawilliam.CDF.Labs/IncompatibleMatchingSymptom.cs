@@ -12,19 +12,17 @@ namespace Jawilliam.CDF.Labs
     using System;
     using System.Collections.Generic;
     
-    public abstract partial class Symptom
+    public partial class IncompatibleMatchingSymptom : Symptom
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Symptom()
+        public IncompatibleMatchingSymptom()
         {
-            this.Certainty = new Certainty();
+            this.Original = new ElementContext();
+            this.Modified = new ElementContext();
         }
     
-        public System.Guid Id { get; set; }
-        public Nullable<int> Notes { get; set; }
     
-        public Certainty Certainty { get; set; }
-    
-        public virtual Delta Delta { get; set; }
+        public ElementContext Original { get; set; }
+        public ElementContext Modified { get; set; }
     }
 }

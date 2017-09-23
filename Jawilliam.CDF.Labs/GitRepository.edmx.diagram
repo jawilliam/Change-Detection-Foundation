@@ -65,6 +65,12 @@
         <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.MissedNameSymptom" />
         <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.MissedNameSymptom" />
         <AssociationConnector Association="Jawilliam.CDF.Labs.SQL.OneDelta_MayHave_ManySymptoms" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.CoexistenceSymptom" Width="3" PointX="18.75" PointY="9.375" />
+        <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.CoexistenceSymptom" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.NameCoexistenceSymptom" Width="2.125" PointX="18.25" PointY="11.625" />
+        <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.NameCoexistenceSymptom" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.IncompatibleMatchingSymptom" Width="2.375" PointX="22" PointY="9.375" />
+        <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.IncompatibleMatchingSymptom" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -179,10 +179,16 @@
     <Compile Include="CaseKind.cs">
       <DependentUpon>GitRepository.tt</DependentUpon>
     </Compile>
+    <Compile Include="Certainty.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
     <Compile Include="ChangeDetectionApproaches.cs">
       <DependentUpon>GitRepository.tt</DependentUpon>
     </Compile>
     <Compile Include="CodeCategory.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CoexistenceSymptom.cs">
       <DependentUpon>GitRepository.tt</DependentUpon>
     </Compile>
     <Compile Include="Commit.cs">
@@ -195,6 +201,9 @@
       <DependentUpon>GitRepository.tt</DependentUpon>
     </Compile>
     <Compile Include="Delta.Custom.cs" />
+    <Compile Include="ElementContext.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
     <Compile Include="ElementDescription.cs">
       <DependentUpon>GitRepository.tt</DependentUpon>
     </Compile>
@@ -229,10 +238,10 @@
       <DependentUpon>GitRepository.tt</DependentUpon>
     </Compile>
     <Compile Include="FileRevisionPairAnalyzer.cs" />
+    <Compile Include="FileContentSummary.Custom.cs" />
     <Compile Include="FileVersion.cs">
       <DependentUpon>GitRepository.tt</DependentUpon>
     </Compile>
-    <Compile Include="FileContentSummary.Custom.cs" />
     <Compile Include="FileVersionAnalyzer.cs" />
     <Compile Include="FromLocalGitToSqlDbDeployment.cs" />
     <Compile Include="GitRepository.Context.Custom.cs" />
@@ -251,6 +260,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>GitRepository.edmx</DependentUpon>
     </Compile>
+    <Compile Include="IncompatibleMatchingSymptom.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
     <Compile Include="LinesOfCodeMetric.cs" />
     <Compile Include="MissedElement.cs" />
     <Compile Include="MissedElementSymptom.cs">
@@ -264,6 +276,9 @@
       <DependentUpon>GitRepository.tt</DependentUpon>
     </Compile>
     <Compile Include="MissedVersion.cs" />
+    <Compile Include="NameCoexistenceSymptom.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
     <Compile Include="PairRevisionInfo.cs">
       <DependentUpon>GitRepository.tt</DependentUpon>
     </Compile>
@@ -291,6 +306,9 @@
     <Compile Include="RevisionPairReview.cs" />
     <Compile Include="SourceCodeMetric.cs" />
     <Compile Include="SourceCodeCleaner.cs" />
+    <Compile Include="SubcorpusKind.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
     <Compile Include="Symptom.cs">
       <DependentUpon>GitRepository.tt</DependentUpon>
     </Compile>
