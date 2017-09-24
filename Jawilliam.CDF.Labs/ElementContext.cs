@@ -10,21 +10,16 @@
 namespace Jawilliam.CDF.Labs
 {
     using System;
-    using System.Collections.Generic;
     
-    public abstract partial class Symptom
+    public partial class ElementContext
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Symptom()
+        public ElementContext()
         {
-            this.Certainty = new Certainty();
+            this.Element = new ElementDescription();
         }
     
-        public System.Guid Id { get; set; }
-        public Nullable<int> Notes { get; set; }
+        public string ScopeHint { get; set; }
     
-        public Certainty Certainty { get; set; }
-    
-        public virtual Delta Delta { get; set; }
+        public ElementDescription Element { get; set; }
     }
 }
