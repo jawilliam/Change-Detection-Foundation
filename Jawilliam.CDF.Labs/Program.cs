@@ -388,6 +388,7 @@ namespace Jawilliam.CDF.Labs
 
             //ReportMissedMatchesAOfNamedElements(ChangeDetectionApproaches.NativeGumTree);
             //SummarizeFileRevisionPairs();
+            ReportConfusingRenames(ChangeDetectionApproaches.NativeGumTree);
 
             //int i = 0; // the warning reports!!!
             System.Console.ReadKey();
@@ -1094,7 +1095,7 @@ namespace Jawilliam.CDF.Labs
         {
             var analyzer = new FileRevisionPairAnalyzer { MillisecondsTimeout = 600000 };
             var errorFilePath = $@"E:\Phd\Analysis\MissedMatchesAErrors.txt";
-            foreach (var project in Projects.Skip(56))
+            foreach (var project in Projects)
             {
                 //var reportFilePath = $@"E:\Phd\Analysis\MissedMatches{Enum.GetName(typeof(ChangeDetectionApproaches), approach)}-{project.Name}.txt";
                 //System.IO.File.AppendAllText(reportFilePath, 
@@ -1113,6 +1114,32 @@ namespace Jawilliam.CDF.Labs
 
                 System.IO.File.AppendAllText(errorFilePath, analyzer.Warnings.ToString());
                 System.IO.File.AppendAllText($@"E:\Phd\Analysis\MissedMatchesReportOfErrors.txt", analyzer.Report.ToString());
+            }
+            Console.Out.WriteLine($"DONE!!!");
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="approach"></param>
+        private static void ReportConfusingRenames(ChangeDetectionApproaches approach)
+        {
+            var analyzer = new FileRevisionPairAnalyzer { MillisecondsTimeout = 600000 };
+            var errorFilePath = $@"E:\Phd\Analysis\ConfusingRenames\Errors.txt";
+            foreach (var project in Projects)
+            {
+                System.IO.File.AppendAllText($@"E:\Phd\Analysis\ConfusingRenames\{project.Name}.txt", 
+                    $"OriginalType;ModifiedType;OriginalName;ModifiedName;CoexistingOriginalName;Original;Modified;CoexistingOriginal;OriginalPath;ModifiedPath{Environment.NewLine}");
+
+                var dbRepository = new GitRepository(project.Name) { Name = project.Name };
+                ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 600;
+
+                analyzer.Warnings = new StringBuilder();
+                analyzer.Report = new StringBuilder();
+                analyzer.SaveConfusingRenames(dbRepository, () => { }, approach, pair => false);
+
+                System.IO.File.AppendAllText(errorFilePath, analyzer.Warnings.ToString());
+                System.IO.File.AppendAllText($@"E:\Phd\Analysis\ConfusingRenames\{project.Name}.txt", analyzer.Report.ToString());
             }
             Console.Out.WriteLine($"DONE!!!");
         }

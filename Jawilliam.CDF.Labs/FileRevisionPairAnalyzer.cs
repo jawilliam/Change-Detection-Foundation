@@ -125,7 +125,7 @@ namespace Jawilliam.CDF.Labs
                 }
 
                 Console.Out.WriteLine($"Saving the {counter}-file version ({repositoryObjectIds.Count}) of {sqlRepository.Name}");
-                sqlRepository.Flush();
+                sqlRepository.Flush(saveChanges);
             }
         }
 
@@ -478,6 +478,112 @@ namespace Jawilliam.CDF.Labs
                     }
                 },
             cancel, true, "Principal");
+        }
+
+        /// <summary>
+        /// Analyzes the similarity in according with a given similarity metric, such as Levenshtein.
+        /// </summary>
+        /// <param name="sqlRepository">the SQL database repository in which to analyze the file versions.</param>
+        /// <param name="cancel">Action to execute cancellation logic.</param>
+        /// <param name="approach"></param>
+        /// <param name="skipThese">local criterion for determining elements that should be ignored.</param>
+        public virtual void SaveConfusingRenames(GitRepository sqlRepository, Action cancel, ChangeDetectionApproaches approach, Func<FileRevisionPair, bool> skipThese)
+        {
+            this.Analyze(sqlRepository, "file revision pair",
+              f => f.Principal.Deltas.Any(d => d.Approach == approach &&
+                                               d.Matching != null &&
+                                               d.Differencing != null &&
+                                               d.Report == null),
+                delegate (FileRevisionPair pair, CancellationToken token)
+                {
+                    if (skipThese?.Invoke(pair) ?? false) return;
+
+                    var delta = sqlRepository.Deltas.Single(d => d.RevisionPair.Id == pair.Principal.Id && d.Approach == approach);
+                    try
+                    {
+                        var missedMatchesA = this.FindConfusingRenames(delta, token);
+
+                        foreach (var missedMatchA in missedMatchesA)
+                        {
+                            var originalAncestorOfReference = missedMatchA.Original.Element.LabelOf(t => t.Parent, t => t.Root.Label == "name")
+                                .First(a => a.Root.Label != "name").Ancestors().First();
+                            var modifiedAncestorOfReference = missedMatchA.Modified.Element.LabelOf(t => t.Parent, t => t.Root.Label == "name")
+                                .First(a => a.Root.Label != "name").Ancestors().First();
+                            //var coexistingAncestorOfReference = missedMatchA.Original.MatchedReference.LabelOf(t => t.Parent, t => t.Root.Label == "name")
+                            //    .First(a => a.Root.Label != "name").Ancestors().First();
+                            this.Report.AppendLine($"{missedMatchA.Original.Type};" +
+                                                   $"{missedMatchA.Modified.Type};" +
+                                                   $"{this.GetBreadcrum(missedMatchA.Original.Element)};" +
+                                                   $"{this.GetBreadcrum(missedMatchA.Modified.Element)};" +
+                                                   $"{this.GetBreadcrum(missedMatchA.Modified.MatchedReference)};" +
+                                                   $"{this.GetBreadcrum(missedMatchA.Original.Element.LabelOf(t => t.Parent, t => t.Root.Label == "name").First(a => a.Root.Label != "name"))};" +
+                                                   $"{this.GetBreadcrum(missedMatchA.Modified.Element.LabelOf(t => t.Parent, t => t.Root.Label == "name").First(a => a.Root.Label != "name"))};" +
+                                                   $"{this.GetBreadcrum(missedMatchA.Modified.MatchedReference.LabelOf(t => t.Parent, t => t.Root.Label == "name").First(a => a.Root.Label != "name"))};" +
+                                                   $"{this.GetPath(missedMatchA.Original.Element.LabelOf(t => t.Parent, t => t.Root.Label == "name").First(a => a.Root.Label != "name").Ancestors())};" +
+                                                   $"{this.GetPath(missedMatchA.Modified.Element.LabelOf(t => t.Parent, t => t.Root.Label == "name").First(a => a.Root.Label != "name").Ancestors())}");
+                            //delta.Symptoms.Add(new MissedNameSymptom
+                            //{
+                            //    Id = Guid.NewGuid(),
+                            //    Pattern = missedMatchA.Case,
+                            //    Original = new MissedMatch
+                            //    {
+                            //        Element = new ElementDescription
+                            //        {
+                            //            Hint = missedMatchA.Original.Element.Root.Value,
+                            //            Id = missedMatchA.Original.Element.Root.Id,
+                            //            Type = missedMatchA.Original.Type
+                            //        },
+                            //        AncestorOfReference = new ElementDescription
+                            //        {
+                            //            Hint = this.GetBreadcrum(originalAncestorOfReference),
+                            //            Id = originalAncestorOfReference.Root.Id,
+                            //            Type = originalAncestorOfReference.Root.Label
+                            //        }/*,
+                            //        CommonAncestorOfReference = new ElementDescription
+                            //        {
+                            //            Hint = this.GetBreadcrum(missedMatchA.Original.MatchedReference),
+                            //            Id = missedMatchA.Original.MatchedReference.Root.Id,
+                            //            Type = missedMatchA.Original.MatchedReference.Root.Label
+                            //        }*/,
+                            //        ScopeHint = this.GetPath(missedMatchA.Original.Element.LabelOf(t => t.Parent, t => t.Root.Label == "name").First(a => a.Root.Label != "name").Ancestors())
+                            //    },
+                            //    Modified = new MissedMatch
+                            //    {
+                            //        Element = new ElementDescription
+                            //        {
+                            //            Hint = missedMatchA.Modified.Element.Root.Value,
+                            //            Id = missedMatchA.Modified.Element.Root.Id,
+                            //            Type = missedMatchA.Modified.Type
+                            //        },
+                            //        AncestorOfReference = new ElementDescription
+                            //        {
+                            //            Hint = this.GetBreadcrum(modifiedAncestorOfReference),
+                            //            Id = modifiedAncestorOfReference.Root.Id,
+                            //            Type = modifiedAncestorOfReference.Root.Label
+                            //        }/*,
+                            //        CommonAncestorOfReference = new ElementDescription
+                            //        {
+                            //            Hint = this.GetBreadcrum(missedMatchA.Modified.MatchedReference),
+                            //            Id = missedMatchA.Modified.MatchedReference.Root.Id,
+                            //            Type = missedMatchA.Modified.MatchedReference.Root.Label
+                            //        }*/,
+                            //        ScopeHint = this.GetPath(missedMatchA.Modified.Element.LabelOf(t => t.Parent, t => t.Root.Label == "name").First(a => a.Root.Label != "name").Ancestors())
+                            //    }
+                            //});
+                        }
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        this.Report.AppendLine($"CANCELED;{pair.Id}");
+                        throw;
+                    }
+                    catch (OutOfMemoryException)
+                    {
+                        this.Report.AppendLine($"OUTOFMEMORY;{pair.Id}");
+                        throw;
+                    }
+                },
+            cancel, false, "Principal");
         }
 
         //private ElementTree GetReference(ElementTree element)
@@ -838,6 +944,83 @@ namespace Jawilliam.CDF.Labs
                     }
                 }
             }
+        }
+
+        public virtual IEnumerable<MissedElement> FindConfusingRenames(Delta delta, CancellationToken token)
+        {
+            var detectionResult = (DetectionResult)delta.DetectionResult;
+            if (!detectionResult.Actions.OfType<UpdateOperationDescriptor>().Any())
+                yield break;
+
+            var originalTree = ElementTree.Read(delta.OriginalTree, Encoding.Unicode);
+            var modifiedTree = ElementTree.Read(delta.ModifiedTree, Encoding.Unicode);
+
+            var updates = detectionResult.Actions.OfType<UpdateOperationDescriptor>()
+                .Where(m => m.Element.Label == "name")
+                .Select(delegate (UpdateOperationDescriptor t)
+                {
+                    var match = detectionResult.Matches.Single(m => m.Original.Id == t.Element.Id);
+                    var modified = modifiedTree.PostOrder(n => n.Children).First(n => n.Root.Id == match.Modified.Id);
+                    var original = originalTree.PostOrder(n => n.Children).First(n => n.Root.Id == t.Element.Id);
+                    return new RevisionPair<ElementTree, ElementTree>
+                    {
+                        Original = original,
+                        Modified = modified
+                    };
+                })
+                //.Select(t => )
+                .Select(t => new { Matching = t, Context = this.NameContexts.SingleOrDefault(nm => nm.Criterion(t.Original) && nm.Criterion(t.Modified)) })
+                .Where(t => t.Context != null)
+                //.Select(t => new { CandidateName = t, OriginalTree = detectionResult.Matches.SingleOrDefault(m => m.Modified.Id == t.Tree.Root.Id) })
+                .ToList();
+
+            var renameContexts = new HashSet<MissedNameContext>();
+            foreach (var update in updates.Where(u => !renameContexts.Contains(u.Context)))
+            {
+                renameContexts.Add(update.Context);
+            }
+            
+            // Analysis per name type.
+            foreach (var missedNameContext in renameContexts)
+            {
+                var existingNames = originalTree.PostOrder(n => n.Children).Where(n => missedNameContext.Criterion(n)).ToList();
+                foreach (var update in updates.Where(u => u.Context == missedNameContext))
+                {
+                    var modifiedName = existingNames.FirstOrDefault(n => n.Root.Value == update.Matching.Modified.Root.Value);
+                    //var originalName = existingNames.FirstOrDefault(n => n.Root.Value == update.Matching.Original.Root.Value);
+
+                    if(modifiedName != null)
+                        yield return new MissedElement
+                    {
+                        Case = "Coexisting Names",
+                        Modified = new MissedVersion
+                        {
+                            Type = update.Context.NameOf(update.Matching.Modified),
+                            Element = update.Matching.Modified,
+                            MatchedReference = modifiedName,
+                            Scopes = update.Context.OuterScopes(update.Matching.Modified)
+                        },
+                        Original = new MissedVersion
+                        {
+                            Type = update.Context.NameOf(update.Matching.Original),
+                            Element = update.Matching.Original,
+                            MatchedReference = update.Matching.Original,
+                            Scopes = update.Context.OuterScopes(update.Matching.Original)
+                        }
+                    };
+                }
+            }
+
+            //var updatedNamesM = detectionResult.Actions.OfType<UpdateOperationDescriptor>()
+            //    .Where(m => m.Element.Label == "name")
+            //    .Select(delegate (UpdateOperationDescriptor t)
+            //    {
+            //        var match = detectionResult.Matches.Single(m => m.Original.Id == t.Element.Id);
+            //        return modifiedTree.PostOrder(n => n.Children).First(n => n.Root.Id == match.Modified.Id);
+            //    })
+            //    .Select(t => new CandidateName { Tree = t, Context = this.NameContexts.SingleOrDefault(nm => nm.Criterion(t)) })
+            //    .Where(t => t.Context != null)
+            //    .ToList();
         }
 
         /// <summary>
