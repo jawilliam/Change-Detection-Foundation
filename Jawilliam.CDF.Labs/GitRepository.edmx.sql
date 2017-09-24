@@ -8,8 +8,8 @@
 
 SET QUOTED_IDENTIFIER OFF;
 GO
-USE [GitRepositoryDb];
-GO
+--USE [GitRepositoryDb];
+--GO
 IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
 GO
 
@@ -947,7 +947,7 @@ GO
 ALTER TABLE [dbo].[Symptoms_MissedNameSymptom]
 ADD CONSTRAINT [FK_MissedNameSymptom_inherits_MissedNameSymptom]
     FOREIGN KEY ([Id])
-    REFERENCES [dbo].[Symptoms_MissedNameSymptom]
+    REFERENCES [dbo].[Symptoms]
         ([Id])
     ON DELETE CASCADE ON UPDATE NO ACTION;
 GO
