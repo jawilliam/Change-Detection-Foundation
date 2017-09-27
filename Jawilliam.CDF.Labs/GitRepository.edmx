@@ -1236,6 +1236,12 @@
           <Member Name="GlobalMovePorcentageLvGtLowerOutlier" Value="131072" />
           <Member Name="GlobalMovePorcentageLvGtMedianCloser" Value="262144" />
           <Member Name="GlobalMovePorcentageLvGtRandom" Value="524288" />
+          <Member Name="None" Value="0" />
+          <Member Name="GlobalGeneralRatioLvGtNotAssigned" Value="1048576" />
+          <Member Name="GlobalInsertionPorcentageLvGtNotAssigned" Value="2097152" />
+          <Member Name="GlobalDeletionPorcentageLvGtNotAssigned" Value="4194304" />
+          <Member Name="GlobalUpdatePorcentageLvGtNotAssigned" Value="8388608" />
+          <Member Name="GlobalMovePorcentageLvGtNotAssigned" Value="16777216" />
         </EnumType>
         <EntityType Name="CoexistenceSymptom" BaseType="Jawilliam.CDF.Labs.SQL.Symptom" Abstract="true" >
           <Property Name="Original" Type="Jawilliam.CDF.Labs.SQL.ElementContext" Nullable="false" />

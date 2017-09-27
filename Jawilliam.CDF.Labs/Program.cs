@@ -388,8 +388,25 @@ namespace Jawilliam.CDF.Labs
 
             //ReportMissedMatchesAOfNamedElements(ChangeDetectionApproaches.NativeGumTree);
             //SummarizeFileRevisionPairs();
-            ReportConfusingRenames(ChangeDetectionApproaches.NativeGumTree);
+            //ReportConfusingRenames(ChangeDetectionApproaches.NativeGumTree);
 
+            //var analyzer = new DeltaAnalyzer();
+            //var namesRow = true;
+            //foreach (var project in Projects)
+            //{
+            //    analyzer.Report = new StringBuilder();
+            //    var dbRepository = new GitRepository(project.Name) { Name = project.Name };
+            //    ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 360;
+
+            //    analyzer.SummarizeSubcorpusSelection(dbRepository,
+            //        ChangeDetectionApproaches.NativeGumTreeWithoutComments,
+            //        namesRow);
+            //    namesRow = false;
+            //    Console.Out.WriteLine($"{project.Name}");
+            //    System.IO.File.AppendAllText(@"E:\Phd\Analysis\ConfusingRenames\Report.csv", analyzer.Report);
+            //}
+
+            Console.Out.WriteLine($"DONE");
             //int i = 0; // the warning reports!!!
             System.Console.ReadKey();
         }
@@ -1125,11 +1142,11 @@ namespace Jawilliam.CDF.Labs
         private static void ReportConfusingRenames(ChangeDetectionApproaches approach)
         {
             var analyzer = new FileRevisionPairAnalyzer { MillisecondsTimeout = 600000 };
-            var errorFilePath = $@"E:\Phd\Analysis\ConfusingRenames\Errors.txt";
+            var errorFilePath = $@"E:\Phd\Analysis\ConfusingRenames\Errors2.txt";
             foreach (var project in Projects)
             {
-                System.IO.File.AppendAllText($@"E:\Phd\Analysis\ConfusingRenames\{project.Name}.txt", 
-                    $"OriginalType;ModifiedType;OriginalName;ModifiedName;CoexistingOriginalName;Original;Modified;CoexistingOriginal;OriginalPath;ModifiedPath{Environment.NewLine}");
+                //System.IO.File.AppendAllText($@"E:\Phd\Analysis\ConfusingRenames\{project.Name}.txt", 
+                //    $"OriginalType;ModifiedType;OriginalName;ModifiedName;CoexistingOriginalName;Original;Modified;CoexistingOriginal;OriginalPath;ModifiedPath{Environment.NewLine}");
 
                 var dbRepository = new GitRepository(project.Name) { Name = project.Name };
                 ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 600;
@@ -1139,7 +1156,7 @@ namespace Jawilliam.CDF.Labs
                 analyzer.SaveConfusingRenames(dbRepository, () => { }, approach, pair => false);
 
                 System.IO.File.AppendAllText(errorFilePath, analyzer.Warnings.ToString());
-                System.IO.File.AppendAllText($@"E:\Phd\Analysis\ConfusingRenames\{project.Name}.txt", analyzer.Report.ToString());
+                //System.IO.File.AppendAllText($@"E:\Phd\Analysis\ConfusingRenames\{project.Name}.txt", analyzer.Report.ToString());
             }
             Console.Out.WriteLine($"DONE!!!");
         }

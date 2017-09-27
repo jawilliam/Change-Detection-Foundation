@@ -201,6 +201,7 @@
       <DependentUpon>GitRepository.tt</DependentUpon>
     </Compile>
     <Compile Include="Delta.Custom.cs" />
+    <Compile Include="DeltaAnalyzer.cs" />
     <Compile Include="ElementContext.cs">
       <DependentUpon>GitRepository.tt</DependentUpon>
     </Compile>
