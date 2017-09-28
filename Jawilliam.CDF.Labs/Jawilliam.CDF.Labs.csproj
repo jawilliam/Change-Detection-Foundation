@@ -208,6 +208,8 @@
     <Compile Include="ElementDescription.cs">
       <DependentUpon>GitRepository.tt</DependentUpon>
     </Compile>
+    <Compile Include="ElementContext.Custom.cs" />
+    <Compile Include="ElementDescription.Custom.cs" />
     <Compile Include="File.cs">
       <DependentUpon>GitRepository.tt</DependentUpon>
     </Compile>

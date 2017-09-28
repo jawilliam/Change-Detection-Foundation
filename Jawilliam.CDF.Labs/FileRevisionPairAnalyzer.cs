@@ -378,7 +378,7 @@ namespace Jawilliam.CDF.Labs
                 : $"{element.Root.Label}:{element.Root.Id}";
         }
 
-        private string GetPath(IEnumerable<ElementTree> trees) => trees.Aggregate("", (s, ancestor) => s != ""
+        protected string GetPath(IEnumerable<ElementTree> trees) => trees.Aggregate("", (s, ancestor) => s != ""
            ? $"{s}##{this.GetBreadcrum(ancestor)}"
            : this.GetBreadcrum(ancestor));
 
@@ -668,6 +668,7 @@ namespace Jawilliam.CDF.Labs
         private ElementTree ContainerScope(ElementTree t) => t.Ancestors().First(
                     a => a.Root.Label == "unit" ||
                          a.Root.Label == "namespace" ||
+                         a.Root.Label == "interface" ||
                          a.Root.Label == "class" ||
                          a.Root.Label == "struct" ||
                          a.Root.Label == "enum" ||
@@ -691,6 +692,7 @@ namespace Jawilliam.CDF.Labs
                         var scope = ContainerScope(tree);
                         switch (scope.Root.Label)
                         {
+                            case "interface":
                             case "class":
                             case "struct": return "field";
                             case "enum": return "enumvalue";
@@ -997,7 +999,7 @@ namespace Jawilliam.CDF.Labs
                                 {
                                     Id = update.Matching.Original.Root.Id,
                                     Type = this.NameContexts.Single(nc => nc.Criterion(update.Matching.Original)).NameOf(update.Matching.Original),
-                                    Hint = update.Matching.Original.Root.Label
+                                    Hint = update.Matching.Original.Root.Value
                                 },
                                 ScopeHint = this.GetPath(update.Context.OuterScopes(update.Matching.Original))
                             },
@@ -1007,7 +1009,7 @@ namespace Jawilliam.CDF.Labs
                                 {
                                     Id = update.Matching.Modified.Root.Id,
                                     Type = this.NameContexts.Single(nc => nc.Criterion(update.Matching.Modified)).NameOf(update.Matching.Modified),
-                                    Hint = update.Matching.Modified.Root.Label
+                                    Hint = update.Matching.Modified.Root.Value
                                 },
                                 ScopeHint = this.GetPath(update.Context.OuterScopes(update.Matching.Modified))
                             },
@@ -1017,7 +1019,7 @@ namespace Jawilliam.CDF.Labs
                                 {
                                     Id = existingName.Root.Id,
                                     Type = this.NameContexts.Single(nc => nc.Criterion(existingName)).NameOf(existingName),
-                                    Hint = existingName.Root.Label
+                                    Hint = existingName.Root.Value
                                 },
                                 ScopeHint = this.GetPath(update.Context.OuterScopes(existingName))
                             }

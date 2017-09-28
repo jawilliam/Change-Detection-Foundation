@@ -21,6 +21,7 @@ namespace Jawilliam.CDF.Labs
             this.Modified = new ElementContext();
         }
     
+        public string Pattern { get; set; }
     
         public ElementContext Original { get; set; }
         public ElementContext Modified { get; set; }
