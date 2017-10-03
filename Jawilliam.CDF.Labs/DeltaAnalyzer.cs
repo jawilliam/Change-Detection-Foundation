@@ -190,13 +190,13 @@ namespace Jawilliam.CDF.Labs
             {
                 delegate(ElementTree o, ElementTree m)
                 {
-                    if ((o.Root.Label == "name" && o.Root.Value == "this" && m.Root.Value != "this") ||
-                        (m.Root.Label == "name" && m.Root.Value == "this" && o.Root.Value != "this"))
-                        return "this instance expression";
+                    //if ((o.Root.Label == "name" && o.Root.Value == "this" && m.Root.Value != "this") ||
+                    //    (m.Root.Label == "name" && m.Root.Value == "this" && o.Root.Value != "this"))
+                    //    return "this instance expression";
 
-                    if ((o.Root.Label == "name" && o.Root.Value == "base" && m.Root.Value != "base") ||
-                        (m.Root.Label == "name" && m.Root.Value == "base" && o.Root.Value != "base"))
-                        return "base instance expression";
+                    //if ((o.Root.Label == "name" && o.Root.Value == "base" && m.Root.Value != "base") ||
+                    //    (m.Root.Label == "name" && m.Root.Value == "base" && o.Root.Value != "base"))
+                    //    return "base instance expression";
 
                     if (o.Root.Label == "name" && m.Root.Label == "name")
                     {
@@ -207,64 +207,85 @@ namespace Jawilliam.CDF.Labs
                             modifiedType = SyntaxFactory.ParseTypeName(m.Root.Value);
                         }catch (Exception){}
 
-                        if ((originalType is PredefinedTypeSyntax && !(modifiedType is PredefinedTypeSyntax)) ||
-                            (modifiedType is PredefinedTypeSyntax && !(originalType is PredefinedTypeSyntax)))
+                        if (originalType != null && modifiedType != null)
                         {
-                            return "builtin type updates to non-builtin type";
+                            var types = new[]
+                            {
+                                 new { TypeNames = new[] { "bool", "Boolean"}}
+                                ,new { TypeNames = new[] { "byte", "Byte"}}
+                                ,new { TypeNames = new[] { "sbyte", "SByte"}}
+                                ,new { TypeNames = new[] { "char", "Char"}}
+                                ,new { TypeNames = new[] { "decimal", "Decimal"}}
+                                ,new { TypeNames = new[] { "double", "Double"}}
+                                ,new { TypeNames = new[] { "float", "Single"}}
+                                ,new { TypeNames = new[] { "int", "Int32"}}
+                                ,new { TypeNames = new[] { "uint", "UInt32"}}
+                                ,new { TypeNames = new[] { "long", "Int64"}}
+                                ,new { TypeNames = new[] { "ulong", "UInt64"}}
+                                ,new { TypeNames = new[] { "object", "Object"}}
+                                ,new { TypeNames = new[] { "short", "Int16"}}
+                                ,new { TypeNames = new[] { "ushort", "UInt16"}}
+                                ,new { TypeNames = new[] { "string", "String"}}
+                            };
+
+                            var oType = types.SingleOrDefault(t => t.TypeNames.Contains(originalType.ToFullString()));
+                            var mType = types.SingleOrDefault(t => t.TypeNames.Contains(modifiedType.ToFullString()));
+                            if(oType != mType)
+                                return "builtin type updates to non-builtin type";
                         }
                     }
 
-                    if ((o.Root.Label == "literal" && o.Root.Value == "null" && m.Root.Value != "null") ||
-                        (m.Root.Label == "literal" && m.Root.Value == "null" && o.Root.Value != "null"))
-                        return "null literal mismatch";
+                    //if ((o.Root.Label == "literal" && o.Root.Value == "null" && m.Root.Value != "null") ||
+                    //    (m.Root.Label == "literal" && m.Root.Value == "null" && o.Root.Value != "null"))
+                    //    return "null literal mismatch";
 
-                    if ((o.Root.Label == "literal" && o.Root.Value == "true" && m.Root.Value != "true" && m.Root.Value != "false") ||
-                        (m.Root.Label == "literal" && m.Root.Value == "true" && o.Root.Value != "true" && o.Root.Value != "false"))
-                        return "true literal mismatch";
+                    //if ((o.Root.Label == "literal" && o.Root.Value == "true" && m.Root.Value != "true" && m.Root.Value != "false") ||
+                    //    (m.Root.Label == "literal" && m.Root.Value == "true" && o.Root.Value != "true" && o.Root.Value != "false"))
+                    //    return "true literal mismatch";
 
-                    if ((o.Root.Label == "literal" && o.Root.Value == "false" && m.Root.Value != "false" && m.Root.Value != "true") ||
-                        (m.Root.Label == "literal" && m.Root.Value == "false" && o.Root.Value != "false" && o.Root.Value != "true"))
-                        return "false literal mismatch";
+                    //if ((o.Root.Label == "literal" && o.Root.Value == "false" && m.Root.Value != "false" && m.Root.Value != "true") ||
+                    //    (m.Root.Label == "literal" && m.Root.Value == "false" && o.Root.Value != "false" && o.Root.Value != "true"))
+                    //    return "false literal mismatch";
 
-                    if (o.Root.Label == "literal" && m.Root.Label == "literal")
-                    {
-                        ExpressionSyntax originalLiteral = null, modifiedLiteral = null;
-                        try
-                        {
-                            originalLiteral = SyntaxFactory.ParseExpression(o.Root.Value);
-                            modifiedLiteral = SyntaxFactory.ParseExpression(m.Root.Value);
-                        }catch (Exception){}
+                    //if (o.Root.Label == "literal" && m.Root.Label == "literal")
+                    //{
+                    //    ExpressionSyntax originalLiteral = null, modifiedLiteral = null;
+                    //    try
+                    //    {
+                    //        originalLiteral = SyntaxFactory.ParseExpression(o.Root.Value);
+                    //        modifiedLiteral = SyntaxFactory.ParseExpression(m.Root.Value);
+                    //    }catch (Exception){}
 
-                        if (originalLiteral != null && modifiedLiteral != null)
-                        {
-                            if ((originalLiteral.Kind() == SyntaxKind.TrueLiteralExpression ||
-                                 originalLiteral.Kind() == SyntaxKind.FalseLiteralExpression) &&
-                                (modifiedLiteral.Kind() == SyntaxKind.TrueLiteralExpression ||
-                                 modifiedLiteral.Kind() == SyntaxKind.FalseLiteralExpression))
-                                return null;
+                    //    if (originalLiteral != null && modifiedLiteral != null)
+                    //    {
+                    //        if ((originalLiteral.Kind() == SyntaxKind.TrueLiteralExpression ||
+                    //             originalLiteral.Kind() == SyntaxKind.FalseLiteralExpression) &&
+                    //            (modifiedLiteral.Kind() == SyntaxKind.TrueLiteralExpression ||
+                    //             modifiedLiteral.Kind() == SyntaxKind.FalseLiteralExpression))
+                    //            return null;
 
-                            if ((originalLiteral.Kind() == SyntaxKind.ThisExpression ||
-                                 originalLiteral.Kind() == SyntaxKind.BaseExpression) &&
-                                (modifiedLiteral.Kind() == SyntaxKind.ThisExpression ||
-                                 modifiedLiteral.Kind() == SyntaxKind.BaseExpression))
-                                return null;
+                    //        if ((originalLiteral.Kind() == SyntaxKind.ThisExpression ||
+                    //             originalLiteral.Kind() == SyntaxKind.BaseExpression) &&
+                    //            (modifiedLiteral.Kind() == SyntaxKind.ThisExpression ||
+                    //             modifiedLiteral.Kind() == SyntaxKind.BaseExpression))
+                    //            return null;
 
-                            if(originalLiteral.RawKind != modifiedLiteral.RawKind && 
-                               originalLiteral.ToFullString()?.Trim('"').Trim('\'') !=
-                               modifiedLiteral.ToFullString()?.Trim('"').Trim('\''))
-                                return "literals update";
-                        }
-                    }
+                    //        if(originalLiteral.RawKind != modifiedLiteral.RawKind && 
+                    //           originalLiteral.ToFullString()?.Trim('"').Trim('\'') !=
+                    //           modifiedLiteral.ToFullString()?.Trim('"').Trim('\''))
+                    //            return "literals update";
+                    //    }
+                    //}
 
-                    var namedOriginal = this.NameContexts.SingleOrDefault(nc => nc.Criterion(o));
-                    var namedModified = this.NameContexts.SingleOrDefault(nc => nc.Criterion(m));
-                    if (namedOriginal?.NameOf(o) != null && namedModified?.NameOf(m) != null &&
-                        namedOriginal.NameOf(o) != namedModified.NameOf(m))
-                        return "renames";
+                    //var namedOriginal = this.NameContexts.SingleOrDefault(nc => nc.Criterion(o));
+                    //var namedModified = this.NameContexts.SingleOrDefault(nc => nc.Criterion(m));
+                    //if (namedOriginal?.NameOf(o) != null && namedModified?.NameOf(m) != null &&
+                    //    namedOriginal.NameOf(o) != namedModified.NameOf(m))
+                    //    return "renames";
 
-                    if (o.Root.Label == "operator" && m.Root.Label == "operator" &&
-                        o.Root.Value != m.Root.Value)
-                        return "different operators";
+                    //if (o.Root.Label == "operator" && m.Root.Label == "operator" &&
+                    //    o.Root.Value != m.Root.Value)
+                    //    return "different operators";
 
                     return null;
                 }
