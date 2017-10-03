@@ -362,6 +362,17 @@ namespace Jawilliam.CDF.Labs
             //                                                        //RemoveComments = true
             //                                                    }*/);
 
+            ReviewRevisionPairs2(@"E:\Phd\Analysis\Original.cs", @"E:\Phd\Analysis\Modified.cs",
+               ReviewKind.Ratio_LevenshteinGumTree_IgnoringCommentChanges_LocalOutliers,
+               ReviewRevisionPair
+                                                                                       /*,
+                                                                                                   new SourceCodeCleaner
+                                                                                                   {
+                                                                                                       Normalize = true,
+                                                                                                       Indentation = "",
+                                                                                                       //RemoveComments = true
+                                                                                                   }*/);
+
             #endregion
 
             #region Detecting not real source code changes
@@ -390,20 +401,20 @@ namespace Jawilliam.CDF.Labs
             //SummarizeFileRevisionPairs();
             //ReportConfusingRenames(ChangeDetectionApproaches.NativeGumTree);
 
-            var analyzer = new DeltaAnalyzer();
-            //var namesRow = true;
-            foreach (var project in Projects)
-            {
-                analyzer.Warnings = new StringBuilder();
-                var dbRepository = new GitRepository(project.Name) { Name = project.Name };
-                ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 360;
+            //var analyzer = new DeltaAnalyzer();
+            ////var namesRow = true;
+            //foreach (var project in Projects)
+            //{
+            //    analyzer.Warnings = new StringBuilder();
+            //    var dbRepository = new GitRepository(project.Name) { Name = project.Name };
+            //    ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 360;
 
-                analyzer.SaveIncompatibleMatches(dbRepository, null,
-                    ChangeDetectionApproaches.NativeGumTree, null);
-                //namesRow = false;
-                //Console.Out.WriteLine($"{project.Name}");
-                System.IO.File.AppendAllText(@"E:\Phd\Analysis\ConfusingRenames\ReportIncompatibleMatches.csv", analyzer.Warnings.ToString());
-            }
+            //    analyzer.SaveIncompatibleMatches(dbRepository, null,
+            //        ChangeDetectionApproaches.NativeGumTree, null);
+            //    //namesRow = false;
+            //    //Console.Out.WriteLine($"{project.Name}");
+            //    System.IO.File.AppendAllText(@"E:\Phd\Analysis\ConfusingRenames\ReportIncompatibleMatches.csv", analyzer.Warnings.ToString());
+            //}
 
             Console.Out.WriteLine($"DONE");
             //int i = 0; // the warning reports!!!
@@ -736,7 +747,7 @@ namespace Jawilliam.CDF.Labs
                 {
                     ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 180;
                     //var guid = Guid.Parse("399b8612-856d-4213-8b3d-2876961bbe2d");
-                    var guid = Guid.Parse("7091e593-58b6-4480-aea8-03f87f68467f");
+                    var guid = Guid.Parse("C0A15A8E-1886-4E24-8362-A0802CA2D8E8");
                     action(originalFilePath, modifiedFilePath, currentReview, cleaner, loader, dbRepository, guid);
                     //ReviewRevisionPair(originalFilePath, modifiedFilePath, currentReview, cleaner, loader, dbRepository, guid);
                 }
@@ -764,62 +775,11 @@ namespace Jawilliam.CDF.Labs
                 ;
             //var gtOutput = gumTree.ExecuteCommand(interopArgs, " ", $"gumtree.bat jsondiff {interopArgs.Original} {interopArgs.Modified}", " ");
             ;
-            //revisionPair.Reviews.Add(new Review
-            //{
-            //    Id = Guid.NewGuid(),
-            //    CaseKind = CaseKind.LowOutlier,
-            //    Severity = ReviewSeverity.Bad,
-            //    Subject = "Bad matches - the functions \"OnPreRender\"-(ol:280) and \"ProcessRequest\"-(ml:283) should not match.",
-            //    Comments = "The \"OnPreRender\"'s body have been almost totally moved into \"ProcessRequest\"" + Environment.NewLine +
-            //               "\"OnPreRender\"-(ol:280) was deleted, and \"ProcessRequest\"-(ml:283) was inserted" + Environment.NewLine +
-            //               "Example of programming conventions: This case should be hard to resolve, except by \"OnPreRender\"-(ol:280) is an event handler and \"ProcessRequest\" is an standard method. So, they should not match.",
-            //    Kind = currentReview,
-            //    Topics = Topics.Matching | Topics.Domain /**//*Topics.Domain*/ /* | Topics.Matching *//*| Topics.Differencing*/ /*| Topics.Report*/,
-            //});
 
-
-            //revisionPair.Reviews.Add(new Review
-            //{
-            //    Id = Guid.NewGuid(),
-            //    CaseKind = CaseKind.HighOutlier,
-            //    Severity = ReviewSeverity.Bad,
-            //    Subject = "Bad matches - the names \"Name\"-(ol:73) and \"IsNullOrWhiteSpace\"-(ml:73) should not match.",
-            //    Comments = "the expression \"areaChartSeries.Name == null\" moved as the argument of \"String.IsNullOrWhiteSpace(areaChartSeries.Name)\". This is an example of common pattern: string null comparison vs. IsNullOrWhitespace" + Environment.NewLine +
-            //               "Besides: \"Name\" is a member name, but \"IsNullOrWhiteSpace\" is a method name." + Environment.NewLine +
-            //               "Consequence: spurious update.",
-            //    Kind = currentReview,
-            //    Topics = Topics.Matching | Topics.Domain /**//*Topics.Domain*/ /* | Topics.Matching *//*| Topics.Differencing*/ /*| Topics.Report*/,
-            //});
-            //revisionPair.Reviews.Add(new Review
-            //{
-            //    Id = Guid.NewGuid(),
-            //    CaseKind = CaseKind.HighOutlier,
-            //    Severity = ReviewSeverity.Bad,
-            //    Subject = "Missed matches - the get parts of the property \"SelectedIndex\"-(ol:192,ml:192) should match",
-            //    Comments = "Consequences: redundant insertion-deletion of the blocks, and ghost moves.",
-            //    Kind = currentReview,
-            //    Topics = Topics.Matching | Topics.Domain /**//*Topics.Domain*/ /* | Topics.Matching *//*| Topics.Differencing*/ /*| Topics.Report*/,
-            //});
-            //revisionPair.Reviews.Add(new Review
-            //{
-            //    Id = Guid.NewGuid(),
-            //    CaseKind = CaseKind.HighOutlier,
-            //    Severity = ReviewSeverity.Good,
-            //    Subject = "",
-            //    Comments = null,
-            //    Kind = currentReview,
-            //    Topics = Topics.None /**//*Topics.Domain*/ /* | Topics.Matching *//*| Topics.Differencing*/ /*| Topics.Report*/,
-            //});
-            revisionPair.Reviews.Add(new Review
+            foreach (var review in revisionPair.Reviews)
             {
-                Id = Guid.NewGuid(),
-                CaseKind = CaseKind.LowOutlier,
-                Severity = ReviewSeverity.Found,
-                Subject = "",
-                Comments = null,
-                Kind = currentReview,
-                Topics = Topics.None /**//*Topics.Domain*/ /* | Topics.Matching *//*| Topics.Differencing*/ /*| Topics.Report*/,
-            });
+                
+            }
 
             dbRepository.Flush();
         }

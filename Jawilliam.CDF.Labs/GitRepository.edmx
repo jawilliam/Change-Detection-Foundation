@@ -232,6 +232,13 @@
     <Property Name="Annotations" Type="xml" Nullable="true" />
     <Property Name="CaseKind" Type="int" Nullable="false" />
     <Property Name="RevisionPair_Id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="SpuriousMatch" Type="bit" Nullable="true" />
+    <Property Name="UnnaturalMatch" Type="bit" Nullable="true" />
+    <Property Name="GhostMatch" Type="bit" Nullable="true" />
+    <Property Name="MissedMatch" Type="bit" Nullable="true" />
+    <Property Name="ArbitraryMatch" Type="bit" Nullable="true" />
+    <Property Name="RedundantChanges" Type="bit" Nullable="true" />
+    <Property Name="GhostChanges" Type="bit" Nullable="true" />
   </EntityType>
   <EntityType Name="Project">
     <Key>
@@ -1117,6 +1124,13 @@
           <Property Name="Annotations" Type="String" Nullable="true" />
           <NavigationProperty Name="RevisionPair" Relationship="Jawilliam.CDF.Labs.SQL.OneFileRevisionPair_MayHave_ManyReview" FromRole="Review" ToRole="FileRevisionPair" />
           <Property Name="CaseKind" Type="Jawilliam.CDF.Labs.SQL.CaseKind" Nullable="false" />
+          <Property Name="SpuriousMatch" Type="Boolean" Nullable="true" />
+          <Property Name="UnnaturalMatch" Type="Boolean" Nullable="true" />
+          <Property Name="GhostMatch" Type="Boolean" Nullable="true" />
+          <Property Name="MissedMatch" Type="Boolean" Nullable="true" />
+          <Property Name="ArbitraryMatch" Type="Boolean" Nullable="true" />
+          <Property Name="RedundantChanges" Type="Boolean" Nullable="true" />
+          <Property Name="GhostChanges" Type="Boolean" Nullable="true" />
         </EntityType>
         <EnumType Name="ReviewSeverity">
           <Member Name="Good" Value="2" />
@@ -1402,6 +1416,13 @@
           <ScalarProperty Name="Topics" ColumnName="Topics" />
           <ScalarProperty Name="Annotations" ColumnName="Annotations" />
           <ScalarProperty Name="CaseKind" ColumnName="CaseKind" />
+          <ScalarProperty Name="SpuriousMatch" ColumnName="SpuriousMatch" />
+          <ScalarProperty Name="UnnaturalMatch" ColumnName="UnnaturalMatch" />
+          <ScalarProperty Name="GhostMatch" ColumnName="GhostMatch" />
+          <ScalarProperty Name="MissedMatch" ColumnName="MissedMatch" />
+          <ScalarProperty Name="ArbitraryMatch" ColumnName="ArbitraryMatch" />
+          <ScalarProperty Name="RedundantChanges" ColumnName="RedundantChanges" />
+          <ScalarProperty Name="GhostChanges" ColumnName="GhostChanges" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

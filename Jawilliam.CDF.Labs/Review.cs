@@ -22,6 +22,13 @@ namespace Jawilliam.CDF.Labs
         public Topics Topics { get; set; }
         public string Annotations { get; set; }
         public CaseKind CaseKind { get; set; }
+        public Nullable<bool> SpuriousMatch { get; set; }
+        public Nullable<bool> UnnaturalMatch { get; set; }
+        public Nullable<bool> GhostMatch { get; set; }
+        public Nullable<bool> MissedMatch { get; set; }
+        public Nullable<bool> ArbitraryMatch { get; set; }
+        public Nullable<bool> RedundantChanges { get; set; }
+        public Nullable<bool> GhostChanges { get; set; }
     
         public virtual FileRevisionPair RevisionPair { get; set; }
     }

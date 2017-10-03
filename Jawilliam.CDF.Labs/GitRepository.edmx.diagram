@@ -41,7 +41,7 @@
         <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.FileVersion" />
         <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.FileChange" />
       </Diagram>
-      <Diagram DiagramId="ac5c40058cf243809cab6af57bb45588" Name="Change Detection" DisplayType="true" ZoomLevel="98" >
+      <Diagram DiagramId="ac5c40058cf243809cab6af57bb45588" Name="Change Detection" DisplayType="true" ZoomLevel="93" >
         <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.FileContentSummary" Width="4.5" PointX="10.125" PointY="3.625" />
         <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.FileVersion" Width="2.125" PointX="6.75" PointY="3.625" />
         <AssociationConnector Association="Jawilliam.CDF.Labs.SQL.OneFileVersion_HasExactly_OneFileContentSummary" />

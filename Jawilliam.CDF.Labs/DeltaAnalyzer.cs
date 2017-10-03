@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Jawilliam.CDF.Actions;
 using Jawilliam.CDF.Approach;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
@@ -196,6 +197,22 @@ namespace Jawilliam.CDF.Labs
                     if ((o.Root.Label == "name" && o.Root.Value == "base" && m.Root.Value != "base") ||
                         (m.Root.Label == "name" && m.Root.Value == "base" && o.Root.Value != "base"))
                         return "base instance expression";
+
+                    if (o.Root.Label == "name" && m.Root.Label == "name")
+                    {
+                        TypeSyntax originalType = null, modifiedType = null;
+                        try
+                        {
+                            originalType = SyntaxFactory.ParseTypeName(o.Root.Value);
+                            modifiedType = SyntaxFactory.ParseTypeName(m.Root.Value);
+                        }catch (Exception){}
+
+                        if ((originalType is PredefinedTypeSyntax && !(modifiedType is PredefinedTypeSyntax)) ||
+                            (modifiedType is PredefinedTypeSyntax && !(originalType is PredefinedTypeSyntax)))
+                        {
+                            return "builtin type updates to non-builtin type";
+                        }
+                    }
 
                     if ((o.Root.Label == "literal" && o.Root.Value == "null" && m.Root.Value != "null") ||
                         (m.Root.Label == "literal" && m.Root.Value == "null" && o.Root.Value != "null"))
