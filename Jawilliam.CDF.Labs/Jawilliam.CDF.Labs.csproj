@@ -247,6 +247,9 @@
     </Compile>
     <Compile Include="FileVersionAnalyzer.cs" />
     <Compile Include="FromLocalGitToSqlDbDeployment.cs" />
+    <Compile Include="GhostSymptom.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
     <Compile Include="GitRepository.Context.Custom.cs" />
     <Compile Include="GitRepository.Context1.cs">
       <AutoGen>True</AutoGen>
@@ -309,6 +312,9 @@
     <Compile Include="RevisionPairReview.cs" />
     <Compile Include="SourceCodeMetric.cs" />
     <Compile Include="SourceCodeCleaner.cs" />
+    <Compile Include="SpuriositySymptom.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
     <Compile Include="SubcorpusKind.cs">
       <DependentUpon>GitRepository.tt</DependentUpon>
     </Compile>
