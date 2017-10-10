@@ -426,8 +426,8 @@ namespace Jawilliam.CDF.Labs
                         var modifiedTree = ElementTree.Read(delta.ModifiedTree, Encoding.Unicode);
                         var detectionResult = (DetectionResult)delta.DetectionResult;
 
-                        var originalTransformations = new Dictionary<ElementTree, TransformationInfo>();
-                        var modifiedTransformations = new Dictionary<ElementTree, TransformationInfo>();
+                        var originalTransformations = new Dictionary<string, TransformationInfo>();
+                        var modifiedTransformations = new Dictionary<string, TransformationInfo>();
 
                         foreach (var action in detectionResult.Actions)
                         {
@@ -457,7 +457,7 @@ namespace Jawilliam.CDF.Labs
                                         modifiedTransformations, element, "modified");
                                     transformationInfo.Self.Insertions += 1;
 
-                                    var parentElement = originalTree.PostOrder(n => n.Children).First(n => n.Root.Id == insertAction.Parent.Id);
+                                    var parentElement = originalTree.PostOrder(n => n.Children).FirstOrDefault(n => n.Root.Id == insertAction.Parent.Id);
                                     this.PropagateTransformation(new[] { parentElement },
                                         info => info.Children.Insertions,
                                         (info, i) => info.Children.Insertions = i,
@@ -531,9 +531,25 @@ namespace Jawilliam.CDF.Labs
                             }
                         }
 
+                        var transformationInfos = originalTransformations.Values.Union(modifiedTransformations.Values).ToArray();
+                        foreach(var t in transformationInfos)
+                        {
+                            if (t.Self.Insertions == 0 && t.Self.Deletions == 0 && t.Self.Updates == 0 &&
+                               t.Self.FromMoves == 0 && t.Self.ToMoves == 0 && t.Self.Aligns == 0)
+                                t.Self = null;
+
+                            if (t.Children.Insertions == 0 && t.Children.Deletions == 0 && t.Children.Updates == 0 &&
+                               t.Children.FromMoves == 0 && t.Children.ToMoves == 0 && t.Children.Aligns == 0)
+                                t.Children = null;
+
+                            if (t.Descendants.Insertions == 0 && t.Descendants.Deletions == 0 && t.Descendants.Updates == 0 &&
+                               t.Descendants.FromMoves == 0 && t.Descendants.ToMoves == 0 && t.Descendants.Aligns == 0)
+                                t.Descendants = null;
+                        }
+
                         var xTransformationsInfo = new XTransformationsInfo
                         {
-                            Transformations = originalTransformations.Values.Union(modifiedTransformations.Values).ToArray()
+                            Transformations = transformationInfos
                         };
                         delta.Symptoms.Add(new SpuriositySymptom
                         {
@@ -555,36 +571,33 @@ namespace Jawilliam.CDF.Labs
             cancel, false, "Principal");
         }
 
-        private TransformationInfo GetOrCreateTransformationInfo(Dictionary<ElementTree, TransformationInfo> originalTransformationsInfo,
-            Dictionary<ElementTree, TransformationInfo> modifiedTransformationsInfo, ElementTree element, string version)
+        private TransformationInfo GetOrCreateTransformationInfo(Dictionary<string, TransformationInfo> originalTransformationsInfo,
+            Dictionary<string, TransformationInfo> modifiedTransformationsInfo, ElementTree element, string version)
         {
+            var id = element.Root.Id;
             var transformationsInfo = version == "original" ? originalTransformationsInfo : modifiedTransformationsInfo;
-            if (transformationsInfo.ContainsKey(element))
-                return transformationsInfo[element];
+            if (transformationsInfo.ContainsKey(id))
+                return transformationsInfo[id];
 
-            var context = this.NameContexts.SingleOrDefault(nc => nc.Criterion(element));
+            var context = element != null ? this.NameContexts.SingleOrDefault(nc => nc.Criterion(element)) : null;
             var t = new TransformationInfo
             {
-                Id = element.Root.Id,
+                Id = id,
                 Type = context?.NameOf(element) ?? element.Root.Label,
                 Version = version,
                 ScopeHint = context != null
                    ? this.GetPath(context.OuterScopes(element))
                    : this.GetPath(element.Ancestors().Where(ancestor => ancestor.Root.Label == "block")),
                 Self = new Transformations(),
-                Children = new Transformations
-                {
-                    FromATotalOf = element.Children.Count(),
-                    WithATotalOfOperatorsOf = element.Children.Count(c =>c.Root.Label == "operator")
-                },
-                Descendants = new Transformations
-                {
-                    FromATotalOf = element.PostOrder(n => n.Children).Count(d => d != element && !element.Children.Contains(d)),
-                    WithATotalOfOperatorsOf = element.PostOrder(n => n.Children).Count(d => d != element && d.Root.Label == "operator" && !element.Children.Contains(d))
-                }
+                FromATotalOfChildren = element.Children.Count(),
+                WithATotalOfOperatorsOfChildren = element.Children.Count(c => c.Root.Label == "operator"),
+                Children = new Transformations(),
+                FromATotalOfDescendants = element.PostOrder(n => n.Children).Count(d => d != element && !element.Children.Contains(d)),
+                WithATotalOfOperatorsOfDescendants = element.PostOrder(n => n.Children).Count(d => d != element && d.Root.Label == "operator" && !element.Children.Contains(d)),
+                Descendants = new Transformations()
             };
 
-            transformationsInfo[element] = t;
+            transformationsInfo[id] = t;
 
             return t;
         }

@@ -8,19 +8,7 @@ namespace Jawilliam.CDF.Labs
     /// Describes the transformation applied over a subset of interest (e.g., children or descendants).
     /// </summary>
     public class Transformations
-    {
-        /// <summary>
-        /// Gets or sets the total of affectable elements, e.g., children or descendants.
-        /// </summary>
-        [XmlAttribute("fromATotalOf")]
-        public virtual int FromATotalOf { get; set; }
-
-        /// <summary>
-        /// Gets or sets the total of affectable elements, e.g., children or descendants.
-        /// </summary>
-        [XmlAttribute("withATotalOfOperatorsOf")]
-        public virtual int WithATotalOfOperatorsOf { get; set; }
-
+    {     
         /// <summary>
         /// Gets or sets the count of insertions transforming any descendant.
         /// </summary>
@@ -89,21 +77,45 @@ namespace Jawilliam.CDF.Labs
         public virtual string Hint { get; set; }
 
         /// <summary>
+        /// Gets or sets the total of affectable elements, e.g., children or descendants.
+        /// </summary>
+        [XmlAttribute("descendants")]
+        public virtual int FromATotalOfDescendants { get; set; }
+
+        /// <summary>
+        /// Gets or sets the total of affectable elements, e.g., children or descendants.
+        /// </summary>
+        [XmlAttribute("descendantOperators")]
+        public virtual int WithATotalOfOperatorsOfDescendants { get; set; }
+
+        /// <summary>
         /// Gets or sets the transformations affecting the non children descendants.
         /// </summary>
-        [XmlElement("Descendants")]
+        [XmlElement("Descendants", IsNullable = true)]
         public virtual Transformations Descendants { get; set; }
+
+        /// <summary>
+        /// Gets or sets the total of affectable elements, e.g., children or descendants.
+        /// </summary>
+        [XmlAttribute("children")]
+        public virtual int FromATotalOfChildren { get; set; }
+
+        /// <summary>
+        /// Gets or sets the total of affectable elements, e.g., children or descendants.
+        /// </summary>
+        [XmlAttribute("childOperators")]
+        public virtual int WithATotalOfOperatorsOfChildren { get; set; }
 
         /// <summary>
         /// Gets or sets the transformations affecting only the children.
         /// </summary>
-        [XmlElement("Children")]
+        [XmlElement("Children", IsNullable = true)]
         public virtual Transformations Children { get; set; }
 
         /// <summary>
         /// Gets or sets the transformations affecting only the children.
         /// </summary>
-        [XmlElement("Self")]
+        [XmlElement("Self", IsNullable = true)]
         public virtual Transformations Self { get; set; }
 
         /// <summary>
