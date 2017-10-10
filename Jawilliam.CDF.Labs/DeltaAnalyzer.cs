@@ -530,6 +530,16 @@ namespace Jawilliam.CDF.Labs
                                     throw new ArgumentOutOfRangeException();
                             }
                         }
+
+                        var xTransformationsInfo = new XTransformationsInfo
+                        {
+                            Transformations = originalTransformations.Values.Union(modifiedTransformations.Values).ToArray()
+                        };
+                        delta.Symptoms.Add(new SpuriositySymptom
+                        {
+                            Id = Guid.NewGuid(),
+                            TransformationsInfo = xTransformationsInfo.WriteXmlColumn()
+                        });
                     }
                     catch (OperationCanceledException)
                     {
@@ -561,6 +571,7 @@ namespace Jawilliam.CDF.Labs
                 ScopeHint = context != null
                    ? this.GetPath(context.OuterScopes(element))
                    : this.GetPath(element.Ancestors().Where(ancestor => ancestor.Root.Label == "block")),
+                Self = new Transformations(),
                 Children = new Transformations
                 {
                     FromATotalOf = element.Children.Count(),
