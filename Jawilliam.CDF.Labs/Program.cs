@@ -304,18 +304,18 @@ namespace Jawilliam.CDF.Labs
             //    var ann = change.XAnnotations;
             //    return ann.SourceCodeChanges && !ann.OnlyCommentChanges;
             //}, "UniquePairsIgnoringCommentChanges",
-            //ChangeDetectionApproaches.NativeGumTreeWithoutComments, 
-            //"LevenshteinWithoutComments", 
+            //ChangeDetectionApproaches.NativeGumTreeWithoutComments,
+            //"LevenshteinWithoutComments",
             //new EditDistance<ActionDescriptor>());
             //Reporting GumTree vs.Levenshtein(ignoring the comment changes) - #Additions
             //ReportGumTreeAndLevenshtein(delegate (FileModifiedChange change)
             //{
             //    var ann = change.XAnnotations;
             //    return ann.SourceCodeChanges && !ann.OnlyCommentChanges;
-            //}, "UniquePairsIgnoringCommentChangesJustAdditions",
+            //}, "UniquePairsIgnoringCommentChangesJustMoves",
             //ChangeDetectionApproaches.NativeGumTreeWithoutComments,
             //"LevenshteinWithoutComments",
-            //new EditDistance<ActionDescriptor> { CostModel = descriptor => descriptor.Action == ActionKind.Insert ? 1 : 0});
+            //new EditDistance<ActionDescriptor> { CostModel = descriptor => descriptor.Action == ActionKind.Move ? 1 : 0 });
             #endregion
 
             #region Reviewing revision pairs
@@ -365,13 +365,13 @@ namespace Jawilliam.CDF.Labs
             ReviewRevisionPairs2(@"E:\Phd\Analysis\Original.cs", @"E:\Phd\Analysis\Modified.cs",
                ReviewKind.Ratio_LevenshteinGumTree_IgnoringCommentChanges_LocalOutliers,
                ReviewRevisionPair
-                                                                                       /*,
-                                                                                                   new SourceCodeCleaner
-                                                                                                   {
-                                                                                                       Normalize = true,
-                                                                                                       Indentation = "",
-                                                                                                       //RemoveComments = true
-                                                                                                   }*/);
+            /*,
+                        new SourceCodeCleaner
+                        {
+                            Normalize = true,
+                            Indentation = "",
+                            //RemoveComments = true
+                        } */);
 
             #endregion
 
@@ -573,7 +573,7 @@ namespace Jawilliam.CDF.Labs
 
             var header = "Project;RevisionPair;GtD;LvD;LvS;LvGt;GtLv;ScoreGtImprovedLv;iGtLv";
             report.AppendLine(header);
-            System.IO.File.AppendAllText($@"E:\Phd\Analysis\GumTreeLevenshtein{postfix ?? ""}.csv", report.ToString());
+            System.IO.File.AppendAllText($@"E:\Phd\Analysis\UniquePairs\GumTreeLevenshtein{postfix ?? ""}.csv", report.ToString());
             report.Clear();
 
             var numberFormatInfo = new NumberFormatInfo { CurrencyDecimalSeparator = "." };
@@ -660,7 +660,7 @@ namespace Jawilliam.CDF.Labs
                 }
 
                 //System.IO.File.WriteAllText($@"{Environment.CurrentDirectory}\GumTreeLevenshtein{project.Name}{postfix ?? ""}.csv", header + Environment.NewLine + report);
-                System.IO.File.AppendAllText($@"E:\Phd\Analysis\GumTreeLevenshtein{postfix ?? ""}.csv", report.ToString());
+                System.IO.File.AppendAllText($@"E:\Phd\Analysis\UniquePairs\GumTreeLevenshtein{postfix ?? ""}.csv", report.ToString());
 
                 report.Clear();
             }
@@ -746,8 +746,8 @@ namespace Jawilliam.CDF.Labs
                 using (var dbRepository = new GitRepository(project.Name) { Name = project.Name })
                 {
                     ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 180;
-                    //var guid = Guid.Parse("399b8612-856d-4213-8b3d-2876961bbe2d");
-                    var guid = Guid.Parse("C0A15A8E-1886-4E24-8362-A0802CA2D8E8");
+                    var guid = Guid.Parse("cd6881d7-a572-46cc-9a92-bdea3c808694");
+                    //var guid = Guid.Parse("C0D91366-9994-49E5-88C0-1C0568FDDC9F");
                     action(originalFilePath, modifiedFilePath, currentReview, cleaner, loader, dbRepository, guid);
                     //ReviewRevisionPair(originalFilePath, modifiedFilePath, currentReview, cleaner, loader, dbRepository, guid);
                 }
@@ -781,7 +781,7 @@ namespace Jawilliam.CDF.Labs
                 
             }
 
-            dbRepository.Flush();
+            //dbRepository.Flush();
         }
 
         private static void ReviewMissedMatches(string originalFilePath, string modifiedFilePath, ReviewKind currentReview,

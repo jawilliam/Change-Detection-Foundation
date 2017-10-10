@@ -198,42 +198,55 @@ namespace Jawilliam.CDF.Labs
                     //    (m.Root.Label == "name" && m.Root.Value == "base" && o.Root.Value != "base"))
                     //    return "base instance expression";
 
-                    if (o.Root.Label == "name" && m.Root.Label == "name")
-                    {
-                        TypeSyntax originalType = null, modifiedType = null;
-                        try
-                        {
-                            originalType = SyntaxFactory.ParseTypeName(o.Root.Value);
-                            modifiedType = SyntaxFactory.ParseTypeName(m.Root.Value);
-                        }catch (Exception){}
+                    //if (o.Root.Label == "comment" && m.Root.Label == "comment" &&
+                    //    ((o.Root.Value == "///" && m.Root.Value != "///") ||
+                    //     (m.Root.Value == "///" && o.Root.Value != "///")))
+                    //{
+                    //    return "incompatible comments?";
+                    //}
 
-                        if (originalType != null && modifiedType != null)
-                        {
-                            var types = new[]
-                            {
-                                 new { TypeNames = new[] { "bool", "Boolean"}}
-                                ,new { TypeNames = new[] { "byte", "Byte"}}
-                                ,new { TypeNames = new[] { "sbyte", "SByte"}}
-                                ,new { TypeNames = new[] { "char", "Char"}}
-                                ,new { TypeNames = new[] { "decimal", "Decimal"}}
-                                ,new { TypeNames = new[] { "double", "Double"}}
-                                ,new { TypeNames = new[] { "float", "Single"}}
-                                ,new { TypeNames = new[] { "int", "Int32"}}
-                                ,new { TypeNames = new[] { "uint", "UInt32"}}
-                                ,new { TypeNames = new[] { "long", "Int64"}}
-                                ,new { TypeNames = new[] { "ulong", "UInt64"}}
-                                ,new { TypeNames = new[] { "object", "Object"}}
-                                ,new { TypeNames = new[] { "short", "Int16"}}
-                                ,new { TypeNames = new[] { "ushort", "UInt16"}}
-                                ,new { TypeNames = new[] { "string", "String"}}
-                            };
+                    //if (o.Root.Label == "name" && m.Root.Label == "name")
+                    //{
+                    //    TypeSyntax originalType = null, modifiedType = null;
+                    //    try
+                    //    {
+                    //        originalType = SyntaxFactory.ParseTypeName(o.Root.Value);
+                    //        modifiedType = SyntaxFactory.ParseTypeName(m.Root.Value);
+                    //    }catch (Exception){}
 
-                            var oType = types.SingleOrDefault(t => t.TypeNames.Contains(originalType.ToFullString()));
-                            var mType = types.SingleOrDefault(t => t.TypeNames.Contains(modifiedType.ToFullString()));
-                            if(oType != mType)
-                                return "builtin type updates to non-builtin type";
-                        }
-                    }
+                    //    if (originalType != null && modifiedType != null)
+                    //    {
+                    //        var voidType = new { TypeNames = new[] { "void", "Void"}};
+                    //        var types = new[]
+                    //        {
+                    //             new { TypeNames = new[] { "bool", "Boolean"}}
+                    //            ,new { TypeNames = new[] { "byte", "Byte"}}
+                    //            ,new { TypeNames = new[] { "sbyte", "SByte"}}
+                    //            ,new { TypeNames = new[] { "char", "Char"}}
+                    //            ,new { TypeNames = new[] { "decimal", "Decimal"}}
+                    //            ,new { TypeNames = new[] { "double", "Double"}}
+                    //            ,new { TypeNames = new[] { "float", "Single"}}
+                    //            ,new { TypeNames = new[] { "int", "Int32"}}
+                    //            ,new { TypeNames = new[] { "uint", "UInt32"}}
+                    //            ,new { TypeNames = new[] { "long", "Int64"}}
+                    //            ,new { TypeNames = new[] { "ulong", "UInt64"}}
+                    //            ,new { TypeNames = new[] { "object", "Object"}}
+                    //            ,new { TypeNames = new[] { "short", "Int16"}}
+                    //            ,new { TypeNames = new[] { "ushort", "UInt16"}}
+                    //            ,new { TypeNames = new[] { "string", "String"}}
+                    //            ,voidType
+                    //        };
+
+                    //        var oType = types.SingleOrDefault(t => t.TypeNames.Contains(originalType.ToFullString()));
+                    //        var mType = types.SingleOrDefault(t => t.TypeNames.Contains(modifiedType.ToFullString()));
+                    //        if((originalType.ToFullString() == "var" && mType != voidType) ||
+                    //           (modifiedType.ToFullString() == "var" && oType != voidType))
+                    //            return null;
+
+                    //        if(oType != mType)
+                    //            return "builtin type updates to non-builtin type";
+                    //    }
+                    //}
 
                     //if ((o.Root.Label == "literal" && o.Root.Value == "null" && m.Root.Value != "null") ||
                     //    (m.Root.Label == "literal" && m.Root.Value == "null" && o.Root.Value != "null"))

@@ -239,6 +239,8 @@
     <Property Name="ArbitraryMatch" Type="bit" Nullable="true" />
     <Property Name="RedundantChanges" Type="bit" Nullable="true" />
     <Property Name="GhostChanges" Type="bit" Nullable="true" />
+    <Property Name="UnnaturalChanges" Type="bit" Nullable="true" />
+    <Property Name="ArbitraryChanges" Type="bit" Nullable="true" />
   </EntityType>
   <EntityType Name="Project">
     <Key>
@@ -1131,6 +1133,8 @@
           <Property Name="ArbitraryMatch" Type="Boolean" Nullable="true" />
           <Property Name="RedundantChanges" Type="Boolean" Nullable="true" />
           <Property Name="GhostChanges" Type="Boolean" Nullable="true" />
+          <Property Name="UnnaturalChanges" Type="Boolean" Nullable="true" />
+          <Property Name="ArbitraryChanges" Type="Boolean" Nullable="true" />
         </EntityType>
         <EnumType Name="ReviewSeverity">
           <Member Name="Good" Value="2" />
@@ -1423,6 +1427,8 @@
           <ScalarProperty Name="ArbitraryMatch" ColumnName="ArbitraryMatch" />
           <ScalarProperty Name="RedundantChanges" ColumnName="RedundantChanges" />
           <ScalarProperty Name="GhostChanges" ColumnName="GhostChanges" />
+          <ScalarProperty Name="UnnaturalChanges" ColumnName="UnnaturalChanges" />
+          <ScalarProperty Name="ArbitraryChanges" ColumnName="ArbitraryChanges" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
