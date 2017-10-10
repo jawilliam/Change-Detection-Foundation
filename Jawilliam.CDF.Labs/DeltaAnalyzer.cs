@@ -398,5 +398,201 @@ namespace Jawilliam.CDF.Labs
                 }
             }
         }
+
+
+
+        /// <summary>
+        /// Analyzes the similarity in according with a given similarity metric, such as Levenshtein.
+        /// </summary>
+        /// <param name="sqlRepository">the SQL database repository in which to analyze the file versions.</param>
+        /// <param name="cancel">Action to execute cancellation logic.</param>
+        /// <param name="approach"></param>
+        /// <param name="skipThese">local criterion for determining elements that should be ignored.</param>
+        public virtual void SaveSpuriosityInfo(GitRepository sqlRepository, Action cancel, ChangeDetectionApproaches approach, Func<FileRevisionPair, bool> skipThese)
+        {
+            this.Analyze(sqlRepository, "spuriosity analysis",
+              f => f.Principal.Deltas.Any(d => d.Approach == approach &&
+                                               d.Matching != null &&
+                                               d.Differencing != null &&
+                                               d.Report == null),
+                delegate (FileRevisionPair pair, CancellationToken token)
+                {
+                    if (skipThese?.Invoke(pair) ?? false) return;
+
+                    var delta = sqlRepository.Deltas.Single(d => d.RevisionPair.Id == pair.Principal.Id && d.Approach == approach);
+                    try
+                    {
+                        var originalTree = ElementTree.Read(delta.OriginalTree, Encoding.Unicode);
+                        var modifiedTree = ElementTree.Read(delta.ModifiedTree, Encoding.Unicode);
+                        var detectionResult = (DetectionResult)delta.DetectionResult;
+
+                        var originalTransformations = new Dictionary<ElementTree, TransformationInfo>();
+                        var modifiedTransformations = new Dictionary<ElementTree, TransformationInfo>();
+
+                        foreach (var action in detectionResult.Actions)
+                        {
+                            ElementTree element;
+                            TransformationInfo transformationInfo;
+                            switch (action.Action)
+                            {
+                                case ActionKind.Update:
+                                    var updateAction = (UpdateOperationDescriptor) action;
+                                    element = originalTree.PostOrder(n => n.Children).First(n => n.Root.Id == updateAction.Element.Id);
+                                    transformationInfo = this.GetOrCreateTransformationInfo(originalTransformations, modifiedTransformations,
+                                        element, "original");
+                                    transformationInfo.Self.Updates += 1;
+                                    this.PropagateTransformation(new[]{ element.Parent }, 
+                                        info => info.Children.Updates, 
+                                        (info, i) => info.Children.Updates = i, 
+                                        originalTree, originalTransformations, modifiedTransformations);
+                                    this.PropagateTransformation(element.Parent.Ancestors(),
+                                        info => info.Descendants.Updates,
+                                        (info, i) => info.Descendants.Updates = i,
+                                        originalTree, originalTransformations, modifiedTransformations);
+                                    break;
+                                case ActionKind.Insert:
+                                    var insertAction = (InsertOperationDescriptor)action;
+                                    element = originalTree.PostOrder(n => n.Children).First(n => n.Root.Id == insertAction.Element.Id);
+                                    transformationInfo = this.GetOrCreateTransformationInfo(originalTransformations,
+                                        modifiedTransformations, element, "modified");
+                                    transformationInfo.Self.Insertions += 1;
+
+                                    var parentElement = originalTree.PostOrder(n => n.Children).First(n => n.Root.Id == insertAction.Parent.Id);
+                                    this.PropagateTransformation(new[] { parentElement },
+                                        info => info.Children.Insertions,
+                                        (info, i) => info.Children.Insertions = i,
+                                        originalTree, originalTransformations, modifiedTransformations);
+                                    this.PropagateTransformation(parentElement.Ancestors(),
+                                        info => info.Descendants.Insertions,
+                                        (info, i) => info.Descendants.Insertions = i,
+                                        originalTree, originalTransformations, modifiedTransformations);
+                                    break;
+                                case ActionKind.Delete:
+                                    var deleteAction = (DeleteOperationDescriptor)action;
+                                    element = originalTree.PostOrder(n => n.Children).First(n => n.Root.Id == deleteAction.Element.Id);
+                                    transformationInfo = this.GetOrCreateTransformationInfo(originalTransformations, modifiedTransformations,
+                                        element, "original");
+                                    transformationInfo.Self.Deletions += 1;
+                                    this.PropagateTransformation(new[] { element.Parent },
+                                        info => info.Children.Deletions,
+                                        (info, i) => info.Children.Deletions = i,
+                                        originalTree, originalTransformations, modifiedTransformations);
+                                    this.PropagateTransformation(element.Parent.Ancestors(),
+                                        info => info.Descendants.Deletions,
+                                        (info, i) => info.Descendants.Deletions = i,
+                                        originalTree, originalTransformations, modifiedTransformations);
+                                    break;
+                                case ActionKind.Move:
+                                    var moveAction = (MoveOperationDescriptor)action;
+                                    var parentsMatch = detectionResult.Matches.Single(m => m.Modified.Id == moveAction.Parent.Id);
+                                    var fromParentElement = originalTree.PostOrder(n => n.Children).First(n => n.Root.Id == parentsMatch.Original.Id);
+                                    parentElement = modifiedTree.PostOrder(n => n.Children).First(n => n.Root.Id == moveAction.Parent.Id);
+                                    element = originalTree.PostOrder(n => n.Children).First(n => n.Root.Id == moveAction.Element.Id);
+                                    transformationInfo = this.GetOrCreateTransformationInfo(originalTransformations, modifiedTransformations, element, "original");
+
+                                    if (fromParentElement == parentElement) // aligns
+                                    {
+                                        transformationInfo.Self.Aligns += 1;
+                                        this.PropagateTransformation(new[] {fromParentElement},
+                                            info => info.Children.Aligns,
+                                            (info, i) => info.Children.Aligns = i,
+                                            originalTree, originalTransformations, modifiedTransformations);
+                                        this.PropagateTransformation(fromParentElement.Ancestors(),
+                                            info => info.Descendants.Aligns,
+                                            (info, i) => info.Descendants.Aligns = i,
+                                            originalTree, originalTransformations, modifiedTransformations);
+                                    }
+                                    else
+                                    {
+                                        transformationInfo.Self.FromMoves += 1;
+                                        this.PropagateTransformation(new[] { fromParentElement },
+                                            info => info.Children.FromMoves,
+                                            (info, i) => info.Children.FromMoves = i,
+                                            originalTree, originalTransformations, modifiedTransformations);
+                                        this.PropagateTransformation(fromParentElement.Ancestors(),
+                                            info => info.Descendants.FromMoves,
+                                            (info, i) => info.Descendants.FromMoves = i,
+                                            originalTree, originalTransformations, modifiedTransformations);
+
+                                        this.PropagateTransformation(new[] { parentElement },
+                                        info => info.Children.ToMoves,
+                                        (info, i) => info.Children.ToMoves = i,
+                                        originalTree, originalTransformations, modifiedTransformations);
+                                        this.PropagateTransformation(parentElement.Ancestors(),
+                                            info => info.Descendants.ToMoves,
+                                            (info, i) => info.Descendants.ToMoves = i,
+                                            originalTree, originalTransformations, modifiedTransformations);
+                                    }
+                                    break;
+                                //case ActionKind.Align: // Not supported by GumTree
+                                //    break;
+                                default:
+                                    throw new ArgumentOutOfRangeException();
+                            }
+                        }
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        this.Report.AppendLine($"CANCELED;{pair.Id}");
+                        throw;
+                    }
+                    catch (OutOfMemoryException)
+                    {
+                        this.Report.AppendLine($"OUTOFMEMORY;{pair.Id}");
+                        throw;
+                    }
+                },
+            cancel, false, "Principal");
+        }
+
+        private TransformationInfo GetOrCreateTransformationInfo(Dictionary<ElementTree, TransformationInfo> originalTransformationsInfo,
+            Dictionary<ElementTree, TransformationInfo> modifiedTransformationsInfo, ElementTree element, string version)
+        {
+            var transformationsInfo = version == "original" ? originalTransformationsInfo : modifiedTransformationsInfo;
+            if (transformationsInfo.ContainsKey(element))
+                return transformationsInfo[element];
+
+            var context = this.NameContexts.SingleOrDefault(nc => nc.Criterion(element));
+            var t = new TransformationInfo
+            {
+                Id = element.Root.Id,
+                Type = context?.NameOf(element) ?? element.Root.Label,
+                Version = version,
+                ScopeHint = context != null
+                   ? this.GetPath(context.OuterScopes(element))
+                   : this.GetPath(element.Ancestors().Where(ancestor => ancestor.Root.Label == "block")),
+                Children = new Transformations
+                {
+                    FromATotalOf = element.Children.Count(),
+                    WithATotalOfOperatorsOf = element.Children.Count(c =>c.Root.Label == "operator")
+                },
+                Descendants = new Transformations
+                {
+                    FromATotalOf = element.PostOrder(n => n.Children).Count(d => d != element && !element.Children.Contains(d)),
+                    WithATotalOfOperatorsOf = element.PostOrder(n => n.Children).Count(d => d != element && d.Root.Label == "operator" && !element.Children.Contains(d))
+                }
+            };
+
+            transformationsInfo[element] = t;
+
+            return t;
+        }
+
+        private void PropagateTransformation(IEnumerable<ElementTree> over, Func<TransformationInfo, int> getTransformation, Action<TransformationInfo, int> setTransformation, ElementTree ast, 
+            Dictionary<ElementTree, TransformationInfo> originalTransformationsInfo,
+            Dictionary<ElementTree, TransformationInfo> modifiedtransformationsInfo)
+        {
+            foreach (var ancestor in over)
+            {
+                //match = detectionResult.Matches.Single(m => m.Original.Id == ancestor.Root.Id);
+                var ancestorTree = ast.PostOrder(n => n.Children).First(n => n.Root.Id == ancestor.Root.Id);
+                var transformationInfo = this.GetOrCreateTransformationInfo(originalTransformationsInfo,
+                    modifiedtransformationsInfo, ancestorTree,
+                    ast.PostOrder(n => n.Children).Any(n => n == ancestorTree)
+                                            ? "original"
+                                            : "modified");
+                setTransformation(transformationInfo, getTransformation(transformationInfo) + 1);
+            }
+        }
     }
 }

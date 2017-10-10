@@ -2,14 +2,14 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 09/23/2017 18:49:36
--- Generated from EDMX file: E:\Projects\Change-Detection-Foundation\Jawilliam.CDF.Labs\GitRepository.edmx
+-- Date Created: 10/08/2017 18:35:55
+-- Generated from EDMX file: C:\CDF\CdfRepository\Jawilliam.CDF.Labs\GitRepository.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
 GO
---USE [GitRepositoryDb];
---GO
+USE [GitRepositoryDb];
+GO
 IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
 GO
 
@@ -107,6 +107,12 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_MissedNameSymptom_inherits_Symptom]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Symptoms_MissedNameSymptom] DROP CONSTRAINT [FK_MissedNameSymptom_inherits_Symptom];
 GO
+IF OBJECT_ID(N'[dbo].[FK_NameCoexistenceSymptom_inherits_Symptom]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Symptoms_NameCoexistenceSymptom] DROP CONSTRAINT [FK_NameCoexistenceSymptom_inherits_Symptom];
+GO
+IF OBJECT_ID(N'[dbo].[FK_IncompatibleMatchingSymptom_inherits_Symptom]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Symptoms_IncompatibleMatchingSymptom] DROP CONSTRAINT [FK_IncompatibleMatchingSymptom_inherits_Symptom];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -168,6 +174,12 @@ IF OBJECT_ID(N'[dbo].[RepositoryObjects_FileRenamedChange]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[Symptoms_MissedNameSymptom]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Symptoms_MissedNameSymptom];
+GO
+IF OBJECT_ID(N'[dbo].[Symptoms_NameCoexistenceSymptom]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Symptoms_NameCoexistenceSymptom];
+GO
+IF OBJECT_ID(N'[dbo].[Symptoms_IncompatibleMatchingSymptom]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Symptoms_IncompatibleMatchingSymptom];
 GO
 IF OBJECT_ID(N'[dbo].[Branch_Contains_Commits]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Branch_Contains_Commits];
@@ -251,6 +263,13 @@ CREATE TABLE [dbo].[Reviews] (
     [Topics] smallint  NOT NULL,
     [Annotations] nvarchar(max)  NULL,
     [CaseKind] int  NOT NULL,
+    [SpuriousMatch] bit  NULL,
+    [UnnaturalMatch] bit  NULL,
+    [GhostMatch] bit  NULL,
+    [MissedMatch] bit  NULL,
+    [ArbitraryMatch] bit  NULL,
+    [RedundantChanges] bit  NULL,
+    [GhostChanges] bit  NULL,
     [RevisionPair_Id] uniqueidentifier  NOT NULL
 );
 GO
@@ -359,8 +378,8 @@ CREATE TABLE [dbo].[RepositoryObjects_FileRenamedChange] (
 );
 GO
 
--- Creating table 'Symptoms_MissedNameSymptom'
-CREATE TABLE [dbo].[Symptoms_MissedNameSymptom] (
+-- Creating table 'Symptoms_MissedElementSymptom'
+CREATE TABLE [dbo].[Symptoms_MissedElementSymptom] (
     [Pattern] nvarchar(max)  NOT NULL,
     [Original_Hint] nvarchar(max)  NULL,
     [Original_Element_Type] nvarchar(max)  NOT NULL,
@@ -388,8 +407,14 @@ CREATE TABLE [dbo].[Symptoms_MissedNameSymptom] (
 );
 GO
 
--- Creating table 'Symptoms_NameCoexistenceSymptom'
-CREATE TABLE [dbo].[Symptoms_NameCoexistenceSymptom] (
+-- Creating table 'Symptoms_MissedNameSymptom'
+CREATE TABLE [dbo].[Symptoms_MissedNameSymptom] (
+    [Id] uniqueidentifier  NOT NULL
+);
+GO
+
+-- Creating table 'Symptoms_CoexistenceSymptom'
+CREATE TABLE [dbo].[Symptoms_CoexistenceSymptom] (
     [Original_Element_Type] nvarchar(max)  NOT NULL,
     [Original_Element_Id] nvarchar(max)  NOT NULL,
     [Original_Element_Hint] nvarchar(max)  NULL,
@@ -406,8 +431,37 @@ CREATE TABLE [dbo].[Symptoms_NameCoexistenceSymptom] (
 );
 GO
 
+-- Creating table 'Symptoms_NameCoexistenceSymptom'
+CREATE TABLE [dbo].[Symptoms_NameCoexistenceSymptom] (
+    [Id] uniqueidentifier  NOT NULL
+);
+GO
+
 -- Creating table 'Symptoms_IncompatibleMatchingSymptom'
 CREATE TABLE [dbo].[Symptoms_IncompatibleMatchingSymptom] (
+    [Pattern] nvarchar(max)  NOT NULL,
+    [Original_Element_Type] nvarchar(max)  NOT NULL,
+    [Original_Element_Id] nvarchar(max)  NOT NULL,
+    [Original_Element_Hint] nvarchar(max)  NULL,
+    [Original_ScopeHint] nvarchar(max)  NULL,
+    [Modified_Element_Type] nvarchar(max)  NOT NULL,
+    [Modified_Element_Id] nvarchar(max)  NOT NULL,
+    [Modified_Element_Hint] nvarchar(max)  NULL,
+    [Modified_ScopeHint] nvarchar(max)  NULL,
+    [Id] uniqueidentifier  NOT NULL
+);
+GO
+
+-- Creating table 'Symptoms_SpuriositySymptom'
+CREATE TABLE [dbo].[Symptoms_SpuriositySymptom] (
+    [TransformationsInfo] xml  NULL,
+    [Id] uniqueidentifier  NOT NULL
+);
+GO
+
+-- Creating table 'Symptoms_GhostSymptom'
+CREATE TABLE [dbo].[Symptoms_GhostSymptom] (
+    [Pattern] nvarchar(max)  NOT NULL,
     [Original_Element_Type] nvarchar(max)  NOT NULL,
     [Original_Element_Id] nvarchar(max)  NOT NULL,
     [Original_Element_Hint] nvarchar(max)  NULL,
@@ -546,9 +600,21 @@ ADD CONSTRAINT [PK_RepositoryObjects_FileRenamedChange]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
+-- Creating primary key on [Id] in table 'Symptoms_MissedElementSymptom'
+ALTER TABLE [dbo].[Symptoms_MissedElementSymptom]
+ADD CONSTRAINT [PK_Symptoms_MissedElementSymptom]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
 -- Creating primary key on [Id] in table 'Symptoms_MissedNameSymptom'
 ALTER TABLE [dbo].[Symptoms_MissedNameSymptom]
 ADD CONSTRAINT [PK_Symptoms_MissedNameSymptom]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'Symptoms_CoexistenceSymptom'
+ALTER TABLE [dbo].[Symptoms_CoexistenceSymptom]
+ADD CONSTRAINT [PK_Symptoms_CoexistenceSymptom]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -561,6 +627,18 @@ GO
 -- Creating primary key on [Id] in table 'Symptoms_IncompatibleMatchingSymptom'
 ALTER TABLE [dbo].[Symptoms_IncompatibleMatchingSymptom]
 ADD CONSTRAINT [PK_Symptoms_IncompatibleMatchingSymptom]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'Symptoms_SpuriositySymptom'
+ALTER TABLE [dbo].[Symptoms_SpuriositySymptom]
+ADD CONSTRAINT [PK_Symptoms_SpuriositySymptom]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'Symptoms_GhostSymptom'
+ALTER TABLE [dbo].[Symptoms_GhostSymptom]
+ADD CONSTRAINT [PK_Symptoms_GhostSymptom]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -943,9 +1021,27 @@ ADD CONSTRAINT [FK_FileRenamedChange_inherits_FileModifiedChange]
     ON DELETE CASCADE ON UPDATE NO ACTION;
 GO
 
+-- Creating foreign key on [Id] in table 'Symptoms_MissedElementSymptom'
+ALTER TABLE [dbo].[Symptoms_MissedElementSymptom]
+ADD CONSTRAINT [FK_MissedElementSymptom_inherits_Symptom]
+    FOREIGN KEY ([Id])
+    REFERENCES [dbo].[Symptoms]
+        ([Id])
+    ON DELETE CASCADE ON UPDATE NO ACTION;
+GO
+
 -- Creating foreign key on [Id] in table 'Symptoms_MissedNameSymptom'
 ALTER TABLE [dbo].[Symptoms_MissedNameSymptom]
-ADD CONSTRAINT [FK_MissedNameSymptom_inherits_MissedNameSymptom]
+ADD CONSTRAINT [FK_MissedNameSymptom_inherits_MissedElementSymptom]
+    FOREIGN KEY ([Id])
+    REFERENCES [dbo].[Symptoms_MissedElementSymptom]
+        ([Id])
+    ON DELETE CASCADE ON UPDATE NO ACTION;
+GO
+
+-- Creating foreign key on [Id] in table 'Symptoms_CoexistenceSymptom'
+ALTER TABLE [dbo].[Symptoms_CoexistenceSymptom]
+ADD CONSTRAINT [FK_CoexistenceSymptom_inherits_Symptom]
     FOREIGN KEY ([Id])
     REFERENCES [dbo].[Symptoms]
         ([Id])
@@ -954,9 +1050,9 @@ GO
 
 -- Creating foreign key on [Id] in table 'Symptoms_NameCoexistenceSymptom'
 ALTER TABLE [dbo].[Symptoms_NameCoexistenceSymptom]
-ADD CONSTRAINT [FK_NameCoexistenceSymptom_inherits_Symptom]
+ADD CONSTRAINT [FK_NameCoexistenceSymptom_inherits_CoexistenceSymptom]
     FOREIGN KEY ([Id])
-    REFERENCES [dbo].[Symptoms]
+    REFERENCES [dbo].[Symptoms_CoexistenceSymptom]
         ([Id])
     ON DELETE CASCADE ON UPDATE NO ACTION;
 GO
@@ -964,6 +1060,24 @@ GO
 -- Creating foreign key on [Id] in table 'Symptoms_IncompatibleMatchingSymptom'
 ALTER TABLE [dbo].[Symptoms_IncompatibleMatchingSymptom]
 ADD CONSTRAINT [FK_IncompatibleMatchingSymptom_inherits_Symptom]
+    FOREIGN KEY ([Id])
+    REFERENCES [dbo].[Symptoms]
+        ([Id])
+    ON DELETE CASCADE ON UPDATE NO ACTION;
+GO
+
+-- Creating foreign key on [Id] in table 'Symptoms_SpuriositySymptom'
+ALTER TABLE [dbo].[Symptoms_SpuriositySymptom]
+ADD CONSTRAINT [FK_SpuriositySymptom_inherits_Symptom]
+    FOREIGN KEY ([Id])
+    REFERENCES [dbo].[Symptoms]
+        ([Id])
+    ON DELETE CASCADE ON UPDATE NO ACTION;
+GO
+
+-- Creating foreign key on [Id] in table 'Symptoms_GhostSymptom'
+ALTER TABLE [dbo].[Symptoms_GhostSymptom]
+ADD CONSTRAINT [FK_GhostSymptom_inherits_Symptom]
     FOREIGN KEY ([Id])
     REFERENCES [dbo].[Symptoms]
         ([Id])
