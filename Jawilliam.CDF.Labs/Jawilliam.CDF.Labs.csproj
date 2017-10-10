@@ -325,6 +325,7 @@
     <Compile Include="Topics.cs">
       <DependentUpon>GitRepository.tt</DependentUpon>
     </Compile>
+    <Compile Include="TransformationInfo.cs" />
     <Compile Include="XDeltaAnnotations.cs" />
     <Compile Include="XFileContentSummaryAnnotations.cs" />
     <Compile Include="XFileModifiedChangeAnnotations.cs" />
