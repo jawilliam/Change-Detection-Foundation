@@ -92,32 +92,32 @@ namespace Jawilliam.CDF.Labs
                     }
                     catch (OperationCanceledException)
                     {
-                        this.Warnings.AppendLine($"TIMEOUT - {repositoryObjectName}-{repositoryObject.Id}");
+                        this.Warnings.AppendLine($"TIMEOUT - {sqlRepository.Name}-{repositoryObject.Id}");
                     }
                     catch (OutOfMemoryException)
                     {
-                        this.Warnings.AppendLine($"OUTOFMEMORY - {repositoryObjectName}-{repositoryObject.Id}");
+                        this.Warnings.AppendLine($"OUTOFMEMORY - {sqlRepository.Name}-{repositoryObject.Id}");
                     }
                 }
                 catch (InsufficientExecutionStackException)
                 {
-                    this.Warnings.AppendLine($"InsufficientExecutionStack - fileversion-{repositoryObjectName}-{repositoryObject.Id}");
+                    this.Warnings.AppendLine($"InsufficientExecutionStack - fileversion-{sqlRepository.Name}-{repositoryObject.Id}");
                 }
                 catch (OperationCanceledException)
                 {
-                    this.Warnings.AppendLine($"TIMEOUT - {repositoryObjectName}-{repositoryObject.Id}");
+                    this.Warnings.AppendLine($"TIMEOUT - {sqlRepository.Name}-{repositoryObject.Id}");
                 }
                 catch (InvalidOperationException)
                 {
-                    this.Warnings.AppendLine($"INVALIDOPERATION - {repositoryObjectName}-{repositoryObject.Id}");
+                    this.Warnings.AppendLine($"INVALIDOPERATION - {sqlRepository.Name}-{repositoryObject.Id}");
                 }
                 catch (OutOfMemoryException)
                 {
-                    this.Warnings.AppendLine($"OUTOFMEMORY - {repositoryObjectName}-{repositoryObject.Id}");
+                    this.Warnings.AppendLine($"OUTOFMEMORY - {sqlRepository.Name}-{repositoryObject.Id}");
                 }
                 catch (Exception)
                 {
-                    this.Warnings.AppendLine($"ERROR - {repositoryObjectName}-{repositoryObject.Id}");
+                    this.Warnings.AppendLine($"ERROR - {sqlRepository.Name}-{repositoryObject.Id}");
                 }
 
                 Console.Out.WriteLine($"Saving the {counter}-file version ({repositoryObjectIds.Count}) of {sqlRepository.Name}");

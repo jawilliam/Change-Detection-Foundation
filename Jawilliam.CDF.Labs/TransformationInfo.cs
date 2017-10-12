@@ -121,7 +121,7 @@ namespace Jawilliam.CDF.Labs
         /// <summary>
         /// Gets or sets the scope of the current element.
         /// </summary>
-        [XmlElement("ScopeHint")]
+        [XmlElement("ScopeHint"), XmlIgnore]
         public virtual string ScopeHint { get; set; }
     }
 
