@@ -248,6 +248,7 @@
     <Property Name="ArbitraryMatch" Type="bit" Nullable="true" />
     <Property Name="RedundantChanges" Type="bit" Nullable="true" />
     <Property Name="GhostChanges" Type="bit" Nullable="true" />
+    <Property Name="SpuriousChanges" Type="bit" Nullable="true" />
     <Property Name="RevisionPair_Id" Type="uniqueidentifier" Nullable="false" />
   </EntityType>
   <EntityType Name="Project">
@@ -1191,6 +1192,7 @@
           <Property Name="ArbitraryMatch" Type="Boolean" Nullable="true" />
           <Property Name="RedundantChanges" Type="Boolean" Nullable="true" />
           <Property Name="GhostChanges" Type="Boolean" Nullable="true" />
+          <Property Name="SpuriousChanges" Type="Boolean" Nullable="true" />
         </EntityType>
         <EnumType Name="ReviewSeverity">
           <Member Name="Good" Value="2" />
@@ -1207,6 +1209,8 @@
           <Member Name="Ratio_LevenshteinGumTreeAdditions_LocalOutliers" Value="4" />
           <Member Name="MissedNameMatches" Value="5" />
           <Member Name="Ratio_LevenshteinGumTreeDeletions_LocalOutliers" Value="6" />
+          <Member Name="Redundancy_MissedName" Value="7" />
+          <Member Name="Spuriosity_IncompatibleMatches" Value="8" />
         </EnumType>
         <EnumType Name="Topics" UnderlyingType="Int16" IsFlags="true">
           <Member Name="Domain" Value="1" />
@@ -1250,6 +1254,7 @@
           <Member Name="MissedMatchesUM" Value="14" />
           <Member Name="MissedMatchesMU" Value="15" />
           <Member Name="MissedMatchesM" Value="16" />
+          <Member Name="Symptom" Value="17" />
         </EnumType>
         <EnumType Name="RevisionPairFlags" UnderlyingType="Int64" IsFlags="true">
           <Member Name="SourceCodeChanged" Value="1" />
@@ -1317,6 +1322,11 @@
           <Member Name="GlobalDeletionPorcentageLvGtNotAssigned" Value="4194304" />
           <Member Name="GlobalUpdatePorcentageLvGtNotAssigned" Value="8388608" />
           <Member Name="GlobalMovePorcentageLvGtNotAssigned" Value="16777216" />
+          <Member Name="GlobalGeneralRatioLvGtMedianCloserRandom" Value="33554432" />
+          <Member Name="GlobalInsertionPorcentageLvGtMedianCloserRandom" Value="67108864" />
+          <Member Name="GlobalDeletionPorcentageLvGtMedianCloserRandom" Value="134217728" />
+          <Member Name="GlobalUpdatePorcentageLvGtMedianCloserRandom" Value="268435456" />
+          <Member Name="GlobalMovePorcentageLvGtMedianCloserRandom" Value="536870912" />
         </EnumType>
         <EntityType Name="CoexistenceSymptom" BaseType="Jawilliam.CDF.Labs.SQL.Symptom" Abstract="true" >
           <Property Name="Original" Type="Jawilliam.CDF.Labs.SQL.ElementContext" Nullable="false" />
@@ -1491,6 +1501,7 @@
           <ScalarProperty Name="ArbitraryMatch" ColumnName="ArbitraryMatch" />
           <ScalarProperty Name="RedundantChanges" ColumnName="RedundantChanges" />
           <ScalarProperty Name="GhostChanges" ColumnName="GhostChanges" />
+          <ScalarProperty Name="SpuriousChanges" ColumnName="SpuriousChanges" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

@@ -29,6 +29,7 @@ namespace Jawilliam.CDF.Labs
         MissedMatchesMM = 13,
         MissedMatchesUM = 14,
         MissedMatchesMU = 15,
-        MissedMatchesM = 16
+        MissedMatchesM = 16,
+        Symptom = 17
     }
 }

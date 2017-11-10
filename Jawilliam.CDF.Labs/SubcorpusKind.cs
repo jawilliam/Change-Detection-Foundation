@@ -39,6 +39,11 @@ namespace Jawilliam.CDF.Labs
         GlobalInsertionPorcentageLvGtNotAssigned = 2097152,
         GlobalDeletionPorcentageLvGtNotAssigned = 4194304,
         GlobalUpdatePorcentageLvGtNotAssigned = 8388608,
-        GlobalMovePorcentageLvGtNotAssigned = 16777216
+        GlobalMovePorcentageLvGtNotAssigned = 16777216,
+        GlobalGeneralRatioLvGtMedianCloserRandom = 33554432,
+        GlobalInsertionPorcentageLvGtMedianCloserRandom = 67108864,
+        GlobalDeletionPorcentageLvGtMedianCloserRandom = 134217728,
+        GlobalUpdatePorcentageLvGtMedianCloserRandom = 268435456,
+        GlobalMovePorcentageLvGtMedianCloserRandom = 536870912
     }
 }

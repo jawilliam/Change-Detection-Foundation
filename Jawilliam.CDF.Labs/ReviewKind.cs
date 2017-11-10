@@ -18,6 +18,8 @@ namespace Jawilliam.CDF.Labs
         Ratio_LevenshteinGumTree_Outliers = 1,
         Ratio_LevenshteinGumTreeAdditions_LocalOutliers = 4,
         MissedNameMatches = 5,
-        Ratio_LevenshteinGumTreeDeletions_LocalOutliers = 6
+        Ratio_LevenshteinGumTreeDeletions_LocalOutliers = 6,
+        Redundancy_MissedName = 7,
+        Spuriosity_IncompatibleMatches = 8
     }
 }

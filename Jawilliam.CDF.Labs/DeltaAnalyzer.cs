@@ -1,7 +1,12 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
+using System.Data.Entity;
+using System.Globalization;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Jawilliam.CDF.Actions;
@@ -86,18 +91,21 @@ namespace Jawilliam.CDF.Labs
                 new { Abbreviature = "GGHO", Value = SubcorpusKind.GlobalGeneralRatioLvGtHigherOutlier },
                 new { Abbreviature = "GGLO", Value = SubcorpusKind.GlobalGeneralRatioLvGtLowerOutlier },
                 new { Abbreviature = "GGMC", Value = SubcorpusKind.GlobalGeneralRatioLvGtMedianCloser },
+                new { Abbreviature = "GGMCRD", Value = SubcorpusKind.GlobalGeneralRatioLvGtMedianCloserRandom },
                 new { Abbreviature = "GGNA", Value = SubcorpusKind.GlobalGeneralRatioLvGtNotAssigned },
                 new { Abbreviature = "GGRD", Value = SubcorpusKind.GlobalGeneralRatioLvGtRandom },
 
                 new { Abbreviature = "GDHO", Value = SubcorpusKind.GlobalDeletionPorcentageLvGtHigherOutlier },
                 new { Abbreviature = "GDLO", Value = SubcorpusKind.GlobalDeletionPorcentageLvGtLowerOutlier },
                 new { Abbreviature = "GDMC", Value = SubcorpusKind.GlobalDeletionPorcentageLvGtMedianCloser },
+                new { Abbreviature = "GDMCRD", Value = SubcorpusKind.GlobalDeletionPorcentageLvGtMedianCloserRandom },
                 new { Abbreviature = "GDNA", Value = SubcorpusKind.GlobalDeletionPorcentageLvGtNotAssigned },
                 new { Abbreviature = "GDRD", Value = SubcorpusKind.GlobalDeletionPorcentageLvGtRandom },
 
                 new { Abbreviature = "GIHO", Value = SubcorpusKind.GlobalInsertionPorcentageLvGtHigherOutlier },
                 new { Abbreviature = "GILO", Value = SubcorpusKind.GlobalInsertionPorcentageLvGtLowerOutlier },
                 new { Abbreviature = "GIMC", Value = SubcorpusKind.GlobalInsertionPorcentageLvGtMedianCloser },
+                new { Abbreviature = "GIMCRD", Value = SubcorpusKind.GlobalInsertionPorcentageLvGtMedianCloserRandom },
                 new { Abbreviature = "GINA", Value = SubcorpusKind.GlobalInsertionPorcentageLvGtNotAssigned },
                 new { Abbreviature = "GIRD", Value = SubcorpusKind.GlobalInsertionPorcentageLvGtRandom },
 
@@ -121,6 +129,86 @@ namespace Jawilliam.CDF.Labs
 
             string report = sqlRepository.Name + valuesDesc.Aggregate("", (current, value) => $"{current};{sqlRepository.Deltas.Count(d => d.Approach == approach && d.Subcorpus != null && ((d.Subcorpus.Value & value.Value) == value.Value))}");
             this.Report.AppendLine(report);
+        }
+
+        /// <summary>
+        /// Summarizes the count of elements for each kind of subcorpus.
+        /// </summary>
+        /// <param name="sqlRepository">the SQL database repository in which to analyze the file versions.</param>
+        /// <param name="approach"></param>
+        public virtual void SummarizeSymptoms(GitRepository sqlRepository, ChangeDetectionApproaches approach, bool namesRow)
+        {
+            //int totalOfMn = 0;
+            //int totalOfMnClasses = 0;
+            //int totalOfMnProperties = 0;
+            //int totalOfMnFields = 0;
+            //int totalOfMnFunctions = 0;
+            //int totalOfMnVariables = 0;
+            //int totalOfMi = 0;
+            //int totalOfMiThis = 0;
+            //int totalOfMiBase = 0;
+            //int totalOfMiBltInNonBltInTypes = 0;
+            //int totalOfMiNull = 0;
+            //int totalOfMiTrue = 0;
+            //int totalOfMiFalse = 0;
+            //int totalOfMiLiterals = 0;
+            //int totalOfMiRenames = 0;
+            //int totalOfMiOperators = 0;
+
+            if (namesRow)
+                this.Report.AppendLine("Project;MN;MN-Class;MN-Interface;MN-Enum;MN-Struct;MN-prop;MN-fld;MN-ev;MN-func;MN-ctor;MN-dtor;MN-farg;MN-aarg;MN-var;MN-others;IM;IM-this;IM-base;IM-btinNonbtinTypes;IM-null;IM-true;IM-false;IM-literals;IM-names;IM-optors");
+
+            var mn = sqlRepository.Symptoms.OfType<MissedElementSymptom>().Count();
+            //var mnNamespaces = sqlRepository.Symptoms.OfType<MissedElementSymptom>().Count(s => s.Original.Element.Type == "namespace" && s.Modified.Element.Type == "namespace");
+            var mnClasses = sqlRepository.Symptoms.OfType<MissedElementSymptom>().Count(s => s.Original.Element.Type == "class" && s.Modified.Element.Type == "class");
+            var mnInterfaces = sqlRepository.Symptoms.OfType<MissedElementSymptom>().Count(s => s.Original.Element.Type == "interface" && s.Modified.Element.Type == "interface");
+            var mnEnums = sqlRepository.Symptoms.OfType<MissedElementSymptom>().Count(s => s.Original.Element.Type == "enum" && s.Modified.Element.Type == "enum");
+            var mnStructs = sqlRepository.Symptoms.OfType<MissedElementSymptom>().Count(s => s.Original.Element.Type == "struct" && s.Modified.Element.Type == "struct");
+            var mnEnumValues = sqlRepository.Symptoms.OfType<MissedElementSymptom>().Count(s => s.Original.Element.Type == "enumvalue" && s.Modified.Element.Type == "enumvalue");
+            var mnProperties = sqlRepository.Symptoms.OfType<MissedElementSymptom>().Count(s => s.Original.Element.Type == "property" && s.Modified.Element.Type == "property");
+            var mnFields = sqlRepository.Symptoms.OfType<MissedElementSymptom>().Count(s => s.Original.Element.Type == "field" && s.Modified.Element.Type == "field");
+            var mnFunctions = sqlRepository.Symptoms.OfType<MissedElementSymptom>().Count(s => s.Original.Element.Type == "function" && s.Modified.Element.Type == "function");
+            var mnConstructors = sqlRepository.Symptoms.OfType<MissedElementSymptom>().Count(s => s.Original.Element.Type == "constructor" && s.Modified.Element.Type == "constructor");
+            var mnDestructors = sqlRepository.Symptoms.OfType<MissedElementSymptom>().Count(s => s.Original.Element.Type == "destructor" && s.Modified.Element.Type == "destructor");
+            var mnFormalArguments = sqlRepository.Symptoms.OfType<MissedElementSymptom>().Count(s => s.Original.Element.Type == "formal argument" && s.Modified.Element.Type == "formal argument");
+            var mnActualArguments = sqlRepository.Symptoms.OfType<MissedElementSymptom>().Count(s => s.Original.Element.Type == "actual argument" && s.Modified.Element.Type == "actual argument");
+            var mnVariables = sqlRepository.Symptoms.OfType<MissedElementSymptom>().Count(s => s.Original.Element.Type == "variable" && s.Modified.Element.Type == "variable");
+            var mi = sqlRepository.Symptoms.OfType<IncompatibleMatchingSymptom>().Count();
+            var miThis = sqlRepository.Symptoms.OfType<IncompatibleMatchingSymptom>().Count(s => s.Pattern == "this instance expression");
+            var miBase = sqlRepository.Symptoms.OfType<IncompatibleMatchingSymptom>().Count(s => s.Pattern == "base instance expression");
+            var miBltInNonBltInTypes = sqlRepository.Symptoms.OfType<IncompatibleMatchingSymptom>().Count(s => s.Pattern == "builtin type updates to non-builtin type");
+            var miNull = sqlRepository.Symptoms.OfType<IncompatibleMatchingSymptom>().Count(s => s.Pattern == "null literal mismatch");
+            var miTrue = sqlRepository.Symptoms.OfType<IncompatibleMatchingSymptom>().Count(s => s.Pattern == "true literal mismatch");
+            var miFalse = sqlRepository.Symptoms.OfType<IncompatibleMatchingSymptom>().Count(s => s.Pattern == "false literal mismatch");
+            var miLiterals = sqlRepository.Symptoms.OfType<IncompatibleMatchingSymptom>().Count(s => s.Pattern == "literals update");
+            var miRenames = sqlRepository.Symptoms.OfType<IncompatibleMatchingSymptom>().Count(s => s.Pattern == "renames");
+            var miOperators = sqlRepository.Symptoms.OfType<IncompatibleMatchingSymptom>().Count(s => s.Pattern == "different operators");
+            this.Report.AppendLine($"{sqlRepository.Name};" +
+                                   $"{mn};" +
+                                   $"{mnClasses};" +
+                                   $"{mnInterfaces};" +
+                                   $"{mnEnums};" +
+                                   $"{mnStructs};" +
+                                   $"{mnProperties};" +
+                                   $"{mnFields};" +
+                                   $"{mnEnumValues};" +
+                                   $"{mnFunctions};" +
+                                   $"{mnConstructors};" +
+                                   $"{mnDestructors};" +
+                                   $"{mnFormalArguments};" +
+                                   $"{mnActualArguments};" +
+                                   $"{mnVariables};" +
+                                   $"{mn - (mnClasses + mnInterfaces + mnEnums + mnStructs + mnProperties + mnFields + mnFunctions + mnConstructors + mnDestructors +mnFormalArguments+ mnActualArguments + mnEnumValues + mnVariables)};" +
+                                   $"{mi};" +
+                                   $"{miThis};" +
+                                   $"{miBase};" +
+                                   $"{miBltInNonBltInTypes};" +
+                                   $"{miNull};" +
+                                   $"{miTrue};" +
+                                   $"{miFalse};" +
+                                   $"{miLiterals};" +
+                                   $"{miRenames};" +
+                                   $"{miOperators}");
         }
 
         //public virtual void ClearConfusingNames(GitRepository sqlRepository)
@@ -398,9 +486,7 @@ namespace Jawilliam.CDF.Labs
                 }
             }
         }
-
-
-
+        
         /// <summary>
         /// Analyzes the similarity in according with a given similarity metric, such as Levenshtein.
         /// </summary>
@@ -433,6 +519,8 @@ namespace Jawilliam.CDF.Labs
 
                         foreach (var action in detectionResult.Actions)
                         {
+                            token.ThrowIfCancellationRequested();
+
                             ElementTree element;
                             TransformationInfo transformationInfo;
                             switch (action.Action)
@@ -719,6 +807,346 @@ namespace Jawilliam.CDF.Labs
                                             : "modified");
                 setTransformation(transformationInfo, getTransformation(transformationInfo) + 1);
             }
+        }
+
+        public virtual void RateMissedNameSymptoms(GitRepository sqlRepository, 
+            ChangeDetectionApproaches approach,
+            SourceCodeCleaner cleaner, string originalFilePath, string modifiedFilePath)
+        {
+            this.Analyze(sqlRepository, "redundancy analysis",
+              f => f.Principal.Deltas.Any(d => d.Approach == approach &&
+                                               d.Matching != null &&
+                                               d.Differencing != null &&
+                                               d.Report == null &&
+                                               d.Symptoms.OfType<MissedNameSymptom>().Any(s => s.Original.Element.Type == "formal argument" && s.Modified.Element.Type == "formal argument")),
+                delegate (FileRevisionPair pair, CancellationToken token)
+                {
+                    //if (skipThese?.Invoke(pair) ?? false) return;
+
+                    var delta = sqlRepository.Deltas.Single(d => d.RevisionPair.Id == pair.Principal.Id && d.Approach == approach);
+                    var symptomIds = sqlRepository.Symptoms.OfType<MissedNameSymptom>()
+                        .Where(s => s.Delta.Id == delta.Id)
+                        .Where(s => s.Original.Element.Type == "formal argument" && s.Modified.Element.Type == "formal argument")
+                        .Select(s => s.Id).ToList();
+
+                    //var cleaner = new SourceCodeCleaner();
+                    var original = SyntaxFactory.ParseCompilationUnit(pair.Principal.FromFileVersion.Content.SourceCode).SyntaxTree.GetRoot();
+                    var modified = SyntaxFactory.ParseCompilationUnit(pair.Principal.FileVersion.Content.SourceCode).SyntaxTree.GetRoot();
+
+                    var preprocessedOriginal = cleaner != null ? cleaner.Clean(original) : original;
+                    var preprocessedModified = cleaner != null ? cleaner.Clean(modified) : modified;
+                    System.IO.File.WriteAllText(originalFilePath, preprocessedOriginal.ToFullString(), Encoding.Default);
+                    System.IO.File.WriteAllText(modifiedFilePath, preprocessedModified.ToFullString(), Encoding.Default);
+
+                    var pairs = new[]
+                    {
+                    //new { Oid="3104", Opg="414", Mid="3209", Mpg="437", Name = (string)null },
+                    //new { Oid="3127", Opg="418", Mid="3280", Mpg="447", Name = (string)null },
+                    new { Oid="-1", Opg="-1", Mid="-1", Mpg="-1", Name = (string)null },
+                    //new { Oid="", Opg="", Mid="", Mpg="", Name = (string)null }
+                    };
+                    
+                    foreach (var symptomId in symptomIds)
+                    {
+                        sqlRepository.Symptoms.OfType<MissedNameSymptom>().Where(s => s.Id == symptomId).Load();
+                        var symptom = delta.Symptoms.OfType<MissedNameSymptom>().Single(s => s.Id == symptomId);
+
+                        var o = pairs.SingleOrDefault(p => p.Oid == symptom.Original.Element.Id);
+                        var m = pairs.SingleOrDefault(p => p.Mid == symptom.Modified.Element.Id);
+                        if (o != null && m != null)
+                        {
+                            Review review = null;
+                            if (o != m)
+                                review = new Review
+                                {
+                                    Id = Guid.NewGuid(),
+                                    Kind = ReviewKind.Redundancy_MissedName,
+                                    CaseKind = CaseKind.Symptom,
+                                    Severity = ReviewSeverity.Bad,
+                                    Subject = $"Imprecise Missed match - {symptom.Original.Element.Type} named by \"{o.Name ?? symptom.Original.Element.Hint}\"-(ol:{o.Opg}, oid:{symptom.Original.Element.Id})" +
+                                          $" should not match to {symptom.Modified.Element.Type} named by \"{m.Name ?? symptom.Modified.Element.Hint}\"-(ml:{m.Mpg}, mid:{symptom.Modified.Element.Id})",
+                                    Comments = "",
+                                    Topics = Topics.Matching /**//*Topics.Domain*/ /* | Topics.Matching *//*| Topics.Differencing*/ /*| Topics.Report*/,
+                                    MissedMatch = true,
+                                    RedundantChanges = true
+                                };
+                            else
+                                review = new Review
+                                {
+                                    Id = Guid.NewGuid(),
+                                    Kind = ReviewKind.Redundancy_MissedName,
+                                    CaseKind = CaseKind.Symptom,
+                                    Severity = ReviewSeverity.Bad,
+                                    Subject = $"Missed match - {symptom.Original.Element.Type} named by \"{o.Name ?? symptom.Original.Element.Hint}\"-(ol:{o.Opg}, oid:{symptom.Original.Element.Id})" +
+                                      $" should match to {symptom.Modified.Element.Type} named by \"{m.Name ?? symptom.Modified.Element.Hint}\"-(ml:{m.Mpg}, mid:{symptom.Modified.Element.Id})",
+                                    Comments = "",
+                                    Topics = Topics.Matching /**//*Topics.Domain*/ /* | Topics.Matching *//*| Topics.Differencing*/ /*| Topics.Report*/,
+                                    MissedMatch = true,
+                                    RedundantChanges = true
+                                };
+                            pair.Reviews.Add(review);
+                        }
+                        else
+                        {
+                            string prefix = "", match = " ";
+                            var oElement = original.DescendantNodesAndSelf().OfType<ParameterSyntax>()
+                                .Where(e => e.Identifier.ValueText == symptom.Original.Element.Hint)
+                                .ToList();
+                            var mElement = modified.DescendantNodesAndSelf().OfType<ParameterSyntax>()
+                                .Where(e => e.Identifier.ValueText == symptom.Modified.Element.Hint)
+                                .ToList();
+                            string oLine = "-1", mLine = "-1";
+                            if (oElement.Count == 1 && mElement.Count == 1)
+                            {
+                                oLine = (oElement.Single().GetLocation().GetLineSpan().StartLinePosition.Line + 1).ToString(CultureInfo.InvariantCulture);
+                                mLine = (mElement.Single().GetLocation().GetLineSpan().StartLinePosition.Line + 1).ToString(CultureInfo.InvariantCulture);
+                            }
+                            else
+                            {
+                                var classPattern = new Regex(@"##class:(\d+)\(([^##]*)\)##");
+                                var methodPattern = new Regex(@"##function:(\d+)\(([^##]*)\)##");
+
+                                var oClassName = classPattern.IsMatch(symptom.Original.ScopeHint) 
+                                    ? classPattern.Matches(symptom.Original.ScopeHint)[0].Groups[2].Value
+                                    : null;
+                                var mClassName = classPattern.IsMatch(symptom.Modified.ScopeHint)
+                                    ? classPattern.Matches(symptom.Modified.ScopeHint)[0].Groups[2].Value
+                                    : null;
+
+                                var oMethodName = methodPattern.IsMatch(symptom.Original.ScopeHint)
+                                    ? methodPattern.Matches(symptom.Original.ScopeHint)[0].Groups[2].Value
+                                    : null;
+                                var mMethodName = methodPattern.IsMatch(symptom.Modified.ScopeHint)
+                                    ? methodPattern.Matches(symptom.Modified.ScopeHint)[0].Groups[2].Value
+                                    : null;
+                                if (oMethodName != null && mMethodName != null)
+                                {
+                                    var oMethods = original.DescendantNodesAndSelf().OfType<MethodDeclarationSyntax>()
+                                        .Where(c => c.Identifier.ValueText == oMethodName)
+                                        .ToList();
+                                    var mMethods = modified.DescendantNodesAndSelf().OfType<MethodDeclarationSyntax>()
+                                        .Where(c => c.Identifier.ValueText == mMethodName)
+                                        .ToList();
+                                    if (oMethods.Count == 1 && mMethods.Count == 1)
+                                    {
+                                        oElement = oMethods.Single().DescendantNodesAndSelf().OfType<ParameterSyntax>()
+                                            .Where(e => e.Identifier.ValueText == symptom.Original.Element.Hint)
+                                            .ToList();
+                                        mElement = mMethods.Single().DescendantNodesAndSelf().OfType<ParameterSyntax>()
+                                            .Where(e => e.Identifier.ValueText == symptom.Modified.Element.Hint)
+                                            .ToList();
+                                        if (oElement.Count == 1 && mElement.Count == 1)
+                                        {
+                                            oLine = (oElement.Single().GetLocation().GetLineSpan().StartLinePosition.Line + 1).ToString(CultureInfo.InvariantCulture);
+                                            mLine = (mElement.Single().GetLocation().GetLineSpan().StartLinePosition.Line + 1).ToString(CultureInfo.InvariantCulture);
+
+                                            if (oMethods.Single().Identifier.ValueText != mMethods.Single().Identifier.ValueText)
+                                            {
+                                                prefix = "Imprecise ";
+                                                match = " not ";
+                                            }
+                                        }
+                                    }
+                                }
+                                
+
+
+                                //var oClass = original.DescendantNodesAndSelf().OfType<BaseTypeDeclarationSyntax>()
+                                //    .Where(c => c.Identifier.ValueText == oClassName)
+                                //    .ToList();
+                                //var mClass = modified.DescendantNodesAndSelf().OfType<BaseTypeDeclarationSyntax>()
+                                //    .Where(c => c.Identifier.ValueText == mClassName)
+                                //    .ToList();
+
+                                //Func<string, string> getClassName = delegate(string s)
+                                //{
+                                //    var parts = s.Split(new string[] {"class-"}, StringSplitOptions.RemoveEmptyEntries);
+                                //    if (parts.Length == 2)
+                                //    {
+                                //        return parts[1].TrimEnd(')');
+                                //    }
+
+                                //    return null;
+                                //};
+                                //var oClass = original.DescendantNodesAndSelf().OfType<BaseTypeDeclarationSyntax>()
+                                //    .Where(c => c.Identifier.ValueText == getClassName(symptom.Original.AncestorOfReference.Hint))
+                                //    .ToList();
+                                //var mClass = modified.DescendantNodesAndSelf().OfType<BaseTypeDeclarationSyntax>()
+                                //    .Where(c => c.Identifier.ValueText == getClassName(symptom.Modified.AncestorOfReference.Hint))
+                                //    .ToList();
+                                //if (oClass.Count == 1 && mClass.Count == 1)
+                                //{
+                                //    oElement = oClass.Single().DescendantNodesAndSelf().OfType<ParameterSyntax>()
+                                //        .Where(e => e.Identifier.ValueText == symptom.Original.Element.Hint)
+                                //        .ToList();
+                                //    mElement = mClass.Single().DescendantNodesAndSelf().OfType<ParameterSyntax>()
+                                //        .Where(e => e.Identifier.ValueText == symptom.Modified.Element.Hint)
+                                //        .ToList();
+                                //    if (oElement.Count == 1 && mElement.Count == 1)
+                                //    {
+                                //        oLine = (oElement.Single().GetLocation().GetLineSpan().StartLinePosition.Line + 1).ToString(CultureInfo.InvariantCulture);
+                                //        mLine = (mElement.Single().GetLocation().GetLineSpan().StartLinePosition.Line + 1).ToString(CultureInfo.InvariantCulture);
+                                //    }
+
+                                //    if (oClass.Single().Identifier.ValueText != mClass.Single().Identifier.ValueText)
+                                //    {
+                                //        prefix = "Imprecise ";
+                                //        match = " not ";
+                                //    }
+                                //}
+                                //else
+                                //;
+                            }
+
+                            int oClasses = original.DescendantNodesAndSelf().OfType<BaseTypeDeclarationSyntax>().Count();
+                            int mClasses = modified.DescendantNodesAndSelf().OfType<BaseTypeDeclarationSyntax>().Count();
+                            string originalElement = $"({symptom.Original.Element.Id})-{symptom.Original.Element.Type} \"{symptom.Original.Element.Hint}\"";
+                        string modifiedElement = $"({symptom.Modified.Element.Id})-{symptom.Modified.Element.Type} \"{symptom.Modified.Element.Hint}\"";
+                        var review = new Review
+                        {
+                            Id = Guid.NewGuid(),
+                            Kind = ReviewKind.Redundancy_MissedName,
+                            CaseKind = CaseKind.Symptom,
+                            Severity = ReviewSeverity.Bad,
+                            Subject = $"{prefix}Missed match - {symptom.Original.Element.Type} named by \"{symptom.Original.Element.Hint}\"-(ol:{oLine}, oid:{symptom.Original.Element.Id})" +
+                                      $" should{match}match to {symptom.Modified.Element.Type} named by \"{symptom.Modified.Element.Hint}\"-(ml:{mLine}, mid:{symptom.Modified.Element.Id})",
+                            Comments = "",
+                            Topics = Topics.Matching /**//*Topics.Domain*/ /* | Topics.Matching *//*| Topics.Differencing*/ /*| Topics.Report*/,
+                            MissedMatch = true,
+                            RedundantChanges = true
+                        };
+                        pair.Reviews.Add(review);
+                            }
+                    }
+                },
+            null, true, "Principal.FileVersion.Content", "Principal.FromFileVersion.Content");
+        }
+
+        public virtual void RateIncompatibleMatchingSymptoms(GitRepository sqlRepository,
+            ChangeDetectionApproaches approach,
+            SourceCodeCleaner cleaner, string originalFilePath, string modifiedFilePath)
+        {
+            this.Analyze(sqlRepository, "incompatible analysis",
+              f => f.Principal.Deltas.Any(d => d.Approach == approach &&
+                                               d.Matching != null &&
+                                               d.Differencing != null &&
+                                               d.Report == null &&
+                                               d.Symptoms.OfType<IncompatibleMatchingSymptom>().Any()),
+                delegate (FileRevisionPair pair, CancellationToken token)
+                {
+                    //if (skipThese?.Invoke(pair) ?? false) return;
+
+                    var delta = sqlRepository.Deltas.Single(d => d.RevisionPair.Id == pair.Principal.Id && d.Approach == approach);
+                    var symptomIds = sqlRepository.Symptoms.OfType<IncompatibleMatchingSymptom>()
+                        .Where(s => s.Delta.Id == delta.Id)
+                        .Select(s => s.Id).ToList();
+
+                    //var cleaner = new SourceCodeCleaner();
+                    var original = SyntaxFactory.ParseCompilationUnit(pair.Principal.FromFileVersion.Content.SourceCode).SyntaxTree.GetRoot();
+                    var modified = SyntaxFactory.ParseCompilationUnit(pair.Principal.FileVersion.Content.SourceCode).SyntaxTree.GetRoot();
+
+                    var preprocessedOriginal = cleaner != null ? cleaner.Clean(original) : original;
+                    var preprocessedModified = cleaner != null ? cleaner.Clean(modified) : modified;
+                    System.IO.File.WriteAllText(originalFilePath, preprocessedOriginal.ToFullString(), Encoding.Default);
+                    System.IO.File.WriteAllText(modifiedFilePath, preprocessedModified.ToFullString(), Encoding.Default);
+
+                    foreach (var symptomId in symptomIds)
+                    {
+                        sqlRepository.Symptoms.OfType<IncompatibleMatchingSymptom>().Where(s => s.Id == symptomId).Load();
+                        var symptom = delta.Symptoms.OfType<IncompatibleMatchingSymptom>().Single(s => s.Id == symptomId);
+                        string originalElement = $"({symptom.Original.Element.Id})-{symptom.Original.Element.Type} \"{symptom.Original.Element.Hint}\"";
+                        string modifiedElement = $"({symptom.Modified.Element.Id})-{symptom.Modified.Element.Type} \"{symptom.Modified.Element.Hint}\"";
+                        var review = new Review
+                        {
+                            Id = Guid.NewGuid(),
+                            Kind = ReviewKind.Spuriosity_IncompatibleMatches,
+                            CaseKind = CaseKind.Symptom,
+                            Severity = ReviewSeverity.Bad,
+                            Subject = $"Spurious update - {symptom.Original.Element.Type} " +
+                                                 $"\"{symptom.Original.Element.Hint}\"-(ol:{-1}, " +
+                                                 $"oid:{symptom.Original.Element.Id})" +
+                                      $" should not match to {symptom.Modified.Element.Type} " +
+                                                 $"\"{symptom.Modified.Element.Hint}\"-(ml:{-1}, " +
+                                                 $"mid:{symptom.Modified.Element.Id})",
+                            Comments = "",
+                            Topics = Topics.Matching /**//*Topics.Domain*/ /* | Topics.Matching *//*| Topics.Differencing*/ /*| Topics.Report*/,
+                            SpuriousMatch = true,
+                            SpuriousChanges = true
+                        };
+                        switch (symptom.Pattern)
+                        {
+                            case "this instance expression":
+                                //if (symptom.Original.Element.Hint != "this")
+                                //{
+                                //    review.Subject =
+                                //        $"Spurious update - {symptom.Original.Element.Type} \"{symptom.Original.Element.Hint}\"" +
+                                //        $"-(ol:{-1}, oid:{symptom.Original.Element.Id})" +
+                                //        $" should not match to an instance expression \"{symptom.Modified.Element.Hint}\"" +
+                                //        $"-(ml:{-1}, mid:{symptom.Modified.Element.Id})";
+                                //}
+                                //else
+                                //{
+                                //    review.Subject =
+                                //        $"Spurious update - an instance expression \"{symptom.Original.Element.Hint}\"" +
+                                //        $"-(ol:{-1}, oid:{symptom.Original.Element.Id})" +
+                                //        $" should not match to {symptom.Modified.Element.Type} \"{symptom.Modified.Element.Hint}\"" +
+                                //        $"-(ml:{-1}, mid:{symptom.Modified.Element.Id})";
+                                //}
+                                review.ArbitraryMatch = true;
+                                review.UnnaturalMatch = true;
+                                break;
+                            case "base instance expression":
+                                //review.Subject = $"Spurious update - {symptom.Original.Element.Type} " +
+                                //                 $"\"{symptom.Original.Element.Hint}\"-(ol:{-1}, " +
+                                //                 $"oid:{symptom.Original.Element.Id})" +
+                                //$" should not match to {symptom.Modified.Element.Type} " +
+                                //                 $"\"{symptom.Modified.Element.Hint}\"-(ml:{-1}, " +
+                                //                 $"mid:{symptom.Modified.Element.Id})";
+
+                                //if (symptom.Original.Element.Hint != "base")
+                                //{
+                                //    review.Subject =
+                                //        $"Spurious update - {symptom.Original.Element.Type} \"{symptom.Original.Element.Hint}\"" +
+                                //        $"-(ol:{-1}, oid:{symptom.Original.Element.Id})" +
+                                //        $" should not match to an instance expression \"{symptom.Modified.Element.Hint}\"" +
+                                //        $"-(ml:{-1}, mid:{symptom.Modified.Element.Id})";
+                                //}
+                                //else
+                                //{
+                                //    review.Subject =
+                                //        $"Spurious update - an instance expression \"{symptom.Original.Element.Hint}\"" +
+                                //        $"-(ol:{-1}, oid:{symptom.Original.Element.Id})" +
+                                //        $" should not match to {symptom.Modified.Element.Type} \"{symptom.Modified.Element.Hint}\"" +
+                                //        $"-(ml:{-1}, mid:{symptom.Modified.Element.Id})";
+                                //}
+                                review.ArbitraryMatch = true;
+                                review.UnnaturalMatch = true;
+                                break;
+                            //case "incompatible comments?":
+                            case "builtin type updates to non-builtin type":
+                                review.ArbitraryMatch = true;
+                                break;
+                            case "null literal mismatch":
+                            case "true literal mismatch":
+                            case "false literal mismatch":
+                            case "literals update":
+                                review.UnnaturalMatch = true;
+                                break;
+                            case "renames":
+                            case "different operators":
+                                review.UnnaturalMatch = true;
+                                //review.Subject = $"Spurious update - {symptom.Original.Element.Type} \"{symptom.Original.Element.Hint}\"-(ol:{-1}, oid:{symptom.Original.Element.Id})" +
+                                //$" should not match to {symptom.Modified.Element.Type} \"{symptom.Modified.Element.Hint}\"-(ml:{-1}, mid:{symptom.Modified.Element.Id})";
+                                break;
+                            
+                            default:
+                                ;
+                                throw new NotImplementedException();
+                        }
+                        pair.Reviews.Add(review);
+                    }
+                },
+            null, true, "Principal.FileVersion.Content", "Principal.FromFileVersion.Content");
         }
     }
 }

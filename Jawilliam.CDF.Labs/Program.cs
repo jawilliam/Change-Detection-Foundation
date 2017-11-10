@@ -372,7 +372,39 @@ namespace Jawilliam.CDF.Labs
             //                Indentation = "",
             //                //RemoveComments = true
             //            } */);
+            var analyzer = new DeltaAnalyzer();
+            foreach (var project in Projects.Where(p => p.Name == "mono")/*.Skip(2)*/)
+            {
+                analyzer.Warnings = new StringBuilder();
+                var dbRepository = new GitRepository(project.Name) { Name = project.Name };
+                ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 360;
 
+                analyzer.RateMissedNameSymptoms(dbRepository,
+                    ChangeDetectionApproaches.NativeGumTree, null,
+                    @"E:\Phd\Analysis\Original.cs",
+                    @"E:\Phd\Analysis\Modified.cs");
+
+                //analyzer.RateIncompatibleMatchingSymptoms(dbRepository,
+                //    ChangeDetectionApproaches.NativeGumTree, null,
+                //    @"E:\Phd\Analysis\Original.cs",
+                //    @"E:\Phd\Analysis\Modified.cs");
+            }
+
+            #endregion
+
+            #region Summarize Symptoms
+            //var analyzer = new DeltaAnalyzer { Report = new StringBuilder() };
+            //bool rowNames = true;
+            //foreach (var project in Projects)
+            //{
+            //    var dbRepository = new GitRepository(project.Name) { Name = project.Name };
+            //    ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 360;
+
+            //    analyzer.SummarizeSymptoms(dbRepository, ChangeDetectionApproaches.NativeGumTree, rowNames);
+            //    rowNames = false;
+            //    Console.WriteLine($"{dbRepository.Name} - DONE");
+            //}
+            //System.IO.File.WriteAllText(@"E:\Phd\Analysis\UniquePairs\SymptomsSummary.csv", analyzer.Report.ToString());
             #endregion
 
             #region Detecting not real source code changes
@@ -401,20 +433,20 @@ namespace Jawilliam.CDF.Labs
             //SummarizeFileRevisionPairs();
             //ReportConfusingRenames(ChangeDetectionApproaches.NativeGumTree);
 
-            var analyzer = new DeltaAnalyzer();
-            //var namesRow = true;
-            foreach (var project in Projects)
-            {
-                analyzer.Warnings = new StringBuilder();
-                var dbRepository = new GitRepository(project.Name) { Name = project.Name };
-                ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 360;
+            //var analyzer = new DeltaAnalyzer();
+            ////var namesRow = true;
+            //foreach (var project in Projects)
+            //{
+            //    analyzer.Warnings = new StringBuilder();
+            //    var dbRepository = new GitRepository(project.Name) { Name = project.Name };
+            //    ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 360;
 
-                analyzer.SaveSpuriosityInfo(dbRepository, null,
-                    ChangeDetectionApproaches.NativeGumTree, null);
-                //namesRow = false;
-                //Console.Out.WriteLine($"{project.Name}");
-                System.IO.File.AppendAllText(@"E:\Phd\Analysis\ConfusingRenames\ReportSpuriosity.csv", analyzer.Warnings.ToString());
-            }
+            //    analyzer.SaveSpuriosityInfo(dbRepository, null,
+            //        ChangeDetectionApproaches.NativeGumTree, null);
+            //    //namesRow = false;
+            //    //Console.Out.WriteLine($"{project.Name}");
+            //    System.IO.File.AppendAllText(@"E:\Phd\Analysis\ConfusingRenames\ReportSpuriosity.csv", analyzer.Warnings.ToString());
+            //}
 
             Console.Out.WriteLine($"DONE");
             //int i = 0; // the warning reports!!!
@@ -746,8 +778,8 @@ namespace Jawilliam.CDF.Labs
                 using (var dbRepository = new GitRepository(project.Name) { Name = project.Name })
                 {
                     ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 180;
-                    var guid = Guid.Parse("cd6881d7-a572-46cc-9a92-bdea3c808694");
-                    //var guid = Guid.Parse("C0D91366-9994-49E5-88C0-1C0568FDDC9F");
+                    //var guid = Guid.Parse("cd6881d7-a572-46cc-9a92-bdea3c808694");
+                    var guid = Guid.Parse("BC2ED041-8A6C-4EA7-90E9-2335E356DD72");
                     action(originalFilePath, modifiedFilePath, currentReview, cleaner, loader, dbRepository, guid);
                     //ReviewRevisionPair(originalFilePath, modifiedFilePath, currentReview, cleaner, loader, dbRepository, guid);
                 }
@@ -781,7 +813,7 @@ namespace Jawilliam.CDF.Labs
                 
             }
 
-            //dbRepository.Flush();
+            dbRepository.Flush();
         }
 
         private static void ReviewMissedMatches(string originalFilePath, string modifiedFilePath, ReviewKind currentReview,

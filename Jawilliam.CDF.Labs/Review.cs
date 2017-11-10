@@ -29,8 +29,7 @@ namespace Jawilliam.CDF.Labs
         public Nullable<bool> ArbitraryMatch { get; set; }
         public Nullable<bool> RedundantChanges { get; set; }
         public Nullable<bool> GhostChanges { get; set; }
-        public Nullable<bool> UnnaturalChanges { get; set; }
-        public Nullable<bool> ArbitraryChanges { get; set; }
+        public Nullable<bool> SpuriousChanges { get; set; }
     
         public virtual FileRevisionPair RevisionPair { get; set; }
     }
