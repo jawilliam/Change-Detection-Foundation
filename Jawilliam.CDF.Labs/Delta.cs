@@ -28,7 +28,11 @@ namespace Jawilliam.CDF.Labs
         public ChangeDetectionApproaches Approach { get; set; }
         public string OriginalTree { get; set; }
         public string ModifiedTree { get; set; }
-        public Nullable<SubcorpusKind> Subcorpus { get; set; }
+        public Nullable<SubcorpusKind> GlobalSubcorpus { get; set; }
+        public Nullable<SubcorpusKind> GlobalInsertPorcentageSubcorpus { get; set; }
+        public Nullable<SubcorpusKind> GlobalDeletePorcentageSubcorpus { get; set; }
+        public Nullable<SubcorpusKind> GlobalUpdatePorcentageSubcorpus { get; set; }
+        public Nullable<SubcorpusKind> GlobalMovePorcentageSubcorpus { get; set; }
     
         public virtual FileModifiedChange RevisionPair { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

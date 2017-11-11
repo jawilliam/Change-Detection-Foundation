@@ -30,7 +30,9 @@ namespace Jawilliam.CDF.Labs
         /// <param name="skipThese">local criterion for determining elements that should be ignored.</param>
         /// <param name="csvDescriptions">CSV lines describing different cases of the subcorpus.</param>
         /// <param name="subcorpusPrefix">the kind of subcorpus.</param>
-        public virtual void SetSubcorpus(GitRepository sqlRepository, ChangeDetectionApproaches approach, Func<FileRevisionPair, bool> skipThese, string[] csvDescriptions, string subcorpusPrefix)
+        public virtual void SetSubcorpus(GitRepository sqlRepository, ChangeDetectionApproaches approach, 
+            Func<FileRevisionPair, bool> skipThese, string[] csvDescriptions, string subcorpusPrefix,
+            Func<Delta, SubcorpusKind> getSubcorpus, Action<Delta, SubcorpusKind> setSubcorpus)
         {
             var descriptions = csvDescriptions.Skip(1)
                 .Where(l => !string.IsNullOrEmpty(l) && l.Split(new[] {";"}, StringSplitOptions.RemoveEmptyEntries)[0] == $"\"{sqlRepository.Name}\"")
@@ -42,7 +44,9 @@ namespace Jawilliam.CDF.Labs
                         Id = Guid.Parse(values[1].TrimStart('\"').TrimEnd('\"')),
                         Outlier = values[9].TrimStart('\"').TrimEnd('\"'),
                         Random = values[10].TrimStart('\"').TrimEnd('\"'),
-                        MedianCloser = values[12]
+                        //OutlierRandom = values[9].TrimStart('\"').TrimEnd('\"'),
+                        MedianCloser = values[14],
+                        MedianCloserRandom = values[12]
                     };
                 }).ToList();
             this.Analyze(sqlRepository, $"{Enum.GetName(typeof(ChangeDetectionApproaches), approach)}Deltas",
@@ -61,21 +65,30 @@ namespace Jawilliam.CDF.Labs
                     if (description != null)
                     {
                         if (description.Outlier == "High")
-                            subcorpusSpec |= (SubcorpusKind)Enum.Parse(typeof (SubcorpusKind), $"{subcorpusPrefix}HigherOutlier");
+                            subcorpusSpec |= SubcorpusKind.RatioLvGtHigherOutlier;
                         if (description.Outlier == "Low")
-                            subcorpusSpec |= (SubcorpusKind)Enum.Parse(typeof(SubcorpusKind), $"{subcorpusPrefix}LowerOutlier");
+                            subcorpusSpec |= SubcorpusKind.RatioLvGtLowerOutlier;
                         if (description.Random == "TRUE")
-                            subcorpusSpec |= (SubcorpusKind)Enum.Parse(typeof(SubcorpusKind), $"{subcorpusPrefix}Random");
-                        if (description.MedianCloser == "TRUE")
-                            subcorpusSpec |= (SubcorpusKind)Enum.Parse(typeof(SubcorpusKind), $"{subcorpusPrefix}MedianCloser");
+                            subcorpusSpec |= SubcorpusKind.RatioLvGtRandom;
+                        if (description.MedianCloser == "Low")
+                            subcorpusSpec |= SubcorpusKind.RatioLvGtMedianCloserLow;
+                        if (description.MedianCloser == "High")
+                            subcorpusSpec |= SubcorpusKind.RatioLvGtMedianCloserHigh;
+                        if (description.MedianCloser == "Median")
+                            subcorpusSpec |= SubcorpusKind.RatioLvGtMedianCloserExact;
+                        if (description.MedianCloserRandom == "TRUE")
+                            subcorpusSpec |= SubcorpusKind.RatioLvGtMedianCloserRandom;
                     }
                     else
                     {
-                        subcorpusSpec = (SubcorpusKind)Enum.Parse(typeof(SubcorpusKind), $"{subcorpusPrefix}NotAssigned");
+                        subcorpusSpec = SubcorpusKind.NotAssigned;
                     }
 
                     if (subcorpusSpec != SubcorpusKind.None)
-                        delta.Subcorpus = delta.Subcorpus == null ? subcorpusSpec : delta.Subcorpus | subcorpusSpec;
+                    {
+                        var subcorpus = getSubcorpus(delta);
+                        setSubcorpus(delta, subcorpus == null ? subcorpusSpec : subcorpus | subcorpusSpec;
+                    }
                 }, null, true, "Principal");
         }
 

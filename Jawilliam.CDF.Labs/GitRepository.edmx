@@ -213,7 +213,11 @@
     <Property Name="Approach" Type="int" Nullable="false" />
     <Property Name="OriginalTree" Type="xml" Nullable="true" />
     <Property Name="ModifiedTree" Type="xml" Nullable="true" />
-    <Property Name="Subcorpus" Type="int" Nullable="true" />
+    <Property Name="GlobalSubcorpus" Type="int" Nullable="true" />
+    <Property Name="GlobalInsertPorcentageSubcorpus" Type="int" Nullable="true" />
+    <Property Name="GlobalDeletePorcentageSubcorpus" Type="int" Nullable="true" />
+    <Property Name="GlobalUpdatePorcentageSubcorpus" Type="int" Nullable="true" />
+    <Property Name="GlobalMovePorcentageSubcorpus" Type="int" Nullable="true" />
     <Property Name="RevisionPair_Id" Type="uniqueidentifier" Nullable="true" />
   </EntityType>
   <EntityType Name="FileRevisionPairs">
@@ -1118,7 +1122,11 @@
           <Property Name="OriginalTree" Type="String" Nullable="true" />
           <Property Name="ModifiedTree" Type="String" Nullable="true" />
           <NavigationProperty Name="Symptoms" Relationship="Jawilliam.CDF.Labs.SQL.OneDelta_MayHave_ManySymptoms" FromRole="Delta" ToRole="Symptom" />
-          <Property Name="Subcorpus" Type="Jawilliam.CDF.Labs.SQL.SubcorpusKind" Nullable="true" />
+          <Property Name="GlobalSubcorpus" Type="Jawilliam.CDF.Labs.SQL.SubcorpusKind" Nullable="true" />
+          <Property Name="GlobalInsertPorcentageSubcorpus" Type="Jawilliam.CDF.Labs.SQL.SubcorpusKind" Nullable="true" />
+          <Property Name="GlobalDeletePorcentageSubcorpus" Type="Jawilliam.CDF.Labs.SQL.SubcorpusKind" Nullable="true" />
+          <Property Name="GlobalUpdatePorcentageSubcorpus" Type="Jawilliam.CDF.Labs.SQL.SubcorpusKind" Nullable="true" />
+          <Property Name="GlobalMovePorcentageSubcorpus" Type="Jawilliam.CDF.Labs.SQL.SubcorpusKind" Nullable="true" />
         </EntityType>
         <Association Name="FileModifiedChanges_CanBeDescribedByDifferent_Deltas">
           <End Type="Jawilliam.CDF.Labs.SQL.FileModifiedChange" Role="FileModifiedChange" Multiplicity="0..1" />
@@ -1296,37 +1304,16 @@
           <Property Type="Byte" Name="Value" Nullable="true" />
         </ComplexType>
         <EnumType Name="SubcorpusKind" UnderlyingType="Int32" IsFlags="true">
-          <Member Name="GlobalGeneralRatioLvGtHigherOutlier" Value="1" />
-          <Member Name="GlobalGeneralRatioLvGtLowerOutlier" Value="2" />
-          <Member Name="GlobalGeneralRatioLvGtMedianCloser" Value="4" />
-          <Member Name="GlobalGeneralRatioLvGtRandom" Value="8" />
-          <Member Name="GlobalInsertionPorcentageLvGtHigherOutlier" Value="16" />
-          <Member Name="GlobalInsertionPorcentageLvGtLowerOutlier" Value="32" />
-          <Member Name="GlobalInsertionPorcentageLvGtMedianCloser" Value="64" />
-          <Member Name="GlobalInsertionPorcentageLvGtRandom" Value="128" />
-          <Member Name="GlobalDeletionPorcentageLvGtHigherOutlier" Value="256" />
-          <Member Name="GlobalDeletionPorcentageLvGtLowerOutlier" Value="512" />
-          <Member Name="GlobalDeletionPorcentageLvGtMedianCloser" Value="1024" />
-          <Member Name="GlobalDeletionPorcentageLvGtRandom" Value="2048" />
-          <Member Name="GlobalUpdatePorcentageLvGtHigherOutlier" Value="4096" />
-          <Member Name="GlobalUpdatePorcentageLvGtLowerOutlier" Value="8192" />
-          <Member Name="GlobalUpdatePorcentageLvGtMedianCloser" Value="16384" />
-          <Member Name="GlobalUpdatePorcentageLvGtRandom" Value="32768" />
-          <Member Name="GlobalMovePorcentageLvGtHigherOutlier" Value="65536" />
-          <Member Name="GlobalMovePorcentageLvGtLowerOutlier" Value="131072" />
-          <Member Name="GlobalMovePorcentageLvGtMedianCloser" Value="262144" />
-          <Member Name="GlobalMovePorcentageLvGtRandom" Value="524288" />
+          <Member Name="RatioLvGtHigherOutlier" Value="2" />
+          <Member Name="RatioLvGtLowerOutlier" Value="4" />
+          <Member Name="RatioLvGtRandom" Value="1" />
           <Member Name="None" Value="0" />
-          <Member Name="GlobalGeneralRatioLvGtNotAssigned" Value="1048576" />
-          <Member Name="GlobalInsertionPorcentageLvGtNotAssigned" Value="2097152" />
-          <Member Name="GlobalDeletionPorcentageLvGtNotAssigned" Value="4194304" />
-          <Member Name="GlobalUpdatePorcentageLvGtNotAssigned" Value="8388608" />
-          <Member Name="GlobalMovePorcentageLvGtNotAssigned" Value="16777216" />
-          <Member Name="GlobalGeneralRatioLvGtMedianCloserRandom" Value="33554432" />
-          <Member Name="GlobalInsertionPorcentageLvGtMedianCloserRandom" Value="67108864" />
-          <Member Name="GlobalDeletionPorcentageLvGtMedianCloserRandom" Value="134217728" />
-          <Member Name="GlobalUpdatePorcentageLvGtMedianCloserRandom" Value="268435456" />
-          <Member Name="GlobalMovePorcentageLvGtMedianCloserRandom" Value="536870912" />
+          <Member Name="RatioLvGtMedianCloserExact" Value="16" />
+          <Member Name="RatioLvGtMedianCloserHigh" Value="32" />
+          <Member Name="RatioLvGtMedianCloserLow" Value="64" />
+          <Member Name="NotAssigned" Value="512" />
+          <Member Name="RatioLvGtOutlierRandom" Value="8" />
+          <Member Name="RatioLvGtMedianCloserRandom" Value="128" />
         </EnumType>
         <EntityType Name="CoexistenceSymptom" BaseType="Jawilliam.CDF.Labs.SQL.Symptom" Abstract="true" >
           <Property Name="Original" Type="Jawilliam.CDF.Labs.SQL.ElementContext" Nullable="false" />
@@ -1465,7 +1452,11 @@
           <ScalarProperty Name="Approach" ColumnName="Approach" />
           <ScalarProperty Name="OriginalTree" ColumnName="OriginalTree" />
           <ScalarProperty Name="ModifiedTree" ColumnName="ModifiedTree" />
-          <ScalarProperty Name="Subcorpus" ColumnName="Subcorpus" />
+          <ScalarProperty Name="GlobalSubcorpus" ColumnName="GlobalSubcorpus" />
+          <ScalarProperty Name="GlobalInsertPorcentageSubcorpus" ColumnName="GlobalInsertPorcentageSubcorpus" />
+          <ScalarProperty Name="GlobalDeletePorcentageSubcorpus" ColumnName="GlobalDeletePorcentageSubcorpus" />
+          <ScalarProperty Name="GlobalUpdatePorcentageSubcorpus" ColumnName="GlobalUpdatePorcentageSubcorpus" />
+          <ScalarProperty Name="GlobalMovePorcentageSubcorpus" ColumnName="GlobalMovePorcentageSubcorpus" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
