@@ -32,7 +32,7 @@ namespace Jawilliam.CDF.Labs
         /// <param name="subcorpusPrefix">the kind of subcorpus.</param>
         public virtual void SetSubcorpus(GitRepository sqlRepository, ChangeDetectionApproaches approach, 
             Func<FileRevisionPair, bool> skipThese, string[] csvDescriptions, string subcorpusPrefix,
-            Func<Delta, SubcorpusKind> getSubcorpus, Action<Delta, SubcorpusKind> setSubcorpus)
+            Func<Delta, SubcorpusKind?> getSubcorpus, Action<Delta, SubcorpusKind?> setSubcorpus)
         {
             var descriptions = csvDescriptions.Skip(1)
                 .Where(l => !string.IsNullOrEmpty(l) && l.Split(new[] {";"}, StringSplitOptions.RemoveEmptyEntries)[0] == $"\"{sqlRepository.Name}\"")
@@ -70,11 +70,11 @@ namespace Jawilliam.CDF.Labs
                             subcorpusSpec |= SubcorpusKind.RatioLvGtLowerOutlier;
                         if (description.Random == "TRUE")
                             subcorpusSpec |= SubcorpusKind.RatioLvGtRandom;
-                        if (description.MedianCloser == "Low")
+                        if (description.MedianCloser == "\"Low\"")
                             subcorpusSpec |= SubcorpusKind.RatioLvGtMedianCloserLow;
-                        if (description.MedianCloser == "High")
+                        if (description.MedianCloser == "\"High\"")
                             subcorpusSpec |= SubcorpusKind.RatioLvGtMedianCloserHigh;
-                        if (description.MedianCloser == "Median")
+                        if (description.MedianCloser == "\"Median\"")
                             subcorpusSpec |= SubcorpusKind.RatioLvGtMedianCloserExact;
                         if (description.MedianCloserRandom == "TRUE")
                             subcorpusSpec |= SubcorpusKind.RatioLvGtMedianCloserRandom;
@@ -87,62 +87,62 @@ namespace Jawilliam.CDF.Labs
                     if (subcorpusSpec != SubcorpusKind.None)
                     {
                         var subcorpus = getSubcorpus(delta);
-                        setSubcorpus(delta, subcorpus == null ? subcorpusSpec : subcorpus | subcorpusSpec;
+                        setSubcorpus(delta, subcorpus == null ? subcorpusSpec : subcorpus | subcorpusSpec);
                     }
-                }, null, true, "Principal");
+                }, null, false, "Principal");
         }
 
-        /// <summary>
-        /// Summarizes the count of elements for each kind of subcorpus.
-        /// </summary>
-        /// <param name="sqlRepository">the SQL database repository in which to analyze the file versions.</param>
-        /// <param name="approach"></param>
-        public virtual void SummarizeSubcorpusSelection(GitRepository sqlRepository, ChangeDetectionApproaches approach, bool namesRow)
-        {
-            var valuesDesc = new[]
-            {
-                new { Abbreviature = "GGHO", Value = SubcorpusKind.GlobalGeneralRatioLvGtHigherOutlier },
-                new { Abbreviature = "GGLO", Value = SubcorpusKind.GlobalGeneralRatioLvGtLowerOutlier },
-                new { Abbreviature = "GGMC", Value = SubcorpusKind.GlobalGeneralRatioLvGtMedianCloser },
-                new { Abbreviature = "GGMCRD", Value = SubcorpusKind.GlobalGeneralRatioLvGtMedianCloserRandom },
-                new { Abbreviature = "GGNA", Value = SubcorpusKind.GlobalGeneralRatioLvGtNotAssigned },
-                new { Abbreviature = "GGRD", Value = SubcorpusKind.GlobalGeneralRatioLvGtRandom },
+        ///// <summary>
+        ///// Summarizes the count of elements for each kind of subcorpus.
+        ///// </summary>
+        ///// <param name="sqlRepository">the SQL database repository in which to analyze the file versions.</param>
+        ///// <param name="approach"></param>
+        //public virtual void SummarizeSubcorpusSelection(GitRepository sqlRepository, ChangeDetectionApproaches approach, bool namesRow)
+        //{
+        //    var valuesDesc = new[]
+        //    {
+        //        new { Abbreviature = "GGHO", Value = SubcorpusKind.GlobalGeneralRatioLvGtHigherOutlier },
+        //        new { Abbreviature = "GGLO", Value = SubcorpusKind.GlobalGeneralRatioLvGtLowerOutlier },
+        //        new { Abbreviature = "GGMC", Value = SubcorpusKind.GlobalGeneralRatioLvGtMedianCloser },
+        //        new { Abbreviature = "GGMCRD", Value = SubcorpusKind.GlobalGeneralRatioLvGtMedianCloserRandom },
+        //        new { Abbreviature = "GGNA", Value = SubcorpusKind.GlobalGeneralRatioLvGtNotAssigned },
+        //        new { Abbreviature = "GGRD", Value = SubcorpusKind.GlobalGeneralRatioLvGtRandom },
 
-                new { Abbreviature = "GDHO", Value = SubcorpusKind.GlobalDeletionPorcentageLvGtHigherOutlier },
-                new { Abbreviature = "GDLO", Value = SubcorpusKind.GlobalDeletionPorcentageLvGtLowerOutlier },
-                new { Abbreviature = "GDMC", Value = SubcorpusKind.GlobalDeletionPorcentageLvGtMedianCloser },
-                new { Abbreviature = "GDMCRD", Value = SubcorpusKind.GlobalDeletionPorcentageLvGtMedianCloserRandom },
-                new { Abbreviature = "GDNA", Value = SubcorpusKind.GlobalDeletionPorcentageLvGtNotAssigned },
-                new { Abbreviature = "GDRD", Value = SubcorpusKind.GlobalDeletionPorcentageLvGtRandom },
+        //        new { Abbreviature = "GDHO", Value = SubcorpusKind.GlobalDeletionPorcentageLvGtHigherOutlier },
+        //        new { Abbreviature = "GDLO", Value = SubcorpusKind.GlobalDeletionPorcentageLvGtLowerOutlier },
+        //        new { Abbreviature = "GDMC", Value = SubcorpusKind.GlobalDeletionPorcentageLvGtMedianCloser },
+        //        new { Abbreviature = "GDMCRD", Value = SubcorpusKind.GlobalDeletionPorcentageLvGtMedianCloserRandom },
+        //        new { Abbreviature = "GDNA", Value = SubcorpusKind.GlobalDeletionPorcentageLvGtNotAssigned },
+        //        new { Abbreviature = "GDRD", Value = SubcorpusKind.GlobalDeletionPorcentageLvGtRandom },
 
-                new { Abbreviature = "GIHO", Value = SubcorpusKind.GlobalInsertionPorcentageLvGtHigherOutlier },
-                new { Abbreviature = "GILO", Value = SubcorpusKind.GlobalInsertionPorcentageLvGtLowerOutlier },
-                new { Abbreviature = "GIMC", Value = SubcorpusKind.GlobalInsertionPorcentageLvGtMedianCloser },
-                new { Abbreviature = "GIMCRD", Value = SubcorpusKind.GlobalInsertionPorcentageLvGtMedianCloserRandom },
-                new { Abbreviature = "GINA", Value = SubcorpusKind.GlobalInsertionPorcentageLvGtNotAssigned },
-                new { Abbreviature = "GIRD", Value = SubcorpusKind.GlobalInsertionPorcentageLvGtRandom },
+        //        new { Abbreviature = "GIHO", Value = SubcorpusKind.GlobalInsertionPorcentageLvGtHigherOutlier },
+        //        new { Abbreviature = "GILO", Value = SubcorpusKind.GlobalInsertionPorcentageLvGtLowerOutlier },
+        //        new { Abbreviature = "GIMC", Value = SubcorpusKind.GlobalInsertionPorcentageLvGtMedianCloser },
+        //        new { Abbreviature = "GIMCRD", Value = SubcorpusKind.GlobalInsertionPorcentageLvGtMedianCloserRandom },
+        //        new { Abbreviature = "GINA", Value = SubcorpusKind.GlobalInsertionPorcentageLvGtNotAssigned },
+        //        new { Abbreviature = "GIRD", Value = SubcorpusKind.GlobalInsertionPorcentageLvGtRandom },
 
-                new { Abbreviature = "GUHO", Value = SubcorpusKind.GlobalUpdatePorcentageLvGtHigherOutlier },
-                new { Abbreviature = "GULO", Value = SubcorpusKind.GlobalUpdatePorcentageLvGtLowerOutlier },
-                new { Abbreviature = "GUMC", Value = SubcorpusKind.GlobalUpdatePorcentageLvGtMedianCloser },
-                new { Abbreviature = "GUNA", Value = SubcorpusKind.GlobalUpdatePorcentageLvGtNotAssigned },
-                new { Abbreviature = "GURD", Value = SubcorpusKind.GlobalUpdatePorcentageLvGtRandom },
+        //        new { Abbreviature = "GUHO", Value = SubcorpusKind.GlobalUpdatePorcentageLvGtHigherOutlier },
+        //        new { Abbreviature = "GULO", Value = SubcorpusKind.GlobalUpdatePorcentageLvGtLowerOutlier },
+        //        new { Abbreviature = "GUMC", Value = SubcorpusKind.GlobalUpdatePorcentageLvGtMedianCloser },
+        //        new { Abbreviature = "GUNA", Value = SubcorpusKind.GlobalUpdatePorcentageLvGtNotAssigned },
+        //        new { Abbreviature = "GURD", Value = SubcorpusKind.GlobalUpdatePorcentageLvGtRandom },
 
-                new { Abbreviature = "GMHO", Value = SubcorpusKind.GlobalMovePorcentageLvGtHigherOutlier },
-                new { Abbreviature = "GMLO", Value = SubcorpusKind.GlobalMovePorcentageLvGtLowerOutlier },
-                new { Abbreviature = "GMMC", Value = SubcorpusKind.GlobalMovePorcentageLvGtMedianCloser },
-                new { Abbreviature = "GMNA", Value = SubcorpusKind.GlobalMovePorcentageLvGtNotAssigned },
-                new { Abbreviature = "GMRD", Value = SubcorpusKind.GlobalMovePorcentageLvGtRandom }
-            };
+        //        new { Abbreviature = "GMHO", Value = SubcorpusKind.GlobalMovePorcentageLvGtHigherOutlier },
+        //        new { Abbreviature = "GMLO", Value = SubcorpusKind.GlobalMovePorcentageLvGtLowerOutlier },
+        //        new { Abbreviature = "GMMC", Value = SubcorpusKind.GlobalMovePorcentageLvGtMedianCloser },
+        //        new { Abbreviature = "GMNA", Value = SubcorpusKind.GlobalMovePorcentageLvGtNotAssigned },
+        //        new { Abbreviature = "GMRD", Value = SubcorpusKind.GlobalMovePorcentageLvGtRandom }
+        //    };
 
-            IDictionary<SubcorpusKind, int> total = new Dictionary<SubcorpusKind, int>();
-            var values = Enum.GetValues(typeof(SubcorpusKind)).Cast<SubcorpusKind>().ToList();
-            if (namesRow)
-                this.Report.AppendLine("Project" + valuesDesc.Aggregate("", (s, kind) => $"{s};{kind.Abbreviature}"));
+        //    IDictionary<SubcorpusKind, int> total = new Dictionary<SubcorpusKind, int>();
+        //    var values = Enum.GetValues(typeof(SubcorpusKind)).Cast<SubcorpusKind>().ToList();
+        //    if (namesRow)
+        //        this.Report.AppendLine("Project" + valuesDesc.Aggregate("", (s, kind) => $"{s};{kind.Abbreviature}"));
 
-            string report = sqlRepository.Name + valuesDesc.Aggregate("", (current, value) => $"{current};{sqlRepository.Deltas.Count(d => d.Approach == approach && d.Subcorpus != null && ((d.Subcorpus.Value & value.Value) == value.Value))}");
-            this.Report.AppendLine(report);
-        }
+        //    string report = sqlRepository.Name + valuesDesc.Aggregate("", (current, value) => $"{current};{sqlRepository.Deltas.Count(d => d.Approach == approach && d.Subcorpus != null && ((d.Subcorpus.Value & value.Value) == value.Value))}");
+        //    this.Report.AppendLine(report);
+        //}
 
         /// <summary>
         /// Summarizes the count of elements for each kind of subcorpus.
