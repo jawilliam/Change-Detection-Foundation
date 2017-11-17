@@ -58,11 +58,11 @@ namespace Jawilliam.CDF.Labs
         {
             if (analysis == null) throw new ArgumentNullException(nameof(analysis));
 
-            var repositoryObjectIds = sqlRepository.Name == "mono"
+            var repositoryObjectIds = /*sqlRepository.Name == "Ef7"
                 ? sqlRepository.FileRevisionPairs
                     .Where(onThese)
-                    .Select(fv => fv.Id).ToList().Skip(3).ToList()
-                : sqlRepository.FileRevisionPairs
+                    .Select(fv => fv.Id).ToList().Skip(6).ToList()
+                :*/ sqlRepository.FileRevisionPairs
                     .Where(onThese)
                     .Select(fv => fv.Id).ToList();
 
@@ -669,7 +669,7 @@ namespace Jawilliam.CDF.Labs
         //    }
         //}
 
-        private ElementTree ContainerScope(ElementTree t) => t.Ancestors().First(
+        internal ElementTree ContainerScope(ElementTree t) => t.Ancestors().First(
                     a => a.Root.Label == "unit" ||
                          a.Root.Label == "namespace" ||
                          a.Root.Label == "interface" ||

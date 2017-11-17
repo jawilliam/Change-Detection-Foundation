@@ -89,7 +89,7 @@ namespace Jawilliam.CDF.Labs
                         var subcorpus = getSubcorpus(delta);
                         setSubcorpus(delta, subcorpus == null ? subcorpusSpec : subcorpus | subcorpusSpec);
                     }
-                }, null, false, "Principal");
+                }, null, true, "Principal");
         }
 
         ///// <summary>
@@ -738,6 +738,176 @@ namespace Jawilliam.CDF.Labs
             cancel, false, "Principal");
         }
 
+        /// <summary>
+        /// Analyzes the similarity in according with a given similarity metric, such as Levenshtein.
+        /// </summary>
+        /// <param name="sqlRepository">the SQL database repository in which to analyze the file versions.</param>
+        /// <param name="cancel">Action to execute cancellation logic.</param>
+        /// <param name="withoutComments"></param>
+        /// <param name="skipThese">local criterion for determining elements that should be ignored.</param>
+        public virtual void SaveGhostConsequencesOfMisrepresentedComments(GitRepository sqlRepository, Action cancel, ChangeDetectionApproaches withoutComments, ChangeDetectionApproaches withComments, Func<FileRevisionPair, bool> skipThese)
+        {
+            Func<ElementTree, bool> elementsOfInterest = (ElementTree t) =>
+                t.Root.Label == "unit" ||
+                t.Root.Label == "namespace" ||
+                t.Root.Label == "interface" ||
+                t.Root.Label == "class" ||
+                t.Root.Label == "struct" ||
+                t.Root.Label == "enum" ||
+                t.Root.Label == "function" ||
+                //.Root/t.Label == "function_decl" ||
+                t.Root.Label == "constructor" ||
+                t.Root.Label == "destructor" ||
+                t.Root.Label == "property";
+
+            this.Analyze(sqlRepository, "ghost changes by misrepresented comments",
+              f => f.Principal.Deltas.Any(d => d.Approach == withoutComments &&
+                                               d.Matching != null &&
+                                               d.Differencing != null &&
+                                               d.Report == null) &&
+                   f.Principal.Deltas.Any(d => d.Approach == withComments &&
+                                               d.Matching != null &&
+                                               d.Differencing != null &&
+                                               d.Report == null),
+                delegate (FileRevisionPair pair, CancellationToken token)
+                {
+                    if (skipThese?.Invoke(pair) ?? false) return;
+
+                    var deltaWithoutComments = sqlRepository.Deltas.Single(d => d.RevisionPair.Id == pair.Principal.Id && d.Approach == withoutComments);
+                    var detectionResultWithoutComments = (DetectionResult)deltaWithoutComments.DetectionResult;
+                    var originalTreeWithoutComments = ElementTree.Read(deltaWithoutComments.OriginalTree, Encoding.Unicode);
+                    var modifiedTreeWithoutComments = ElementTree.Read(deltaWithoutComments.ModifiedTree, Encoding.Unicode);
+
+                    var deltaWithComments = sqlRepository.Deltas.Single(d => d.RevisionPair.Id == pair.Principal.Id && d.Approach == withComments);
+                    var detectionResultWithComments = (DetectionResult)deltaWithComments.DetectionResult;
+                    var originalTreeWithComments = ElementTree.Read(deltaWithComments.OriginalTree, Encoding.Unicode);
+                    var modifiedTreeWithComments = ElementTree.Read(deltaWithComments.ModifiedTree, Encoding.Unicode);
+
+                    try
+                    {
+                        var ghostSymptoms = FindDifferenceSetOfChanges<InsertOperationDescriptor>(detectionResultWithoutComments,
+                            modifiedTreeWithoutComments, elementsOfInterest, detectionResultWithComments,
+                            modifiedTreeWithComments, "insert");
+                        foreach (var ghostSymptom in ghostSymptoms)
+                        {
+                            deltaWithComments.Symptoms.Add(ghostSymptom);
+                        }
+
+                        ghostSymptoms = FindDifferenceSetOfChanges<DeleteOperationDescriptor>(detectionResultWithoutComments,
+                            originalTreeWithoutComments, elementsOfInterest, detectionResultWithComments,
+                            originalTreeWithComments, "delete");
+                        foreach (var ghostSymptom in ghostSymptoms)
+                        {
+                            deltaWithComments.Symptoms.Add(ghostSymptom);
+                        }
+
+                        ghostSymptoms = FindDifferenceSetOfChanges<UpdateOperationDescriptor>(detectionResultWithoutComments,
+                            originalTreeWithoutComments, elementsOfInterest, detectionResultWithComments,
+                            originalTreeWithComments, "update");
+                        foreach (var ghostSymptom in ghostSymptoms)
+                        {
+                            deltaWithComments.Symptoms.Add(ghostSymptom);
+                        }
+
+                        ghostSymptoms = FindDifferenceSetOfChanges<MoveOperationDescriptor>(detectionResultWithoutComments,
+                            originalTreeWithoutComments, elementsOfInterest, detectionResultWithComments,
+                            originalTreeWithComments, "move");
+                        foreach (var ghostSymptom in ghostSymptoms)
+                        {
+                            deltaWithComments.Symptoms.Add(ghostSymptom);
+                        }
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        this.Report.AppendLine($"CANCELED;{pair.Id}");
+                        throw;
+                    }
+                    catch (OutOfMemoryException)
+                    {
+                        this.Report.AppendLine($"OUTOFMEMORY;{pair.Id}");
+                        throw;
+                    }
+                },
+            cancel, false, "Principal");
+        }
+
+        private IEnumerable<GhostSymptom> FindDifferenceSetOfChanges<TOperation>(DetectionResult detectionResultWithoutComments, ElementTree treeWithoutComments, Func<ElementTree, bool> elementsOfInterest, DetectionResult detectionResultWithComments, ElementTree treeWithComments, string operationName) where TOperation : OperationDescriptor
+        {
+            var candidateMovesWithoutComments = detectionResultWithoutComments.Actions.OfType<TOperation>()
+                .Where(m => m.Element.Label == "name")
+                .Select(t => treeWithoutComments.PostOrder(n => n.Children).First(n => n.Root.Id == t.Element.Id))
+                .Select(t => new CandidateName {Tree = t, Context = this.NameContexts.SingleOrDefault(nm => nm.Criterion(t))})
+                .Where(t => t.Context != null && elementsOfInterest(ContainerScope(t.Tree)))
+                .ToList();
+            var candidateMovesWithComments = detectionResultWithComments.Actions.OfType<TOperation>()
+                .Where(m => m.Element.Label == "name")
+                .Select(t => treeWithComments.PostOrder(n => n.Children).First(n => n.Root.Id == t.Element.Id))
+                .Select(t => new CandidateName {Tree = t, Context = this.NameContexts.SingleOrDefault(nm => nm.Criterion(t))})
+                .Where(t => t.Context != null && elementsOfInterest(ContainerScope(t.Tree)))
+                .ToList();
+            var allNames = candidateMovesWithoutComments.Select(c => c.Tree.Root.Value)
+                .Union(candidateMovesWithComments.Select(c => c.Tree.Root.Value))
+                .Distinct()
+                .ToList();
+
+            foreach (var name in allNames)
+            {
+                var namedMovesWithoutComments = candidateMovesWithoutComments.Where(c => c.Tree.Root.Value == name).ToList();
+                var namedMovesWithComments = candidateMovesWithComments.Where(c => c.Tree.Root.Value == name).ToList();
+                var allLabels = namedMovesWithoutComments.Select(c => c.Context.NameOf(c.Tree))
+                    .Union(namedMovesWithComments.Select(c => c.Context.NameOf(c.Tree)))
+                    .Distinct()
+                    .ToList();
+
+                foreach (var label in allLabels)
+                {
+                    var movesWithoutComments = namedMovesWithoutComments.Where(c => c.Context.NameOf(c.Tree) == label);
+                    var movesWithComments = namedMovesWithComments.Where(c => c.Context.NameOf(c.Tree) == label);
+                    if (movesWithoutComments.Count() != movesWithComments.Count())
+                    {
+                        var conceptualMoves = (from m in movesWithoutComments.DefaultIfEmpty(null)
+                            from mc in movesWithComments.DefaultIfEmpty(null)
+                            select new {m, mc}).ToList();
+
+                        foreach (var conceptualMove in conceptualMoves)
+                        {
+                            yield return new GhostSymptom
+                            {
+                                Id = Guid.NewGuid(),
+                                Pattern = $"{operationName} - uncommented code vs. commented code",
+                                Original = new ElementContext
+                                {
+                                    Element = new ElementDescription
+                                    {
+                                        Id = conceptualMove.m == null ? "-1" : conceptualMove.m.Tree.Root.Id,
+                                        Type = label,
+                                        Hint = conceptualMove.m == null ? "" : name
+                                    },
+                                    ScopeHint =
+                                        conceptualMove.m == null
+                                            ? ""
+                                            : this.GetPath(conceptualMove.m.Context.OuterScopes(conceptualMove.m.Tree))
+                                },
+                                Modified = new ElementContext
+                                {
+                                    Element = new ElementDescription
+                                    {
+                                        Id = conceptualMove.mc == null ? "-1" : conceptualMove.mc.Tree.Root.Id,
+                                        Type = label,
+                                        Hint = conceptualMove.mc == null ? "" : name
+                                    },
+                                    ScopeHint =
+                                        conceptualMove.mc == null
+                                            ? ""
+                                            : this.GetPath(conceptualMove.mc.Context.OuterScopes(conceptualMove.mc.Tree))
+                                }
+                            };
+                        }
+                    }
+                }
+            }
+        }
+
         private TransformationInfo GetOrCreateTransformationInfo(Dictionary<string, TransformationInfo> originalTransformationsInfo,
             Dictionary<string, TransformationInfo> modifiedTransformationsInfo, ElementTree element, string version)
         {
@@ -863,6 +1033,9 @@ namespace Jawilliam.CDF.Labs
                     {
                         sqlRepository.Symptoms.OfType<MissedNameSymptom>().Where(s => s.Id == symptomId).Load();
                         var symptom = delta.Symptoms.OfType<MissedNameSymptom>().Single(s => s.Id == symptomId);
+
+                        if (symptom.Original.Element.Hint.Length == 1 && symptom.Modified.Element.Hint.Length == 1)
+                            continue;
 
                         var o = pairs.SingleOrDefault(p => p.Oid == symptom.Original.Element.Id);
                         var m = pairs.SingleOrDefault(p => p.Mid == symptom.Modified.Element.Id);

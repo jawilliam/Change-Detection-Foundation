@@ -373,7 +373,7 @@ namespace Jawilliam.CDF.Labs
             //                //RemoveComments = true
             //            } */);
             //var analyzer = new DeltaAnalyzer();
-            //foreach (var project in Projects.Where(p => p.Name == "mono")/*.Skip(2)*/)
+            //foreach (var project in Projects.Where(p => p.Name == "Roslyn")/*.Skip(2)*/)
             //{
             //    analyzer.Warnings = new StringBuilder();
             //    var dbRepository = new GitRepository(project.Name) { Name = project.Name };
@@ -435,19 +435,18 @@ namespace Jawilliam.CDF.Labs
 
             var analyzer = new DeltaAnalyzer();
             //var namesRow = true;
-            var lines = System.IO.File.ReadAllLines(@"E:\Phd\Analysis\UniquePairs\GumTreeLevenshteinUniquePairsIgnoringCommentChangesSubcorpus.csv");
             foreach (var project in Projects)
             {
                 analyzer.Warnings = new StringBuilder();
                 var dbRepository = new GitRepository(project.Name) { Name = project.Name };
                 ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 360;
 
-
-                analyzer.SetSubcorpus(dbRepository, ChangeDetectionApproaches.NativeGumTree, null,
-                    lines, "", delta => delta.GlobalSubcorpus, (delta, kind) => delta.GlobalSubcorpus = kind);
+                analyzer.SaveGhostConsequencesOfMisrepresentedComments(dbRepository, null,
+                    ChangeDetectionApproaches.NativeGumTreeWithoutComments,
+                    ChangeDetectionApproaches.NativeGumTree, null);
                 //namesRow = false;
                 //Console.Out.WriteLine($"{project.Name}");
-                System.IO.File.AppendAllText(@"E:\Phd\Analysis\ConfusingRenames\ReportSpuriosity.csv", analyzer.Warnings.ToString());
+                System.IO.File.AppendAllText(@"E:\Phd\Analysis\UniquePairs\ReportGhost.csv", analyzer.Warnings.ToString());
             }
 
             Console.Out.WriteLine($"DONE");
