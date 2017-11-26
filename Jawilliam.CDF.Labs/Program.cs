@@ -372,8 +372,9 @@ namespace Jawilliam.CDF.Labs
             //                Indentation = "",
             //                //RemoveComments = true
             //            } */);
+
             //var analyzer = new DeltaAnalyzer();
-            //foreach (var project in Projects.Where(p => p.Name == "Roslyn")/*.Skip(2)*/)
+            //foreach (var project in Projects.Where(p => p.Name == "CoreFx")/*.Skip(2)*/)
             //{
             //    analyzer.Warnings = new StringBuilder();
             //    var dbRepository = new GitRepository(project.Name) { Name = project.Name };
@@ -389,6 +390,25 @@ namespace Jawilliam.CDF.Labs
             //    //    @"E:\Phd\Analysis\Original.cs",
             //    //    @"E:\Phd\Analysis\Modified.cs");
             //}
+
+            var analyzer = new DeltaAnalyzer();
+            var sc = new SourceCodeCleaner();
+            foreach (var project in Projects/*.Skip(2)*/)
+            {
+                analyzer.Warnings = new StringBuilder();
+                var dbRepository = new GitRepository(project.Name) { Name = project.Name };
+                ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 360;
+
+                analyzer.AnalyzingSpuriosity(dbRepository, () => { },
+                    ChangeDetectionApproaches.NativeGumTree, null, sc,
+                    @"E:\Phd\Analysis\Original.cs",
+                    @"E:\Phd\Analysis\Modified.cs");
+
+                //analyzer.RateIncompatibleMatchingSymptoms(dbRepository,
+                //    ChangeDetectionApproaches.NativeGumTree, null,
+                //    @"E:\Phd\Analysis\Original.cs",
+                //    @"E:\Phd\Analysis\Modified.cs");
+            }
 
             #endregion
 
@@ -433,21 +453,23 @@ namespace Jawilliam.CDF.Labs
             //SummarizeFileRevisionPairs();
             //ReportConfusingRenames(ChangeDetectionApproaches.NativeGumTree);
 
-            var analyzer = new DeltaAnalyzer();
-            //var namesRow = true;
-            foreach (var project in Projects)
-            {
-                analyzer.Warnings = new StringBuilder();
-                var dbRepository = new GitRepository(project.Name) { Name = project.Name };
-                ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 360;
+            //var analyzer = new DeltaAnalyzer();
+            ////var namesRow = true;
+            //foreach (var project in Projects.Reverse())
+            //{
+            //    analyzer.Warnings = new StringBuilder();
+            //    analyzer.Report = new StringBuilder();
+            //    var dbRepository = new GitRepository(project.Name) { Name = project.Name };
+            //    ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 360;
 
-                analyzer.SaveGhostConsequencesOfMisrepresentedComments(dbRepository, null,
-                    ChangeDetectionApproaches.NativeGumTreeWithoutComments,
-                    ChangeDetectionApproaches.NativeGumTree, null);
-                //namesRow = false;
-                //Console.Out.WriteLine($"{project.Name}");
-                System.IO.File.AppendAllText(@"E:\Phd\Analysis\UniquePairs\ReportGhost.csv", analyzer.Warnings.ToString());
-            }
+            //    analyzer.SaveGhostConsequencesOfMisrepresentedComments(dbRepository, null,
+            //        ChangeDetectionApproaches.NativeGumTreeWithoutComments,
+            //        ChangeDetectionApproaches.NativeGumTree, null);
+            //    //namesRow = false;
+            //    //Console.Out.WriteLine($"{project.Name}");
+            //    System.IO.File.AppendAllText(@"E:\Phd\Analysis\UniquePairs\ReportGhost.csv", analyzer.Report.ToString());
+            //    System.IO.File.AppendAllText(@"E:\Phd\Analysis\UniquePairs\WarningsGhost.csv", analyzer.Warnings.ToString());
+            //}
 
             Console.Out.WriteLine($"DONE");
             //int i = 0; // the warning reports!!!

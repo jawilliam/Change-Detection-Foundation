@@ -1001,7 +1001,7 @@ namespace Jawilliam.CDF.Labs
                                                d.Matching != null &&
                                                d.Differencing != null &&
                                                d.Report == null &&
-                                               d.Symptoms.OfType<MissedNameSymptom>().Any(s => s.Original.Element.Type == "formal argument" && s.Modified.Element.Type == "formal argument")),
+                                               d.Symptoms.OfType<MissedNameSymptom>().Any(s => s.Original.Element.Type == "property" && s.Modified.Element.Type == "property")),
                 delegate (FileRevisionPair pair, CancellationToken token)
                 {
                     //if (skipThese?.Invoke(pair) ?? false) return;
@@ -1009,7 +1009,7 @@ namespace Jawilliam.CDF.Labs
                     var delta = sqlRepository.Deltas.Single(d => d.RevisionPair.Id == pair.Principal.Id && d.Approach == approach);
                     var symptomIds = sqlRepository.Symptoms.OfType<MissedNameSymptom>()
                         .Where(s => s.Delta.Id == delta.Id)
-                        .Where(s => s.Original.Element.Type == "formal argument" && s.Modified.Element.Type == "formal argument")
+                        .Where(s => s.Original.Element.Type == "property" && s.Modified.Element.Type == "property")
                         .Select(s => s.Id).ToList();
 
                     //var cleaner = new SourceCodeCleaner();
@@ -1075,10 +1075,10 @@ namespace Jawilliam.CDF.Labs
                         else
                         {
                             string prefix = "", match = " ";
-                            var oElement = original.DescendantNodesAndSelf().OfType<ParameterSyntax>()
+                            var oElement = original.DescendantNodesAndSelf().OfType<PropertyDeclarationSyntax>()
                                 .Where(e => e.Identifier.ValueText == symptom.Original.Element.Hint)
                                 .ToList();
-                            var mElement = modified.DescendantNodesAndSelf().OfType<ParameterSyntax>()
+                            var mElement = modified.DescendantNodesAndSelf().OfType<PropertyDeclarationSyntax>()
                                 .Where(e => e.Identifier.ValueText == symptom.Modified.Element.Hint)
                                 .ToList();
                             string oLine = "-1", mLine = "-1";
@@ -1107,81 +1107,82 @@ namespace Jawilliam.CDF.Labs
                                     : null;
                                 if (oMethodName != null && mMethodName != null)
                                 {
-                                    var oMethods = original.DescendantNodesAndSelf().OfType<MethodDeclarationSyntax>()
-                                        .Where(c => c.Identifier.ValueText == oMethodName)
+                                    //    var oMethods = original.DescendantNodesAndSelf().OfType<MethodDeclarationSyntax>()
+                                    //        .Where(c => c.Identifier.ValueText == oMethodName)
+                                    //        .ToList();
+                                    //    var mMethods = modified.DescendantNodesAndSelf().OfType<MethodDeclarationSyntax>()
+                                    //        .Where(c => c.Identifier.ValueText == mMethodName)
+                                    //        .ToList();
+                                    //    if (oMethods.Count == 1 && mMethods.Count == 1)
+                                    //    {
+                                    //        oElement = oMethods.Single().DescendantNodesAndSelf().OfType<VariableDeclaratorSyntax>()
+                                    //            .Where(e => e.Identifier.ValueText == symptom.Original.Element.Hint)
+                                    //            .ToList();
+                                    //        mElement = mMethods.Single().DescendantNodesAndSelf().OfType<VariableDeclaratorSyntax>()
+                                    //            .Where(e => e.Identifier.ValueText == symptom.Modified.Element.Hint)
+                                    //            .ToList();
+                                    //        if (oElement.Count == 1 && mElement.Count == 1)
+                                    //        {
+                                    //            oLine = (oElement.Single().GetLocation().GetLineSpan().StartLinePosition.Line + 1).ToString(CultureInfo.InvariantCulture);
+                                    //            mLine = (mElement.Single().GetLocation().GetLineSpan().StartLinePosition.Line + 1).ToString(CultureInfo.InvariantCulture);
+
+                                    //            if (oMethods.Single().Identifier.ValueText != mMethods.Single().Identifier.ValueText)
+                                    //            {
+                                    //                prefix = "Imprecise ";
+                                    //                match = " not ";
+                                    //            }
+                                    //        }
+                                    //    }
+                                    //}
+
+
+
+                                    var oClass = original.DescendantNodesAndSelf().OfType<ClassDeclarationSyntax>()
+                                        .Where(c => c.Identifier.ValueText == oClassName)
                                         .ToList();
-                                    var mMethods = modified.DescendantNodesAndSelf().OfType<MethodDeclarationSyntax>()
-                                        .Where(c => c.Identifier.ValueText == mMethodName)
+                                    var mClass = modified.DescendantNodesAndSelf().OfType<ClassDeclarationSyntax>()
+                                        .Where(c => c.Identifier.ValueText == mClassName)
                                         .ToList();
-                                    if (oMethods.Count == 1 && mMethods.Count == 1)
+
+                                    //Func<string, string> getClassName = delegate(string s)
+                                    //{
+                                    //    var parts = s.Split(new string[] {"class-"}, StringSplitOptions.RemoveEmptyEntries);
+                                    //    if (parts.Length == 2)
+                                    //    {
+                                    //        return parts[1].TrimEnd(')');
+                                    //    }
+
+                                    //    return null;
+                                    //};
+                                    //var oClass = original.DescendantNodesAndSelf().OfType<BaseTypeDeclarationSyntax>()
+                                    //    .Where(c => c.Identifier.ValueText == getClassName(symptom.Original.AncestorOfReference.Hint))
+                                    //    .ToList();
+                                    //var mClass = modified.DescendantNodesAndSelf().OfType<BaseTypeDeclarationSyntax>()
+                                    //    .Where(c => c.Identifier.ValueText == getClassName(symptom.Modified.AncestorOfReference.Hint))
+                                    //    .ToList();
+                                    if (oClass.Count == 1 && mClass.Count == 1)
                                     {
-                                        oElement = oMethods.Single().DescendantNodesAndSelf().OfType<ParameterSyntax>()
-                                            .Where(e => e.Identifier.ValueText == symptom.Original.Element.Hint)
+                                        oElement = oClass.Single().DescendantNodesAndSelf().OfType<PropertyDeclarationSyntax>()
+                                            .Where(e => e.Identifier.ValueText == oMethodName)
                                             .ToList();
-                                        mElement = mMethods.Single().DescendantNodesAndSelf().OfType<ParameterSyntax>()
-                                            .Where(e => e.Identifier.ValueText == symptom.Modified.Element.Hint)
+                                        mElement = mClass.Single().DescendantNodesAndSelf().OfType<PropertyDeclarationSyntax>()
+                                            .Where(e => e.Identifier.ValueText == mMethodName)
                                             .ToList();
                                         if (oElement.Count == 1 && mElement.Count == 1)
                                         {
                                             oLine = (oElement.Single().GetLocation().GetLineSpan().StartLinePosition.Line + 1).ToString(CultureInfo.InvariantCulture);
                                             mLine = (mElement.Single().GetLocation().GetLineSpan().StartLinePosition.Line + 1).ToString(CultureInfo.InvariantCulture);
+                                        }
 
-                                            if (oMethods.Single().Identifier.ValueText != mMethods.Single().Identifier.ValueText)
-                                            {
-                                                prefix = "Imprecise ";
-                                                match = " not ";
-                                            }
+                                        if (oClass.Single().Identifier.ValueText != mClass.Single().Identifier.ValueText)
+                                        {
+                                            prefix = "Imprecise ";
+                                            match = " not ";
                                         }
                                     }
+                                    //else
+                                    //;
                                 }
-                                
-
-
-                                //var oClass = original.DescendantNodesAndSelf().OfType<BaseTypeDeclarationSyntax>()
-                                //    .Where(c => c.Identifier.ValueText == oClassName)
-                                //    .ToList();
-                                //var mClass = modified.DescendantNodesAndSelf().OfType<BaseTypeDeclarationSyntax>()
-                                //    .Where(c => c.Identifier.ValueText == mClassName)
-                                //    .ToList();
-
-                                //Func<string, string> getClassName = delegate(string s)
-                                //{
-                                //    var parts = s.Split(new string[] {"class-"}, StringSplitOptions.RemoveEmptyEntries);
-                                //    if (parts.Length == 2)
-                                //    {
-                                //        return parts[1].TrimEnd(')');
-                                //    }
-
-                                //    return null;
-                                //};
-                                //var oClass = original.DescendantNodesAndSelf().OfType<BaseTypeDeclarationSyntax>()
-                                //    .Where(c => c.Identifier.ValueText == getClassName(symptom.Original.AncestorOfReference.Hint))
-                                //    .ToList();
-                                //var mClass = modified.DescendantNodesAndSelf().OfType<BaseTypeDeclarationSyntax>()
-                                //    .Where(c => c.Identifier.ValueText == getClassName(symptom.Modified.AncestorOfReference.Hint))
-                                //    .ToList();
-                                //if (oClass.Count == 1 && mClass.Count == 1)
-                                //{
-                                //    oElement = oClass.Single().DescendantNodesAndSelf().OfType<ParameterSyntax>()
-                                //        .Where(e => e.Identifier.ValueText == symptom.Original.Element.Hint)
-                                //        .ToList();
-                                //    mElement = mClass.Single().DescendantNodesAndSelf().OfType<ParameterSyntax>()
-                                //        .Where(e => e.Identifier.ValueText == symptom.Modified.Element.Hint)
-                                //        .ToList();
-                                //    if (oElement.Count == 1 && mElement.Count == 1)
-                                //    {
-                                //        oLine = (oElement.Single().GetLocation().GetLineSpan().StartLinePosition.Line + 1).ToString(CultureInfo.InvariantCulture);
-                                //        mLine = (mElement.Single().GetLocation().GetLineSpan().StartLinePosition.Line + 1).ToString(CultureInfo.InvariantCulture);
-                                //    }
-
-                                //    if (oClass.Single().Identifier.ValueText != mClass.Single().Identifier.ValueText)
-                                //    {
-                                //        prefix = "Imprecise ";
-                                //        match = " not ";
-                                //    }
-                                //}
-                                //else
-                                //;
                             }
 
                             int oClasses = original.DescendantNodesAndSelf().OfType<BaseTypeDeclarationSyntax>().Count();
@@ -1201,8 +1202,9 @@ namespace Jawilliam.CDF.Labs
                             MissedMatch = true,
                             RedundantChanges = true
                         };
-                        pair.Reviews.Add(review);
-                            }
+                            pair.Reviews.Add(review);
+                            //sqlRepository.Symptoms.Remove(symptom);
+                        }
                     }
                 },
             null, true, "Principal.FileVersion.Content", "Principal.FromFileVersion.Content");
@@ -1333,6 +1335,85 @@ namespace Jawilliam.CDF.Labs
                     }
                 },
             null, true, "Principal.FileVersion.Content", "Principal.FromFileVersion.Content");
+        }
+
+        /// <summary>
+        /// Analyzes the similarity in according with a given similarity metric, such as Levenshtein.
+        /// </summary>
+        /// <param name="sqlRepository">the SQL database repository in which to analyze the file versions.</param>
+        /// <param name="cancel">Action to execute cancellation logic.</param>
+        /// <param name="approach"></param>
+        /// <param name="skipThese">local criterion for determining elements that should be ignored.</param>
+        public virtual void AnalyzingSpuriosity(GitRepository sqlRepository, Action cancel, ChangeDetectionApproaches approach, Func<FileRevisionPair, bool> skipThese,
+            SourceCodeCleaner cleaner, string originalFilePath, string modifiedFilePath)
+        {
+            this.Analyze(sqlRepository, "spuriosity analysis",
+              f => f.Principal.Deltas.Any(d => d.Approach == approach &&
+                                               d.Matching != null &&
+                                               d.Differencing != null &&
+                                               d.Report == null && d.Symptoms.OfType<SpuriositySymptom>().Any()),
+                delegate (FileRevisionPair pair, CancellationToken token)
+                {
+                    if (skipThese?.Invoke(pair) ?? false) return;
+
+                    var delta = sqlRepository.Deltas.Single(d => d.RevisionPair.Id == pair.Principal.Id && d.Approach == approach);
+                    var original = SyntaxFactory.ParseCompilationUnit(pair.Principal.FromFileVersion.Content.SourceCode).SyntaxTree.GetRoot();
+                    var modified = SyntaxFactory.ParseCompilationUnit(pair.Principal.FileVersion.Content.SourceCode).SyntaxTree.GetRoot();
+
+                    //var cleaner = new SourceCodeCleaner();
+                    var preprocessedOriginal = cleaner != null ? cleaner.Clean(original) : original;
+                    var preprocessedModified = cleaner != null ? cleaner.Clean(modified) : modified;
+                    System.IO.File.WriteAllText(originalFilePath, preprocessedOriginal.ToFullString(), Encoding.Default);
+                    System.IO.File.WriteAllText(modifiedFilePath, preprocessedModified.ToFullString(), Encoding.Default);
+
+                    try
+                    {
+                        sqlRepository.Symptoms.OfType<SpuriositySymptom>().Where(s => s.Delta.Id == delta.Id).Load();
+                        var spuriosity = delta.Symptoms.OfType<SpuriositySymptom>().Single();
+                        var transformationsInfo = XTransformationsInfo.Read(spuriosity.TransformationsInfo, Encoding.Unicode);
+
+                        foreach (var ti in transformationsInfo.Transformations)
+                        {
+                            if (/*(ti.Self == null || ti.Self.Insertions == 0) && */
+                                (ti.FromATotalOfDescendants > 0 || ti.FromATotalOfChildren > 0))
+                            {
+                                int inChanges = 0, outChanges = 0;
+                                //inChanges += ti.Children?.Insertions ?? 0;
+                                //inChanges += ti.Descendants?.Insertions ?? 0;
+                                inChanges += ti.Children?.ToMoves ?? 0;
+                                inChanges += ti.Descendants?.ToMoves ?? 0;
+                                inChanges += ti.Children?.Updates ?? 0;
+                                inChanges += ti.Descendants?.Updates ?? 0;
+
+                                //outChanges += ti.Children?.Deletions ?? 0;
+                                //outChanges += ti.Descendants?.Deletions ?? 0;
+                                outChanges += ti.Children?.FromMoves ?? 0;
+                                outChanges += ti.Descendants?.FromMoves ?? 0;
+
+                                var max = Math.Max(inChanges, outChanges);
+                                var min = Math.Min(inChanges, outChanges);
+
+                                int treeSize = ti.FromATotalOfDescendants + ti.FromATotalOfChildren;
+                                int inRatio = inChanges / treeSize;
+                                int outRatio = outChanges / treeSize;
+
+                                if (outChanges != 0 && inChanges != 0 && (treeSize > 4) && (inChanges + outChanges)/2d*treeSize > 0.6)
+                                    ;
+                            }
+                        }
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        this.Report.AppendLine($"CANCELED;{pair.Id};{sqlRepository.Name}");
+                        throw;
+                    }
+                    catch (OutOfMemoryException)
+                    {
+                        this.Report.AppendLine($"OUTOFMEMORY;{pair.Id};{sqlRepository.Name}");
+                        throw;
+                    }
+                },
+            cancel, false, new string[] { "Principal.FromFileVersion.Content", "Principal.FileVersion.Content" });
         }
     }
 }
