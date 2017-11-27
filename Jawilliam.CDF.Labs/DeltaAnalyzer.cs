@@ -764,7 +764,6 @@ namespace Jawilliam.CDF.Labs
 
                     try
                     {
-                        
                         foreach (var ti in transformationsInfo.Transformations.Where(t => t.Version == "original"))
                         {
                             TransformationSummary summary;
@@ -782,26 +781,26 @@ namespace Jawilliam.CDF.Labs
                                 syntaxTypes[ti.Type] = summary;
                             }
 
-                            summary.Self.Insertions += ti.Self.Insertions;
-                            summary.Self.Deletions += ti.Self.Deletions;
-                            summary.Self.Updates += ti.Self.Updates;
-                            summary.Self.FromMoves += ti.Self.FromMoves;
-                            summary.Self.ToMoves += ti.Self.ToMoves;
-                            summary.Self.Aligns += ti.Self.Aligns;
+                            summary.Self.Insertions += ti.Self?.Insertions ?? 0;
+                            summary.Self.Deletions += ti.Self?.Deletions ?? 0;
+                            summary.Self.Updates += ti.Self?.Updates ?? 0;
+                            summary.Self.FromMoves += ti.Self?.FromMoves ?? 0;
+                            summary.Self.ToMoves += ti.Self?.ToMoves ?? 0;
+                            summary.Self.Aligns += ti.Self?.Aligns ?? 0;
 
-                            summary.Children.Insertions += ti.Children.Insertions;
-                            summary.Children.Deletions += ti.Children.Deletions;
-                            summary.Children.Updates += ti.Children.Updates;
-                            summary.Children.FromMoves += ti.Children.FromMoves;
-                            summary.Children.ToMoves += ti.Children.ToMoves;
-                            summary.Children.Aligns += ti.Children.Aligns;
+                            summary.Children.Insertions += ti.Children?.Insertions ?? 0;
+                            summary.Children.Deletions += ti.Children?.Deletions ?? 0;
+                            summary.Children.Updates += ti.Children?.Updates ?? 0;
+                            summary.Children.FromMoves += ti.Children?.FromMoves ?? 0;
+                            summary.Children.ToMoves += ti.Children?.ToMoves ?? 0;
+                            summary.Children.Aligns += ti.Children?.Aligns ?? 0;
 
-                            summary.Descendants.Insertions += ti.Descendants.Insertions;
-                            summary.Descendants.Deletions += ti.Descendants.Deletions;
-                            summary.Descendants.Updates += ti.Descendants.Updates;
-                            summary.Descendants.FromMoves += ti.Descendants.FromMoves;
-                            summary.Descendants.ToMoves += ti.Descendants.ToMoves;
-                            summary.Descendants.Aligns += ti.Descendants.Aligns;
+                            summary.Descendants.Insertions += ti.Descendants?.Insertions ?? 0;
+                            summary.Descendants.Deletions += ti.Descendants?.Deletions ?? 0;
+                            summary.Descendants.Updates += ti.Descendants?.Updates ?? 0;
+                            summary.Descendants.FromMoves += ti.Descendants?.FromMoves ?? 0;
+                            summary.Descendants.ToMoves += ti.Descendants?.ToMoves ?? 0;
+                            summary.Descendants.Aligns += ti.Descendants?.Aligns ?? 0;
 
                             summary.Total += 1;
 
@@ -824,6 +823,27 @@ namespace Jawilliam.CDF.Labs
                             summary.Spuriosity += spuriosityIndex;
                             // Save the column for summary of spuriosity...
                         }
+
+                        foreach (var t in syntaxTypes.Values)
+                        {
+                            if (t.Self.Insertions == 0 && t.Self.Deletions == 0 && t.Self.Updates == 0 &&
+                               t.Self.FromMoves == 0 && t.Self.ToMoves == 0 && t.Self.Aligns == 0)
+                                t.Self = null;
+
+                            if (t.Children.Insertions == 0 && t.Children.Deletions == 0 && t.Children.Updates == 0 &&
+                               t.Children.FromMoves == 0 && t.Children.ToMoves == 0 && t.Children.Aligns == 0)
+                                t.Children = null;
+
+                            if (t.Descendants.Insertions == 0 && t.Descendants.Deletions == 0 && t.Descendants.Updates == 0 &&
+                               t.Descendants.FromMoves == 0 && t.Descendants.ToMoves == 0 && t.Descendants.Aligns == 0)
+                                t.Descendants = null;
+                        }
+
+                        var annotations = new XTransformationsSummary()
+                        {
+                           Transformations  = syntaxTypes.Values.ToArray()
+                        };
+                        spuriosity.TransformationSummary = annotations.WriteXmlColumn();
                     }
                     catch (OperationCanceledException)
                     {

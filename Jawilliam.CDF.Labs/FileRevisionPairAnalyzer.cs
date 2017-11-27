@@ -58,11 +58,11 @@ namespace Jawilliam.CDF.Labs
         {
             if (analysis == null) throw new ArgumentNullException(nameof(analysis));
 
-            var repositoryObjectIds = sqlRepository.Name == "CoreFx"
+            var repositoryObjectIds = /*sqlRepository.Name == "CoreFx"
                 ? sqlRepository.FileRevisionPairs
                     .Where(onThese)
                     .Select(fv => fv.Id).ToList().Skip(2).ToList()
-                : sqlRepository.FileRevisionPairs
+                :*/ sqlRepository.FileRevisionPairs
                     .Where(onThese)
                     .Select(fv => fv.Id).ToList();
 

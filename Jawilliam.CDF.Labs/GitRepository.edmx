@@ -426,6 +426,7 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="TransformationsInfo" Type="xml" Nullable="true" />
+    <Property Name="TransformationSummary" Type="xml" Nullable="true" />
     <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
   </EntityType>
   <EntityType Name="Symptoms_GhostSymptom">
@@ -1332,6 +1333,7 @@
         </EntityType>
         <EntityType Name="SpuriositySymptom" BaseType="Jawilliam.CDF.Labs.SQL.Symptom" >
           <Property Name="TransformationsInfo" Type="String" Nullable="true" />
+          <Property Name="TransformationSummary" Type="String" Nullable="true" />
         </EntityType>
         <EntityType Name="GhostSymptom" BaseType="Jawilliam.CDF.Labs.SQL.Symptom" >
           <Property Name="Pattern" Type="String" Nullable="false" />
@@ -1620,6 +1622,7 @@
         <MappingFragment StoreEntitySet="Symptoms_SpuriositySymptom">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="TransformationsInfo" ColumnName="TransformationsInfo" />
+          <ScalarProperty Name="TransformationSummary" ColumnName="TransformationSummary" />
         </MappingFragment>
       </EntityTypeMapping>
       <EntityTypeMapping TypeName="IsTypeOf(Jawilliam.CDF.Labs.SQL.GhostSymptom)">

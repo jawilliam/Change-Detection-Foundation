@@ -399,10 +399,13 @@ namespace Jawilliam.CDF.Labs
                 var dbRepository = new GitRepository(project.Name) { Name = project.Name };
                 ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 360;
 
-                analyzer.AnalyzingSpuriosity(dbRepository, () => { },
-                    ChangeDetectionApproaches.NativeGumTree, null, sc,
-                    @"E:\Phd\Analysis\Original.cs",
-                    @"E:\Phd\Analysis\Modified.cs");
+                analyzer.SummarizeSpuriosity(dbRepository, () => { },
+                    ChangeDetectionApproaches.NativeGumTree, null);
+
+                //analyzer.AnalyzingSpuriosity(dbRepository, () => { },
+                //    ChangeDetectionApproaches.NativeGumTree, null, sc,
+                //    @"E:\Phd\Analysis\Original.cs",
+                //    @"E:\Phd\Analysis\Modified.cs");
 
                 //analyzer.RateIncompatibleMatchingSymptoms(dbRepository,
                 //    ChangeDetectionApproaches.NativeGumTree, null,

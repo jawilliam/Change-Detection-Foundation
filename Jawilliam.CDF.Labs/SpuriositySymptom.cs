@@ -15,5 +15,6 @@ namespace Jawilliam.CDF.Labs
     public partial class SpuriositySymptom : Symptom
     {
         public string TransformationsInfo { get; set; }
+        public string TransformationSummary { get; set; }
     }
 }
