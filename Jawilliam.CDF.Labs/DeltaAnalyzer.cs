@@ -739,6 +739,107 @@ namespace Jawilliam.CDF.Labs
         }
 
         /// <summary>
+        /// Summarizes the spuriosity by element types.
+        /// </summary>
+        /// <param name="sqlRepository">the SQL database repository in which to analyze the file versions.</param>
+        /// <param name="cancel">Action to execute cancellation logic.</param>
+        /// <param name="approach"></param>
+        /// <param name="skipThese">local criterion for determining elements that should be ignored.</param>
+        public virtual void SummarizeSpuriosity(GitRepository sqlRepository, Action cancel, ChangeDetectionApproaches approach, Func<FileRevisionPair, bool> skipThese)
+        {
+            this.Analyze(sqlRepository, "spuriosity summary",
+              f => f.Principal.Deltas.Any(d => d.Approach == approach &&
+                                               d.Matching != null &&
+                                               d.Differencing != null &&
+                                               d.Report == null && d.Symptoms.OfType<SpuriositySymptom>().Any()),
+                delegate (FileRevisionPair pair, CancellationToken token)
+                {
+                    if (skipThese?.Invoke(pair) ?? false) return;
+
+                    var delta = sqlRepository.Deltas.Single(d => d.RevisionPair.Id == pair.Principal.Id && d.Approach == approach);
+                    sqlRepository.Symptoms.OfType<SpuriositySymptom>().Where(s => s.Delta.Id == delta.Id).Load();
+                    var spuriosity = delta.Symptoms.OfType<SpuriositySymptom>().Single();
+                    var transformationsInfo = XTransformationsInfo.Read(spuriosity.TransformationsInfo, Encoding.Unicode);
+                    var syntaxTypes = new Dictionary<string, TransformationSummary>(300);
+
+                    try
+                    {
+                        
+                        foreach (var ti in transformationsInfo.Transformations.Where(t => t.Version == "original"))
+                        {
+                            TransformationSummary summary;
+                            if (syntaxTypes.ContainsKey(ti.Type))
+                                summary = syntaxTypes[ti.Type];
+                            else
+                            {
+                                summary = new TransformationSummary
+                                {
+                                    Type = ti.Type,
+                                    Self = new Transformations(),
+                                    Children = new Transformations(),
+                                    Descendants = new Transformations(),
+                                };
+                                syntaxTypes[ti.Type] = summary;
+                            }
+
+                            summary.Self.Insertions += ti.Self.Insertions;
+                            summary.Self.Deletions += ti.Self.Deletions;
+                            summary.Self.Updates += ti.Self.Updates;
+                            summary.Self.FromMoves += ti.Self.FromMoves;
+                            summary.Self.ToMoves += ti.Self.ToMoves;
+                            summary.Self.Aligns += ti.Self.Aligns;
+
+                            summary.Children.Insertions += ti.Children.Insertions;
+                            summary.Children.Deletions += ti.Children.Deletions;
+                            summary.Children.Updates += ti.Children.Updates;
+                            summary.Children.FromMoves += ti.Children.FromMoves;
+                            summary.Children.ToMoves += ti.Children.ToMoves;
+                            summary.Children.Aligns += ti.Children.Aligns;
+
+                            summary.Descendants.Insertions += ti.Descendants.Insertions;
+                            summary.Descendants.Deletions += ti.Descendants.Deletions;
+                            summary.Descendants.Updates += ti.Descendants.Updates;
+                            summary.Descendants.FromMoves += ti.Descendants.FromMoves;
+                            summary.Descendants.ToMoves += ti.Descendants.ToMoves;
+                            summary.Descendants.Aligns += ti.Descendants.Aligns;
+
+                            summary.Total += 1;
+
+                            int inChanges = 0, outChanges = 0;
+                            inChanges += ti.Children?.Insertions ?? 0;
+                            inChanges += ti.Descendants?.Insertions ?? 0;
+                            inChanges += ti.Children?.ToMoves ?? 0;
+                            inChanges += ti.Descendants?.ToMoves ?? 0;
+                            inChanges += ti.Children?.Updates ?? 0;
+                            inChanges += ti.Descendants?.Updates ?? 0;
+                            outChanges += ti.Children?.Deletions ?? 0;
+                            outChanges += ti.Descendants?.Deletions ?? 0;
+                            outChanges += ti.Children?.FromMoves ?? 0;
+                            outChanges += ti.Descendants?.FromMoves ?? 0;
+
+                            var spuriosityIndex = inChanges == 0 || outChanges == 0
+                                ? 0d
+                                : Math.Min(inChanges, outChanges) * 1d / Math.Max(inChanges, outChanges);
+
+                            summary.Spuriosity += spuriosityIndex;
+                            // Save the column for summary of spuriosity...
+                        }
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        this.Report.AppendLine($"CANCELED;{pair.Id};{sqlRepository.Name}");
+                        throw;
+                    }
+                    catch (OutOfMemoryException)
+                    {
+                        this.Report.AppendLine($"OUTOFMEMORY;{pair.Id};{sqlRepository.Name}");
+                        throw;
+                    }
+                },
+            cancel, false, new string[] { "Principal.FromFileVersion.Content", "Principal.FileVersion.Content" });
+        }
+
+        /// <summary>
         /// Analyzes the similarity in according with a given similarity metric, such as Levenshtein.
         /// </summary>
         /// <param name="sqlRepository">the SQL database repository in which to analyze the file versions.</param>
