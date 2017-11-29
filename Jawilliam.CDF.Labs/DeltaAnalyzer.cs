@@ -105,15 +105,12 @@ namespace Jawilliam.CDF.Labs
                                                d.Differencing != null &&
                                                d.Report == null)
                                                &&
-                    f.Principal.Deltas.Any(d => d.Approach == subcorpusApproach &&
-                                               d.Matching != null &&
-                                               d.Differencing != null &&
-                                               d.Report == null &&
+                    f.Principal.Deltas.Any(d => d.Approach == subcorpusApproach/* &&
                                                (d.GlobalSubcorpus != null ||
                                                d.GlobalInsertPorcentageSubcorpus != null ||
                                                d.GlobalDeletePorcentageSubcorpus != null ||
                                                d.GlobalUpdatePorcentageSubcorpus != null ||
-                                               d.GlobalMovePorcentageSubcorpus != null)),
+                                               d.GlobalMovePorcentageSubcorpus != null)*/),
                 delegate (FileRevisionPair pair, CancellationToken token)
                 {
                     //if (skipThese?.Invoke(pair) ?? false) return;
