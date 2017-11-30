@@ -373,23 +373,23 @@ namespace Jawilliam.CDF.Labs
             //                //RemoveComments = true
             //            } */);
 
-            var analyzer = new DeltaAnalyzer();
-            foreach (var project in Projects.Where(p => p.Name == "CoreFx")/*.Skip(2)*/)
-            {
-                analyzer.Warnings = new StringBuilder();
-                var dbRepository = new GitRepository(project.Name) { Name = project.Name };
-                ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 360;
+            //var analyzer = new DeltaAnalyzer();
+            //foreach (var project in Projects.Where(p => p.Name == "CoreFx")/*.Skip(2)*/)
+            //{
+            //    analyzer.Warnings = new StringBuilder();
+            //    var dbRepository = new GitRepository(project.Name) { Name = project.Name };
+            //    ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 360;
 
-                analyzer.RateMissedNameSymptoms(dbRepository,
-                    ChangeDetectionApproaches.NativeGumTree, null,
-                    @"E:\Phd\Analysis\Original.cs",
-                    @"E:\Phd\Analysis\Modified.cs");
+            //    analyzer.RateMissedNameSymptoms(dbRepository,
+            //        ChangeDetectionApproaches.NativeGumTree, null,
+            //        @"E:\Phd\Analysis\Original.cs",
+            //        @"E:\Phd\Analysis\Modified.cs");
 
-                //analyzer.RateIncompatibleMatchingSymptoms(dbRepository,
-                //    ChangeDetectionApproaches.NativeGumTree, null,
-                //    @"E:\Phd\Analysis\Original.cs",
-                //    @"E:\Phd\Analysis\Modified.cs");
-            }
+            //    //analyzer.RateIncompatibleMatchingSymptoms(dbRepository,
+            //    //    ChangeDetectionApproaches.NativeGumTree, null,
+            //    //    @"E:\Phd\Analysis\Original.cs",
+            //    //    @"E:\Phd\Analysis\Modified.cs");
+            //}
 
             //var analyzer = new DeltaAnalyzer();
             //var sc = new SourceCodeCleaner();
@@ -413,16 +413,18 @@ namespace Jawilliam.CDF.Labs
             //    //    @"E:\Phd\Analysis\Modified.cs");
             //}
 
-            var analyzer = new DeltaAnalyzer();
+            var analyzer = new DeltaAnalyzer() { Report = new StringBuilder(1200)};
             var sc = new SourceCodeCleaner();
+            var syntaxTypes = new HashSet<string>();
             foreach (var project in Projects/*.Skip(2)*/)
             {
                 analyzer.Warnings = new StringBuilder();
+                //analyzer.Report = new StringBuilder();
                 var dbRepository = new GitRepository(project.Name) { Name = project.Name };
                 ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 360;
 
-                analyzer.SummarizeSpuriosity(dbRepository, () => { },
-                    ChangeDetectionApproaches.NativeGumTree, null);
+                analyzer.ReportTypesOfSpuriositySummary(dbRepository, () => { },
+                    ChangeDetectionApproaches.NativeGumTree, null, syntaxTypes);
 
                 //analyzer.AnalyzingSpuriosity(dbRepository, () => { },
                 //    ChangeDetectionApproaches.NativeGumTree, null, sc,
@@ -433,24 +435,25 @@ namespace Jawilliam.CDF.Labs
                 //    ChangeDetectionApproaches.NativeGumTree, null,
                 //    @"E:\Phd\Analysis\Original.cs",
                 //    @"E:\Phd\Analysis\Modified.cs");
+                System.IO.File.AppendAllText(@"C:\CDF\Analysis\TypesOfSpuriositySummaryWarnings.csv", analyzer.Warnings.ToString());
             }
-
+            System.IO.File.WriteAllText(@"C:\CDF\Analysis\TypesOfSpuriositySummary.csv", analyzer.Report.ToString());
             #endregion
 
             #region Summarize Symptoms
-            var analyzer = new DeltaAnalyzer { Report = new StringBuilder() };
-            bool rowNames = true;
-            foreach (var project in Projects)
-            {
-                analyzer.Report = new StringBuilder();
-                var dbRepository = new GitRepository(project.Name) { Name = project.Name };
-                ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 360;
+            //var analyzer = new DeltaAnalyzer { Report = new StringBuilder() };
+            //bool rowNames = true;
+            //foreach (var project in Projects)
+            //{
+            //    analyzer.Report = new StringBuilder();
+            //    var dbRepository = new GitRepository(project.Name) { Name = project.Name };
+            //    ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 360;
 
-                analyzer.SummarizeSubcorpusSelection(dbRepository, ChangeDetectionApproaches.NativeGumTree, ChangeDetectionApproaches.NativeGumTreeWithoutComments, rowNames);
-                rowNames = false;
-                Console.WriteLine($"{dbRepository.Name} - DONE");
-            }
-            System.IO.File.WriteAllText(@"C:\CDF\Analysis\SubcorpusSummary.csv", analyzer.Report.ToString());
+            //    analyzer.SummarizeSubcorpusSelection(dbRepository, ChangeDetectionApproaches.NativeGumTree, ChangeDetectionApproaches.NativeGumTreeWithoutComments, rowNames);
+            //    rowNames = false;
+            //    Console.WriteLine($"{dbRepository.Name} - DONE");
+            //}
+            //System.IO.File.WriteAllText(@"C:\CDF\Analysis\SubcorpusSummary.csv", analyzer.Report.ToString());
             #endregion
 
             #region Detecting not real source code changes

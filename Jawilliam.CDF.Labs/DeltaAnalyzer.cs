@@ -930,6 +930,55 @@ namespace Jawilliam.CDF.Labs
         }
 
         /// <summary>
+        /// Computes all the element types that have been summarized in terms of spuriosity.
+        /// </summary>
+        /// <param name="sqlRepository">the SQL database repository in which to analyze the file versions.</param>
+        /// <param name="cancel">Action to execute cancellation logic.</param>
+        /// <param name="approach"></param>
+        /// <param name="skipThese">local criterion for determining elements that should be ignored.</param>
+        /// <param name="syntaxTypes"></param>
+        public virtual void ReportTypesOfSpuriositySummary(GitRepository sqlRepository, Action cancel, ChangeDetectionApproaches approach, Func<FileRevisionPair, bool> skipThese, HashSet<string> syntaxTypes)
+        {
+            this.Analyze(sqlRepository, "universe of element types in spuriosity summary",
+              f => f.Principal.Deltas.Any(d => d.Approach == approach &&
+                                               d.Matching != null &&
+                                               d.Differencing != null &&
+                                               d.Report == null && d.Symptoms.OfType<SpuriositySymptom>().Any()),
+                delegate (FileRevisionPair pair, CancellationToken token)
+                {
+                    if (skipThese?.Invoke(pair) ?? false) return;
+
+                    var delta = sqlRepository.Deltas.Single(d => d.RevisionPair.Id == pair.Principal.Id && d.Approach == approach);
+                    sqlRepository.Symptoms.OfType<SpuriositySymptom>().Where(s => s.Delta.Id == delta.Id).Load();
+                    var spuriosity = delta.Symptoms.OfType<SpuriositySymptom>().First();
+                    var transformationsInfo = XTransformationsInfo.Read(spuriosity.TransformationsInfo, Encoding.Unicode);
+
+                    try
+                    {
+                        foreach (var ti in transformationsInfo.Transformations.Where(t => t.Version == "original" && t.Type != null))
+                        {
+                            if (!syntaxTypes.Contains(ti.Type))
+                            {
+                                syntaxTypes.Add(ti.Type);
+                                this.Report.AppendLine(ti.Type);
+                            }
+                        }
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        this.Report.AppendLine($"CANCELED;{pair.Id};{sqlRepository.Name}");
+                        throw;
+                    }
+                    catch (OutOfMemoryException)
+                    {
+                        this.Report.AppendLine($"OUTOFMEMORY;{pair.Id};{sqlRepository.Name}");
+                        throw;
+                    }
+                },
+            cancel, false, new string[] { "Principal" });
+        }
+
+        /// <summary>
         /// Analyzes the similarity in according with a given similarity metric, such as Levenshtein.
         /// </summary>
         /// <param name="sqlRepository">the SQL database repository in which to analyze the file versions.</param>
