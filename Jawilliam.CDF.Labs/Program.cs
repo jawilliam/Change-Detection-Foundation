@@ -373,45 +373,45 @@ namespace Jawilliam.CDF.Labs
             //                //RemoveComments = true
             //            } */);
 
-            //var analyzer = new DeltaAnalyzer();
-            //foreach (var project in Projects.Where(p => p.Name == "CoreFx")/*.Skip(2)*/)
-            //{
-            //    analyzer.Warnings = new StringBuilder();
-            //    var dbRepository = new GitRepository(project.Name) { Name = project.Name };
-            //    ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 360;
-
-            //    analyzer.RateMissedNameSymptoms(dbRepository,
-            //        ChangeDetectionApproaches.NativeGumTree, null,
-            //        @"E:\Phd\Analysis\Original.cs",
-            //        @"E:\Phd\Analysis\Modified.cs");
-
-            //    //analyzer.RateIncompatibleMatchingSymptoms(dbRepository,
-            //    //    ChangeDetectionApproaches.NativeGumTree, null,
-            //    //    @"E:\Phd\Analysis\Original.cs",
-            //    //    @"E:\Phd\Analysis\Modified.cs");
-            //}
-
             var analyzer = new DeltaAnalyzer();
-            var sc = new SourceCodeCleaner();
-            foreach (var project in Projects/*.Skip(2)*/)
+            foreach (var project in Projects.Where(p => p.Name == "CoreFx")/*.Skip(2)*/)
             {
                 analyzer.Warnings = new StringBuilder();
                 var dbRepository = new GitRepository(project.Name) { Name = project.Name };
                 ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 360;
 
-                analyzer.SummarizeSpuriosity(dbRepository, () => { },
-                    ChangeDetectionApproaches.NativeGumTree, null);
-
-                //analyzer.AnalyzingSpuriosity(dbRepository, () => { },
-                //    ChangeDetectionApproaches.NativeGumTree, null, sc,
-                //    @"E:\Phd\Analysis\Original.cs",
-                //    @"E:\Phd\Analysis\Modified.cs");
+                analyzer.RateMissedNameSymptoms(dbRepository,
+                    ChangeDetectionApproaches.NativeGumTree, null,
+                    @"E:\Phd\Analysis\Original.cs",
+                    @"E:\Phd\Analysis\Modified.cs");
 
                 //analyzer.RateIncompatibleMatchingSymptoms(dbRepository,
                 //    ChangeDetectionApproaches.NativeGumTree, null,
                 //    @"E:\Phd\Analysis\Original.cs",
                 //    @"E:\Phd\Analysis\Modified.cs");
             }
+
+            //var analyzer = new DeltaAnalyzer();
+            //var sc = new SourceCodeCleaner();
+            //foreach (var project in Projects/*.Skip(2)*/)
+            //{
+            //    analyzer.Warnings = new StringBuilder();
+            //    var dbRepository = new GitRepository(project.Name) { Name = project.Name };
+            //    ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 360;
+
+            //    analyzer.SummarizeSpuriosity(dbRepository, () => { },
+            //        ChangeDetectionApproaches.NativeGumTree, null);
+
+            //    //analyzer.AnalyzingSpuriosity(dbRepository, () => { },
+            //    //    ChangeDetectionApproaches.NativeGumTree, null, sc,
+            //    //    @"E:\Phd\Analysis\Original.cs",
+            //    //    @"E:\Phd\Analysis\Modified.cs");
+
+            //    //analyzer.RateIncompatibleMatchingSymptoms(dbRepository,
+            //    //    ChangeDetectionApproaches.NativeGumTree, null,
+            //    //    @"E:\Phd\Analysis\Original.cs",
+            //    //    @"E:\Phd\Analysis\Modified.cs");
+            //}
 
             #endregion
 

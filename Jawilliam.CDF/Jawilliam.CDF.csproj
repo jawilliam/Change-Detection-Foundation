@@ -65,6 +65,7 @@
     <Compile Include="ElementTree.cs" />
     <Compile Include="Metrics.Quality\EditDistance.cs" />
     <Compile Include="Metrics\IMetric.cs" />
+    <Compile Include="Metrics\RelativeThreshold.cs" />
     <Compile Include="MissingValueException.cs" />
     <Compile Include="Approach\RevisionDescriptor.cs" />
     <Compile Include="Approach\MatchingPair.cs" />

@@ -1122,7 +1122,7 @@ namespace Jawilliam.CDF.Labs
                                                d.Matching != null &&
                                                d.Differencing != null &&
                                                d.Report == null &&
-                                               d.Symptoms.OfType<MissedNameSymptom>().Any(s => s.Original.Element.Type == "property" && s.Modified.Element.Type == "property")),
+                                               d.Symptoms.OfType<MissedNameSymptom>().Any(s => s.Original.Element.Type == "constructor" && s.Modified.Element.Type == "constructor")),
                 delegate (FileRevisionPair pair, CancellationToken token)
                 {
                     //if (skipThese?.Invoke(pair) ?? false) return;
@@ -1130,7 +1130,7 @@ namespace Jawilliam.CDF.Labs
                     var delta = sqlRepository.Deltas.Single(d => d.RevisionPair.Id == pair.Principal.Id && d.Approach == approach);
                     var symptomIds = sqlRepository.Symptoms.OfType<MissedNameSymptom>()
                         .Where(s => s.Delta.Id == delta.Id)
-                        .Where(s => s.Original.Element.Type == "property" && s.Modified.Element.Type == "property")
+                        .Where(s => s.Original.Element.Type == "constructor" && s.Modified.Element.Type == "constructor")
                         .Select(s => s.Id).ToList();
 
                     //var cleaner = new SourceCodeCleaner();
@@ -1196,10 +1196,10 @@ namespace Jawilliam.CDF.Labs
                         else
                         {
                             string prefix = "", match = " ";
-                            var oElement = original.DescendantNodesAndSelf().OfType<PropertyDeclarationSyntax>()
+                            var oElement = original.DescendantNodesAndSelf().OfType<ConstructorDeclarationSyntax>()
                                 .Where(e => e.Identifier.ValueText == symptom.Original.Element.Hint)
                                 .ToList();
-                            var mElement = modified.DescendantNodesAndSelf().OfType<PropertyDeclarationSyntax>()
+                            var mElement = modified.DescendantNodesAndSelf().OfType<ConstructorDeclarationSyntax>()
                                 .Where(e => e.Identifier.ValueText == symptom.Modified.Element.Hint)
                                 .ToList();
                             string oLine = "-1", mLine = "-1";
@@ -1258,10 +1258,10 @@ namespace Jawilliam.CDF.Labs
 
 
 
-                                    var oClass = original.DescendantNodesAndSelf().OfType<ClassDeclarationSyntax>()
+                                    var oClass = original.DescendantNodesAndSelf().OfType<ConstructorDeclarationSyntax>()
                                         .Where(c => c.Identifier.ValueText == oClassName)
                                         .ToList();
-                                    var mClass = modified.DescendantNodesAndSelf().OfType<ClassDeclarationSyntax>()
+                                    var mClass = modified.DescendantNodesAndSelf().OfType<ConstructorDeclarationSyntax>()
                                         .Where(c => c.Identifier.ValueText == mClassName)
                                         .ToList();
 
@@ -1283,10 +1283,10 @@ namespace Jawilliam.CDF.Labs
                                     //    .ToList();
                                     if (oClass.Count == 1 && mClass.Count == 1)
                                     {
-                                        oElement = oClass.Single().DescendantNodesAndSelf().OfType<PropertyDeclarationSyntax>()
+                                        oElement = oClass.Single().DescendantNodesAndSelf().OfType<ConstructorDeclarationSyntax>()
                                             .Where(e => e.Identifier.ValueText == oMethodName)
                                             .ToList();
-                                        mElement = mClass.Single().DescendantNodesAndSelf().OfType<PropertyDeclarationSyntax>()
+                                        mElement = mClass.Single().DescendantNodesAndSelf().OfType<ConstructorDeclarationSyntax>()
                                             .Where(e => e.Identifier.ValueText == mMethodName)
                                             .ToList();
                                         if (oElement.Count == 1 && mElement.Count == 1)
