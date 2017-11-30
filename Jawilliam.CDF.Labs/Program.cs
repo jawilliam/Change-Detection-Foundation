@@ -413,21 +413,44 @@ namespace Jawilliam.CDF.Labs
             //    //    @"E:\Phd\Analysis\Modified.cs");
             //}
 
+            var analyzer = new DeltaAnalyzer();
+            var sc = new SourceCodeCleaner();
+            foreach (var project in Projects/*.Skip(2)*/)
+            {
+                analyzer.Warnings = new StringBuilder();
+                var dbRepository = new GitRepository(project.Name) { Name = project.Name };
+                ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 360;
+
+                analyzer.SummarizeSpuriosity(dbRepository, () => { },
+                    ChangeDetectionApproaches.NativeGumTree, null);
+
+                //analyzer.AnalyzingSpuriosity(dbRepository, () => { },
+                //    ChangeDetectionApproaches.NativeGumTree, null, sc,
+                //    @"E:\Phd\Analysis\Original.cs",
+                //    @"E:\Phd\Analysis\Modified.cs");
+
+                //analyzer.RateIncompatibleMatchingSymptoms(dbRepository,
+                //    ChangeDetectionApproaches.NativeGumTree, null,
+                //    @"E:\Phd\Analysis\Original.cs",
+                //    @"E:\Phd\Analysis\Modified.cs");
+            }
+
             #endregion
 
             #region Summarize Symptoms
-            //var analyzer = new DeltaAnalyzer { Report = new StringBuilder() };
-            //bool rowNames = true;
-            //foreach (var project in Projects)
-            //{
-            //    var dbRepository = new GitRepository(project.Name) { Name = project.Name };
-            //    ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 360;
+            var analyzer = new DeltaAnalyzer { Report = new StringBuilder() };
+            bool rowNames = true;
+            foreach (var project in Projects)
+            {
+                analyzer.Report = new StringBuilder();
+                var dbRepository = new GitRepository(project.Name) { Name = project.Name };
+                ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 360;
 
-            //    analyzer.SummarizeSymptoms(dbRepository, ChangeDetectionApproaches.NativeGumTree, rowNames);
-            //    rowNames = false;
-            //    Console.WriteLine($"{dbRepository.Name} - DONE");
-            //}
-            //System.IO.File.WriteAllText(@"E:\Phd\Analysis\UniquePairs\SymptomsSummary.csv", analyzer.Report.ToString());
+                analyzer.SummarizeSubcorpusSelection(dbRepository, ChangeDetectionApproaches.NativeGumTree, ChangeDetectionApproaches.NativeGumTreeWithoutComments, rowNames);
+                rowNames = false;
+                Console.WriteLine($"{dbRepository.Name} - DONE");
+            }
+            System.IO.File.WriteAllText(@"C:\CDF\Analysis\SubcorpusSummary.csv", analyzer.Report.ToString());
             #endregion
 
             #region Detecting not real source code changes

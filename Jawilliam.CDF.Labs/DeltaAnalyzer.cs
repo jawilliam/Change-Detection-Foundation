@@ -92,57 +92,127 @@ namespace Jawilliam.CDF.Labs
                 }, null, true, "Principal");
         }
 
-        ///// <summary>
-        ///// Summarizes the count of elements for each kind of subcorpus.
-        ///// </summary>
-        ///// <param name="sqlRepository">the SQL database repository in which to analyze the file versions.</param>
-        ///// <param name="approach"></param>
-        //public virtual void SummarizeSubcorpusSelection(GitRepository sqlRepository, ChangeDetectionApproaches approach, bool namesRow)
-        //{
-        //    var valuesDesc = new[]
-        //    {
-        //        new { Abbreviature = "GGHO", Value = SubcorpusKind.GlobalGeneralRatioLvGtHigherOutlier },
-        //        new { Abbreviature = "GGLO", Value = SubcorpusKind.GlobalGeneralRatioLvGtLowerOutlier },
-        //        new { Abbreviature = "GGMC", Value = SubcorpusKind.GlobalGeneralRatioLvGtMedianCloser },
-        //        new { Abbreviature = "GGMCRD", Value = SubcorpusKind.GlobalGeneralRatioLvGtMedianCloserRandom },
-        //        new { Abbreviature = "GGNA", Value = SubcorpusKind.GlobalGeneralRatioLvGtNotAssigned },
-        //        new { Abbreviature = "GGRD", Value = SubcorpusKind.GlobalGeneralRatioLvGtRandom },
+        /// <summary>
+        /// Summarizes the count of elements for each kind of subcorpus.
+        /// </summary>
+        /// <param name="sqlRepository">the SQL database repository in which to analyze the file versions.</param>
+        /// <param name="symptomApproach"></param>
+        public virtual void SummarizeSubcorpusSelection(GitRepository sqlRepository, ChangeDetectionApproaches symptomApproach, ChangeDetectionApproaches subcorpusApproach, bool namesRow)
+        {
+            this.Analyze(sqlRepository, "summary of subcorpus choices",
+              f => f.Principal.Deltas.Any(d => d.Approach == symptomApproach &&
+                                               d.Matching != null &&
+                                               d.Differencing != null &&
+                                               d.Report == null)
+                                               &&
+                    f.Principal.Deltas.Any(d => d.Approach == subcorpusApproach/* &&
+                                               (d.GlobalSubcorpus != null ||
+                                               d.GlobalInsertPorcentageSubcorpus != null ||
+                                               d.GlobalDeletePorcentageSubcorpus != null ||
+                                               d.GlobalUpdatePorcentageSubcorpus != null ||
+                                               d.GlobalMovePorcentageSubcorpus != null)*/),
+                delegate (FileRevisionPair pair, CancellationToken token)
+                {
+                    //if (skipThese?.Invoke(pair) ?? false) return;
 
-        //        new { Abbreviature = "GDHO", Value = SubcorpusKind.GlobalDeletionPorcentageLvGtHigherOutlier },
-        //        new { Abbreviature = "GDLO", Value = SubcorpusKind.GlobalDeletionPorcentageLvGtLowerOutlier },
-        //        new { Abbreviature = "GDMC", Value = SubcorpusKind.GlobalDeletionPorcentageLvGtMedianCloser },
-        //        new { Abbreviature = "GDMCRD", Value = SubcorpusKind.GlobalDeletionPorcentageLvGtMedianCloserRandom },
-        //        new { Abbreviature = "GDNA", Value = SubcorpusKind.GlobalDeletionPorcentageLvGtNotAssigned },
-        //        new { Abbreviature = "GDRD", Value = SubcorpusKind.GlobalDeletionPorcentageLvGtRandom },
+                    var delta = sqlRepository.Deltas.Single(d => d.RevisionPair.Id == pair.Principal.Id && d.Approach == symptomApproach);
+                    if (namesRow)
+                        this.Report.AppendLine("Project;Frp;GHO;GLO;GHMC;GEMC;GLMC;GNA;" + 
+                                                           "IHO;ILO;IHMC;IEMC;ILMC;INA;" + 
+                                                           "DHO;DLO;DHMC;DEMC;DLMC;DNA;" +
+                                                           "UHO;ULO;UHMC;UEMC;ULMC;UNA;" +
+                                                           "MHO;MLO;MHMC;MEMC;MLMC;MNA;" +
+                                                           "MN;MN-Class;MN-Interface;MN-Enum;MN-Struct;MN-prop;MN-fld;MN-ev;MN-func;MN-ctor;MN-dtor;MN-farg;MN-aarg;MN-var;MN-others;" +
+                                                           "IM;IM-this;IM-base;IM-btinNonbtinTypes;IM-null;IM-true;IM-false;IM-literals;IM-names;IM-optors");
 
-        //        new { Abbreviature = "GIHO", Value = SubcorpusKind.GlobalInsertionPorcentageLvGtHigherOutlier },
-        //        new { Abbreviature = "GILO", Value = SubcorpusKind.GlobalInsertionPorcentageLvGtLowerOutlier },
-        //        new { Abbreviature = "GIMC", Value = SubcorpusKind.GlobalInsertionPorcentageLvGtMedianCloser },
-        //        new { Abbreviature = "GIMCRD", Value = SubcorpusKind.GlobalInsertionPorcentageLvGtMedianCloserRandom },
-        //        new { Abbreviature = "GINA", Value = SubcorpusKind.GlobalInsertionPorcentageLvGtNotAssigned },
-        //        new { Abbreviature = "GIRD", Value = SubcorpusKind.GlobalInsertionPorcentageLvGtRandom },
+                    var mn = sqlRepository.Symptoms.Where(d => d.Delta.Id == delta.Id).OfType<MissedElementSymptom>().Count();
+                    //var mnNamespaces = sqlRepository.Symptoms.OfType<MissedElementSymptom>().Count(s => s.Original.Element.Type == "namespace" && s.Modified.Element.Type == "namespace");
+                    var mnClasses = sqlRepository.Symptoms.Where(d => d.Delta.Id == delta.Id).OfType<MissedElementSymptom>().Count(s => s.Original.Element.Type == "class" && s.Modified.Element.Type == "class");
+                    var mnInterfaces = sqlRepository.Symptoms.Where(d => d.Delta.Id == delta.Id).OfType<MissedElementSymptom>().Count(s => s.Original.Element.Type == "interface" && s.Modified.Element.Type == "interface");
+                    var mnEnums = sqlRepository.Symptoms.Where(d => d.Delta.Id == delta.Id).OfType<MissedElementSymptom>().Count(s => s.Original.Element.Type == "enum" && s.Modified.Element.Type == "enum");
+                    var mnStructs = sqlRepository.Symptoms.Where(d => d.Delta.Id == delta.Id).OfType<MissedElementSymptom>().Count(s => s.Original.Element.Type == "struct" && s.Modified.Element.Type == "struct");
+                    var mnEnumValues = sqlRepository.Symptoms.Where(d => d.Delta.Id == delta.Id).OfType<MissedElementSymptom>().Count(s => s.Original.Element.Type == "enumvalue" && s.Modified.Element.Type == "enumvalue");
+                    var mnProperties = sqlRepository.Symptoms.Where(d => d.Delta.Id == delta.Id).OfType<MissedElementSymptom>().Count(s => s.Original.Element.Type == "property" && s.Modified.Element.Type == "property");
+                    var mnFields = sqlRepository.Symptoms.Where(d => d.Delta.Id == delta.Id).OfType<MissedElementSymptom>().Count(s => s.Original.Element.Type == "field" && s.Modified.Element.Type == "field");
+                    var mnFunctions = sqlRepository.Symptoms.Where(d => d.Delta.Id == delta.Id).OfType<MissedElementSymptom>().Count(s => s.Original.Element.Type == "function" && s.Modified.Element.Type == "function");
+                    var mnConstructors = sqlRepository.Symptoms.Where(d => d.Delta.Id == delta.Id).OfType<MissedElementSymptom>().Count(s => s.Original.Element.Type == "constructor" && s.Modified.Element.Type == "constructor");
+                    var mnDestructors = sqlRepository.Symptoms.Where(d => d.Delta.Id == delta.Id).OfType<MissedElementSymptom>().Count(s => s.Original.Element.Type == "destructor" && s.Modified.Element.Type == "destructor");
+                    var mnFormalArguments = sqlRepository.Symptoms.Where(d => d.Delta.Id == delta.Id).OfType<MissedElementSymptom>().Count(s => s.Original.Element.Type == "formal argument" && s.Modified.Element.Type == "formal argument");
+                    var mnActualArguments = sqlRepository.Symptoms.Where(d => d.Delta.Id == delta.Id).OfType<MissedElementSymptom>().Count(s => s.Original.Element.Type == "actual argument" && s.Modified.Element.Type == "actual argument");
+                    var mnVariables = sqlRepository.Symptoms.Where(d => d.Delta.Id == delta.Id).OfType<MissedElementSymptom>().Count(s => s.Original.Element.Type == "variable" && s.Modified.Element.Type == "variable");
+                    var mi = sqlRepository.Symptoms.Where(d => d.Delta.Id == delta.Id).OfType<IncompatibleMatchingSymptom>().Count();
+                    var miThis = sqlRepository.Symptoms.Where(d => d.Delta.Id == delta.Id).OfType<IncompatibleMatchingSymptom>().Count(s => s.Pattern == "this instance expression");
+                    var miBase = sqlRepository.Symptoms.Where(d => d.Delta.Id == delta.Id).OfType<IncompatibleMatchingSymptom>().Count(s => s.Pattern == "base instance expression");
+                    var miBltInNonBltInTypes = sqlRepository.Symptoms.Where(d => d.Delta.Id == delta.Id).OfType<IncompatibleMatchingSymptom>().Count(s => s.Pattern == "builtin type updates to non-builtin type");
+                    var miNull = sqlRepository.Symptoms.Where(d => d.Delta.Id == delta.Id).OfType<IncompatibleMatchingSymptom>().Count(s => s.Pattern == "null literal mismatch");
+                    var miTrue = sqlRepository.Symptoms.Where(d => d.Delta.Id == delta.Id).OfType<IncompatibleMatchingSymptom>().Count(s => s.Pattern == "true literal mismatch");
+                    var miFalse = sqlRepository.Symptoms.Where(d => d.Delta.Id == delta.Id).OfType<IncompatibleMatchingSymptom>().Count(s => s.Pattern == "false literal mismatch");
+                    var miLiterals = sqlRepository.Symptoms.Where(d => d.Delta.Id == delta.Id).OfType<IncompatibleMatchingSymptom>().Count(s => s.Pattern == "literals update");
+                    var miRenames = sqlRepository.Symptoms.Where(d => d.Delta.Id == delta.Id).OfType<IncompatibleMatchingSymptom>().Count(s => s.Pattern == "renames");
+                    var miOperators = sqlRepository.Symptoms.Where(d => d.Delta.Id == delta.Id).OfType<IncompatibleMatchingSymptom>().Count(s => s.Pattern == "different operators");
 
-        //        new { Abbreviature = "GUHO", Value = SubcorpusKind.GlobalUpdatePorcentageLvGtHigherOutlier },
-        //        new { Abbreviature = "GULO", Value = SubcorpusKind.GlobalUpdatePorcentageLvGtLowerOutlier },
-        //        new { Abbreviature = "GUMC", Value = SubcorpusKind.GlobalUpdatePorcentageLvGtMedianCloser },
-        //        new { Abbreviature = "GUNA", Value = SubcorpusKind.GlobalUpdatePorcentageLvGtNotAssigned },
-        //        new { Abbreviature = "GURD", Value = SubcorpusKind.GlobalUpdatePorcentageLvGtRandom },
+                    delta = sqlRepository.Deltas.Single(d => d.RevisionPair.Id == pair.Principal.Id && d.Approach == subcorpusApproach);
+                    Func<SubcorpusKind?, SubcorpusKind, string> getSelection = (s, s1) => s == null ? "" : ((s.Value & s1) == s1).ToString(CultureInfo.InvariantCulture);
 
-        //        new { Abbreviature = "GMHO", Value = SubcorpusKind.GlobalMovePorcentageLvGtHigherOutlier },
-        //        new { Abbreviature = "GMLO", Value = SubcorpusKind.GlobalMovePorcentageLvGtLowerOutlier },
-        //        new { Abbreviature = "GMMC", Value = SubcorpusKind.GlobalMovePorcentageLvGtMedianCloser },
-        //        new { Abbreviature = "GMNA", Value = SubcorpusKind.GlobalMovePorcentageLvGtNotAssigned },
-        //        new { Abbreviature = "GMRD", Value = SubcorpusKind.GlobalMovePorcentageLvGtRandom }
-        //    };
-
-        //    IDictionary<SubcorpusKind, int> total = new Dictionary<SubcorpusKind, int>();
-        //    var values = Enum.GetValues(typeof(SubcorpusKind)).Cast<SubcorpusKind>().ToList();
-        //    if (namesRow)
-        //        this.Report.AppendLine("Project" + valuesDesc.Aggregate("", (s, kind) => $"{s};{kind.Abbreviature}"));
-
-        //    string report = sqlRepository.Name + valuesDesc.Aggregate("", (current, value) => $"{current};{sqlRepository.Deltas.Count(d => d.Approach == approach && d.Subcorpus != null && ((d.Subcorpus.Value & value.Value) == value.Value))}");
-        //    this.Report.AppendLine(report);
-        //}
+                    this.Report.AppendLine($"{sqlRepository.Name};{pair.Id};" + 
+                                           $"{getSelection(delta.GlobalSubcorpus, SubcorpusKind.RatioLvGtHigherOutlier)};" +
+                                           $"{getSelection(delta.GlobalSubcorpus, SubcorpusKind.RatioLvGtLowerOutlier)};" +
+                                           $"{getSelection(delta.GlobalSubcorpus, SubcorpusKind.RatioLvGtMedianCloserHigh)};" +
+                                           $"{getSelection(delta.GlobalSubcorpus, SubcorpusKind.RatioLvGtMedianCloserExact)};" +
+                                           $"{getSelection(delta.GlobalSubcorpus, SubcorpusKind.RatioLvGtMedianCloserLow)};" +
+                                           $"{getSelection(delta.GlobalSubcorpus, SubcorpusKind.NotAssigned)};" +
+                                           $"{getSelection(delta.GlobalInsertPorcentageSubcorpus, SubcorpusKind.RatioLvGtHigherOutlier)};" +
+                                           $"{getSelection(delta.GlobalInsertPorcentageSubcorpus, SubcorpusKind.RatioLvGtLowerOutlier)};" +
+                                           $"{getSelection(delta.GlobalInsertPorcentageSubcorpus, SubcorpusKind.RatioLvGtMedianCloserHigh)};" +
+                                           $"{getSelection(delta.GlobalInsertPorcentageSubcorpus, SubcorpusKind.RatioLvGtMedianCloserExact)};" +
+                                           $"{getSelection(delta.GlobalInsertPorcentageSubcorpus, SubcorpusKind.RatioLvGtMedianCloserLow)};" +
+                                           $"{getSelection(delta.GlobalInsertPorcentageSubcorpus, SubcorpusKind.NotAssigned)};" +
+                                           $"{getSelection(delta.GlobalDeletePorcentageSubcorpus, SubcorpusKind.RatioLvGtHigherOutlier)};" +
+                                           $"{getSelection(delta.GlobalDeletePorcentageSubcorpus, SubcorpusKind.RatioLvGtLowerOutlier)};" +
+                                           $"{getSelection(delta.GlobalDeletePorcentageSubcorpus, SubcorpusKind.RatioLvGtMedianCloserHigh)};" +
+                                           $"{getSelection(delta.GlobalDeletePorcentageSubcorpus, SubcorpusKind.RatioLvGtMedianCloserExact)};" +
+                                           $"{getSelection(delta.GlobalDeletePorcentageSubcorpus, SubcorpusKind.RatioLvGtMedianCloserLow)};" +
+                                           $"{getSelection(delta.GlobalDeletePorcentageSubcorpus, SubcorpusKind.NotAssigned)};" +
+                                           $"{getSelection(delta.GlobalUpdatePorcentageSubcorpus, SubcorpusKind.RatioLvGtHigherOutlier)};" +
+                                           $"{getSelection(delta.GlobalUpdatePorcentageSubcorpus, SubcorpusKind.RatioLvGtLowerOutlier)};" +
+                                           $"{getSelection(delta.GlobalUpdatePorcentageSubcorpus, SubcorpusKind.RatioLvGtMedianCloserHigh)};" +
+                                           $"{getSelection(delta.GlobalUpdatePorcentageSubcorpus, SubcorpusKind.RatioLvGtMedianCloserExact)};" +
+                                           $"{getSelection(delta.GlobalUpdatePorcentageSubcorpus, SubcorpusKind.RatioLvGtMedianCloserLow)};" +
+                                           $"{getSelection(delta.GlobalUpdatePorcentageSubcorpus, SubcorpusKind.NotAssigned)};" +
+                                           $"{getSelection(delta.GlobalMovePorcentageSubcorpus, SubcorpusKind.RatioLvGtHigherOutlier)};" +
+                                           $"{getSelection(delta.GlobalMovePorcentageSubcorpus, SubcorpusKind.RatioLvGtLowerOutlier)};" +
+                                           $"{getSelection(delta.GlobalMovePorcentageSubcorpus, SubcorpusKind.RatioLvGtMedianCloserHigh)};" +
+                                           $"{getSelection(delta.GlobalMovePorcentageSubcorpus, SubcorpusKind.RatioLvGtMedianCloserExact)};" +
+                                           $"{getSelection(delta.GlobalMovePorcentageSubcorpus, SubcorpusKind.RatioLvGtMedianCloserLow)};" +
+                                           $"{getSelection(delta.GlobalMovePorcentageSubcorpus, SubcorpusKind.NotAssigned)};" +
+                                           $"{mn};" +
+                                           $"{mnClasses};" +
+                                           $"{mnInterfaces};" +
+                                           $"{mnEnums};" +
+                                           $"{mnStructs};" +
+                                           $"{mnProperties};" +
+                                           $"{mnFields};" +
+                                           $"{mnEnumValues};" +
+                                           $"{mnFunctions};" +
+                                           $"{mnConstructors};" +
+                                           $"{mnDestructors};" +
+                                           $"{mnFormalArguments};" +
+                                           $"{mnActualArguments};" +
+                                           $"{mnVariables};" +
+                                           $"{mn - (mnClasses + mnInterfaces + mnEnums + mnStructs + mnProperties + mnFields + mnFunctions + mnConstructors + mnDestructors + mnFormalArguments + mnActualArguments + mnEnumValues + mnVariables)};" +
+                                           $"{mi};" +
+                                           $"{miThis};" +
+                                           $"{miBase};" +
+                                           $"{miBltInNonBltInTypes};" +
+                                           $"{miNull};" +
+                                           $"{miTrue};" +
+                                           $"{miFalse};" +
+                                           $"{miLiterals};" +
+                                           $"{miRenames};" +
+                                           $"{miOperators}");
+                },
+            () => {}, false, "Principal");
+        }
 
         /// <summary>
         /// Summarizes the count of elements for each kind of subcorpus.
@@ -758,13 +828,13 @@ namespace Jawilliam.CDF.Labs
 
                     var delta = sqlRepository.Deltas.Single(d => d.RevisionPair.Id == pair.Principal.Id && d.Approach == approach);
                     sqlRepository.Symptoms.OfType<SpuriositySymptom>().Where(s => s.Delta.Id == delta.Id).Load();
-                    var spuriosity = delta.Symptoms.OfType<SpuriositySymptom>().Single();
+                    var spuriosity = delta.Symptoms.OfType<SpuriositySymptom>().First();
                     var transformationsInfo = XTransformationsInfo.Read(spuriosity.TransformationsInfo, Encoding.Unicode);
                     var syntaxTypes = new Dictionary<string, TransformationSummary>(300);
 
                     try
                     {
-                        foreach (var ti in transformationsInfo.Transformations.Where(t => t.Version == "original"))
+                        foreach (var ti in transformationsInfo.Transformations.Where(t => t.Version == "original" && t.Type != null))
                         {
                             TransformationSummary summary;
                             if (syntaxTypes.ContainsKey(ti.Type))
