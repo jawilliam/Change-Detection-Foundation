@@ -374,7 +374,7 @@ namespace Jawilliam.CDF.Labs
             //            } */);
 
             //var analyzer = new DeltaAnalyzer();
-            //foreach (var project in Projects.Where(p => p.Name == "CoreFx")/*.Skip(2)*/)
+            //foreach (var project in Projects.Where(p => p.Name == "Roslyn")/*.Skip(2)*/)
             //{
             //    analyzer.Warnings = new StringBuilder();
             //    var dbRepository = new GitRepository(project.Name) { Name = project.Name };
@@ -413,19 +413,21 @@ namespace Jawilliam.CDF.Labs
             //    //    @"E:\Phd\Analysis\Modified.cs");
             //}
 
-            var analyzer = new DeltaAnalyzer() { Report = new StringBuilder(1200)};
+            var analyzer = new DeltaAnalyzer();
             var sc = new SourceCodeCleaner();
-            var syntaxTypes = new HashSet<string>();
+            //var syntaxTypes = new HashSet<string>();
+            bool rowNames = true;
+            var syntaxTypes = new List<string>(System.IO.File.ReadAllLines(@"C:\CDF\Analysis\TypesOfSpuriositySummaryWarnings.csv"));
             foreach (var project in Projects/*.Skip(2)*/)
             {
                 analyzer.Warnings = new StringBuilder();
-                //analyzer.Report = new StringBuilder();
+                analyzer.Report = new StringBuilder();
                 var dbRepository = new GitRepository(project.Name) { Name = project.Name };
                 ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 360;
 
-                analyzer.ReportTypesOfSpuriositySummary(dbRepository, () => { },
-                    ChangeDetectionApproaches.NativeGumTree, null, syntaxTypes);
-
+                analyzer.ReportSpuriositySummariesPerElementTypes(dbRepository, () => { },
+                    ChangeDetectionApproaches.NativeGumTree, null, syntaxTypes, rowNames);
+                rowNames = false;
                 //analyzer.AnalyzingSpuriosity(dbRepository, () => { },
                 //    ChangeDetectionApproaches.NativeGumTree, null, sc,
                 //    @"E:\Phd\Analysis\Original.cs",
@@ -437,7 +439,7 @@ namespace Jawilliam.CDF.Labs
                 //    @"E:\Phd\Analysis\Modified.cs");
                 System.IO.File.AppendAllText(@"C:\CDF\Analysis\TypesOfSpuriositySummaryWarnings.csv", analyzer.Warnings.ToString());
             }
-            System.IO.File.WriteAllText(@"C:\CDF\Analysis\TypesOfSpuriositySummary.csv", analyzer.Report.ToString());
+            //System.IO.File.WriteAllText(@"C:\CDF\Analysis\TypesOfSpuriositySummary.csv", analyzer.Report.ToString());
             #endregion
 
             #region Summarize Symptoms

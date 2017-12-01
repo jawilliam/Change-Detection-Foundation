@@ -979,6 +979,54 @@ namespace Jawilliam.CDF.Labs
         }
 
         /// <summary>
+        /// Computes all the spuriosity summaries existing in the corpus organized by file revision pairs (rows) and element types (columns).
+        /// </summary>
+        /// <param name="sqlRepository">the SQL database repository in which to analyze the file versions.</param>
+        /// <param name="cancel">Action to execute cancellation logic.</param>
+        /// <param name="approach"></param>
+        /// <param name="skipThese">local criterion for determining elements that should be ignored.</param>
+        /// <param name="syntaxTypes"></param>
+        public virtual void ReportSpuriositySummariesPerElementTypes(GitRepository sqlRepository, Action cancel, ChangeDetectionApproaches approach, Func<FileRevisionPair, bool> skipThese, IList<string> syntaxTypes, bool namesRow)
+        {
+            this.Analyze(sqlRepository, "spuriosity summary in the corpus per element types",
+              f => f.Principal.Deltas.Any(d => d.Approach == approach &&
+                                               d.Matching != null &&
+                                               d.Differencing != null &&
+                                               d.Report == null && d.Symptoms.OfType<SpuriositySymptom>().Any()),
+                delegate (FileRevisionPair pair, CancellationToken token)
+                {
+                    if (skipThese?.Invoke(pair) ?? false) return;
+
+                    var delta = sqlRepository.Deltas.Single(d => d.RevisionPair.Id == pair.Principal.Id && d.Approach == approach);
+                    sqlRepository.Symptoms.OfType<SpuriositySymptom>().Where(s => s.Delta.Id == delta.Id).Load();
+                    var spuriosity = delta.Symptoms.OfType<SpuriositySymptom>().First();
+                    var transformationsInfo = XTransformationsSummary.Read(spuriosity.TransformationSummary, Encoding.Unicode);
+
+                    StringBuilder line = null;
+                    if (namesRow)
+                    {
+                        line = new StringBuilder(syntaxTypes.Count * 2 + 2);
+                        line.Append($"Project;Frp");
+                        foreach (var syntaxType in syntaxTypes)
+                        {
+                            line.Append($";Tt-{syntaxType};Sp-{syntaxType}");
+                        }
+                        this.Report.AppendLine(line.ToString());
+                    }
+
+                    line = new StringBuilder(syntaxTypes.Count * 2 + 2);
+                    line.Append($"{sqlRepository.Name};{pair.Id}");
+                    foreach (var syntaxType in syntaxTypes)
+                    {
+                        var summary = transformationsInfo.Transformations.SingleOrDefault(t => t.Type == syntaxType);
+                        line.Append($";{summary?.Total ?? 0};{summary?.Spuriosity ?? 0}");
+                    }
+                    this.Report.AppendLine(line.ToString());
+                },
+            cancel, false, new string[] { "Principal" });
+        }
+
+        /// <summary>
         /// Analyzes the similarity in according with a given similarity metric, such as Levenshtein.
         /// </summary>
         /// <param name="sqlRepository">the SQL database repository in which to analyze the file versions.</param>
