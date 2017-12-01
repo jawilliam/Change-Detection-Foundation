@@ -417,7 +417,7 @@ namespace Jawilliam.CDF.Labs
             var sc = new SourceCodeCleaner();
             //var syntaxTypes = new HashSet<string>();
             bool rowNames = true;
-            var syntaxTypes = new List<string>(System.IO.File.ReadAllLines(@"C:\CDF\Analysis\TypesOfSpuriositySummaryWarnings.csv"));
+            var syntaxTypes = new List<string>(System.IO.File.ReadAllLines(@"C:\CDF\Analysis\TypesOfSpuriositySummary.csv"));
             foreach (var project in Projects/*.Skip(2)*/)
             {
                 analyzer.Warnings = new StringBuilder();
@@ -437,7 +437,8 @@ namespace Jawilliam.CDF.Labs
                 //    ChangeDetectionApproaches.NativeGumTree, null,
                 //    @"E:\Phd\Analysis\Original.cs",
                 //    @"E:\Phd\Analysis\Modified.cs");
-                System.IO.File.AppendAllText(@"C:\CDF\Analysis\TypesOfSpuriositySummaryWarnings.csv", analyzer.Warnings.ToString());
+                System.IO.File.AppendAllText(@"C:\CDF\Analysis\SpuriosityPerElementTypesWarnings.csv", analyzer.Warnings.ToString());
+                System.IO.File.AppendAllText(@"C:\CDF\Analysis\SpuriosityPerElementTypes.csv", analyzer.Report.ToString());
             }
             //System.IO.File.WriteAllText(@"C:\CDF\Analysis\TypesOfSpuriositySummary.csv", analyzer.Report.ToString());
             #endregion
