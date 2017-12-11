@@ -373,23 +373,26 @@ namespace Jawilliam.CDF.Labs
             //                //RemoveComments = true
             //            } */);
 
-            //var analyzer = new DeltaAnalyzer();
-            //foreach (var project in Projects.Where(p => p.Name == "Roslyn")/*.Skip(2)*/)
-            //{
-            //    analyzer.Warnings = new StringBuilder();
-            //    var dbRepository = new GitRepository(project.Name) { Name = project.Name };
-            //    ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 360;
+            var analyzer = new DeltaAnalyzer();
+            foreach (var project in Projects/*.Where(p => p.Name == "Orchard")/*.Skip(2)*/)
+            {
+                analyzer.Warnings = new StringBuilder();
+                var dbRepository = new GitRepository(project.Name) { Name = project.Name };
+                ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 360;
 
-            //    analyzer.RateMissedNameSymptoms(dbRepository,
-            //        ChangeDetectionApproaches.NativeGumTree, null,
-            //        @"E:\Phd\Analysis\Original.cs",
-            //        @"E:\Phd\Analysis\Modified.cs");
+                //analyzer.RateMissedNameSymptoms(dbRepository,
+                //    ChangeDetectionApproaches.NativeGumTree, null,
+                //    @"E:\Phd\Analysis\Original.cs",
+                //    @"E:\Phd\Analysis\Modified.cs");
 
-            //    //analyzer.RateIncompatibleMatchingSymptoms(dbRepository,
-            //    //    ChangeDetectionApproaches.NativeGumTree, null,
-            //    //    @"E:\Phd\Analysis\Original.cs",
-            //    //    @"E:\Phd\Analysis\Modified.cs");
-            //}
+                analyzer.FindSpuriousElements(dbRepository, () => { },
+                        ChangeDetectionApproaches.NativeGumTree, null);
+
+                //analyzer.RateIncompatibleMatchingSymptoms(dbRepository,
+                //    ChangeDetectionApproaches.NativeGumTree, null,
+                //    @"E:\Phd\Analysis\Original.cs",
+                //    @"E:\Phd\Analysis\Modified.cs");
+            }
 
             //var analyzer = new DeltaAnalyzer();
             //var sc = new SourceCodeCleaner();
@@ -413,32 +416,32 @@ namespace Jawilliam.CDF.Labs
             //    //    @"E:\Phd\Analysis\Modified.cs");
             //}
 
-            var analyzer = new DeltaAnalyzer();
-            var sc = new SourceCodeCleaner();
-            //var syntaxTypes = new HashSet<string>();
-            bool rowNames = true;
-            var syntaxTypes = new List<string>(System.IO.File.ReadAllLines(@"C:\CDF\Analysis\TypesOfSpuriositySummaryWarnings.csv"));
-            foreach (var project in Projects/*.Skip(2)*/)
-            {
-                analyzer.Warnings = new StringBuilder();
-                analyzer.Report = new StringBuilder();
-                var dbRepository = new GitRepository(project.Name) { Name = project.Name };
-                ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 360;
+            //var analyzer = new DeltaAnalyzer();
+            //var sc = new SourceCodeCleaner();
+            ////var syntaxTypes = new HashSet<string>();
+            //bool rowNames = true;
+            //var syntaxTypes = new List<string>(System.IO.File.ReadAllLines(@"C:\CDF\Analysis\TypesOfSpuriositySummaryWarnings.csv"));
+            //foreach (var project in Projects/*.Skip(2)*/)
+            //{
+            //    analyzer.Warnings = new StringBuilder();
+            //    analyzer.Report = new StringBuilder();
+            //    var dbRepository = new GitRepository(project.Name) { Name = project.Name };
+            //    ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 360;
 
-                analyzer.ReportSpuriositySummariesPerElementTypes(dbRepository, () => { },
-                    ChangeDetectionApproaches.NativeGumTree, null, syntaxTypes, rowNames);
-                rowNames = false;
-                //analyzer.AnalyzingSpuriosity(dbRepository, () => { },
-                //    ChangeDetectionApproaches.NativeGumTree, null, sc,
-                //    @"E:\Phd\Analysis\Original.cs",
-                //    @"E:\Phd\Analysis\Modified.cs");
+            //    analyzer.ReportSpuriositySummariesPerElementTypes(dbRepository, () => { },
+            //        ChangeDetectionApproaches.NativeGumTree, null, syntaxTypes, rowNames);
+            //    rowNames = false;
+            //    //analyzer.AnalyzingSpuriosity(dbRepository, () => { },
+            //    //    ChangeDetectionApproaches.NativeGumTree, null, sc,
+            //    //    @"E:\Phd\Analysis\Original.cs",
+            //    //    @"E:\Phd\Analysis\Modified.cs");
 
-                //analyzer.RateIncompatibleMatchingSymptoms(dbRepository,
-                //    ChangeDetectionApproaches.NativeGumTree, null,
-                //    @"E:\Phd\Analysis\Original.cs",
-                //    @"E:\Phd\Analysis\Modified.cs");
-                System.IO.File.AppendAllText(@"C:\CDF\Analysis\TypesOfSpuriositySummaryWarnings.csv", analyzer.Warnings.ToString());
-            }
+            //    //analyzer.RateIncompatibleMatchingSymptoms(dbRepository,
+            //    //    ChangeDetectionApproaches.NativeGumTree, null,
+            //    //    @"E:\Phd\Analysis\Original.cs",
+            //    //    @"E:\Phd\Analysis\Modified.cs");
+            //    System.IO.File.AppendAllText(@"C:\CDF\Analysis\TypesOfSpuriositySummaryWarnings.csv", analyzer.Warnings.ToString());
+            //}
             //System.IO.File.WriteAllText(@"C:\CDF\Analysis\TypesOfSpuriositySummary.csv", analyzer.Report.ToString());
             #endregion
 
@@ -485,22 +488,35 @@ namespace Jawilliam.CDF.Labs
             //ReportConfusingRenames(ChangeDetectionApproaches.NativeGumTree);
 
             //var analyzer = new DeltaAnalyzer();
-            ////var namesRow = true;
-            //foreach (var project in Projects.Reverse())
+            //var namesRow = true;
+            //foreach (var project in Projects)
             //{
-            //    analyzer.Warnings = new StringBuilder();
+            //    //analyzer.Warnings = new StringBuilder();
             //    analyzer.Report = new StringBuilder();
             //    var dbRepository = new GitRepository(project.Name) { Name = project.Name };
-            //    ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 360;
+            //    ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 3600;
 
-            //    analyzer.SaveGhostConsequencesOfMisrepresentedComments(dbRepository, null,
-            //        ChangeDetectionApproaches.NativeGumTreeWithoutComments,
-            //        ChangeDetectionApproaches.NativeGumTree, null);
-            //    //namesRow = false;
-            //    //Console.Out.WriteLine($"{project.Name}");
-            //    System.IO.File.AppendAllText(@"E:\Phd\Analysis\UniquePairs\ReportGhost.csv", analyzer.Report.ToString());
-            //    System.IO.File.AppendAllText(@"E:\Phd\Analysis\UniquePairs\WarningsGhost.csv", analyzer.Warnings.ToString());
+            //    analyzer.SummarizeSymptoms(dbRepository, ChangeDetectionApproaches.NativeGumTree, namesRow);
+            //    namesRow = false;
+            //    Console.Out.WriteLine($"{project.Name}");
+            //    System.IO.File.AppendAllText(@"E:\Phd\Analysis\UniquePairs\SymptomsSummaryEnumValueNotNullAndArgNot2.csv", analyzer.Report.ToString());
+            //    //System.IO.File.AppendAllText(@"E:\Phd\Analysis\UniquePairs\WarningsGhost.csv", analyzer.Warnings.ToString());
             //}
+            //var syntaxTypes = new List<string>(System.IO.File.ReadAllLines(@"E:\Phd\Analysis\UniquePairs\TypesOfSpuriositySummary.csv"));
+            //var medianTails = new List<string>(System.IO.File.ReadAllLines(@"E:\Phd\Analysis\UniquePairs\MedianTailThs.csv"));
+            //analyzer.Report = new StringBuilder();
+            //var projects = Projects.Where(p => p.Name != "HadoopSdk").Select(project =>
+            //{
+            //    var dbRepository = new GitRepository(project.Name) { Name = project.Name };
+            //    ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 3600;
+            //    return dbRepository;
+            //});
+            //analyzer.CalculateRelativeThresholds(projects, syntaxTypes, medianTails.Select(s =>
+            //{
+            //    var v = s.Split(new[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
+            //    return new KeyValuePair<string, double>(v[0], double.Parse(v[1], CultureInfo.InvariantCulture));
+            //}));
+            //System.IO.File.WriteAllText(@"E:\Phd\Analysis\UniquePairs\RelativeThresholds.csv", analyzer.Report.ToString());
 
             Console.Out.WriteLine($"DONE");
             //int i = 0; // the warning reports!!!

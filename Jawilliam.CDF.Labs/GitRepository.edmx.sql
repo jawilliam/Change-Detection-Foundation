@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 10/08/2017 18:35:55
--- Generated from EDMX file: C:\CDF\CdfRepository\Jawilliam.CDF.Labs\GitRepository.edmx
+-- Date Created: 12/11/2017 16:18:44
+-- Generated from EDMX file: E:\MyRepositories\Change-Detection-Foundation\Jawilliam.CDF.Labs\GitRepository.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -113,6 +113,12 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_IncompatibleMatchingSymptom_inherits_Symptom]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Symptoms_IncompatibleMatchingSymptom] DROP CONSTRAINT [FK_IncompatibleMatchingSymptom_inherits_Symptom];
 GO
+IF OBJECT_ID(N'[dbo].[FK_SpuriositySymptom_inherits_Symptom]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Symptoms_SpuriositySymptom] DROP CONSTRAINT [FK_SpuriositySymptom_inherits_Symptom];
+GO
+IF OBJECT_ID(N'[dbo].[FK_GhostSymptom_inherits_Symptom]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Symptoms_GhostSymptom] DROP CONSTRAINT [FK_GhostSymptom_inherits_Symptom];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -181,6 +187,12 @@ GO
 IF OBJECT_ID(N'[dbo].[Symptoms_IncompatibleMatchingSymptom]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Symptoms_IncompatibleMatchingSymptom];
 GO
+IF OBJECT_ID(N'[dbo].[Symptoms_SpuriositySymptom]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Symptoms_SpuriositySymptom];
+GO
+IF OBJECT_ID(N'[dbo].[Symptoms_GhostSymptom]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Symptoms_GhostSymptom];
+GO
 IF OBJECT_ID(N'[dbo].[Branch_Contains_Commits]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Branch_Contains_Commits];
 GO
@@ -235,7 +247,11 @@ CREATE TABLE [dbo].[Deltas] (
     [Approach] int  NOT NULL,
     [OriginalTree] nvarchar(max)  NULL,
     [ModifiedTree] nvarchar(max)  NULL,
-    [Subcorpus] int  NULL,
+    [GlobalSubcorpus] int  NULL,
+    [GlobalInsertPorcentageSubcorpus] int  NULL,
+    [GlobalDeletePorcentageSubcorpus] int  NULL,
+    [GlobalUpdatePorcentageSubcorpus] int  NULL,
+    [GlobalMovePorcentageSubcorpus] int  NULL,
     [RevisionPair_Id] uniqueidentifier  NULL
 );
 GO
@@ -270,6 +286,7 @@ CREATE TABLE [dbo].[Reviews] (
     [ArbitraryMatch] bit  NULL,
     [RedundantChanges] bit  NULL,
     [GhostChanges] bit  NULL,
+    [SpuriousChanges] bit  NULL,
     [RevisionPair_Id] uniqueidentifier  NOT NULL
 );
 GO
@@ -454,13 +471,29 @@ GO
 
 -- Creating table 'Symptoms_SpuriositySymptom'
 CREATE TABLE [dbo].[Symptoms_SpuriositySymptom] (
-    [TransformationsInfo] xml  NULL,
+    [TransformationsInfo] nvarchar(max)  NULL,
+    [TransformationSummary] nvarchar(max)  NULL,
     [Id] uniqueidentifier  NOT NULL
 );
 GO
 
 -- Creating table 'Symptoms_GhostSymptom'
 CREATE TABLE [dbo].[Symptoms_GhostSymptom] (
+    [Pattern] nvarchar(max)  NOT NULL,
+    [Original_Element_Type] nvarchar(max)  NOT NULL,
+    [Original_Element_Id] nvarchar(max)  NOT NULL,
+    [Original_Element_Hint] nvarchar(max)  NULL,
+    [Original_ScopeHint] nvarchar(max)  NULL,
+    [Modified_Element_Type] nvarchar(max)  NOT NULL,
+    [Modified_Element_Id] nvarchar(max)  NOT NULL,
+    [Modified_Element_Hint] nvarchar(max)  NULL,
+    [Modified_ScopeHint] nvarchar(max)  NULL,
+    [Id] uniqueidentifier  NOT NULL
+);
+GO
+
+-- Creating table 'Symptoms_SpuriousElementSymptom'
+CREATE TABLE [dbo].[Symptoms_SpuriousElementSymptom] (
     [Pattern] nvarchar(max)  NOT NULL,
     [Original_Element_Type] nvarchar(max)  NOT NULL,
     [Original_Element_Id] nvarchar(max)  NOT NULL,
@@ -639,6 +672,12 @@ GO
 -- Creating primary key on [Id] in table 'Symptoms_GhostSymptom'
 ALTER TABLE [dbo].[Symptoms_GhostSymptom]
 ADD CONSTRAINT [PK_Symptoms_GhostSymptom]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'Symptoms_SpuriousElementSymptom'
+ALTER TABLE [dbo].[Symptoms_SpuriousElementSymptom]
+ADD CONSTRAINT [PK_Symptoms_SpuriousElementSymptom]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -1078,6 +1117,15 @@ GO
 -- Creating foreign key on [Id] in table 'Symptoms_GhostSymptom'
 ALTER TABLE [dbo].[Symptoms_GhostSymptom]
 ADD CONSTRAINT [FK_GhostSymptom_inherits_Symptom]
+    FOREIGN KEY ([Id])
+    REFERENCES [dbo].[Symptoms]
+        ([Id])
+    ON DELETE CASCADE ON UPDATE NO ACTION;
+GO
+
+-- Creating foreign key on [Id] in table 'Symptoms_SpuriousElementSymptom'
+ALTER TABLE [dbo].[Symptoms_SpuriousElementSymptom]
+ADD CONSTRAINT [FK_SpuriousElementSymptom_inherits_Symptom]
     FOREIGN KEY ([Id])
     REFERENCES [dbo].[Symptoms]
         ([Id])

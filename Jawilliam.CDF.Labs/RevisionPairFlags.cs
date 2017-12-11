@@ -15,6 +15,7 @@ namespace Jawilliam.CDF.Labs
     public enum RevisionPairFlags : long
     {
         SourceCodeChanged = 1,
-        OnlyCommentChanged = 2
+        OnlyCommentChanged = 2,
+        EnumAnomalies = 4
     }
 }

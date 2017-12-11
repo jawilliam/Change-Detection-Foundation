@@ -9,8 +9,10 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Xml.Schema;
 using Jawilliam.CDF.Actions;
 using Jawilliam.CDF.Approach;
+using Jawilliam.CDF.Metrics;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -241,31 +243,31 @@ namespace Jawilliam.CDF.Labs
             if (namesRow)
                 this.Report.AppendLine("Project;MN;MN-Class;MN-Interface;MN-Enum;MN-Struct;MN-prop;MN-fld;MN-ev;MN-func;MN-ctor;MN-dtor;MN-farg;MN-aarg;MN-var;MN-others;IM;IM-this;IM-base;IM-btinNonbtinTypes;IM-null;IM-true;IM-false;IM-literals;IM-names;IM-optors");
 
-            var mn = sqlRepository.Symptoms.OfType<MissedElementSymptom>().Count();
+            var mn = sqlRepository.Symptoms.OfType<MissedElementSymptom>().Count(s => sqlRepository.FileRevisionPairs.Any(frp => frp.Principal == s.Delta.RevisionPair && (frp.Flags == null || (frp.Flags & RevisionPairFlags.EnumAnomalies) == 0)));
             //var mnNamespaces = sqlRepository.Symptoms.OfType<MissedElementSymptom>().Count(s => s.Original.Element.Type == "namespace" && s.Modified.Element.Type == "namespace");
-            var mnClasses = sqlRepository.Symptoms.OfType<MissedElementSymptom>().Count(s => s.Original.Element.Type == "class" && s.Modified.Element.Type == "class");
-            var mnInterfaces = sqlRepository.Symptoms.OfType<MissedElementSymptom>().Count(s => s.Original.Element.Type == "interface" && s.Modified.Element.Type == "interface");
-            var mnEnums = sqlRepository.Symptoms.OfType<MissedElementSymptom>().Count(s => s.Original.Element.Type == "enum" && s.Modified.Element.Type == "enum");
-            var mnStructs = sqlRepository.Symptoms.OfType<MissedElementSymptom>().Count(s => s.Original.Element.Type == "struct" && s.Modified.Element.Type == "struct");
-            var mnEnumValues = sqlRepository.Symptoms.OfType<MissedElementSymptom>().Count(s => s.Original.Element.Type == "enumvalue" && s.Modified.Element.Type == "enumvalue");
-            var mnProperties = sqlRepository.Symptoms.OfType<MissedElementSymptom>().Count(s => s.Original.Element.Type == "property" && s.Modified.Element.Type == "property");
-            var mnFields = sqlRepository.Symptoms.OfType<MissedElementSymptom>().Count(s => s.Original.Element.Type == "field" && s.Modified.Element.Type == "field");
-            var mnFunctions = sqlRepository.Symptoms.OfType<MissedElementSymptom>().Count(s => s.Original.Element.Type == "function" && s.Modified.Element.Type == "function");
-            var mnConstructors = sqlRepository.Symptoms.OfType<MissedElementSymptom>().Count(s => s.Original.Element.Type == "constructor" && s.Modified.Element.Type == "constructor");
-            var mnDestructors = sqlRepository.Symptoms.OfType<MissedElementSymptom>().Count(s => s.Original.Element.Type == "destructor" && s.Modified.Element.Type == "destructor");
-            var mnFormalArguments = sqlRepository.Symptoms.OfType<MissedElementSymptom>().Count(s => s.Original.Element.Type == "formal argument" && s.Modified.Element.Type == "formal argument");
-            var mnActualArguments = sqlRepository.Symptoms.OfType<MissedElementSymptom>().Count(s => s.Original.Element.Type == "actual argument" && s.Modified.Element.Type == "actual argument");
-            var mnVariables = sqlRepository.Symptoms.OfType<MissedElementSymptom>().Count(s => s.Original.Element.Type == "variable" && s.Modified.Element.Type == "variable");
-            var mi = sqlRepository.Symptoms.OfType<IncompatibleMatchingSymptom>().Count();
-            var miThis = sqlRepository.Symptoms.OfType<IncompatibleMatchingSymptom>().Count(s => s.Pattern == "this instance expression");
-            var miBase = sqlRepository.Symptoms.OfType<IncompatibleMatchingSymptom>().Count(s => s.Pattern == "base instance expression");
-            var miBltInNonBltInTypes = sqlRepository.Symptoms.OfType<IncompatibleMatchingSymptom>().Count(s => s.Pattern == "builtin type updates to non-builtin type");
-            var miNull = sqlRepository.Symptoms.OfType<IncompatibleMatchingSymptom>().Count(s => s.Pattern == "null literal mismatch");
-            var miTrue = sqlRepository.Symptoms.OfType<IncompatibleMatchingSymptom>().Count(s => s.Pattern == "true literal mismatch");
-            var miFalse = sqlRepository.Symptoms.OfType<IncompatibleMatchingSymptom>().Count(s => s.Pattern == "false literal mismatch");
-            var miLiterals = sqlRepository.Symptoms.OfType<IncompatibleMatchingSymptom>().Count(s => s.Pattern == "literals update");
-            var miRenames = sqlRepository.Symptoms.OfType<IncompatibleMatchingSymptom>().Count(s => s.Pattern == "renames");
-            var miOperators = sqlRepository.Symptoms.OfType<IncompatibleMatchingSymptom>().Count(s => s.Pattern == "different operators");
+            var mnClasses = sqlRepository.Symptoms.OfType<MissedElementSymptom>().Count(s => s.Original.Element.Type == "class" && s.Modified.Element.Type == "class" && sqlRepository.FileRevisionPairs.Any(frp => frp.Principal == s.Delta.RevisionPair && (frp.Flags == null || (frp.Flags & RevisionPairFlags.EnumAnomalies) == 0)));
+            var mnInterfaces = sqlRepository.Symptoms.OfType<MissedElementSymptom>().Count(s => s.Original.Element.Type == "interface" && s.Modified.Element.Type == "interface" && sqlRepository.FileRevisionPairs.Any(frp => frp.Principal == s.Delta.RevisionPair && (frp.Flags == null || (frp.Flags & RevisionPairFlags.EnumAnomalies) == 0)));
+            var mnEnums = sqlRepository.Symptoms.OfType<MissedElementSymptom>().Count(s => s.Original.Element.Type == "enum" && s.Modified.Element.Type == "enum" && sqlRepository.FileRevisionPairs.Any(frp => frp.Principal == s.Delta.RevisionPair && (frp.Flags == null || (frp.Flags & RevisionPairFlags.EnumAnomalies) == 0)));
+            var mnStructs = sqlRepository.Symptoms.OfType<MissedElementSymptom>().Count(s => s.Original.Element.Type == "struct" && s.Modified.Element.Type == "struct" && sqlRepository.FileRevisionPairs.Any(frp => frp.Principal == s.Delta.RevisionPair && (frp.Flags == null || (frp.Flags & RevisionPairFlags.EnumAnomalies) == 0)));
+            var mnEnumValues = sqlRepository.Symptoms.OfType<MissedElementSymptom>().Count(s => s.Original.Element.Type == "enumvalue" && s.Original.Element.Hint != null && s.Modified.Element.Type == "enumvalue" && s.Modified.Element.Hint != null && sqlRepository.FileRevisionPairs.Any(frp => frp.Principal == s.Delta.RevisionPair && (frp.Flags == null || (frp.Flags & RevisionPairFlags.EnumAnomalies) == 0)));
+            var mnProperties = sqlRepository.Symptoms.OfType<MissedElementSymptom>().Count(s => s.Original.Element.Type == "property" && s.Modified.Element.Type == "property" && sqlRepository.FileRevisionPairs.Any(frp => frp.Principal == s.Delta.RevisionPair && (frp.Flags == null || (frp.Flags & RevisionPairFlags.EnumAnomalies) == 0)));
+            var mnFields = sqlRepository.Symptoms.OfType<MissedElementSymptom>().Count(s => s.Original.Element.Type == "field" && s.Modified.Element.Type == "field" && sqlRepository.FileRevisionPairs.Any(frp => frp.Principal == s.Delta.RevisionPair && (frp.Flags == null || (frp.Flags & RevisionPairFlags.EnumAnomalies) == 0)));
+            var mnFunctions = sqlRepository.Symptoms.OfType<MissedElementSymptom>().Count(s => s.Original.Element.Type == "function" && s.Modified.Element.Type == "function" && sqlRepository.FileRevisionPairs.Any(frp => frp.Principal == s.Delta.RevisionPair && (frp.Flags == null || (frp.Flags & RevisionPairFlags.EnumAnomalies) == 0)));
+            var mnConstructors = sqlRepository.Symptoms.OfType<MissedElementSymptom>().Count(s => s.Original.Element.Type == "constructor" && s.Modified.Element.Type == "constructor" && sqlRepository.FileRevisionPairs.Any(frp => frp.Principal == s.Delta.RevisionPair && (frp.Flags == null || (frp.Flags & RevisionPairFlags.EnumAnomalies) == 0)));
+            var mnDestructors = sqlRepository.Symptoms.OfType<MissedElementSymptom>().Count(s => s.Original.Element.Type == "destructor" && s.Modified.Element.Type == "destructor" && sqlRepository.FileRevisionPairs.Any(frp => frp.Principal == s.Delta.RevisionPair && (frp.Flags == null || (frp.Flags & RevisionPairFlags.EnumAnomalies) == 0)));
+            var mnFormalArguments = sqlRepository.Symptoms.OfType<MissedElementSymptom>().Count(s => s.Original.Element.Type == "formal argument" && s.Modified.Element.Type == "formal argument" && s.Modified.Element.Hint.Length > 1 && s.Original.Element.Hint.Length > 1 && sqlRepository.FileRevisionPairs.Any(frp => frp.Principal == s.Delta.RevisionPair && (frp.Flags == null || (frp.Flags & RevisionPairFlags.EnumAnomalies) == 0)));
+            var mnActualArguments = sqlRepository.Symptoms.OfType<MissedElementSymptom>().Count(s => s.Original.Element.Type == "actual argument" && s.Modified.Element.Type == "actual argument" && s.Modified.Element.Hint.Length > 1 && s.Original.Element.Hint.Length > 1 && sqlRepository.FileRevisionPairs.Any(frp => frp.Principal == s.Delta.RevisionPair && (frp.Flags == null || (frp.Flags & RevisionPairFlags.EnumAnomalies) == 0)));
+            var mnVariables = sqlRepository.Symptoms.OfType<MissedElementSymptom>().Count(s => s.Original.Element.Type == "variable" && s.Modified.Element.Type == "variable" && s.Modified.Element.Hint.Length > 1 && s.Original.Element.Hint.Length > 1 && sqlRepository.FileRevisionPairs.Any(frp => frp.Principal == s.Delta.RevisionPair && (frp.Flags == null || (frp.Flags & RevisionPairFlags.EnumAnomalies) == 0)));
+            var mi = sqlRepository.Symptoms.OfType<IncompatibleMatchingSymptom>().Count(s => sqlRepository.FileRevisionPairs.Any(frp => frp.Principal == s.Delta.RevisionPair && (frp.Flags == null || (frp.Flags & RevisionPairFlags.EnumAnomalies) == 0)));
+            var miThis = sqlRepository.Symptoms.OfType<IncompatibleMatchingSymptom>().Count(s => s.Pattern == "this instance expression" && sqlRepository.FileRevisionPairs.Any(frp => frp.Principal == s.Delta.RevisionPair && (frp.Flags == null || (frp.Flags & RevisionPairFlags.EnumAnomalies) == 0)));
+            var miBase = sqlRepository.Symptoms.OfType<IncompatibleMatchingSymptom>().Count(s => s.Pattern == "base instance expression" && sqlRepository.FileRevisionPairs.Any(frp => frp.Principal == s.Delta.RevisionPair && (frp.Flags == null || (frp.Flags & RevisionPairFlags.EnumAnomalies) == 0)));
+            var miBltInNonBltInTypes = sqlRepository.Symptoms.OfType<IncompatibleMatchingSymptom>().Count(s => s.Pattern == "builtin type updates to non-builtin type" && sqlRepository.FileRevisionPairs.Any(frp => frp.Principal == s.Delta.RevisionPair && (frp.Flags == null || (frp.Flags & RevisionPairFlags.EnumAnomalies) == 0)));
+            var miNull = sqlRepository.Symptoms.OfType<IncompatibleMatchingSymptom>().Count(s => s.Pattern == "null literal mismatch" && sqlRepository.FileRevisionPairs.Any(frp => frp.Principal == s.Delta.RevisionPair && (frp.Flags == null || (frp.Flags & RevisionPairFlags.EnumAnomalies) == 0)));
+            var miTrue = sqlRepository.Symptoms.OfType<IncompatibleMatchingSymptom>().Count(s => s.Pattern == "true literal mismatch" && sqlRepository.FileRevisionPairs.Any(frp => frp.Principal == s.Delta.RevisionPair && (frp.Flags == null || (frp.Flags & RevisionPairFlags.EnumAnomalies) == 0)));
+            var miFalse = sqlRepository.Symptoms.OfType<IncompatibleMatchingSymptom>().Count(s => s.Pattern == "false literal mismatch" && sqlRepository.FileRevisionPairs.Any(frp => frp.Principal == s.Delta.RevisionPair && (frp.Flags == null || (frp.Flags & RevisionPairFlags.EnumAnomalies) == 0)));
+            var miLiterals = sqlRepository.Symptoms.OfType<IncompatibleMatchingSymptom>().Count(s => s.Pattern == "literals update" && sqlRepository.FileRevisionPairs.Any(frp => frp.Principal == s.Delta.RevisionPair && (frp.Flags == null || (frp.Flags & RevisionPairFlags.EnumAnomalies) == 0)));
+            var miRenames = sqlRepository.Symptoms.OfType<IncompatibleMatchingSymptom>().Count(s => s.Pattern == "renames" && sqlRepository.FileRevisionPairs.Any(frp => frp.Principal == s.Delta.RevisionPair && (frp.Flags == null || (frp.Flags & RevisionPairFlags.EnumAnomalies) == 0)));
+            var miOperators = sqlRepository.Symptoms.OfType<IncompatibleMatchingSymptom>().Count(s => s.Pattern == "different operators" && sqlRepository.FileRevisionPairs.Any(frp => frp.Principal == s.Delta.RevisionPair && (frp.Flags == null || (frp.Flags & RevisionPairFlags.EnumAnomalies) == 0)));
             this.Report.AppendLine($"{sqlRepository.Name};" +
                                    $"{mn};" +
                                    $"{mnClasses};" +
@@ -930,6 +932,190 @@ namespace Jawilliam.CDF.Labs
         }
 
         /// <summary>
+        /// Finds some spurious element types according to relative thresholds of spuriosity.
+        /// </summary>
+        /// <param name="sqlRepository">the SQL database repository in which to analyze the file versions.</param>
+        /// <param name="cancel">Action to execute cancellation logic.</param>
+        /// <param name="approach"></param>
+        /// <param name="skipThese">local criterion for determining elements that should be ignored.</param>
+        public virtual void FindSpuriousElements(GitRepository sqlRepository, Action cancel, ChangeDetectionApproaches approach, Func<FileRevisionPair, bool> skipThese)
+        {
+            var relativeThresholds = new[]
+            {
+                new KeyValuePair<string, double>("class", 0.75),
+                new KeyValuePair<string, double>("expr_stmt", 0.50),
+                new KeyValuePair<string, double>("call", 0.34),
+                new KeyValuePair<string, double>("block", 0.50),
+                new KeyValuePair<string, double>("namespace", 0.77),
+                new KeyValuePair<string, double>("function", 0.61),
+                new KeyValuePair<string, double>("argument", 0.34),
+                new KeyValuePair<string, double>("argument_list", 0.37),
+                new KeyValuePair<string, double>("decl", 0.46),
+                new KeyValuePair<string, double>("init", 0.50),
+                new KeyValuePair<string, double>("expr", 0.29),
+                new KeyValuePair<string, double>("decl_stmt", 0.50),
+                new KeyValuePair<string, double>("if", 0.52),
+                new KeyValuePair<string, double>("then", 0.50),
+                new KeyValuePair<string, double>("name", 0.09),
+                new KeyValuePair<string, double>("condition", 0.50),
+                new KeyValuePair<string, double>("lambda", 0.56),
+                new KeyValuePair<string, double>("else", 0.55),
+                new KeyValuePair<string, double>("constructor", 0.65),
+                new KeyValuePair<string, double>("try", 0.61),
+                new KeyValuePair<string, double>("return", 0.50),
+                new KeyValuePair<string, double>("type", 0.23),
+                new KeyValuePair<string, double>("foreach", 0.61),
+                new KeyValuePair<string, double>("using_stmt", 0.55),
+            };
+
+            this.Analyze(sqlRepository, "spuriosity summary",
+              f => f.Principal.Deltas.Any(d => d.Approach == approach &&
+                                               d.Matching != null &&
+                                               d.Differencing != null &&
+                                               d.Report == null && d.Symptoms.OfType<SpuriositySymptom>().Any()),
+                delegate (FileRevisionPair pair, CancellationToken token)
+                {
+                    if (skipThese?.Invoke(pair) ?? false) return;
+
+                    var delta = sqlRepository.Deltas.Single(d => d.RevisionPair.Id == pair.Principal.Id && d.Approach == approach);
+                    sqlRepository.Symptoms.OfType<SpuriositySymptom>().Where(s => s.Delta.Id == delta.Id).Load();
+                    var spuriosity = delta.Symptoms.OfType<SpuriositySymptom>().First();
+                    var transformationsInfo = XTransformationsInfo.Read(spuriosity.TransformationsInfo, Encoding.Unicode);
+                    var syntaxTypes = new Dictionary<string, TransformationSummary>(300);
+
+                    //var original = SyntaxFactory.ParseCompilationUnit(pair.Principal.FromFileVersion.Content.SourceCode).SyntaxTree.GetRoot();
+                    //var modified = SyntaxFactory.ParseCompilationUnit(pair.Principal.FileVersion.Content.SourceCode).SyntaxTree.GetRoot();
+
+                    //var preprocessedOriginal = cleaner != null ? cleaner.Clean(original) : original;
+                    //var preprocessedModified = cleaner != null ? cleaner.Clean(modified) : modified;
+                    //System.IO.File.WriteAllText(originalFilePath, preprocessedOriginal.ToFullString(), Encoding.Default);
+                    //System.IO.File.WriteAllText(modifiedFilePath, preprocessedModified.ToFullString(), Encoding.Default);
+
+                    var originalTree = ElementTree.Read(delta.OriginalTree, Encoding.Unicode);
+                    try
+                    {
+                        foreach (var ti in transformationsInfo.Transformations.Where(t => t.Version == "original" && 
+                                                                                          t.Type != null &&
+                                                                                          relativeThresholds.Any(s => s.Key == t.Type)))
+                        {
+                            TransformationSummary summary;
+                            if (syntaxTypes.ContainsKey(ti.Type))
+                                summary = syntaxTypes[ti.Type];
+                            else
+                            {
+                                summary = new TransformationSummary
+                                {
+                                    Type = ti.Type,
+                                    Self = new Transformations(),
+                                    Children = new Transformations(),
+                                    Descendants = new Transformations(),
+                                };
+                                syntaxTypes[ti.Type] = summary;
+                            }
+
+                            summary.Self.Insertions += ti.Self?.Insertions ?? 0;
+                            summary.Self.Deletions += ti.Self?.Deletions ?? 0;
+                            summary.Self.Updates += ti.Self?.Updates ?? 0;
+                            summary.Self.FromMoves += ti.Self?.FromMoves ?? 0;
+                            summary.Self.ToMoves += ti.Self?.ToMoves ?? 0;
+                            summary.Self.Aligns += ti.Self?.Aligns ?? 0;
+
+                            summary.Children.Insertions += ti.Children?.Insertions ?? 0;
+                            summary.Children.Deletions += ti.Children?.Deletions ?? 0;
+                            summary.Children.Updates += ti.Children?.Updates ?? 0;
+                            summary.Children.FromMoves += ti.Children?.FromMoves ?? 0;
+                            summary.Children.ToMoves += ti.Children?.ToMoves ?? 0;
+                            summary.Children.Aligns += ti.Children?.Aligns ?? 0;
+
+                            summary.Descendants.Insertions += ti.Descendants?.Insertions ?? 0;
+                            summary.Descendants.Deletions += ti.Descendants?.Deletions ?? 0;
+                            summary.Descendants.Updates += ti.Descendants?.Updates ?? 0;
+                            summary.Descendants.FromMoves += ti.Descendants?.FromMoves ?? 0;
+                            summary.Descendants.ToMoves += ti.Descendants?.ToMoves ?? 0;
+                            summary.Descendants.Aligns += ti.Descendants?.Aligns ?? 0;
+
+                            summary.Total += 1;
+
+                            int inChanges = 0, outChanges = 0;
+                            inChanges += ti.Children?.Insertions ?? 0;
+                            inChanges += ti.Descendants?.Insertions ?? 0;
+                            inChanges += ti.Children?.ToMoves ?? 0;
+                            inChanges += ti.Descendants?.ToMoves ?? 0;
+                            inChanges += ti.Children?.Updates ?? 0;
+                            inChanges += ti.Descendants?.Updates ?? 0;
+                            outChanges += ti.Children?.Deletions ?? 0;
+                            outChanges += ti.Descendants?.Deletions ?? 0;
+                            outChanges += ti.Children?.FromMoves ?? 0;
+                            outChanges += ti.Descendants?.FromMoves ?? 0;
+
+                            var spuriosityIndex = inChanges == 0 || outChanges == 0
+                                ? 0d
+                                : Math.Min(inChanges, outChanges) * 1d / Math.Max(inChanges, outChanges);
+
+                            var relativeThreshold = relativeThresholds.Single(s => s.Key == ti.Type);
+                            if (spuriosityIndex > relativeThreshold.Value)
+                            {
+                                var originalElement = originalTree.PostOrder(n => n.Children).First(n => n.Root.Id == ti.Id);
+                                delta.Symptoms.Add(new SpuriousElementSymptom
+                                {
+                                    Id = Guid.NewGuid(),
+                                    Pattern = $">{relativeThreshold.Value.ToString(CultureInfo.InvariantCulture)}",
+                                    Original = new ElementContext
+                                    {
+                                        Element = new ElementDescription
+                                        {
+                                            Id = originalElement.Root.Id,
+                                            Type = relativeThreshold.Key,
+                                            Hint = ""
+                                        },
+                                        ScopeHint = this.GetPath(originalElement.Ancestors().Where(ancestor => ancestor.Root.Label == "block"))
+                                    },
+                                    Modified = new ElementContext
+                                    {
+                                        Element = new ElementDescription { Id = "-1", Type = "", Hint = "" },
+                                        ScopeHint = ""
+                                    }
+                                });
+                            }
+                            // Save the column for summary of spuriosity...
+                        }
+
+                        //foreach (var t in syntaxTypes.Values)
+                        //{
+                        //    if (t.Self.Insertions == 0 && t.Self.Deletions == 0 && t.Self.Updates == 0 &&
+                        //       t.Self.FromMoves == 0 && t.Self.ToMoves == 0 && t.Self.Aligns == 0)
+                        //        t.Self = null;
+
+                        //    if (t.Children.Insertions == 0 && t.Children.Deletions == 0 && t.Children.Updates == 0 &&
+                        //       t.Children.FromMoves == 0 && t.Children.ToMoves == 0 && t.Children.Aligns == 0)
+                        //        t.Children = null;
+
+                        //    if (t.Descendants.Insertions == 0 && t.Descendants.Deletions == 0 && t.Descendants.Updates == 0 &&
+                        //       t.Descendants.FromMoves == 0 && t.Descendants.ToMoves == 0 && t.Descendants.Aligns == 0)
+                        //        t.Descendants = null;
+                        //}
+
+                        //var annotations = new XTransformationsSummary()
+                        //{
+                        //    Transformations = syntaxTypes.Values.ToArray()
+                        //};
+                        //spuriosity.TransformationSummary = annotations.WriteXmlColumn();
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        this.Report.AppendLine($"CANCELED;{pair.Id};{sqlRepository.Name}");
+                        throw;
+                    }
+                    catch (OutOfMemoryException)
+                    {
+                        this.Report.AppendLine($"OUTOFMEMORY;{pair.Id};{sqlRepository.Name}");
+                        throw;
+                    }
+                },
+            cancel, false, new string[] { "Principal.FromFileVersion.Content", "Principal.FileVersion.Content" });
+        }
+
+        /// <summary>
         /// Computes all the element types that have been summarized in terms of spuriosity.
         /// </summary>
         /// <param name="sqlRepository">the SQL database repository in which to analyze the file versions.</param>
@@ -1285,19 +1471,21 @@ namespace Jawilliam.CDF.Labs
             SourceCodeCleaner cleaner, string originalFilePath, string modifiedFilePath)
         {
             this.Analyze(sqlRepository, "redundancy analysis",
-              f => f.Principal.Deltas.Any(d => d.Approach == approach &&
+              f => (f.Flags == null || (f.Flags & RevisionPairFlags.EnumAnomalies) == 0) && f.Principal.Deltas.Any(d => d.Approach == approach &&
                                                d.Matching != null &&
                                                d.Differencing != null &&
                                                d.Report == null &&
-                                               d.Symptoms.OfType<MissedNameSymptom>().Any(s => s.Original.Element.Type == "constructor" && s.Modified.Element.Type == "constructor")),
+                                               d.Symptoms.OfType<MissedNameSymptom>().Any(s => s.Original.Element.Type == "actual argument" && s.Modified.Element.Type == "actual argument")),
                 delegate (FileRevisionPair pair, CancellationToken token)
                 {
                     //if (skipThese?.Invoke(pair) ?? false) return;
+                    //if ((pair.Flags & RevisionPairFlags.EnumAnomalies) != 0)
+                    //    return;
 
                     var delta = sqlRepository.Deltas.Single(d => d.RevisionPair.Id == pair.Principal.Id && d.Approach == approach);
                     var symptomIds = sqlRepository.Symptoms.OfType<MissedNameSymptom>()
                         .Where(s => s.Delta.Id == delta.Id)
-                        .Where(s => s.Original.Element.Type == "constructor" && s.Modified.Element.Type == "constructor")
+                        .Where(s => s.Original.Element.Type == "actual argument" && s.Modified.Element.Type == "actual argument")
                         .Select(s => s.Id).ToList();
 
                     //var cleaner = new SourceCodeCleaner();
@@ -1322,7 +1510,9 @@ namespace Jawilliam.CDF.Labs
                         sqlRepository.Symptoms.OfType<MissedNameSymptom>().Where(s => s.Id == symptomId).Load();
                         var symptom = delta.Symptoms.OfType<MissedNameSymptom>().Single(s => s.Id == symptomId);
 
-                        if (symptom.Original.Element.Hint.Length == 1 && symptom.Modified.Element.Hint.Length == 1)
+                        if (symptom.Original.Element.Hint == null || symptom.Modified.Element.Hint == null ||
+                            symptom.Original.Element.Hint.Length == 1 ||
+                            symptom.Modified.Element.Hint.Length == 1)
                             continue;
 
                         var o = pairs.SingleOrDefault(p => p.Oid == symptom.Original.Element.Id);
@@ -1363,13 +1553,39 @@ namespace Jawilliam.CDF.Labs
                         else
                         {
                             string prefix = "", match = " ";
-                            var oElement = original.DescendantNodesAndSelf().OfType<ConstructorDeclarationSyntax>()
+                            var oElement = original.DescendantNodesAndSelf().OfType<MethodCallExpression>().SelectMany(
+                                expression =>
+                                {
+                                    List<SimpleNameSyntax> result = new List<SimpleNameSyntax>();
+                                    foreach (var argument in expression.Arguments.OfType<SyntaxNode>())
+                                    {
+                                        result.AddRange(argument.DescendantNodesAndSelf().OfType<SimpleNameSyntax>());
+                                    }
+
+                                    return result;
+                                })
                                 .Where(e => e.Identifier.ValueText == symptom.Original.Element.Hint)
                                 .ToList();
-                            var mElement = modified.DescendantNodesAndSelf().OfType<ConstructorDeclarationSyntax>()
-                                .Where(e => e.Identifier.ValueText == symptom.Modified.Element.Hint)
+                            var mElement = modified.DescendantNodesAndSelf().OfType<MethodCallExpression>().SelectMany(
+                                expression =>
+                                {
+                                    List<SimpleNameSyntax> result = new List<SimpleNameSyntax>();
+                                    foreach (var argument in expression.Arguments.OfType<SyntaxNode>())
+                                    {
+                                        result.AddRange(argument.DescendantNodesAndSelf().OfType<SimpleNameSyntax>());
+                                    }
+
+                                    return result;
+                                })
+                                .Where(e => e.Identifier.ValueText == symptom.Original.Element.Hint)
                                 .ToList();
                             string oLine = "-1", mLine = "-1";
+                            //if (!oElement.Any() && !mElement.Any())
+                            //{
+                            //    pair.Flags = pair.Flags == null
+                            //        ? RevisionPairFlags.EnumAnomalies
+                            //        : pair.Flags | RevisionPairFlags.EnumAnomalies;
+                            //}
                             if (oElement.Count == 1 && mElement.Count == 1)
                             {
                                 oLine = (oElement.Single().GetLocation().GetLineSpan().StartLinePosition.Line + 1).ToString(CultureInfo.InvariantCulture);
@@ -1378,9 +1594,10 @@ namespace Jawilliam.CDF.Labs
                             else
                             {
                                 var classPattern = new Regex(@"##class:(\d+)\(([^##]*)\)##");
+                                //var enumPattern = new Regex(@"##enum:(\d+)\(([^##]*)\)##");
                                 var methodPattern = new Regex(@"##function:(\d+)\(([^##]*)\)##");
 
-                                var oClassName = classPattern.IsMatch(symptom.Original.ScopeHint) 
+                                var oClassName = classPattern.IsMatch(symptom.Original.ScopeHint)
                                     ? classPattern.Matches(symptom.Original.ScopeHint)[0].Groups[2].Value
                                     : null;
                                 var mClassName = classPattern.IsMatch(symptom.Modified.ScopeHint)
@@ -1395,40 +1612,60 @@ namespace Jawilliam.CDF.Labs
                                     : null;
                                 if (oMethodName != null && mMethodName != null)
                                 {
-                                    //    var oMethods = original.DescendantNodesAndSelf().OfType<MethodDeclarationSyntax>()
-                                    //        .Where(c => c.Identifier.ValueText == oMethodName)
-                                    //        .ToList();
-                                    //    var mMethods = modified.DescendantNodesAndSelf().OfType<MethodDeclarationSyntax>()
-                                    //        .Where(c => c.Identifier.ValueText == mMethodName)
-                                    //        .ToList();
-                                    //    if (oMethods.Count == 1 && mMethods.Count == 1)
-                                    //    {
-                                    //        oElement = oMethods.Single().DescendantNodesAndSelf().OfType<VariableDeclaratorSyntax>()
-                                    //            .Where(e => e.Identifier.ValueText == symptom.Original.Element.Hint)
-                                    //            .ToList();
-                                    //        mElement = mMethods.Single().DescendantNodesAndSelf().OfType<VariableDeclaratorSyntax>()
-                                    //            .Where(e => e.Identifier.ValueText == symptom.Modified.Element.Hint)
-                                    //            .ToList();
-                                    //        if (oElement.Count == 1 && mElement.Count == 1)
-                                    //        {
-                                    //            oLine = (oElement.Single().GetLocation().GetLineSpan().StartLinePosition.Line + 1).ToString(CultureInfo.InvariantCulture);
-                                    //            mLine = (mElement.Single().GetLocation().GetLineSpan().StartLinePosition.Line + 1).ToString(CultureInfo.InvariantCulture);
+                                    var oMethods = original.DescendantNodesAndSelf().OfType<MethodDeclarationSyntax>()
+                                        .Where(c => c.Identifier.ValueText == oMethodName)
+                                        .ToList();
+                                    var mMethods = modified.DescendantNodesAndSelf().OfType<MethodDeclarationSyntax>()
+                                        .Where(c => c.Identifier.ValueText == mMethodName)
+                                        .ToList();
+                                    if (oMethods.Count == 1 && mMethods.Count == 1)
+                                    {
+                                        oElement = oMethods.Single().DescendantNodesAndSelf().OfType<MethodCallExpression>().SelectMany(
+                                expression =>
+                                {
+                                    List<SimpleNameSyntax> result = new List<SimpleNameSyntax>();
+                                    foreach (var argument in expression.Arguments.OfType<SyntaxNode>())
+                                    {
+                                        result.AddRange(argument.DescendantNodesAndSelf().OfType<SimpleNameSyntax>());
+                                    }
 
-                                    //            if (oMethods.Single().Identifier.ValueText != mMethods.Single().Identifier.ValueText)
-                                    //            {
-                                    //                prefix = "Imprecise ";
-                                    //                match = " not ";
-                                    //            }
-                                    //        }
-                                    //    }
-                                    //}
+                                    return result;
+                                })
+                                .Where(e => e.Identifier.ValueText == symptom.Original.Element.Hint)
+                                .ToList();
+                                        mElement = mMethods.Single().DescendantNodesAndSelf().OfType<MethodCallExpression>().SelectMany(
+                                expression =>
+                                {
+                                    List<SimpleNameSyntax> result = new List<SimpleNameSyntax>();
+                                    foreach (var argument in expression.Arguments.OfType<SyntaxNode>())
+                                    {
+                                        result.AddRange(argument.DescendantNodesAndSelf().OfType<SimpleNameSyntax>());
+                                    }
+
+                                    return result;
+                                })
+                                .Where(e => e.Identifier.ValueText == symptom.Original.Element.Hint)
+                                .ToList();
+                                        if (oElement.Count == 1 && mElement.Count == 1)
+                                        {
+                                            oLine = (oElement.Single().GetLocation().GetLineSpan().StartLinePosition.Line + 1).ToString(CultureInfo.InvariantCulture);
+                                            mLine = (mElement.Single().GetLocation().GetLineSpan().StartLinePosition.Line + 1).ToString(CultureInfo.InvariantCulture);
+
+                                            if (oMethods.Single().Identifier.ValueText != mMethods.Single().Identifier.ValueText)
+                                            {
+                                                prefix = "Imprecise ";
+                                                match = " not ";
+                                            }
+                                        }
+                                    }
+                                }
 
 
 
-                                    var oClass = original.DescendantNodesAndSelf().OfType<ConstructorDeclarationSyntax>()
+                                var oClass = original.DescendantNodesAndSelf().OfType<ClassDeclarationSyntax>()
                                         .Where(c => c.Identifier.ValueText == oClassName)
                                         .ToList();
-                                    var mClass = modified.DescendantNodesAndSelf().OfType<ConstructorDeclarationSyntax>()
+                                    var mClass = modified.DescendantNodesAndSelf().OfType<ClassDeclarationSyntax>()
                                         .Where(c => c.Identifier.ValueText == mClassName)
                                         .ToList();
 
@@ -1448,33 +1685,44 @@ namespace Jawilliam.CDF.Labs
                                     //var mClass = modified.DescendantNodesAndSelf().OfType<BaseTypeDeclarationSyntax>()
                                     //    .Where(c => c.Identifier.ValueText == getClassName(symptom.Modified.AncestorOfReference.Hint))
                                     //    .ToList();
-                                    if (oClass.Count == 1 && mClass.Count == 1)
-                                    {
-                                        oElement = oClass.Single().DescendantNodesAndSelf().OfType<ConstructorDeclarationSyntax>()
-                                            .Where(e => e.Identifier.ValueText == oMethodName)
-                                            .ToList();
-                                        mElement = mClass.Single().DescendantNodesAndSelf().OfType<ConstructorDeclarationSyntax>()
-                                            .Where(e => e.Identifier.ValueText == mMethodName)
-                                            .ToList();
-                                        if (oElement.Count == 1 && mElement.Count == 1)
-                                        {
-                                            oLine = (oElement.Single().GetLocation().GetLineSpan().StartLinePosition.Line + 1).ToString(CultureInfo.InvariantCulture);
-                                            mLine = (mElement.Single().GetLocation().GetLineSpan().StartLinePosition.Line + 1).ToString(CultureInfo.InvariantCulture);
-                                        }
+                                //    if (oClass.Count == 1 && mClass.Count == 1)
+                                //    {
+                                //    //oElement = oClass.Single().DescendantNodesAndSelf().OfType<ConstructorDeclarationSyntax>()
+                                //    //    .Where(e => e.Identifier.ValueText == oMethodName)
+                                //    //    .ToList();
+                                //    //mElement = mClass.Single().DescendantNodesAndSelf().OfType<ConstructorDeclarationSyntax>()
+                                //    //    .Where(e => e.Identifier.ValueText == mMethodName)
+                                //    //    .ToList();
+                                //    oElement = oClass.Single().DescendantNodesAndSelf().OfType<EnumMemberDeclarationSyntax>()
+                                //        .Where(e => e.Identifier.ValueText == symptom.Original.Element.Hint)
+                                //        .ToList();
+                                //    mElement = mClass.Single().DescendantNodesAndSelf().OfType<EnumMemberDeclarationSyntax>()
+                                //        .Where(e => e.Identifier.ValueText == symptom.Modified.Element.Hint)
+                                //        .ToList();
+                                //    if (oElement.Count == 1 && mElement.Count == 1)
+                                //        {
+                                //            oLine = (oElement.Single().GetLocation().GetLineSpan().StartLinePosition.Line + 1).ToString(CultureInfo.InvariantCulture);
+                                //            mLine = (mElement.Single().GetLocation().GetLineSpan().StartLinePosition.Line + 1).ToString(CultureInfo.InvariantCulture);
+                                //        }
 
-                                        if (oClass.Single().Identifier.ValueText != mClass.Single().Identifier.ValueText)
-                                        {
-                                            prefix = "Imprecise ";
-                                            match = " not ";
-                                        }
-                                    }
-                                    //else
-                                    //;
-                                }
+                                //        if (oClass.Single().Identifier.ValueText != mClass.Single().Identifier.ValueText)
+                                //        {
+                                //            prefix = "Imprecise ";
+                                //            match = " not ";
+                                //        }
+                                //    }
+                                //    //else
+                                //    //;
+                                //}
                             }
 
                             int oClasses = original.DescendantNodesAndSelf().OfType<BaseTypeDeclarationSyntax>().Count();
                             int mClasses = modified.DescendantNodesAndSelf().OfType<BaseTypeDeclarationSyntax>().Count();
+                            //if(oClasses== 0|| mClasses == 0 && pair.Flags != null)
+                            //{
+                            //    pair.Flags = pair.Flags == RevisionPairFlags.EnumAnomalies ? null : pair.Flags & ~RevisionPairFlags.EnumAnomalies;
+                            //}
+
                             string originalElement = $"({symptom.Original.Element.Id})-{symptom.Original.Element.Type} \"{symptom.Original.Element.Hint}\"";
                         string modifiedElement = $"({symptom.Modified.Element.Id})-{symptom.Modified.Element.Type} \"{symptom.Modified.Element.Hint}\"";
                         var review = new Review
@@ -1702,6 +1950,62 @@ namespace Jawilliam.CDF.Labs
                     }
                 },
             cancel, false, new string[] { "Principal.FromFileVersion.Content", "Principal.FileVersion.Content" });
+        }
+
+        public virtual void CalculateRelativeThresholds(IEnumerable<GitRepository> sqlRepositories, IEnumerable<string> elementTypes, IEnumerable<KeyValuePair<string, double>> medianTails)
+        {
+            var medianTailsTh = medianTails.ToArray();
+            int i = 0;
+            var total = elementTypes.Count();
+            foreach (var elementType in elementTypes)
+            {
+                var corpus = new List<KeyValuePair<string, double[]>>(106);
+                foreach (var sqlRepository in sqlRepositories)
+                {
+                    var path = $"E:/Phd/Analysis/UniquePairs/Median/{sqlRepository.Name}PercentilesForSp-{elementType}.csv";
+                    if (System.IO.File.Exists(path))
+                    {
+                        var lines = System.IO.File.ReadAllLines(path);
+                        corpus.Add(new KeyValuePair<string, double[]>(sqlRepository.Name, 
+                            lines.Skip(2)
+                                .Select(s =>
+                                {
+                                    var values = s.Split(new[] {";"}, StringSplitOptions.RemoveEmptyEntries);
+                                    return double.Parse(values[1], CultureInfo.InvariantCulture);
+                                }).ToArray()));
+                    }
+                    else
+                    {
+                        corpus.Add(new KeyValuePair<string, double[]>(sqlRepository.Name, Enumerable.Repeat(0, 100).Select(v => v * 1d).ToArray()));
+                    }
+                }
+
+                var rt = new RelativeThreshold
+                {
+                    Corpus = corpus,
+                    DoPercentageOfProjectIsLessThanOrEqualToThreshold = delegate (string id, double percent, double threshold)
+                    {
+                        var project = corpus.Single(s => s.Key == id);
+                        var targetPercentile = (int)(project.Value.Count() * percent / 100);
+                        return project.Value[targetPercentile - 1] <= threshold;
+                    },
+                    Tail = id => corpus.Single(s => s.Key == id).Value[90],
+                    MedianTail = 8
+                };
+
+                double winnerPercent;
+                var medianTail = medianTailsTh.Single(t => t.Key == $"\"Sp-{elementType}\"").Value;
+                var winnerThreshold = rt.ComputeThreshold(Enumerable.Range(0, 100).Select(v => v * 1d/100).ToArray(), 
+                    Enumerable.Range(1, 100).Select(v => v * 1d).ToArray(), 
+                    medianTail, 
+                    out winnerPercent);
+                this.Report.AppendLine($"{elementType};" +
+                                       $"{winnerThreshold};" +
+                                       $"{winnerPercent};" +
+                                       $"{winnerPercent}% should have {elementType}'s spuriosity <= {winnerThreshold}");
+                Console.WriteLine($"{elementType} - {++i} of {total}:    {winnerPercent}% should have {elementType}'s spuriosity <= {winnerThreshold}");
+
+            }
         }
     }
 }

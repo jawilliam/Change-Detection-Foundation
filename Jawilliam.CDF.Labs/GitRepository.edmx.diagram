@@ -75,6 +75,8 @@
         <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.SpuriositySymptom" />
         <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.GhostSymptom" Width="2.5" PointX="27.125" PointY="9.375" />
         <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.GhostSymptom" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.SpuriousElementSymptom" Width="2.25" PointX="29.875" PointY="9.375" />
+        <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.SpuriousElementSymptom" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

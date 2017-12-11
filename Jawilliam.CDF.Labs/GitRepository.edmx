@@ -29,6 +29,7 @@
     <EntitySet Name="Symptoms_IncompatibleMatchingSymptom" EntityType="Jawilliam.CDF.Labs.SQL.Store.Symptoms_IncompatibleMatchingSymptom" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Symptoms_SpuriositySymptom" EntityType="Jawilliam.CDF.Labs.SQL.Store.Symptoms_SpuriositySymptom" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Symptoms_GhostSymptom" EntityType="Jawilliam.CDF.Labs.SQL.Store.Symptoms_GhostSymptom" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Symptoms_SpuriousElementSymptom" EntityType="Jawilliam.CDF.Labs.SQL.Store.Symptoms_SpuriousElementSymptom" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Branch_Contains_Commits" EntityType="Jawilliam.CDF.Labs.SQL.Store.Branch_Contains_Commits" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Commits_AreParentsOf_Commits" EntityType="Jawilliam.CDF.Labs.SQL.Store.Commits_AreParentsOf_Commits" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="Contributor_IsAuthorOf_Commits" Association="Jawilliam.CDF.Labs.SQL.Store.Contributor_IsAuthorOf_Commits">
@@ -166,6 +167,10 @@
     <AssociationSet Name="FK_GhostSymptom_inherits_Symptom" Association="Jawilliam.CDF.Labs.SQL.Store.FK_GhostSymptom_inherits_Symptom">
       <End Role="Symptom" EntitySet="Symptoms" />
       <End Role="GhostSymptom" EntitySet="Symptoms_GhostSymptom" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SpuriousElementSymptom_inherits_Symptom" Association="Jawilliam.CDF.Labs.SQL.Store.FK_SpuriousElementSymptom_inherits_Symptom">
+      <End Role="Symptom" EntitySet="Symptoms" />
+      <End Role="SpuriousElementSymptom" EntitySet="Symptoms_SpuriousElementSymptom" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="RepositoryObjects">
@@ -430,6 +435,21 @@
     <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
   </EntityType>
   <EntityType Name="Symptoms_GhostSymptom">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Pattern" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Original_Element_Type" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Original_Element_Id" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Original_Element_Hint" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Original_ScopeHint" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Modified_Element_Type" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Modified_Element_Id" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Modified_Element_Hint" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Modified_ScopeHint" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Symptoms_SpuriousElementSymptom">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
@@ -898,6 +918,20 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_SpuriousElementSymptom_inherits_Symptom">
+    <End Role="Symptom" Type="Jawilliam.CDF.Labs.SQL.Store.Symptoms" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="SpuriousElementSymptom" Type="Jawilliam.CDF.Labs.SQL.Store.Symptoms_SpuriousElementSymptom" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Symptom">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SpuriousElementSymptom">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -1268,6 +1302,7 @@
         <EnumType Name="RevisionPairFlags" UnderlyingType="Int64" IsFlags="true">
           <Member Name="SourceCodeChanged" Value="1" />
           <Member Name="OnlyCommentChanged" Value="2" />
+          <Member Name="EnumAnomalies" Value="4" />
         </EnumType>
         <EntityType Name="Symptom" Abstract="true">
           <Key>
@@ -1336,6 +1371,11 @@
           <Property Name="TransformationSummary" Type="String" Nullable="true" />
         </EntityType>
         <EntityType Name="GhostSymptom" BaseType="Jawilliam.CDF.Labs.SQL.Symptom" >
+          <Property Name="Pattern" Type="String" Nullable="false" />
+          <Property Name="Original" Type="Jawilliam.CDF.Labs.SQL.ElementContext" Nullable="false" />
+          <Property Name="Modified" Type="Jawilliam.CDF.Labs.SQL.ElementContext" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SpuriousElementSymptom" BaseType="Jawilliam.CDF.Labs.SQL.Symptom" >
           <Property Name="Pattern" Type="String" Nullable="false" />
           <Property Name="Original" Type="Jawilliam.CDF.Labs.SQL.ElementContext" Nullable="false" />
           <Property Name="Modified" Type="Jawilliam.CDF.Labs.SQL.ElementContext" Nullable="false" />
@@ -1627,6 +1667,28 @@
       </EntityTypeMapping>
       <EntityTypeMapping TypeName="IsTypeOf(Jawilliam.CDF.Labs.SQL.GhostSymptom)">
         <MappingFragment StoreEntitySet="Symptoms_GhostSymptom">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Pattern" ColumnName="Pattern" />
+          <ComplexProperty Name="Original" TypeName="Jawilliam.CDF.Labs.SQL.ElementContext">
+            <ComplexProperty Name="Element" TypeName="Jawilliam.CDF.Labs.SQL.ElementDescription">
+              <ScalarProperty Name="Type" ColumnName="Original_Element_Type" />
+              <ScalarProperty Name="Id" ColumnName="Original_Element_Id" />
+              <ScalarProperty Name="Hint" ColumnName="Original_Element_Hint" />
+            </ComplexProperty>
+            <ScalarProperty Name="ScopeHint" ColumnName="Original_ScopeHint" />
+          </ComplexProperty>
+          <ComplexProperty Name="Modified" TypeName="Jawilliam.CDF.Labs.SQL.ElementContext">
+            <ComplexProperty Name="Element" TypeName="Jawilliam.CDF.Labs.SQL.ElementDescription">
+              <ScalarProperty Name="Type" ColumnName="Modified_Element_Type" />
+              <ScalarProperty Name="Id" ColumnName="Modified_Element_Id" />
+              <ScalarProperty Name="Hint" ColumnName="Modified_Element_Hint" />
+            </ComplexProperty>
+            <ScalarProperty Name="ScopeHint" ColumnName="Modified_ScopeHint" />
+          </ComplexProperty>
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="IsTypeOf(Jawilliam.CDF.Labs.SQL.SpuriousElementSymptom)">
+        <MappingFragment StoreEntitySet="Symptoms_SpuriousElementSymptom">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Pattern" ColumnName="Pattern" />
           <ComplexProperty Name="Original" TypeName="Jawilliam.CDF.Labs.SQL.ElementContext">
