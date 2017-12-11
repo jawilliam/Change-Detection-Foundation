@@ -315,6 +315,9 @@
     <Compile Include="SpuriositySymptom.cs">
       <DependentUpon>GitRepository.tt</DependentUpon>
     </Compile>
+    <Compile Include="SpuriousElementSymptom.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
     <Compile Include="SubcorpusKind.cs">
       <DependentUpon>GitRepository.tt</DependentUpon>
     </Compile>
