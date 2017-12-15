@@ -374,19 +374,24 @@ namespace Jawilliam.CDF.Labs
             //            } */);
 
             var analyzer = new DeltaAnalyzer();
-            foreach (var project in Projects/*.Where(p => p.Name == "Orchard")/*.Skip(2)*/)
+            foreach (var project in Projects.Where(p => p.Name == "mono")/*.Skip(2)*/)
             {
                 analyzer.Warnings = new StringBuilder();
                 var dbRepository = new GitRepository(project.Name) { Name = project.Name };
                 ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 360;
+                
+                analyzer.RateIncompatibleMatchingSymptoms(dbRepository,
+                    ChangeDetectionApproaches.NativeGumTree, null,
+                    @"E:\Phd\Analysis\Original.cs",
+                    @"E:\Phd\Analysis\Modified.cs");
 
                 //analyzer.RateMissedNameSymptoms(dbRepository,
                 //    ChangeDetectionApproaches.NativeGumTree, null,
                 //    @"E:\Phd\Analysis\Original.cs",
                 //    @"E:\Phd\Analysis\Modified.cs");
 
-                analyzer.FindSpuriousElements(dbRepository, () => { },
-                        ChangeDetectionApproaches.NativeGumTree, null);
+                //analyzer.FindSpuriousElements(dbRepository, () => { },
+                //        ChangeDetectionApproaches.NativeGumTree, null);
 
                 //analyzer.RateIncompatibleMatchingSymptoms(dbRepository,
                 //    ChangeDetectionApproaches.NativeGumTree, null,
@@ -443,32 +448,32 @@ namespace Jawilliam.CDF.Labs
             //    System.IO.File.AppendAllText(@"C:\CDF\Analysis\TypesOfSpuriositySummaryWarnings.csv", analyzer.Warnings.ToString());
             //}
 
-            var analyzer = new DeltaAnalyzer();
-            var sc = new SourceCodeCleaner();
-            //var syntaxTypes = new HashSet<string>();
-            bool rowNames = true;
-            var syntaxTypes = new List<string>(System.IO.File.ReadAllLines(@"C:\CDF\Analysis\TypesOfSpuriositySummaryWarnings.csv"));
-            foreach (var project in Projects/*.Skip(2)*/)
-            {
-                analyzer.Warnings = new StringBuilder();
-                analyzer.Report = new StringBuilder();
-                var dbRepository = new GitRepository(project.Name) { Name = project.Name };
-                ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 360;
+            //var analyzer = new DeltaAnalyzer();
+            //var sc = new SourceCodeCleaner();
+            ////var syntaxTypes = new HashSet<string>();
+            //bool rowNames = true;
+            //var syntaxTypes = new List<string>(System.IO.File.ReadAllLines(@"C:\CDF\Analysis\TypesOfSpuriositySummaryWarnings.csv"));
+            //foreach (var project in Projects/*.Skip(2)*/)
+            //{
+            //    analyzer.Warnings = new StringBuilder();
+            //    analyzer.Report = new StringBuilder();
+            //    var dbRepository = new GitRepository(project.Name) { Name = project.Name };
+            //    ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 360;
 
-                analyzer.ReportSpuriositySummariesPerElementTypes(dbRepository, () => { },
-                    ChangeDetectionApproaches.NativeGumTree, null, syntaxTypes, rowNames);
-                rowNames = false;
-                //analyzer.AnalyzingSpuriosity(dbRepository, () => { },
-                //    ChangeDetectionApproaches.NativeGumTree, null, sc,
-                //    @"E:\Phd\Analysis\Original.cs",
-                //    @"E:\Phd\Analysis\Modified.cs");
+            //    analyzer.ReportSpuriositySummariesPerElementTypes(dbRepository, () => { },
+            //        ChangeDetectionApproaches.NativeGumTree, null, syntaxTypes, rowNames);
+            //    rowNames = false;
+            //    //analyzer.AnalyzingSpuriosity(dbRepository, () => { },
+            //    //    ChangeDetectionApproaches.NativeGumTree, null, sc,
+            //    //    @"E:\Phd\Analysis\Original.cs",
+            //    //    @"E:\Phd\Analysis\Modified.cs");
 
-                //analyzer.RateIncompatibleMatchingSymptoms(dbRepository,
-                //    ChangeDetectionApproaches.NativeGumTree, null,
-                //    @"E:\Phd\Analysis\Original.cs",
-                //    @"E:\Phd\Analysis\Modified.cs");
-                System.IO.File.AppendAllText(@"C:\CDF\Analysis\TypesOfSpuriositySummaryWarnings.csv", analyzer.Warnings.ToString());
-            }
+            //    //analyzer.RateIncompatibleMatchingSymptoms(dbRepository,
+            //    //    ChangeDetectionApproaches.NativeGumTree, null,
+            //    //    @"E:\Phd\Analysis\Original.cs",
+            //    //    @"E:\Phd\Analysis\Modified.cs");
+            //    System.IO.File.AppendAllText(@"C:\CDF\Analysis\TypesOfSpuriositySummaryWarnings.csv", analyzer.Warnings.ToString());
+            //}
             //System.IO.File.WriteAllText(@"C:\CDF\Analysis\TypesOfSpuriositySummary.csv", analyzer.Report.ToString());
             #endregion
 

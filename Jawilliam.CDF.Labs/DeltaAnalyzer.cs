@@ -1755,14 +1755,18 @@ namespace Jawilliam.CDF.Labs
                                                d.Matching != null &&
                                                d.Differencing != null &&
                                                d.Report == null &&
-                                               d.Symptoms.OfType<IncompatibleMatchingSymptom>().Any()),
+                                                /*d.Symptoms.OfType<IncompatibleMatchingSymptom>().Any(s => s.Pattern == "this instance expression")*/
+                                                /*d.Symptoms.OfType<IncompatibleMatchingSymptom>().Any(s => s.Pattern == "base instance expression")*/
+                                                d.Symptoms.OfType<IncompatibleMatchingSymptom>().Any(s => s.Pattern == "null literal mismatch")),
                 delegate (FileRevisionPair pair, CancellationToken token)
                 {
                     //if (skipThese?.Invoke(pair) ?? false) return;
 
                     var delta = sqlRepository.Deltas.Single(d => d.RevisionPair.Id == pair.Principal.Id && d.Approach == approach);
                     var symptomIds = sqlRepository.Symptoms.OfType<IncompatibleMatchingSymptom>()
-                        .Where(s => s.Delta.Id == delta.Id)
+                        //.Where(s => s.Delta.Id == delta.Id && s.Pattern == "this instance expression")
+                        //.Where(s => s.Delta.Id == delta.Id && s.Pattern == "base instance expression")
+                        .Where(s => s.Delta.Id == delta.Id && s.Pattern == "null literal mismatch")
                         .Select(s => s.Id).ToList();
 
                     //var cleaner = new SourceCodeCleaner();
@@ -1800,49 +1804,7 @@ namespace Jawilliam.CDF.Labs
                         switch (symptom.Pattern)
                         {
                             case "this instance expression":
-                                //if (symptom.Original.Element.Hint != "this")
-                                //{
-                                //    review.Subject =
-                                //        $"Spurious update - {symptom.Original.Element.Type} \"{symptom.Original.Element.Hint}\"" +
-                                //        $"-(ol:{-1}, oid:{symptom.Original.Element.Id})" +
-                                //        $" should not match to an instance expression \"{symptom.Modified.Element.Hint}\"" +
-                                //        $"-(ml:{-1}, mid:{symptom.Modified.Element.Id})";
-                                //}
-                                //else
-                                //{
-                                //    review.Subject =
-                                //        $"Spurious update - an instance expression \"{symptom.Original.Element.Hint}\"" +
-                                //        $"-(ol:{-1}, oid:{symptom.Original.Element.Id})" +
-                                //        $" should not match to {symptom.Modified.Element.Type} \"{symptom.Modified.Element.Hint}\"" +
-                                //        $"-(ml:{-1}, mid:{symptom.Modified.Element.Id})";
-                                //}
-                                review.ArbitraryMatch = true;
-                                review.UnnaturalMatch = true;
-                                break;
                             case "base instance expression":
-                                //review.Subject = $"Spurious update - {symptom.Original.Element.Type} " +
-                                //                 $"\"{symptom.Original.Element.Hint}\"-(ol:{-1}, " +
-                                //                 $"oid:{symptom.Original.Element.Id})" +
-                                //$" should not match to {symptom.Modified.Element.Type} " +
-                                //                 $"\"{symptom.Modified.Element.Hint}\"-(ml:{-1}, " +
-                                //                 $"mid:{symptom.Modified.Element.Id})";
-
-                                //if (symptom.Original.Element.Hint != "base")
-                                //{
-                                //    review.Subject =
-                                //        $"Spurious update - {symptom.Original.Element.Type} \"{symptom.Original.Element.Hint}\"" +
-                                //        $"-(ol:{-1}, oid:{symptom.Original.Element.Id})" +
-                                //        $" should not match to an instance expression \"{symptom.Modified.Element.Hint}\"" +
-                                //        $"-(ml:{-1}, mid:{symptom.Modified.Element.Id})";
-                                //}
-                                //else
-                                //{
-                                //    review.Subject =
-                                //        $"Spurious update - an instance expression \"{symptom.Original.Element.Hint}\"" +
-                                //        $"-(ol:{-1}, oid:{symptom.Original.Element.Id})" +
-                                //        $" should not match to {symptom.Modified.Element.Type} \"{symptom.Modified.Element.Hint}\"" +
-                                //        $"-(ml:{-1}, mid:{symptom.Modified.Element.Id})";
-                                //}
                                 review.ArbitraryMatch = true;
                                 review.UnnaturalMatch = true;
                                 break;
@@ -1867,6 +1829,8 @@ namespace Jawilliam.CDF.Labs
                                 ;
                                 throw new NotImplementedException();
                         }
+                        int oClasses = original.DescendantNodesAndSelf().OfType<BaseTypeDeclarationSyntax>().Count();
+                        int mClasses = modified.DescendantNodesAndSelf().OfType<BaseTypeDeclarationSyntax>().Count();
                         pair.Reviews.Add(review);
                     }
                 },
