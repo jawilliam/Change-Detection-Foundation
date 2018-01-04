@@ -1757,7 +1757,13 @@ namespace Jawilliam.CDF.Labs
                                                d.Report == null &&
                                                 /*d.Symptoms.OfType<IncompatibleMatchingSymptom>().Any(s => s.Pattern == "this instance expression")*/
                                                 /*d.Symptoms.OfType<IncompatibleMatchingSymptom>().Any(s => s.Pattern == "base instance expression")*/
-                                                d.Symptoms.OfType<IncompatibleMatchingSymptom>().Any(s => s.Pattern == "null literal mismatch")),
+                                                /*d.Symptoms.OfType<IncompatibleMatchingSymptom>().Any(s => s.Pattern == "null literal mismatch")*/
+                                                /*d.Symptoms.OfType<IncompatibleMatchingSymptom>().Any(s => s.Pattern == "builtin type updates to non-builtin type")*/
+                                                /*d.Symptoms.OfType<IncompatibleMatchingSymptom>().Any(s => s.Pattern == "literals update")*/
+                                                /*d.Symptoms.OfType<IncompatibleMatchingSymptom>().Any(s => s.Pattern == "renames")*/
+                                                /*d.Symptoms.OfType<IncompatibleMatchingSymptom>().Any(s => s.Pattern == "different operators")*/
+                                                /*d.Symptoms.OfType<IncompatibleMatchingSymptom>().Any(s => s.Pattern == "true literal mismatch")*/
+                                                d.Symptoms.OfType<IncompatibleMatchingSymptom>().Any(s => s.Pattern == "false literal mismatch")),
                 delegate (FileRevisionPair pair, CancellationToken token)
                 {
                     //if (skipThese?.Invoke(pair) ?? false) return;
@@ -1766,7 +1772,13 @@ namespace Jawilliam.CDF.Labs
                     var symptomIds = sqlRepository.Symptoms.OfType<IncompatibleMatchingSymptom>()
                         //.Where(s => s.Delta.Id == delta.Id && s.Pattern == "this instance expression")
                         //.Where(s => s.Delta.Id == delta.Id && s.Pattern == "base instance expression")
-                        .Where(s => s.Delta.Id == delta.Id && s.Pattern == "null literal mismatch")
+                        //.Where(s => s.Delta.Id == delta.Id && s.Pattern == "null literal mismatch")
+                        //.Where(s => s.Delta.Id == delta.Id && s.Pattern == "builtin type updates to non-builtin type")
+                        //.Where(s => s.Delta.Id == delta.Id && s.Pattern == "literals update")
+                        //.Where(s => s.Delta.Id == delta.Id && s.Pattern == "renames")
+                        //.Where(s => s.Delta.Id == delta.Id && s.Pattern == "different operators")
+                        //.Where(s => s.Delta.Id == delta.Id && s.Pattern == "true literal mismatch")
+                        .Where(s => s.Delta.Id == delta.Id && s.Pattern == "false literal mismatch")
                         .Select(s => s.Id).ToList();
 
                     //var cleaner = new SourceCodeCleaner();
@@ -1790,7 +1802,7 @@ namespace Jawilliam.CDF.Labs
                             Kind = ReviewKind.Spuriosity_IncompatibleMatches,
                             CaseKind = CaseKind.Symptom,
                             Severity = ReviewSeverity.Bad,
-                            Subject = $"Spurious update - {symptom.Original.Element.Type} " +
+                            Subject = $"Spurious update ({symptom.Pattern}) - {symptom.Original.Element.Type} " +
                                                  $"\"{symptom.Original.Element.Hint}\"-(ol:{-1}, " +
                                                  $"oid:{symptom.Original.Element.Id})" +
                                       $" should not match to {symptom.Modified.Element.Type} " +
