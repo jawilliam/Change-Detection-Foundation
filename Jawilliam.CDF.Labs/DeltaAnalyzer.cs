@@ -24,6 +24,34 @@ namespace Jawilliam.CDF.Labs
     /// </summary>
     public class DeltaAnalyzer : FileRevisionPairAnalyzer
     {
+        private KeyValuePair<string, double>[] _relativeThresholds = new[]
+            {
+                new KeyValuePair<string, double>("class", 0.75),
+                new KeyValuePair<string, double>("expr_stmt", 0.50),
+                new KeyValuePair<string, double>("call", 0.34),
+                new KeyValuePair<string, double>("block", 0.50),
+                new KeyValuePair<string, double>("namespace", 0.77),
+                new KeyValuePair<string, double>("function", 0.61),
+                new KeyValuePair<string, double>("argument", 0.34),
+                new KeyValuePair<string, double>("argument_list", 0.37),
+                new KeyValuePair<string, double>("decl", 0.46),
+                new KeyValuePair<string, double>("init", 0.50),
+                new KeyValuePair<string, double>("expr", 0.29),
+                new KeyValuePair<string, double>("decl_stmt", 0.50),
+                new KeyValuePair<string, double>("if", 0.52),
+                new KeyValuePair<string, double>("then", 0.50),
+                new KeyValuePair<string, double>("name", 0.09),
+                new KeyValuePair<string, double>("condition", 0.50),
+                new KeyValuePair<string, double>("lambda", 0.56),
+                new KeyValuePair<string, double>("else", 0.55),
+                new KeyValuePair<string, double>("constructor", 0.65),
+                new KeyValuePair<string, double>("try", 0.61),
+                new KeyValuePair<string, double>("return", 0.50),
+                new KeyValuePair<string, double>("type", 0.23),
+                new KeyValuePair<string, double>("foreach", 0.61),
+                new KeyValuePair<string, double>("using_stmt", 0.55)
+            };
+
         /// <summary>
         /// Analyzes the similarity in according with a given similarity metric, such as Levenshtein.
         /// </summary>
@@ -940,34 +968,6 @@ namespace Jawilliam.CDF.Labs
         /// <param name="skipThese">local criterion for determining elements that should be ignored.</param>
         public virtual void FindSpuriousElements(GitRepository sqlRepository, Action cancel, ChangeDetectionApproaches approach, Func<FileRevisionPair, bool> skipThese)
         {
-            var relativeThresholds = new[]
-            {
-                new KeyValuePair<string, double>("class", 0.75),
-                new KeyValuePair<string, double>("expr_stmt", 0.50),
-                new KeyValuePair<string, double>("call", 0.34),
-                new KeyValuePair<string, double>("block", 0.50),
-                new KeyValuePair<string, double>("namespace", 0.77),
-                new KeyValuePair<string, double>("function", 0.61),
-                new KeyValuePair<string, double>("argument", 0.34),
-                new KeyValuePair<string, double>("argument_list", 0.37),
-                new KeyValuePair<string, double>("decl", 0.46),
-                new KeyValuePair<string, double>("init", 0.50),
-                new KeyValuePair<string, double>("expr", 0.29),
-                new KeyValuePair<string, double>("decl_stmt", 0.50),
-                new KeyValuePair<string, double>("if", 0.52),
-                new KeyValuePair<string, double>("then", 0.50),
-                new KeyValuePair<string, double>("name", 0.09),
-                new KeyValuePair<string, double>("condition", 0.50),
-                new KeyValuePair<string, double>("lambda", 0.56),
-                new KeyValuePair<string, double>("else", 0.55),
-                new KeyValuePair<string, double>("constructor", 0.65),
-                new KeyValuePair<string, double>("try", 0.61),
-                new KeyValuePair<string, double>("return", 0.50),
-                new KeyValuePair<string, double>("type", 0.23),
-                new KeyValuePair<string, double>("foreach", 0.61),
-                new KeyValuePair<string, double>("using_stmt", 0.55),
-            };
-
             this.Analyze(sqlRepository, "spuriosity summary",
               f => f.Principal.Deltas.Any(d => d.Approach == approach &&
                                                d.Matching != null &&
@@ -996,7 +996,7 @@ namespace Jawilliam.CDF.Labs
                     {
                         foreach (var ti in transformationsInfo.Transformations.Where(t => t.Version == "original" && 
                                                                                           t.Type != null &&
-                                                                                          relativeThresholds.Any(s => s.Key == t.Type)))
+                                                                                          _relativeThresholds.Any(s => s.Key == t.Type)))
                         {
                             TransformationSummary summary;
                             if (syntaxTypes.ContainsKey(ti.Type))
@@ -1052,7 +1052,7 @@ namespace Jawilliam.CDF.Labs
                                 ? 0d
                                 : Math.Min(inChanges, outChanges) * 1d / Math.Max(inChanges, outChanges);
 
-                            var relativeThreshold = relativeThresholds.Single(s => s.Key == ti.Type);
+                            var relativeThreshold = _relativeThresholds.Single(s => s.Key == ti.Type);
                             if (spuriosityIndex > relativeThreshold.Value)
                             {
                                 var originalElement = originalTree.PostOrder(n => n.Children).First(n => n.Root.Id == ti.Id);
@@ -1213,6 +1213,33 @@ namespace Jawilliam.CDF.Labs
         }
 
         /// <summary>
+        /// Summarizes the spuriosity by element types.
+        /// </summary>
+        /// <param name="sqlRepository">the SQL database repository in which to analyze the file versions.</param>
+        /// <param name="approach"></param>
+        public virtual void SummarizeSpuriousElements(GitRepository sqlRepository, ChangeDetectionApproaches approach, bool namesRow)
+        {
+            var elementTypes = this._relativeThresholds.OrderBy(r => r.Key).ToArray();
+            if (namesRow)
+                this.Report.AppendLine(elementTypes.Aggregate("Project", (s, e) => $"{s};{e.Key}"));
+
+            StringBuilder line = new StringBuilder();
+            line.Append(sqlRepository.Name);
+            foreach (var keyValuePair in elementTypes)
+            {
+                var ghostChanges = sqlRepository.Symptoms.OfType<SpuriousElementSymptom>()
+                    .Count(g => g.Original.Element.Type == keyValuePair.Key);
+                var ghostChangesInFiles = sqlRepository.FileRevisionPairs
+                    .Count(f => f.Principal.Deltas.Any(d => d.Approach == approach &&
+                                                            d.Symptoms.OfType<GhostSymptom>()
+                                                                .Any(g => g.Original.Element.Type == keyValuePair.Key)));
+                line.Append($";{ghostChanges};{ghostChangesInFiles}");
+            }
+
+            this.Report.AppendLine(line.ToString());
+        }
+
+        /// <summary>
         /// Summarizes the ghost changes (by misrepresented comments) by element types.
         /// </summary>
         /// <param name="sqlRepository">the SQL database repository in which to analyze the file versions.</param>
@@ -1221,16 +1248,16 @@ namespace Jawilliam.CDF.Labs
         {
             if (namesRow)
                 this.Report.AppendLine("Project;Gt;GtInFrp;Gi;GiInFrp;Gd;GdInFrp;Gu;GuInFrp;Gm;GmInFrp;" +
-                     "GtUnit;GtInFrpUnit;GiUnit;GiUnitInFrp;GdUnit;GdUnitInFrp;GuUnit;GuUnitInFrp;GmUnit;GmUnitInFrp;" +
-                     "GtNamespace;GtInFrpNamespace;GiNamespace;GiNamespaceInFrp;GdNamespace;GdNamespaceInFrp;GuNamespace;GuNamespaceInFrp;GmNamespace;GmNamespaceInFrp;" +
+                     //"GtUnit;GtInFrpUnit;GiUnit;GiUnitInFrp;GdUnit;GdUnitInFrp;GuUnit;GuUnitInFrp;GmUnit;GmUnitInFrp;" +
+                     //"GtNamespace;GtInFrpNamespace;GiNamespace;GiNamespaceInFrp;GdNamespace;GdNamespaceInFrp;GuNamespace;GuNamespaceInFrp;GmNamespace;GmNamespaceInFrp;" +
                      "GtInterface;GtInFrpInterface;GiInterface;GiInterfaceInFrp;GdInterface;GdInterfaceInFrp;GuInterface;GuInterfaceInFrp;GmInterface;GmInterfaceInFrp;" +
                      "GtClass;GtInFrpClass;GiClass;GiClassInFrp;GdClass;GdClassInFrp;GuClass;GuClassInFrp;GmClass;GmClassInFrp;" +
-                     "GtStruct;GtInFrpStruct;GiStruct;GiStructInFrp;GdStruct;GdStructInFrp;GuStruct;GuStructInFrp;GmStruct;GmStructInFrp;" +
+                     //"GtStruct;GtInFrpStruct;GiStruct;GiStructInFrp;GdStruct;GdStructInFrp;GuStruct;GuStructInFrp;GmStruct;GmStructInFrp;" +
                      "GtEnum;GtInFrpEnum;GiEnum;GiEnumInFrp;GdEnum;GdEnumInFrp;GuEnum;GuEnumInFrp;GmEnum;GmEnumInFrp;" +
                      "GtFunction;GtInFrpFunction;GiFunction;GiFunctionInFrp;GdFunction;GdFunctionInFrp;GuFunction;GuFunctionInFrp;GmFunction;GmFunctionInFrp;" +
                      "GtConstructor;GtInFrpConstructor;GiConstructor;GiConstructorInFrp;GdConstructor;GdConstructorInFrp;GuConstructor;GuConstructorInFrp;GmConstructor;GmConstructorInFrp;" +
                      "GtDestructor;GtInFrpDestructor;GiDestructor;GiDestructorInFrp;GdDestructor;GdDestructorInFrp;GuDestructor;GuDestructorInFrp;GmDestructor;GmDestructorInFrp;" +
-                     "GtProperty;GtInFrpProperty;GiProperty;GiPropertyInFrp;GdProperty;GdPropertyInFrp;GuProperty;GuPropertyInFrp;GmProperty;GmPropertyInFrp;");
+                     "GtProperty;GtInFrpProperty;GiProperty;GiPropertyInFrp;GdProperty;GdPropertyInFrp;GuProperty;GuPropertyInFrp;GmProperty;GmPropertyInFrp");
 
             var ghostChanges = sqlRepository.Symptoms.OfType<GhostSymptom>()
                 .Count(g => g.Modified.Element.Id != "-1");
@@ -1274,25 +1301,25 @@ namespace Jawilliam.CDF.Labs
                                                         .Any(g => g.Modified.Element.Id != "-1" &&
                                                                   g.Pattern == "move - uncommented code vs. commented code")));
 
-            // Unit
-            int unitGhostChangesInFiles, unitInsertGhostChanges, unitInsertGhostChangesInFiles, unitDeleteGhostChanges,
-                unitDeleteGhostChangesInFiles, unitUpdateGhostChanges, unitUpdateGhostChangesInFiles, unitMoveGhostChanges,
-                unitMoveGhostChangesInFiles;
-            var unitGhostChanges = this.ElementTypeGhostChanges(sqlRepository, approach, "unit",
-                out unitGhostChangesInFiles, out unitInsertGhostChanges, out unitInsertGhostChangesInFiles,
-                out unitDeleteGhostChanges, out unitDeleteGhostChangesInFiles,
-                out unitUpdateGhostChanges, out unitUpdateGhostChangesInFiles,
-                out unitMoveGhostChanges, out unitMoveGhostChangesInFiles);
+            //// Unit
+            //int unitGhostChangesInFiles, unitInsertGhostChanges, unitInsertGhostChangesInFiles, unitDeleteGhostChanges,
+            //    unitDeleteGhostChangesInFiles, unitUpdateGhostChanges, unitUpdateGhostChangesInFiles, unitMoveGhostChanges,
+            //    unitMoveGhostChangesInFiles;
+            //var unitGhostChanges = this.ElementTypeGhostChanges(sqlRepository, approach, "unit",
+            //    out unitGhostChangesInFiles, out unitInsertGhostChanges, out unitInsertGhostChangesInFiles,
+            //    out unitDeleteGhostChanges, out unitDeleteGhostChangesInFiles,
+            //    out unitUpdateGhostChanges, out unitUpdateGhostChangesInFiles,
+            //    out unitMoveGhostChanges, out unitMoveGhostChangesInFiles);
 
-            // Namespace
-            int namespaceGhostChangesInFiles, namespaceInsertGhostChanges, namespaceInsertGhostChangesInFiles, namespaceDeleteGhostChanges,
-                namespaceDeleteGhostChangesInFiles, namespaceUpdateGhostChanges, namespaceUpdateGhostChangesInFiles, namespaceMoveGhostChanges,
-                namespaceMoveGhostChangesInFiles;
-            var namespaceGhostChanges = this.ElementTypeGhostChanges(sqlRepository, approach, "namespace",
-                out namespaceGhostChangesInFiles, out namespaceInsertGhostChanges, out namespaceInsertGhostChangesInFiles,
-                out namespaceDeleteGhostChanges, out namespaceDeleteGhostChangesInFiles,
-                out namespaceUpdateGhostChanges, out namespaceUpdateGhostChangesInFiles,
-                out namespaceMoveGhostChanges, out namespaceMoveGhostChangesInFiles);
+            //// Namespace
+            //int namespaceGhostChangesInFiles, namespaceInsertGhostChanges, namespaceInsertGhostChangesInFiles, namespaceDeleteGhostChanges,
+            //    namespaceDeleteGhostChangesInFiles, namespaceUpdateGhostChanges, namespaceUpdateGhostChangesInFiles, namespaceMoveGhostChanges,
+            //    namespaceMoveGhostChangesInFiles;
+            //var namespaceGhostChanges = this.ElementTypeGhostChanges(sqlRepository, approach, "namespace",
+            //    out namespaceGhostChangesInFiles, out namespaceInsertGhostChanges, out namespaceInsertGhostChangesInFiles,
+            //    out namespaceDeleteGhostChanges, out namespaceDeleteGhostChangesInFiles,
+            //    out namespaceUpdateGhostChanges, out namespaceUpdateGhostChangesInFiles,
+            //    out namespaceMoveGhostChanges, out namespaceMoveGhostChangesInFiles);
 
             // Interface
             int interfaceGhostChangesInFiles, interfaceInsertGhostChanges, interfaceInsertGhostChangesInFiles, interfaceDeleteGhostChanges,
@@ -1314,15 +1341,15 @@ namespace Jawilliam.CDF.Labs
                 out classUpdateGhostChanges, out classUpdateGhostChangesInFiles,
                 out classMoveGhostChanges, out classMoveGhostChangesInFiles);
 
-            // Struct
-            int structGhostChangesInFiles, structInsertGhostChanges, structInsertGhostChangesInFiles, structDeleteGhostChanges,
-                structDeleteGhostChangesInFiles, structUpdateGhostChanges, structUpdateGhostChangesInFiles, structMoveGhostChanges,
-                structMoveGhostChangesInFiles;
-            var structGhostChanges = this.ElementTypeGhostChanges(sqlRepository, approach, "struct",
-                out structGhostChangesInFiles, out structInsertGhostChanges, out structInsertGhostChangesInFiles,
-                out structDeleteGhostChanges, out structDeleteGhostChangesInFiles,
-                out structUpdateGhostChanges, out structUpdateGhostChangesInFiles,
-                out structMoveGhostChanges, out structMoveGhostChangesInFiles);
+            //// Struct
+            //int structGhostChangesInFiles, structInsertGhostChanges, structInsertGhostChangesInFiles, structDeleteGhostChanges,
+            //    structDeleteGhostChangesInFiles, structUpdateGhostChanges, structUpdateGhostChangesInFiles, structMoveGhostChanges,
+            //    structMoveGhostChangesInFiles;
+            //var structGhostChanges = this.ElementTypeGhostChanges(sqlRepository, approach, "struct",
+            //    out structGhostChangesInFiles, out structInsertGhostChanges, out structInsertGhostChangesInFiles,
+            //    out structDeleteGhostChanges, out structDeleteGhostChangesInFiles,
+            //    out structUpdateGhostChanges, out structUpdateGhostChangesInFiles,
+            //    out structMoveGhostChanges, out structMoveGhostChangesInFiles);
 
             // Enum
             int enumGhostChangesInFiles, enumInsertGhostChanges, enumInsertGhostChangesInFiles, enumDeleteGhostChanges,
@@ -1386,26 +1413,26 @@ namespace Jawilliam.CDF.Labs
                                    $"{updateGhostChangesInFiles};" +
                                    $"{moveGhostChanges};" +
                                    $"{moveGhostChangesInFiles};" +
-                                   $"{unitGhostChanges};" +
-                                   $"{unitGhostChangesInFiles};" +
-                                   $"{unitInsertGhostChanges};" +
-                                   $"{unitInsertGhostChangesInFiles};" +
-                                   $"{unitDeleteGhostChanges};" +
-                                   $"{unitDeleteGhostChangesInFiles};" +
-                                   $"{unitUpdateGhostChanges};" +
-                                   $"{unitUpdateGhostChangesInFiles};" +
-                                   $"{unitMoveGhostChanges};" +
-                                   $"{unitMoveGhostChangesInFiles};" +
-                                   $"{namespaceGhostChanges};" +
-                                   $"{namespaceGhostChangesInFiles};" +
-                                   $"{namespaceInsertGhostChanges};" +
-                                   $"{namespaceInsertGhostChangesInFiles};" +
-                                   $"{namespaceDeleteGhostChanges};" +
-                                   $"{namespaceDeleteGhostChangesInFiles};" +
-                                   $"{namespaceUpdateGhostChanges};" +
-                                   $"{namespaceUpdateGhostChangesInFiles};" +
-                                   $"{namespaceMoveGhostChanges};" +
-                                   $"{namespaceMoveGhostChangesInFiles};" +
+                                   //$"{unitGhostChanges};" +
+                                   //$"{unitGhostChangesInFiles};" +
+                                   //$"{unitInsertGhostChanges};" +
+                                   //$"{unitInsertGhostChangesInFiles};" +
+                                   //$"{unitDeleteGhostChanges};" +
+                                   //$"{unitDeleteGhostChangesInFiles};" +
+                                   //$"{unitUpdateGhostChanges};" +
+                                   //$"{unitUpdateGhostChangesInFiles};" +
+                                   //$"{unitMoveGhostChanges};" +
+                                   //$"{unitMoveGhostChangesInFiles};" +
+                                   //$"{namespaceGhostChanges};" +
+                                   //$"{namespaceGhostChangesInFiles};" +
+                                   //$"{namespaceInsertGhostChanges};" +
+                                   //$"{namespaceInsertGhostChangesInFiles};" +
+                                   //$"{namespaceDeleteGhostChanges};" +
+                                   //$"{namespaceDeleteGhostChangesInFiles};" +
+                                   //$"{namespaceUpdateGhostChanges};" +
+                                   //$"{namespaceUpdateGhostChangesInFiles};" +
+                                   //$"{namespaceMoveGhostChanges};" +
+                                   //$"{namespaceMoveGhostChangesInFiles};" +
                                    $"{interfaceGhostChanges};" +
                                    $"{interfaceGhostChangesInFiles};" +
                                    $"{interfaceInsertGhostChanges};" +
@@ -1426,16 +1453,16 @@ namespace Jawilliam.CDF.Labs
                                    $"{classUpdateGhostChangesInFiles};" +
                                    $"{classMoveGhostChanges};" +
                                    $"{classMoveGhostChangesInFiles};" +
-                                   $"{structGhostChanges};" +
-                                   $"{structGhostChangesInFiles};" +
-                                   $"{structInsertGhostChanges};" +
-                                   $"{structInsertGhostChangesInFiles};" +
-                                   $"{structDeleteGhostChanges};" +
-                                   $"{structDeleteGhostChangesInFiles};" +
-                                   $"{structUpdateGhostChanges};" +
-                                   $"{structUpdateGhostChangesInFiles};" +
-                                   $"{structMoveGhostChanges};" +
-                                   $"{structMoveGhostChangesInFiles};" +
+                                   //$"{structGhostChanges};" +
+                                   //$"{structGhostChangesInFiles};" +
+                                   //$"{structInsertGhostChanges};" +
+                                   //$"{structInsertGhostChangesInFiles};" +
+                                   //$"{structDeleteGhostChanges};" +
+                                   //$"{structDeleteGhostChangesInFiles};" +
+                                   //$"{structUpdateGhostChanges};" +
+                                   //$"{structUpdateGhostChangesInFiles};" +
+                                   //$"{structMoveGhostChanges};" +
+                                   //$"{structMoveGhostChangesInFiles};" +
                                    $"{enumGhostChanges};" +
                                    $"{enumGhostChangesInFiles};" +
                                    $"{enumInsertGhostChanges};" +
