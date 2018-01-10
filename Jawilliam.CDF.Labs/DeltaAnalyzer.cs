@@ -1212,21 +1212,6 @@ namespace Jawilliam.CDF.Labs
             cancel, false, new string[] { "Principal" });
         }
 
-
-
-        /// <summary>
-        /// Summarizes the ghost changes (by misrepresented comments) by element types.
-        /// </summary>
-        /// <param name="sqlRepository">the SQL database repository in which to analyze the file versions.</param>
-        /// <param name="cancel">Action to execute cancellation logic.</param>
-        /// <param name="approach"></param>
-        /// <param name="skipThese">local criterion for determining elements that should be ignored.</param>
-        public virtual void SummarizeGhostConsequencesOfMisrepresentedComments(GitRepository sqlRepository, Action cancel, ChangeDetectionApproaches approach, Func<FileRevisionPair, bool> skipThese)
-        {
-            var mn = sqlRepository.Symptoms.OfType<MissedElementSymptom>().Count(s => sqlRepository.FileRevisionPairs.Any(frp => frp.Principal == s.Delta.RevisionPair && (frp.Flags == null || (frp.Flags & RevisionPairFlags.EnumAnomalies) == 0)));
-            
-        }
-
         /// <summary>
         /// Summarizes the ghost changes (by misrepresented comments) by element types.
         /// </summary>
@@ -1293,10 +1278,10 @@ namespace Jawilliam.CDF.Labs
             int unitGhostChangesInFiles, unitInsertGhostChanges, unitInsertGhostChangesInFiles, unitDeleteGhostChanges,
                 unitDeleteGhostChangesInFiles, unitUpdateGhostChanges, unitUpdateGhostChangesInFiles, unitMoveGhostChanges,
                 unitMoveGhostChangesInFiles;
-            var unitGhostChanges = this.ElementTypeGhostChanges(sqlRepository, approach, "unit", 
-                out unitGhostChangesInFiles, out unitInsertGhostChanges, out unitInsertGhostChangesInFiles, 
-                out unitDeleteGhostChanges, out unitDeleteGhostChangesInFiles, 
-                out unitUpdateGhostChanges, out unitUpdateGhostChangesInFiles, 
+            var unitGhostChanges = this.ElementTypeGhostChanges(sqlRepository, approach, "unit",
+                out unitGhostChangesInFiles, out unitInsertGhostChanges, out unitInsertGhostChangesInFiles,
+                out unitDeleteGhostChanges, out unitDeleteGhostChangesInFiles,
+                out unitUpdateGhostChanges, out unitUpdateGhostChangesInFiles,
                 out unitMoveGhostChanges, out unitMoveGhostChangesInFiles);
 
             // Namespace
@@ -1401,6 +1386,16 @@ namespace Jawilliam.CDF.Labs
                                    $"{updateGhostChangesInFiles};" +
                                    $"{moveGhostChanges};" +
                                    $"{moveGhostChangesInFiles};" +
+                                   $"{unitGhostChanges};" +
+                                   $"{unitGhostChangesInFiles};" +
+                                   $"{unitInsertGhostChanges};" +
+                                   $"{unitInsertGhostChangesInFiles};" +
+                                   $"{unitDeleteGhostChanges};" +
+                                   $"{unitDeleteGhostChangesInFiles};" +
+                                   $"{unitUpdateGhostChanges};" +
+                                   $"{unitUpdateGhostChangesInFiles};" +
+                                   $"{unitMoveGhostChanges};" +
+                                   $"{unitMoveGhostChangesInFiles};" +
                                    $"{namespaceGhostChanges};" +
                                    $"{namespaceGhostChangesInFiles};" +
                                    $"{namespaceInsertGhostChanges};" +
