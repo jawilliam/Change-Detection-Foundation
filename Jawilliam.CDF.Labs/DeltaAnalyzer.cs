@@ -1212,6 +1212,350 @@ namespace Jawilliam.CDF.Labs
             cancel, false, new string[] { "Principal" });
         }
 
+
+
+        /// <summary>
+        /// Summarizes the ghost changes (by misrepresented comments) by element types.
+        /// </summary>
+        /// <param name="sqlRepository">the SQL database repository in which to analyze the file versions.</param>
+        /// <param name="cancel">Action to execute cancellation logic.</param>
+        /// <param name="approach"></param>
+        /// <param name="skipThese">local criterion for determining elements that should be ignored.</param>
+        public virtual void SummarizeGhostConsequencesOfMisrepresentedComments(GitRepository sqlRepository, Action cancel, ChangeDetectionApproaches approach, Func<FileRevisionPair, bool> skipThese)
+        {
+            var mn = sqlRepository.Symptoms.OfType<MissedElementSymptom>().Count(s => sqlRepository.FileRevisionPairs.Any(frp => frp.Principal == s.Delta.RevisionPair && (frp.Flags == null || (frp.Flags & RevisionPairFlags.EnumAnomalies) == 0)));
+            
+        }
+
+        /// <summary>
+        /// Summarizes the ghost changes (by misrepresented comments) by element types.
+        /// </summary>
+        /// <param name="sqlRepository">the SQL database repository in which to analyze the file versions.</param>
+        /// <param name="approach"></param>
+        public virtual void SummarizeGhostConsequencesOfMisrepresentedComments(GitRepository sqlRepository, ChangeDetectionApproaches approach, bool namesRow)
+        {
+            if (namesRow)
+                this.Report.AppendLine("Project;Gt;GtInFrp;Gi;GiInFrp;Gd;GdInFrp;Gu;GuInFrp;Gm;GmInFrp;" +
+                     "GtUnit;GtInFrpUnit;GiUnit;GiUnitInFrp;GdUnit;GdUnitInFrp;GuUnit;GuUnitInFrp;GmUnit;GmUnitInFrp;" +
+                     "GtNamespace;GtInFrpNamespace;GiNamespace;GiNamespaceInFrp;GdNamespace;GdNamespaceInFrp;GuNamespace;GuNamespaceInFrp;GmNamespace;GmNamespaceInFrp;" +
+                     "GtInterface;GtInFrpInterface;GiInterface;GiInterfaceInFrp;GdInterface;GdInterfaceInFrp;GuInterface;GuInterfaceInFrp;GmInterface;GmInterfaceInFrp;" +
+                     "GtClass;GtInFrpClass;GiClass;GiClassInFrp;GdClass;GdClassInFrp;GuClass;GuClassInFrp;GmClass;GmClassInFrp;" +
+                     "GtStruct;GtInFrpStruct;GiStruct;GiStructInFrp;GdStruct;GdStructInFrp;GuStruct;GuStructInFrp;GmStruct;GmStructInFrp;" +
+                     "GtEnum;GtInFrpEnum;GiEnum;GiEnumInFrp;GdEnum;GdEnumInFrp;GuEnum;GuEnumInFrp;GmEnum;GmEnumInFrp;" +
+                     "GtFunction;GtInFrpFunction;GiFunction;GiFunctionInFrp;GdFunction;GdFunctionInFrp;GuFunction;GuFunctionInFrp;GmFunction;GmFunctionInFrp;" +
+                     "GtConstructor;GtInFrpConstructor;GiConstructor;GiConstructorInFrp;GdConstructor;GdConstructorInFrp;GuConstructor;GuConstructorInFrp;GmConstructor;GmConstructorInFrp;" +
+                     "GtDestructor;GtInFrpDestructor;GiDestructor;GiDestructorInFrp;GdDestructor;GdDestructorInFrp;GuDestructor;GuDestructorInFrp;GmDestructor;GmDestructorInFrp;" +
+                     "GtProperty;GtInFrpProperty;GiProperty;GiPropertyInFrp;GdProperty;GdPropertyInFrp;GuProperty;GuPropertyInFrp;GmProperty;GmPropertyInFrp;");
+
+            var ghostChanges = sqlRepository.Symptoms.OfType<GhostSymptom>()
+                .Count(g => g.Modified.Element.Id != "-1");
+            var ghostChangesInFiles = sqlRepository.FileRevisionPairs
+                .Count(f => f.Principal.Deltas.Any(d => d.Approach == approach && 
+                                                        d.Symptoms.OfType<GhostSymptom>().Any(g => g.Modified.Element.Id != "-1")));
+
+            var insertGhostChanges = sqlRepository.Symptoms.OfType<GhostSymptom>()
+                .Count(g => g.Modified.Element.Id != "-1" &&
+                            g.Pattern == "insert - uncommented code vs. commented code");
+            var insertGhostChangesInFiles = sqlRepository.FileRevisionPairs
+                .Count(f => f.Principal.Deltas.Any(d => d.Approach == approach && 
+                                                        d.Symptoms.OfType<GhostSymptom>()
+                                                        .Any(g => g.Modified.Element.Id != "-1" && 
+                                                                  g.Pattern == "insert - uncommented code vs. commented code")));
+
+            var deleteGhostChanges = sqlRepository.Symptoms.OfType<GhostSymptom>()
+                .Count(g => g.Modified.Element.Id != "-1" &&
+                            g.Pattern == "delete - uncommented code vs. commented code");
+            var deleteGhostChangesInFiles = sqlRepository.FileRevisionPairs
+                .Count(f => f.Principal.Deltas.Any(d => d.Approach == approach &&
+                                                        d.Symptoms.OfType<GhostSymptom>()
+                                                        .Any(g => g.Modified.Element.Id != "-1" &&
+                                                                  g.Pattern == "delete - uncommented code vs. commented code")));
+
+            var updateGhostChanges = sqlRepository.Symptoms.OfType<GhostSymptom>()
+                .Count(g => g.Modified.Element.Id != "-1" && 
+                            g.Pattern == "update - uncommented code vs. commented code");
+            var updateGhostChangesInFiles = sqlRepository.FileRevisionPairs
+                .Count(f => f.Principal.Deltas.Any(d => d.Approach == approach &&
+                                                        d.Symptoms.OfType<GhostSymptom>()
+                                                        .Any(g => g.Modified.Element.Id != "-1" &&
+                                                                  g.Pattern == "update - uncommented code vs. commented code")));
+
+            var moveGhostChanges = sqlRepository.Symptoms.OfType<GhostSymptom>()
+                .Count(g => g.Modified.Element.Id != "-1" &&
+                            g.Pattern == "move - uncommented code vs. commented code");
+            var moveGhostChangesInFiles = sqlRepository.FileRevisionPairs
+                .Count(f => f.Principal.Deltas.Any(d => d.Approach == approach &&
+                                                        d.Symptoms.OfType<GhostSymptom>()
+                                                        .Any(g => g.Modified.Element.Id != "-1" &&
+                                                                  g.Pattern == "move - uncommented code vs. commented code")));
+
+            // Unit
+            int unitGhostChangesInFiles, unitInsertGhostChanges, unitInsertGhostChangesInFiles, unitDeleteGhostChanges,
+                unitDeleteGhostChangesInFiles, unitUpdateGhostChanges, unitUpdateGhostChangesInFiles, unitMoveGhostChanges,
+                unitMoveGhostChangesInFiles;
+            var unitGhostChanges = this.ElementTypeGhostChanges(sqlRepository, approach, "unit", 
+                out unitGhostChangesInFiles, out unitInsertGhostChanges, out unitInsertGhostChangesInFiles, 
+                out unitDeleteGhostChanges, out unitDeleteGhostChangesInFiles, 
+                out unitUpdateGhostChanges, out unitUpdateGhostChangesInFiles, 
+                out unitMoveGhostChanges, out unitMoveGhostChangesInFiles);
+
+            // Namespace
+            int namespaceGhostChangesInFiles, namespaceInsertGhostChanges, namespaceInsertGhostChangesInFiles, namespaceDeleteGhostChanges,
+                namespaceDeleteGhostChangesInFiles, namespaceUpdateGhostChanges, namespaceUpdateGhostChangesInFiles, namespaceMoveGhostChanges,
+                namespaceMoveGhostChangesInFiles;
+            var namespaceGhostChanges = this.ElementTypeGhostChanges(sqlRepository, approach, "namespace",
+                out namespaceGhostChangesInFiles, out namespaceInsertGhostChanges, out namespaceInsertGhostChangesInFiles,
+                out namespaceDeleteGhostChanges, out namespaceDeleteGhostChangesInFiles,
+                out namespaceUpdateGhostChanges, out namespaceUpdateGhostChangesInFiles,
+                out namespaceMoveGhostChanges, out namespaceMoveGhostChangesInFiles);
+
+            // Interface
+            int interfaceGhostChangesInFiles, interfaceInsertGhostChanges, interfaceInsertGhostChangesInFiles, interfaceDeleteGhostChanges,
+                interfaceDeleteGhostChangesInFiles, interfaceUpdateGhostChanges, interfaceUpdateGhostChangesInFiles, interfaceMoveGhostChanges,
+                interfaceMoveGhostChangesInFiles;
+            var interfaceGhostChanges = this.ElementTypeGhostChanges(sqlRepository, approach, "interface",
+                out interfaceGhostChangesInFiles, out interfaceInsertGhostChanges, out interfaceInsertGhostChangesInFiles,
+                out interfaceDeleteGhostChanges, out interfaceDeleteGhostChangesInFiles,
+                out interfaceUpdateGhostChanges, out interfaceUpdateGhostChangesInFiles,
+                out interfaceMoveGhostChanges, out interfaceMoveGhostChangesInFiles);
+
+            // Class
+            int classGhostChangesInFiles, classInsertGhostChanges, classInsertGhostChangesInFiles, classDeleteGhostChanges,
+                classDeleteGhostChangesInFiles, classUpdateGhostChanges, classUpdateGhostChangesInFiles, classMoveGhostChanges,
+                classMoveGhostChangesInFiles;
+            var classGhostChanges = this.ElementTypeGhostChanges(sqlRepository, approach, "class",
+                out classGhostChangesInFiles, out classInsertGhostChanges, out classInsertGhostChangesInFiles,
+                out classDeleteGhostChanges, out classDeleteGhostChangesInFiles,
+                out classUpdateGhostChanges, out classUpdateGhostChangesInFiles,
+                out classMoveGhostChanges, out classMoveGhostChangesInFiles);
+
+            // Struct
+            int structGhostChangesInFiles, structInsertGhostChanges, structInsertGhostChangesInFiles, structDeleteGhostChanges,
+                structDeleteGhostChangesInFiles, structUpdateGhostChanges, structUpdateGhostChangesInFiles, structMoveGhostChanges,
+                structMoveGhostChangesInFiles;
+            var structGhostChanges = this.ElementTypeGhostChanges(sqlRepository, approach, "struct",
+                out structGhostChangesInFiles, out structInsertGhostChanges, out structInsertGhostChangesInFiles,
+                out structDeleteGhostChanges, out structDeleteGhostChangesInFiles,
+                out structUpdateGhostChanges, out structUpdateGhostChangesInFiles,
+                out structMoveGhostChanges, out structMoveGhostChangesInFiles);
+
+            // Enum
+            int enumGhostChangesInFiles, enumInsertGhostChanges, enumInsertGhostChangesInFiles, enumDeleteGhostChanges,
+                enumDeleteGhostChangesInFiles, enumUpdateGhostChanges, enumUpdateGhostChangesInFiles, enumMoveGhostChanges,
+                enumMoveGhostChangesInFiles;
+            var enumGhostChanges = this.ElementTypeGhostChanges(sqlRepository, approach, "enum",
+                out enumGhostChangesInFiles, out enumInsertGhostChanges, out enumInsertGhostChangesInFiles,
+                out enumDeleteGhostChanges, out enumDeleteGhostChangesInFiles,
+                out enumUpdateGhostChanges, out enumUpdateGhostChangesInFiles,
+                out enumMoveGhostChanges, out enumMoveGhostChangesInFiles);
+
+            // Function
+            int functionGhostChangesInFiles, functionInsertGhostChanges, functionInsertGhostChangesInFiles, functionDeleteGhostChanges,
+                functionDeleteGhostChangesInFiles, functionUpdateGhostChanges, functionUpdateGhostChangesInFiles, functionMoveGhostChanges,
+                functionMoveGhostChangesInFiles;
+            var functionGhostChanges = this.ElementTypeGhostChanges(sqlRepository, approach, "function",
+                out functionGhostChangesInFiles, out functionInsertGhostChanges, out functionInsertGhostChangesInFiles,
+                out functionDeleteGhostChanges, out functionDeleteGhostChangesInFiles,
+                out functionUpdateGhostChanges, out functionUpdateGhostChangesInFiles,
+                out functionMoveGhostChanges, out functionMoveGhostChangesInFiles);
+
+            // Constructor
+            int constructorGhostChangesInFiles, constructorInsertGhostChanges, constructorInsertGhostChangesInFiles, constructorDeleteGhostChanges,
+                constructorDeleteGhostChangesInFiles, constructorUpdateGhostChanges, constructorUpdateGhostChangesInFiles, constructorMoveGhostChanges,
+                constructorMoveGhostChangesInFiles;
+            var constructorGhostChanges = this.ElementTypeGhostChanges(sqlRepository, approach, "constructor",
+                out constructorGhostChangesInFiles, out constructorInsertGhostChanges, out constructorInsertGhostChangesInFiles,
+                out constructorDeleteGhostChanges, out constructorDeleteGhostChangesInFiles,
+                out constructorUpdateGhostChanges, out constructorUpdateGhostChangesInFiles,
+                out constructorMoveGhostChanges, out constructorMoveGhostChangesInFiles);
+
+            // Destructor
+            int destructorGhostChangesInFiles, destructorInsertGhostChanges, destructorInsertGhostChangesInFiles, destructorDeleteGhostChanges,
+                destructorDeleteGhostChangesInFiles, destructorUpdateGhostChanges, destructorUpdateGhostChangesInFiles, destructorMoveGhostChanges,
+                destructorMoveGhostChangesInFiles;
+            var destructorGhostChanges = this.ElementTypeGhostChanges(sqlRepository, approach, "destructor",
+                out destructorGhostChangesInFiles, out destructorInsertGhostChanges, out destructorInsertGhostChangesInFiles,
+                out destructorDeleteGhostChanges, out destructorDeleteGhostChangesInFiles,
+                out destructorUpdateGhostChanges, out destructorUpdateGhostChangesInFiles,
+                out destructorMoveGhostChanges, out destructorMoveGhostChangesInFiles);
+
+            // Property
+            int propertyGhostChangesInFiles, propertyInsertGhostChanges, propertyInsertGhostChangesInFiles, propertyDeleteGhostChanges,
+                propertyDeleteGhostChangesInFiles, propertyUpdateGhostChanges, propertyUpdateGhostChangesInFiles, propertyMoveGhostChanges,
+                propertyMoveGhostChangesInFiles;
+            var propertyGhostChanges = this.ElementTypeGhostChanges(sqlRepository, approach, "property",
+                out propertyGhostChangesInFiles, out propertyInsertGhostChanges, out propertyInsertGhostChangesInFiles,
+                out propertyDeleteGhostChanges, out propertyDeleteGhostChangesInFiles,
+                out propertyUpdateGhostChanges, out propertyUpdateGhostChangesInFiles,
+                out propertyMoveGhostChanges, out propertyMoveGhostChangesInFiles);
+
+            //var mnNamespaces = sqlRepository.Symptoms.OfType<MissedElementSymptom>().Count(s => s.Original.Element.Type == "namespace" && s.Modified.Element.Type == "namespace");
+            this.Report.AppendLine($"{sqlRepository.Name};" +
+                                   $"{ghostChanges};" +
+                                   $"{ghostChangesInFiles};" +
+                                   $"{insertGhostChanges};" +
+                                   $"{insertGhostChangesInFiles};" +
+                                   $"{deleteGhostChanges};" +
+                                   $"{deleteGhostChangesInFiles};" +
+                                   $"{updateGhostChanges};" +
+                                   $"{updateGhostChangesInFiles};" +
+                                   $"{moveGhostChanges};" +
+                                   $"{moveGhostChangesInFiles};" +
+                                   $"{namespaceGhostChanges};" +
+                                   $"{namespaceGhostChangesInFiles};" +
+                                   $"{namespaceInsertGhostChanges};" +
+                                   $"{namespaceInsertGhostChangesInFiles};" +
+                                   $"{namespaceDeleteGhostChanges};" +
+                                   $"{namespaceDeleteGhostChangesInFiles};" +
+                                   $"{namespaceUpdateGhostChanges};" +
+                                   $"{namespaceUpdateGhostChangesInFiles};" +
+                                   $"{namespaceMoveGhostChanges};" +
+                                   $"{namespaceMoveGhostChangesInFiles};" +
+                                   $"{interfaceGhostChanges};" +
+                                   $"{interfaceGhostChangesInFiles};" +
+                                   $"{interfaceInsertGhostChanges};" +
+                                   $"{interfaceInsertGhostChangesInFiles};" +
+                                   $"{interfaceDeleteGhostChanges};" +
+                                   $"{interfaceDeleteGhostChangesInFiles};" +
+                                   $"{interfaceUpdateGhostChanges};" +
+                                   $"{interfaceUpdateGhostChangesInFiles};" +
+                                   $"{interfaceMoveGhostChanges};" +
+                                   $"{interfaceMoveGhostChangesInFiles};" +
+                                   $"{classGhostChanges};" +
+                                   $"{classGhostChangesInFiles};" +
+                                   $"{classInsertGhostChanges};" +
+                                   $"{classInsertGhostChangesInFiles};" +
+                                   $"{classDeleteGhostChanges};" +
+                                   $"{classDeleteGhostChangesInFiles};" +
+                                   $"{classUpdateGhostChanges};" +
+                                   $"{classUpdateGhostChangesInFiles};" +
+                                   $"{classMoveGhostChanges};" +
+                                   $"{classMoveGhostChangesInFiles};" +
+                                   $"{structGhostChanges};" +
+                                   $"{structGhostChangesInFiles};" +
+                                   $"{structInsertGhostChanges};" +
+                                   $"{structInsertGhostChangesInFiles};" +
+                                   $"{structDeleteGhostChanges};" +
+                                   $"{structDeleteGhostChangesInFiles};" +
+                                   $"{structUpdateGhostChanges};" +
+                                   $"{structUpdateGhostChangesInFiles};" +
+                                   $"{structMoveGhostChanges};" +
+                                   $"{structMoveGhostChangesInFiles};" +
+                                   $"{enumGhostChanges};" +
+                                   $"{enumGhostChangesInFiles};" +
+                                   $"{enumInsertGhostChanges};" +
+                                   $"{enumInsertGhostChangesInFiles};" +
+                                   $"{enumDeleteGhostChanges};" +
+                                   $"{enumDeleteGhostChangesInFiles};" +
+                                   $"{enumUpdateGhostChanges};" +
+                                   $"{enumUpdateGhostChangesInFiles};" +
+                                   $"{enumMoveGhostChanges};" +
+                                   $"{enumMoveGhostChangesInFiles};" +
+                                   $"{functionGhostChanges};" +
+                                   $"{functionGhostChangesInFiles};" +
+                                   $"{functionInsertGhostChanges};" +
+                                   $"{functionInsertGhostChangesInFiles};" +
+                                   $"{functionDeleteGhostChanges};" +
+                                   $"{functionDeleteGhostChangesInFiles};" +
+                                   $"{functionUpdateGhostChanges};" +
+                                   $"{functionUpdateGhostChangesInFiles};" +
+                                   $"{functionMoveGhostChanges};" +
+                                   $"{functionMoveGhostChangesInFiles};" +
+                                   $"{constructorGhostChanges};" +
+                                   $"{constructorGhostChangesInFiles};" +
+                                   $"{constructorInsertGhostChanges};" +
+                                   $"{constructorInsertGhostChangesInFiles};" +
+                                   $"{constructorDeleteGhostChanges};" +
+                                   $"{constructorDeleteGhostChangesInFiles};" +
+                                   $"{constructorUpdateGhostChanges};" +
+                                   $"{constructorUpdateGhostChangesInFiles};" +
+                                   $"{constructorMoveGhostChanges};" +
+                                   $"{constructorMoveGhostChangesInFiles};" +
+                                   $"{destructorGhostChanges};" +
+                                   $"{destructorGhostChangesInFiles};" +
+                                   $"{destructorInsertGhostChanges};" +
+                                   $"{destructorInsertGhostChangesInFiles};" +
+                                   $"{destructorDeleteGhostChanges};" +
+                                   $"{destructorDeleteGhostChangesInFiles};" +
+                                   $"{destructorUpdateGhostChanges};" +
+                                   $"{destructorUpdateGhostChangesInFiles};" +
+                                   $"{destructorMoveGhostChanges};" +
+                                   $"{destructorMoveGhostChangesInFiles};" +
+                                   $"{propertyGhostChanges};" +
+                                   $"{propertyGhostChangesInFiles};" +
+                                   $"{propertyInsertGhostChanges};" +
+                                   $"{propertyInsertGhostChangesInFiles};" +
+                                   $"{propertyDeleteGhostChanges};" +
+                                   $"{propertyDeleteGhostChangesInFiles};" +
+                                   $"{propertyUpdateGhostChanges};" +
+                                   $"{propertyUpdateGhostChangesInFiles};" +
+                                   $"{propertyMoveGhostChanges};" +
+                                   $"{propertyMoveGhostChangesInFiles}");
+        }
+
+        private int ElementTypeGhostChanges(GitRepository sqlRepository, ChangeDetectionApproaches approach, string elementType,
+            out int unitGhostChangesInFiles, out int unitInsertGhostChanges, out int unitInsertGhostChangesInFiles,
+            out int unitDeleteGhostChanges, out int unitDeleteGhostChangesInFiles, out int unitUpdateGhostChanges,
+            out int unitUpdateGhostChangesInFiles, out int unitMoveGhostChanges, out int unitMoveGhostChangesInFiles)
+        {
+            var unitGhostChanges = sqlRepository.Symptoms.OfType<GhostSymptom>()
+                .Count(g => g.Modified.Element.Id != "-1" &&
+                            g.Original.Element.Type == elementType);
+            unitGhostChangesInFiles = sqlRepository.FileRevisionPairs
+                .Count(f => f.Principal.Deltas.Any(d => d.Approach == approach &&
+                                                        d.Symptoms.OfType<GhostSymptom>()
+                                                            .Any(g => g.Modified.Element.Id != "-1" &&
+                                                                      g.Original.Element.Type == elementType)));
+
+            unitInsertGhostChanges = sqlRepository.Symptoms.OfType<GhostSymptom>()
+                .Count(g => g.Modified.Element.Id != "-1" &&
+                            g.Pattern == "insert - uncommented code vs. commented code" &&
+                            g.Original.Element.Type == elementType);
+            unitInsertGhostChangesInFiles = sqlRepository.FileRevisionPairs
+                .Count(f => f.Principal.Deltas.Any(d => d.Approach == approach &&
+                                                        d.Symptoms.OfType<GhostSymptom>()
+                                                            .Any(g => g.Modified.Element.Id != "-1" &&
+                                                                      g.Pattern ==
+                                                                      "insert - uncommented code vs. commented code" &&
+                                                                      g.Original.Element.Type == elementType)));
+
+            unitDeleteGhostChanges = sqlRepository.Symptoms.OfType<GhostSymptom>()
+                .Count(g => g.Modified.Element.Id != "-1" &&
+                            g.Pattern == "delete - uncommented code vs. commented code" &&
+                            g.Original.Element.Type == elementType);
+            unitDeleteGhostChangesInFiles = sqlRepository.FileRevisionPairs
+                .Count(f => f.Principal.Deltas.Any(d => d.Approach == approach &&
+                                                        d.Symptoms.OfType<GhostSymptom>()
+                                                            .Any(g => g.Modified.Element.Id != "-1" &&
+                                                                      g.Pattern ==
+                                                                      "delete - uncommented code vs. commented code" &&
+                                                                      g.Original.Element.Type == elementType)));
+
+            unitUpdateGhostChanges = sqlRepository.Symptoms.OfType<GhostSymptom>()
+                .Count(g => g.Modified.Element.Id != "-1" &&
+                            g.Pattern == "update - uncommented code vs. commented code" &&
+                            g.Original.Element.Type == elementType);
+            unitUpdateGhostChangesInFiles = sqlRepository.FileRevisionPairs
+                .Count(f => f.Principal.Deltas.Any(d => d.Approach == approach &&
+                                                        d.Symptoms.OfType<GhostSymptom>()
+                                                            .Any(g => g.Modified.Element.Id != "-1" &&
+                                                                      g.Pattern ==
+                                                                      "update - uncommented code vs. commented code" &&
+                                                                      g.Original.Element.Type == elementType)));
+
+            unitMoveGhostChanges = sqlRepository.Symptoms.OfType<GhostSymptom>()
+                .Count(g => g.Modified.Element.Id != "-1" &&
+                            g.Pattern == "move - uncommented code vs. commented code" &&
+                            g.Original.Element.Type == elementType);
+            unitMoveGhostChangesInFiles = sqlRepository.FileRevisionPairs
+                .Count(f => f.Principal.Deltas.Any(d => d.Approach == approach &&
+                                                        d.Symptoms.OfType<GhostSymptom>()
+                                                            .Any(g => g.Modified.Element.Id != "-1" &&
+                                                                      g.Pattern == "move - uncommented code vs. commented code" &&
+                                                                      g.Original.Element.Type == elementType)));
+            return unitGhostChanges;
+        }
+
         /// <summary>
         /// Analyzes the similarity in according with a given similarity metric, such as Levenshtein.
         /// </summary>
@@ -1762,8 +2106,8 @@ namespace Jawilliam.CDF.Labs
                                                 /*d.Symptoms.OfType<IncompatibleMatchingSymptom>().Any(s => s.Pattern == "literals update")*/
                                                 /*d.Symptoms.OfType<IncompatibleMatchingSymptom>().Any(s => s.Pattern == "renames")*/
                                                 /*d.Symptoms.OfType<IncompatibleMatchingSymptom>().Any(s => s.Pattern == "different operators")*/
-                                                /*d.Symptoms.OfType<IncompatibleMatchingSymptom>().Any(s => s.Pattern == "true literal mismatch")*/
-                                                d.Symptoms.OfType<IncompatibleMatchingSymptom>().Any(s => s.Pattern == "false literal mismatch")),
+                                                d.Symptoms.OfType<IncompatibleMatchingSymptom>().Any(s => s.Pattern == "true literal mismatch")
+                                                /*d.Symptoms.OfType<IncompatibleMatchingSymptom>().Any(s => s.Pattern == "false literal mismatch")*/),
                 delegate (FileRevisionPair pair, CancellationToken token)
                 {
                     //if (skipThese?.Invoke(pair) ?? false) return;
@@ -1777,8 +2121,8 @@ namespace Jawilliam.CDF.Labs
                         //.Where(s => s.Delta.Id == delta.Id && s.Pattern == "literals update")
                         //.Where(s => s.Delta.Id == delta.Id && s.Pattern == "renames")
                         //.Where(s => s.Delta.Id == delta.Id && s.Pattern == "different operators")
-                        //.Where(s => s.Delta.Id == delta.Id && s.Pattern == "true literal mismatch")
-                        .Where(s => s.Delta.Id == delta.Id && s.Pattern == "false literal mismatch")
+                        .Where(s => s.Delta.Id == delta.Id && s.Pattern == "true literal mismatch")
+                        //.Where(s => s.Delta.Id == delta.Id && s.Pattern == "false literal mismatch")
                         .Select(s => s.Id).ToList();
 
                     //var cleaner = new SourceCodeCleaner();
