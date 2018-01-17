@@ -20,6 +20,7 @@ namespace Jawilliam.CDF.Labs
         MissedNameMatches = 5,
         Ratio_LevenshteinGumTreeDeletions_LocalOutliers = 6,
         Redundancy_MissedName = 7,
-        Spuriosity_IncompatibleMatches = 8
+        Spuriosity_IncompatibleMatches = 8,
+        Spuriosity_SpuriousElements = 9
     }
 }

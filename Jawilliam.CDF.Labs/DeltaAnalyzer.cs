@@ -1123,6 +1123,53 @@ namespace Jawilliam.CDF.Labs
         /// <param name="approach"></param>
         /// <param name="skipThese">local criterion for determining elements that should be ignored.</param>
         /// <param name="syntaxTypes"></param>
+        public virtual void SummarizeTransformationsStatistics(GitRepository sqlRepository, Action cancel, ChangeDetectionApproaches approach, Func<FileRevisionPair, bool> skipThese, IDictionary<string, Tuple<int, int>> syntaxTypes)
+        {
+            this.Analyze(sqlRepository, "statistic summary",
+              f => f.Principal.Deltas.Any(d => d.Approach == approach &&
+                                               d.Matching != null &&
+                                               d.Differencing != null &&
+                                               d.Report == null && d.Symptoms.OfType<SpuriositySymptom>().Any()),
+                delegate (FileRevisionPair pair, CancellationToken token)
+                {
+                    if (skipThese?.Invoke(pair) ?? false) return;
+
+                    var delta = sqlRepository.Deltas.Single(d => d.RevisionPair.Id == pair.Principal.Id && d.Approach == approach);
+                    sqlRepository.Symptoms.OfType<SpuriositySymptom>().Where(s => s.Delta.Id == delta.Id).Load();
+                    var spuriosity = delta.Symptoms.OfType<SpuriositySymptom>().First();
+                    var transformationsInfo = XTransformationsSummary.Read(spuriosity.TransformationSummary, Encoding.Unicode);
+
+                    try
+                    {
+                        foreach (var ti in transformationsInfo.Transformations.Where(t => t.Type != null))
+                        {
+                            var syntaxType = syntaxTypes[ti.Type];
+                            syntaxTypes[ti.Type] = new Tuple<int, int>(syntaxType.Item1 + ti.Total, syntaxType.Item2 + 1);
+                        }
+                    }
+
+                    catch (OperationCanceledException)
+                    {
+                        this.Report.AppendLine($"CANCELED;{pair.Id};{sqlRepository.Name}");
+                        throw;
+                    }
+                    catch (OutOfMemoryException)
+                    {
+                        this.Report.AppendLine($"OUTOFMEMORY;{pair.Id};{sqlRepository.Name}");
+                        throw;
+                    }
+                },
+            cancel, false, new string[] { "Principal" });
+        }
+
+        /// <summary>
+        /// Computes all the element types that have been summarized in terms of spuriosity.
+        /// </summary>
+        /// <param name="sqlRepository">the SQL database repository in which to analyze the file versions.</param>
+        /// <param name="cancel">Action to execute cancellation logic.</param>
+        /// <param name="approach"></param>
+        /// <param name="skipThese">local criterion for determining elements that should be ignored.</param>
+        /// <param name="syntaxTypes"></param>
         public virtual void ReportTypesOfSpuriositySummary(GitRepository sqlRepository, Action cancel, ChangeDetectionApproaches approach, Func<FileRevisionPair, bool> skipThese, HashSet<string> syntaxTypes)
         {
             this.Analyze(sqlRepository, "universe of element types in spuriosity summary",
@@ -1221,17 +1268,23 @@ namespace Jawilliam.CDF.Labs
         {
             var elementTypes = this._relativeThresholds.OrderBy(r => r.Key).ToArray();
             if (namesRow)
-                this.Report.AppendLine(elementTypes.Aggregate("Project", (s, e) => $"{s};{e.Key}"));
+                this.Report.AppendLine(elementTypes.Aggregate("Project;ALL;ALLInFrp", (s, e) => $"{s};{e.Key};{e.Key}InFrp"));
 
             StringBuilder line = new StringBuilder();
             line.Append(sqlRepository.Name);
+            int ghostChanges = sqlRepository.Symptoms.OfType<SpuriousElementSymptom>().Count();
+            int ghostChangesInFiles = sqlRepository.FileRevisionPairs
+                .Count(f => f.Principal.Deltas.Any(d => d.Approach == approach &&
+                                                        d.Symptoms.OfType<SpuriousElementSymptom>().Any()));
+            line.Append($";{ghostChanges};{ghostChangesInFiles}");
+
             foreach (var keyValuePair in elementTypes)
             {
-                var ghostChanges = sqlRepository.Symptoms.OfType<SpuriousElementSymptom>()
+                ghostChanges = sqlRepository.Symptoms.OfType<SpuriousElementSymptom>()
                     .Count(g => g.Original.Element.Type == keyValuePair.Key);
-                var ghostChangesInFiles = sqlRepository.FileRevisionPairs
+                ghostChangesInFiles = sqlRepository.FileRevisionPairs
                     .Count(f => f.Principal.Deltas.Any(d => d.Approach == approach &&
-                                                            d.Symptoms.OfType<GhostSymptom>()
+                                                            d.Symptoms.OfType<SpuriousElementSymptom>()
                                                                 .Any(g => g.Original.Element.Type == keyValuePair.Key)));
                 line.Append($";{ghostChanges};{ghostChangesInFiles}");
             }
@@ -2107,6 +2160,82 @@ namespace Jawilliam.CDF.Labs
                             pair.Reviews.Add(review);
                             //sqlRepository.Symptoms.Remove(symptom);
                         }
+                    }
+                },
+            null, true, "Principal.FileVersion.Content", "Principal.FromFileVersion.Content");
+        }
+
+        public virtual void RateSpuriositySymptoms(GitRepository sqlRepository,
+           ChangeDetectionApproaches approach,
+           SourceCodeCleaner cleaner, string originalFilePath, string modifiedFilePath)
+        {
+            this.Analyze(sqlRepository, "spuriosity analysis",
+              f => f.Principal.Deltas.Any(d => d.Approach == approach &&
+                                               d.Matching != null &&
+                                               d.Differencing != null &&
+                                               d.Report == null &&
+                                                /*d.Symptoms.OfType<SpuriousElementSymptom>().Any(s => s.Original.Element.Type == "call")*/
+                                                /*d.Symptoms.OfType<SpuriousElementSymptom>().Any(s => s.Original.Element.Type == "expr_stmt")*/
+                                                /*d.Symptoms.OfType<SpuriousElementSymptom>().Any(s => s.Original.Element.Type == "argument")*/
+                                                d.Symptoms.OfType<SpuriousElementSymptom>().Any(s => s.Original.Element.Type == "function")
+                                                /*d.Symptoms.OfType<SpuriousElementSymptom>().Any(s => s.Original.Element.Type == "call")*/
+                                                /*d.Symptoms.OfType<SpuriousElementSymptom>().Any(s => s.Original.Element.Type == "call")*/
+                                                /*d.Symptoms.OfType<SpuriousElementSymptom>().Any(s => s.Original.Element.Type == "call")*/
+                                                /*d.Symptoms.OfType<SpuriousElementSymptom>().Any(s => s.Original.Element.Type == "call")*/
+                                                /*d.Symptoms.OfType<SpuriousElementSymptom>().Any(s => s.Original.Element.Type == "call")*/),
+delegate (FileRevisionPair pair, CancellationToken token)
+{
+//if (skipThese?.Invoke(pair) ?? false) return;
+
+var delta = sqlRepository.Deltas.Single(d => d.RevisionPair.Id == pair.Principal.Id && d.Approach == approach);
+var symptomIds = sqlRepository.Symptoms.OfType<SpuriousElementSymptom>()
+    //.Where(s => s.Delta.Id == delta.Id && s.Original.Element.Type == "call")
+    //.Where(s => s.Delta.Id == delta.Id && s.Original.Element.Type == "expr_stmt")
+    //.Where(s => s.Delta.Id == delta.Id && s.Original.Element.Type == "argument")
+    .Where(s => s.Delta.Id == delta.Id && s.Original.Element.Type == "function")
+    //.Where(s => s.Delta.Id == delta.Id && s.Original.Element.Type == "call")
+    //.Where(s => s.Delta.Id == delta.Id && s.Original.Element.Type == "call")
+    //.Where(s => s.Delta.Id == delta.Id && s.Original.Element.Type == "call")
+    //.Where(s => s.Delta.Id == delta.Id && s.Original.Element.Type == "call")
+    //.Where(s => s.Delta.Id == delta.Id && s.Original.Element.Type == "call")
+    .Select(s => s.Id).ToList();
+
+//var cleaner = new SourceCodeCleaner();
+var original = SyntaxFactory.ParseCompilationUnit(pair.Principal.FromFileVersion.Content.SourceCode).SyntaxTree.GetRoot();
+var modified = SyntaxFactory.ParseCompilationUnit(pair.Principal.FileVersion.Content.SourceCode).SyntaxTree.GetRoot();
+
+var preprocessedOriginal = cleaner != null ? cleaner.Clean(original) : original;
+var preprocessedModified = cleaner != null ? cleaner.Clean(modified) : modified;
+System.IO.File.WriteAllText(originalFilePath, preprocessedOriginal.ToFullString(), Encoding.Default);
+System.IO.File.WriteAllText(modifiedFilePath, preprocessedModified.ToFullString(), Encoding.Default);
+
+foreach (var symptomId in symptomIds)
+{
+    sqlRepository.Symptoms.OfType<SpuriousElementSymptom>().Where(s => s.Id == symptomId).Load();
+    var symptom = delta.Symptoms.OfType<SpuriousElementSymptom>().Single(s => s.Id == symptomId);
+    string originalElement = $"({symptom.Original.Element.Id})-{symptom.Original.Element.Type} \"{symptom.Original.Element.Hint}\"";
+    string modifiedElement = $"({symptom.Modified.Element.Id})-{symptom.Modified.Element.Type} \"{symptom.Modified.Element.Hint}\"";
+    var review = new Review
+    {
+        Id = Guid.NewGuid(),
+        Kind = ReviewKind.Spuriosity_SpuriousElements,
+        CaseKind = CaseKind.Symptom,
+        Severity = ReviewSeverity.Bad,
+        Subject = $"Spurious transformation ({symptom.Original.Element.Type}{symptom.Pattern}) - {symptom.Original.Element.Type} " +
+                             $"\"{symptom.Original.Element.Hint}\"-(ol:{-1}, " +
+                             $"oid:{symptom.Original.Element.Id})" +
+                  $" should not transform to {symptom.Modified.Element.Type} " +
+                             $"\"{symptom.Modified.Element.Hint}\"-(ml:{-1}, " +
+                             $"mid:{symptom.Modified.Element.Id})",
+        Comments = "",
+        Topics = Topics.Matching /**//*Topics.Domain*/ /* | Topics.Matching *//*| Topics.Differencing*/ /*| Topics.Report*/,
+                            SpuriousMatch = true,
+                            SpuriousChanges = true
+                        };
+                        
+                        int oClasses = original.DescendantNodesAndSelf().OfType<BaseTypeDeclarationSyntax>().Count();
+                        int mClasses = modified.DescendantNodesAndSelf().OfType<BaseTypeDeclarationSyntax>().Count();
+                        pair.Reviews.Add(review);
                     }
                 },
             null, true, "Principal.FileVersion.Content", "Principal.FromFileVersion.Content");

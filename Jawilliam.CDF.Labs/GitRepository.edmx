@@ -1254,6 +1254,7 @@
           <Member Name="Ratio_LevenshteinGumTreeDeletions_LocalOutliers" Value="6" />
           <Member Name="Redundancy_MissedName" Value="7" />
           <Member Name="Spuriosity_IncompatibleMatches" Value="8" />
+          <Member Name="Spuriosity_SpuriousElements" Value="9" />
         </EnumType>
         <EnumType Name="Topics" UnderlyingType="Int16" IsFlags="true">
           <Member Name="Domain" Value="1" />
