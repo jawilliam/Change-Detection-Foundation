@@ -373,35 +373,35 @@ namespace Jawilliam.CDF.Labs
             //                //RemoveComments = true
             //            } */);
 
-            //var analyzer = new DeltaAnalyzer();
-            //foreach (var project in Projects.Where(p => p.Name == "mono")/*.Skip(2)*/)
-            //{
-            //    analyzer.Warnings = new StringBuilder();
-            //    var dbRepository = new GitRepository(project.Name) { Name = project.Name };
-            //    ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 360;
+            var analyzer = new DeltaAnalyzer();
+            foreach (var project in Projects.Where(p => p.Name == "mono")/*.Skip(2)*/)
+            {
+                analyzer.Warnings = new StringBuilder();
+                var dbRepository = new GitRepository(project.Name) { Name = project.Name };
+                ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 360;
 
-            //    analyzer.RateSpuriositySymptoms(dbRepository,
-            //        ChangeDetectionApproaches.NativeGumTree, null,
-            //        @"E:\Phd\Analysis\Original.cs",
-            //        @"E:\Phd\Analysis\Modified.cs");
-            //    //analyzer.RateIncompatibleMatchingSymptoms(dbRepository,
-            //    //    ChangeDetectionApproaches.NativeGumTree, null,
-            //    //    @"E:\Phd\Analysis\Original.cs",
-            //    //    @"E:\Phd\Analysis\Modified.cs");//CoreFx
+                analyzer.RateSpuriositySymptoms(dbRepository,
+                    ChangeDetectionApproaches.NativeGumTree, null,
+                    @"E:\Phd\Analysis\Original.cs",
+                    @"E:\Phd\Analysis\Modified.cs");
+                //analyzer.RateIncompatibleMatchingSymptoms(dbRepository,
+                //    ChangeDetectionApproaches.NativeGumTree, null,
+                //    @"E:\Phd\Analysis\Original.cs",
+                //    @"E:\Phd\Analysis\Modified.cs");//CoreFx
 
-            //    //analyzer.RateMissedNameSymptoms(dbRepository,
-            //    //    ChangeDetectionApproaches.NativeGumTree, null,
-            //    //    @"E:\Phd\Analysis\Original.cs",
-            //    //    @"E:\Phd\Analysis\Modified.cs");
+                //analyzer.RateMissedNameSymptoms(dbRepository,
+                //    ChangeDetectionApproaches.NativeGumTree, null,
+                //    @"E:\Phd\Analysis\Original.cs",
+                //    @"E:\Phd\Analysis\Modified.cs");
 
-            //    //analyzer.FindSpuriousElements(dbRepository, () => { },
-            //    //        ChangeDetectionApproaches.NativeGumTree, null);
+                //analyzer.FindSpuriousElements(dbRepository, () => { },
+                //        ChangeDetectionApproaches.NativeGumTree, null);
 
-            //    //analyzer.RateIncompatibleMatchingSymptoms(dbRepository,
-            //    //    ChangeDetectionApproaches.NativeGumTree, null,
-            //    //    @"E:\Phd\Analysis\Original.cs",
-            //    //    @"E:\Phd\Analysis\Modified.cs");
-            //}
+                //analyzer.RateIncompatibleMatchingSymptoms(dbRepository,
+                //    ChangeDetectionApproaches.NativeGumTree, null,
+                //    @"E:\Phd\Analysis\Original.cs",
+                //    @"E:\Phd\Analysis\Modified.cs");
+            }
 
             //var analyzer = new DeltaAnalyzer();
             //var sc = new SourceCodeCleaner();
@@ -482,33 +482,19 @@ namespace Jawilliam.CDF.Labs
             #endregion
 
             #region Summarize Symptoms
-            var analyzer = new DeltaAnalyzer { Report = new StringBuilder() };
+            //var analyzer = new DeltaAnalyzer { Report = new StringBuilder() };
             //bool rowNames = true;
-            var syntaxTypes = new List<string>(System.IO.File.ReadAllLines(@"E:\Phd\Analysis\UniquePairs\TypesOfSpuriositySummary.csv"));
-            IDictionary<string, Tuple<int, int>> statistics = new Dictionary<string, Tuple<int, int>>();
-            foreach (var syntaxType in syntaxTypes)
-            {
-                statistics[syntaxType] = new Tuple<int, int>(0, 0);
-            }
-            foreach (var project in Projects)
-            {
-                analyzer.Report = new StringBuilder();
-                var dbRepository = new GitRepository(project.Name) { Name = project.Name };
-                ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 360;
+            //foreach (var project in Projects)
+            //{
+            //    analyzer.Report = new StringBuilder();
+            //    var dbRepository = new GitRepository(project.Name) { Name = project.Name };
+            //    ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 360;
 
-                analyzer.SummarizeTransformationsStatistics(dbRepository, null, ChangeDetectionApproaches.NativeGumTree, null, statistics);
-                //analyzer.SummarizeSubcorpusSelection(dbRepository, ChangeDetectionApproaches.NativeGumTree, ChangeDetectionApproaches.NativeGumTreeWithoutComments, rowNames);
-                //rowNames = false;
-                Console.WriteLine($"{dbRepository.Name} - DONE");
-            }
-            analyzer.Report = new StringBuilder();
-            analyzer.Report.AppendLine($"ElementType;#Elements;#Frps");
-            foreach (var syntaxType in syntaxTypes)
-            {
-                var stat = statistics[syntaxType];
-                analyzer.Report.AppendLine($"{syntaxType};{stat.Item1};{stat.Item2}");
-            }
-            System.IO.File.WriteAllText(@"C:\CDF\Analysis\SummaryOfChangesPerElementType.csv", analyzer.Report.ToString());
+            //    analyzer.SummarizeSubcorpusSelection(dbRepository, ChangeDetectionApproaches.NativeGumTree, ChangeDetectionApproaches.NativeGumTreeWithoutComments, rowNames);
+            //    rowNames = false;
+            //    Console.WriteLine($"{dbRepository.Name} - DONE");
+            //}
+            //System.IO.File.WriteAllText(@"C:\CDF\Analysis\SubcorpusSummary.csv", analyzer.Report.ToString());
             #endregion
 
             #region Detecting not real source code changes

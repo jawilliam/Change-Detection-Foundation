@@ -2177,8 +2177,8 @@ namespace Jawilliam.CDF.Labs
                                                 /*d.Symptoms.OfType<SpuriousElementSymptom>().Any(s => s.Original.Element.Type == "call")*/
                                                 /*d.Symptoms.OfType<SpuriousElementSymptom>().Any(s => s.Original.Element.Type == "expr_stmt")*/
                                                 /*d.Symptoms.OfType<SpuriousElementSymptom>().Any(s => s.Original.Element.Type == "argument")*/
-                                                d.Symptoms.OfType<SpuriousElementSymptom>().Any(s => s.Original.Element.Type == "function")
-                                                /*d.Symptoms.OfType<SpuriousElementSymptom>().Any(s => s.Original.Element.Type == "call")*/
+                                                /*d.Symptoms.OfType<SpuriousElementSymptom>().Any(s => s.Original.Element.Type == "function")*/
+                                                d.Symptoms.OfType<SpuriousElementSymptom>().Any(s => s.Original.Element.Type == "condition")
                                                 /*d.Symptoms.OfType<SpuriousElementSymptom>().Any(s => s.Original.Element.Type == "call")*/
                                                 /*d.Symptoms.OfType<SpuriousElementSymptom>().Any(s => s.Original.Element.Type == "call")*/
                                                 /*d.Symptoms.OfType<SpuriousElementSymptom>().Any(s => s.Original.Element.Type == "call")*/
@@ -2192,8 +2192,8 @@ var symptomIds = sqlRepository.Symptoms.OfType<SpuriousElementSymptom>()
     //.Where(s => s.Delta.Id == delta.Id && s.Original.Element.Type == "call")
     //.Where(s => s.Delta.Id == delta.Id && s.Original.Element.Type == "expr_stmt")
     //.Where(s => s.Delta.Id == delta.Id && s.Original.Element.Type == "argument")
-    .Where(s => s.Delta.Id == delta.Id && s.Original.Element.Type == "function")
-    //.Where(s => s.Delta.Id == delta.Id && s.Original.Element.Type == "call")
+    //.Where(s => s.Delta.Id == delta.Id && s.Original.Element.Type == "function")
+    .Where(s => s.Delta.Id == delta.Id && s.Original.Element.Type == "condition")
     //.Where(s => s.Delta.Id == delta.Id && s.Original.Element.Type == "call")
     //.Where(s => s.Delta.Id == delta.Id && s.Original.Element.Type == "call")
     //.Where(s => s.Delta.Id == delta.Id && s.Original.Element.Type == "call")
