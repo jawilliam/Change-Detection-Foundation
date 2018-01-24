@@ -52,6 +52,129 @@ namespace Jawilliam.CDF.Labs
                 new KeyValuePair<string, double>("using_stmt", 0.55)
             };
 
+        private readonly Func<ElementTree, ElementTree, string>[] _incompatibilities;
+
+        public DeltaAnalyzer()
+        {
+            _incompatibilities = new Func<ElementTree, ElementTree, string>[]
+            {
+                delegate(ElementTree o, ElementTree m)
+                {
+                    if ((o.Root.Label == "name" && o.Root.Value == "this" && m.Root.Value != "this") ||
+                        (m.Root.Label == "name" && m.Root.Value == "this" && o.Root.Value != "this"))
+                        return "this instance expression";
+
+                    if ((o.Root.Label == "name" && o.Root.Value == "base" && m.Root.Value != "base") ||
+                        (m.Root.Label == "name" && m.Root.Value == "base" && o.Root.Value != "base"))
+                        return "base instance expression";
+
+                    if (o.Root.Label == "comment" && m.Root.Label == "comment" &&
+                        ((o.Root.Value == "///" && m.Root.Value != "///") ||
+                         (m.Root.Value == "///" && o.Root.Value != "///")))
+                    {
+                        return "incompatible comments?";
+                    }
+
+                    if (o.Root.Label == "name" && m.Root.Label == "name")
+                    {
+                        TypeSyntax originalType = null, modifiedType = null;
+                        try
+                        {
+                            originalType = SyntaxFactory.ParseTypeName(o.Root.Value);
+                            modifiedType = SyntaxFactory.ParseTypeName(m.Root.Value);
+                        }catch (Exception){}
+
+                        if (originalType != null && modifiedType != null)
+                        {
+                            var voidType = new { TypeNames = new[] { "void", "Void"}};
+                            var types = new[]
+                            {
+                                new { TypeNames = new[] { "bool", "Boolean"}}
+                                ,new { TypeNames = new[] { "byte", "Byte"}}
+                                ,new { TypeNames = new[] { "sbyte", "SByte"}}
+                                ,new { TypeNames = new[] { "char", "Char"}}
+                                ,new { TypeNames = new[] { "decimal", "Decimal"}}
+                                ,new { TypeNames = new[] { "double", "Double"}}
+                                ,new { TypeNames = new[] { "float", "Single"}}
+                                ,new { TypeNames = new[] { "int", "Int32"}}
+                                ,new { TypeNames = new[] { "uint", "UInt32"}}
+                                ,new { TypeNames = new[] { "long", "Int64"}}
+                                ,new { TypeNames = new[] { "ulong", "UInt64"}}
+                                ,new { TypeNames = new[] { "object", "Object"}}
+                                ,new { TypeNames = new[] { "short", "Int16"}}
+                                ,new { TypeNames = new[] { "ushort", "UInt16"}}
+                                ,new { TypeNames = new[] { "string", "String"}}
+                                ,voidType
+                            };
+
+                            var oType = types.SingleOrDefault(t => t.TypeNames.Contains(originalType.ToFullString()));
+                            var mType = types.SingleOrDefault(t => t.TypeNames.Contains(modifiedType.ToFullString()));
+                            if((originalType.ToFullString() == "var" && mType != voidType) ||
+                               (modifiedType.ToFullString() == "var" && oType != voidType))
+                                return null;
+
+                            if(oType != mType)
+                                return "builtin type updates to non-builtin type";
+                        }
+                    }
+
+                    if ((o.Root.Label == "literal" && o.Root.Value == "null" && m.Root.Value != "null") ||
+                        (m.Root.Label == "literal" && m.Root.Value == "null" && o.Root.Value != "null"))
+                        return "null literal mismatch";
+
+                    if ((o.Root.Label == "literal" && o.Root.Value == "true" && m.Root.Value != "true" && m.Root.Value != "false") ||
+                        (m.Root.Label == "literal" && m.Root.Value == "true" && o.Root.Value != "true" && o.Root.Value != "false"))
+                        return "true literal mismatch";
+
+                    if ((o.Root.Label == "literal" && o.Root.Value == "false" && m.Root.Value != "false" && m.Root.Value != "true") ||
+                        (m.Root.Label == "literal" && m.Root.Value == "false" && o.Root.Value != "false" && o.Root.Value != "true"))
+                        return "false literal mismatch";
+
+                    if (o.Root.Label == "literal" && m.Root.Label == "literal")
+                    {
+                        ExpressionSyntax originalLiteral = null, modifiedLiteral = null;
+                        try
+                        {
+                            originalLiteral = SyntaxFactory.ParseExpression(o.Root.Value);
+                            modifiedLiteral = SyntaxFactory.ParseExpression(m.Root.Value);
+                        }catch (Exception){}
+
+                        if (originalLiteral != null && modifiedLiteral != null)
+                        {
+                            if ((originalLiteral.Kind() == SyntaxKind.TrueLiteralExpression ||
+                                 originalLiteral.Kind() == SyntaxKind.FalseLiteralExpression) &&
+                                (modifiedLiteral.Kind() == SyntaxKind.TrueLiteralExpression ||
+                                 modifiedLiteral.Kind() == SyntaxKind.FalseLiteralExpression))
+                                return null;
+
+                            if ((originalLiteral.Kind() == SyntaxKind.ThisExpression ||
+                                 originalLiteral.Kind() == SyntaxKind.BaseExpression) &&
+                                (modifiedLiteral.Kind() == SyntaxKind.ThisExpression ||
+                                 modifiedLiteral.Kind() == SyntaxKind.BaseExpression))
+                                return null;
+
+                            if(originalLiteral.RawKind != modifiedLiteral.RawKind &&
+                               originalLiteral.ToFullString()?.Trim('"').Trim('\'') !=
+                               modifiedLiteral.ToFullString()?.Trim('"').Trim('\''))
+                                return "literals update";
+                        }
+                    }
+
+                    var namedOriginal = this.NameContexts.SingleOrDefault(nc => nc.Criterion(o));
+                    var namedModified = this.NameContexts.SingleOrDefault(nc => nc.Criterion(m));
+                    if (namedOriginal?.NameOf(o) != null && namedModified?.NameOf(m) != null &&
+                        namedOriginal.NameOf(o) != namedModified.NameOf(m))
+                        return "renames";
+
+                    if (o.Root.Label == "operator" && m.Root.Label == "operator" &&
+                        o.Root.Value != m.Root.Value)
+                        return "different operators";
+
+                    return null;
+                }
+            };
+        }
+
         /// <summary>
         /// Analyzes the similarity in according with a given similarity metric, such as Levenshtein.
         /// </summary>
@@ -387,123 +510,6 @@ namespace Jawilliam.CDF.Labs
         /// <param name="skipThese">local criterion for determining elements that should be ignored.</param>
         public virtual void SaveIncompatibleMatches(GitRepository sqlRepository, Action cancel, ChangeDetectionApproaches approach, Func<FileRevisionPair, bool> skipThese)
         {
-            var incompatibilities = new Func<ElementTree, ElementTree, string>[]
-            {
-                delegate(ElementTree o, ElementTree m)
-                {
-                    //if ((o.Root.Label == "name" && o.Root.Value == "this" && m.Root.Value != "this") ||
-                    //    (m.Root.Label == "name" && m.Root.Value == "this" && o.Root.Value != "this"))
-                    //    return "this instance expression";
-
-                    //if ((o.Root.Label == "name" && o.Root.Value == "base" && m.Root.Value != "base") ||
-                    //    (m.Root.Label == "name" && m.Root.Value == "base" && o.Root.Value != "base"))
-                    //    return "base instance expression";
-
-                    //if (o.Root.Label == "comment" && m.Root.Label == "comment" &&
-                    //    ((o.Root.Value == "///" && m.Root.Value != "///") ||
-                    //     (m.Root.Value == "///" && o.Root.Value != "///")))
-                    //{
-                    //    return "incompatible comments?";
-                    //}
-
-                    //if (o.Root.Label == "name" && m.Root.Label == "name")
-                    //{
-                    //    TypeSyntax originalType = null, modifiedType = null;
-                    //    try
-                    //    {
-                    //        originalType = SyntaxFactory.ParseTypeName(o.Root.Value);
-                    //        modifiedType = SyntaxFactory.ParseTypeName(m.Root.Value);
-                    //    }catch (Exception){}
-
-                    //    if (originalType != null && modifiedType != null)
-                    //    {
-                    //        var voidType = new { TypeNames = new[] { "void", "Void"}};
-                    //        var types = new[]
-                    //        {
-                    //             new { TypeNames = new[] { "bool", "Boolean"}}
-                    //            ,new { TypeNames = new[] { "byte", "Byte"}}
-                    //            ,new { TypeNames = new[] { "sbyte", "SByte"}}
-                    //            ,new { TypeNames = new[] { "char", "Char"}}
-                    //            ,new { TypeNames = new[] { "decimal", "Decimal"}}
-                    //            ,new { TypeNames = new[] { "double", "Double"}}
-                    //            ,new { TypeNames = new[] { "float", "Single"}}
-                    //            ,new { TypeNames = new[] { "int", "Int32"}}
-                    //            ,new { TypeNames = new[] { "uint", "UInt32"}}
-                    //            ,new { TypeNames = new[] { "long", "Int64"}}
-                    //            ,new { TypeNames = new[] { "ulong", "UInt64"}}
-                    //            ,new { TypeNames = new[] { "object", "Object"}}
-                    //            ,new { TypeNames = new[] { "short", "Int16"}}
-                    //            ,new { TypeNames = new[] { "ushort", "UInt16"}}
-                    //            ,new { TypeNames = new[] { "string", "String"}}
-                    //            ,voidType
-                    //        };
-
-                    //        var oType = types.SingleOrDefault(t => t.TypeNames.Contains(originalType.ToFullString()));
-                    //        var mType = types.SingleOrDefault(t => t.TypeNames.Contains(modifiedType.ToFullString()));
-                    //        if((originalType.ToFullString() == "var" && mType != voidType) ||
-                    //           (modifiedType.ToFullString() == "var" && oType != voidType))
-                    //            return null;
-
-                    //        if(oType != mType)
-                    //            return "builtin type updates to non-builtin type";
-                    //    }
-                    //}
-
-                    //if ((o.Root.Label == "literal" && o.Root.Value == "null" && m.Root.Value != "null") ||
-                    //    (m.Root.Label == "literal" && m.Root.Value == "null" && o.Root.Value != "null"))
-                    //    return "null literal mismatch";
-
-                    //if ((o.Root.Label == "literal" && o.Root.Value == "true" && m.Root.Value != "true" && m.Root.Value != "false") ||
-                    //    (m.Root.Label == "literal" && m.Root.Value == "true" && o.Root.Value != "true" && o.Root.Value != "false"))
-                    //    return "true literal mismatch";
-
-                    //if ((o.Root.Label == "literal" && o.Root.Value == "false" && m.Root.Value != "false" && m.Root.Value != "true") ||
-                    //    (m.Root.Label == "literal" && m.Root.Value == "false" && o.Root.Value != "false" && o.Root.Value != "true"))
-                    //    return "false literal mismatch";
-
-                    //if (o.Root.Label == "literal" && m.Root.Label == "literal")
-                    //{
-                    //    ExpressionSyntax originalLiteral = null, modifiedLiteral = null;
-                    //    try
-                    //    {
-                    //        originalLiteral = SyntaxFactory.ParseExpression(o.Root.Value);
-                    //        modifiedLiteral = SyntaxFactory.ParseExpression(m.Root.Value);
-                    //    }catch (Exception){}
-
-                    //    if (originalLiteral != null && modifiedLiteral != null)
-                    //    {
-                    //        if ((originalLiteral.Kind() == SyntaxKind.TrueLiteralExpression ||
-                    //             originalLiteral.Kind() == SyntaxKind.FalseLiteralExpression) &&
-                    //            (modifiedLiteral.Kind() == SyntaxKind.TrueLiteralExpression ||
-                    //             modifiedLiteral.Kind() == SyntaxKind.FalseLiteralExpression))
-                    //            return null;
-
-                    //        if ((originalLiteral.Kind() == SyntaxKind.ThisExpression ||
-                    //             originalLiteral.Kind() == SyntaxKind.BaseExpression) &&
-                    //            (modifiedLiteral.Kind() == SyntaxKind.ThisExpression ||
-                    //             modifiedLiteral.Kind() == SyntaxKind.BaseExpression))
-                    //            return null;
-
-                    //        if(originalLiteral.RawKind != modifiedLiteral.RawKind && 
-                    //           originalLiteral.ToFullString()?.Trim('"').Trim('\'') !=
-                    //           modifiedLiteral.ToFullString()?.Trim('"').Trim('\''))
-                    //            return "literals update";
-                    //    }
-                    //}
-
-                    //var namedOriginal = this.NameContexts.SingleOrDefault(nc => nc.Criterion(o));
-                    //var namedModified = this.NameContexts.SingleOrDefault(nc => nc.Criterion(m));
-                    //if (namedOriginal?.NameOf(o) != null && namedModified?.NameOf(m) != null &&
-                    //    namedOriginal.NameOf(o) != namedModified.NameOf(m))
-                    //    return "renames";
-
-                    //if (o.Root.Label == "operator" && m.Root.Label == "operator" &&
-                    //    o.Root.Value != m.Root.Value)
-                    //    return "different operators";
-
-                    return null;
-                }
-            };
             this.Analyze(sqlRepository, "incompatible matches",
               f => f.Principal.Deltas.Any(d => d.Approach == approach &&
                                                d.Matching != null &&
@@ -516,7 +522,7 @@ namespace Jawilliam.CDF.Labs
                     var delta = sqlRepository.Deltas.Single(d => d.RevisionPair.Id == pair.Principal.Id && d.Approach == approach);
                     try
                     {
-                        var incompatibleMatches = this.FindIncompatibleMatches(delta, incompatibilities, token);
+                        var incompatibleMatches = this.FindIncompatibleMatches(delta, _incompatibilities, token);
                         foreach (var incompatibleMatch in incompatibleMatches)
                         {
                             delta.Symptoms.Add(incompatibleMatch);
@@ -1160,6 +1166,189 @@ namespace Jawilliam.CDF.Labs
                     }
                 },
             cancel, false, new string[] { "Principal" });
+        }
+
+        /// <summary>
+        /// Computes all the element types that have been arbitrarly updated by some of the studied choices.
+        /// </summary>
+        /// <param name="sqlRepository">the SQL database repository in which to analyze the file versions.</param>
+        /// <param name="cancel">Action to execute cancellation logic.</param>
+        /// <param name="approach"></param>
+        /// <param name="skipThese">local criterion for determining elements that should be ignored.</param>
+        /// <param name="syntaxTypes"></param>
+        public virtual void SummarizeArbitraryUpdatesStatistics(GitRepository sqlRepository, Action cancel, ChangeDetectionApproaches approach, Func<FileRevisionPair, bool> skipThese, IDictionary<string, Tuple<int, int>> syntaxTypes)
+        {
+            var arbitraryUpdates = new Func<ElementTree, ElementTree, string>[]
+            {
+                delegate(ElementTree o, ElementTree m)
+                {
+                    if ((o.Root.Label == "name" && o.Root.Value == "this") ||
+                        (m.Root.Label == "name" && m.Root.Value == "this"))
+                        return "this instance expression";
+
+                    if ((o.Root.Label == "name" && o.Root.Value == "base") ||
+                        (m.Root.Label == "name" && m.Root.Value == "base"))
+                        return "base instance expression";
+
+                    //if (o.Root.Label == "comment" && m.Root.Label == "comment" &&
+                    //    ((o.Root.Value == "///" && m.Root.Value != "///") ||
+                    //     (m.Root.Value == "///" && o.Root.Value != "///")))
+                    //{
+                    //    return "incompatible comments?";
+                    //}
+
+                    if (o.Root.Label == "name" && m.Root.Label == "name")
+                    {
+                        TypeSyntax originalType = null, modifiedType = null;
+                        try
+                        {
+                            originalType = SyntaxFactory.ParseTypeName(o.Root.Value);
+                            modifiedType = SyntaxFactory.ParseTypeName(m.Root.Value);
+                        }catch (Exception){}
+
+                        if (originalType != null && modifiedType != null)
+                        {
+                            var voidType = new { TypeNames = new[] { "void", "Void"}};
+                            var types = new[]
+                            {
+                                new { TypeNames = new[] { "bool", "Boolean"}}
+                                ,new { TypeNames = new[] { "byte", "Byte"}}
+                                ,new { TypeNames = new[] { "sbyte", "SByte"}}
+                                ,new { TypeNames = new[] { "char", "Char"}}
+                                ,new { TypeNames = new[] { "decimal", "Decimal"}}
+                                ,new { TypeNames = new[] { "double", "Double"}}
+                                ,new { TypeNames = new[] { "float", "Single"}}
+                                ,new { TypeNames = new[] { "int", "Int32"}}
+                                ,new { TypeNames = new[] { "uint", "UInt32"}}
+                                ,new { TypeNames = new[] { "long", "Int64"}}
+                                ,new { TypeNames = new[] { "ulong", "UInt64"}}
+                                ,new { TypeNames = new[] { "object", "Object"}}
+                                ,new { TypeNames = new[] { "short", "Int16"}}
+                                ,new { TypeNames = new[] { "ushort", "UInt16"}}
+                                ,new { TypeNames = new[] { "string", "String"}}
+                                ,voidType
+                            };
+
+                            var oType = types.SingleOrDefault(t => t.TypeNames.Contains(originalType.ToFullString()));
+                            var mType = types.SingleOrDefault(t => t.TypeNames.Contains(modifiedType.ToFullString()));
+                            if((originalType.ToFullString() == "var" && mType != voidType) ||
+                               (modifiedType.ToFullString() == "var" && oType != voidType))
+                                return null;
+
+                            //if(oType != mType)
+                                return "builtin type updates to non-builtin type";
+                        }
+                    }
+
+                    if ((o.Root.Label == "literal" && o.Root.Value == "null") ||
+                        (m.Root.Label == "literal" && m.Root.Value == "null"))
+                        return "null literal mismatch";
+
+                    if ((o.Root.Label == "literal" && o.Root.Value == "true") ||
+                        (m.Root.Label == "literal" && m.Root.Value == "true"))
+                        return "true literal mismatch";
+
+                    if ((o.Root.Label == "literal" && o.Root.Value == "false") ||
+                        (m.Root.Label == "literal" && m.Root.Value == "false"))
+                        return "false literal mismatch";
+
+                    if (o.Root.Label == "literal" && m.Root.Label == "literal")
+                    {
+                        ExpressionSyntax originalLiteral = null, modifiedLiteral = null;
+                        try
+                        {
+                            originalLiteral = SyntaxFactory.ParseExpression(o.Root.Value);
+                            modifiedLiteral = SyntaxFactory.ParseExpression(m.Root.Value);
+                        }catch (Exception){}
+
+                        if (originalLiteral != null && modifiedLiteral != null)
+                        {
+                            if ((originalLiteral.Kind() == SyntaxKind.TrueLiteralExpression ||
+                                 originalLiteral.Kind() == SyntaxKind.FalseLiteralExpression) &&
+                                (modifiedLiteral.Kind() == SyntaxKind.TrueLiteralExpression ||
+                                 modifiedLiteral.Kind() == SyntaxKind.FalseLiteralExpression))
+                                return null;
+
+                            if ((originalLiteral.Kind() == SyntaxKind.ThisExpression ||
+                                 originalLiteral.Kind() == SyntaxKind.BaseExpression) &&
+                                (modifiedLiteral.Kind() == SyntaxKind.ThisExpression ||
+                                 modifiedLiteral.Kind() == SyntaxKind.BaseExpression))
+                                return null;
+
+                            //if(originalLiteral.RawKind != modifiedLiteral.RawKind &&
+                            //   originalLiteral.ToFullString()?.Trim('"').Trim('\'') !=
+                            //   modifiedLiteral.ToFullString()?.Trim('"').Trim('\''))
+                                return "literals update";
+                        }
+                    }
+
+                    var namedOriginal = this.NameContexts.SingleOrDefault(nc => nc.Criterion(o));
+                    var namedModified = this.NameContexts.SingleOrDefault(nc => nc.Criterion(m));
+                    if (namedOriginal?.NameOf(o) != null || namedModified?.NameOf(m) != null/* &&
+                        namedOriginal.NameOf(o) != namedModified.NameOf(m)*/)
+                        return "renames";
+
+                    if (o.Root.Label == "operator" || m.Root.Label == "operator" /*&&
+                        o.Root.Value != m.Root.Value*/)
+                        return "different operators";
+
+                    return null;
+                }
+            };
+
+            this.Analyze(sqlRepository, "statistic summary",
+              f => f.Principal.Deltas.Any(d => d.Approach == approach &&
+                                               d.Matching != null &&
+                                               d.Differencing != null &&
+                                               d.Report == null && d.Symptoms.OfType<SpuriositySymptom>().Any()),
+                delegate (FileRevisionPair pair, CancellationToken token)
+                {
+                    if (skipThese?.Invoke(pair) ?? false) return;
+
+                    var delta = sqlRepository.Deltas.Single(d => d.RevisionPair.Id == pair.Principal.Id && d.Approach == approach);
+                    sqlRepository.Symptoms.OfType<SpuriositySymptom>().Where(s => s.Delta.Id == delta.Id).Load();
+                    var spuriosity = delta.Symptoms.OfType<SpuriositySymptom>().First();
+                    var transformationsInfo = XTransformationsInfo.Read(spuriosity.TransformationsInfo, Encoding.Unicode);
+                    try
+                    {
+                        var incompatibleMatches = this.FindIncompatibleMatches(delta, arbitraryUpdates, token).ToList();
+                        this.CountArbitraryUpdatePattern(syntaxTypes, incompatibleMatches, "this_instance_expression", "this instance expression");
+                        this.CountArbitraryUpdatePattern(syntaxTypes, incompatibleMatches, "base_instance_expression", "base instance expression");
+                        this.CountArbitraryUpdatePattern(syntaxTypes, incompatibleMatches, "builtin_type_updates_to_non_builtin_type", "builtin type updates to non-builtin type");
+                        this.CountArbitraryUpdatePattern(syntaxTypes, incompatibleMatches, "null_literal_mismatch", "null literal mismatch");
+                        this.CountArbitraryUpdatePattern(syntaxTypes, incompatibleMatches, "true_literal_mismatch", "true literal mismatch");
+                        this.CountArbitraryUpdatePattern(syntaxTypes, incompatibleMatches, "false_literal_mismatch", "false literal mismatch");
+                        this.CountArbitraryUpdatePattern(syntaxTypes, incompatibleMatches, "literals_update", "literals update");
+                        this.CountArbitraryUpdatePattern(syntaxTypes, incompatibleMatches, "renames", "renames");
+                        this.CountArbitraryUpdatePattern(syntaxTypes, incompatibleMatches, "different_operators", "different operators");
+                    }
+
+                    catch (OperationCanceledException)
+                    {
+                        this.Report.AppendLine($"CANCELED;{pair.Id};{sqlRepository.Name}");
+                        throw;
+                    }
+                    catch (OutOfMemoryException)
+                    {
+                        this.Report.AppendLine($"OUTOFMEMORY;{pair.Id};{sqlRepository.Name}");
+                        throw;
+                    }
+                },
+            cancel, false, new string[] { "Principal" });
+        }
+
+        private void CountArbitraryUpdatePattern(IDictionary<string, Tuple<int, int>> syntaxTypes, List<IncompatibleMatchingSymptom> incompatibleMatches, string patternKey, string pattern)
+        {
+            var countOfSymptoms = incompatibleMatches.Count(im => im.Pattern == pattern);
+            if (countOfSymptoms > 0)
+            {
+                if (!syntaxTypes.ContainsKey(patternKey))
+                    syntaxTypes[patternKey] = new Tuple<int, int>(0, 0);
+
+                var syntaxType = syntaxTypes[patternKey];
+                syntaxTypes[patternKey] = new Tuple<int, int>(syntaxType.Item1 + countOfSymptoms,
+                    syntaxType.Item2 + 1);
+            }
         }
 
         /// <summary>
@@ -2178,10 +2367,10 @@ namespace Jawilliam.CDF.Labs
                                                 /*d.Symptoms.OfType<SpuriousElementSymptom>().Any(s => s.Original.Element.Type == "expr_stmt")*/
                                                 /*d.Symptoms.OfType<SpuriousElementSymptom>().Any(s => s.Original.Element.Type == "argument")*/
                                                 /*d.Symptoms.OfType<SpuriousElementSymptom>().Any(s => s.Original.Element.Type == "function")*/
-                                                d.Symptoms.OfType<SpuriousElementSymptom>().Any(s => s.Original.Element.Type == "condition")
-                                                /*d.Symptoms.OfType<SpuriousElementSymptom>().Any(s => s.Original.Element.Type == "call")*/
-                                                /*d.Symptoms.OfType<SpuriousElementSymptom>().Any(s => s.Original.Element.Type == "call")*/
-                                                /*d.Symptoms.OfType<SpuriousElementSymptom>().Any(s => s.Original.Element.Type == "call")*/
+                                                /*d.Symptoms.OfType<SpuriousElementSymptom>().Any(s => s.Original.Element.Type == "condition")*/
+                                                /*d.Symptoms.OfType<SpuriousElementSymptom>().Any(s => s.Original.Element.Type == "decl")*/
+                                                /*d.Symptoms.OfType<SpuriousElementSymptom>().Any(s => s.Original.Element.Type == "name")*/
+                                                d.Symptoms.OfType<SpuriousElementSymptom>().Any(s => s.Original.Element.Type == "init")
                                                 /*d.Symptoms.OfType<SpuriousElementSymptom>().Any(s => s.Original.Element.Type == "call")*/),
 delegate (FileRevisionPair pair, CancellationToken token)
 {
@@ -2193,10 +2382,10 @@ var symptomIds = sqlRepository.Symptoms.OfType<SpuriousElementSymptom>()
     //.Where(s => s.Delta.Id == delta.Id && s.Original.Element.Type == "expr_stmt")
     //.Where(s => s.Delta.Id == delta.Id && s.Original.Element.Type == "argument")
     //.Where(s => s.Delta.Id == delta.Id && s.Original.Element.Type == "function")
-    .Where(s => s.Delta.Id == delta.Id && s.Original.Element.Type == "condition")
-    //.Where(s => s.Delta.Id == delta.Id && s.Original.Element.Type == "call")
-    //.Where(s => s.Delta.Id == delta.Id && s.Original.Element.Type == "call")
-    //.Where(s => s.Delta.Id == delta.Id && s.Original.Element.Type == "call")
+    //.Where(s => s.Delta.Id == delta.Id && s.Original.Element.Type == "condition")
+    //.Where(s => s.Delta.Id == delta.Id && s.Original.Element.Type == "decl")
+    //.Where(s => s.Delta.Id == delta.Id && s.Original.Element.Type == "name")
+    .Where(s => s.Delta.Id == delta.Id && s.Original.Element.Type == "init")
     //.Where(s => s.Delta.Id == delta.Id && s.Original.Element.Type == "call")
     .Select(s => s.Id).ToList();
 
