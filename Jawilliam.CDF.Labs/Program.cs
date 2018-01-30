@@ -374,7 +374,7 @@ namespace Jawilliam.CDF.Labs
             //            } */);
 
             var analyzer = new DeltaAnalyzer();
-            foreach (var project in Projects.Where(p => p.Name == "mono")/*.Skip(2)*/)
+            foreach (var project in Projects.Where(p => p.Name == "OpenRA")/*.Skip(2)*/)
             {
                 analyzer.Warnings = new StringBuilder();
                 var dbRepository = new GitRepository(project.Name) { Name = project.Name };

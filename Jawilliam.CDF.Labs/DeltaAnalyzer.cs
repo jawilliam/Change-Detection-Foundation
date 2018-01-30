@@ -2,6 +2,7 @@
 using System.CodeDom;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Core.Common.CommandTrees;
 using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
@@ -1235,7 +1236,7 @@ namespace Jawilliam.CDF.Labs
                                (modifiedType.ToFullString() == "var" && oType != voidType))
                                 return null;
 
-                            //if(oType != mType)
+                            if(oType != null || mType != null)
                                 return "builtin type updates to non-builtin type";
                         }
                     }
@@ -2370,8 +2371,8 @@ namespace Jawilliam.CDF.Labs
                                                 /*d.Symptoms.OfType<SpuriousElementSymptom>().Any(s => s.Original.Element.Type == "condition")*/
                                                 /*d.Symptoms.OfType<SpuriousElementSymptom>().Any(s => s.Original.Element.Type == "decl")*/
                                                 /*d.Symptoms.OfType<SpuriousElementSymptom>().Any(s => s.Original.Element.Type == "name")*/
-                                                d.Symptoms.OfType<SpuriousElementSymptom>().Any(s => s.Original.Element.Type == "init")
-                                                /*d.Symptoms.OfType<SpuriousElementSymptom>().Any(s => s.Original.Element.Type == "call")*/),
+                                                /*d.Symptoms.OfType<SpuriousElementSymptom>().Any(s => s.Original.Element.Type == "init")*/
+                                                d.Symptoms.OfType<SpuriousElementSymptom>().Any(s => s.Original.Element.Type == "call")),
 delegate (FileRevisionPair pair, CancellationToken token)
 {
 //if (skipThese?.Invoke(pair) ?? false) return;
@@ -2385,8 +2386,8 @@ var symptomIds = sqlRepository.Symptoms.OfType<SpuriousElementSymptom>()
     //.Where(s => s.Delta.Id == delta.Id && s.Original.Element.Type == "condition")
     //.Where(s => s.Delta.Id == delta.Id && s.Original.Element.Type == "decl")
     //.Where(s => s.Delta.Id == delta.Id && s.Original.Element.Type == "name")
-    .Where(s => s.Delta.Id == delta.Id && s.Original.Element.Type == "init")
-    //.Where(s => s.Delta.Id == delta.Id && s.Original.Element.Type == "call")
+    //.Where(s => s.Delta.Id == delta.Id && s.Original.Element.Type == "init")
+    .Where(s => s.Delta.Id == delta.Id && s.Original.Element.Type == "call")
     .Select(s => s.Id).ToList();
 
 //var cleaner = new SourceCodeCleaner();
@@ -2445,8 +2446,8 @@ foreach (var symptomId in symptomIds)
                                                 /*d.Symptoms.OfType<IncompatibleMatchingSymptom>().Any(s => s.Pattern == "builtin type updates to non-builtin type")*/
                                                 /*d.Symptoms.OfType<IncompatibleMatchingSymptom>().Any(s => s.Pattern == "literals update")*/
                                                 /*d.Symptoms.OfType<IncompatibleMatchingSymptom>().Any(s => s.Pattern == "renames")*/
-                                                /*d.Symptoms.OfType<IncompatibleMatchingSymptom>().Any(s => s.Pattern == "different operators")*/
-                                                d.Symptoms.OfType<IncompatibleMatchingSymptom>().Any(s => s.Pattern == "true literal mismatch")
+                                                d.Symptoms.OfType<IncompatibleMatchingSymptom>().Any(s => s.Pattern == "different operators")
+                                                /*d.Symptoms.OfType<IncompatibleMatchingSymptom>().Any(s => s.Pattern == "true literal mismatch")*/
                                                 /*d.Symptoms.OfType<IncompatibleMatchingSymptom>().Any(s => s.Pattern == "false literal mismatch")*/),
                 delegate (FileRevisionPair pair, CancellationToken token)
                 {
@@ -2460,8 +2461,8 @@ foreach (var symptomId in symptomIds)
                         //.Where(s => s.Delta.Id == delta.Id && s.Pattern == "builtin type updates to non-builtin type")
                         //.Where(s => s.Delta.Id == delta.Id && s.Pattern == "literals update")
                         //.Where(s => s.Delta.Id == delta.Id && s.Pattern == "renames")
-                        //.Where(s => s.Delta.Id == delta.Id && s.Pattern == "different operators")
-                        .Where(s => s.Delta.Id == delta.Id && s.Pattern == "true literal mismatch")
+                        .Where(s => s.Delta.Id == delta.Id && s.Pattern == "different operators")
+                        //.Where(s => s.Delta.Id == delta.Id && s.Pattern == "true literal mismatch")
                         //.Where(s => s.Delta.Id == delta.Id && s.Pattern == "false literal mismatch")
                         .Select(s => s.Id).ToList();
 
@@ -2667,5 +2668,63 @@ foreach (var symptomId in symptomIds)
 
             }
         }
+
+        /// <summary>
+        /// Computes all the element types that have been summarized in terms of spuriosity.
+        /// </summary>
+        /// <param name="sqlRepository">the SQL database repository in which to analyze the file versions.</param>
+        /// <param name="cancel">Action to execute cancellation logic.</param>
+        /// <param name="approach"></param>
+        /// <param name="skipThese">local criterion for determining elements that should be ignored.</param>
+        /// <param name="syntaxTypes"></param>
+        public virtual void SummarizeN2Issues(GitRepository sqlRepository, Action cancel, ChangeDetectionApproaches approach, Func<FileRevisionPair, bool> skipThese)
+        {
+            this.Analyze(sqlRepository, "statistic summary",
+              f => f.Principal.Deltas.Any(d => d.Approach == approach &&
+                                               d.Matching != null &&
+                                               d.Differencing != null &&
+                                               d.Report == null && d.Symptoms.OfType<MissedNameSymptom>().Any()),
+                delegate (FileRevisionPair pair, CancellationToken token)
+                {
+                    if (skipThese?.Invoke(pair) ?? false) return;
+
+                    var delta = sqlRepository.Deltas.Single(d => d.RevisionPair.Id == pair.Principal.Id && d.Approach == approach);
+                    sqlRepository.Symptoms.OfType<MissedNameSymptom>().Where(s => s.Delta.Id == delta.Id).Load();
+                    //var spuriosity = delta.Symptoms.OfType<SpuriositySymptom>().First();
+                    //var transformationsInfo = XTransformationsSummary.Read(spuriosity.TransformationSummary, Encoding.Unicode);
+
+                    var allOriginalIds = delta.Symptoms.OfType<MissedNameSymptom>().Select(s => s.Original.Element.Id).Count();
+                    var distinctOriginalIds = delta.Symptoms.OfType<MissedNameSymptom>().Select(s => s.Original.Element.Id).Count();
+                    var allModifiedIds = delta.Symptoms.OfType<MissedNameSymptom>().Select(s => s.Modified.Element.Id).Count();
+                    var distinctModifiedIds = delta.Symptoms.OfType<MissedNameSymptom>().Select(s => s.Modified.Element.Id).Count();
+
+                    if (allOriginalIds != distinctOriginalIds || allModifiedIds != distinctModifiedIds)
+                        Report.AppendLine($"{sqlRepository.Name};{pair.Id};1");
+                    //else
+                    //    Report.AppendLine($"{sqlRepository.Name};{pair.Id};0");
+
+                    //try
+                    //{
+                    //    foreach (var ti in transformationsInfo.Transformations.Where(t => t.Type != null))
+                    //    {
+                    //        var syntaxType = syntaxTypes[ti.Type];
+                    //        syntaxTypes[ti.Type] = new Tuple<int, int>(syntaxType.Item1 + ti.Total, syntaxType.Item2 + 1);
+                    //    }
+                    //}
+
+                    //catch (OperationCanceledException)
+                    //{
+                    //    this.Report.AppendLine($"CANCELED;{pair.Id};{sqlRepository.Name}");
+                    //    throw;
+                    //}
+                    //catch (OutOfMemoryException)
+                    //{
+                    //    this.Report.AppendLine($"OUTOFMEMORY;{pair.Id};{sqlRepository.Name}");
+                    //    throw;
+                    //}
+                },
+            cancel, false, new string[] { "Principal" });
+        }
+
     }
 }
