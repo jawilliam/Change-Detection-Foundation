@@ -203,8 +203,7 @@ namespace Jawilliam.CDF.Labs
                         MedianCloserRandom = values[12]
                     };
                 }).ToList();
-            this.Analyze(sqlRepository, $"{Enum.GetName(typeof(ChangeDetectionApproaches), approach)}Deltas",
-              f => f.Principal.Deltas.Any(d => d.Approach == approach &&
+            this.Analyze(f => f.Principal.Deltas.Any(d => d.Approach == approach &&
                                                d.Matching != null &&
                                                d.Differencing != null &&
                                                d.Report == null),
@@ -243,7 +242,7 @@ namespace Jawilliam.CDF.Labs
                         var subcorpus = getSubcorpus(delta);
                         setSubcorpus(delta, subcorpus == null ? subcorpusSpec : subcorpus | subcorpusSpec);
                     }
-                }, null, true, "Principal");
+                }, true, "Principal");
         }
 
         /// <summary>
@@ -253,8 +252,7 @@ namespace Jawilliam.CDF.Labs
         /// <param name="symptomApproach"></param>
         public virtual void SummarizeSubcorpusSelection(GitRepository sqlRepository, ChangeDetectionApproaches symptomApproach, ChangeDetectionApproaches subcorpusApproach, bool namesRow)
         {
-            this.Analyze(sqlRepository, "summary of subcorpus choices",
-              f => f.Principal.Deltas.Any(d => d.Approach == symptomApproach &&
+            this.Analyze(f => f.Principal.Deltas.Any(d => d.Approach == symptomApproach &&
                                                d.Matching != null &&
                                                d.Differencing != null &&
                                                d.Report == null)
@@ -364,8 +362,7 @@ namespace Jawilliam.CDF.Labs
                                            $"{miLiterals};" +
                                            $"{miRenames};" +
                                            $"{miOperators}");
-                },
-            () => {}, false, "Principal");
+                }, false, "Principal");
         }
 
         /// <summary>
@@ -511,8 +508,7 @@ namespace Jawilliam.CDF.Labs
         /// <param name="skipThese">local criterion for determining elements that should be ignored.</param>
         public virtual void SaveIncompatibleMatches(GitRepository sqlRepository, Action cancel, ChangeDetectionApproaches approach, Func<FileRevisionPair, bool> skipThese)
         {
-            this.Analyze(sqlRepository, "incompatible matches",
-              f => f.Principal.Deltas.Any(d => d.Approach == approach &&
+            this.Analyze(f => f.Principal.Deltas.Any(d => d.Approach == approach &&
                                                d.Matching != null &&
                                                d.Differencing != null &&
                                                d.Report == null),
@@ -539,8 +535,7 @@ namespace Jawilliam.CDF.Labs
                         this.Report.AppendLine($"OUTOFMEMORY;{pair.Id}");
                         throw;
                     }
-                },
-            cancel, false, "Principal");
+                }, false, "Principal");
         }
 
         /// <summary>
@@ -616,8 +611,7 @@ namespace Jawilliam.CDF.Labs
         /// <param name="skipThese">local criterion for determining elements that should be ignored.</param>
         public virtual void SaveSpuriosityInfo(GitRepository sqlRepository, Action cancel, ChangeDetectionApproaches approach, Func<FileRevisionPair, bool> skipThese)
         {
-            this.Analyze(sqlRepository, "spuriosity analysis",
-              f => f.Principal.Deltas.Any(d => d.Approach == approach &&
+            this.Analyze(f => f.Principal.Deltas.Any(d => d.Approach == approach &&
                                                d.Matching != null &&
                                                d.Differencing != null &&
                                                d.Report == null),
@@ -841,8 +835,7 @@ namespace Jawilliam.CDF.Labs
                         this.Report.AppendLine($"OUTOFMEMORY;{pair.Id};{sqlRepository.Name}");
                         throw;
                     }
-                },
-            cancel, false, "Principal");
+                }, false, "Principal");
         }
 
         /// <summary>
@@ -854,8 +847,7 @@ namespace Jawilliam.CDF.Labs
         /// <param name="skipThese">local criterion for determining elements that should be ignored.</param>
         public virtual void SummarizeSpuriosity(GitRepository sqlRepository, Action cancel, ChangeDetectionApproaches approach, Func<FileRevisionPair, bool> skipThese)
         {
-            this.Analyze(sqlRepository, "spuriosity summary",
-              f => f.Principal.Deltas.Any(d => d.Approach == approach &&
+            this.Analyze(f => f.Principal.Deltas.Any(d => d.Approach == approach &&
                                                d.Matching != null &&
                                                d.Differencing != null &&
                                                d.Report == null && d.Symptoms.OfType<SpuriositySymptom>().Any()),
@@ -962,8 +954,7 @@ namespace Jawilliam.CDF.Labs
                         this.Report.AppendLine($"OUTOFMEMORY;{pair.Id};{sqlRepository.Name}");
                         throw;
                     }
-                },
-            cancel, false, new string[] { "Principal.FromFileVersion.Content", "Principal.FileVersion.Content" });
+                }, false, "Principal.FromFileVersion.Content", "Principal.FileVersion.Content");
         }
 
         /// <summary>
@@ -975,8 +966,7 @@ namespace Jawilliam.CDF.Labs
         /// <param name="skipThese">local criterion for determining elements that should be ignored.</param>
         public virtual void FindSpuriousElements(GitRepository sqlRepository, Action cancel, ChangeDetectionApproaches approach, Func<FileRevisionPair, bool> skipThese)
         {
-            this.Analyze(sqlRepository, "spuriosity summary",
-              f => f.Principal.Deltas.Any(d => d.Approach == approach &&
+            this.Analyze(f => f.Principal.Deltas.Any(d => d.Approach == approach &&
                                                d.Matching != null &&
                                                d.Differencing != null &&
                                                d.Report == null && d.Symptoms.OfType<SpuriositySymptom>().Any()),
@@ -1118,8 +1108,7 @@ namespace Jawilliam.CDF.Labs
                         this.Report.AppendLine($"OUTOFMEMORY;{pair.Id};{sqlRepository.Name}");
                         throw;
                     }
-                },
-            cancel, false, new string[] { "Principal.FromFileVersion.Content", "Principal.FileVersion.Content" });
+                }, false, new string[] { "Principal.FromFileVersion.Content", "Principal.FileVersion.Content" });
         }
 
         /// <summary>
@@ -1132,8 +1121,7 @@ namespace Jawilliam.CDF.Labs
         /// <param name="syntaxTypes"></param>
         public virtual void SummarizeTransformationsStatistics(GitRepository sqlRepository, Action cancel, ChangeDetectionApproaches approach, Func<FileRevisionPair, bool> skipThese, IDictionary<string, Tuple<int, int>> syntaxTypes)
         {
-            this.Analyze(sqlRepository, "statistic summary",
-              f => f.Principal.Deltas.Any(d => d.Approach == approach &&
+            this.Analyze(f => f.Principal.Deltas.Any(d => d.Approach == approach &&
                                                d.Matching != null &&
                                                d.Differencing != null &&
                                                d.Report == null && d.Symptoms.OfType<SpuriositySymptom>().Any()),
@@ -1165,8 +1153,7 @@ namespace Jawilliam.CDF.Labs
                         this.Report.AppendLine($"OUTOFMEMORY;{pair.Id};{sqlRepository.Name}");
                         throw;
                     }
-                },
-            cancel, false, new string[] { "Principal" });
+                }, false, new string[] { "Principal" });
         }
 
         /// <summary>
@@ -1297,8 +1284,7 @@ namespace Jawilliam.CDF.Labs
                 }
             };
 
-            this.Analyze(sqlRepository, "statistic summary",
-              f => f.Principal.Deltas.Any(d => d.Approach == approach &&
+            this.Analyze(f => f.Principal.Deltas.Any(d => d.Approach == approach &&
                                                d.Matching != null &&
                                                d.Differencing != null &&
                                                d.Report == null && d.Symptoms.OfType<SpuriositySymptom>().Any()),
@@ -1334,8 +1320,7 @@ namespace Jawilliam.CDF.Labs
                         this.Report.AppendLine($"OUTOFMEMORY;{pair.Id};{sqlRepository.Name}");
                         throw;
                     }
-                },
-            cancel, false, new string[] { "Principal" });
+                }, false, new string[] { "Principal" });
         }
 
         private void CountArbitraryUpdatePattern(IDictionary<string, Tuple<int, int>> syntaxTypes, List<IncompatibleMatchingSymptom> incompatibleMatches, string patternKey, string pattern)
@@ -1362,8 +1347,7 @@ namespace Jawilliam.CDF.Labs
         /// <param name="syntaxTypes"></param>
         public virtual void ReportTypesOfSpuriositySummary(GitRepository sqlRepository, Action cancel, ChangeDetectionApproaches approach, Func<FileRevisionPair, bool> skipThese, HashSet<string> syntaxTypes)
         {
-            this.Analyze(sqlRepository, "universe of element types in spuriosity summary",
-              f => f.Principal.Deltas.Any(d => d.Approach == approach &&
+            this.Analyze(f => f.Principal.Deltas.Any(d => d.Approach == approach &&
                                                d.Matching != null &&
                                                d.Differencing != null &&
                                                d.Report == null && d.Symptoms.OfType<SpuriositySymptom>().Any()),
@@ -1397,8 +1381,7 @@ namespace Jawilliam.CDF.Labs
                         this.Report.AppendLine($"OUTOFMEMORY;{pair.Id};{sqlRepository.Name}");
                         throw;
                     }
-                },
-            cancel, false, new string[] { "Principal" });
+                }, false, new string[] { "Principal" });
         }
 
         /// <summary>
@@ -1423,8 +1406,7 @@ namespace Jawilliam.CDF.Labs
                 this.Report.AppendLine(line.ToString());
             }
 
-            this.Analyze(sqlRepository, "spuriosity summary in the corpus per element types",
-              f => f.Principal.Deltas.Any(d => d.Approach == approach &&
+            this.Analyze(f => f.Principal.Deltas.Any(d => d.Approach == approach &&
                                                d.Matching != null &&
                                                d.Differencing != null &&
                                                d.Report == null && d.Symptoms.OfType<SpuriositySymptom>().Any()),
@@ -1445,8 +1427,7 @@ namespace Jawilliam.CDF.Labs
                         line.Append($";{summary?.Total ?? 0};{summary?.Spuriosity ?? 0}");
                     }
                     this.Report.AppendLine(line.ToString());
-                },
-            cancel, false, new string[] { "Principal" });
+                }, false, new string[] { "Principal" });
         }
 
         /// <summary>
@@ -1843,8 +1824,7 @@ namespace Jawilliam.CDF.Labs
                 t.Root.Label == "destructor" ||
                 t.Root.Label == "property";
 
-            this.Analyze(sqlRepository, "ghost changes by misrepresented comments",
-              f => f.Principal.Deltas.Any(d => d.Approach == withoutComments &&
+            this.Analyze(f => f.Principal.Deltas.Any(d => d.Approach == withoutComments &&
                                                d.Matching != null &&
                                                d.Differencing != null &&
                                                d.Report == null) &&
@@ -1910,8 +1890,7 @@ namespace Jawilliam.CDF.Labs
                         this.Report.AppendLine($"OUTOFMEMORY;{pair.Id}");
                         throw;
                     }
-                },
-            cancel, false, "Principal");
+                }, false, "Principal");
         }
 
         private IEnumerable<GhostSymptom> FindDifferenceSetOfChanges<TOperation>(DetectionResult detectionResultWithoutComments, ElementTree treeWithoutComments, Func<ElementTree, bool> elementsOfInterest, DetectionResult detectionResultWithComments, ElementTree treeWithComments, string operationName) where TOperation : OperationDescriptor
@@ -2079,8 +2058,7 @@ namespace Jawilliam.CDF.Labs
             ChangeDetectionApproaches approach,
             SourceCodeCleaner cleaner, string originalFilePath, string modifiedFilePath)
         {
-            this.Analyze(sqlRepository, "redundancy analysis",
-              f => (f.Flags == null || (f.Flags & RevisionPairFlags.EnumAnomalies) == 0) && f.Principal.Deltas.Any(d => d.Approach == approach &&
+            this.Analyze(f => (f.Flags == null || (f.Flags & RevisionPairFlags.EnumAnomalies) == 0) && f.Principal.Deltas.Any(d => d.Approach == approach &&
                                                d.Matching != null &&
                                                d.Differencing != null &&
                                                d.Report == null &&
@@ -2351,16 +2329,14 @@ namespace Jawilliam.CDF.Labs
                             //sqlRepository.Symptoms.Remove(symptom);
                         }
                     }
-                },
-            null, true, "Principal.FileVersion.Content", "Principal.FromFileVersion.Content");
+                }, true, "Principal.FileVersion.Content", "Principal.FromFileVersion.Content");
         }
 
         public virtual void RateSpuriositySymptoms(GitRepository sqlRepository,
            ChangeDetectionApproaches approach,
            SourceCodeCleaner cleaner, string originalFilePath, string modifiedFilePath)
         {
-            this.Analyze(sqlRepository, "spuriosity analysis",
-              f => f.Principal.Deltas.Any(d => d.Approach == approach &&
+            this.Analyze(f => f.Principal.Deltas.Any(d => d.Approach == approach &&
                                                d.Matching != null &&
                                                d.Differencing != null &&
                                                d.Report == null &&
@@ -2427,16 +2403,14 @@ foreach (var symptomId in symptomIds)
                         int mClasses = modified.DescendantNodesAndSelf().OfType<BaseTypeDeclarationSyntax>().Count();
                         pair.Reviews.Add(review);
                     }
-                },
-            null, true, "Principal.FileVersion.Content", "Principal.FromFileVersion.Content");
+                }, true, "Principal.FileVersion.Content", "Principal.FromFileVersion.Content");
         }
 
         public virtual void RateIncompatibleMatchingSymptoms(GitRepository sqlRepository,
             ChangeDetectionApproaches approach,
             SourceCodeCleaner cleaner, string originalFilePath, string modifiedFilePath)
         {
-            this.Analyze(sqlRepository, "incompatible analysis",
-              f => f.Principal.Deltas.Any(d => d.Approach == approach &&
+            this.Analyze(f => f.Principal.Deltas.Any(d => d.Approach == approach &&
                                                d.Matching != null &&
                                                d.Differencing != null &&
                                                d.Report == null &&
@@ -2530,8 +2504,7 @@ foreach (var symptomId in symptomIds)
                         int mClasses = modified.DescendantNodesAndSelf().OfType<BaseTypeDeclarationSyntax>().Count();
                         pair.Reviews.Add(review);
                     }
-                },
-            null, true, "Principal.FileVersion.Content", "Principal.FromFileVersion.Content");
+                }, true, "Principal.FileVersion.Content", "Principal.FromFileVersion.Content");
         }
 
         /// <summary>
@@ -2544,8 +2517,7 @@ foreach (var symptomId in symptomIds)
         public virtual void AnalyzingSpuriosity(GitRepository sqlRepository, Action cancel, ChangeDetectionApproaches approach, Func<FileRevisionPair, bool> skipThese,
             SourceCodeCleaner cleaner, string originalFilePath, string modifiedFilePath)
         {
-            this.Analyze(sqlRepository, "spuriosity analysis",
-              f => f.Principal.Deltas.Any(d => d.Approach == approach &&
+            this.Analyze(f => f.Principal.Deltas.Any(d => d.Approach == approach &&
                                                d.Matching != null &&
                                                d.Differencing != null &&
                                                d.Report == null && d.Symptoms.OfType<SpuriositySymptom>().Any()),
@@ -2609,8 +2581,7 @@ foreach (var symptomId in symptomIds)
                         this.Report.AppendLine($"OUTOFMEMORY;{pair.Id};{sqlRepository.Name}");
                         throw;
                     }
-                },
-            cancel, false, new string[] { "Principal.FromFileVersion.Content", "Principal.FileVersion.Content" });
+                }, false, new string[] { "Principal.FromFileVersion.Content", "Principal.FileVersion.Content" });
         }
 
         public virtual void CalculateRelativeThresholds(IEnumerable<GitRepository> sqlRepositories, IEnumerable<string> elementTypes, IEnumerable<KeyValuePair<string, double>> medianTails)
@@ -2679,8 +2650,7 @@ foreach (var symptomId in symptomIds)
         /// <param name="syntaxTypes"></param>
         public virtual void SummarizeN2Issues(GitRepository sqlRepository, Action cancel, ChangeDetectionApproaches approach, Func<FileRevisionPair, bool> skipThese)
         {
-            this.Analyze(sqlRepository, "statistic summary",
-              f => f.Principal.Deltas.Any(d => d.Approach == approach &&
+            this.Analyze(f => f.Principal.Deltas.Any(d => d.Approach == approach &&
                                                d.Matching != null &&
                                                d.Differencing != null &&
                                                d.Report == null && d.Symptoms.OfType<MissedNameSymptom>().Any()),
@@ -2722,8 +2692,7 @@ foreach (var symptomId in symptomIds)
                     //    this.Report.AppendLine($"OUTOFMEMORY;{pair.Id};{sqlRepository.Name}");
                     //    throw;
                     //}
-                },
-            cancel, false, new string[] { "Principal" });
+                }, false, new string[] { "Principal" });
         }
 
     }

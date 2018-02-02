@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Diagnostics;
-using System.Diagnostics.Eventing.Reader;
 using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
@@ -23,6 +21,21 @@ namespace Jawilliam.CDF.Labs
     /// </summary>
     public class FileRevisionPairAnalyzer
     {
+        /// <summary>
+        /// Gets or sets the SQL database repository in which to analyze the file versions.
+        /// </summary>
+        public virtual GitRepository SqlRepository { get; set; }
+
+        /// <summary>
+        /// Gets or sets the expression to filter the file revision pairs of interest.
+        /// </summary>
+        public virtual Expression<Func<FileRevisionPair, bool>> OnThese { get; set; }
+
+        /// <summary>
+        /// Gets or sets a cancellation logic.
+        /// </summary>
+        public virtual Action Cancel { get; set; }
+
         /// <summary>
         /// Gets or sets tthe count of milliseconds to declare a time out analysis.
         /// </summary>
@@ -46,90 +59,6 @@ namespace Jawilliam.CDF.Labs
         public delegate void AnalyzeDelegate(FileRevisionPair repositoryObject, CancellationToken cancelToken);
 
         /// <summary>
-        /// Analyzes every file version of the given repository.
-        /// </summary>
-        /// <param name="sqlRepository">the SQL database repository in which to analyze the file versions.</param>
-        /// <param name="repositoryObjectName"></param>
-        /// <param name="onThese">expression to filter the objects of interest.</param>
-        /// <param name="analysis">an action for characterizing the analysis.</param>
-        /// <param name="cancel">Action to execute cancellation logic.</param>
-        /// <param name="includes">paths to include in the query.</param>
-        protected virtual void Analyze(GitRepository sqlRepository, string repositoryObjectName, Expression<Func<FileRevisionPair, bool>> onThese, AnalyzeDelegate analysis, Action cancel, bool saveChanges = true, params string[] includes)
-        {
-            if (analysis == null) throw new ArgumentNullException(nameof(analysis));
-
-            var repositoryObjectIds = /*sqlRepository.Name == "mono"
-                ? sqlRepository.FileRevisionPairs
-                    .Where(onThese)
-                    .Select(fv => fv.Id).ToList().Skip(8).ToList()
-                :*/ sqlRepository.FileRevisionPairs
-                    .Where(onThese)
-                    .Select(fv => fv.Id).ToList();
-
-            int counter = 0;
-            foreach (var repositoryObjectId in repositoryObjectIds)
-            {
-                var repositoryObjectQuery = saveChanges 
-                    ? sqlRepository.FileRevisionPairs.AsQueryable()
-                    : sqlRepository.FileRevisionPairs.AsQueryable().AsNoTracking();
-
-                repositoryObjectQuery = includes.Aggregate(repositoryObjectQuery, (current, include) => current.Include(include));
-                FileRevisionPair repositoryObject = repositoryObjectQuery.Single(c => c.Id == repositoryObjectId);
-
-                Console.Out.WriteLine($"Analyzing the {++counter}-{repositoryObjectName} ({repositoryObjectIds.Count}) of {sqlRepository.Name}");
-                var cancellationTokenSource = new CancellationTokenSource();
-                var cancellationToken = cancellationTokenSource.Token;
-                try
-                {
-                    try
-                    {
-                        var t = Task.Run(() => analysis(repositoryObject, cancellationToken), cancellationToken);
-                        t.Wait(this.MillisecondsTimeout);
-                        cancellationTokenSource.Cancel();
-                        cancel?.Invoke();
-
-                        t.Wait();
-                    }
-                    catch (AggregateException ae)
-                    {
-                        throw ae.InnerException;
-                    }
-                    catch (OperationCanceledException)
-                    {
-                        this.Warnings.AppendLine($"TIMEOUT - {sqlRepository.Name}-{repositoryObject.Id}");
-                    }
-                    catch (OutOfMemoryException)
-                    {
-                        this.Warnings.AppendLine($"OUTOFMEMORY - {sqlRepository.Name}-{repositoryObject.Id}");
-                    }
-                }
-                catch (InsufficientExecutionStackException)
-                {
-                    this.Warnings.AppendLine($"InsufficientExecutionStack - fileversion-{sqlRepository.Name}-{repositoryObject.Id}");
-                }
-                catch (OperationCanceledException)
-                {
-                    this.Warnings.AppendLine($"TIMEOUT - {sqlRepository.Name}-{repositoryObject.Id}");
-                }
-                catch (InvalidOperationException)
-                {
-                    this.Warnings.AppendLine($"INVALIDOPERATION - {sqlRepository.Name}-{repositoryObject.Id}");
-                }
-                catch (OutOfMemoryException)
-                {
-                    this.Warnings.AppendLine($"OUTOFMEMORY - {sqlRepository.Name}-{repositoryObject.Id}");
-                }
-                catch (Exception)
-                {
-                    this.Warnings.AppendLine($"ERROR - {sqlRepository.Name}-{repositoryObject.Id}");
-                }
-
-                Console.Out.WriteLine($"Saving the {counter}-file version ({repositoryObjectIds.Count}) of {sqlRepository.Name}");
-                sqlRepository.Flush(saveChanges);
-            }
-        }
-
-        /// <summary>
         /// Analyzes a given repository object.
         /// </summary>
         /// <param name="repositoryObject">the repository object for analyzing.</param>
@@ -141,58 +70,138 @@ namespace Jawilliam.CDF.Labs
         /// <summary>
         /// Analyzes every file version of the given repository.
         /// </summary>
-        /// <param name="sqlRepository">the SQL database repository in which to analyze the file versions.</param>
-        /// <param name="onThese">expression to filter the objects of interest.</param>
+        /// <param name="onThese"></param>
         /// <param name="analysis">an action for characterizing the analysis.</param>
-        /// <param name="cancel">Action to execute cancellation logic.</param>
+        /// <param name="saveChanges">Enables or disables the persistence of the changes.</param>
         /// <param name="includes">paths to include in the query.</param>
-        protected virtual void Analyze(GitRepository sqlRepository, Expression<Func<FileRevisionPair, bool>> onThese, AnalyzeDelegate analysis, Action cancel, bool saveChanges = true, params string[] includes)
+        protected virtual void Analyze(Expression<Func<FileRevisionPair, bool>> onThese, AnalyzeDelegate analysis, bool saveChanges = true, params string[] includes)
         {
-            this.Analyze(sqlRepository, "file modified change",
-                onThese ?? (f => f.Principal.FromFileVersion.ContentSummary.TotalLines != null && f.Principal.FileVersion.ContentSummary.TotalLines != null),
-                analysis, cancel, saveChanges,
-                includes ?? new[] { "Principal.FileVersion.Content", "Principal.FileVersion.ContentSummary", "Principal.FromFileVersion.ContentSummary", "Principal.FromFileVersion.Content" });
+            if (analysis == null) throw new ArgumentNullException(nameof(analysis));
+
+            var repositoryObjectIds = /*sqlRepository.Name == "mono"
+                ? sqlRepository.FileRevisionPairs
+                    .Where(onThese)
+                    .Select(fv => fv.Id).ToList().Skip(8).ToList()
+                :*/ this.SqlRepository.FileRevisionPairs
+                    .Where(onThese)
+                    .Select(fv => fv.Id).ToList();
+
+            int counter = 0;
+            foreach (var repositoryObjectId in repositoryObjectIds)
+            {
+                var repositoryObjectQuery = saveChanges 
+                    ? this.SqlRepository.FileRevisionPairs.AsQueryable()
+                    : this.SqlRepository.FileRevisionPairs.AsQueryable().AsNoTracking();
+
+                repositoryObjectQuery = includes.Aggregate(repositoryObjectQuery, (current, include) => current.Include(include));
+                FileRevisionPair repositoryObject = repositoryObjectQuery.Single(c => c.Id == repositoryObjectId);
+
+                Console.Out.WriteLine($"Analyzing the {++counter}-{this.SqlRepository.Name} ({repositoryObjectIds.Count}) of {this.SqlRepository.Name}");
+                var cancellationTokenSource = new CancellationTokenSource();
+                var cancellationToken = cancellationTokenSource.Token;
+                try
+                {
+                    try
+                    {
+                        var t = Task.Run(() => analysis(repositoryObject, cancellationToken), cancellationToken);
+                        t.Wait(this.MillisecondsTimeout);
+                        cancellationTokenSource.Cancel();
+                        this.Cancel?.Invoke();
+
+                        t.Wait();
+                    }
+                    catch (AggregateException ae) { throw ae.InnerException; }
+                    catch (OperationCanceledException)
+                    {
+                        this.Warnings.AppendLine($"TIMEOUT - {this.SqlRepository.Name}-{repositoryObject.Id}");
+                    }
+                    catch (OutOfMemoryException)
+                    {
+                        this.Warnings.AppendLine($"OUTOFMEMORY - {this.SqlRepository.Name}-{repositoryObject.Id}");
+                    }
+                }
+                catch (InsufficientExecutionStackException)
+                {
+                    this.Warnings.AppendLine($"InsufficientExecutionStack - fileversion-{this.SqlRepository.Name}-{repositoryObject.Id}");
+                }
+                catch (OperationCanceledException)
+                {
+                    this.Warnings.AppendLine($"TIMEOUT - {this.SqlRepository.Name}-{repositoryObject.Id}");
+                }
+                catch (InvalidOperationException)
+                {
+                    this.Warnings.AppendLine($"INVALIDOPERATION - {this.SqlRepository.Name}-{repositoryObject.Id}");
+                }
+                catch (OutOfMemoryException)
+                {
+                    this.Warnings.AppendLine($"OUTOFMEMORY - {this.SqlRepository.Name}-{repositoryObject.Id}");
+                }
+                catch (Exception)
+                {
+                    this.Warnings.AppendLine($"ERROR - {this.SqlRepository.Name}-{repositoryObject.Id}");
+                }
+
+                Console.Out.WriteLine($"Saving the {counter}-file version ({repositoryObjectIds.Count}) of {this.SqlRepository.Name}");
+                this.SqlRepository.Flush(saveChanges);
+            }
         }
+
+        ///// <summary>
+        ///// Analyzes every file version of the given repository.
+        ///// </summary>
+        ///// <param name="onThese">expression to filter the objects of interest.</param>
+        ///// <param name="analysis">an action for characterizing the analysis.</param>
+        ///// <param name="cancel">Action to execute cancellation logic.</param>
+        ///// <param name="includes">paths to include in the query.</param>
+        //protected virtual void Analyze(Expression<Func<FileRevisionPair, bool>> onThese, AnalyzeDelegate analysis, Action cancel, bool saveChanges = true, params string[] includes)
+        //{
+        //    this.Analyze(this.SqlRepository, "file modified change",
+        //        onThese ?? (f => f.Principal.FromFileVersion.ContentSummary.TotalLines != null && f.Principal.FileVersion.ContentSummary.TotalLines != null),
+        //        analysis, cancel, saveChanges,
+        //        includes ?? new[] { "Principal.FileVersion.Content", "Principal.FileVersion.ContentSummary", "Principal.FromFileVersion.ContentSummary", "Principal.FromFileVersion.Content" });
+        //}
 
         /// <summary>
         /// Analyzes every file version of the given repository.
         /// </summary>
-        /// <param name="sqlRepository">the SQL database repository in which to analyze the file versions.</param>
         /// <param name="onThese">expression to filter the objects of interest.</param>
         /// <param name="analysis">an action for characterizing the analysis given the normalized trees.</param>
-        /// <param name="cancel">Action to execute cancellation logic.</param>
+        /// <param name="saveChanges">Enables or disables the persistence of the changes.</param>
         /// <param name="includes">paths to include in the query.</param>
-        protected virtual void Analyze(GitRepository sqlRepository, Expression<Func<FileRevisionPair, bool>> onThese, CoreAnalyzeDelegate analysis, Action cancel, bool saveChanges = true, params string[] includes)
+        protected virtual void Analyze(Expression<Func<FileRevisionPair, bool>> onThese, CoreAnalyzeDelegate analysis, bool saveChanges = true, params string[] includes)
         {
-            this.Analyze(sqlRepository, "file modified change",
-                onThese ?? (f => f.Principal.FromFileVersion.ContentSummary.TotalLines != null && f.Principal.FileVersion.ContentSummary.TotalLines != null),
-                delegate (FileRevisionPair repositoryObject, CancellationToken cancelToken)
-                {
-                    var originalRoot = SyntaxFactory.ParseCompilationUnit(repositoryObject.Principal.FromFileVersion.Content.SourceCode).SyntaxTree.GetRoot();
-                    var originalContentNode = originalRoot.NormalizeWhitespace("", Environment.NewLine);
+            this.Analyze(onThese ?? (f => f.Principal.FromFileVersion.ContentSummary.TotalLines != null && f.Principal.FileVersion.ContentSummary.TotalLines != null),
+            delegate (FileRevisionPair repositoryObject, CancellationToken cancelToken)
+            {
+                var originalRoot = SyntaxFactory.ParseCompilationUnit(repositoryObject.Principal.FromFileVersion.Content.SourceCode).SyntaxTree.GetRoot();
+                var originalContentNode = originalRoot.NormalizeWhitespace("", Environment.NewLine);
 
-                    var modifiedRoot = SyntaxFactory.ParseCompilationUnit(repositoryObject.Principal.FileVersion.Content.SourceCode).SyntaxTree.GetRoot();
-                    var modifiedContentNode = modifiedRoot.NormalizeWhitespace("", Environment.NewLine);
+                var modifiedRoot = SyntaxFactory.ParseCompilationUnit(repositoryObject.Principal.FileVersion.Content.SourceCode).SyntaxTree.GetRoot();
+                var modifiedContentNode = modifiedRoot.NormalizeWhitespace("", Environment.NewLine);
 
-                    analysis(repositoryObject, originalContentNode, modifiedContentNode, cancelToken);
-                },
-                cancel, saveChanges,
-            includes ?? new[] { "Principal.FileVersion.Content", "Principal.FileVersion.ContentSummary", "Principal.FromFileVersion.ContentSummary", "Principal.FromFileVersion.Content" });
+                analysis(repositoryObject, originalContentNode, modifiedContentNode, cancelToken);
+            },
+            saveChanges,
+            includes ?? new[]
+            {
+                "Principal.FileVersion.Content",
+                "Principal.FileVersion.ContentSummary",
+                "Principal.FromFileVersion.ContentSummary",
+                "Principal.FromFileVersion.Content"
+            });
         }
 
         /// <summary>
         /// Analyzes the similarity in according with a given similarity metric, such as Levenshtein.
         /// </summary>
-        /// <param name="sqlRepository">the SQL database repository in which to analyze the file versions.</param>
         /// <param name="interopArgs">the arguments for the interoperability.</param>
         /// <param name="gumTree">the native approach based on the GumTree interoperability.</param>
-        /// <param name="cancel">Action to execute cancellation logic.</param>
         /// <param name="gumTreeApproach"></param>
         /// <param name="skipThese">local criterion for determining elements that should be ignored.</param>
         /// <param name="cleaner">A preprocessor for the source code in case it is desired.</param>
-        public virtual void NativeGumTreeDiff(GitRepository sqlRepository, GumTreeNativeApproach gumTree, InteropArgs interopArgs, Action cancel, ChangeDetectionApproaches gumTreeApproach, Func<FileRevisionPair, bool> skipThese, SourceCodeCleaner cleaner = null)
+        public virtual void NativeGumTreeDiff(GumTreeNativeApproach gumTree, InteropArgs interopArgs, ChangeDetectionApproaches gumTreeApproach, Func<FileRevisionPair, bool> skipThese, SourceCodeCleaner cleaner = null)
         {
-            this.Analyze(sqlRepository/*, f => f.Principal.Deltas.Any(d => d.Approach == gumTreeApproach)*/,
+            this.Analyze(/*this.SqlRepository, f => f.Principal.Deltas.Any(d => d.Approach == gumTreeApproach),*/
             f => f.Principal.Deltas.Any(d => d.Approach == ChangeDetectionApproaches.NativeGumTreeWithoutComments) /*&& 
                  f.Deltas.All(d => d.Approach != gumTreeApproach), // I am running Levenshtein before, so the longer cases have been already rejected.
             */,delegate (FileRevisionPair repositoryObject, SyntaxNode original, SyntaxNode modified, CancellationToken token)
@@ -200,7 +209,7 @@ namespace Jawilliam.CDF.Labs
                 if (!repositoryObject.Principal.XAnnotations.SourceCodeChanges || (skipThese?.Invoke(repositoryObject) ?? false))
                     return;
 
-                sqlRepository.Deltas.Where(d => d.RevisionPair.Id == repositoryObject.Principal.Id && d.Approach == gumTreeApproach)
+                this.SqlRepository.Deltas.Where(d => d.RevisionPair.Id == repositoryObject.Principal.Id && d.Approach == gumTreeApproach)
                     .Load();
 
                 var delta = repositoryObject.Principal.Deltas.SingleOrDefault(d => d.Approach == gumTreeApproach);
@@ -246,31 +255,96 @@ namespace Jawilliam.CDF.Labs
                             .Replace(" />  <", "/><")
                             .Replace(">  <", "><");
                 }
-            },
-            cancel, true,
+            }, true,
             "Principal.FileVersion.Content", "Principal.FromFileVersion.Content");
         }
-        
+
         /// <summary>
         /// Analyzes the similarity in according with a given similarity metric, such as Levenshtein.
         /// </summary>
-        /// <param name="sqlRepository">the SQL database repository in which to analyze the file versions.</param>
         /// <param name="interopArgs">the arguments for the interoperability.</param>
         /// <param name="gumTree">the native approach based on the GumTree interoperability.</param>
-        /// <param name="cancel">Action to execute cancellation logic.</param>
         /// <param name="gumTreeApproach"></param>
         /// <param name="skipThese">local criterion for determining elements that should be ignored.</param>
         /// <param name="cleaner">A preprocessor for the source code in case it is desired.</param>
-        public virtual void SaveNativeTrees(GitRepository sqlRepository, GumTreeNativeApproach gumTree, InteropArgs interopArgs, Action cancel, ChangeDetectionApproaches gumTreeApproach, Func<FileRevisionPair, bool> skipThese, SourceCodeCleaner cleaner = null)
+        public virtual void InverseNativeGumTreeDiff(GumTreeNativeApproach gumTree, InteropArgs interopArgs, ChangeDetectionApproaches gumTreeApproach, Func<FileRevisionPair, bool> skipThese, SourceCodeCleaner cleaner = null)
         {
-            this.Analyze(sqlRepository,
-              f => f.Principal.Deltas.Any(d => d.Approach == gumTreeApproach), 
+            this.Analyze(/*this.SqlRepository, f => f.Principal.Deltas.Any(d => d.Approach == gumTreeApproach),*/
+            f => f.Principal.Deltas.Any(d => d.Approach == ChangeDetectionApproaches.NativeGumTree) /*&& 
+                 f.Deltas.All(d => d.Approach != gumTreeApproach), // I am running Levenshtein before, so the longer cases have been already rejected.
+            */, delegate (FileRevisionPair repositoryObject, SyntaxNode original, SyntaxNode modified, CancellationToken token)
+              {
+                  if (!repositoryObject.Principal.XAnnotations.SourceCodeChanges || (skipThese?.Invoke(repositoryObject) ?? false))
+                      return;
+
+                  this.SqlRepository.Deltas.Where(d => d.RevisionPair.Id == repositoryObject.Principal.Id && d.Approach == gumTreeApproach)
+                      .Load();
+
+                  var delta = repositoryObject.Principal.Deltas.SingleOrDefault(d => d.Approach == gumTreeApproach);
+                  //if (delta != null) return;
+                  if (delta == null)
+                  {
+                      delta = new Delta { Id = Guid.NewGuid(), Approach = gumTreeApproach };
+                      repositoryObject.Principal.Deltas.Add(delta);
+                  }
+
+                  var preprocessedOriginal = cleaner != null ? cleaner.Clean(original) : original;
+                  var preprocessedModified = cleaner != null ? cleaner.Clean(modified) : modified;
+                  System.IO.File.WriteAllText(interopArgs.Modified, preprocessedOriginal.ToFullString());
+                  System.IO.File.WriteAllText(interopArgs.Original, preprocessedModified.ToFullString());
+
+                  try
+                  {
+                      gumTree.Proceed(interopArgs);
+                  }
+                  catch (Exception e)
+                  {
+                      if (string.IsNullOrEmpty(gumTree.Result.Error))
+                          gumTree.Result.Error = e.Message;
+
+                      throw;
+                  }
+                  finally
+                  {
+                      var writeXmlColumn = gumTree.Result.WriteXmlColumn();
+                      XElement result = XElement.Parse(writeXmlColumn.Replace("﻿<?xml version=\"1.0\" encoding=\"utf-16\"?>", ""));
+                      delta.Matching = new XDocument(result.Element("Matches")).ToString()
+                              .Replace("\r\n", "")
+                              .Replace(" />  <", "/><")
+                              .Replace(">  <", "><");
+                      delta.Differencing = new XDocument(result.Element("Actions")).ToString()
+                              .Replace("\r\n", "")
+                              .Replace(" />  <", "/><")
+                              .Replace(">  <", "><");
+
+                      if (!string.IsNullOrEmpty(gumTree.Result?.Error))
+                          delta.Report = result.ToString()
+                              .Replace("\r\n", "")
+                              .Replace(" />  <", "/><")
+                              .Replace(">  <", "><");
+                  }
+              }, true,
+            "Principal.FileVersion.Content", "Principal.FromFileVersion.Content");
+        }
+
+
+        /// <summary>
+        /// Analyzes the similarity in according with a given similarity metric, such as Levenshtein.
+        /// </summary>
+        /// <param name="interopArgs">the arguments for the interoperability.</param>
+        /// <param name="gumTree">the native approach based on the GumTree interoperability.</param>
+        /// <param name="gumTreeApproach"></param>
+        /// <param name="skipThese">local criterion for determining elements that should be ignored.</param>
+        /// <param name="cleaner">A preprocessor for the source code in case it is desired.</param>
+        public virtual void SaveNativeTrees(GumTreeNativeApproach gumTree, InteropArgs interopArgs, ChangeDetectionApproaches gumTreeApproach, Func<FileRevisionPair, bool> skipThese, SourceCodeCleaner cleaner = null)
+        {
+            this.Analyze(f => f.Principal.Deltas.Any(d => d.Approach == gumTreeApproach), 
               delegate (FileRevisionPair repositoryObject, SyntaxNode original, SyntaxNode modified, CancellationToken token)
               {
                   if (!repositoryObject.Principal.XAnnotations.SourceCodeChanges || (skipThese?.Invoke(repositoryObject) ?? false))
                       return;
 
-                  sqlRepository.Deltas.Where(d => d.RevisionPair.Id == repositoryObject.Principal.Id && d.Approach == gumTreeApproach)
+                  this.SqlRepository.Deltas.Where(d => d.RevisionPair.Id == repositoryObject.Principal.Id && d.Approach == gumTreeApproach)
                       .Load();
 
                   var delta = repositoryObject.Principal.Deltas.Single(d => d.Approach == gumTreeApproach);
@@ -331,33 +405,30 @@ namespace Jawilliam.CDF.Labs
                   //    ;
                   //    throw new InvalidOperationException();
                   //}
-              },
-            cancel, true,
+              }, true,
             "Principal.FileVersion.Content", "Principal.FromFileVersion.Content");
         }
 
         /// <summary>
         /// Filters the file revision pairs that satisfy a particular criterion.
         /// </summary>
-        /// <param name="sqlRepository">the SQL database repository in which to analyze the file versions.</param>
-        /// <param name="repositoryObjectName">name of the repository</param>
         /// <param name="onThese">expression to filter the objects of interest.</param>
         /// <param name="action">the filtering criterion</param>
         /// <param name="includes">paths to include in the query.</param>
-        public virtual void ForEach(GitRepository sqlRepository, string repositoryObjectName, Expression<Func<FileRevisionPair, bool>> onThese, Action<FileRevisionPair> action, params string[] includes)
+        public virtual void ForEach(Expression<Func<FileRevisionPair, bool>> onThese, Action<FileRevisionPair> action, params string[] includes)
         {
-            var repositoryObjectIds = sqlRepository.FileRevisionPairs
+            var repositoryObjectIds = this.SqlRepository.FileRevisionPairs
                    .Where(onThese)
                    .Select(fv => fv.Id).ToList();
 
             var counter = 0;
             foreach (var repositoryObjectId in repositoryObjectIds)
             {
-                var repositoryObjectQuery = sqlRepository.FileRevisionPairs.AsQueryable();
+                var repositoryObjectQuery = this.SqlRepository.FileRevisionPairs.AsQueryable();
                 repositoryObjectQuery = includes.Aggregate(repositoryObjectQuery, (current, include) => current.Include(include));
                 var repositoryObject = repositoryObjectQuery.Single(c => c.Id == repositoryObjectId);
 
-                Console.Out.WriteLine($"Analyzing the {++counter}-{repositoryObjectName} ({repositoryObjectIds.Count}) of {sqlRepository.Name}");
+                Console.Out.WriteLine($"Analyzing the {++counter}-{this.SqlRepository.Name} ({repositoryObjectIds.Count}) of {this.SqlRepository.Name}");
                 action(repositoryObject);
             }
         }
@@ -386,111 +457,104 @@ namespace Jawilliam.CDF.Labs
            ? $"{s}##{this.GetBreadcrum(ancestor)}"
            : this.GetBreadcrum(ancestor));
 
-        /// <summary>
-        /// Analyzes the similarity in according with a given similarity metric, such as Levenshtein.
-        /// </summary>
-        /// <param name="sqlRepository">the SQL database repository in which to analyze the file versions.</param>
-        /// <param name="cancel">Action to execute cancellation logic.</param>
-        /// <param name="approach"></param>
-        /// <param name="skipThese">local criterion for determining elements that should be ignored.</param>
-        public virtual void SaveMissedNames(GitRepository sqlRepository, Action cancel, ChangeDetectionApproaches approach, Func<FileRevisionPair, bool> skipThese)
-        {
-            this.Analyze(sqlRepository, "file revision pair",
-              f => f.Principal.Deltas.Any(d => d.Approach == approach &&
-                                               d.Matching != null &&
-                                               d.Differencing != null &&
-                                               d.Report == null),
-                delegate(FileRevisionPair pair, CancellationToken token)
-                {
-                    if (skipThese?.Invoke(pair) ?? false) return;
+        ///// <summary>
+        ///// Analyzes the similarity in according with a given similarity metric, such as Levenshtein.
+        ///// </summary>
+        ///// <param name="approach"></param>
+        ///// <param name="skipThese">local criterion for determining elements that should be ignored.</param>
+        //public virtual void SaveMissedNames(ChangeDetectionApproaches approach, Func<FileRevisionPair, bool> skipThese)
+        //{
+        //    this.Analyze(f => f.Principal.Deltas.Any(d => d.Approach == approach &&
+        //                                       d.Matching != null &&
+        //                                       d.Differencing != null &&
+        //                                       d.Report == null),
+        //        delegate(FileRevisionPair pair, CancellationToken token)
+        //        {
+        //            if (skipThese?.Invoke(pair) ?? false) return;
 
-                    var delta = sqlRepository.Deltas.Single(d => d.RevisionPair.Id == pair.Principal.Id && d.Approach == approach);
-                    try
-                    {
-                        var missedMatchesA = this.FindMissedMatchesAOfKeyedElement(delta, token);
+        //            var delta = this.SqlRepository.Deltas.Single(d => d.RevisionPair.Id == pair.Principal.Id && d.Approach == approach);
+        //            try
+        //            {
+        //                var missedMatchesA = this.FindMissedMatchesAOfKeyedElement(delta, token);
 
-                        foreach (var missedMatchA in missedMatchesA)
-                        {
-                            var originalAncestorOfReference = missedMatchA.Original.Element.LabelOf(t => t.Parent, t => t.Root.Label == "name")
-                                .First(a => a.Root.Label != "name").Ancestors().First();
-                            var modifiedAncestorOfReference = missedMatchA.Modified.Element.LabelOf(t => t.Parent, t => t.Root.Label == "name")
-                                .First(a => a.Root.Label != "name").Ancestors().First();
-                            delta.Symptoms.Add(new MissedNameSymptom
-                            {
-                                Id = Guid.NewGuid(),
-                                Pattern = missedMatchA.Case,
-                                Original = new MissedMatch
-                                {
-                                    Element = new ElementDescription
-                                    {
-                                        Hint = missedMatchA.Original.Element.Root.Value,
-                                        Id = missedMatchA.Original.Element.Root.Id,
-                                        Type = missedMatchA.Original.Type
-                                    },
-                                    AncestorOfReference = new ElementDescription
-                                    {
-                                        Hint = this.GetBreadcrum(originalAncestorOfReference),
-                                        Id = originalAncestorOfReference.Root.Id,
-                                        Type = originalAncestorOfReference.Root.Label
-                                    },
-                                    CommonAncestorOfReference = new ElementDescription
-                                    {
-                                        Hint = this.GetBreadcrum(missedMatchA.Original.MatchedReference),
-                                        Id = missedMatchA.Original.MatchedReference.Root.Id,
-                                        Type = missedMatchA.Original.MatchedReference.Root.Label
-                                    },
-                                    ScopeHint = this.GetPath(missedMatchA.Original.Element.LabelOf(t => t.Parent, t => t.Root.Label == "name").First(a => a.Root.Label != "name").Ancestors())
-                                },
-                                Modified = new MissedMatch
-                                {
-                                    Element = new ElementDescription
-                                    {
-                                        Hint = missedMatchA.Modified.Element.Root.Value,
-                                        Id = missedMatchA.Modified.Element.Root.Id,
-                                        Type = missedMatchA.Modified.Type
-                                    },
-                                    AncestorOfReference = new ElementDescription
-                                    {
-                                        Hint = this.GetBreadcrum(modifiedAncestorOfReference),
-                                        Id = modifiedAncestorOfReference.Root.Id,
-                                        Type = modifiedAncestorOfReference.Root.Label
-                                    },
-                                    CommonAncestorOfReference = new ElementDescription
-                                    {
-                                        Hint = this.GetBreadcrum(missedMatchA.Modified.MatchedReference),
-                                        Id = missedMatchA.Modified.MatchedReference.Root.Id,
-                                        Type = missedMatchA.Modified.MatchedReference.Root.Label
-                                    },
-                                    ScopeHint = this.GetPath(missedMatchA.Modified.Element.LabelOf(t => t.Parent, t => t.Root.Label == "name").First(a => a.Root.Label != "name").Ancestors())
-                                }
-                            });
-                        }
-                    }
-                    catch (OperationCanceledException)
-                    {
-                        this.Report.AppendLine($"CANCELED;{pair.Id}");
-                        throw;
-                    }
-                    catch (OutOfMemoryException)
-                    {
-                        this.Report.AppendLine($"OUTOFMEMORY;{pair.Id}");
-                        throw;
-                    }
-                },
-            cancel, true, "Principal");
-        }
+        //                foreach (var missedMatchA in missedMatchesA)
+        //                {
+        //                    var originalAncestorOfReference = missedMatchA.Original.Element.LabelOf(t => t.Parent, t => t.Root.Label == "name")
+        //                        .First(a => a.Root.Label != "name").Ancestors().First();
+        //                    var modifiedAncestorOfReference = missedMatchA.Modified.Element.LabelOf(t => t.Parent, t => t.Root.Label == "name")
+        //                        .First(a => a.Root.Label != "name").Ancestors().First();
+        //                    delta.Symptoms.Add(new MissedNameSymptom
+        //                    {
+        //                        Id = Guid.NewGuid(),
+        //                        Pattern = missedMatchA.Case,
+        //                        Original = new MissedMatch
+        //                        {
+        //                            Element = new ElementDescription
+        //                            {
+        //                                Hint = missedMatchA.Original.Element.Root.Value,
+        //                                Id = missedMatchA.Original.Element.Root.Id,
+        //                                Type = missedMatchA.Original.Type
+        //                            },
+        //                            AncestorOfReference = new ElementDescription
+        //                            {
+        //                                Hint = this.GetBreadcrum(originalAncestorOfReference),
+        //                                Id = originalAncestorOfReference.Root.Id,
+        //                                Type = originalAncestorOfReference.Root.Label
+        //                            },
+        //                            CommonAncestorOfReference = new ElementDescription
+        //                            {
+        //                                Hint = this.GetBreadcrum(missedMatchA.Original.MatchedReference),
+        //                                Id = missedMatchA.Original.MatchedReference.Root.Id,
+        //                                Type = missedMatchA.Original.MatchedReference.Root.Label
+        //                            },
+        //                            ScopeHint = this.GetPath(missedMatchA.Original.Element.LabelOf(t => t.Parent, t => t.Root.Label == "name").First(a => a.Root.Label != "name").Ancestors())
+        //                        },
+        //                        Modified = new MissedMatch
+        //                        {
+        //                            Element = new ElementDescription
+        //                            {
+        //                                Hint = missedMatchA.Modified.Element.Root.Value,
+        //                                Id = missedMatchA.Modified.Element.Root.Id,
+        //                                Type = missedMatchA.Modified.Type
+        //                            },
+        //                            AncestorOfReference = new ElementDescription
+        //                            {
+        //                                Hint = this.GetBreadcrum(modifiedAncestorOfReference),
+        //                                Id = modifiedAncestorOfReference.Root.Id,
+        //                                Type = modifiedAncestorOfReference.Root.Label
+        //                            },
+        //                            CommonAncestorOfReference = new ElementDescription
+        //                            {
+        //                                Hint = this.GetBreadcrum(missedMatchA.Modified.MatchedReference),
+        //                                Id = missedMatchA.Modified.MatchedReference.Root.Id,
+        //                                Type = missedMatchA.Modified.MatchedReference.Root.Label
+        //                            },
+        //                            ScopeHint = this.GetPath(missedMatchA.Modified.Element.LabelOf(t => t.Parent, t => t.Root.Label == "name").First(a => a.Root.Label != "name").Ancestors())
+        //                        }
+        //                    });
+        //                }
+        //            }
+        //            catch (OperationCanceledException)
+        //            {
+        //                this.Report.AppendLine($"CANCELED;{pair.Id}");
+        //                throw;
+        //            }
+        //            catch (OutOfMemoryException)
+        //            {
+        //                this.Report.AppendLine($"OUTOFMEMORY;{pair.Id}");
+        //                throw;
+        //            }
+        //        }, true, "Principal");
+        //}
 
         /// <summary>
         /// Analyzes the similarity in according with a given similarity metric, such as Levenshtein.
         /// </summary>
-        /// <param name="sqlRepository">the SQL database repository in which to analyze the file versions.</param>
-        /// <param name="cancel">Action to execute cancellation logic.</param>
         /// <param name="approach"></param>
         /// <param name="skipThese">local criterion for determining elements that should be ignored.</param>
-        public virtual void SaveConfusingRenames(GitRepository sqlRepository, Action cancel, ChangeDetectionApproaches approach, Func<FileRevisionPair, bool> skipThese)
+        public virtual void SaveConfusingRenames(ChangeDetectionApproaches approach, Func<FileRevisionPair, bool> skipThese)
         {
-            this.Analyze(sqlRepository, "coexisting names",
-              f => f.Principal.Deltas.Any(d => d.Approach == approach &&
+            this.Analyze(f => f.Principal.Deltas.Any(d => d.Approach == approach &&
                                                d.Matching != null &&
                                                d.Differencing != null &&
                                                d.Report == null),
@@ -498,7 +562,7 @@ namespace Jawilliam.CDF.Labs
                 {
                     if (skipThese?.Invoke(pair) ?? false) return;
 
-                    var delta = sqlRepository.Deltas.Single(d => d.RevisionPair.Id == pair.Principal.Id && d.Approach == approach);
+                    var delta = this.SqlRepository.Deltas.Single(d => d.RevisionPair.Id == pair.Principal.Id && d.Approach == approach);
                     try
                     {
                         var coexistingNames = this.FindConfusingRenames(delta, token);
@@ -583,8 +647,7 @@ namespace Jawilliam.CDF.Labs
                         this.Report.AppendLine($"OUTOFMEMORY;{pair.Id}");
                         throw;
                     }
-                },
-            cancel, true, "Principal");
+                }, true, "Principal");
         }
 
         //private ElementTree GetReference(ElementTree element)
@@ -780,7 +843,7 @@ namespace Jawilliam.CDF.Labs
         /// <summary>
         /// Represents an element name must be analyzed.
         /// </summary>
-        protected class CandidateName
+        public class CandidateName
         {
             /// <summary>
             /// Gets or sets the tree representing the candidate element name.
@@ -792,164 +855,7 @@ namespace Jawilliam.CDF.Labs
             /// </summary>
             public virtual MissedNameContext Context { get; set; }
         }
-
-        /// <summary>
-        /// Finds possible missed matches MM.a (i.e., both t1 and t2 do not match to other element)
-        /// </summary>
-        /// <param name="delta">delta to analyze.</param>
-        /// <returns>a collection of the candidate missed matches found in the given delta.</returns>
-        public virtual IEnumerable<MissedElement> FindMissedMatchesAOfKeyedElement(Delta delta, CancellationToken token)
-        {
-            //    Label = "namespace",
-            //    Label = "using",
-            var originalTree = ElementTree.Read(delta.OriginalTree, Encoding.Unicode);
-            var modifiedTree = ElementTree.Read(delta.ModifiedTree, Encoding.Unicode);
-            var detectionResult = (DetectionResult)delta.DetectionResult;
-
-            // Missed matches - Deleted and Inserted
-            var insertedNames = detectionResult.Actions.OfType<InsertOperationDescriptor>()
-                .Where(m => m.Element.Label == "name")
-                .Select(t => modifiedTree.PostOrder(n => n.Children).First(n => n.Root.Id == t.Element.Id))
-                .Select(t => new CandidateName { Tree = t, Context = this.NameContexts.SingleOrDefault(nm => nm.Criterion(t)) })
-                .Where(t => t.Context != null)
-                .ToList();
-            var deletedNames = detectionResult.Actions.OfType<DeleteOperationDescriptor>()
-                .Where(m => m.Element.Label == "name")
-                .Select(t => originalTree.PostOrder(n => n.Children).First(n => n.Root.Id == t.Element.Id))
-                .Select(t => new CandidateName { Tree = t, Context = this.NameContexts.SingleOrDefault(nm => nm.Criterion(t)) })
-                .Where(t => t.Context != null)
-                .ToList();
-            var matchedInsertionAncestors = (from a in insertedNames
-                                             from outerScope in a.Context.OuterScopes(a.Tree)
-                                             let ancestorMatching = detectionResult.Matches.SingleOrDefault(m => m.Modified.Id == outerScope.Root.Id)
-                                             where ancestorMatching != null
-                                             select new RevisionPair<ElementDescriptor, ElementTree> { Modified = outerScope, Original = ancestorMatching.Original })
-                                            .ToList();
-            foreach (var missedMatch in this.FindMissedMatches("MM.DI", deletedNames, insertedNames, matchedInsertionAncestors, token))
-                yield return missedMatch;
-
-            // Missed matches - Updated and Inserted
-            var updatedNamesO = detectionResult.Actions.OfType<UpdateOperationDescriptor>()
-                .Where(m => m.Element.Label == "name")
-                .Select(t => originalTree.PostOrder(n => n.Children).First(n => n.Root.Id == t.Element.Id))
-                .Select(t => new CandidateName { Tree = t, Context = this.NameContexts.SingleOrDefault(nm => nm.Criterion(t)) })
-                .Where(t => t.Context != null)
-                .ToList();
-            foreach (var missedMatch in this.FindMissedMatches("MM.UI", updatedNamesO, insertedNames, matchedInsertionAncestors, token))
-                yield return missedMatch;
-
-            // Missed matches - Deleted and Updated
-            var updatedNamesM = detectionResult.Actions.OfType<UpdateOperationDescriptor>()
-                .Where(m => m.Element.Label == "name")
-                .Select(delegate(UpdateOperationDescriptor t)
-                {
-                    var match = detectionResult.Matches.Single(m => m.Original.Id == t.Element.Id);
-                    return modifiedTree.PostOrder(n => n.Children).First(n => n.Root.Id == match.Modified.Id);
-                })
-                .Select(t => new CandidateName { Tree = t, Context = this.NameContexts.SingleOrDefault(nm => nm.Criterion(t)) })
-                .Where(t => t.Context != null)
-                .ToList();
-            var matchedUpdateAncestors = (from a in updatedNamesM
-                                          from outerScope in a.Context.OuterScopes(a.Tree)
-                                          let ancestorMatching = detectionResult.Matches.SingleOrDefault(m => m.Modified.Id == outerScope.Root.Id)
-                                          where ancestorMatching != null
-                                          select new RevisionPair<ElementDescriptor, ElementTree> { Modified = outerScope, Original = ancestorMatching.Original })
-                                         .ToList();
-            foreach (var missedMatch in this.FindMissedMatches("MM.DU", deletedNames, updatedNamesM, matchedUpdateAncestors, token))
-                yield return missedMatch;
-
-            foreach (var missedMatch in this.FindMissedMatches("MM.UU", updatedNamesO, updatedNamesM, matchedUpdateAncestors, token, 
-                (or, mo) => detectionResult.Matches.Any(m => m.Original.Id == or.Tree.Root.Id && m.Modified.Id == mo.Tree.Root.Id)))
-                yield return missedMatch;
-
-            var movedNamesM = detectionResult.Actions.OfType<MoveOperationDescriptor>()
-                .Where(m => m.Element.Label == "name")
-                .Select(delegate (MoveOperationDescriptor t)
-                {
-                    var match = detectionResult.Matches.Single(m => m.Original.Id == t.Element.Id);
-                    return modifiedTree.PostOrder(n => n.Children).First(n => n.Root.Id == match.Modified.Id);
-                })
-                .Select(t => new CandidateName { Tree = t, Context = this.NameContexts.SingleOrDefault(nm => nm.Criterion(t)) })
-                .Where(t => t.Context != null)
-                .ToList();
-            var matchedMoveAncestors = (from a in movedNamesM
-                                        from outerScope in a.Context.OuterScopes(a.Tree)
-                                        let ancestorMatching = detectionResult.Matches.SingleOrDefault(m => m.Modified.Id == outerScope.Root.Id)
-                                        where ancestorMatching != null
-                                        select new RevisionPair<ElementDescriptor, ElementTree> { Modified = outerScope, Original = ancestorMatching.Original })
-                                       .ToList();
-            foreach (var missedMatch in this.FindMissedMatches("MM.DM", deletedNames, movedNamesM, matchedMoveAncestors, token))
-                yield return missedMatch;
-
-            var movedNamesO = detectionResult.Actions.OfType<MoveOperationDescriptor>()
-                .Where(m => m.Element.Label == "name")
-                .Select(delegate (MoveOperationDescriptor t)
-                {
-                    var match = detectionResult.Matches.Single(m => m.Original.Id == t.Element.Id);
-                    return originalTree.PostOrder(n => n.Children).First(n => n.Root.Id == match.Original.Id);
-                })
-                .Select(t => new CandidateName { Tree = t, Context = this.NameContexts.SingleOrDefault(nm => nm.Criterion(t)) })
-                .Where(t => t.Context != null)
-                .ToList();
-            foreach (var missedMatch in this.FindMissedMatches("MM.MI", movedNamesO, insertedNames, matchedInsertionAncestors, token))
-                yield return missedMatch;
-
-            foreach (var missedMatch in this.FindMissedMatches("MM.MM", movedNamesO, movedNamesM, matchedMoveAncestors, token,
-                (or, mo) => detectionResult.Matches.Any(m => m.Original.Id == or.Tree.Root.Id && m.Modified.Id == mo.Tree.Root.Id)))
-                yield return missedMatch;
-
-            foreach (var missedMatch in this.FindMissedMatches("MM.M", movedNamesO, movedNamesM, matchedMoveAncestors, token))
-                yield return missedMatch;
-
-            foreach (var missedMatch in this.FindMissedMatches("MM.UM", updatedNamesO, movedNamesM, matchedMoveAncestors, token))
-                yield return missedMatch;
-
-            foreach (var missedMatch in this.FindMissedMatches("MM.MU", movedNamesO, updatedNamesM, matchedUpdateAncestors, token))
-                yield return missedMatch;
-        }
-
-        protected virtual IEnumerable<MissedElement> FindMissedMatches(string mismatchingCase, List<CandidateName> originalNames, List<CandidateName> modifiedNames, List<RevisionPair<ElementDescriptor, ElementTree>> matchedModifiedAncestors, CancellationToken token, Func<CandidateName, CandidateName, bool> skipThese = null)
-        {
-            if (originalNames.Any() && modifiedNames.Any())
-            {
-                foreach (var modifiedName in modifiedNames)
-                {
-                    foreach (var originalName in originalNames.Where(d => d.Tree.Root.Value == modifiedName.Tree.Root.Value))
-                    {
-                        if (token.IsCancellationRequested)
-                            token.ThrowIfCancellationRequested();
-
-                        if (skipThese != null && skipThese(originalName, modifiedName))
-                            continue;
-
-                        var originalScopes = originalName.Context.OuterScopes(originalName.Tree);
-                        var candidate = matchedModifiedAncestors.FirstOrDefault(ma => originalScopes.Any(a => a.Root.Id == ma.Original.Id));
-                        if (candidate != null)
-                        {
-                            yield return new MissedElement
-                            {
-                                Case = mismatchingCase,
-                                Modified = new MissedVersion
-                                {
-                                    Type = modifiedName.Context.NameOf(modifiedName.Tree),
-                                    Element = modifiedName.Tree,
-                                    MatchedReference = candidate.Modified,
-                                    Scopes = modifiedName.Context.OuterScopes(modifiedName.Tree)
-                                },
-                                Original = new MissedVersion
-                                {
-                                    Type = originalName.Context.NameOf(originalName.Tree),
-                                    Element = originalName.Tree,
-                                    MatchedReference = originalScopes.Single(a => a.Root.Id == candidate.Original.Id),
-                                    Scopes = originalName.Context.OuterScopes(originalName.Tree)
-                                }
-                            };
-                        }
-                    }
-                }
-            }
-        }
-
+        
         public virtual IEnumerable<NameCoexistenceSymptom> FindConfusingRenames(Delta delta, CancellationToken token)
         {
             var detectionResult = (DetectionResult)delta.DetectionResult;
@@ -1048,20 +954,19 @@ namespace Jawilliam.CDF.Labs
         /// <summary>
         /// Reports a summary of the file revision pairs of the given Git SQL database.
         /// </summary>
-        /// <param name="sqlRepository">the SQL database repository.</param>
         /// <returns><see cref="Tuple{T1,T2,T3}.Item1"/> total of file revision pairs, <see cref="Tuple{T1,T2,T3}.Item2"/> count 
         /// of revision pairs with source code changes, and <see cref="Tuple{T1,T2,T3}.Item3"/> of revision pairs with only comment changes.</returns>
-        public virtual Tuple<int, int, int> Summarize(GitRepository sqlRepository)
+        public virtual Tuple<int, int, int> Summarize()
         {
             int frpWithCodeChanges = 0, frpWithOnlyCommentChanges = 0;
-            foreach (var fileRevisionPair in sqlRepository.FileRevisionPairs.AsNoTracking().Include(frp => frp.Principal))
+            foreach (var fileRevisionPair in this.SqlRepository.FileRevisionPairs.AsNoTracking().Include(frp => frp.Principal))
             {
                 var sourceCodeChanges = fileRevisionPair.Principal.XAnnotations.SourceCodeChanges;
                 frpWithCodeChanges += sourceCodeChanges ? 1 : 0;
                 frpWithOnlyCommentChanges += sourceCodeChanges && fileRevisionPair.Principal.XAnnotations.OnlyCommentChanges ? 1 : 0;
             }
 
-            return new Tuple<int, int, int>(sqlRepository.FileRevisionPairs.Count(),
+            return new Tuple<int, int, int>(this.SqlRepository.FileRevisionPairs.Count(),
                                             frpWithCodeChanges,
                                             frpWithOnlyCommentChanges);
         }

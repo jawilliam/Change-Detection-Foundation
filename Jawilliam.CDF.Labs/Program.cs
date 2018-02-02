@@ -373,35 +373,35 @@ namespace Jawilliam.CDF.Labs
             //                //RemoveComments = true
             //            } */);
 
-            var analyzer = new DeltaAnalyzer();
-            foreach (var project in Projects.Where(p => p.Name == "OpenRA")/*.Skip(2)*/)
-            {
-                analyzer.Warnings = new StringBuilder();
-                var dbRepository = new GitRepository(project.Name) { Name = project.Name };
-                ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 360;
+            //var analyzer = new DeltaAnalyzer();
+            //foreach (var project in Projects.Where(p => p.Name == "OpenRA")/*.Skip(2)*/)
+            //{
+            //    analyzer.Warnings = new StringBuilder();
+            //    var dbRepository = new GitRepository(project.Name) { Name = project.Name };
+            //    ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 360;
 
-                analyzer.RateSpuriositySymptoms(dbRepository,
-                    ChangeDetectionApproaches.NativeGumTree, null,
-                    @"E:\Phd\Analysis\Original.cs",
-                    @"E:\Phd\Analysis\Modified.cs");
-                //analyzer.RateIncompatibleMatchingSymptoms(dbRepository,
-                //    ChangeDetectionApproaches.NativeGumTree, null,
-                //    @"E:\Phd\Analysis\Original.cs",
-                //    @"E:\Phd\Analysis\Modified.cs");//CoreFx
+            //    analyzer.RateSpuriositySymptoms(dbRepository,
+            //        ChangeDetectionApproaches.NativeGumTree, null,
+            //        @"E:\Phd\Analysis\Original.cs",
+            //        @"E:\Phd\Analysis\Modified.cs");
+            //    //analyzer.RateIncompatibleMatchingSymptoms(dbRepository,
+            //    //    ChangeDetectionApproaches.NativeGumTree, null,
+            //    //    @"E:\Phd\Analysis\Original.cs",
+            //    //    @"E:\Phd\Analysis\Modified.cs");//CoreFx
 
-                //analyzer.RateMissedNameSymptoms(dbRepository,
-                //    ChangeDetectionApproaches.NativeGumTree, null,
-                //    @"E:\Phd\Analysis\Original.cs",
-                //    @"E:\Phd\Analysis\Modified.cs");
+            //    //analyzer.RateMissedNameSymptoms(dbRepository,
+            //    //    ChangeDetectionApproaches.NativeGumTree, null,
+            //    //    @"E:\Phd\Analysis\Original.cs",
+            //    //    @"E:\Phd\Analysis\Modified.cs");
 
-                //analyzer.FindSpuriousElements(dbRepository, () => { },
-                //        ChangeDetectionApproaches.NativeGumTree, null);
+            //    //analyzer.FindSpuriousElements(dbRepository, () => { },
+            //    //        ChangeDetectionApproaches.NativeGumTree, null);
 
-                //analyzer.RateIncompatibleMatchingSymptoms(dbRepository,
-                //    ChangeDetectionApproaches.NativeGumTree, null,
-                //    @"E:\Phd\Analysis\Original.cs",
-                //    @"E:\Phd\Analysis\Modified.cs");
-            }
+            //    //analyzer.RateIncompatibleMatchingSymptoms(dbRepository,
+            //    //    ChangeDetectionApproaches.NativeGumTree, null,
+            //    //    @"E:\Phd\Analysis\Original.cs",
+            //    //    @"E:\Phd\Analysis\Modified.cs");
+            //}
 
             //var analyzer = new DeltaAnalyzer();
             //var sc = new SourceCodeCleaner();
@@ -559,43 +559,43 @@ namespace Jawilliam.CDF.Labs
             System.Console.ReadKey();
         }
 
-        public static void SummarizeFileRevisionPairs()
-        {
-            var analyzer = new FileRevisionPairAnalyzer();
-            System.IO.File.WriteAllText(@"E:\Phd\Analysis\FileRevisionPairsSummary.txt",
-                                        $"Project;Frp;FrpSCC;FrpOCC;RelevantFrp{Environment.NewLine}");
+        //public static void SummarizeFileRevisionPairs()
+        //{
+        //    var analyzer = new FileRevisionPairAnalyzer();
+        //    System.IO.File.WriteAllText(@"E:\Phd\Analysis\FileRevisionPairsSummary.txt",
+        //                                $"Project;Frp;FrpSCC;FrpOCC;RelevantFrp{Environment.NewLine}");
 
-            int allFrp = 0, allFrpScc = 0, allFrpOcc = 0; 
-            foreach (var project in Projects)
-            {
-                var dbRepository = new GitRepository(project.Name) { Name = project.Name };
-                ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 360;
+        //    int allFrp = 0, allFrpScc = 0, allFrpOcc = 0; 
+        //    foreach (var project in Projects)
+        //    {
+        //        var dbRepository = new GitRepository(project.Name) { Name = project.Name };
+        //        ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 360;
 
-                var summary = analyzer.Summarize(dbRepository);
-                allFrp += summary.Item1;
-                allFrpScc += summary.Item2;
-                allFrpOcc += summary.Item3;
+        //        var summary = analyzer.Summarize(dbRepository);
+        //        allFrp += summary.Item1;
+        //        allFrpScc += summary.Item2;
+        //        allFrpOcc += summary.Item3;
 
-                var projectSummary = $"{project.Name};" +
-                        $"{summary.Item1};" +
-                        $"{summary.Item2};" +
-                        $"{summary.Item3};" +
-                        $"{summary.Item2 - summary.Item3}";
-                System.IO.File.AppendAllText($@"E:\Phd\Analysis\FileRevisionPairsSummary.txt", 
-                                             projectSummary +
-                                             $"{Environment.NewLine}");
-                Console.Out.WriteLine(projectSummary);
-            }
+        //        var projectSummary = $"{project.Name};" +
+        //                $"{summary.Item1};" +
+        //                $"{summary.Item2};" +
+        //                $"{summary.Item3};" +
+        //                $"{summary.Item2 - summary.Item3}";
+        //        System.IO.File.AppendAllText($@"E:\Phd\Analysis\FileRevisionPairsSummary.txt", 
+        //                                     projectSummary +
+        //                                     $"{Environment.NewLine}");
+        //        Console.Out.WriteLine(projectSummary);
+        //    }
 
-            var allSummary = $"ALL;" +
-                           $"{allFrp};" +
-                           $"{allFrpScc};" +
-                           $"{allFrpOcc};" +
-                           $"{allFrpScc - allFrpOcc}";
-            System.IO.File.AppendAllText($@"E:\Phd\Analysis\FileRevisionPairsSummary.txt", allSummary);
-            Console.Out.WriteLine(allSummary);
-            Console.Out.WriteLine($"Report collected!!!");
-        }
+        //    var allSummary = $"ALL;" +
+        //                   $"{allFrp};" +
+        //                   $"{allFrpScc};" +
+        //                   $"{allFrpOcc};" +
+        //                   $"{allFrpScc - allFrpOcc}";
+        //    System.IO.File.AppendAllText($@"E:\Phd\Analysis\FileRevisionPairsSummary.txt", allSummary);
+        //    Console.Out.WriteLine(allSummary);
+        //    Console.Out.WriteLine($"Report collected!!!");
+        //}
 
         private static void DetectingNotRealSourceCodeChanges()
         {
@@ -657,51 +657,56 @@ namespace Jawilliam.CDF.Labs
             var gumTree = new GumTreeNativeApproach();
             var interopArgs = new InteropArgs()
             {
-                //GumTreePath = @"C:\CDF\gumtree-20170525-2.1.0-SNAPSHOT",
-                //Original = @"C:\CDF\Original.cs",
-                //Modified = @"C:\CDF\Modified.cs"
+                GumTreePath = @"C:\CDF\gumtree-20170525-2.1.0-SNAPSHOT",
+                Original = @"C:\CDF\Original.cs",
+                Modified = @"C:\CDF\Modified.cs"
             };
 
             foreach (var project in Projects)
             {
-                analyzer.Warnings = new StringBuilder();
                 var dbRepository = new GitRepository(project.Name) { Name = project.Name };
                 ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 600;
-                analyzer.NativeGumTreeDiff(dbRepository,  gumTree, interopArgs, () => gumTree.Cancel(), gumTreeApproach, skipThese, cleaner);
 
-                System.IO.File.WriteAllText($@"C:\CDF\NativeGumTreeDiff3{project.Name}.txt", analyzer.Warnings.ToString());
+                analyzer.Warnings = new StringBuilder();
+                analyzer.SqlRepository = dbRepository;
+                analyzer.Cancel = () => gumTree.Cancel();
+                
+                //analyzer.NativeGumTreeDiff(gumTree, interopArgs , gumTreeApproach, skipThese, cleaner);
+                //analyzer.InverseNativeGumTreeDiff(gumTree, interopArgs, gumTreeApproach, skipThese, cleaner);
+
+                System.IO.File.WriteAllText($@"C:\CDF\InverseOfNativeGumTreeDiff{project.Name}.txt", analyzer.Warnings.ToString());
             }
             Console.Out.WriteLine($"GumTree native collected!!!");
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="gumTreeApproach"></param>
-        /// <param name="skipThese"></param>
-        /// <param name="cleaner">A preprocessor for the source code in case it is desired.</param>
-        private static void SaveNativeTreesOfNativeGumTree(ChangeDetectionApproaches gumTreeApproach, Func<FileRevisionPair, bool> skipThese = null, SourceCodeCleaner cleaner = null)
-        {
-            var analyzer = new FileRevisionPairAnalyzer { MillisecondsTimeout = 300000 };
-            var gumTree = new GumTreeNativeApproach();
-            var interopArgs = new InteropArgs()
-            {
-                //GumTreePath = @"C:\CDF\gumtree-20170525-2.1.0-SNAPSHOT",
-                //Original = @"C:\CDF\Original.cs",
-                //Modified = @"C:\CDF\Modified.cs"
-            };
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        ///// <param name="gumTreeApproach"></param>
+        ///// <param name="skipThese"></param>
+        ///// <param name="cleaner">A preprocessor for the source code in case it is desired.</param>
+        //private static void SaveNativeTreesOfNativeGumTree(ChangeDetectionApproaches gumTreeApproach, Func<FileRevisionPair, bool> skipThese = null, SourceCodeCleaner cleaner = null)
+        //{
+        //    var analyzer = new FileRevisionPairAnalyzer { MillisecondsTimeout = 300000 };
+        //    var gumTree = new GumTreeNativeApproach();
+        //    var interopArgs = new InteropArgs()
+        //    {
+        //        //GumTreePath = @"C:\CDF\gumtree-20170525-2.1.0-SNAPSHOT",
+        //        //Original = @"C:\CDF\Original.cs",
+        //        //Modified = @"C:\CDF\Modified.cs"
+        //    };
 
-            foreach (var project in Projects)
-            {
-                analyzer.Warnings = new StringBuilder();
-                var dbRepository = new GitRepository(project.Name) { Name = project.Name };
-                ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 600;
-                analyzer.SaveNativeTrees(dbRepository, gumTree, interopArgs, () => gumTree.Cancel(), gumTreeApproach, skipThese, cleaner);
+        //    foreach (var project in Projects)
+        //    {
+        //        analyzer.Warnings = new StringBuilder();
+        //        var dbRepository = new GitRepository(project.Name) { Name = project.Name };
+        //        ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 600;
+        //        analyzer.SaveNativeTrees(dbRepository, gumTree, interopArgs, () => gumTree.Cancel(), gumTreeApproach, skipThese, cleaner);
 
-                System.IO.File.WriteAllText($@"E:\Phd\Analysis\SaveNativeTrees22{project.Name}.txt", analyzer.Warnings.ToString());
-            }
-            Console.Out.WriteLine($"DONE!!!");
-        }
+        //        System.IO.File.WriteAllText($@"E:\Phd\Analysis\SaveNativeTrees22{project.Name}.txt", analyzer.Warnings.ToString());
+        //    }
+        //    Console.Out.WriteLine($"DONE!!!");
+        //}
 
 
         private static void ReportGumTreeAndLevenshtein(Func<FileModifiedChange, bool> filter, string postfix, ChangeDetectionApproaches gumTreeVariant, string levenshteinVariant, EditDistance<ActionDescriptor> editDistance)
@@ -1201,62 +1206,62 @@ namespace Jawilliam.CDF.Labs
             Console.Out.WriteLine($"DONE!!!");
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="approach"></param>
-        private static void ReportMissedMatchesAOfNamedElements(ChangeDetectionApproaches approach)
-        {
-            var analyzer = new FileRevisionPairAnalyzer { MillisecondsTimeout = 600000 };
-            var errorFilePath = $@"E:\Phd\Analysis\MissedMatchesAErrors.txt";
-            foreach (var project in Projects)
-            {
-                //var reportFilePath = $@"E:\Phd\Analysis\MissedMatches{Enum.GetName(typeof(ChangeDetectionApproaches), approach)}-{project.Name}.txt";
-                //System.IO.File.AppendAllText(reportFilePath, 
-                //    "Indicator;Project;FileRevisionPair;" +
-                //    "Original;Modified;" +
-                //    "OriginalType;ModifiedType;" +
-                //    "OriginalReference;ModifiedReference;" +
-                //    "OriginalPath;ModifiedPath" + Environment.NewLine);
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        ///// <param name="approach"></param>
+        //private static void ReportMissedMatchesAOfNamedElements(ChangeDetectionApproaches approach)
+        //{
+        //    var analyzer = new FileRevisionPairAnalyzer { MillisecondsTimeout = 600000 };
+        //    var errorFilePath = $@"E:\Phd\Analysis\MissedMatchesAErrors.txt";
+        //    foreach (var project in Projects)
+        //    {
+        //        //var reportFilePath = $@"E:\Phd\Analysis\MissedMatches{Enum.GetName(typeof(ChangeDetectionApproaches), approach)}-{project.Name}.txt";
+        //        //System.IO.File.AppendAllText(reportFilePath, 
+        //        //    "Indicator;Project;FileRevisionPair;" +
+        //        //    "Original;Modified;" +
+        //        //    "OriginalType;ModifiedType;" +
+        //        //    "OriginalReference;ModifiedReference;" +
+        //        //    "OriginalPath;ModifiedPath" + Environment.NewLine);
 
-                var dbRepository = new GitRepository(project.Name) { Name = project.Name };
-                ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 600;
+        //        var dbRepository = new GitRepository(project.Name) { Name = project.Name };
+        //        ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 600;
 
-                analyzer.Warnings = new StringBuilder();
-                analyzer.Report = new StringBuilder();
-                analyzer.SaveMissedNames(dbRepository, () => {}, approach, pair => false);
+        //        analyzer.Warnings = new StringBuilder();
+        //        analyzer.Report = new StringBuilder();
+        //        analyzer.SaveMissedNames(dbRepository, () => {}, approach, pair => false);
 
-                System.IO.File.AppendAllText(errorFilePath, analyzer.Warnings.ToString());
-                System.IO.File.AppendAllText($@"E:\Phd\Analysis\MissedMatchesReportOfErrors.txt", analyzer.Report.ToString());
-            }
-            Console.Out.WriteLine($"DONE!!!");
-        }
+        //        System.IO.File.AppendAllText(errorFilePath, analyzer.Warnings.ToString());
+        //        System.IO.File.AppendAllText($@"E:\Phd\Analysis\MissedMatchesReportOfErrors.txt", analyzer.Report.ToString());
+        //    }
+        //    Console.Out.WriteLine($"DONE!!!");
+        //}
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="approach"></param>
-        private static void ReportConfusingRenames(ChangeDetectionApproaches approach)
-        {
-            var analyzer = new FileRevisionPairAnalyzer { MillisecondsTimeout = 600000 };
-            var errorFilePath = $@"E:\Phd\Analysis\ConfusingRenames\Errors2.txt";
-            foreach (var project in Projects)
-            {
-                //System.IO.File.AppendAllText($@"E:\Phd\Analysis\ConfusingRenames\{project.Name}.txt", 
-                //    $"OriginalType;ModifiedType;OriginalName;ModifiedName;CoexistingOriginalName;Original;Modified;CoexistingOriginal;OriginalPath;ModifiedPath{Environment.NewLine}");
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        ///// <param name="approach"></param>
+        //private static void ReportConfusingRenames(ChangeDetectionApproaches approach)
+        //{
+        //    var analyzer = new FileRevisionPairAnalyzer { MillisecondsTimeout = 600000 };
+        //    var errorFilePath = $@"E:\Phd\Analysis\ConfusingRenames\Errors2.txt";
+        //    foreach (var project in Projects)
+        //    {
+        //        //System.IO.File.AppendAllText($@"E:\Phd\Analysis\ConfusingRenames\{project.Name}.txt", 
+        //        //    $"OriginalType;ModifiedType;OriginalName;ModifiedName;CoexistingOriginalName;Original;Modified;CoexistingOriginal;OriginalPath;ModifiedPath{Environment.NewLine}");
 
-                var dbRepository = new GitRepository(project.Name) { Name = project.Name };
-                ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 600;
+        //        var dbRepository = new GitRepository(project.Name) { Name = project.Name };
+        //        ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 600;
 
-                analyzer.Warnings = new StringBuilder();
-                analyzer.Report = new StringBuilder();
-                analyzer.SaveConfusingRenames(dbRepository, () => { }, approach, pair => false);
+        //        analyzer.Warnings = new StringBuilder();
+        //        analyzer.Report = new StringBuilder();
+        //        analyzer.SaveConfusingRenames(dbRepository, () => { }, approach, pair => false);
 
-                System.IO.File.AppendAllText(errorFilePath, analyzer.Warnings.ToString());
-                //System.IO.File.AppendAllText($@"E:\Phd\Analysis\ConfusingRenames\{project.Name}.txt", analyzer.Report.ToString());
-            }
-            Console.Out.WriteLine($"DONE!!!");
-        }
+        //        System.IO.File.AppendAllText(errorFilePath, analyzer.Warnings.ToString());
+        //        //System.IO.File.AppendAllText($@"E:\Phd\Analysis\ConfusingRenames\{project.Name}.txt", analyzer.Report.ToString());
+        //    }
+        //    Console.Out.WriteLine($"DONE!!!");
+        //}
 
         ///// <summary>
         ///// 
