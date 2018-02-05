@@ -295,6 +295,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RedundancyChecking.cs" />
+    <Compile Include="RedundantNameChecking.cs" />
     <Compile Include="RepositoryObject.cs">
       <DependentUpon>GitRepository.tt</DependentUpon>
     </Compile>

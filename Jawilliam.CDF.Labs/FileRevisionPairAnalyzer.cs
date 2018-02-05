@@ -111,55 +111,19 @@ namespace Jawilliam.CDF.Labs
                         t.Wait();
                     }
                     catch (AggregateException ae) { throw ae.InnerException; }
-                    catch (OperationCanceledException)
-                    {
-                        this.Warnings.AppendLine($"TIMEOUT - {this.SqlRepository.Name}-{repositoryObject.Id}");
-                    }
-                    catch (OutOfMemoryException)
-                    {
-                        this.Warnings.AppendLine($"OUTOFMEMORY - {this.SqlRepository.Name}-{repositoryObject.Id}");
-                    }
+                    catch (OperationCanceledException) { this.Warnings.AppendLine($"TIMEOUT - {this.SqlRepository.Name}-{repositoryObject.Id}"); }
+                    catch (OutOfMemoryException) { this.Warnings.AppendLine($"OUTOFMEMORY - {this.SqlRepository.Name}-{repositoryObject.Id}"); }
                 }
-                catch (InsufficientExecutionStackException)
-                {
-                    this.Warnings.AppendLine($"InsufficientExecutionStack - fileversion-{this.SqlRepository.Name}-{repositoryObject.Id}");
-                }
-                catch (OperationCanceledException)
-                {
-                    this.Warnings.AppendLine($"TIMEOUT - {this.SqlRepository.Name}-{repositoryObject.Id}");
-                }
-                catch (InvalidOperationException)
-                {
-                    this.Warnings.AppendLine($"INVALIDOPERATION - {this.SqlRepository.Name}-{repositoryObject.Id}");
-                }
-                catch (OutOfMemoryException)
-                {
-                    this.Warnings.AppendLine($"OUTOFMEMORY - {this.SqlRepository.Name}-{repositoryObject.Id}");
-                }
-                catch (Exception)
-                {
-                    this.Warnings.AppendLine($"ERROR - {this.SqlRepository.Name}-{repositoryObject.Id}");
-                }
+                catch (InsufficientExecutionStackException) { this.Warnings.AppendLine($"InsufficientExecutionStack - fileversion-{this.SqlRepository.Name}-{repositoryObject.Id}"); }
+                catch (OperationCanceledException) { this.Warnings.AppendLine($"TIMEOUT - {this.SqlRepository.Name}-{repositoryObject.Id}"); }
+                catch (InvalidOperationException) { this.Warnings.AppendLine($"INVALIDOPERATION - {this.SqlRepository.Name}-{repositoryObject.Id}"); }
+                catch (OutOfMemoryException) { this.Warnings.AppendLine($"OUTOFMEMORY - {this.SqlRepository.Name}-{repositoryObject.Id}"); }
+                catch (Exception) { this.Warnings.AppendLine($"ERROR - {this.SqlRepository.Name}-{repositoryObject.Id}"); }
 
                 Console.Out.WriteLine($"Saving the {counter}-file version ({repositoryObjectIds.Count}) of {this.SqlRepository.Name}");
                 this.SqlRepository.Flush(saveChanges);
             }
         }
-
-        ///// <summary>
-        ///// Analyzes every file version of the given repository.
-        ///// </summary>
-        ///// <param name="onThese">expression to filter the objects of interest.</param>
-        ///// <param name="analysis">an action for characterizing the analysis.</param>
-        ///// <param name="cancel">Action to execute cancellation logic.</param>
-        ///// <param name="includes">paths to include in the query.</param>
-        //protected virtual void Analyze(Expression<Func<FileRevisionPair, bool>> onThese, AnalyzeDelegate analysis, Action cancel, bool saveChanges = true, params string[] includes)
-        //{
-        //    this.Analyze(this.SqlRepository, "file modified change",
-        //        onThese ?? (f => f.Principal.FromFileVersion.ContentSummary.TotalLines != null && f.Principal.FileVersion.ContentSummary.TotalLines != null),
-        //        analysis, cancel, saveChanges,
-        //        includes ?? new[] { "Principal.FileVersion.Content", "Principal.FileVersion.ContentSummary", "Principal.FromFileVersion.ContentSummary", "Principal.FromFileVersion.Content" });
-        //}
 
         /// <summary>
         /// Analyzes every file version of the given repository.
@@ -433,7 +397,7 @@ namespace Jawilliam.CDF.Labs
             }
         }
 
-        private string GetBreadcrum(ElementTree element)
+        internal string GetBreadcrum(ElementTree element)
         {
             string elementName = null;
             if (element.Root.Label == "block")
@@ -456,96 +420,6 @@ namespace Jawilliam.CDF.Labs
         protected string GetPath(IEnumerable<ElementTree> trees) => trees.Aggregate("", (s, ancestor) => s != ""
            ? $"{s}##{this.GetBreadcrum(ancestor)}"
            : this.GetBreadcrum(ancestor));
-
-        ///// <summary>
-        ///// Analyzes the similarity in according with a given similarity metric, such as Levenshtein.
-        ///// </summary>
-        ///// <param name="approach"></param>
-        ///// <param name="skipThese">local criterion for determining elements that should be ignored.</param>
-        //public virtual void SaveMissedNames(ChangeDetectionApproaches approach, Func<FileRevisionPair, bool> skipThese)
-        //{
-        //    this.Analyze(f => f.Principal.Deltas.Any(d => d.Approach == approach &&
-        //                                       d.Matching != null &&
-        //                                       d.Differencing != null &&
-        //                                       d.Report == null),
-        //        delegate(FileRevisionPair pair, CancellationToken token)
-        //        {
-        //            if (skipThese?.Invoke(pair) ?? false) return;
-
-        //            var delta = this.SqlRepository.Deltas.Single(d => d.RevisionPair.Id == pair.Principal.Id && d.Approach == approach);
-        //            try
-        //            {
-        //                var missedMatchesA = this.FindMissedMatchesAOfKeyedElement(delta, token);
-
-        //                foreach (var missedMatchA in missedMatchesA)
-        //                {
-        //                    var originalAncestorOfReference = missedMatchA.Original.Element.LabelOf(t => t.Parent, t => t.Root.Label == "name")
-        //                        .First(a => a.Root.Label != "name").Ancestors().First();
-        //                    var modifiedAncestorOfReference = missedMatchA.Modified.Element.LabelOf(t => t.Parent, t => t.Root.Label == "name")
-        //                        .First(a => a.Root.Label != "name").Ancestors().First();
-        //                    delta.Symptoms.Add(new MissedNameSymptom
-        //                    {
-        //                        Id = Guid.NewGuid(),
-        //                        Pattern = missedMatchA.Case,
-        //                        Original = new MissedMatch
-        //                        {
-        //                            Element = new ElementDescription
-        //                            {
-        //                                Hint = missedMatchA.Original.Element.Root.Value,
-        //                                Id = missedMatchA.Original.Element.Root.Id,
-        //                                Type = missedMatchA.Original.Type
-        //                            },
-        //                            AncestorOfReference = new ElementDescription
-        //                            {
-        //                                Hint = this.GetBreadcrum(originalAncestorOfReference),
-        //                                Id = originalAncestorOfReference.Root.Id,
-        //                                Type = originalAncestorOfReference.Root.Label
-        //                            },
-        //                            CommonAncestorOfReference = new ElementDescription
-        //                            {
-        //                                Hint = this.GetBreadcrum(missedMatchA.Original.MatchedReference),
-        //                                Id = missedMatchA.Original.MatchedReference.Root.Id,
-        //                                Type = missedMatchA.Original.MatchedReference.Root.Label
-        //                            },
-        //                            ScopeHint = this.GetPath(missedMatchA.Original.Element.LabelOf(t => t.Parent, t => t.Root.Label == "name").First(a => a.Root.Label != "name").Ancestors())
-        //                        },
-        //                        Modified = new MissedMatch
-        //                        {
-        //                            Element = new ElementDescription
-        //                            {
-        //                                Hint = missedMatchA.Modified.Element.Root.Value,
-        //                                Id = missedMatchA.Modified.Element.Root.Id,
-        //                                Type = missedMatchA.Modified.Type
-        //                            },
-        //                            AncestorOfReference = new ElementDescription
-        //                            {
-        //                                Hint = this.GetBreadcrum(modifiedAncestorOfReference),
-        //                                Id = modifiedAncestorOfReference.Root.Id,
-        //                                Type = modifiedAncestorOfReference.Root.Label
-        //                            },
-        //                            CommonAncestorOfReference = new ElementDescription
-        //                            {
-        //                                Hint = this.GetBreadcrum(missedMatchA.Modified.MatchedReference),
-        //                                Id = missedMatchA.Modified.MatchedReference.Root.Id,
-        //                                Type = missedMatchA.Modified.MatchedReference.Root.Label
-        //                            },
-        //                            ScopeHint = this.GetPath(missedMatchA.Modified.Element.LabelOf(t => t.Parent, t => t.Root.Label == "name").First(a => a.Root.Label != "name").Ancestors())
-        //                        }
-        //                    });
-        //                }
-        //            }
-        //            catch (OperationCanceledException)
-        //            {
-        //                this.Report.AppendLine($"CANCELED;{pair.Id}");
-        //                throw;
-        //            }
-        //            catch (OutOfMemoryException)
-        //            {
-        //                this.Report.AppendLine($"OUTOFMEMORY;{pair.Id}");
-        //                throw;
-        //            }
-        //        }, true, "Principal");
-        //}
 
         /// <summary>
         /// Analyzes the similarity in according with a given similarity metric, such as Levenshtein.
@@ -965,7 +839,6 @@ namespace Jawilliam.CDF.Labs
                 frpWithCodeChanges += sourceCodeChanges ? 1 : 0;
                 frpWithOnlyCommentChanges += sourceCodeChanges && fileRevisionPair.Principal.XAnnotations.OnlyCommentChanges ? 1 : 0;
             }
-
             return new Tuple<int, int, int>(this.SqlRepository.FileRevisionPairs.Count(),
                                             frpWithCodeChanges,
                                             frpWithOnlyCommentChanges);

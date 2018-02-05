@@ -373,7 +373,8 @@ namespace Jawilliam.CDF.Labs
             //                //RemoveComments = true
             //            } */);
 
-            //var analyzer = new DeltaAnalyzer();
+            //var redundantNameAnalyzer = new RedundantNameChecking();
+            //redundantNameAnalyzer.AutoConfig();
             //foreach (var project in Projects.Where(p => p.Name == "OpenRA")/*.Skip(2)*/)
             //{
             //    analyzer.Warnings = new StringBuilder();
@@ -389,10 +390,7 @@ namespace Jawilliam.CDF.Labs
             //    //    @"E:\Phd\Analysis\Original.cs",
             //    //    @"E:\Phd\Analysis\Modified.cs");//CoreFx
 
-            //    //analyzer.RateMissedNameSymptoms(dbRepository,
-            //    //    ChangeDetectionApproaches.NativeGumTree, null,
-            //    //    @"E:\Phd\Analysis\Original.cs",
-            //    //    @"E:\Phd\Analysis\Modified.cs");
+            //    //redundantNameAnalyzer.Rate(dbRepository);
 
             //    //analyzer.FindSpuriousElements(dbRepository, () => { },
             //    //        ChangeDetectionApproaches.NativeGumTree, null);

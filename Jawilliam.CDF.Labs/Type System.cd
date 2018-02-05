@@ -27,22 +27,29 @@
   <Class Name="Jawilliam.CDF.Labs.ImprecisionDiagnostic&lt;TSymptom&gt;">
     <Position X="9.25" Y="6.5" Width="3" />
     <TypeIdentifier>
-      <HashCode>CAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>SAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>ImprecisionDiagnostic.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Jawilliam.CDF.Labs.RedundancyChecking&lt;TSubject&gt;">
-    <Position X="3.75" Y="8.5" Width="5.25" />
+    <Position X="0.5" Y="8.75" Width="3.5" />
     <NestedTypes>
-      <Class Name="Jawilliam.CDF.Labs.RedundancyChecking&lt;TSubject&gt;.Criterion&lt;TSubject&gt;" Collapsed="true">
+      <Class Name="Jawilliam.CDF.Labs.RedundancyChecking&lt;TSubject&gt;.Criterion" Collapsed="true">
         <TypeIdentifier>
           <NewMemberFileName>RedundancyChecking.cs</NewMemberFileName>
         </TypeIdentifier>
       </Class>
     </NestedTypes>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAgAAAAAAAAAAAAAQAAABAAAAAAAAAAAAgAA=</HashCode>
+      <HashCode>SAAAAAAAAgAAAABAAAAAAAAQAAAAAAAAAAAAAAgAAAA=</HashCode>
       <FileName>RedundancyChecking.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Jawilliam.CDF.Labs.RedundantNameChecking">
+    <Position X="0.5" Y="12.25" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>RedundantNameChecking.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />

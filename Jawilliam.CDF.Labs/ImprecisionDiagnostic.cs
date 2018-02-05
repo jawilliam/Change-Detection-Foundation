@@ -14,12 +14,21 @@ namespace Jawilliam.CDF.Labs
         /// <summary>
         /// Looks for symptoms of imprecision.
         /// </summary>
-        /// <returns>Symptomatic imprecisions.</returns>
-        public abstract IEnumerable<TSymptom> Recognize();
+        public abstract void Recognize();
 
         /// <summary>
         /// Gathers a referential summary and save it in <see cref="FileRevisionPairAnalyzer.Report"/>.
         /// </summary>
         public abstract void ReportSummary();
+
+        /// <summary>
+        /// Iterates symptoms to be rated.
+        /// </summary>
+        public abstract void Rate();
+
+        ///// <summary>
+        ///// Gets imprecision symptoms.
+        ///// </summary>
+        //public abstract IEnumerable<TSymptom> Symptoms { get; }
     }
 }
