@@ -33,8 +33,11 @@
   </Class>
   <Class Name="Jawilliam.CDF.Labs.RedundancyChecking&lt;TSubject&gt;">
     <Position X="0.5" Y="8.75" Width="3.5" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
     <NestedTypes>
-      <Class Name="Jawilliam.CDF.Labs.RedundancyChecking&lt;TSubject&gt;.Criterion" Collapsed="true">
+      <Class Name="Jawilliam.CDF.Labs.RedundancyChecking&lt;TSubject&gt;.Criterion">
         <TypeIdentifier>
           <NewMemberFileName>RedundancyChecking.cs</NewMemberFileName>
         </TypeIdentifier>
@@ -46,10 +49,17 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Jawilliam.CDF.Labs.RedundantNameChecking">
-    <Position X="0.5" Y="12.25" Width="3.5" />
+    <Position X="4.5" Y="8.75" Width="3.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>RedundantNameChecking.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Jawilliam.CDF.Labs.BetweenComparisons">
+    <Position X="8.5" Y="8.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>BetweenComparisons.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />
