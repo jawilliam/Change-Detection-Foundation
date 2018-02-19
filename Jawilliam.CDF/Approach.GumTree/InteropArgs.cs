@@ -18,5 +18,10 @@ namespace Jawilliam.CDF.Approach.GumTree
         /// Gets or sets the path of the native GumTree's snapshot. 
         /// </summary>
         public virtual string GumTreePath { get; set; } = @"E:\SourceCode\gumtree-20170525-2.1.0-SNAPSHOT";
+
+        /// <summary>
+        /// Gets or sets command options for the native GumTree. 
+        /// </summary>
+        public virtual string Options { get; set; }
     }
 }

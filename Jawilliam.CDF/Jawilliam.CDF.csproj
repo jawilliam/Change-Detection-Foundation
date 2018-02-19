@@ -54,7 +54,11 @@
     <Compile Include="Approach.GumTree\InteropArgs.cs" />
     <Compile Include="Approach\DetectionResult.cs" />
     <Compile Include="Approach\DetectionStep.cs" />
-    <Compile Include="Domain.cs" />
+    <Compile Include="DomainExtensions.cs" />
+    <Compile Include="Domain\IDifferentiable.cs" />
+    <Compile Include="Domain\IElementType.cs" />
+    <Compile Include="Domain\IMatchable.cs" />
+    <Compile Include="Domain\IReportable.cs" />
     <Compile Include="ElementDescriptor.cs" />
     <Compile Include="Approach\IApproach.cs" />
     <Compile Include="Approach\IDelta.cs" />
@@ -63,6 +67,9 @@
     <Compile Include="Approach\IMatchingTransformation.cs" />
     <Compile Include="Approach\MatchingCriterion.cs" />
     <Compile Include="ElementTree.cs" />
+    <Compile Include="GTED\IForest.cs" />
+    <Compile Include="GTED\INode.cs" />
+    <Compile Include="GTED\ITree.cs" />
     <Compile Include="Metrics.Quality\EditDistance.cs" />
     <Compile Include="Metrics\IMetric.cs" />
     <Compile Include="Metrics\RelativeThreshold.cs" />
@@ -134,6 +141,8 @@
     <Compile Include="Metrics.Similarity\VectorComponents.cs" />
     <Compile Include="Metrics.Similarity\VectorSimetric.cs" />
     <Compile Include="SrcmlDomain.cs" />
+    <Compile Include="ThirdPartCode\InfoTree.cs" />
+    <Compile Include="ThirdPartCode\Rted.cs" />
     <Compile Include="Treeable.cs" />
     <Compile Include="XmlHelper.cs" />
   </ItemGroup>

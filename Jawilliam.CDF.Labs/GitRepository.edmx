@@ -24,12 +24,15 @@
     <EntitySet Name="RepositoryObjects_FileAddedChange" EntityType="Jawilliam.CDF.Labs.SQL.Store.RepositoryObjects_FileAddedChange" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="RepositoryObjects_FileDeletedChange" EntityType="Jawilliam.CDF.Labs.SQL.Store.RepositoryObjects_FileDeletedChange" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="RepositoryObjects_FileRenamedChange" EntityType="Jawilliam.CDF.Labs.SQL.Store.RepositoryObjects_FileRenamedChange" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Symptoms_MissedElementSymptom" EntityType="Jawilliam.CDF.Labs.SQL.Store.Symptoms_MissedElementSymptom" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Symptoms_MissedNameSymptom" EntityType="Jawilliam.CDF.Labs.SQL.Store.Symptoms_MissedNameSymptom" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Symptoms_CoexistenceSymptom" EntityType="Jawilliam.CDF.Labs.SQL.Store.Symptoms_CoexistenceSymptom" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Symptoms_NameCoexistenceSymptom" EntityType="Jawilliam.CDF.Labs.SQL.Store.Symptoms_NameCoexistenceSymptom" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Symptoms_IncompatibleMatchingSymptom" EntityType="Jawilliam.CDF.Labs.SQL.Store.Symptoms_IncompatibleMatchingSymptom" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Symptoms_SpuriositySymptom" EntityType="Jawilliam.CDF.Labs.SQL.Store.Symptoms_SpuriositySymptom" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Symptoms_GhostSymptom" EntityType="Jawilliam.CDF.Labs.SQL.Store.Symptoms_GhostSymptom" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Symptoms_SpuriousElementSymptom" EntityType="Jawilliam.CDF.Labs.SQL.Store.Symptoms_SpuriousElementSymptom" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Symptoms_BetweenSymptom" EntityType="Jawilliam.CDF.Labs.SQL.Store.Symptoms_BetweenSymptom" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Branch_Contains_Commits" EntityType="Jawilliam.CDF.Labs.SQL.Store.Branch_Contains_Commits" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Commits_AreParentsOf_Commits" EntityType="Jawilliam.CDF.Labs.SQL.Store.Commits_AreParentsOf_Commits" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="Contributor_IsAuthorOf_Commits" Association="Jawilliam.CDF.Labs.SQL.Store.Contributor_IsAuthorOf_Commits">
@@ -108,6 +111,10 @@
       <End Role="Delta" EntitySet="Deltas" />
       <End Role="Symptom" EntitySet="Symptoms" />
     </AssociationSet>
+    <AssociationSet Name="OneComplexSymptom_Contains_OtherSymptoms" Association="Jawilliam.CDF.Labs.SQL.Store.OneComplexSymptom_Contains_OtherSymptoms">
+      <End Role="Symptom" EntitySet="Symptoms" />
+      <End Role="Symptom1" EntitySet="Symptoms" />
+    </AssociationSet>
     <AssociationSet Name="FK_Commit_inherits_RepositoryObject" Association="Jawilliam.CDF.Labs.SQL.Store.FK_Commit_inherits_RepositoryObject">
       <End Role="RepositoryObject" EntitySet="RepositoryObjects" />
       <End Role="Commit" EntitySet="RepositoryObjects_Commit" />
@@ -148,12 +155,20 @@
       <End Role="FileModifiedChange" EntitySet="RepositoryObjects_FileModifiedChange" />
       <End Role="FileRenamedChange" EntitySet="RepositoryObjects_FileRenamedChange" />
     </AssociationSet>
-    <AssociationSet Name="FK_MissedNameSymptom_inherits_Symptom" Association="Jawilliam.CDF.Labs.SQL.Store.FK_MissedNameSymptom_inherits_Symptom">
+    <AssociationSet Name="FK_MissedElementSymptom_inherits_Symptom" Association="Jawilliam.CDF.Labs.SQL.Store.FK_MissedElementSymptom_inherits_Symptom">
       <End Role="Symptom" EntitySet="Symptoms" />
+      <End Role="MissedElementSymptom" EntitySet="Symptoms_MissedElementSymptom" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MissedNameSymptom_inherits_MissedElementSymptom" Association="Jawilliam.CDF.Labs.SQL.Store.FK_MissedNameSymptom_inherits_MissedElementSymptom">
+      <End Role="MissedElementSymptom" EntitySet="Symptoms_MissedElementSymptom" />
       <End Role="MissedNameSymptom" EntitySet="Symptoms_MissedNameSymptom" />
     </AssociationSet>
-    <AssociationSet Name="FK_NameCoexistenceSymptom_inherits_Symptom" Association="Jawilliam.CDF.Labs.SQL.Store.FK_NameCoexistenceSymptom_inherits_Symptom">
+    <AssociationSet Name="FK_CoexistenceSymptom_inherits_Symptom" Association="Jawilliam.CDF.Labs.SQL.Store.FK_CoexistenceSymptom_inherits_Symptom">
       <End Role="Symptom" EntitySet="Symptoms" />
+      <End Role="CoexistenceSymptom" EntitySet="Symptoms_CoexistenceSymptom" />
+    </AssociationSet>
+    <AssociationSet Name="FK_NameCoexistenceSymptom_inherits_CoexistenceSymptom" Association="Jawilliam.CDF.Labs.SQL.Store.FK_NameCoexistenceSymptom_inherits_CoexistenceSymptom">
+      <End Role="CoexistenceSymptom" EntitySet="Symptoms_CoexistenceSymptom" />
       <End Role="NameCoexistenceSymptom" EntitySet="Symptoms_NameCoexistenceSymptom" />
     </AssociationSet>
     <AssociationSet Name="FK_IncompatibleMatchingSymptom_inherits_Symptom" Association="Jawilliam.CDF.Labs.SQL.Store.FK_IncompatibleMatchingSymptom_inherits_Symptom">
@@ -172,6 +187,10 @@
       <End Role="Symptom" EntitySet="Symptoms" />
       <End Role="SpuriousElementSymptom" EntitySet="Symptoms_SpuriousElementSymptom" />
     </AssociationSet>
+    <AssociationSet Name="FK_BetweenSymptom_inherits_Symptom" Association="Jawilliam.CDF.Labs.SQL.Store.FK_BetweenSymptom_inherits_Symptom">
+      <End Role="Symptom" EntitySet="Symptoms" />
+      <End Role="BetweenSymptom" EntitySet="Symptoms_BetweenSymptom" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="RepositoryObjects">
     <Key>
@@ -179,7 +198,7 @@
     </Key>
     <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
     <Property Name="ExternalID" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="Annotations" Type="xml" Nullable="true" />
+    <Property Name="Annotations" Type="nvarchar(max)" Nullable="true" />
   </EntityType>
   <EntityType Name="FileContents">
     <Key>
@@ -187,7 +206,7 @@
     </Key>
     <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
     <Property Name="SourceCode" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="Annotations" Type="xml" Nullable="true" />
+    <Property Name="Annotations" Type="nvarchar(max)" Nullable="true" />
     <Property Name="FileVersion_Id" Type="uniqueidentifier" Nullable="false" />
   </EntityType>
   <EntityType Name="FileContentSummaries">
@@ -201,8 +220,8 @@
     <Property Name="CommentLines" Type="bigint" Nullable="true" />
     <Property Name="CodeLines" Type="bigint" Nullable="true" />
     <Property Name="StatementLines" Type="bigint" Nullable="true" />
-    <Property Name="SyntaxKindAnnotations" Type="xml" Nullable="true" />
-    <Property Name="Annotations" Type="xml" Nullable="true" />
+    <Property Name="SyntaxKindAnnotations" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Annotations" Type="nvarchar(max)" Nullable="true" />
     <Property Name="CodeCategory" Type="smallint" Nullable="true" />
     <Property Name="FileVersion_Id" Type="uniqueidentifier" Nullable="false" />
   </EntityType>
@@ -211,13 +230,13 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="Matching" Type="xml" Nullable="true" />
-    <Property Name="Differencing" Type="xml" Nullable="true" />
-    <Property Name="Report" Type="xml" Nullable="true" />
-    <Property Name="Annotations" Type="xml" Nullable="true" />
+    <Property Name="Matching" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Differencing" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Report" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Annotations" Type="nvarchar(max)" Nullable="true" />
     <Property Name="Approach" Type="int" Nullable="false" />
-    <Property Name="OriginalTree" Type="xml" Nullable="true" />
-    <Property Name="ModifiedTree" Type="xml" Nullable="true" />
+    <Property Name="OriginalTree" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="ModifiedTree" Type="nvarchar(max)" Nullable="true" />
     <Property Name="GlobalSubcorpus" Type="int" Nullable="true" />
     <Property Name="GlobalInsertPorcentageSubcorpus" Type="int" Nullable="true" />
     <Property Name="GlobalDeletePorcentageSubcorpus" Type="int" Nullable="true" />
@@ -230,7 +249,7 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="Annotations" Type="xml" Nullable="true" />
+    <Property Name="Annotations" Type="nvarchar(max)" Nullable="true" />
     <Property Name="Versioning_Path" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Versioning_FromVersion" Type="int" Nullable="false" />
     <Property Name="Versioning_ToVersion" Type="int" Nullable="false" />
@@ -248,7 +267,7 @@
     <Property Name="Subject" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Comments" Type="nvarchar(max)" Nullable="true" />
     <Property Name="Topics" Type="smallint" Nullable="false" />
-    <Property Name="Annotations" Type="xml" Nullable="true" />
+    <Property Name="Annotations" Type="nvarchar(max)" Nullable="true" />
     <Property Name="CaseKind" Type="int" Nullable="false" />
     <Property Name="SpuriousMatch" Type="bit" Nullable="true" />
     <Property Name="UnnaturalMatch" Type="bit" Nullable="true" />
@@ -271,7 +290,7 @@
     <Property Name="To" Type="datetime" Nullable="false" />
     <Property Name="Link" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Annotations" Type="xml" Nullable="true" />
+    <Property Name="Annotations" Type="nvarchar(max)" Nullable="true" />
   </EntityType>
   <EntityType Name="Symptoms">
     <Key>
@@ -281,7 +300,9 @@
     <Property Name="Notes" Type="int" Nullable="true" />
     <Property Name="Certainty_Method" Type="nvarchar(max)" Nullable="true" />
     <Property Name="Certainty_Value" Type="tinyint" Nullable="true" />
+    <Property Name="IsTop" Type="bit" Nullable="true" />
     <Property Name="Delta_Id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Parent_Id" Type="uniqueidentifier" Nullable="true" />
   </EntityType>
   <EntityType Name="RepositoryObjects_Commit">
     <Key>
@@ -364,7 +385,7 @@
     <Property Name="FromPath" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
   </EntityType>
-  <EntityType Name="Symptoms_MissedNameSymptom">
+  <EntityType Name="Symptoms_MissedElementSymptom">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
@@ -393,7 +414,13 @@
     <Property Name="Modified_ScopeHint" Type="nvarchar(max)" Nullable="true" />
     <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
   </EntityType>
-  <EntityType Name="Symptoms_NameCoexistenceSymptom">
+  <EntityType Name="Symptoms_MissedNameSymptom">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Symptoms_CoexistenceSymptom">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
@@ -409,6 +436,12 @@
     <Property Name="CoexistingOriginal_Element_Id" Type="nvarchar(max)" Nullable="false" />
     <Property Name="CoexistingOriginal_Element_Hint" Type="nvarchar(max)" Nullable="true" />
     <Property Name="CoexistingOriginal_ScopeHint" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Symptoms_NameCoexistenceSymptom">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
     <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
   </EntityType>
   <EntityType Name="Symptoms_IncompatibleMatchingSymptom">
@@ -430,8 +463,8 @@
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="TransformationsInfo" Type="xml" Nullable="true" />
-    <Property Name="TransformationSummary" Type="xml" Nullable="true" />
+    <Property Name="TransformationsInfo" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="TransformationSummary" Type="nvarchar(max)" Nullable="true" />
     <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
   </EntityType>
   <EntityType Name="Symptoms_GhostSymptom">
@@ -462,6 +495,31 @@
     <Property Name="Modified_Element_Id" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Modified_Element_Hint" Type="nvarchar(max)" Nullable="true" />
     <Property Name="Modified_ScopeHint" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Symptoms_BetweenSymptom">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Pattern" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Left_OriginalOrParent_Element_Type" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Left_OriginalOrParent_Element_Id" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Left_OriginalOrParent_Element_Hint" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Left_OriginalOrParent_ScopeHint" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Left_ModifiedOrElement_Element_Type" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Left_ModifiedOrElement_Element_Id" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Left_ModifiedOrElement_Element_Hint" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Left_ModifiedOrElement_ScopeHint" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Left_PartName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Right_OriginalOrParent_Element_Type" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Right_OriginalOrParent_Element_Id" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Right_OriginalOrParent_Element_Hint" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Right_OriginalOrParent_ScopeHint" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Right_ModifiedOrElement_Element_Type" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Right_ModifiedOrElement_Element_Id" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Right_ModifiedOrElement_Element_Hint" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Right_ModifiedOrElement_ScopeHint" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Right_PartName" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
   </EntityType>
   <EntityType Name="Branch_Contains_Commits">
@@ -660,6 +718,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="OneComplexSymptom_Contains_OtherSymptoms">
+    <End Role="Symptom" Type="Jawilliam.CDF.Labs.SQL.Store.Symptoms" Multiplicity="0..1" />
+    <End Role="Symptom1" Type="Jawilliam.CDF.Labs.SQL.Store.Symptoms" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Symptom">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Symptom1">
+        <PropertyRef Name="Parent_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Branch_Contains_Commits_Commit">
     <End Role="Commit" Type="Jawilliam.CDF.Labs.SQL.Store.RepositoryObjects_Commit" Multiplicity="1" />
     <End Role="Branch_Contains_Commits" Type="Jawilliam.CDF.Labs.SQL.Store.Branch_Contains_Commits" Multiplicity="*" />
@@ -848,13 +918,27 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_MissedNameSymptom_inherits_Symptom">
+  <Association Name="FK_MissedElementSymptom_inherits_Symptom">
     <End Role="Symptom" Type="Jawilliam.CDF.Labs.SQL.Store.Symptoms" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="MissedElementSymptom" Type="Jawilliam.CDF.Labs.SQL.Store.Symptoms_MissedElementSymptom" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Symptom">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="MissedElementSymptom">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MissedNameSymptom_inherits_MissedElementSymptom">
+    <End Role="MissedElementSymptom" Type="Jawilliam.CDF.Labs.SQL.Store.Symptoms_MissedElementSymptom" Multiplicity="1">
       <OnDelete Action="Cascade" />
     </End>
     <End Role="MissedNameSymptom" Type="Jawilliam.CDF.Labs.SQL.Store.Symptoms_MissedNameSymptom" Multiplicity="0..1" />
     <ReferentialConstraint>
-      <Principal Role="Symptom">
+      <Principal Role="MissedElementSymptom">
         <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="MissedNameSymptom">
@@ -862,13 +946,27 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_NameCoexistenceSymptom_inherits_Symptom">
+  <Association Name="FK_CoexistenceSymptom_inherits_Symptom">
     <End Role="Symptom" Type="Jawilliam.CDF.Labs.SQL.Store.Symptoms" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="CoexistenceSymptom" Type="Jawilliam.CDF.Labs.SQL.Store.Symptoms_CoexistenceSymptom" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Symptom">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CoexistenceSymptom">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_NameCoexistenceSymptom_inherits_CoexistenceSymptom">
+    <End Role="CoexistenceSymptom" Type="Jawilliam.CDF.Labs.SQL.Store.Symptoms_CoexistenceSymptom" Multiplicity="1">
       <OnDelete Action="Cascade" />
     </End>
     <End Role="NameCoexistenceSymptom" Type="Jawilliam.CDF.Labs.SQL.Store.Symptoms_NameCoexistenceSymptom" Multiplicity="0..1" />
     <ReferentialConstraint>
-      <Principal Role="Symptom">
+      <Principal Role="CoexistenceSymptom">
         <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="NameCoexistenceSymptom">
@@ -928,6 +1026,20 @@
         <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="SpuriousElementSymptom">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_BetweenSymptom_inherits_Symptom">
+    <End Role="Symptom" Type="Jawilliam.CDF.Labs.SQL.Store.Symptoms" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="BetweenSymptom" Type="Jawilliam.CDF.Labs.SQL.Store.Symptoms_BetweenSymptom" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Symptom">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="BetweenSymptom">
         <PropertyRef Name="Id" />
       </Dependent>
     </ReferentialConstraint>
@@ -1012,6 +1124,10 @@
           <AssociationSet Name="OneDelta_MayHave_ManySymptoms" Association="Jawilliam.CDF.Labs.SQL.OneDelta_MayHave_ManySymptoms">
             <End Role="Delta" EntitySet="Deltas" />
             <End Role="Symptom" EntitySet="Symptoms" />
+          </AssociationSet>
+          <AssociationSet Name="OneComplexSymptom_Contains_OtherSymptoms" Association="Jawilliam.CDF.Labs.SQL.OneComplexSymptom_Contains_OtherSymptoms">
+            <End Role="Symptom" EntitySet="Symptoms" />
+            <End Role="Symptom1" EntitySet="Symptoms" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="RepositoryObject" Abstract="true">
@@ -1174,6 +1290,10 @@
           <Member Name="NativeGumTreeWithoutComments" Value="3" />
           <Member Name="NativeGumTreeMethodsWithoutComments" Value="4" />
           <Member Name="InverseOfNativeGumTree" Value="5" />
+          <Member Name="NativeGumTreeWithChangeDistillerMatcher" Value="6" />
+          <Member Name="InverseOfNativeGumTreeWithChangeDistillerMatcher" Value="7" />
+          <Member Name="NativeGumTreeWithXyMatcher" Value="8" />
+          <Member Name="InverseOfNativeGumTreeWithXyMatcher" Value="9" />
         </EnumType>
         <EnumType Name="CodeCategory" UnderlyingType="Int16" IsFlags="true">
           <Member Name="Maintained" Value="1" />
@@ -1314,6 +1434,9 @@
           <NavigationProperty Name="Delta" Relationship="Jawilliam.CDF.Labs.SQL.OneDelta_MayHave_ManySymptoms" FromRole="Symptom" ToRole="Delta" />
           <Property Name="Notes" Type="Int32" Nullable="true" />
           <Property Name="Certainty" Type="Jawilliam.CDF.Labs.SQL.Certainty" Nullable="false" />
+          <NavigationProperty Name="Symptoms" Relationship="Jawilliam.CDF.Labs.SQL.OneComplexSymptom_Contains_OtherSymptoms" FromRole="Symptom" ToRole="Symptom1" />
+          <NavigationProperty Name="Parent" Relationship="Jawilliam.CDF.Labs.SQL.OneComplexSymptom_Contains_OtherSymptoms" FromRole="Symptom1" ToRole="Symptom" />
+          <Property Name="IsTop" Type="Boolean" Nullable="true" />
         </EntityType>
         <ComplexType Name="ElementDescription" >
           <Property Type="String" Name="Type" Nullable="false" />
@@ -1382,6 +1505,20 @@
           <Property Name="Original" Type="Jawilliam.CDF.Labs.SQL.ElementContext" Nullable="false" />
           <Property Name="Modified" Type="Jawilliam.CDF.Labs.SQL.ElementContext" Nullable="false" />
         </EntityType>
+        <EntityType Name="BetweenSymptom" BaseType="Jawilliam.CDF.Labs.SQL.Symptom" >
+          <Property Name="Pattern" Type="String" Nullable="false" />
+          <Property Name="Left" Type="Jawilliam.CDF.Labs.SQL.BetweenPartInfo" Nullable="false" />
+          <Property Name="Right" Type="Jawilliam.CDF.Labs.SQL.BetweenPartInfo" Nullable="false" />
+        </EntityType>
+        <ComplexType Name="BetweenPartInfo" >
+          <Property Type="Jawilliam.CDF.Labs.SQL.ElementContext" Name="OriginalOrParent" Nullable="false" />
+          <Property Type="Jawilliam.CDF.Labs.SQL.ElementContext" Name="ModifiedOrElement" Nullable="false" />
+          <Property Type="String" Name="PartName" Nullable="false" />
+        </ComplexType>
+        <Association Name="OneComplexSymptom_Contains_OtherSymptoms">
+          <End Type="Jawilliam.CDF.Labs.SQL.Symptom" Role="Symptom" Multiplicity="0..1" />
+          <End Type="Jawilliam.CDF.Labs.SQL.Symptom" Role="Symptom1" Multiplicity="*" />
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1563,10 +1700,11 @@
             <ScalarProperty Name="Method" ColumnName="Certainty_Method" />
             <ScalarProperty Name="Value" ColumnName="Certainty_Value" />
           </ComplexProperty>
+          <ScalarProperty Name="IsTop" ColumnName="IsTop" />
         </MappingFragment>
       </EntityTypeMapping>
-      <EntityTypeMapping TypeName="IsTypeOf(Jawilliam.CDF.Labs.SQL.MissedNameSymptom)">
-        <MappingFragment StoreEntitySet="Symptoms_MissedNameSymptom">
+      <EntityTypeMapping TypeName="IsTypeOf(Jawilliam.CDF.Labs.SQL.MissedElementSymptom)">
+        <MappingFragment StoreEntitySet="Symptoms_MissedElementSymptom">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Pattern" ColumnName="Pattern" />
           <ComplexProperty Name="Original" TypeName="Jawilliam.CDF.Labs.SQL.MissedMatch">
@@ -1609,8 +1747,13 @@
           </ComplexProperty>
         </MappingFragment>
       </EntityTypeMapping>
-      <EntityTypeMapping TypeName="IsTypeOf(Jawilliam.CDF.Labs.SQL.NameCoexistenceSymptom)">
-        <MappingFragment StoreEntitySet="Symptoms_NameCoexistenceSymptom">
+      <EntityTypeMapping TypeName="IsTypeOf(Jawilliam.CDF.Labs.SQL.MissedNameSymptom)">
+        <MappingFragment StoreEntitySet="Symptoms_MissedNameSymptom">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="IsTypeOf(Jawilliam.CDF.Labs.SQL.CoexistenceSymptom)">
+        <MappingFragment StoreEntitySet="Symptoms_CoexistenceSymptom">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ComplexProperty Name="Original" TypeName="Jawilliam.CDF.Labs.SQL.ElementContext">
             <ComplexProperty Name="Element" TypeName="Jawilliam.CDF.Labs.SQL.ElementDescription">
@@ -1636,6 +1779,11 @@
             </ComplexProperty>
             <ScalarProperty Name="ScopeHint" ColumnName="CoexistingOriginal_ScopeHint" />
           </ComplexProperty>
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="IsTypeOf(Jawilliam.CDF.Labs.SQL.NameCoexistenceSymptom)">
+        <MappingFragment StoreEntitySet="Symptoms_NameCoexistenceSymptom">
+          <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>
       <EntityTypeMapping TypeName="IsTypeOf(Jawilliam.CDF.Labs.SQL.IncompatibleMatchingSymptom)">
@@ -1708,6 +1856,50 @@
               <ScalarProperty Name="Hint" ColumnName="Modified_Element_Hint" />
             </ComplexProperty>
             <ScalarProperty Name="ScopeHint" ColumnName="Modified_ScopeHint" />
+          </ComplexProperty>
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="IsTypeOf(Jawilliam.CDF.Labs.SQL.BetweenSymptom)">
+        <MappingFragment StoreEntitySet="Symptoms_BetweenSymptom">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Pattern" ColumnName="Pattern" />
+          <ComplexProperty Name="Left" TypeName="Jawilliam.CDF.Labs.SQL.BetweenPartInfo">
+            <ComplexProperty Name="OriginalOrParent" TypeName="Jawilliam.CDF.Labs.SQL.ElementContext">
+              <ComplexProperty Name="Element" TypeName="Jawilliam.CDF.Labs.SQL.ElementDescription">
+                <ScalarProperty Name="Type" ColumnName="Left_OriginalOrParent_Element_Type" />
+                <ScalarProperty Name="Id" ColumnName="Left_OriginalOrParent_Element_Id" />
+                <ScalarProperty Name="Hint" ColumnName="Left_OriginalOrParent_Element_Hint" />
+              </ComplexProperty>
+              <ScalarProperty Name="ScopeHint" ColumnName="Left_OriginalOrParent_ScopeHint" />
+            </ComplexProperty>
+            <ComplexProperty Name="ModifiedOrElement" TypeName="Jawilliam.CDF.Labs.SQL.ElementContext">
+              <ComplexProperty Name="Element" TypeName="Jawilliam.CDF.Labs.SQL.ElementDescription">
+                <ScalarProperty Name="Type" ColumnName="Left_ModifiedOrElement_Element_Type" />
+                <ScalarProperty Name="Id" ColumnName="Left_ModifiedOrElement_Element_Id" />
+                <ScalarProperty Name="Hint" ColumnName="Left_ModifiedOrElement_Element_Hint" />
+              </ComplexProperty>
+              <ScalarProperty Name="ScopeHint" ColumnName="Left_ModifiedOrElement_ScopeHint" />
+            </ComplexProperty>
+            <ScalarProperty Name="PartName" ColumnName="Left_PartName" />
+          </ComplexProperty>
+          <ComplexProperty Name="Right" TypeName="Jawilliam.CDF.Labs.SQL.BetweenPartInfo">
+            <ComplexProperty Name="OriginalOrParent" TypeName="Jawilliam.CDF.Labs.SQL.ElementContext">
+              <ComplexProperty Name="Element" TypeName="Jawilliam.CDF.Labs.SQL.ElementDescription">
+                <ScalarProperty Name="Type" ColumnName="Right_OriginalOrParent_Element_Type" />
+                <ScalarProperty Name="Id" ColumnName="Right_OriginalOrParent_Element_Id" />
+                <ScalarProperty Name="Hint" ColumnName="Right_OriginalOrParent_Element_Hint" />
+              </ComplexProperty>
+              <ScalarProperty Name="ScopeHint" ColumnName="Right_OriginalOrParent_ScopeHint" />
+            </ComplexProperty>
+            <ComplexProperty Name="ModifiedOrElement" TypeName="Jawilliam.CDF.Labs.SQL.ElementContext">
+              <ComplexProperty Name="Element" TypeName="Jawilliam.CDF.Labs.SQL.ElementDescription">
+                <ScalarProperty Name="Type" ColumnName="Right_ModifiedOrElement_Element_Type" />
+                <ScalarProperty Name="Id" ColumnName="Right_ModifiedOrElement_Element_Id" />
+                <ScalarProperty Name="Hint" ColumnName="Right_ModifiedOrElement_Element_Hint" />
+              </ComplexProperty>
+              <ScalarProperty Name="ScopeHint" ColumnName="Right_ModifiedOrElement_ScopeHint" />
+            </ComplexProperty>
+            <ScalarProperty Name="PartName" ColumnName="Right_PartName" />
           </ComplexProperty>
         </MappingFragment>
       </EntityTypeMapping>
@@ -1851,6 +2043,15 @@
       <EndProperty Name="Symptom">
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="OneComplexSymptom_Contains_OtherSymptoms" TypeName="Jawilliam.CDF.Labs.SQL.OneComplexSymptom_Contains_OtherSymptoms" StoreEntitySet="Symptoms">
+      <EndProperty Name="Symptom">
+        <ScalarProperty Name="Id" ColumnName="Parent_Id" />
+      </EndProperty>
+      <EndProperty Name="Symptom1">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="Parent_Id" IsNull="false" />
     </AssociationSetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>

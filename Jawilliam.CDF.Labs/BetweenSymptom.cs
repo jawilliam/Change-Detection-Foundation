@@ -12,24 +12,18 @@ namespace Jawilliam.CDF.Labs
     using System;
     using System.Collections.Generic;
     
-    public abstract partial class Symptom
+    public partial class BetweenSymptom : Symptom
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Symptom()
+        public BetweenSymptom()
         {
-            this.Symptoms = new HashSet<Symptom>();
-            this.Certainty = new Certainty();
+            this.Left = new BetweenPartInfo();
+            this.Right = new BetweenPartInfo();
         }
     
-        public System.Guid Id { get; set; }
-        public Nullable<int> Notes { get; set; }
-        public Nullable<bool> IsTop { get; set; }
+        public string Pattern { get; set; }
     
-        public Certainty Certainty { get; set; }
-    
-        public virtual Delta Delta { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Symptom> Symptoms { get; set; }
-        public virtual Symptom Parent { get; set; }
+        public BetweenPartInfo Left { get; set; }
+        public BetweenPartInfo Right { get; set; }
     }
 }

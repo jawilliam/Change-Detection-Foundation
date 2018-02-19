@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 12/11/2017 16:18:44
+-- Date Created: 02/12/2018 16:16:28
 -- Generated from EDMX file: E:\MyRepositories\Change-Detection-Foundation\Jawilliam.CDF.Labs\GitRepository.edmx
 -- --------------------------------------------------
 
@@ -104,11 +104,17 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_FileRenamedChange_inherits_FileModifiedChange]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[RepositoryObjects_FileRenamedChange] DROP CONSTRAINT [FK_FileRenamedChange_inherits_FileModifiedChange];
 GO
-IF OBJECT_ID(N'[dbo].[FK_MissedNameSymptom_inherits_Symptom]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Symptoms_MissedNameSymptom] DROP CONSTRAINT [FK_MissedNameSymptom_inherits_Symptom];
+IF OBJECT_ID(N'[dbo].[FK_MissedElementSymptom_inherits_Symptom]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Symptoms_MissedElementSymptom] DROP CONSTRAINT [FK_MissedElementSymptom_inherits_Symptom];
 GO
-IF OBJECT_ID(N'[dbo].[FK_NameCoexistenceSymptom_inherits_Symptom]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Symptoms_NameCoexistenceSymptom] DROP CONSTRAINT [FK_NameCoexistenceSymptom_inherits_Symptom];
+IF OBJECT_ID(N'[dbo].[FK_MissedNameSymptom_inherits_MissedElementSymptom]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Symptoms_MissedNameSymptom] DROP CONSTRAINT [FK_MissedNameSymptom_inherits_MissedElementSymptom];
+GO
+IF OBJECT_ID(N'[dbo].[FK_CoexistenceSymptom_inherits_Symptom]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Symptoms_CoexistenceSymptom] DROP CONSTRAINT [FK_CoexistenceSymptom_inherits_Symptom];
+GO
+IF OBJECT_ID(N'[dbo].[FK_NameCoexistenceSymptom_inherits_CoexistenceSymptom]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Symptoms_NameCoexistenceSymptom] DROP CONSTRAINT [FK_NameCoexistenceSymptom_inherits_CoexistenceSymptom];
 GO
 IF OBJECT_ID(N'[dbo].[FK_IncompatibleMatchingSymptom_inherits_Symptom]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Symptoms_IncompatibleMatchingSymptom] DROP CONSTRAINT [FK_IncompatibleMatchingSymptom_inherits_Symptom];
@@ -118,6 +124,12 @@ IF OBJECT_ID(N'[dbo].[FK_SpuriositySymptom_inherits_Symptom]', 'F') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[FK_GhostSymptom_inherits_Symptom]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Symptoms_GhostSymptom] DROP CONSTRAINT [FK_GhostSymptom_inherits_Symptom];
+GO
+IF OBJECT_ID(N'[dbo].[FK_SpuriousElementSymptom_inherits_Symptom]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Symptoms_SpuriousElementSymptom] DROP CONSTRAINT [FK_SpuriousElementSymptom_inherits_Symptom];
+GO
+IF OBJECT_ID(N'[dbo].[FK_BetweenSymptom_inherits_Symptom]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Symptoms_BetweenSymptom] DROP CONSTRAINT [FK_BetweenSymptom_inherits_Symptom];
 GO
 
 -- --------------------------------------------------
@@ -178,8 +190,14 @@ GO
 IF OBJECT_ID(N'[dbo].[RepositoryObjects_FileRenamedChange]', 'U') IS NOT NULL
     DROP TABLE [dbo].[RepositoryObjects_FileRenamedChange];
 GO
+IF OBJECT_ID(N'[dbo].[Symptoms_MissedElementSymptom]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Symptoms_MissedElementSymptom];
+GO
 IF OBJECT_ID(N'[dbo].[Symptoms_MissedNameSymptom]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Symptoms_MissedNameSymptom];
+GO
+IF OBJECT_ID(N'[dbo].[Symptoms_CoexistenceSymptom]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Symptoms_CoexistenceSymptom];
 GO
 IF OBJECT_ID(N'[dbo].[Symptoms_NameCoexistenceSymptom]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Symptoms_NameCoexistenceSymptom];
@@ -192,6 +210,12 @@ IF OBJECT_ID(N'[dbo].[Symptoms_SpuriositySymptom]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[Symptoms_GhostSymptom]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Symptoms_GhostSymptom];
+GO
+IF OBJECT_ID(N'[dbo].[Symptoms_SpuriousElementSymptom]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Symptoms_SpuriousElementSymptom];
+GO
+IF OBJECT_ID(N'[dbo].[Symptoms_BetweenSymptom]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Symptoms_BetweenSymptom];
 GO
 IF OBJECT_ID(N'[dbo].[Branch_Contains_Commits]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Branch_Contains_Commits];
@@ -310,7 +334,9 @@ CREATE TABLE [dbo].[Symptoms] (
     [Notes] int  NULL,
     [Certainty_Method] nvarchar(max)  NULL,
     [Certainty_Value] tinyint  NULL,
-    [Delta_Id] uniqueidentifier  NOT NULL
+    [IsTop] bit  NULL,
+    [Delta_Id] uniqueidentifier  NOT NULL,
+    [Parent_Id] uniqueidentifier  NULL
 );
 GO
 
@@ -507,6 +533,31 @@ CREATE TABLE [dbo].[Symptoms_SpuriousElementSymptom] (
 );
 GO
 
+-- Creating table 'Symptoms_BetweenSymptom'
+CREATE TABLE [dbo].[Symptoms_BetweenSymptom] (
+    [Pattern] nvarchar(max)  NOT NULL,
+    [Left_OriginalOrParent_Element_Type] nvarchar(max)  NOT NULL,
+    [Left_OriginalOrParent_Element_Id] nvarchar(max)  NOT NULL,
+    [Left_OriginalOrParent_Element_Hint] nvarchar(max)  NULL,
+    [Left_OriginalOrParent_ScopeHint] nvarchar(max)  NULL,
+    [Left_ModifiedOrElement_Element_Type] nvarchar(max)  NOT NULL,
+    [Left_ModifiedOrElement_Element_Id] nvarchar(max)  NOT NULL,
+    [Left_ModifiedOrElement_Element_Hint] nvarchar(max)  NULL,
+    [Left_ModifiedOrElement_ScopeHint] nvarchar(max)  NULL,
+    [Left_PartName] nvarchar(max)  NOT NULL,
+    [Right_OriginalOrParent_Element_Type] nvarchar(max)  NOT NULL,
+    [Right_OriginalOrParent_Element_Id] nvarchar(max)  NOT NULL,
+    [Right_OriginalOrParent_Element_Hint] nvarchar(max)  NULL,
+    [Right_OriginalOrParent_ScopeHint] nvarchar(max)  NULL,
+    [Right_ModifiedOrElement_Element_Type] nvarchar(max)  NOT NULL,
+    [Right_ModifiedOrElement_Element_Id] nvarchar(max)  NOT NULL,
+    [Right_ModifiedOrElement_Element_Hint] nvarchar(max)  NULL,
+    [Right_ModifiedOrElement_ScopeHint] nvarchar(max)  NULL,
+    [Right_PartName] nvarchar(max)  NOT NULL,
+    [Id] uniqueidentifier  NOT NULL
+);
+GO
+
 -- Creating table 'Branch_Contains_Commits'
 CREATE TABLE [dbo].[Branch_Contains_Commits] (
     [Commits_Id] uniqueidentifier  NOT NULL,
@@ -678,6 +729,12 @@ GO
 -- Creating primary key on [Id] in table 'Symptoms_SpuriousElementSymptom'
 ALTER TABLE [dbo].[Symptoms_SpuriousElementSymptom]
 ADD CONSTRAINT [PK_Symptoms_SpuriousElementSymptom]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'Symptoms_BetweenSymptom'
+ALTER TABLE [dbo].[Symptoms_BetweenSymptom]
+ADD CONSTRAINT [PK_Symptoms_BetweenSymptom]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -970,6 +1027,21 @@ ON [dbo].[Symptoms]
     ([Delta_Id]);
 GO
 
+-- Creating foreign key on [Parent_Id] in table 'Symptoms'
+ALTER TABLE [dbo].[Symptoms]
+ADD CONSTRAINT [FK_OneComplexSymptom_Contains_OtherSymptoms]
+    FOREIGN KEY ([Parent_Id])
+    REFERENCES [dbo].[Symptoms]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_OneComplexSymptom_Contains_OtherSymptoms'
+CREATE INDEX [IX_FK_OneComplexSymptom_Contains_OtherSymptoms]
+ON [dbo].[Symptoms]
+    ([Parent_Id]);
+GO
+
 -- Creating foreign key on [Id] in table 'RepositoryObjects_Commit'
 ALTER TABLE [dbo].[RepositoryObjects_Commit]
 ADD CONSTRAINT [FK_Commit_inherits_RepositoryObject]
@@ -1126,6 +1198,15 @@ GO
 -- Creating foreign key on [Id] in table 'Symptoms_SpuriousElementSymptom'
 ALTER TABLE [dbo].[Symptoms_SpuriousElementSymptom]
 ADD CONSTRAINT [FK_SpuriousElementSymptom_inherits_Symptom]
+    FOREIGN KEY ([Id])
+    REFERENCES [dbo].[Symptoms]
+        ([Id])
+    ON DELETE CASCADE ON UPDATE NO ACTION;
+GO
+
+-- Creating foreign key on [Id] in table 'Symptoms_BetweenSymptom'
+ALTER TABLE [dbo].[Symptoms_BetweenSymptom]
+ADD CONSTRAINT [FK_BetweenSymptom_inherits_Symptom]
     FOREIGN KEY ([Id])
     REFERENCES [dbo].[Symptoms]
         ([Id])

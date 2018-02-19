@@ -41,7 +41,7 @@
         <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.FileVersion" />
         <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.FileChange" />
       </Diagram>
-      <Diagram DiagramId="ac5c40058cf243809cab6af57bb45588" Name="Change Detection" DisplayType="true" ZoomLevel="93" >
+      <Diagram DiagramId="ac5c40058cf243809cab6af57bb45588" Name="Change Detection" DisplayType="true" ZoomLevel="77" >
         <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.FileContentSummary" Width="4.5" PointX="10.125" PointY="3.625" />
         <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.FileVersion" Width="2.125" PointX="6.75" PointY="3.625" />
         <AssociationConnector Association="Jawilliam.CDF.Labs.SQL.OneFileVersion_HasExactly_OneFileContentSummary" />
@@ -59,24 +59,27 @@
         <AssociationConnector Association="Jawilliam.CDF.Labs.SQL.OneFileRevisionPair_MayHave_ManyReview" />
         <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.Project" Width="2.375" PointX="2" PointY="7.75" />
         <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.Symptom" Width="1.875" PointX="22.25" PointY="7" />
-        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.MissedNameSymptom" Width="2.125" PointX="14.75" PointY="11.625" />
-        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.MissedElementSymptom" Width="2.25" PointX="16.25" PointY="9.375" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.MissedNameSymptom" Width="2.125" PointX="14.75" PointY="12.125" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.MissedElementSymptom" Width="2.25" PointX="16.25" PointY="9.875" />
         <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.MissedElementSymptom" />
         <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.MissedNameSymptom" />
         <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.MissedNameSymptom" />
         <AssociationConnector Association="Jawilliam.CDF.Labs.SQL.OneDelta_MayHave_ManySymptoms" />
-        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.CoexistenceSymptom" Width="3" PointX="18.75" PointY="9.375" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.CoexistenceSymptom" Width="3" PointX="18.75" PointY="9.875" />
         <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.CoexistenceSymptom" />
-        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.NameCoexistenceSymptom" Width="2.125" PointX="18.25" PointY="11.625" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.NameCoexistenceSymptom" Width="2.125" PointX="18.25" PointY="12.125" />
         <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.NameCoexistenceSymptom" />
-        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.IncompatibleMatchingSymptom" Width="2.375" PointX="22" PointY="9.375" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.IncompatibleMatchingSymptom" Width="2.375" PointX="22" PointY="9.875" />
         <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.IncompatibleMatchingSymptom" />
-        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.SpuriositySymptom" Width="2.25" PointX="24.625" PointY="9.375" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.SpuriositySymptom" Width="2.25" PointX="24.625" PointY="9.875" />
         <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.SpuriositySymptom" />
-        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.GhostSymptom" Width="2.5" PointX="27.125" PointY="9.375" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.GhostSymptom" Width="2.5" PointX="27.125" PointY="9.875" />
         <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.GhostSymptom" />
-        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.SpuriousElementSymptom" Width="2.25" PointX="29.875" PointY="9.375" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.SpuriousElementSymptom" Width="2.25" PointX="29.875" PointY="9.875" />
         <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.SpuriousElementSymptom" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.BetweenSymptom" Width="3.125" PointX="32.5" PointY="9.875" />
+        <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.BetweenSymptom" />
+        <AssociationConnector Association="Jawilliam.CDF.Labs.SQL.OneComplexSymptom_Contains_OtherSymptoms" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

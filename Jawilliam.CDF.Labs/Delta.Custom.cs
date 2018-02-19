@@ -35,6 +35,7 @@ namespace Jawilliam.CDF.Labs
                 switch (this.Approach)
                 {
                     case ChangeDetectionApproaches.NativeGumTree:
+                    case ChangeDetectionApproaches.InverseOfNativeGumTree:
                     case ChangeDetectionApproaches.NativeGumTreeWithoutComments:
                         return this.GetNativeGumTreeResult();
                     default:

@@ -300,9 +300,12 @@ namespace Jawilliam.CDF.Labs
         /// <param name="gumTreeApproach"></param>
         /// <param name="skipThese">local criterion for determining elements that should be ignored.</param>
         /// <param name="cleaner">A preprocessor for the source code in case it is desired.</param>
-        public virtual void SaveNativeTrees(GumTreeNativeApproach gumTree, InteropArgs interopArgs, ChangeDetectionApproaches gumTreeApproach, Func<FileRevisionPair, bool> skipThese, SourceCodeCleaner cleaner = null)
+        public virtual void SaveNativeTrees(GumTreeNativeApproach gumTree, InteropArgs interopArgs, ChangeDetectionApproaches gumTreeApproach, Func<FileRevisionPair, bool> skipThese, SourceCodeCleaner cleaner = null, bool reverseFileVersions = false)
         {
-            this.Analyze(f => f.Principal.Deltas.Any(d => d.Approach == gumTreeApproach), 
+            this.Analyze(f => f.Principal.Deltas.Any(d => d.Approach == gumTreeApproach &&
+                                               d.Matching != null &&
+                                               d.Differencing != null &&
+                                               d.Report == null), 
               delegate (FileRevisionPair repositoryObject, SyntaxNode original, SyntaxNode modified, CancellationToken token)
               {
                   if (!repositoryObject.Principal.XAnnotations.SourceCodeChanges || (skipThese?.Invoke(repositoryObject) ?? false))
@@ -312,14 +315,7 @@ namespace Jawilliam.CDF.Labs
                       .Load();
 
                   var delta = repositoryObject.Principal.Deltas.Single(d => d.Approach == gumTreeApproach);
-                  if (delta.Report != null || (delta.OriginalTree != null && delta.ModifiedTree != null)/* ||
-                      delta.Id == Guid.Parse("0f962b83-5d9d-4206-98e8-aebce28b96ce") ||
-                      delta.Id == Guid.Parse("dd055762-51a7-4fe2-8f0b-1fbeb0a058e0") ||
-                      delta.Id == Guid.Parse("3cf9f44c-6542-41d5-9ee2-3c3359a47166") ||
-                      delta.Id == Guid.Parse("a52d6658-64e9-4903-a650-302c5a2ac0ee") ||
-                      delta.Id == Guid.Parse("5cdb1d99-555c-4395-9d4a-a97b25be5fc6") ||
-                      delta.Id == Guid.Parse("8ccb108d-c8e6-457b-bf68-3f41069e7ed9") ||
-                      delta.Id == Guid.Parse("5fd16607-6089-4ab9-91f0-788c88fb4c5c")*/)
+                  if (delta.Report != null || (delta.OriginalTree != null && delta.ModifiedTree != null))
                       return;
 
                   var preprocessedOriginal = cleaner != null ? cleaner.Clean(original) : original;
@@ -327,48 +323,16 @@ namespace Jawilliam.CDF.Labs
                   System.IO.File.WriteAllText(interopArgs.Original, preprocessedOriginal.ToFullString());
                   System.IO.File.WriteAllText(interopArgs.Modified, preprocessedModified.ToFullString());
 
-                  //try
-                  //{
-                      var originalTree = gumTree.ParseTree(interopArgs, false);
-                      var modifiedTree = gumTree.ParseTree(interopArgs, true);
-
-                      int index = 0;
-                      originalTree.PostOrder(t => t.Children).ForEach(t => t.Root.Id = index++.ToString(CultureInfo.InvariantCulture));
-                      delta.OriginalTree = originalTree.WriteXmlColumn();
-
-                      index = 0;
-                      modifiedTree.PostOrder(t => t.Children).ForEach(t => t.Root.Id = index++.ToString(CultureInfo.InvariantCulture));
-                      delta.ModifiedTree = modifiedTree.WriteXmlColumn();
-
-                      // Checking heuristics 
-                      //var detectionResult = (DetectionResult)delta.DetectionResult;
-                      //foreach (var match in detectionResult.Matches)
-                      //{
-                      //    var o = originalTree.PreOrder(t => t.Children).Single(t => t.Root.Id == match.Original.Id);
-                      //    var m = modifiedTree.PreOrder(t => t.Children).Single(t => t.Root.Id == match.Modified.Id);
-                      //    Debug.Assert(o.Root.Label == match.Original.Label);
-                      //    Debug.Assert(m.Root.Label == match.Original.Label);
-                      //}
-
-                      //foreach (var insert in detectionResult.Actions.OfType<InsertOperationDescriptor>())
-                      //{
-                      //    var element = modifiedTree.PreOrder(t => t.Children).Single(t => t.Root.Id == insert.Element.Id);
-                      //    //var parent = originalTree.PreOrder(t => t.Children).Single(t => t.Root.Id == insert.Parent.Id);
-                      //    Debug.Assert(element.Root.Label == insert.Element.Label);
-                      //    //Debug.Assert(parent.Root.Label == insert.Parent.Label);
-                      //}
-
-                      //foreach (var delete in detectionResult.Actions.OfType<DeleteOperationDescriptor>())
-                      //{
-                      //    var element = originalTree.PreOrder(t => t.Children).Single(t => t.Root.Id == delete.Element.Id);
-                      //    Debug.Assert(element.Root.Label == delete.Element.Label);
-                      //}
-                  //}
-                  //catch (Exception e)
-                  //{
-                  //    ;
-                  //    throw new InvalidOperationException();
-                  //}
+                  var originalTree = gumTree.ParseTree(interopArgs, reverseFileVersions);
+                  var modifiedTree = gumTree.ParseTree(interopArgs, !reverseFileVersions);
+                  
+                  int index = 0;
+                  originalTree.PostOrder(t => t.Children).ForEach(t => t.Root.Id = index++.ToString(CultureInfo.InvariantCulture));
+                  delta.OriginalTree = originalTree.WriteXmlColumn();
+                  
+                  index = 0;
+                  modifiedTree.PostOrder(t => t.Children).ForEach(t => t.Root.Id = index++.ToString(CultureInfo.InvariantCulture));
+                  delta.ModifiedTree = modifiedTree.WriteXmlColumn();
               }, true,
             "Principal.FileVersion.Content", "Principal.FromFileVersion.Content");
         }

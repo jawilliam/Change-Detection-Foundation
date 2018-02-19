@@ -7,7 +7,7 @@ namespace Jawilliam.CDF
     /// <summary>
     /// Contains shared methods for resolving domain concerns in source code change detection.
     /// </summary>
-    public static class Domain
+    public static class DomainExtensions
     {
         /// <summary>
         /// Returns the ancestors determining the subtypes of a given labeled element.

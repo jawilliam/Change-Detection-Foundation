@@ -271,14 +271,16 @@ namespace Jawilliam.CDF.Approach.GumTree
         public string ExecuteJsonDiffCommand(InteropArgs args)
         {
             //¢
+            string options = args.Options == null ? "" : $"{args.Options} ";
             string header = $"Microsoft Windows [Versión 10.0.10586]\r\n(c) 2015 Microsoft Corporation. Todos los derechos reservados.\r\n\r\n{Environment.CurrentDirectory}>E:\r\n\r\n{Environment.CurrentDirectory}>cd {args.GumTreePath}\\bin\r\n\r\n{args.GumTreePath}\\bin>set PATH=%PATH%;C:\\Program Files (x86)\\srcML 0.9.5\\bin\r\n\r\n{args.GumTreePath}\\bin>gumtree.bat jsondiff {args.Original} {args.Modified}\r\n";
-            return ExecuteCommand(args, header, $"gumtree.bat jsondiff {args.Original} {args.Modified}", "");
+            return ExecuteCommand(args, header, $"gumtree.bat jsondiff {options}{args.Original} {args.Modified}", "");
         }
 
         public string ExecuteDiffCommand(InteropArgs args)
         {
+            string options = args.Options == null ? "" : $"{args.Options} ";
             string header = $"Microsoft Windows [Versión 10.0.10586]\r\n(c) 2015 Microsoft Corporation. Todos los derechos reservados.\r\n\r\n{Environment.CurrentDirectory}>E:\r\n\r\n{Environment.CurrentDirectory}>cd {args.GumTreePath}\\bin\r\n\r\n{args.GumTreePath}\\bin>set PATH=%PATH%;C:\\Program Files (x86)\\srcML 0.9.5\\bin\r\n\r\n{args.GumTreePath}\\bin>gumtree.bat diff {args.Original} {args.Modified}\r\n";
-            return ExecuteCommand(args, header, $"gumtree.bat diff {args.Original} {args.Modified}", "");
+            return ExecuteCommand(args, header, $"gumtree.bat diff {options}{args.Original} {args.Modified}", "");
         }
 
         public virtual ElementTree ParseTree(InteropArgs args, bool modified = false)

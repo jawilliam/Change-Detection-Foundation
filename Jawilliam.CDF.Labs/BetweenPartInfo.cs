@@ -11,17 +11,17 @@ namespace Jawilliam.CDF.Labs
 {
     using System;
     
-    public enum ChangeDetectionApproaches : int
+    public partial class BetweenPartInfo
     {
-        Manually = 0,
-        Simetrics = 1,
-        NativeGumTree = 2,
-        NativeGumTreeWithoutComments = 3,
-        NativeGumTreeMethodsWithoutComments = 4,
-        InverseOfNativeGumTree = 5,
-        NativeGumTreeWithChangeDistillerMatcher = 6,
-        InverseOfNativeGumTreeWithChangeDistillerMatcher = 7,
-        NativeGumTreeWithXyMatcher = 8,
-        InverseOfNativeGumTreeWithXyMatcher = 9
+        public BetweenPartInfo()
+        {
+            this.OriginalOrParent = new ElementContext();
+            this.ModifiedOrElement = new ElementContext();
+        }
+    
+        public string PartName { get; set; }
+    
+        public ElementContext OriginalOrParent { get; set; }
+        public ElementContext ModifiedOrElement { get; set; }
     }
 }
