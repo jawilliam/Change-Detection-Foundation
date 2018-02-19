@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 02/12/2018 16:16:28
+-- Date Created: 02/19/2018 16:51:33
 -- Generated from EDMX file: E:\MyRepositories\Change-Detection-Foundation\Jawilliam.CDF.Labs\GitRepository.edmx
 -- --------------------------------------------------
 
@@ -73,6 +73,9 @@ IF OBJECT_ID(N'[dbo].[FK_OneFileRevisionPair_MayHave_ManyReview]', 'F') IS NOT N
 GO
 IF OBJECT_ID(N'[dbo].[FK_OneDelta_MayHave_ManySymptoms]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Symptoms] DROP CONSTRAINT [FK_OneDelta_MayHave_ManySymptoms];
+GO
+IF OBJECT_ID(N'[dbo].[FK_OneComplexSymptom_Contains_OtherSymptoms]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Symptoms] DROP CONSTRAINT [FK_OneComplexSymptom_Contains_OtherSymptoms];
 GO
 IF OBJECT_ID(N'[dbo].[FK_Commit_inherits_RepositoryObject]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[RepositoryObjects_Commit] DROP CONSTRAINT [FK_Commit_inherits_RepositoryObject];
@@ -536,24 +539,46 @@ GO
 -- Creating table 'Symptoms_BetweenSymptom'
 CREATE TABLE [dbo].[Symptoms_BetweenSymptom] (
     [Pattern] nvarchar(max)  NOT NULL,
-    [Left_OriginalOrParent_Element_Type] nvarchar(max)  NOT NULL,
-    [Left_OriginalOrParent_Element_Id] nvarchar(max)  NOT NULL,
-    [Left_OriginalOrParent_Element_Hint] nvarchar(max)  NULL,
-    [Left_OriginalOrParent_ScopeHint] nvarchar(max)  NULL,
-    [Left_ModifiedOrElement_Element_Type] nvarchar(max)  NOT NULL,
-    [Left_ModifiedOrElement_Element_Id] nvarchar(max)  NOT NULL,
-    [Left_ModifiedOrElement_Element_Hint] nvarchar(max)  NULL,
-    [Left_ModifiedOrElement_ScopeHint] nvarchar(max)  NULL,
+    [Left_Parent4IDU_Original4U_Element_Type] nvarchar(max)  NOT NULL,
+    [Left_Parent4IDU_Original4U_Element_Id] nvarchar(max)  NOT NULL,
+    [Left_Parent4IDU_Original4U_Element_Hint] nvarchar(max)  NULL,
+    [Left_Parent4IDU_Original4U_ScopeHint] nvarchar(max)  NULL,
+    [Left_Element4IDM_Modified4U_Element_Type] nvarchar(max)  NOT NULL,
+    [Left_Element4IDM_Modified4U_Element_Id] nvarchar(max)  NOT NULL,
+    [Left_Element4IDM_Modified4U_Element_Hint] nvarchar(max)  NULL,
+    [Left_Element4IDM_Modified4U_ScopeHint] nvarchar(max)  NULL,
     [Left_PartName] nvarchar(max)  NOT NULL,
-    [Right_OriginalOrParent_Element_Type] nvarchar(max)  NOT NULL,
-    [Right_OriginalOrParent_Element_Id] nvarchar(max)  NOT NULL,
-    [Right_OriginalOrParent_Element_Hint] nvarchar(max)  NULL,
-    [Right_OriginalOrParent_ScopeHint] nvarchar(max)  NULL,
-    [Right_ModifiedOrElement_Element_Type] nvarchar(max)  NOT NULL,
-    [Right_ModifiedOrElement_Element_Id] nvarchar(max)  NOT NULL,
-    [Right_ModifiedOrElement_Element_Hint] nvarchar(max)  NULL,
-    [Right_ModifiedOrElement_ScopeHint] nvarchar(max)  NULL,
+    [Left_Operation] nvarchar(max)  NULL,
+    [Right_Parent4IDU_Original4U_Element_Type] nvarchar(max)  NOT NULL,
+    [Right_Parent4IDU_Original4U_Element_Id] nvarchar(max)  NOT NULL,
+    [Right_Parent4IDU_Original4U_Element_Hint] nvarchar(max)  NULL,
+    [Right_Parent4IDU_Original4U_ScopeHint] nvarchar(max)  NULL,
+    [Right_Element4IDM_Modified4U_Element_Type] nvarchar(max)  NOT NULL,
+    [Right_Element4IDM_Modified4U_Element_Id] nvarchar(max)  NOT NULL,
+    [Right_Element4IDM_Modified4U_Element_Hint] nvarchar(max)  NULL,
+    [Right_Element4IDM_Modified4U_ScopeHint] nvarchar(max)  NULL,
     [Right_PartName] nvarchar(max)  NOT NULL,
+    [Right_Operation] nvarchar(max)  NULL,
+    [DivergentLeft_Parent4IDU_Original4U_Element_Type] nvarchar(max)  NOT NULL,
+    [DivergentLeft_Parent4IDU_Original4U_Element_Id] nvarchar(max)  NOT NULL,
+    [DivergentLeft_Parent4IDU_Original4U_Element_Hint] nvarchar(max)  NULL,
+    [DivergentLeft_Parent4IDU_Original4U_ScopeHint] nvarchar(max)  NULL,
+    [DivergentLeft_Element4IDM_Modified4U_Element_Type] nvarchar(max)  NOT NULL,
+    [DivergentLeft_Element4IDM_Modified4U_Element_Id] nvarchar(max)  NOT NULL,
+    [DivergentLeft_Element4IDM_Modified4U_Element_Hint] nvarchar(max)  NULL,
+    [DivergentLeft_Element4IDM_Modified4U_ScopeHint] nvarchar(max)  NULL,
+    [DivergentLeft_PartName] nvarchar(max)  NOT NULL,
+    [DivergentLeft_Operation] nvarchar(max)  NULL,
+    [DivergentRight_Parent4IDU_Original4U_Element_Type] nvarchar(max)  NOT NULL,
+    [DivergentRight_Parent4IDU_Original4U_Element_Id] nvarchar(max)  NOT NULL,
+    [DivergentRight_Parent4IDU_Original4U_Element_Hint] nvarchar(max)  NULL,
+    [DivergentRight_Parent4IDU_Original4U_ScopeHint] nvarchar(max)  NULL,
+    [DivergentRight_Element4IDM_Modified4U_Element_Type] nvarchar(max)  NOT NULL,
+    [DivergentRight_Element4IDM_Modified4U_Element_Id] nvarchar(max)  NOT NULL,
+    [DivergentRight_Element4IDM_Modified4U_Element_Hint] nvarchar(max)  NULL,
+    [DivergentRight_Element4IDM_Modified4U_ScopeHint] nvarchar(max)  NULL,
+    [DivergentRight_PartName] nvarchar(max)  NOT NULL,
+    [DivergentRight_Operation] nvarchar(max)  NULL,
     [Id] uniqueidentifier  NOT NULL
 );
 GO

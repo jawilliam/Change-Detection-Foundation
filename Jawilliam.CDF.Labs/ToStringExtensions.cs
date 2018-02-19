@@ -10,7 +10,7 @@ namespace Jawilliam.CDF.Labs
     {
         public override string ToString()
         {
-            return $"{this.OriginalOrParent} -- {this.ModifiedOrElement}";
+            return $"{this.Parent4IDU_Original4U} -- {this.Element4IDM_Modified4U}";
         }
     }
 
