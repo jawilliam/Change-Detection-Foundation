@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jawilliam.CDF.Tests", "Jawi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jawilliam.CDF.CSharp", "Jawilliam.CDF.CSharp\Jawilliam.CDF.CSharp.csproj", "{A16A803D-E152-48EE-96A5-AC6085930DA2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jawilliam.CDF.XObjects", "Jawilliam.CDF.XObjects\Jawilliam.CDF.XObjects.csproj", "{111FF008-FABE-4D66-9A27-C7EDCFDE25F4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{A16A803D-E152-48EE-96A5-AC6085930DA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A16A803D-E152-48EE-96A5-AC6085930DA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A16A803D-E152-48EE-96A5-AC6085930DA2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{111FF008-FABE-4D66-9A27-C7EDCFDE25F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{111FF008-FABE-4D66-9A27-C7EDCFDE25F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{111FF008-FABE-4D66-9A27-C7EDCFDE25F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{111FF008-FABE-4D66-9A27-C7EDCFDE25F4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

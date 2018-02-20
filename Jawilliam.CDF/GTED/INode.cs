@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Jawilliam.CDF.GTED
+﻿namespace Jawilliam.CDF.GTED
 {
     /// <summary>
     /// Defines a tree node.
@@ -12,8 +6,13 @@ namespace Jawilliam.CDF.GTED
     public interface INode
     {
         /// <summary>
-        /// Get or sets the 
+        /// Get or sets the value.
         /// </summary>
         object Value { get; set; }
+
+        /// <summary>
+        /// Gets or sets the label.
+        /// </summary>
+        object Label { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace Jawilliam.CDF.GTED
 {
@@ -7,6 +8,11 @@ namespace Jawilliam.CDF.GTED
     /// </summary>
     public interface ITree
     {
+        /// <summary>
+        /// Gets or sets the parent tree.
+        /// </summary>
+        ITree Parent { get; set; }
+
         /// <summary>
         /// Gets or sets the root node.
         /// </summary>
@@ -25,12 +31,17 @@ namespace Jawilliam.CDF.GTED
     public interface ITree<TNode> where TNode : INode
     {
         /// <summary>
+        /// Gets or sets the parent tree.
+        /// </summary>
+        ITree<TNode> Parent { get; set; }
+
+        /// <summary>
         /// Gets or sets the root node.
         /// </summary>
         TNode Root { get; set; }
 
         /// <summary>
-        /// Gets the children of the current tree.
+        /// Gets the children trees.
         /// </summary>
         IList<ITree<TNode>> Children { get; }
     }

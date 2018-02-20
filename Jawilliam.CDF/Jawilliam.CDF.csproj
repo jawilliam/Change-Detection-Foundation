@@ -70,6 +70,8 @@
     <Compile Include="GTED\IForest.cs" />
     <Compile Include="GTED\INode.cs" />
     <Compile Include="GTED\ITree.cs" />
+    <Compile Include="GTED\Node.cs" />
+    <Compile Include="GTED\Tree.cs" />
     <Compile Include="Metrics.Quality\EditDistance.cs" />
     <Compile Include="Metrics\IMetric.cs" />
     <Compile Include="Metrics\RelativeThreshold.cs" />

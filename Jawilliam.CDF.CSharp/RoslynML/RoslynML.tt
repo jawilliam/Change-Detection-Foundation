@@ -1,0 +1,140 @@
+﻿<#@ template language="C#" debug="True" hostSpecific="true"#>
+<#@ output extension=".xml" #>
+<#@ include file="TemplateFileManagerV2.1.ttinclude" #>
+<#@ assembly name="$(SolutionDir)\packages\Microsoft.CodeAnalysis.Common.2.1.0\lib\netstandard1.3\Microsoft.CodeAnalysis.dll" #>
+<#@ assembly name="$(SolutionDir)\packages\Microsoft.CodeAnalysis.CSharp.2.1.0\lib\netstandard1.3\Microsoft.CodeAnalysis.CSharp.dll" #>
+<#@ assembly name="$(SolutionDir)\packages\CodePlex.LinqToXsd.2.0.2\lib\Xml.Schema.Linq.dll" #>
+<#@ assembly name="$(SolutionDir)\Jawilliam.CDF\bin\Debug\Jawilliam.CDF.dll" #>
+<#@ assembly name="$(SolutionDir)\Jawilliam.CDF.XObjects\bin\Debug\Jawilliam.CDF.XObjects.dll" #>
+
+
+<#@ assembly name="System.Runtime" #>
+<#@ assembly name="System.Linq" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.Reflection" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Collections" #>
+<#@ import namespace="System.Collections.Generic" #> 
+<#@ import namespace="Microsoft.CodeAnalysis.CSharp" #>
+<#@ import namespace="Jawilliam.CDF" #>
+<#@ import namespace="Jawilliam.CDF.GTED" #>
+<#@ import namespace="Jawilliam.CDF.XObjects.RDSL" #>
+<#
+Type csharpSyntaxVisitor = typeof(CSharpSyntaxVisitor);
+MethodInfo[] allMethods = csharpSyntaxVisitor.GetMembers().OfType<MethodInfo>().ToArray();
+
+// Filters to methods starting with 'Visit' prefix, except that being called just 'Visit'.
+MethodInfo[] visitMethods = allMethods.Where(m => m.Name.StartsWith("Visit") && m.Name != "Visit").ToArray();
+
+// This methods represents the case logic of CSharpSyntaxVisitor for each type of syntax node, then lets to collect all that syntax node types.
+List<Type> syntaxNodeTypes = visitMethods.Select(m => m.GetParameters().Single(p => p.Name == "node").ParameterType).Distinct().ToList();
+
+// Build up the class system of syntax node types by completing the total hierarchy. 
+List<Type> syntaxNodeSystem = new List<Type>(syntaxNodeTypes);
+List<Type> syntaxInnerNodes = new List<Type>(220);
+syntaxInnerNodes.AddRange(syntaxNodeSystem.Where(n => n.BaseType != typeof(object)).Select(n => n.BaseType).Distinct().Intersect(syntaxNodeSystem));
+List<Type> missingSyntaxTypes = syntaxNodeSystem.Where(n => n.BaseType != typeof(object)).Select(n => n.BaseType).Distinct().Except(syntaxNodeSystem).ToList();
+while (missingSyntaxTypes.Any())
+{
+    syntaxInnerNodes.AddRange(missingSyntaxTypes);
+    syntaxNodeSystem.AddRange(missingSyntaxTypes);
+    missingSyntaxTypes = syntaxNodeSystem.Where(n => n.BaseType != typeof(object)).Select(n => n.BaseType).Distinct().Except(syntaxNodeSystem).ToList();
+}
+
+var syntaxNodeViews = syntaxNodeSystem
+.Select(t => new
+{
+    Parent = t.BaseType.Name,
+    Child = new Tree { Root = new Node { Label = t.Name } }
+})
+.ToList();
+
+List<ITree> syntaxNodeHierarachies = new List<ITree>(220);
+foreach (var parentType in syntaxInnerNodes)
+{
+    var parent = syntaxNodeViews.First(n => object.Equals(n.Child.Root.Label, parentType.Name));
+    foreach (var child in syntaxNodeViews.Where(t => object.Equals(t.Parent, parent.Child.Root.Label)))
+    {
+        parent.Child.Children.Add(child.Child);
+        child.Child.Parent = parent.Child;
+    }
+}
+
+ITree syntaxSystemRoot = syntaxNodeViews.Where(t => t.Parent == typeof(object).Name).Single().Child;
+
+CodeGenerationTools code = new CodeGenerationTools(this);
+CodeRegion region = new CodeRegion(this, 1);
+string namespaceName = code.VsNamespaceSuggestion();
+
+var manager = TemplateFileManager.Create(this);
+#>
+<Syntax xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" language="C#">
+	<Nodes>
+<#
+// var xSyntaxTypeSystem = Jawilliam.Data.XObjects.XNodeTypeSystem.NodeTypes.Load(@"E:\Projects\Software Development Investigation\Jawilliam.Msr.Roslyn\CSharp\NodeTypeSystem - old1.xml");
+var xSyntaxTypeSystem = Jawilliam.CDF.XObjects.RDSL.Syntax.Load(@"E:\MyRepositories\SDI\Jawilliam.Msr.Roslyn\CSharp\NodeTypeSystem - old1.xml");
+
+foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(s => s.Children).Where(n => !object.Equals(n.Root.Label, "SyntaxNode") && !object.Equals(n.Root.Label, "CSharpSyntaxNode")))
+{
+	var xSyntaxNodeType = xSyntaxTypeSystem.NodeType.SingleOrDefault(n => n.name == syntaxNode.Root.Label.ToString());
+	var xSyntaxNodeBaseType = xSyntaxNodeType != null && xSyntaxNodeType.baseType != null ? xSyntaxTypeSystem.NodeType.SingleOrDefault(n => n.name == xSyntaxNodeType.baseType) : null;
+
+	var isAbstract = !syntaxNodeTypes.Any(t => t.Name == syntaxNode.Root.Label.ToString());
+#>
+		<Type name="<#=syntaxNode.Root.Label.ToString()#>"<#=isAbstract ? " abstract=\"true\"" : ""#><#=xSyntaxNodeBaseType != null ? " base=\"" + xSyntaxNodeBaseType.name +  "\"" : ""#>>
+<#
+		var xSyntaxNodeBaseTypeProperties = xSyntaxNodeBaseType != null && xSyntaxNodeBaseType.Properties != null && xSyntaxNodeBaseType.Properties.Property != null 
+				? xSyntaxNodeBaseType.Properties.Property
+				: new NodeTypes.NodeTypeLocalType.PropertiesLocalType.PropertyLocalType[0];
+
+		var xSyntaxNodeProperties = xSyntaxNodeType.Properties != null && xSyntaxNodeType.Properties.Property != null 
+			? xSyntaxNodeType.Properties.Property
+			: new NodeTypes.NodeTypeLocalType.PropertiesLocalType.PropertyLocalType[0];
+
+		if(xSyntaxNodeProperties != null && xSyntaxNodeProperties.Any())
+		{
+#>
+			<Properties>
+<#
+		foreach (var currentProperty in xSyntaxNodeProperties)
+		{
+			string listType = currentProperty.Flags.Flag.Where(f => f.context == "ExpressionList-Type").Select(f => f.role).SingleOrDefault();
+			var propertyRole = currentProperty.Flags.Flag.Where(f => f.context == "Property").Select(f => f.role).Single().Split(new []{'$'}, StringSplitOptions.RemoveEmptyEntries);
+			var multiplicity = currentProperty.Flags.Flag.Any(f => f.context == "Multiplicity");
+			var collectionType = currentProperty.Flags.Flag.Where(f => f.context == "ExpressionList-Type").Select(f => f.role).SingleOrDefault();
+			var prefix = currentProperty.Flags.Flag.Any(f => f.context == "GetTextPreSeparator");
+			var postfix = currentProperty.Flags.Flag.Any(f => f.context == "GetTextPostSeparator");
+			var propertyUpdatable = currentProperty.Flags.Flag.Any(f => f.context == "EditScript" && f.role == "Updatable");
+			var collectionSeparator = currentProperty.Flags.Flag.Where(f => f.context == "ExpressionList-Separator").Select( f => f.role).SingleOrDefault();
+			/*optional="true", Rules*/
+#>
+				<Property name="<#=currentProperty.name#>" kind="<#=propertyRole[0]#>" index="<#=currentProperty.order#>"<#=propertyRole.Count() > 1 ? " readOnly=\"true\"" : ""#> optional="true"<#=propertyUpdatable ? " changepoint=\"true\"" : ""#><#=currentProperty.inherited != null ? " inherited=\"true\"" : ""#> <#=collectionType != null || multiplicity ? "multiplicity=\"Collection\"" : "multiplicity=\"Single\""#><#=collectionType != null ? " collectionType=\"" + collectionType + "\"" : ""#><#=collectionSeparator != null ? " collectionSeparator=\"" + collectionSeparator + "\"" : ""#>>
+					<Text value="false" signature="false" meaningful="false"<#=prefix ? " prefix=\" \"" : ""#><#=postfix ? " postfix=\" \"" : ""#>/>
+					<Children fine="false" coarse="false" jagged="false"/>
+					<EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+				</Property>
+<#
+		}
+#>
+			</Properties>
+<#
+		}
+
+		if(xSyntaxNodeType.Flags != null && xSyntaxNodeType.Flags.Flag != null && xSyntaxNodeType.Flags.Flag.Any(f => f.context == "Suppress" && f.role == "KindInfo"))
+		{
+#>
+			<Annotations>
+				<Annotation context="Suppress" role="Kind"/>
+			</Annotations>
+<#
+		}
+#>
+		</Type>
+<#
+}
+#>
+	</Nodes>
+</Syntax>
+<#
+manager.Process();
+#>
