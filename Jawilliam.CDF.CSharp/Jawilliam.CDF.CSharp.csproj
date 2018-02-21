@@ -150,6 +150,725 @@
     <Compile Include="Approach.Matching.CSharp\MethodDeclarationMatchingOptions.cs" />
     <Compile Include="ElementAbstraction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RoslynML\AccessorDeclarationSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\AccessorListSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\AliasQualifiedNameSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\AnonymousFunctionExpressionSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\AnonymousMethodExpressionSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\AnonymousObjectCreationExpressionSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\AnonymousObjectMemberDeclaratorSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\ArgumentListSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\ArgumentSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\ArrayCreationExpressionSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\ArrayRankSpecifierSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\ArrayTypeSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\ArrowExpressionClauseSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\AssignmentExpressionSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\AttributeArgumentListSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\AttributeArgumentSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\AttributeListSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\AttributeSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\AttributeTargetSpecifierSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\AwaitExpressionSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\BadDirectiveTriviaSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\BaseArgumentListSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\BaseCrefParameterListSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\BaseExpressionSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\BaseFieldDeclarationSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\BaseListSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\BaseMethodDeclarationSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\BaseParameterListSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\BasePropertyDeclarationSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\BaseTypeDeclarationSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\BaseTypeSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\BinaryExpressionSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\BlockSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\BracketedArgumentListSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\BracketedParameterListSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\BranchingDirectiveTriviaSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\BreakStatementSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\CasePatternSwitchLabelSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\CaseSwitchLabelSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\CastExpressionSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\CatchClauseSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\CatchDeclarationSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\CatchFilterClauseSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\CheckedExpressionSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\CheckedStatementSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\ClassDeclarationSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\ClassOrStructConstraintSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\CommonForEachStatementSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\CompilationUnitSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\ConditionalAccessExpressionSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\ConditionalDirectiveTriviaSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\ConditionalExpressionSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\ConstantPatternSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\ConstructorConstraintSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\ConstructorDeclarationSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\ConstructorInitializerSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\ContinueStatementSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\ConversionOperatorDeclarationSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\ConversionOperatorMemberCrefSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\CrefBracketedParameterListSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\CrefParameterListSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\CrefParameterSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\CrefSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\DeclarationExpressionSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\DeclarationPatternSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\DefaultExpressionSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\DefaultSwitchLabelSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\DefineDirectiveTriviaSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\DelegateDeclarationSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\DestructorDeclarationSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\DirectiveTriviaSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\DiscardDesignationSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\DocumentationCommentTriviaSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\DoStatementSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\ElementAccessExpressionSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\ElementBindingExpressionSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\ElifDirectiveTriviaSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\ElseClauseSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\ElseDirectiveTriviaSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\EmptyStatementSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\EndIfDirectiveTriviaSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\EndRegionDirectiveTriviaSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\EnumDeclarationSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\EnumMemberDeclarationSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\EqualsValueClauseSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\ErrorDirectiveTriviaSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\EventDeclarationSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\EventFieldDeclarationSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\ExplicitInterfaceSpecifierSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\ExpressionStatementSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\ExpressionSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\ExternAliasDirectiveSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\FieldDeclarationSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\FinallyClauseSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\FixedStatementSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\ForEachStatementSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\ForEachVariableStatementSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\ForStatementSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\FromClauseSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\GenericNameSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\GlobalStatementSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\GotoStatementSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\GroupClauseSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\IdentifierNameSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\IfDirectiveTriviaSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\IfStatementSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\ImplicitArrayCreationExpressionSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\ImplicitElementAccessSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\IncompleteMemberSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\IndexerDeclarationSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\IndexerMemberCrefSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\InitializerExpressionSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\InstanceExpressionSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\InterfaceDeclarationSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\InterpolatedStringContentSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\InterpolatedStringExpressionSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\InterpolatedStringTextSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\InterpolationAlignmentClauseSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\InterpolationFormatClauseSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\InterpolationSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\InvocationExpressionSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\IsPatternExpressionSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\JoinClauseSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\JoinIntoClauseSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\LabeledStatementSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\LambdaExpressionSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\LetClauseSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\LineDirectiveTriviaSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\LiteralExpressionSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\LoadDirectiveTriviaSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\LocalDeclarationStatementSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\LocalFunctionStatementSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\LockStatementSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\MakeRefExpressionSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\MemberAccessExpressionSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\MemberBindingExpressionSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\MemberCrefSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\MemberDeclarationSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\MethodDeclarationSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\NameColonSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\NameEqualsSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\NameMemberCrefSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\NamespaceDeclarationSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\NameSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\NullableTypeSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\ObjectCreationExpressionSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\OmittedArraySizeExpressionSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\OmittedTypeArgumentSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\OperatorDeclarationSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\OperatorMemberCrefSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\OrderByClauseSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\OrderingSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\ParameterListSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\ParameterSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\ParenthesizedExpressionSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\ParenthesizedLambdaExpressionSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\ParenthesizedVariableDesignationSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\PatternSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\PointerTypeSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\PostfixUnaryExpressionSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\PragmaChecksumDirectiveTriviaSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\PragmaWarningDirectiveTriviaSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\PredefinedTypeSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\PrefixUnaryExpressionSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\PropertyDeclarationSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\QualifiedCrefSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\QualifiedNameSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\QueryBodySyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\QueryClauseSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\QueryContinuationSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\QueryExpressionSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\ReferenceDirectiveTriviaSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\RefExpressionSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\RefTypeExpressionSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\RefTypeSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\RefValueExpressionSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\RegionDirectiveTriviaSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\ReturnStatementSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\RoslynML.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\SelectClauseSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\SelectOrGroupClauseSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\ShebangDirectiveTriviaSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\SimpleBaseTypeSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\SimpleLambdaExpressionSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\SimpleNameSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\SingleVariableDesignationSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\SizeOfExpressionSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\SkippedTokensTriviaSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\StackAllocArrayCreationExpressionSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\StatementSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\StructDeclarationSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\StructuredTriviaSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\SwitchLabelSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\SwitchSectionSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\SwitchStatementSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\ThisExpressionSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\ThrowExpressionSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\ThrowStatementSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\TryStatementSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\TupleElementSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\TupleExpressionSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\TupleTypeSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\TypeArgumentListSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\TypeConstraintSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\TypeCrefSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\TypeDeclarationSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\TypeOfExpressionSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\TypeParameterConstraintClauseSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\TypeParameterConstraintSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\TypeParameterListSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\TypeParameterSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\TypeSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\UndefDirectiveTriviaSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\UnsafeStatementSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\UsingDirectiveSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\UsingStatementSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\VariableDeclarationSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\VariableDeclaratorSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\VariableDesignationSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\WarningDirectiveTriviaSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\WhenClauseSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\WhereClauseSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\WhileStatementSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\XmlAttributeSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\XmlCDataSectionSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\XmlCommentSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\XmlCrefAttributeSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\XmlElementEndTagSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\XmlElementStartTagSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\XmlElementSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\XmlEmptyElementSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\XmlNameAttributeSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\XmlNameSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\XmlNodeSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\XmlPrefixSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\XmlProcessingInstructionSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\XmlTextAttributeSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\XmlTextSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoslynML\YieldStatementSyntax.cs">
+      <DependentUpon>RoslynML.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -166,12 +885,7 @@
     </Content>
     <Content Include="RoslynML\RoslynML.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>RoslynML.xml</LastGenOutput>
-    </Content>
-    <Content Include="RoslynML\RoslynML.xml">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>RoslynML.tt</DependentUpon>
+      <LastGenOutput>RoslynML.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup />

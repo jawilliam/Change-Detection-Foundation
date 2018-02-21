@@ -551,7 +551,7 @@ namespace Jawilliam.CDF.Labs
             //    return new KeyValuePair<string, double>(v[0], double.Parse(v[1], CultureInfo.InvariantCulture));
             //}));
             //System.IO.File.WriteAllText(@"E:\Phd\Analysis\UniquePairs\RelativeThresholds.csv", analyzer.Report.ToString());
-            SaveNativeTreesOfNativeGumTree(ChangeDetectionApproaches.InverseOfNativeGumTree);
+            DetectingNativeGumTreeDiffWithCustomMatchers();
             //var analyzer = new BetweenComparisons();
             //analyzer.ConfigGumTreeVsReversedGumTree();
             //foreach (var project in Projects)
@@ -729,77 +729,49 @@ namespace Jawilliam.CDF.Labs
         /// <summary>
         /// Collects left-right and right-left (i.e., inverse) deltas produced by the native gumtree using the change distiller matcher.
         /// </summary>
-        /// <param name="gumTreeApproach"></param>
         /// <param name="skipThese"></param>
         /// <param name="cleaner">A preprocessor for the source code in case it is desired.</param>
-        private static void DetectingNativeGumTreeDiffWithChangeDistillerMatcher(ChangeDetectionApproaches gumTreeApproach, Func<FileRevisionPair, bool> skipThese = null, SourceCodeCleaner cleaner = null)
+        private static void DetectingNativeGumTreeDiffWithCustomMatchers(Func<FileRevisionPair, bool> skipThese = null, SourceCodeCleaner cleaner = null)
         {
             var analyzer = new FileRevisionPairAnalyzer { MillisecondsTimeout = 600000 };
             var gumTree = new GumTreeNativeApproach();
             var interopArgs = new InteropArgs()
             {
-                GumTreePath = @"C:\CDF\gumtree-20170525-2.1.0-SNAPSHOT",
-                Original = @"C:\CDF\Original.cs",
-                Modified = @"C:\CDF\Modified.cs",
-                Options = "-m change-distiller"
+                GumTreePath = @"E:\SourceCode\gt19218",
+                Original = @"E:\SourceCode\Original.cs",
+                Modified = @"E:\SourceCode\Modified.cs"
             };
 
-            foreach (var project in Projects)
+            foreach (var project in Projects.Reverse().Skip(6))
             {
                 var dbRepository = new GitRepository(project.Name) { Name = project.Name };
                 ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 600;
                 analyzer.SqlRepository = dbRepository;
                 analyzer.Cancel = () => gumTree.Cancel();
 
+                interopArgs.Options = "-m change-distiller";
                 analyzer.Warnings = new StringBuilder();
-                analyzer.NativeGumTreeDiff(gumTree, interopArgs , ChangeDetectionApproaches.NativeGumTreeWithChangeDistillerMatcher, 
+                analyzer.NativeGumTreeDiff(gumTree, interopArgs, ChangeDetectionApproaches.NativeGumTreeWithChangeDistillerMatcher,
                     skipThese, cleaner);
-                System.IO.File.WriteAllText($@"C:\CDF\GT_CD_LRDeltas{project.Name}.txt", analyzer.Warnings.ToString());
+                System.IO.File.WriteAllText($@"E:\SourceCode\GT_CD_LRDeltas{project.Name}.txt", analyzer.Warnings.ToString());
 
                 analyzer.Warnings = new StringBuilder();
                 analyzer.InverseNativeGumTreeDiff(gumTree, interopArgs, ChangeDetectionApproaches.InverseOfNativeGumTreeWithChangeDistillerMatcher,
                     skipThese, cleaner);
-                System.IO.File.WriteAllText($@"C:\CDF\GT_CD_RLDeltas{project.Name}.txt", analyzer.Warnings.ToString());
-            }
-            Console.Out.WriteLine($"GumTree native [CD matcher] collected!!!");
-        }
+                System.IO.File.WriteAllText($@"E:\SourceCode\GT_CD_RLDeltas{project.Name}.txt", analyzer.Warnings.ToString());
 
-        /// <summary>
-        /// Collects left-right and right-left (i.e., inverse) deltas produced by the native gumtree using the Xy matcher.
-        /// </summary>
-        /// <param name="gumTreeApproach"></param>
-        /// <param name="skipThese"></param>
-        /// <param name="cleaner">A preprocessor for the source code in case it is desired.</param>
-        private static void DetectingNativeGumTreeDiffWithXyMatcher(ChangeDetectionApproaches gumTreeApproach, Func<FileRevisionPair, bool> skipThese = null, SourceCodeCleaner cleaner = null)
-        {
-            var analyzer = new FileRevisionPairAnalyzer { MillisecondsTimeout = 600000 };
-            var gumTree = new GumTreeNativeApproach();
-            var interopArgs = new InteropArgs()
-            {
-                GumTreePath = @"C:\CDF\gumtree-20170525-2.1.0-SNAPSHOT",
-                Original = @"C:\CDF\Original.cs",
-                Modified = @"C:\CDF\Modified.cs",
-                Options = "-m xy"
-            };
-
-            foreach (var project in Projects)
-            {
-                var dbRepository = new GitRepository(project.Name) { Name = project.Name };
-                ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 600;
-                analyzer.SqlRepository = dbRepository;
-                analyzer.Cancel = () => gumTree.Cancel();
-
+                interopArgs.Options = "-m xy";
                 analyzer.Warnings = new StringBuilder();
                 analyzer.NativeGumTreeDiff(gumTree, interopArgs, ChangeDetectionApproaches.NativeGumTreeWithXyMatcher,
                     skipThese, cleaner);
-                System.IO.File.WriteAllText($@"C:\CDF\GT_XY_LRDeltas{project.Name}.txt", analyzer.Warnings.ToString());
+                System.IO.File.WriteAllText($@"E:\SourceCode\GT_XY_LRDeltas{project.Name}.txt", analyzer.Warnings.ToString());
 
                 analyzer.Warnings = new StringBuilder();
                 analyzer.InverseNativeGumTreeDiff(gumTree, interopArgs, ChangeDetectionApproaches.InverseOfNativeGumTreeWithXyMatcher,
                     skipThese, cleaner);
-                System.IO.File.WriteAllText($@"C:\CDF\GT_XY_RLDeltas{project.Name}.txt", analyzer.Warnings.ToString());
+                System.IO.File.WriteAllText($@"E:\SourceCode\GT_XY_RLDeltas{project.Name}.txt", analyzer.Warnings.ToString());
             }
-            Console.Out.WriteLine($"GumTree native [Xy matcher] collected!!!");
+            Console.Out.WriteLine($"GumTree native collected!!!");
         }
 
         private static void ReportGumTreeAndLevenshtein(Func<FileModifiedChange, bool> filter, string postfix, ChangeDetectionApproaches gumTreeVariant, string levenshteinVariant, EditDistance<ActionDescriptor> editDistance)

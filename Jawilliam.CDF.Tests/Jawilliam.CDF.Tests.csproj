@@ -165,6 +165,7 @@
     <Compile Include="Approach.GumTree\GumTreeNativeApproachTests.cs" />
     <Compile Include="Approach.Matching.CSharp\MatchingProvider.cs" />
     <Compile Include="Metrics\RelativeThresholdTest.cs" />
+    <Compile Include="Miscellaneus.cs" />
     <Compile Include="NativeGumTreeResultParsing.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

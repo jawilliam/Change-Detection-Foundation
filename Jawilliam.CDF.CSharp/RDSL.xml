@@ -4510,7 +4510,97 @@
         </Property>
       </Properties>
     </Type>
-    <!--An Related-->
     
+    <!--New ones-->
+    <Type name="WhenClauseSyntax" base="CSharpSyntaxNode">
+      <Properties>
+        <Property name="WhenKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single">
+          <Text value="false" signature="false" meaningful="false"/>
+          <Children fine="false" coarse="false" jagged="false"/>
+          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+        </Property>
+        <Property name="Condition" kind="Expression" index="1" optional="false" changepoint="true" multiplicity="Single">
+          <Text value="false" signature="false" meaningful="false"/>
+          <Children fine="false" coarse="false" jagged="false"/>
+          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+        </Property>
+      </Properties>
+    </Type>
+    <Type name="VariableDesignationSyntax" base="CSharpSyntaxNode" abstract="true"/>
+    <Type name="TupleTypeSyntax" base="TypeSyntax">
+      <Properties>
+        <Property name="OpenParenToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single">
+          <Text value="false" signature="false" meaningful="false"/>
+          <Children fine="false" coarse="false" jagged="false"/>
+          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+        </Property>
+        <Property name="Elements" kind="Expression" index="1" optional="false" changepoint="true" multiplicity="Collection" collectionType="TupleElementSyntax" collectionSeparator=",">
+          <Text value="false" signature="false" meaningful="false"/>
+          <Children fine="false" coarse="false" jagged="false"/>
+          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+        </Property>
+        <Property name="CloseParenToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single">
+          <Text value="false" signature="false" meaningful="false"/>
+          <Children fine="false" coarse="false" jagged="false"/>
+          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+        </Property>
+      </Properties>
+    </Type>
+    <Type name="TupleExpressionSyntax" base="ExpressionSyntax">
+     <Properties>
+       <Property name="OpenParenToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single">
+         <Text value="false" signature="false" meaningful="false"/>
+         <Children fine="false" coarse="false" jagged="false"/>
+         <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+       </Property>
+       <Property name="Arguments" kind="Expression" index="1" optional="false" changepoint="true" multiplicity="Collection" collectionType="ArgumentSyntax" collectionSeparator=",">
+         <Text value="false" signature="false" meaningful="false"/>
+         <Children fine="false" coarse="false" jagged="false"/>
+         <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+       </Property>
+       <Property name="CloseParenToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single">
+         <Text value="false" signature="false" meaningful="false"/>
+         <Children fine="false" coarse="false" jagged="false"/>
+         <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+       </Property>
+     </Properties>
+    </Type>
+    <Type name="TupleElementSyntax" base="CSharpSyntaxNode">
+      <Properties>
+        <Property name="Type" kind="Expression" index="0" optional="false" changepoint="true" multiplicity="Single">
+          <Text value="false" signature="false" meaningful="false"/>
+          <Children fine="false" coarse="false" jagged="false"/>
+          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+        </Property>
+        <Property name="Identifier" kind="Token" index="1" optional="true" changepoint="true" multiplicity="Single">
+          <Text value="false" signature="false" meaningful="false" postfix=" "/>
+          <Children fine="false" coarse="false" jagged="false"/>
+          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+        </Property>
+      </Properties>
+    </Type>
+    <Type name="ThrowExpressionSyntax" base="ExpressionSyntax">
+      <Properties>
+        <Property name="ThrowKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single">
+          <Text value="false" signature="false" meaningful="false"/>
+          <Children fine="false" coarse="false" jagged="false"/>
+          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+        </Property>
+        <Property name="Expression" kind="Expression" index="1" optional="false" changepoint="true" multiplicity="Single">
+          <Text value="false" signature="false" meaningful="false" prefix=" "/>
+          <Children fine="false" coarse="false" jagged="false"/>
+          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+        </Property>
+      </Properties>
+    </Type>
+    <Type name="SingleVariableDesignationSyntax" base="VariableDesignationSyntax">
+      <Properties>
+        <Property name="Identifier" kind="Token" index="0" optional="false" changepoint="true" multiplicity="Single">
+          <Text value="false" signature="false" meaningful="false" postfix=" "/>
+          <Children fine="false" coarse="false" jagged="false"/>
+          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+        </Property>
+      </Properties>
+    </Type>
   </Nodes>
 </Syntax>

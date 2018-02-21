@@ -53,6 +53,7 @@
   <ItemGroup>
     <LinqToXsdSchema Include="XNodeTypeSystem.xsd">
       <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </LinqToXsdSchema>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

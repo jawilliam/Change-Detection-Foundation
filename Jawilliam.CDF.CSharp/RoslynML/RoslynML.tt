@@ -1,25 +1,28 @@
-﻿<#@ template language="C#" debug="True" hostSpecific="true"#>
-<#@ output extension=".xml" #>
+<#@ template language="C#" debug="True" hostSpecific="true"#>
+<#@ output extension=".cs" #>
 <#@ include file="TemplateFileManagerV2.1.ttinclude" #>
 <#@ assembly name="$(SolutionDir)\packages\Microsoft.CodeAnalysis.Common.2.1.0\lib\netstandard1.3\Microsoft.CodeAnalysis.dll" #>
 <#@ assembly name="$(SolutionDir)\packages\Microsoft.CodeAnalysis.CSharp.2.1.0\lib\netstandard1.3\Microsoft.CodeAnalysis.CSharp.dll" #>
 <#@ assembly name="$(SolutionDir)\packages\CodePlex.LinqToXsd.2.0.2\lib\Xml.Schema.Linq.dll" #>
 <#@ assembly name="$(SolutionDir)\Jawilliam.CDF\bin\Debug\Jawilliam.CDF.dll" #>
 <#@ assembly name="$(SolutionDir)\Jawilliam.CDF.XObjects\bin\Debug\Jawilliam.CDF.XObjects.dll" #>
-
-
+<#@ assembly name="$(SolutionDir)\packages\System.Collections.Immutable.1.3.1\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll" #>
 <#@ assembly name="System.Runtime" #>
 <#@ assembly name="System.Linq" #>
 <#@ import namespace="System" #>
 <#@ import namespace="System.Reflection" #>
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Collections" #>
-<#@ import namespace="System.Collections.Generic" #> 
+<#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="Microsoft.CodeAnalysis.CSharp" #>
 <#@ import namespace="Jawilliam.CDF" #>
 <#@ import namespace="Jawilliam.CDF.GTED" #>
 <#@ import namespace="Jawilliam.CDF.XObjects.RDSL" #>
 <#
+// <copyright file="LearningFromCSharpSyntaxVisitor.tt" company="Jasoco" author="Jawilliam">
+//  Copyright © . All Rights Reserved.
+// </copyright>
+
 Type csharpSyntaxVisitor = typeof(CSharpSyntaxVisitor);
 MethodInfo[] allMethods = csharpSyntaxVisitor.GetMembers().OfType<MethodInfo>().ToArray();
 
@@ -60,81 +63,307 @@ foreach (var parentType in syntaxInnerNodes)
     }
 }
 
-ITree syntaxSystemRoot = syntaxNodeViews.Where(t => t.Parent == typeof(object).Name).Single().Child;
+var syntaxSystemRoot = syntaxNodeViews.Where(t => t.Parent == typeof(object).Name).Single().Child;
 
 CodeGenerationTools code = new CodeGenerationTools(this);
 CodeRegion region = new CodeRegion(this, 1);
 string namespaceName = code.VsNamespaceSuggestion();
 
 var manager = TemplateFileManager.Create(this);
-#>
-<Syntax xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" language="C#">
-	<Nodes>
-<#
-// var xSyntaxTypeSystem = Jawilliam.Data.XObjects.XNodeTypeSystem.NodeTypes.Load(@"E:\Projects\Software Development Investigation\Jawilliam.Msr.Roslyn\CSharp\NodeTypeSystem - old1.xml");
-var xSyntaxTypeSystem = Jawilliam.CDF.XObjects.RDSL.Syntax.Load(@"E:\MyRepositories\SDI\Jawilliam.Msr.Roslyn\CSharp\NodeTypeSystem - old1.xml");
 
-foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(s => s.Children).Where(n => !object.Equals(n.Root.Label, "SyntaxNode") && !object.Equals(n.Root.Label, "CSharpSyntaxNode")))
+// var xSyntaxTypeSystem = Jawilliam.CDF.XObjects.RDSL.Syntax.NodeTypes.Load(@"E:\Projects\Software Development Investigation\Jawilliam.Msr.Roslyn\CSharp\NodeTypeSystem.xml");
+var xSyntaxTypeSystem = Jawilliam.CDF.XObjects.RDSL.Syntax.Load(@"E:\MyRepositories\Change-Detection-Foundation\Jawilliam.CDF.CSharp\RDSL.xml");
+
+foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
+.Where(n => !object.Equals(n.Root.Label, "SyntaxNode") && 
+            !object.Equals(n.Root.Label, "CSharpSyntaxNode")))
 {
-	var xSyntaxNodeType = xSyntaxTypeSystem.NodeType.SingleOrDefault(n => n.name == syntaxNode.Root.Label.ToString());
-	var xSyntaxNodeBaseType = xSyntaxNodeType != null && xSyntaxNodeType.baseType != null ? xSyntaxTypeSystem.NodeType.SingleOrDefault(n => n.name == xSyntaxNodeType.baseType) : null;
+	manager.StartNewFile(syntaxNode.Root.Label + ".cs");
+	BeginNamespace(namespaceName, code);
 
-	var isAbstract = !syntaxNodeTypes.Any(t => t.Name == syntaxNode.Root.Label.ToString());
+	var xSyntaxNodeType = xSyntaxTypeSystem.Nodes.Type.SingleOrDefault(n => n.name == syntaxNode.Root.Label.ToString());
+	if(xSyntaxNodeType == null) continue;
+	var xSyntaxNodeBaseType = xSyntaxNodeType != null && xSyntaxNodeType.@base != null ?
+	 xSyntaxTypeSystem.Nodes.Type.SingleOrDefault(n => n.name == xSyntaxNodeType.@base) 
+	 : null;
+
+	var isAbstract = xSyntaxNodeType.@abstract;
+	
+	var isUpdatable = false;
+	if(xSyntaxNodeType != null && xSyntaxNodeType.Properties != null && xSyntaxNodeType.Properties.Property != null)
+		isUpdatable = xSyntaxNodeType.Properties.Property.Any(p => p.changepoint);
 #>
-		<Type name="<#=syntaxNode.Root.Label.ToString()#>"<#=isAbstract ? " abstract=\"true\"" : ""#><#=xSyntaxNodeBaseType != null ? " base=\"" + xSyntaxNodeBaseType.name +  "\"" : ""#>>
+using Microsoft.CodeAnalysis.CSharp;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Xml.Linq;
+
 <#
+	if(xSyntaxNodeType != null)
+    {
 		var xSyntaxNodeBaseTypeProperties = xSyntaxNodeBaseType != null && xSyntaxNodeBaseType.Properties != null && xSyntaxNodeBaseType.Properties.Property != null 
 				? xSyntaxNodeBaseType.Properties.Property
-				: new NodeTypes.NodeTypeLocalType.PropertiesLocalType.PropertyLocalType[0];
+				: new Syntax.NodesLocalType.TypeLocalType.PropertiesLocalType.PropertyLocalType[0];
 
 		var xSyntaxNodeProperties = xSyntaxNodeType.Properties != null && xSyntaxNodeType.Properties.Property != null 
 			? xSyntaxNodeType.Properties.Property
-			: new NodeTypes.NodeTypeLocalType.PropertiesLocalType.PropertyLocalType[0];
+			: new Syntax.NodesLocalType.TypeLocalType.PropertiesLocalType.PropertyLocalType[0];
 
-		if(xSyntaxNodeProperties != null && xSyntaxNodeProperties.Any())
-		{
-#>
-			<Properties>
-<#
-		foreach (var currentProperty in xSyntaxNodeProperties)
-		{
-			string listType = currentProperty.Flags.Flag.Where(f => f.context == "ExpressionList-Type").Select(f => f.role).SingleOrDefault();
-			var propertyRole = currentProperty.Flags.Flag.Where(f => f.context == "Property").Select(f => f.role).Single().Split(new []{'$'}, StringSplitOptions.RemoveEmptyEntries);
-			var multiplicity = currentProperty.Flags.Flag.Any(f => f.context == "Multiplicity");
-			var collectionType = currentProperty.Flags.Flag.Where(f => f.context == "ExpressionList-Type").Select(f => f.role).SingleOrDefault();
-			var prefix = currentProperty.Flags.Flag.Any(f => f.context == "GetTextPreSeparator");
-			var postfix = currentProperty.Flags.Flag.Any(f => f.context == "GetTextPostSeparator");
-			var propertyUpdatable = currentProperty.Flags.Flag.Any(f => f.context == "EditScript" && f.role == "Updatable");
-			var collectionSeparator = currentProperty.Flags.Flag.Where(f => f.context == "ExpressionList-Separator").Select( f => f.role).SingleOrDefault();
-			/*optional="true", Rules*/
-#>
-				<Property name="<#=currentProperty.name#>" kind="<#=propertyRole[0]#>" index="<#=currentProperty.order#>"<#=propertyRole.Count() > 1 ? " readOnly=\"true\"" : ""#> optional="true"<#=propertyUpdatable ? " changepoint=\"true\"" : ""#><#=currentProperty.inherited != null ? " inherited=\"true\"" : ""#> <#=collectionType != null || multiplicity ? "multiplicity=\"Collection\"" : "multiplicity=\"Single\""#><#=collectionType != null ? " collectionType=\"" + collectionType + "\"" : ""#><#=collectionSeparator != null ? " collectionSeparator=\"" + collectionSeparator + "\"" : ""#>>
-					<Text value="false" signature="false" meaningful="false"<#=prefix ? " prefix=\" \"" : ""#><#=postfix ? " postfix=\" \"" : ""#>/>
-					<Children fine="false" coarse="false" jagged="false"/>
-					<EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-				</Property>
-<#
-		}
-#>
-			</Properties>
-<#
-		}
+		var currentType = typeof(Microsoft.CodeAnalysis.CSharp.CSharpSyntaxNode).Assembly.GetType("Microsoft.CodeAnalysis.CSharp.Syntax." + code.Escape(syntaxNode.Root.Label.ToString()));
+		var currentPropertiesMetadata = currentType.GetMembers().OfType<PropertyInfo>()
+			.Where(p => xSyntaxNodeProperties.Any(n => n.name == p.Name))
+			.Select(p => new Tuple<PropertyInfo, Syntax.NodesLocalType.TypeLocalType.PropertiesLocalType.PropertyLocalType>(p, xSyntaxNodeProperties.Single(n => n.name == p.Name)))
+			.ToArray();
 
-		if(xSyntaxNodeType.Flags != null && xSyntaxNodeType.Flags.Flag != null && xSyntaxNodeType.Flags.Flag.Any(f => f.context == "Suppress" && f.role == "KindInfo"))
+		foreach (var currentProperty in currentPropertiesMetadata.Where(p => p.Item2.inherited != true))
 		{
-#>
-			<Annotations>
-				<Annotation context="Suppress" role="Kind"/>
-			</Annotations>
+			string listType = currentProperty.Item2.collectionType;
+#>	//public virtual <#= this.GetSyntaxType(currentProperty.Item1.PropertyType, code, listType)  #> <#= currentProperty.Item1.Name #> { get; <#=!currentProperty.Item2.readOnly ? "set;" : "private set;"#> } 
 <#
 		}
+    }
+
+	if(xSyntaxNodeType != null && !isAbstract)
+	{
 #>
-		</Type>
-<#
+
+public partial class RoslynML : CSharpSyntaxVisitor<XElement>
+{
+	/// <summary>
+    /// Called when the visitor visits a <#= code.Escape(syntaxNode.Root.Label.ToString()) #> node.
+    /// </summary>
+    public override XElement Visit<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>(Microsoft.CodeAnalysis.CSharp.Syntax.<#= code.Escape(syntaxNode.Root.Label.ToString()) #> node)
+    {
+        //var result = new <#= code.Escape(syntaxNode.Root.Label.ToString()) #><TAnnotation>();
+        //var oldConverter = result.Converter;
+        //try
+        //{
+        //    result.Converter = this;
+        //    result.Copy(node);
+        //}
+        //finally
+        //{
+        //    result.Converter = oldConverter;
+        //}
+        //
+        //return result;
+		return null;
+    }
 }
-#>
-	</Nodes>
-</Syntax>
 <#
+	}
+
+	EndNamespace(namespaceName);
+}
 manager.Process();
+#>
+<#+ 
+void BeginNamespace(string namespaceName, CodeGenerationTools code)
+{
+    CodeRegion region = new CodeRegion(this);
+    if (!String.IsNullOrEmpty(namespaceName))
+    {
+#>
+namespace <#=code.EscapeNamespace(namespaceName)#>
+{
+<#+
+        PushIndent(CodeRegion.GetIndent(1));
+    }
+}
+
+void EndNamespace(string namespaceName)
+{
+    if (!String.IsNullOrEmpty(namespaceName))
+    {
+        PopIndent();
+#>
+}
+<#+
+    }
+}
+
+string GetSyntaxType(Type t, CodeGenerationTools code, string listTypeArgument)
+{
+	if(t.FullName.StartsWith("Microsoft.CodeAnalysis.SeparatedSyntaxList"))
+		return "SeparatedSyntaxList<TAnnotation, " + listTypeArgument + "<TAnnotation>>";
+
+	if(t.FullName.StartsWith("Microsoft.CodeAnalysis.SyntaxList"))
+		return "SyntaxList<TAnnotation, " + listTypeArgument + "<TAnnotation>>";
+
+	if(!t.FullName.StartsWith("Microsoft.CodeAnalysis."))
+		return t.Name;
+
+	if(t.Name == "SyntaxList`1" /*|| t.Name == "SeparatedSyntaxList`1"*/)
+		return "IEnumerable<" + this.GetSyntaxType(t.GenericTypeArguments[0], code, "") + ">";
+
+	var codeAnalysisTypes = new []{ "SyntaxNode"/*, "SyntaxTokenList"*/, "SyntaxTrivia" };
+	return codeAnalysisTypes.Contains(t.Name) ? "Microsoft.CodeAnalysis." + code.Escape(t.Name) : code.Escape(t.Name) + "<TAnnotation>";
+}
+
+string GetTextExpressionWhen(IEnumerable<Tuple<PropertyInfo, Syntax.NodesLocalType.TypeLocalType.PropertiesLocalType.PropertyLocalType>> xProperties, Func<Syntax.NodesLocalType.TypeLocalType.PropertiesLocalType.PropertyLocalType, bool> filter)
+{
+	var expression = (from p in xProperties
+		              where filter != null && filter(p.Item2)
+	                  orderby p.Item2.index 
+					  select this.GetTextExpressionWhen(p, filter)).ToArray();
+	return !expression.Any() ? "new string[0]" : expression.Aggregate("", (s1, s2) => s1 + (s1 != "" ? ".Concat" + s2 : s2));
+}
+
+string GetTextExpressionWhen(Tuple<PropertyInfo, Syntax.NodesLocalType.TypeLocalType.PropertiesLocalType.PropertyLocalType> xProperty, Func<Syntax.NodesLocalType.TypeLocalType.PropertiesLocalType.PropertyLocalType, bool> filter)
+{
+	// if(xProperty.Item2.Flags.Flag.Any(f => f.context == "GetText" && f.role.Contains("$" + filter + "-Runway")))
+	//	return "(this." + xProperty.Item2.name + " != null ? this." + xProperty.Item2.name + ".GetText(textFormatInfo) : new string[0])";
+
+	if(xProperty.Item2.kind == "Token")
+	{
+		return "(!string.IsNullOrWhiteSpace(this." + xProperty.Item2.name + "?.Text) ? new[] { " + (xProperty.Item2.Text.prefix != null ? "\""+ xProperty.Item2.Text.prefix + "\" + " : "") + "this." + xProperty.Item2.name + ".Text" + (xProperty.Item2.Text.postfix != null ? " + \""+xProperty.Item2.Text.postfix+"\"" : "") + " } : new string[0])";
+	}
+
+	if(xProperty.Item2.kind == "Expression")
+	{
+		var ifMultiplicityText = xProperty.Item2.multiplicity == "Collection" ? " && this." + xProperty.Item2.name + ".List.Any() ? " : " ? ";
+		return "(this." + xProperty.Item2.name + " != null" + ifMultiplicityText + (xProperty.Item2.Text.prefix != null ? "new string[]{ \""+ xProperty.Item2.Text.prefix +"\" }.Concat(" : " ") + "this." + xProperty.Item2.name + ".GetText(textFormatInfo)" + (xProperty.Item2.Text.prefix != null ? ")" : "") + (xProperty.Item2.Text.postfix != null ? ".Concat(new string[]{ \""+xProperty.Item2.Text.postfix+"\" })" : "") + " : new string[0])";
+	}
+
+	throw new ApplicationException(xProperty.Item2.name);
+}
+
+string GetChildrenExpressionWhen(IEnumerable<Tuple<PropertyInfo, Syntax.NodesLocalType.TypeLocalType.PropertiesLocalType.PropertyLocalType>> xProperties, Func<Syntax.NodesLocalType.TypeLocalType.PropertiesLocalType.PropertyLocalType, bool> filter)
+{
+	var expression = (from p in xProperties 
+		              where filter != null && filter(p.Item2)
+	                  orderby p.Item2.index 
+					  select this.GetChildrenExpressionWhen(p, filter)).ToArray();
+	return !expression.Any() ? "" : expression.Aggregate("", (s1, s2) => s1 + s2);
+}              
+
+string GetChildrenExpressionWhen(Tuple<PropertyInfo, Syntax.NodesLocalType.TypeLocalType.PropertiesLocalType.PropertyLocalType> xProperty, Func<Syntax.NodesLocalType.TypeLocalType.PropertiesLocalType.PropertyLocalType, bool> filter)
+{
+	return System.Environment.NewLine + "				if(this." + xProperty.Item2.name + " != null) yield return this." + xProperty.Item2.name + ";";
+	/*if(xProperty.Item2.multiplicity == "Single" || xProperty.Item2.multiplicity == "Collection")
+		return System.Environment.NewLine + "				if(this." + xProperty.Item2.name + " != null) yield return this." + xProperty.Item2.name + ";";
+*/
+	/*if(xProperty.Item2.multiplicity == "Collection")
+		return System.Environment.NewLine + "				foreach (var syntaxtEntity in (this." + xProperty.Item2.name + " != null ? this." + xProperty.Item2.name + ".GetChildren(representationFormatInfo) : new ISyntaxEntity[0])) { yield return syntaxtEntity; }";
+	*/
+	throw new ApplicationException();
+}
+
+string CopyWhen(IEnumerable<Tuple<PropertyInfo, Syntax.NodesLocalType.TypeLocalType.PropertiesLocalType.PropertyLocalType>> xProperties, CodeGenerationTools code)
+{
+	var expression = (from p in xProperties 
+	                  orderby p.Item2.index 
+					  select this.CopyWhen(p, code)).ToArray();
+	return !expression.Any() ? "" : expression.Aggregate("", (s1, s2) => s1 + (System.Environment.NewLine + s2));
+} 
+
+string CopyWhen(Tuple<PropertyInfo, Syntax.NodesLocalType.TypeLocalType.PropertiesLocalType.PropertyLocalType> xProperty, CodeGenerationTools code)
+{
+	if(xProperty.Item2.kind == "Info")
+		return "		this." + xProperty.Item2.name + " = node." + xProperty.Item2.name + ";";
+
+	if(xProperty.Item2.kind == "Token")
+		return "		if(node." + xProperty.Item2.name + ".Kind() == SyntaxKind.None) this." + xProperty.Item2.name + " = null; else (this." + xProperty.Item2.name + " ?? (this." + xProperty.Item2.name + " = new SyntaxToken<TAnnotation>(node." + xProperty.Item2.name + ".Kind()))).Copy(node." + xProperty.Item2.name + ");";
+	
+	if(xProperty.Item2.kind == "Expression")
+	{
+		string listTypeArgument = xProperty.Item2.collectionType;
+		return "		this." + xProperty.Item2.name + " = (" + this.CleanTypeName(code.Escape(xProperty.Item1.PropertyType.Name + "<TAnnotation>"), listTypeArgument) + ")this.Converter.Visit" + (!string.IsNullOrWhiteSpace(listTypeArgument) ? string.Format("<Microsoft.CodeAnalysis.CSharp.Syntax.{0}, {0}<TAnnotation>>", listTypeArgument) : "") + "(node." + xProperty.Item2.name + (xProperty.Item2.collectionSeparator != null ? ", \"" + xProperty.Item2.collectionSeparator + "\"" : "") +");";
+	}
+
+	throw new ApplicationException();
+}
+
+string CopyMutableWhen(IEnumerable<Tuple<PropertyInfo, Syntax.NodesLocalType.TypeLocalType.PropertiesLocalType.PropertyLocalType>> xProperties, CodeGenerationTools code)
+{
+	var expression = (from p in xProperties 
+	                  orderby p.Item2.index 
+					  select this.CopyMutableWhen(p, code)).ToArray();
+	return !expression.Any() ? "" : expression.Aggregate("", (s1, s2) => s1 + (System.Environment.NewLine + s2));
+} 
+
+string CopyMutableWhen(Tuple<PropertyInfo, Syntax.NodesLocalType.TypeLocalType.PropertiesLocalType.PropertyLocalType> xProperty, CodeGenerationTools code)
+{
+	// if(xProperty.Item2.Flags.Flag.Any(f => f.context == "Property" && f.role == "Info"))
+	//	return "		this." + xProperty.Item2.name + " = node." + xProperty.Item2.name + ";";
+
+	/*if(xProperty.Item2.Flags.Flag.Any(f => f.context == "Property" && f.role == "Runway"))
+	{
+		string listTypeArgument = xProperty.Item2.collectionType;
+		return "		this." + xProperty.Item2.name + " = (" + this.CleanTypeName(code.Escape(xProperty.Item1.PropertyType.Name) + "<TAnnotation>", listTypeArgument) + ")node." + xProperty.Item2.name + "?.Clone();";
+	}*/
+
+	if(xProperty.Item2.kind == "Token")
+		return "		this." + xProperty.Item2.name + " = (SyntaxToken<TAnnotation>)node." + xProperty.Item2.name + "?.Clone();";
+	
+	if(xProperty.Item2.kind == "Expression")
+	{
+		string listTypeArgument = xProperty.Item2.collectionType;
+		return "		this." + xProperty.Item2.name + " = (" + this.CleanTypeName(code.Escape(xProperty.Item1.PropertyType.Name) + "<TAnnotation>", listTypeArgument) + ")node." + xProperty.Item2.name + "?.Clone();";
+	}
+
+	throw new ApplicationException();
+}
+
+string GetInsertExpressionWhen(IEnumerable<Tuple<PropertyInfo, Syntax.NodesLocalType.TypeLocalType.PropertiesLocalType.PropertyLocalType>> xProperties, Func<Syntax.NodesLocalType.TypeLocalType.PropertiesLocalType.PropertyLocalType, bool> filter, CodeGenerationTools code)
+{
+	int i = 0;
+	var expression = (from p in xProperties 
+		              where filter != null && filter(p.Item2) && p.Item2.changepoint
+	                  orderby p.Item2.index 
+					  select this.GetInsertExpressionWhen(p, filter, code)).ToArray();
+	return !expression.Any() ? "" : expression.Aggregate("", (s1, s2) => s1 + s2);
+}              
+
+string GetInsertExpressionWhen(Tuple<PropertyInfo, Syntax.NodesLocalType.TypeLocalType.PropertiesLocalType.PropertyLocalType> xProperty, Func<Syntax.NodesLocalType.TypeLocalType.PropertiesLocalType.PropertyLocalType, bool> filter, CodeGenerationTools code)
+{
+	string listTypeArgument = xProperty.Item2.collectionType;
+	if(xProperty.Item2.multiplicity == "Single" || xProperty.Item2.multiplicity == "Collection")
+		return System.Environment.NewLine + "				if(offset == asTheKChild)" + 
+			   System.Environment.NewLine + "				{" + 
+			   System.Environment.NewLine + "					this." + xProperty.Item2.name + " = (" + this.CleanTypeName(code.Escape(xProperty.Item1.PropertyType.Name) + "<TAnnotation>", listTypeArgument) + ")thisNode;" + 
+			   System.Environment.NewLine + "					return true;" + 
+			   System.Environment.NewLine + "				}" + 
+			   System.Environment.NewLine + "				offset++;";
+
+	/*if(xProperty.Item2.Flags.Flag.Any(f => f.context == "GetChildren" && f.role.Contains("$" + filter + "-Runway")))
+		return System.Environment.NewLine + "				if(this." + xProperty.Item2.name + ".Insert(thisNode, asTheKChild, ref offset, representationFormatInfo)) return true;";
+		*/
+	/*if(xProperty.Item2.multiplicity == "Collection")
+		return System.Environment.NewLine + "				foreach (var syntaxtEntity in this." + xProperty.Item2.name + ".GetChildren(representationFormatInfo)) { yield return syntaxtEntity; }";
+*/
+	throw new ApplicationException();
+}
+
+string GetDeleteExpressionWhen(IEnumerable<Tuple<PropertyInfo, Syntax.NodesLocalType.TypeLocalType.PropertiesLocalType.PropertyLocalType>> xProperties, Func<Syntax.NodesLocalType.TypeLocalType.PropertiesLocalType.PropertyLocalType, bool> filter)
+{
+	var expression = (from p in xProperties 
+		              where filter != null && filter(p.Item2) && p.Item2.changepoint
+	                  orderby p.Item2.index 
+					  select this.GetDeleteExpressionWhen(p, filter)).ToArray();
+	return !expression.Any() ? "" : expression.Aggregate("", (s1, s2) => s1 + (s1 == "" ? s2 : (System.Environment.NewLine + s2)));
+}              
+
+string GetDeleteExpressionWhen(Tuple<PropertyInfo, Syntax.NodesLocalType.TypeLocalType.PropertiesLocalType.PropertyLocalType> xProperty, Func<Syntax.NodesLocalType.TypeLocalType.PropertiesLocalType.PropertyLocalType, bool> filter)
+{
+	if(xProperty.Item2.multiplicity == "Single" || xProperty.Item2.multiplicity == "Collection")
+		return "        if(this." + xProperty.Item2.name + " == thisNode) this." + xProperty.Item2.name + " = null;";
+
+	/*if(xProperty.Item2.multiplicity == "Collection")
+		return System.Environment.NewLine + "				foreach (var syntaxtEntity in this." + xProperty.Item2.name + ".GetChildren(representationFormatInfo)) { yield return syntaxtEntity; }";
+*/
+	throw new ApplicationException();
+}
+
+string CleanTypeName(string name, string listTypeArgument)
+{
+	if(name == "SeparatedSyntaxList`1<TAnnotation>")
+		return "SeparatedSyntaxList<TAnnotation, " + listTypeArgument + "<TAnnotation>>";
+
+	if(name == "SyntaxList`1<TAnnotation>")
+		return "SyntaxList<TAnnotation, " + listTypeArgument + "<TAnnotation>>";
+		
+	return name;
+}
 #>
