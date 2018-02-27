@@ -51,10 +51,9 @@
     <Compile Include="RDSL\XRootNamespace.cs" />
   </ItemGroup>
   <ItemGroup>
-    <LinqToXsdSchema Include="XNodeTypeSystem.xsd">
+    <None Include="XNodeTypeSystem.xsd">
       <SubType>Designer</SubType>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </LinqToXsdSchema>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\CodePlex.LinqToXsd.2.0.2\build\CodePlex.LinqToXsd.targets" Condition="Exists('..\packages\CodePlex.LinqToXsd.2.0.2\build\CodePlex.LinqToXsd.targets')" />

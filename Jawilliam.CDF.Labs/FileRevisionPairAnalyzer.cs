@@ -166,9 +166,10 @@ namespace Jawilliam.CDF.Labs
         public virtual void NativeGumTreeDiff(GumTreeNativeApproach gumTree, InteropArgs interopArgs, ChangeDetectionApproaches gumTreeApproach, Func<FileRevisionPair, bool> skipThese, SourceCodeCleaner cleaner = null)
         {
             this.Analyze(/*this.SqlRepository, f => f.Principal.Deltas.Any(d => d.Approach == gumTreeApproach),*/
-            f => f.Principal.Deltas.Any(d => d.Approach == ChangeDetectionApproaches.NativeGumTreeWithoutComments) /*&& 
+            f => f.Principal.Deltas.Any(d => d.Approach == ChangeDetectionApproaches.NativeGumTree) &&
+                 !f.Principal.Deltas.Any(d => d.Approach == gumTreeApproach) /*&& 
                  f.Deltas.All(d => d.Approach != gumTreeApproach), // I am running Levenshtein before, so the longer cases have been already rejected.
-            */,delegate (FileRevisionPair repositoryObject, SyntaxNode original, SyntaxNode modified, CancellationToken token)
+            */, delegate (FileRevisionPair repositoryObject, SyntaxNode original, SyntaxNode modified, CancellationToken token)
             {
                 if (!repositoryObject.Principal.XAnnotations.SourceCodeChanges || (skipThese?.Invoke(repositoryObject) ?? false))
                     return;
@@ -234,7 +235,8 @@ namespace Jawilliam.CDF.Labs
         public virtual void InverseNativeGumTreeDiff(GumTreeNativeApproach gumTree, InteropArgs interopArgs, ChangeDetectionApproaches gumTreeApproach, Func<FileRevisionPair, bool> skipThese, SourceCodeCleaner cleaner = null)
         {
             this.Analyze(/*this.SqlRepository, f => f.Principal.Deltas.Any(d => d.Approach == gumTreeApproach),*/
-            f => f.Principal.Deltas.Any(d => d.Approach == ChangeDetectionApproaches.NativeGumTree) /*&& 
+            f => f.Principal.Deltas.Any(d => d.Approach == ChangeDetectionApproaches.NativeGumTree) &&
+                 !f.Principal.Deltas.Any(d => d.Approach == gumTreeApproach) /*&& 
                  f.Deltas.All(d => d.Approach != gumTreeApproach), // I am running Levenshtein before, so the longer cases have been already rejected.
             */, delegate (FileRevisionPair repositoryObject, SyntaxNode original, SyntaxNode modified, CancellationToken token)
               {

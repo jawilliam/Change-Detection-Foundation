@@ -681,7 +681,7 @@
           <Children fine="false" coarse="false" jagged="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
-        <Property name="Commas" kind="Expression" index="2" optional="false" changepoint="true" multiplicity="Single">
+        <Property name="Commas" kind="Expression" index="2" optional="false" changepoint="true" multiplicity="Collection">
           <Text value="false" signature="false" meaningful="false"/>
           <Children fine="false" coarse="false" jagged="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
@@ -4511,7 +4511,7 @@
       </Properties>
     </Type>
     
-    <!--New ones-->
+    <!--New ones for C# 7.x-->
     <Type name="WhenClauseSyntax" base="CSharpSyntaxNode">
       <Properties>
         <Property name="WhenKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single">
@@ -4597,6 +4597,260 @@
       <Properties>
         <Property name="Identifier" kind="Token" index="0" optional="false" changepoint="true" multiplicity="Single">
           <Text value="false" signature="false" meaningful="false" postfix=" "/>
+          <Children fine="false" coarse="false" jagged="false"/>
+          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+        </Property>
+      </Properties>
+    </Type>
+    <Type name="IsPatternExpressionSyntax" base="ExpressionSyntax">
+      <Properties>
+        <Property name="Expression" kind="Expression" index="0" optional="false" changepoint="true" multiplicity="Single">
+          <Text value="false" signature="false" meaningful="false"/>
+          <Children fine="false" coarse="false" jagged="false"/>
+          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+        </Property>
+        <Property name="IsKeyword" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single">
+          <Text value="false" signature="false" meaningful="false"/>
+          <Children fine="false" coarse="false" jagged="false"/>
+          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+        </Property>
+        <Property name="Pattern" kind="Expression" index="0" optional="false" changepoint="true" multiplicity="Single">
+          <Text value="false" signature="false" meaningful="false"/>
+          <Children fine="false" coarse="false" jagged="false"/>
+          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+        </Property>
+      </Properties>
+    </Type>
+    <Type name="DiscardDesignationSyntax" base="VariableDesignationSyntax">
+      <Properties>
+        <Property name="UnderscoreToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single">
+          <Text value="false" signature="false" meaningful="false"/>
+          <Children fine="false" coarse="false" jagged="false"/>
+          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+        </Property>
+      </Properties>
+    </Type>
+    <Type name="ParenthesizedVariableDesignationSyntax" base="VariableDesignationSyntax">
+      <Properties>
+        <Property name="OpenParenToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single">
+          <Text value="false" signature="false" meaningful="false"/>
+          <Children fine="false" coarse="false" jagged="false"/>
+          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+        </Property>
+        <Property name="Variables" kind="Expression" index="1" optional="false" changepoint="true" multiplicity="Collection" collectionType="VariableDesignationSyntax" collectionSeparator=",">
+          <Text value="false" signature="false" meaningful="false"/>
+          <Children fine="false" coarse="false" jagged="false"/>
+          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+        </Property>
+        <Property name="CloseParenToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single">
+          <Text value="false" signature="false" meaningful="false"/>
+          <Children fine="false" coarse="false" jagged="false"/>
+          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+        </Property>
+      </Properties>
+    </Type>
+    <Type name="RefExpressionSyntax" base="ExpressionSyntax">
+      <Properties>
+        <Property name="RefKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single">
+          <Text value="false" signature="false" meaningful="false"/>
+          <Children fine="false" coarse="false" jagged="false"/>
+          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+        </Property>
+        <Property name="Expression" kind="Expression" index="1" optional="false" changepoint="true" multiplicity="Single">
+          <Text value="false" signature="false" meaningful="false"/>
+          <Children fine="false" coarse="false" jagged="false"/>
+          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+        </Property>
+      </Properties>
+    </Type>
+    <Type name="CasePatternSwitchLabelSyntax" base="SwitchLabelSyntax">
+      <Properties>
+        <Property name="Keyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" inherited="true">
+          <Text value="false" signature="false" meaningful="false"/>
+          <Children fine="false" coarse="false" jagged="false"/>
+          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+        </Property>
+        <Property name="Pattern" kind="Expression" index="1" optional="false" changepoint="true" multiplicity="Single">
+          <Text value="false" signature="false" meaningful="false"/>
+          <Children fine="false" coarse="false" jagged="false"/>
+          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+        </Property>
+      </Properties>
+    </Type>
+    <Type name="DeclarationExpressionSyntax" base="ExpressionSyntax">
+      <Properties>
+        <Property name="Type" kind="Expression" index="0" optional="false" changepoint="true" multiplicity="Single">
+          <Text value="false" signature="false" meaningful="false"/>
+          <Children fine="false" coarse="false" jagged="false"/>
+          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+        </Property>
+        <Property name="Designation" kind="Expression" index="1" optional="false" changepoint="true" multiplicity="Single">
+          <Text value="false" signature="false" meaningful="false"/>
+          <Children fine="false" coarse="false" jagged="false"/>
+          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+        </Property>
+      </Properties>
+    </Type>
+    <Type name="CommonForEachStatementSyntax" base="StatementSyntax" abstract="true">
+      <Properties>
+        <Property name="ForEachKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" inherited="true">
+          <Text value="false" signature="false" meaningful="false"/>
+          <Children fine="false" coarse="false" jagged="false"/>
+          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+        </Property>
+        <Property name="OpenParenToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single">
+          <Text value="false" signature="false" meaningful="false"/>
+          <Children fine="false" coarse="false" jagged="false"/>
+          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+        </Property>
+        <Property name="InKeyword" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single" inherited="true">
+          <Text value="false" signature="false" meaningful="false"/>
+          <Children fine="false" coarse="false" jagged="false"/>
+          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+        </Property>
+        <Property name="Expression" kind="Expression" index="3" optional="false" changepoint="true" multiplicity="Single">
+          <Text value="false" signature="false" meaningful="false"/>
+          <Children fine="false" coarse="false" jagged="false"/>
+          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+        </Property>
+        <Property name="CloseParenToken" kind="Token" index="4" readOnly="true" optional="false" multiplicity="Single">
+          <Text value="false" signature="false" meaningful="false"/>
+          <Children fine="false" coarse="false" jagged="false"/>
+          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+        </Property>
+        <Property name="Statement" kind="Expression" index="5" optional="false" changepoint="true" multiplicity="Single">
+          <Text value="false" signature="false" meaningful="false"/>
+          <Children fine="false" coarse="false" jagged="false"/>
+          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+        </Property>
+      </Properties>
+    </Type>
+    <Type name="ForEachVariableStatementSyntax" base="CommonForEachStatementSyntax" abstract="true">
+      <Properties>
+        <Property name="ForEachKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" inherited="true">
+          <Text value="false" signature="false" meaningful="false"/>
+          <Children fine="false" coarse="false" jagged="false"/>
+          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+        </Property>
+        <Property name="OpenParenToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" inherited="true">
+          <Text value="false" signature="false" meaningful="false"/>
+          <Children fine="false" coarse="false" jagged="false"/>
+          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+        </Property>
+        <Property name="Variable" kind="Expression" index="2" optional="false" changepoint="true" multiplicity="Single">
+          <Text value="false" signature="false" meaningful="false"/>
+          <Children fine="false" coarse="false" jagged="false"/>
+          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+        </Property>
+        <Property name="InKeyword" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single" inherited="true">
+          <Text value="false" signature="false" meaningful="false"/>
+          <Children fine="false" coarse="false" jagged="false"/>
+          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+        </Property>
+        <Property name="Expression" kind="Expression" index="4" optional="false" changepoint="true" multiplicity="Single" inherited="true">
+          <Text value="false" signature="false" meaningful="false"/>
+          <Children fine="false" coarse="false" jagged="false"/>
+          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+        </Property>
+        <Property name="CloseParenToken" kind="Token" index="5" readOnly="true" optional="false" multiplicity="Single" inherited="true">
+          <Text value="false" signature="false" meaningful="false"/>
+          <Children fine="false" coarse="false" jagged="false"/>
+          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+        </Property>
+        <Property name="Statement" kind="Expression" index="5" optional="false" changepoint="true" multiplicity="Single" inherited="true">
+          <Text value="false" signature="false" meaningful="false"/>
+          <Children fine="false" coarse="false" jagged="false"/>
+          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+        </Property>
+      </Properties>
+    </Type>
+    <Type name="PatternSyntax" base="CSharpSyntaxNode" abstract="true"/>
+    <Type name="DeclarationPatternSyntax" base="PatternSyntax">
+      <Properties>
+        <Property name="Type" kind="Expression" index="0" optional="false" changepoint="true" multiplicity="Single">
+          <Text value="false" signature="false" meaningful="false"/>
+          <Children fine="false" coarse="false" jagged="false"/>
+          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+        </Property>
+        <Property name="Designation" kind="Expression" index="1" optional="false" changepoint="true" multiplicity="Single">
+          <Text value="false" signature="false" meaningful="false"/>
+          <Children fine="false" coarse="false" jagged="false"/>
+          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+        </Property>
+      </Properties>
+    </Type>
+    <Type name="ConstantPatternSyntax" base="PatternSyntax">
+      <Properties>
+        <Property name="Type" kind="Expression" index="0" optional="false" changepoint="true" multiplicity="Single">
+          <Text value="false" signature="false" meaningful="false"/>
+          <Children fine="false" coarse="false" jagged="false"/>
+          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+        </Property>
+      </Properties>
+    </Type>
+    <Type name="LocalFunctionStatementSyntax" base="StatementSyntax">
+      <Properties>
+        <Property name="Modifiers" kind="Expression" index="0" optional="false" changepoint="true" multiplicity="Collection">
+          <Text value="false" signature="false" meaningful="false" postfix=" "/>
+          <Children fine="false" coarse="false" jagged="false"/>
+          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+        </Property>
+        <Property name="ReturnType" kind="Expression" index="1" optional="false" changepoint="true" multiplicity="Single">
+          <Text value="false" signature="false" meaningful="false"/>
+          <Children fine="false" coarse="false" jagged="false"/>
+          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+        </Property>
+        <Property name="Identifier" kind="Token" index="2" optional="false" changepoint="true" multiplicity="Single">
+          <Text value="false" signature="false" meaningful="false"/>
+          <Children fine="false" coarse="false" jagged="false"/>
+          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+        </Property>
+        <Property name="TypeParameterList" kind="Expression" index="3" optional="true" changepoint="true" multiplicity="Single">
+          <Text value="false" signature="false" meaningful="false"/>
+          <Children fine="false" coarse="false" jagged="false"/>
+          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+        </Property>
+        <Property name="ParameterList" kind="Expression" index="4" optional="false" changepoint="true" multiplicity="Single">
+          <Text value="false" signature="false" meaningful="false"/>
+          <Children fine="false" coarse="false" jagged="false"/>
+          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+        </Property>
+        <Property name="ConstraintClauses" kind="Expression" index="5" optional="false" changepoint="true" multiplicity="Collection" collectionType="TypeParameterConstraintClauseSyntax">
+          <Text value="false" signature="false" meaningful="false"/>
+          <Children fine="false" coarse="false" jagged="false"/>
+          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+        </Property>
+        <Property name="Body" kind="Expression" index="6" optional="true" changepoint="true" inherited="true" multiplicity="Single">
+          <Text value="false" signature="false" meaningful="false"/>
+          <Children fine="false" coarse="false" jagged="false"/>
+          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+        </Property>
+        <Property name="ExpressionBody" kind="Expression" index="7" optional="true" changepoint="true" multiplicity="Single">
+          <Text value="false" signature="false" meaningful="false"/>
+          <Children fine="false" coarse="false" jagged="false"/>
+          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+        </Property>
+        <Property name="SemicolonToken" kind="Token" index="8" readOnly="true" optional="true" multiplicity="Single">
+          <Text value="false" signature="false" meaningful="false"/>
+          <Children fine="false" coarse="false" jagged="false"/>
+          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+        </Property>
+      </Properties>
+    </Type>
+    <Type name="RefTypeSyntax" base="TypeSyntax">
+      <Properties>
+        <Property name="RefKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" inherited="true">
+          <Text value="false" signature="false" meaningful="false"/>
+          <Children fine="false" coarse="false" jagged="false"/>
+          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+        </Property>
+        <Property name="ReadOnlyKeyword" kind="Token" index="1" readOnly="true" optional="true" multiplicity="Single" inherited="true">
+          <Text value="false" signature="false" meaningful="false"/>
+          <Children fine="false" coarse="false" jagged="false"/>
+          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+        </Property>
+        <Property name="Type" kind="Expression" index="2" optional="false" changepoint="true" multiplicity="Single">
+          <Text value="false" signature="false" meaningful="false"/>
           <Children fine="false" coarse="false" jagged="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>

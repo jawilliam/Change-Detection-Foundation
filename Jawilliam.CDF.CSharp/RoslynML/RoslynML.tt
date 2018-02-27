@@ -74,12 +74,285 @@ var manager = TemplateFileManager.Create(this);
 // var xSyntaxTypeSystem = Jawilliam.CDF.XObjects.RDSL.Syntax.NodeTypes.Load(@"E:\Projects\Software Development Investigation\Jawilliam.Msr.Roslyn\CSharp\NodeTypeSystem.xml");
 var xSyntaxTypeSystem = Jawilliam.CDF.XObjects.RDSL.Syntax.Load(@"E:\MyRepositories\Change-Detection-Foundation\Jawilliam.CDF.CSharp\RDSL.xml");
 
+#>using Microsoft.CodeAnalysis.CSharp;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Xml.Linq;
+
+<#
+BeginNamespace(namespaceName, code);
+#>
+public partial class RoslynML : CSharpSyntaxVisitor<XElement>
+{
+	private static bool IsOperator(SyntaxKind kind)
+    {
+        switch (kind)
+        {
+            case SyntaxKind.TildeToken:
+            case SyntaxKind.ExclamationToken:
+            case SyntaxKind.PercentToken:
+            case SyntaxKind.CaretToken:
+            case SyntaxKind.AmpersandToken:
+            case SyntaxKind.AsteriskToken:
+            case SyntaxKind.MinusToken:
+            case SyntaxKind.PlusToken:
+            case SyntaxKind.EqualsToken:
+            case SyntaxKind.BarToken:
+            case SyntaxKind.ColonToken:
+            case SyntaxKind.LessThanToken:
+            case SyntaxKind.GreaterThanToken:
+            case SyntaxKind.DotToken:
+            case SyntaxKind.QuestionToken:
+            case SyntaxKind.SlashToken:
+            case SyntaxKind.BarBarToken:
+            case SyntaxKind.AmpersandAmpersandToken:
+            case SyntaxKind.MinusMinusToken:
+            case SyntaxKind.PlusPlusToken:
+            case SyntaxKind.ColonColonToken:
+            case SyntaxKind.QuestionQuestionToken:
+            case SyntaxKind.MinusGreaterThanToken:
+            case SyntaxKind.ExclamationEqualsToken:
+            case SyntaxKind.EqualsEqualsToken:
+            case SyntaxKind.EqualsGreaterThanToken:
+            case SyntaxKind.LessThanEqualsToken:
+            case SyntaxKind.LessThanLessThanToken:
+            case SyntaxKind.LessThanLessThanEqualsToken:
+            case SyntaxKind.GreaterThanEqualsToken:
+            case SyntaxKind.GreaterThanGreaterThanToken:
+            case SyntaxKind.GreaterThanGreaterThanEqualsToken:
+            case SyntaxKind.SlashEqualsToken:
+            case SyntaxKind.AsteriskEqualsToken:
+            case SyntaxKind.BarEqualsToken:
+            case SyntaxKind.AmpersandEqualsToken:
+            case SyntaxKind.PlusEqualsToken:
+            case SyntaxKind.MinusEqualsToken:
+            case SyntaxKind.CaretEqualsToken:
+            case SyntaxKind.PercentEqualsToken:
+                return true;
+    
+            default:
+                return false;
+        }
+    }
+
+    private static void ClassificationForPunctuation(XElement element, Microsoft.CodeAnalysis.SyntaxToken token)
+    {
+        if (IsOperator(token.Kind()))
+        {
+            // special cases...
+            switch (token.Kind())
+            {
+                case SyntaxKind.LessThanToken:
+                case SyntaxKind.GreaterThanToken:
+                    // the < and > tokens of a type parameter list should be classified as
+                    // punctuation; otherwise, they're operators.
+                    if (token.Parent != null)
+                    {
+                        if (token.Parent.Kind() == SyntaxKind.TypeParameterList ||
+                            token.Parent.Kind() == SyntaxKind.TypeArgumentList)
+                        {
+                            element.Add(new XAttribute("Punctuation", true));
+                        }
+                    }
+
+                    break;
+                case SyntaxKind.ColonToken:
+                    // the : for inheritance/implements or labels should be classified as
+                    // punctuation; otherwise, it's from a conditional operator.
+                    if (token.Parent != null)
+                    {
+                        if (token.Parent.Kind() != SyntaxKind.ConditionalExpression)
+                        {
+                            element.Add(new XAttribute("Punctuation", true));
+                        }
+                    }
+
+                    break;
+            }
+
+            element.Add(new XAttribute("Operator", true));
+        }
+        else
+        {
+            element.Add(new XAttribute("Punctuation", true));
+        }
+    }
+
+    /// <summary>
+    /// Annotates an element with syntax metadata.
+    /// </summary>
+    /// <param name="element">the XML element being serialized.</param>
+    /// <param name="node">the node being represented by the serializing XML element.</param>
+    protected virtual void Annotate(XElement element, Microsoft.CodeAnalysis.SyntaxToken node)
+    {
+        if (SyntaxFacts.IsPunctuation(node.Kind()))
+        {
+            ClassificationForPunctuation(element, node);
+        }
+
+        // if (SyntaxFacts.IsPrefixUnaryExpressionOperatorToken(node.Kind()))
+        // {
+        //     element.Add(new XAttribute("PrefixUnaryOperator", true));
+        // }
+		// 
+        // if (SyntaxFacts.IsPostfixUnaryExpressionToken(node.Kind()))
+        // {
+        //     element.Add(new XAttribute("PostfixUnaryOperator", true));
+        // }
+
+        // if (SyntaxFacts.IsLiteralExpression(node.Kind()))
+        // {
+        //     element.Add(new XAttribute("Literal", true));
+        // }
+
+        // if (SyntaxFacts.IsInstanceExpression(node.Kind()))
+        // {
+        //     element.Add(new XAttribute("InstanceExpression", true));
+        // }
+
+        // if (SyntaxFacts.IsBinaryExpressionOperatorToken(node.Kind()))
+        // {
+        //     element.Add(new XAttribute("BinaryExpressionOperator", true));
+        // }
+		// 
+        // if (SyntaxFacts.IsAssignmentExpressionOperatorToken(node.Kind()))
+        // {
+        //     element.Add(new XAttribute("AssignmentExpressionOperator", true));
+        // }
+
+        //Keyword
+        // if (SyntaxFacts.IsAccessorDeclarationKeyword(node.Kind()))
+        // {
+        //     element.Add(new XAttribute("AccessorDeclarationKeyword", true));
+        // }
+    }
+
+    /// <summary>
+    /// Annotates an element with syntax metadata.
+    /// </summary>
+    /// <param name="element">the XML element being serialized.</param>
+    /// <param name="node">the node being represented by the serializing XML element.</param>
+    protected virtual void Annotate(XElement element, Microsoft.CodeAnalysis.SyntaxNode node)
+    {
+        if (SyntaxFacts.IsAliasQualifier(node))
+        {
+            element.Add(new XAttribute("Keyword", true));
+        }
+    
+        if (SyntaxFacts.IsKeywordKind(node.Kind()))
+        {
+            element.Add(new XAttribute("Keyword", true));
+        }
+    
+        if (SyntaxFacts.IsReservedKeyword(node.Kind()))
+        {
+            element.Add(new XAttribute("ReservedKeyword", true));
+        }
+    
+        if (SyntaxFacts.IsAttributeTargetSpecifier(node.Kind()))
+        {
+            element.Add(new XAttribute("AttributeTargetSpecifier", true));
+        }
+    
+        if (SyntaxFacts.IsAccessibilityModifier(node.Kind()))
+        {
+            element.Add(new XAttribute("AccessibilityModifier", true));
+        }
+    
+        if (SyntaxFacts.IsPreprocessorKeyword(node.Kind()))
+        {
+            element.Add(new XAttribute("PreprocessorKeyword", true));
+        }
+    
+        if (SyntaxFacts.IsLanguagePunctuation(node.Kind()))
+        {
+            element.Add(new XAttribute("LanguagePunctuation", true));
+        }
+    
+        if (SyntaxFacts.IsPreprocessorPunctuation(node.Kind()))
+        {
+            element.Add(new XAttribute("PreprocessorPunctuation", true));
+        }
+    
+        if (SyntaxFacts.IsTrivia(node.Kind()))
+        {
+            element.Add(new XAttribute("Trivia", true));
+        }
+    
+        if (SyntaxFacts.IsPreprocessorDirective(node.Kind()))
+        {
+            element.Add(new XAttribute("PreprocessorDirective", true));
+        }
+    
+        if (SyntaxFacts.IsName(node.Kind()))
+        {
+            element.Add(new XAttribute("Name", true));
+        }
+    
+        if (SyntaxFacts.IsPredefinedType(node.Kind()))
+        {
+            element.Add(new XAttribute("PredefinedType", true));
+        }
+    
+        if (SyntaxFacts.IsTypeSyntax(node.Kind()))
+        {
+            element.Add(new XAttribute("TypeSyntax", true));
+        }
+    
+        //if (SyntaxFacts.IsTypeDeclaration(node.Kind()))
+        //{
+        //    element.Add(new XAttribute("TypeDeclaration", true));
+        //}
+    
+        if (SyntaxFacts.IsAssignmentExpression(node.Kind()))
+        {
+            element.Add(new XAttribute("AssignmentExpression", true));
+        }
+    
+        if (SyntaxFacts.IsAccessorDeclaration(node.Kind()))
+        {
+            element.Add(new XAttribute("AccessorDeclaration", true));
+        }
+    
+        if (SyntaxFacts.IsContextualKeyword(node.Kind()))
+        {
+            element.Add(new XAttribute("ContextualKeyword", true));
+        }
+    
+        if (SyntaxFacts.IsQueryContextualKeyword(node.Kind()))
+        {
+            element.Add(new XAttribute("QueryContextualKeyword", true));
+        }
+    
+        if (SyntaxFacts.IsTypeParameterVarianceKeyword(node.Kind()))
+        {
+            element.Add(new XAttribute("TypeParameterVarianceKeyword", true));
+        }
+    
+        if (SyntaxFacts.IsDocumentationCommentTrivia(node.Kind()))
+        {
+            element.Add(new XAttribute("DocumentationCommentTrivia", true));
+        }
+    }
+
+    /// <summary>
+    /// Called when the visitor visits a AttributeArgumentListSyntax node.
+    /// </summary>
+    public virtual XElement VisitToken(Microsoft.CodeAnalysis.SyntaxToken node)
+    {
+		var result = new XElement("Token");
+        result.Add(new XText(node.ValueText));
+        return result;
+    }
+
+<#
+
 foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
 .Where(n => !object.Equals(n.Root.Label, "SyntaxNode") && 
             !object.Equals(n.Root.Label, "CSharpSyntaxNode")))
 {
-	manager.StartNewFile(syntaxNode.Root.Label + ".cs");
-	BeginNamespace(namespaceName, code);
+	//manager.StartNewFile(syntaxNode.Root.Label + ".cs");
 
 	var xSyntaxNodeType = xSyntaxTypeSystem.Nodes.Type.SingleOrDefault(n => n.name == syntaxNode.Root.Label.ToString());
 	if(xSyntaxNodeType == null) continue;
@@ -92,17 +365,11 @@ foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
 	var isUpdatable = false;
 	if(xSyntaxNodeType != null && xSyntaxNodeType.Properties != null && xSyntaxNodeType.Properties.Property != null)
 		isUpdatable = xSyntaxNodeType.Properties.Property.Any(p => p.changepoint);
-#>
-using Microsoft.CodeAnalysis.CSharp;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Xml.Linq;
 
-<#
 	if(xSyntaxNodeType != null)
     {
-		var xSyntaxNodeBaseTypeProperties = xSyntaxNodeBaseType != null && xSyntaxNodeBaseType.Properties != null && xSyntaxNodeBaseType.Properties.Property != null 
+		var xSyntaxNodeBaseTypeProperties = xSyntaxNodeBaseType != null && xSyntaxNodeBaseType.Properties != null 
+											&& xSyntaxNodeBaseType.Properties.Property != null 
 				? xSyntaxNodeBaseType.Properties.Property
 				: new Syntax.NodesLocalType.TypeLocalType.PropertiesLocalType.PropertyLocalType[0];
 
@@ -110,52 +377,99 @@ using System.Xml.Linq;
 			? xSyntaxNodeType.Properties.Property
 			: new Syntax.NodesLocalType.TypeLocalType.PropertiesLocalType.PropertyLocalType[0];
 
-		var currentType = typeof(Microsoft.CodeAnalysis.CSharp.CSharpSyntaxNode).Assembly.GetType("Microsoft.CodeAnalysis.CSharp.Syntax." + code.Escape(syntaxNode.Root.Label.ToString()));
+		var currentType = typeof(Microsoft.CodeAnalysis.CSharp.CSharpSyntaxNode)
+			.Assembly.GetType("Microsoft.CodeAnalysis.CSharp.Syntax." + code.Escape(syntaxNode.Root.Label.ToString()));
 		var currentPropertiesMetadata = currentType.GetMembers().OfType<PropertyInfo>()
 			.Where(p => xSyntaxNodeProperties.Any(n => n.name == p.Name))
 			.Select(p => new Tuple<PropertyInfo, Syntax.NodesLocalType.TypeLocalType.PropertiesLocalType.PropertyLocalType>(p, xSyntaxNodeProperties.Single(n => n.name == p.Name)))
+			.OrderBy(p => p.Item2.index)
 			.ToArray();
 
-		foreach (var currentProperty in currentPropertiesMetadata.Where(p => p.Item2.inherited != true))
-		{
-			string listType = currentProperty.Item2.collectionType;
-#>	//public virtual <#= this.GetSyntaxType(currentProperty.Item1.PropertyType, code, listType)  #> <#= currentProperty.Item1.Name #> { get; <#=!currentProperty.Item2.readOnly ? "set;" : "private set;"#> } 
-<#
-		}
-    }
+		//foreach (var currentProperty in currentPropertiesMetadata.Where(p => p.Item2.inherited != true))
+		//{
+		//	string listType = currentProperty.Item2.collectionType;
+		//}
 
 	if(xSyntaxNodeType != null && !isAbstract)
 	{
 #>
-
-public partial class RoslynML : CSharpSyntaxVisitor<XElement>
-{
 	/// <summary>
     /// Called when the visitor visits a <#= code.Escape(syntaxNode.Root.Label.ToString()) #> node.
     /// </summary>
     public override XElement Visit<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>(Microsoft.CodeAnalysis.CSharp.Syntax.<#= code.Escape(syntaxNode.Root.Label.ToString()) #> node)
     {
-        //var result = new <#= code.Escape(syntaxNode.Root.Label.ToString()) #><TAnnotation>();
-        //var oldConverter = result.Converter;
-        //try
-        //{
-        //    result.Converter = this;
-        //    result.Copy(node);
-        //}
-        //finally
-        //{
-        //    result.Converter = oldConverter;
-        //}
-        //
-        //return result;
-		return null;
+		var result = new XElement("<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "")#>");
+<#
+		foreach (var currentProperty in currentPropertiesMetadata)
+		{
+			string listType = currentProperty.Item2.collectionType;
+			if(currentProperty.Item2.optional)
+			{
+#>		if(node.<#= currentProperty.Item1.Name #> != null)
+		{
+<#
+			}
+			if(currentProperty.Item2.kind == "Token" && currentProperty.Item2.multiplicity == "Single")
+			{
+#>		<#= currentProperty.Item2.optional ? "	" : "" #>var x<#= currentProperty.Item1.Name #> = new XElement("Token");
+		//<#= currentProperty.Item2.optional ? "	" : "" #>x<#= currentProperty.Item1.Name #>.Add(new XAttribute("part", "<#= currentProperty.Item1.Name #>"));
+		<#= currentProperty.Item2.optional ? "	" : "" #>result.Add(x<#= currentProperty.Item1.Name #>);
+<#
+			}
+			else if(currentProperty.Item2.kind == "Expression" && currentProperty.Item2.multiplicity == "Single")
+			{
+#>		<#= currentProperty.Item2.optional ? "	" : "" #>var x<#= currentProperty.Item1.Name #> = this.Visit(node.<#= currentProperty.Item1.Name #>);
+		<#= currentProperty.Item2.optional ? "	" : "" #>x<#= currentProperty.Item1.Name #>.Add(new XAttribute("part", "<#= currentProperty.Item1.Name #>"));
+		<#= currentProperty.Item2.optional ? "	" : "" #>result.Add(x<#= currentProperty.Item1.Name #>);
+<#
+			}
+			else if(currentProperty.Item2.collectionType == null && currentProperty.Item2.multiplicity == "Collection")
+			{
+#>
+		<#= currentProperty.Item2.optional ? "	" : "" #>var x<#= currentProperty.Item1.Name #> = new XElement("<#= this.GetSyntaxType(currentProperty.Item1.PropertyType, code, listType).Replace("Syntax", "") #>");
+		<#= currentProperty.Item2.optional ? "	" : "" #>x<#= currentProperty.Item1.Name #>.Add(new XAttribute("part", "<#= currentProperty.Item1.Name #>"));
+		<#= currentProperty.Item2.optional ? "	" : "" #>foreach(var x in node.<#= currentProperty.Item1.Name #>)
+		<#= currentProperty.Item2.optional ? "	" : "" #>{
+		<#= currentProperty.Item2.optional ? "	" : "" #>	x<#= currentProperty.Item1.Name #>.Add(new XText(x.ValueText));
+		<#= currentProperty.Item2.optional ? "	" : "" #>}
+		<#= currentProperty.Item2.optional ? "	" : "" #>result.Add(x<#= currentProperty.Item1.Name #>);
+<#
+			}
+			else if(currentProperty.Item2.collectionType != null && currentProperty.Item2.multiplicity == "Collection")
+			{
+#>
+		<#= currentProperty.Item2.optional ? "	" : "" #>var x<#= currentProperty.Item1.Name #> = new XElement("<#= this.GetSyntaxType(currentProperty.Item1.PropertyType, code, listType).Replace("Syntax", "") #>");
+		<#= currentProperty.Item2.optional ? "	" : "" #>x<#= currentProperty.Item1.Name #>.Add(new XAttribute("part", "<#= currentProperty.Item1.Name #>"));
+		<#= currentProperty.Item2.optional ? "	" : "" #>foreach(var x in node.<#= currentProperty.Item1.Name #>)
+		<#= currentProperty.Item2.optional ? "	" : "" #>{
+			<#= currentProperty.Item2.optional ? "	" : "" #>x<#= currentProperty.Item1.Name #>.Add(this.Visit(x));
+		<#= currentProperty.Item2.optional ? "	" : "" #>}
+		<#= currentProperty.Item2.optional ? "	" : "" #>result.Add(x<#= currentProperty.Item1.Name #>);
+<#
+			}
+			else
+				throw new ApplicationException("Not supported case");
+				
+		if(currentProperty.Item2.optional)
+		{
+#>		}
+<#
+		}
+		}
+#>
+		return result;
     }
-}
+
 <#
 	}
-
-	EndNamespace(namespaceName);
+ }
 }
+#>
+}
+<#
+	
+EndNamespace(namespaceName);
+
 manager.Process();
 #>
 <#+ 
@@ -186,10 +500,13 @@ void EndNamespace(string namespaceName)
 string GetSyntaxType(Type t, CodeGenerationTools code, string listTypeArgument)
 {
 	if(t.FullName.StartsWith("Microsoft.CodeAnalysis.SeparatedSyntaxList"))
-		return "SeparatedSyntaxList<TAnnotation, " + listTypeArgument + "<TAnnotation>>";
+		return "SeparatedList_of_" + listTypeArgument;
 
 	if(t.FullName.StartsWith("Microsoft.CodeAnalysis.SyntaxList"))
-		return "SyntaxList<TAnnotation, " + listTypeArgument + "<TAnnotation>>";
+		return "List_of_" + listTypeArgument;
+
+	if(t.FullName.StartsWith("Microsoft.CodeAnalysis.SyntaxTokenList"))
+		return "TokenList";
 
 	if(!t.FullName.StartsWith("Microsoft.CodeAnalysis."))
 		return t.Name;

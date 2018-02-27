@@ -263,6 +263,17 @@ namespace Jawilliam.CDF.Approach.GumTree
                 if(this.Result != null)
                     this.Result.Error = "Omitted element > 10 min";
 
+                try
+                {
+                    foreach (Process proc in Process.GetProcessesByName("java"))
+                    {
+                        proc.Kill();
+                    }
+                }
+                catch (Exception ex)
+                {
+                }
+
                 this._process?.Close();
                 throw new OperationCanceledException();
             }

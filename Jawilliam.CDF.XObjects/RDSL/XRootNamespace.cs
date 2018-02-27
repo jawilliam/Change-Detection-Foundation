@@ -7,7 +7,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
-using tempuri.org.XNodeTypeSystem.xsd;
 using Xml.Schema.Linq;
 
 namespace Jawilliam.CDF.XObjects.RDSL
