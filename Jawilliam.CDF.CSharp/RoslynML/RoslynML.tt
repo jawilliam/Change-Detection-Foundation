@@ -153,6 +153,14 @@ public partial class RoslynML : CSharpSyntaxVisitor<XElement>
                             token.Parent.Kind() == SyntaxKind.TypeArgumentList)
                         {
                             element.Add(new XAttribute("Punctuation", true));
+							if (SyntaxFacts.IsLanguagePunctuation(token.Kind()))
+							{
+							    element.Add(new XAttribute("Language", true));
+							}
+							if (SyntaxFacts.IsPreprocessorPunctuation(token.Kind()))
+							{
+							    element.Add(new XAttribute("Preprocessor", true));
+							}
                         }
                     }
 
@@ -166,16 +174,32 @@ public partial class RoslynML : CSharpSyntaxVisitor<XElement>
                         {
                             element.Add(new XAttribute("Punctuation", true));
                         }
+						if (SyntaxFacts.IsLanguagePunctuation(token.Kind()))
+						{
+						    element.Add(new XAttribute("Language", true));
+						}
+						if (SyntaxFacts.IsPreprocessorPunctuation(token.Kind()))
+						{
+						    element.Add(new XAttribute("Preprocessor", true));
+						}
                     }
-
                     break;
-            }
-
-            element.Add(new XAttribute("Operator", true));
+				default:
+				    element.Add(new XAttribute("Operator", true));
+					break;
+            }            
         }
         else
         {
             element.Add(new XAttribute("Punctuation", true));
+			if (SyntaxFacts.IsLanguagePunctuation(token.Kind()))
+			{
+			    element.Add(new XAttribute("Language", true));
+			}
+			if (SyntaxFacts.IsPreprocessorPunctuation(token.Kind()))
+			{
+			    element.Add(new XAttribute("Preprocessor", true));
+			}
         }
     }
 
@@ -186,7 +210,28 @@ public partial class RoslynML : CSharpSyntaxVisitor<XElement>
     /// <param name="node">the node being represented by the serializing XML element.</param>
     protected virtual void Annotate(XElement element, Microsoft.CodeAnalysis.SyntaxToken node)
     {
-        if (SyntaxFacts.IsPunctuation(node.Kind()))
+        element.Add(new XAttribute("kind", Enum.GetName(typeof (SyntaxKind), node.Kind())));
+		if (SyntaxFacts.IsKeywordKind(node.Kind()))
+        {
+            element.Add(new XAttribute("Keyword", true));
+			if (SyntaxFacts.IsAccessorDeclarationKeyword(node.Kind()))
+			{
+			    element.Add(new XAttribute("AccessorDeclaration", true));
+			}
+			if (SyntaxFacts.IsContextualKeyword(node.Kind()))
+			{
+			    element.Add(new XAttribute("Contextual", true));
+			}    
+			if (SyntaxFacts.IsQueryContextualKeyword(node.Kind()))
+			{
+			    element.Add(new XAttribute("Query", true));
+			}
+			if (SyntaxFacts.IsTypeParameterVarianceKeyword(node.Kind()))
+			{
+			    element.Add(new XAttribute("TypeParameterVariance", true));
+			}
+        }
+        else if (SyntaxFacts.IsPunctuation(node.Kind()))
         {
             ClassificationForPunctuation(element, node);
         }
@@ -220,12 +265,6 @@ public partial class RoslynML : CSharpSyntaxVisitor<XElement>
         // {
         //     element.Add(new XAttribute("AssignmentExpressionOperator", true));
         // }
-
-        //Keyword
-        // if (SyntaxFacts.IsAccessorDeclarationKeyword(node.Kind()))
-        // {
-        //     element.Add(new XAttribute("AccessorDeclarationKeyword", true));
-        // }
     }
 
     /// <summary>
@@ -235,45 +274,36 @@ public partial class RoslynML : CSharpSyntaxVisitor<XElement>
     /// <param name="node">the node being represented by the serializing XML element.</param>
     protected virtual void Annotate(XElement element, Microsoft.CodeAnalysis.SyntaxNode node)
     {
-        if (SyntaxFacts.IsAliasQualifier(node))
-        {
-            element.Add(new XAttribute("Keyword", true));
-        }
-    
+        element.Add(new XAttribute("kind", Enum.GetName(typeof (SyntaxKind), node.Kind())));
+        //if (SyntaxFacts.IsAliasQualifier(node))
+        //{
+        //    element.Add(new XAttribute("Keyword", true));
+        //}
+    	//
         if (SyntaxFacts.IsKeywordKind(node.Kind()))
         {
             element.Add(new XAttribute("Keyword", true));
         }
     
-        if (SyntaxFacts.IsReservedKeyword(node.Kind()))
-        {
-            element.Add(new XAttribute("ReservedKeyword", true));
-        }
+        //if (SyntaxFacts.IsReservedKeyword(node.Kind()))
+        //{
+        //    element.Add(new XAttribute("ReservedKeyword", true));
+        //}
+    	//
+        //if (SyntaxFacts.IsAttributeTargetSpecifier(node.Kind()))
+        //{
+        //    element.Add(new XAttribute("AttributeTargetSpecifier", true));
+        //}
+    	
+        //if (SyntaxFacts.IsAccessibilityModifier(node.Kind()))
+        //{
+        //    element.Add(new XAttribute("AccessibilityModifier", true));
+        //}
     
-        if (SyntaxFacts.IsAttributeTargetSpecifier(node.Kind()))
-        {
-            element.Add(new XAttribute("AttributeTargetSpecifier", true));
-        }
-    
-        if (SyntaxFacts.IsAccessibilityModifier(node.Kind()))
-        {
-            element.Add(new XAttribute("AccessibilityModifier", true));
-        }
-    
-        if (SyntaxFacts.IsPreprocessorKeyword(node.Kind()))
-        {
-            element.Add(new XAttribute("PreprocessorKeyword", true));
-        }
-    
-        if (SyntaxFacts.IsLanguagePunctuation(node.Kind()))
-        {
-            element.Add(new XAttribute("LanguagePunctuation", true));
-        }
-    
-        if (SyntaxFacts.IsPreprocessorPunctuation(node.Kind()))
-        {
-            element.Add(new XAttribute("PreprocessorPunctuation", true));
-        }
+        //if (SyntaxFacts.IsPreprocessorKeyword(node.Kind()))
+        //{
+        //    element.Add(new XAttribute("PreprocessorKeyword", true));
+        //}        
     
         if (SyntaxFacts.IsTrivia(node.Kind()))
         {
@@ -300,35 +330,15 @@ public partial class RoslynML : CSharpSyntaxVisitor<XElement>
             element.Add(new XAttribute("TypeSyntax", true));
         }
     
-        //if (SyntaxFacts.IsTypeDeclaration(node.Kind()))
-        //{
-        //    element.Add(new XAttribute("TypeDeclaration", true));
-        //}
-    
-        if (SyntaxFacts.IsAssignmentExpression(node.Kind()))
+        if (SyntaxFacts.IsTypeDeclaration(node.Kind()))
         {
-            element.Add(new XAttribute("AssignmentExpression", true));
+            element.Add(new XAttribute("TypeDeclaration", true));
         }
     
-        if (SyntaxFacts.IsAccessorDeclaration(node.Kind()))
-        {
-            element.Add(new XAttribute("AccessorDeclaration", true));
-        }
-    
-        if (SyntaxFacts.IsContextualKeyword(node.Kind()))
-        {
-            element.Add(new XAttribute("ContextualKeyword", true));
-        }
-    
-        if (SyntaxFacts.IsQueryContextualKeyword(node.Kind()))
-        {
-            element.Add(new XAttribute("QueryContextualKeyword", true));
-        }
-    
-        if (SyntaxFacts.IsTypeParameterVarianceKeyword(node.Kind()))
-        {
-            element.Add(new XAttribute("TypeParameterVarianceKeyword", true));
-        }
+        // if (SyntaxFacts.IsAssignmentExpression(node.Kind()))
+        // {
+        //     element.Add(new XAttribute("AssignmentExpression", true));
+        // }       
     
         if (SyntaxFacts.IsDocumentationCommentTrivia(node.Kind()))
         {
@@ -339,10 +349,11 @@ public partial class RoslynML : CSharpSyntaxVisitor<XElement>
     /// <summary>
     /// Called when the visitor visits a AttributeArgumentListSyntax node.
     /// </summary>
-    public virtual XElement VisitToken(Microsoft.CodeAnalysis.SyntaxToken node)
+    public virtual XElement Visit(Microsoft.CodeAnalysis.SyntaxToken node)
     {
 		var result = new XElement("Token");
         result.Add(new XText(node.ValueText));
+		this.Annotate(result, node);
         return result;
     }
 
@@ -403,6 +414,9 @@ foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
 		foreach (var currentProperty in currentPropertiesMetadata)
 		{
 			string listType = currentProperty.Item2.collectionType;
+#>
+		//<#= currentProperty.Item1.Name #>
+<#
 			if(currentProperty.Item2.optional)
 			{
 #>		if(node.<#= currentProperty.Item1.Name #> != null)
@@ -411,8 +425,8 @@ foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
 			}
 			if(currentProperty.Item2.kind == "Token" && currentProperty.Item2.multiplicity == "Single")
 			{
-#>		<#= currentProperty.Item2.optional ? "	" : "" #>var x<#= currentProperty.Item1.Name #> = new XElement("Token");
-		//<#= currentProperty.Item2.optional ? "	" : "" #>x<#= currentProperty.Item1.Name #>.Add(new XAttribute("part", "<#= currentProperty.Item1.Name #>"));
+#>		<#= currentProperty.Item2.optional ? "	" : "" #>var x<#= currentProperty.Item1.Name #> = this.Visit(node.<#= currentProperty.Item1.Name #>);
+		<#= currentProperty.Item2.optional ? "	" : "" #>x<#= currentProperty.Item1.Name #>.Add(new XAttribute("part", "<#= currentProperty.Item1.Name #>"));
 		<#= currentProperty.Item2.optional ? "	" : "" #>result.Add(x<#= currentProperty.Item1.Name #>);
 <#
 			}
@@ -430,7 +444,8 @@ foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
 		<#= currentProperty.Item2.optional ? "	" : "" #>x<#= currentProperty.Item1.Name #>.Add(new XAttribute("part", "<#= currentProperty.Item1.Name #>"));
 		<#= currentProperty.Item2.optional ? "	" : "" #>foreach(var x in node.<#= currentProperty.Item1.Name #>)
 		<#= currentProperty.Item2.optional ? "	" : "" #>{
-		<#= currentProperty.Item2.optional ? "	" : "" #>	x<#= currentProperty.Item1.Name #>.Add(new XText(x.ValueText));
+		<#= currentProperty.Item2.optional ? "	" : "" #>	var xElement = this.Visit(x);
+		<#= currentProperty.Item2.optional ? "	" : "" #>	x<#= currentProperty.Item1.Name #>.Add(xElement);
 		<#= currentProperty.Item2.optional ? "	" : "" #>}
 		<#= currentProperty.Item2.optional ? "	" : "" #>result.Add(x<#= currentProperty.Item1.Name #>);
 <#
@@ -442,7 +457,8 @@ foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
 		<#= currentProperty.Item2.optional ? "	" : "" #>x<#= currentProperty.Item1.Name #>.Add(new XAttribute("part", "<#= currentProperty.Item1.Name #>"));
 		<#= currentProperty.Item2.optional ? "	" : "" #>foreach(var x in node.<#= currentProperty.Item1.Name #>)
 		<#= currentProperty.Item2.optional ? "	" : "" #>{
-			<#= currentProperty.Item2.optional ? "	" : "" #>x<#= currentProperty.Item1.Name #>.Add(this.Visit(x));
+		<#= currentProperty.Item2.optional ? "	" : "" #>	var xElement = this.Visit(x);
+		<#= currentProperty.Item2.optional ? "	" : "" #>	x<#= currentProperty.Item1.Name #>.Add(xElement);
 		<#= currentProperty.Item2.optional ? "	" : "" #>}
 		<#= currentProperty.Item2.optional ? "	" : "" #>result.Add(x<#= currentProperty.Item1.Name #>);
 <#
@@ -457,6 +473,13 @@ foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
 		}
 		}
 #>
+
+		this.Annotate(result, node);
+
+    	var kindAttribute = result.Attribute("kind");
+        if (kindAttribute?.Value == result.Name.LocalName)
+            kindAttribute.Remove();
+
 		return result;
     }
 
