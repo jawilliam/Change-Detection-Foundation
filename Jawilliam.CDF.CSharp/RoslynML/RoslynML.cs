@@ -98,6 +98,10 @@ namespace Jawilliam.CDF.CSharp.RoslynML
                             {
                                 element.Add(new XAttribute("Punctuation", true));
                             }
+    						else
+    						{
+    							element.Add(new XAttribute("Operator", true));
+    						}
     						if (SyntaxFacts.IsLanguagePunctuation(token.Kind()))
     						{
     						    element.Add(new XAttribute("Language", true));
@@ -188,7 +192,15 @@ namespace Jawilliam.CDF.CSharp.RoslynML
             // if (SyntaxFacts.IsAssignmentExpressionOperatorToken(node.Kind()))
             // {
             //     element.Add(new XAttribute("AssignmentExpressionOperator", true));
-            // }
+            // }		
+    
+    		if(node.ToString() != "")
+    		{
+    			element.Add(new XAttribute("startLine", node.GetLocation().GetLineSpan().StartLinePosition.Line + 1));
+    			element.Add(new XAttribute("startColumn", node.GetLocation().GetLineSpan().StartLinePosition.Character + 1));
+    			element.Add(new XAttribute("endLine", node.GetLocation().GetLineSpan().EndLinePosition.Line + 1));
+    			element.Add(new XAttribute("endColumn", node.GetLocation().GetLineSpan().EndLinePosition.Character));
+    		}
         }
     
         /// <summary>
@@ -267,7 +279,15 @@ namespace Jawilliam.CDF.CSharp.RoslynML
             if (SyntaxFacts.IsDocumentationCommentTrivia(node.Kind()))
             {
                 element.Add(new XAttribute("DocumentationCommentTrivia", true));
-            }
+            }		
+    
+    		if(node.ToString() != "")
+    		{
+    			element.Add(new XAttribute("startLine", node.GetLocation().GetLineSpan().StartLinePosition.Line + 1));
+    			element.Add(new XAttribute("startColumn", node.GetLocation().GetLineSpan().StartLinePosition.Character + 1));
+    			element.Add(new XAttribute("endLine", node.GetLocation().GetLineSpan().EndLinePosition.Line + 1));
+    			element.Add(new XAttribute("endColumn", node.GetLocation().GetLineSpan().EndLinePosition.Character));
+    		}
         }
     
         /// <summary>
@@ -319,14 +339,17 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     		xOpenParenToken.Add(new XAttribute("part", "OpenParenToken"));
     		result.Add(xOpenParenToken);
     		//Arguments
-    		var xArguments = new XElement("SeparatedList_of_AttributeArgument");
-    		xArguments.Add(new XAttribute("part", "Arguments"));
-    		foreach(var x in node.Arguments)
+    		if(node.Arguments.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xArguments.Add(xElement);
+    			var xArguments = new XElement("SeparatedList_of_AttributeArgument");
+    			xArguments.Add(new XAttribute("part", "Arguments"));
+    			foreach(var x in node.Arguments)
+    			{
+    				var xElement = this.Visit(x);
+    				xArguments.Add(xElement);
+    			}
+    			result.Add(xArguments);
     		}
-    		result.Add(xArguments);
     		//CloseParenToken
     		var xCloseParenToken = this.Visit(node.CloseParenToken);
     		xCloseParenToken.Add(new XAttribute("part", "CloseParenToken"));
@@ -410,14 +433,17 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     		xLessThanToken.Add(new XAttribute("part", "LessThanToken"));
     		result.Add(xLessThanToken);
     		//Parameters
-    		var xParameters = new XElement("SeparatedList_of_TypeParameter");
-    		xParameters.Add(new XAttribute("part", "Parameters"));
-    		foreach(var x in node.Parameters)
+    		if(node.Parameters.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xParameters.Add(xElement);
+    			var xParameters = new XElement("SeparatedList_of_TypeParameter");
+    			xParameters.Add(new XAttribute("part", "Parameters"));
+    			foreach(var x in node.Parameters)
+    			{
+    				var xElement = this.Visit(x);
+    				xParameters.Add(xElement);
+    			}
+    			result.Add(xParameters);
     		}
-    		result.Add(xParameters);
     		//GreaterThanToken
     		var xGreaterThanToken = this.Visit(node.GreaterThanToken);
     		xGreaterThanToken.Add(new XAttribute("part", "GreaterThanToken"));
@@ -439,16 +465,19 @@ namespace Jawilliam.CDF.CSharp.RoslynML
         {
     		var result = new XElement("TypeParameter");
     		//AttributeLists
-    		var xAttributeLists = new XElement("List_of_AttributeList");
-    		xAttributeLists.Add(new XAttribute("part", "AttributeLists"));
-    		foreach(var x in node.AttributeLists)
+    		if(node.AttributeLists.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xAttributeLists.Add(xElement);
+    			var xAttributeLists = new XElement("List_of_AttributeList");
+    			xAttributeLists.Add(new XAttribute("part", "AttributeLists"));
+    			foreach(var x in node.AttributeLists)
+    			{
+    				var xElement = this.Visit(x);
+    				xAttributeLists.Add(xElement);
+    			}
+    			result.Add(xAttributeLists);
     		}
-    		result.Add(xAttributeLists);
     		//VarianceKeyword
-    		if(node.VarianceKeyword != null)
+    		if(node.VarianceKeyword != null && node.VarianceKeyword.Kind() != SyntaxKind.None)
     		{
     			var xVarianceKeyword = this.Visit(node.VarianceKeyword);
     			xVarianceKeyword.Add(new XAttribute("part", "VarianceKeyword"));
@@ -479,14 +508,17 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     		xColonToken.Add(new XAttribute("part", "ColonToken"));
     		result.Add(xColonToken);
     		//Types
-    		var xTypes = new XElement("SeparatedList_of_BaseType");
-    		xTypes.Add(new XAttribute("part", "Types"));
-    		foreach(var x in node.Types)
+    		if(node.Types.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xTypes.Add(xElement);
+    			var xTypes = new XElement("SeparatedList_of_BaseType");
+    			xTypes.Add(new XAttribute("part", "Types"));
+    			foreach(var x in node.Types)
+    			{
+    				var xElement = this.Visit(x);
+    				xTypes.Add(xElement);
+    			}
+    			result.Add(xTypes);
     		}
-    		result.Add(xTypes);
     
     		this.Annotate(result, node);
     
@@ -516,14 +548,17 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     		xColonToken.Add(new XAttribute("part", "ColonToken"));
     		result.Add(xColonToken);
     		//Constraints
-    		var xConstraints = new XElement("SeparatedList_of_TypeParameterConstraint");
-    		xConstraints.Add(new XAttribute("part", "Constraints"));
-    		foreach(var x in node.Constraints)
+    		if(node.Constraints.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xConstraints.Add(xElement);
+    			var xConstraints = new XElement("SeparatedList_of_TypeParameterConstraint");
+    			xConstraints.Add(new XAttribute("part", "Constraints"));
+    			foreach(var x in node.Constraints)
+    			{
+    				var xElement = this.Visit(x);
+    				xConstraints.Add(xElement);
+    			}
+    			result.Add(xConstraints);
     		}
-    		result.Add(xConstraints);
     
     		this.Annotate(result, node);
     
@@ -621,14 +656,17 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     		xOpenBraceToken.Add(new XAttribute("part", "OpenBraceToken"));
     		result.Add(xOpenBraceToken);
     		//Accessors
-    		var xAccessors = new XElement("List_of_AccessorDeclaration");
-    		xAccessors.Add(new XAttribute("part", "Accessors"));
-    		foreach(var x in node.Accessors)
+    		if(node.Accessors.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xAccessors.Add(xElement);
+    			var xAccessors = new XElement("List_of_AccessorDeclaration");
+    			xAccessors.Add(new XAttribute("part", "Accessors"));
+    			foreach(var x in node.Accessors)
+    			{
+    				var xElement = this.Visit(x);
+    				xAccessors.Add(xElement);
+    			}
+    			result.Add(xAccessors);
     		}
-    		result.Add(xAccessors);
     		//CloseBraceToken
     		var xCloseBraceToken = this.Visit(node.CloseBraceToken);
     		xCloseBraceToken.Add(new XAttribute("part", "CloseBraceToken"));
@@ -650,23 +688,29 @@ namespace Jawilliam.CDF.CSharp.RoslynML
         {
     		var result = new XElement("AccessorDeclaration");
     		//AttributeLists
-    		var xAttributeLists = new XElement("List_of_AttributeList");
-    		xAttributeLists.Add(new XAttribute("part", "AttributeLists"));
-    		foreach(var x in node.AttributeLists)
+    		if(node.AttributeLists.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xAttributeLists.Add(xElement);
+    			var xAttributeLists = new XElement("List_of_AttributeList");
+    			xAttributeLists.Add(new XAttribute("part", "AttributeLists"));
+    			foreach(var x in node.AttributeLists)
+    			{
+    				var xElement = this.Visit(x);
+    				xAttributeLists.Add(xElement);
+    			}
+    			result.Add(xAttributeLists);
     		}
-    		result.Add(xAttributeLists);
     		//Modifiers
-    		var xModifiers = new XElement("TokenList");
-    		xModifiers.Add(new XAttribute("part", "Modifiers"));
-    		foreach(var x in node.Modifiers)
+    		if(node.Modifiers.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xModifiers.Add(xElement);
+    			var xModifiers = new XElement("TokenList");
+    			xModifiers.Add(new XAttribute("part", "Modifiers"));
+    			foreach(var x in node.Modifiers)
+    			{
+    				var xElement = this.Visit(x);
+    				xModifiers.Add(xElement);
+    			}
+    			result.Add(xModifiers);
     		}
-    		result.Add(xModifiers);
     		//Keyword
     		var xKeyword = this.Visit(node.Keyword);
     		xKeyword.Add(new XAttribute("part", "Keyword"));
@@ -679,7 +723,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			result.Add(xBody);
     		}
     		//SemicolonToken
-    		if(node.SemicolonToken != null)
+    		if(node.SemicolonToken != null && node.SemicolonToken.Kind() != SyntaxKind.None)
     		{
     			var xSemicolonToken = this.Visit(node.SemicolonToken);
     			xSemicolonToken.Add(new XAttribute("part", "SemicolonToken"));
@@ -702,23 +746,29 @@ namespace Jawilliam.CDF.CSharp.RoslynML
         {
     		var result = new XElement("Parameter");
     		//AttributeLists
-    		var xAttributeLists = new XElement("List_of_AttributeList");
-    		xAttributeLists.Add(new XAttribute("part", "AttributeLists"));
-    		foreach(var x in node.AttributeLists)
+    		if(node.AttributeLists.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xAttributeLists.Add(xElement);
+    			var xAttributeLists = new XElement("List_of_AttributeList");
+    			xAttributeLists.Add(new XAttribute("part", "AttributeLists"));
+    			foreach(var x in node.AttributeLists)
+    			{
+    				var xElement = this.Visit(x);
+    				xAttributeLists.Add(xElement);
+    			}
+    			result.Add(xAttributeLists);
     		}
-    		result.Add(xAttributeLists);
     		//Modifiers
-    		var xModifiers = new XElement("TokenList");
-    		xModifiers.Add(new XAttribute("part", "Modifiers"));
-    		foreach(var x in node.Modifiers)
+    		if(node.Modifiers.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xModifiers.Add(xElement);
+    			var xModifiers = new XElement("TokenList");
+    			xModifiers.Add(new XAttribute("part", "Modifiers"));
+    			foreach(var x in node.Modifiers)
+    			{
+    				var xElement = this.Visit(x);
+    				xModifiers.Add(xElement);
+    			}
+    			result.Add(xModifiers);
     		}
-    		result.Add(xModifiers);
     		//Type
     		if(node.Type != null)
     		{
@@ -754,7 +804,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
         {
     		var result = new XElement("CrefParameter");
     		//RefOrOutKeyword
-    		if(node.RefOrOutKeyword != null)
+    		if(node.RefOrOutKeyword != null && node.RefOrOutKeyword.Kind() != SyntaxKind.None)
     		{
     			var xRefOrOutKeyword = this.Visit(node.RefOrOutKeyword);
     			xRefOrOutKeyword.Add(new XAttribute("part", "RefOrOutKeyword"));
@@ -789,14 +839,17 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     		xName.Add(new XAttribute("part", "Name"));
     		result.Add(xName);
     		//Attributes
-    		var xAttributes = new XElement("List_of_XmlAttribute");
-    		xAttributes.Add(new XAttribute("part", "Attributes"));
-    		foreach(var x in node.Attributes)
+    		if(node.Attributes.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xAttributes.Add(xElement);
+    			var xAttributes = new XElement("List_of_XmlAttribute");
+    			xAttributes.Add(new XAttribute("part", "Attributes"));
+    			foreach(var x in node.Attributes)
+    			{
+    				var xElement = this.Visit(x);
+    				xAttributes.Add(xElement);
+    			}
+    			result.Add(xAttributes);
     		}
-    		result.Add(xAttributes);
     		//GreaterThanToken
     		var xGreaterThanToken = this.Visit(node.GreaterThanToken);
     		xGreaterThanToken.Add(new XAttribute("part", "GreaterThanToken"));
@@ -901,14 +954,17 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     		xLessThanToken.Add(new XAttribute("part", "LessThanToken"));
     		result.Add(xLessThanToken);
     		//Arguments
-    		var xArguments = new XElement("SeparatedList_of_Type");
-    		xArguments.Add(new XAttribute("part", "Arguments"));
-    		foreach(var x in node.Arguments)
+    		if(node.Arguments.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xArguments.Add(xElement);
+    			var xArguments = new XElement("SeparatedList_of_Type");
+    			xArguments.Add(new XAttribute("part", "Arguments"));
+    			foreach(var x in node.Arguments)
+    			{
+    				var xElement = this.Visit(x);
+    				xArguments.Add(xElement);
+    			}
+    			result.Add(xArguments);
     		}
-    		result.Add(xArguments);
     		//GreaterThanToken
     		var xGreaterThanToken = this.Visit(node.GreaterThanToken);
     		xGreaterThanToken.Add(new XAttribute("part", "GreaterThanToken"));
@@ -934,14 +990,17 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     		xOpenBracketToken.Add(new XAttribute("part", "OpenBracketToken"));
     		result.Add(xOpenBracketToken);
     		//Sizes
-    		var xSizes = new XElement("SeparatedList_of_Expression");
-    		xSizes.Add(new XAttribute("part", "Sizes"));
-    		foreach(var x in node.Sizes)
+    		if(node.Sizes.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xSizes.Add(xElement);
+    			var xSizes = new XElement("SeparatedList_of_Expression");
+    			xSizes.Add(new XAttribute("part", "Sizes"));
+    			foreach(var x in node.Sizes)
+    			{
+    				var xElement = this.Visit(x);
+    				xSizes.Add(xElement);
+    			}
+    			result.Add(xSizes);
     		}
-    		result.Add(xSizes);
     		//CloseBracketToken
     		var xCloseBracketToken = this.Visit(node.CloseBracketToken);
     		xCloseBracketToken.Add(new XAttribute("part", "CloseBracketToken"));
@@ -967,7 +1026,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     		xType.Add(new XAttribute("part", "Type"));
     		result.Add(xType);
     		//Identifier
-    		if(node.Identifier != null)
+    		if(node.Identifier != null && node.Identifier.Kind() != SyntaxKind.None)
     		{
     			var xIdentifier = this.Visit(node.Identifier);
     			xIdentifier.Add(new XAttribute("part", "Identifier"));
@@ -997,7 +1056,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			result.Add(xNameColon);
     		}
     		//RefOrOutKeyword
-    		if(node.RefOrOutKeyword != null)
+    		if(node.RefOrOutKeyword != null && node.RefOrOutKeyword.Kind() != SyntaxKind.None)
     		{
     			var xRefOrOutKeyword = this.Visit(node.RefOrOutKeyword);
     			xRefOrOutKeyword.Add(new XAttribute("part", "RefOrOutKeyword"));
@@ -1075,14 +1134,17 @@ namespace Jawilliam.CDF.CSharp.RoslynML
         {
     		var result = new XElement("QueryBody");
     		//Clauses
-    		var xClauses = new XElement("List_of_QueryClause");
-    		xClauses.Add(new XAttribute("part", "Clauses"));
-    		foreach(var x in node.Clauses)
+    		if(node.Clauses.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xClauses.Add(xElement);
+    			var xClauses = new XElement("List_of_QueryClause");
+    			xClauses.Add(new XAttribute("part", "Clauses"));
+    			foreach(var x in node.Clauses)
+    			{
+    				var xElement = this.Visit(x);
+    				xClauses.Add(xElement);
+    			}
+    			result.Add(xClauses);
     		}
-    		result.Add(xClauses);
     		//SelectOrGroup
     		var xSelectOrGroup = this.Visit(node.SelectOrGroup);
     		xSelectOrGroup.Add(new XAttribute("part", "SelectOrGroup"));
@@ -1139,7 +1201,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     		xExpression.Add(new XAttribute("part", "Expression"));
     		result.Add(xExpression);
     		//AscendingOrDescendingKeyword
-    		if(node.AscendingOrDescendingKeyword != null)
+    		if(node.AscendingOrDescendingKeyword != null && node.AscendingOrDescendingKeyword.Kind() != SyntaxKind.None)
     		{
     			var xAscendingOrDescendingKeyword = this.Visit(node.AscendingOrDescendingKeyword);
     			xAscendingOrDescendingKeyword.Add(new XAttribute("part", "AscendingOrDescendingKeyword"));
@@ -1266,14 +1328,17 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     		xType.Add(new XAttribute("part", "Type"));
     		result.Add(xType);
     		//Variables
-    		var xVariables = new XElement("SeparatedList_of_VariableDeclarator");
-    		xVariables.Add(new XAttribute("part", "Variables"));
-    		foreach(var x in node.Variables)
+    		if(node.Variables.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xVariables.Add(xElement);
+    			var xVariables = new XElement("SeparatedList_of_VariableDeclarator");
+    			xVariables.Add(new XAttribute("part", "Variables"));
+    			foreach(var x in node.Variables)
+    			{
+    				var xElement = this.Visit(x);
+    				xVariables.Add(xElement);
+    			}
+    			result.Add(xVariables);
     		}
-    		result.Add(xVariables);
     
     		this.Annotate(result, node);
     
@@ -1373,23 +1438,29 @@ namespace Jawilliam.CDF.CSharp.RoslynML
         {
     		var result = new XElement("SwitchSection");
     		//Labels
-    		var xLabels = new XElement("List_of_SwitchLabel");
-    		xLabels.Add(new XAttribute("part", "Labels"));
-    		foreach(var x in node.Labels)
+    		if(node.Labels.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xLabels.Add(xElement);
+    			var xLabels = new XElement("List_of_SwitchLabel");
+    			xLabels.Add(new XAttribute("part", "Labels"));
+    			foreach(var x in node.Labels)
+    			{
+    				var xElement = this.Visit(x);
+    				xLabels.Add(xElement);
+    			}
+    			result.Add(xLabels);
     		}
-    		result.Add(xLabels);
     		//Statements
-    		var xStatements = new XElement("List_of_Statement");
-    		xStatements.Add(new XAttribute("part", "Statements"));
-    		foreach(var x in node.Statements)
+    		if(node.Statements.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xStatements.Add(xElement);
+    			var xStatements = new XElement("List_of_Statement");
+    			xStatements.Add(new XAttribute("part", "Statements"));
+    			foreach(var x in node.Statements)
+    			{
+    				var xElement = this.Visit(x);
+    				xStatements.Add(xElement);
+    			}
+    			result.Add(xStatements);
     		}
-    		result.Add(xStatements);
     
     		this.Annotate(result, node);
     
@@ -1453,7 +1524,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     		xType.Add(new XAttribute("part", "Type"));
     		result.Add(xType);
     		//Identifier
-    		if(node.Identifier != null)
+    		if(node.Identifier != null && node.Identifier.Kind() != SyntaxKind.None)
     		{
     			var xIdentifier = this.Visit(node.Identifier);
     			xIdentifier.Add(new XAttribute("part", "Identifier"));
@@ -1536,41 +1607,53 @@ namespace Jawilliam.CDF.CSharp.RoslynML
         {
     		var result = new XElement("CompilationUnit");
     		//Externs
-    		var xExterns = new XElement("List_of_ExternAliasDirective");
-    		xExterns.Add(new XAttribute("part", "Externs"));
-    		foreach(var x in node.Externs)
+    		if(node.Externs.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xExterns.Add(xElement);
+    			var xExterns = new XElement("List_of_ExternAliasDirective");
+    			xExterns.Add(new XAttribute("part", "Externs"));
+    			foreach(var x in node.Externs)
+    			{
+    				var xElement = this.Visit(x);
+    				xExterns.Add(xElement);
+    			}
+    			result.Add(xExterns);
     		}
-    		result.Add(xExterns);
     		//Usings
-    		var xUsings = new XElement("List_of_UsingDirective");
-    		xUsings.Add(new XAttribute("part", "Usings"));
-    		foreach(var x in node.Usings)
+    		if(node.Usings.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xUsings.Add(xElement);
+    			var xUsings = new XElement("List_of_UsingDirective");
+    			xUsings.Add(new XAttribute("part", "Usings"));
+    			foreach(var x in node.Usings)
+    			{
+    				var xElement = this.Visit(x);
+    				xUsings.Add(xElement);
+    			}
+    			result.Add(xUsings);
     		}
-    		result.Add(xUsings);
     		//AttributeLists
-    		var xAttributeLists = new XElement("List_of_AttributeList");
-    		xAttributeLists.Add(new XAttribute("part", "AttributeLists"));
-    		foreach(var x in node.AttributeLists)
+    		if(node.AttributeLists.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xAttributeLists.Add(xElement);
+    			var xAttributeLists = new XElement("List_of_AttributeList");
+    			xAttributeLists.Add(new XAttribute("part", "AttributeLists"));
+    			foreach(var x in node.AttributeLists)
+    			{
+    				var xElement = this.Visit(x);
+    				xAttributeLists.Add(xElement);
+    			}
+    			result.Add(xAttributeLists);
     		}
-    		result.Add(xAttributeLists);
     		//Members
-    		var xMembers = new XElement("List_of_MemberDeclaration");
-    		xMembers.Add(new XAttribute("part", "Members"));
-    		foreach(var x in node.Members)
+    		if(node.Members.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xMembers.Add(xElement);
+    			var xMembers = new XElement("List_of_MemberDeclaration");
+    			xMembers.Add(new XAttribute("part", "Members"));
+    			foreach(var x in node.Members)
+    			{
+    				var xElement = this.Visit(x);
+    				xMembers.Add(xElement);
+    			}
+    			result.Add(xMembers);
     		}
-    		result.Add(xMembers);
     		//EndOfFileToken
     		var xEndOfFileToken = this.Visit(node.EndOfFileToken);
     		xEndOfFileToken.Add(new XAttribute("part", "EndOfFileToken"));
@@ -1628,7 +1711,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     		xUsingKeyword.Add(new XAttribute("part", "UsingKeyword"));
     		result.Add(xUsingKeyword);
     		//StaticKeyword
-    		if(node.StaticKeyword != null)
+    		if(node.StaticKeyword != null && node.StaticKeyword.Kind() != SyntaxKind.None)
     		{
     			var xStaticKeyword = this.Visit(node.StaticKeyword);
     			xStaticKeyword.Add(new XAttribute("part", "StaticKeyword"));
@@ -1677,14 +1760,17 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			result.Add(xTarget);
     		}
     		//Attributes
-    		var xAttributes = new XElement("SeparatedList_of_Attribute");
-    		xAttributes.Add(new XAttribute("part", "Attributes"));
-    		foreach(var x in node.Attributes)
+    		if(node.Attributes.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xAttributes.Add(xElement);
+    			var xAttributes = new XElement("SeparatedList_of_Attribute");
+    			xAttributes.Add(new XAttribute("part", "Attributes"));
+    			foreach(var x in node.Attributes)
+    			{
+    				var xElement = this.Visit(x);
+    				xAttributes.Add(xElement);
+    			}
+    			result.Add(xAttributes);
     		}
-    		result.Add(xAttributes);
     		//CloseBracketToken
     		var xCloseBracketToken = this.Visit(node.CloseBracketToken);
     		xCloseBracketToken.Add(new XAttribute("part", "CloseBracketToken"));
@@ -1730,23 +1816,29 @@ namespace Jawilliam.CDF.CSharp.RoslynML
         {
     		var result = new XElement("DelegateDeclaration");
     		//AttributeLists
-    		var xAttributeLists = new XElement("List_of_AttributeList");
-    		xAttributeLists.Add(new XAttribute("part", "AttributeLists"));
-    		foreach(var x in node.AttributeLists)
+    		if(node.AttributeLists.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xAttributeLists.Add(xElement);
+    			var xAttributeLists = new XElement("List_of_AttributeList");
+    			xAttributeLists.Add(new XAttribute("part", "AttributeLists"));
+    			foreach(var x in node.AttributeLists)
+    			{
+    				var xElement = this.Visit(x);
+    				xAttributeLists.Add(xElement);
+    			}
+    			result.Add(xAttributeLists);
     		}
-    		result.Add(xAttributeLists);
     		//Modifiers
-    		var xModifiers = new XElement("TokenList");
-    		xModifiers.Add(new XAttribute("part", "Modifiers"));
-    		foreach(var x in node.Modifiers)
+    		if(node.Modifiers.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xModifiers.Add(xElement);
+    			var xModifiers = new XElement("TokenList");
+    			xModifiers.Add(new XAttribute("part", "Modifiers"));
+    			foreach(var x in node.Modifiers)
+    			{
+    				var xElement = this.Visit(x);
+    				xModifiers.Add(xElement);
+    			}
+    			result.Add(xModifiers);
     		}
-    		result.Add(xModifiers);
     		//DelegateKeyword
     		var xDelegateKeyword = this.Visit(node.DelegateKeyword);
     		xDelegateKeyword.Add(new XAttribute("part", "DelegateKeyword"));
@@ -1771,14 +1863,17 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     		xParameterList.Add(new XAttribute("part", "ParameterList"));
     		result.Add(xParameterList);
     		//ConstraintClauses
-    		var xConstraintClauses = new XElement("List_of_TypeParameterConstraintClause");
-    		xConstraintClauses.Add(new XAttribute("part", "ConstraintClauses"));
-    		foreach(var x in node.ConstraintClauses)
+    		if(node.ConstraintClauses.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xConstraintClauses.Add(xElement);
+    			var xConstraintClauses = new XElement("List_of_TypeParameterConstraintClause");
+    			xConstraintClauses.Add(new XAttribute("part", "ConstraintClauses"));
+    			foreach(var x in node.ConstraintClauses)
+    			{
+    				var xElement = this.Visit(x);
+    				xConstraintClauses.Add(xElement);
+    			}
+    			result.Add(xConstraintClauses);
     		}
-    		result.Add(xConstraintClauses);
     		//SemicolonToken
     		var xSemicolonToken = this.Visit(node.SemicolonToken);
     		xSemicolonToken.Add(new XAttribute("part", "SemicolonToken"));
@@ -1800,14 +1895,17 @@ namespace Jawilliam.CDF.CSharp.RoslynML
         {
     		var result = new XElement("EnumMemberDeclaration");
     		//AttributeLists
-    		var xAttributeLists = new XElement("List_of_AttributeList");
-    		xAttributeLists.Add(new XAttribute("part", "AttributeLists"));
-    		foreach(var x in node.AttributeLists)
+    		if(node.AttributeLists.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xAttributeLists.Add(xElement);
+    			var xAttributeLists = new XElement("List_of_AttributeList");
+    			xAttributeLists.Add(new XAttribute("part", "AttributeLists"));
+    			foreach(var x in node.AttributeLists)
+    			{
+    				var xElement = this.Visit(x);
+    				xAttributeLists.Add(xElement);
+    			}
+    			result.Add(xAttributeLists);
     		}
-    		result.Add(xAttributeLists);
     		//Identifier
     		var xIdentifier = this.Visit(node.Identifier);
     		xIdentifier.Add(new XAttribute("part", "Identifier"));
@@ -1836,23 +1934,29 @@ namespace Jawilliam.CDF.CSharp.RoslynML
         {
     		var result = new XElement("IncompleteMember");
     		//AttributeLists
-    		var xAttributeLists = new XElement("List_of_AttributeList");
-    		xAttributeLists.Add(new XAttribute("part", "AttributeLists"));
-    		foreach(var x in node.AttributeLists)
+    		if(node.AttributeLists.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xAttributeLists.Add(xElement);
+    			var xAttributeLists = new XElement("List_of_AttributeList");
+    			xAttributeLists.Add(new XAttribute("part", "AttributeLists"));
+    			foreach(var x in node.AttributeLists)
+    			{
+    				var xElement = this.Visit(x);
+    				xAttributeLists.Add(xElement);
+    			}
+    			result.Add(xAttributeLists);
     		}
-    		result.Add(xAttributeLists);
     		//Modifiers
-    		var xModifiers = new XElement("TokenList");
-    		xModifiers.Add(new XAttribute("part", "Modifiers"));
-    		foreach(var x in node.Modifiers)
+    		if(node.Modifiers.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xModifiers.Add(xElement);
+    			var xModifiers = new XElement("TokenList");
+    			xModifiers.Add(new XAttribute("part", "Modifiers"));
+    			foreach(var x in node.Modifiers)
+    			{
+    				var xElement = this.Visit(x);
+    				xModifiers.Add(xElement);
+    			}
+    			result.Add(xModifiers);
     		}
-    		result.Add(xModifiers);
     		//Type
     		if(node.Type != null)
     		{
@@ -1909,38 +2013,47 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     		xOpenBraceToken.Add(new XAttribute("part", "OpenBraceToken"));
     		result.Add(xOpenBraceToken);
     		//Externs
-    		var xExterns = new XElement("List_of_ExternAliasDirective");
-    		xExterns.Add(new XAttribute("part", "Externs"));
-    		foreach(var x in node.Externs)
+    		if(node.Externs.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xExterns.Add(xElement);
+    			var xExterns = new XElement("List_of_ExternAliasDirective");
+    			xExterns.Add(new XAttribute("part", "Externs"));
+    			foreach(var x in node.Externs)
+    			{
+    				var xElement = this.Visit(x);
+    				xExterns.Add(xElement);
+    			}
+    			result.Add(xExterns);
     		}
-    		result.Add(xExterns);
     		//Usings
-    		var xUsings = new XElement("List_of_UsingDirective");
-    		xUsings.Add(new XAttribute("part", "Usings"));
-    		foreach(var x in node.Usings)
+    		if(node.Usings.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xUsings.Add(xElement);
+    			var xUsings = new XElement("List_of_UsingDirective");
+    			xUsings.Add(new XAttribute("part", "Usings"));
+    			foreach(var x in node.Usings)
+    			{
+    				var xElement = this.Visit(x);
+    				xUsings.Add(xElement);
+    			}
+    			result.Add(xUsings);
     		}
-    		result.Add(xUsings);
     		//Members
-    		var xMembers = new XElement("List_of_MemberDeclaration");
-    		xMembers.Add(new XAttribute("part", "Members"));
-    		foreach(var x in node.Members)
+    		if(node.Members.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xMembers.Add(xElement);
+    			var xMembers = new XElement("List_of_MemberDeclaration");
+    			xMembers.Add(new XAttribute("part", "Members"));
+    			foreach(var x in node.Members)
+    			{
+    				var xElement = this.Visit(x);
+    				xMembers.Add(xElement);
+    			}
+    			result.Add(xMembers);
     		}
-    		result.Add(xMembers);
     		//CloseBraceToken
     		var xCloseBraceToken = this.Visit(node.CloseBraceToken);
     		xCloseBraceToken.Add(new XAttribute("part", "CloseBraceToken"));
     		result.Add(xCloseBraceToken);
     		//SemicolonToken
-    		if(node.SemicolonToken != null)
+    		if(node.SemicolonToken != null && node.SemicolonToken.Kind() != SyntaxKind.None)
     		{
     			var xSemicolonToken = this.Visit(node.SemicolonToken);
     			xSemicolonToken.Add(new XAttribute("part", "SemicolonToken"));
@@ -1963,23 +2076,29 @@ namespace Jawilliam.CDF.CSharp.RoslynML
         {
     		var result = new XElement("EnumDeclaration");
     		//AttributeLists
-    		var xAttributeLists = new XElement("List_of_AttributeList");
-    		xAttributeLists.Add(new XAttribute("part", "AttributeLists"));
-    		foreach(var x in node.AttributeLists)
+    		if(node.AttributeLists.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xAttributeLists.Add(xElement);
+    			var xAttributeLists = new XElement("List_of_AttributeList");
+    			xAttributeLists.Add(new XAttribute("part", "AttributeLists"));
+    			foreach(var x in node.AttributeLists)
+    			{
+    				var xElement = this.Visit(x);
+    				xAttributeLists.Add(xElement);
+    			}
+    			result.Add(xAttributeLists);
     		}
-    		result.Add(xAttributeLists);
     		//Modifiers
-    		var xModifiers = new XElement("TokenList");
-    		xModifiers.Add(new XAttribute("part", "Modifiers"));
-    		foreach(var x in node.Modifiers)
+    		if(node.Modifiers.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xModifiers.Add(xElement);
+    			var xModifiers = new XElement("TokenList");
+    			xModifiers.Add(new XAttribute("part", "Modifiers"));
+    			foreach(var x in node.Modifiers)
+    			{
+    				var xElement = this.Visit(x);
+    				xModifiers.Add(xElement);
+    			}
+    			result.Add(xModifiers);
     		}
-    		result.Add(xModifiers);
     		//EnumKeyword
     		var xEnumKeyword = this.Visit(node.EnumKeyword);
     		xEnumKeyword.Add(new XAttribute("part", "EnumKeyword"));
@@ -2000,20 +2119,23 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     		xOpenBraceToken.Add(new XAttribute("part", "OpenBraceToken"));
     		result.Add(xOpenBraceToken);
     		//Members
-    		var xMembers = new XElement("SeparatedList_of_EnumMemberDeclaration");
-    		xMembers.Add(new XAttribute("part", "Members"));
-    		foreach(var x in node.Members)
+    		if(node.Members.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xMembers.Add(xElement);
+    			var xMembers = new XElement("SeparatedList_of_EnumMemberDeclaration");
+    			xMembers.Add(new XAttribute("part", "Members"));
+    			foreach(var x in node.Members)
+    			{
+    				var xElement = this.Visit(x);
+    				xMembers.Add(xElement);
+    			}
+    			result.Add(xMembers);
     		}
-    		result.Add(xMembers);
     		//CloseBraceToken
     		var xCloseBraceToken = this.Visit(node.CloseBraceToken);
     		xCloseBraceToken.Add(new XAttribute("part", "CloseBraceToken"));
     		result.Add(xCloseBraceToken);
     		//SemicolonToken
-    		if(node.SemicolonToken != null)
+    		if(node.SemicolonToken != null && node.SemicolonToken.Kind() != SyntaxKind.None)
     		{
     			var xSemicolonToken = this.Visit(node.SemicolonToken);
     			xSemicolonToken.Add(new XAttribute("part", "SemicolonToken"));
@@ -2036,23 +2158,29 @@ namespace Jawilliam.CDF.CSharp.RoslynML
         {
     		var result = new XElement("ClassDeclaration");
     		//AttributeLists
-    		var xAttributeLists = new XElement("List_of_AttributeList");
-    		xAttributeLists.Add(new XAttribute("part", "AttributeLists"));
-    		foreach(var x in node.AttributeLists)
+    		if(node.AttributeLists.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xAttributeLists.Add(xElement);
+    			var xAttributeLists = new XElement("List_of_AttributeList");
+    			xAttributeLists.Add(new XAttribute("part", "AttributeLists"));
+    			foreach(var x in node.AttributeLists)
+    			{
+    				var xElement = this.Visit(x);
+    				xAttributeLists.Add(xElement);
+    			}
+    			result.Add(xAttributeLists);
     		}
-    		result.Add(xAttributeLists);
     		//Modifiers
-    		var xModifiers = new XElement("TokenList");
-    		xModifiers.Add(new XAttribute("part", "Modifiers"));
-    		foreach(var x in node.Modifiers)
+    		if(node.Modifiers.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xModifiers.Add(xElement);
+    			var xModifiers = new XElement("TokenList");
+    			xModifiers.Add(new XAttribute("part", "Modifiers"));
+    			foreach(var x in node.Modifiers)
+    			{
+    				var xElement = this.Visit(x);
+    				xModifiers.Add(xElement);
+    			}
+    			result.Add(xModifiers);
     		}
-    		result.Add(xModifiers);
     		//Keyword
     		var xKeyword = this.Visit(node.Keyword);
     		xKeyword.Add(new XAttribute("part", "Keyword"));
@@ -2076,33 +2204,39 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			result.Add(xBaseList);
     		}
     		//ConstraintClauses
-    		var xConstraintClauses = new XElement("List_of_TypeParameterConstraintClause");
-    		xConstraintClauses.Add(new XAttribute("part", "ConstraintClauses"));
-    		foreach(var x in node.ConstraintClauses)
+    		if(node.ConstraintClauses.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xConstraintClauses.Add(xElement);
+    			var xConstraintClauses = new XElement("List_of_TypeParameterConstraintClause");
+    			xConstraintClauses.Add(new XAttribute("part", "ConstraintClauses"));
+    			foreach(var x in node.ConstraintClauses)
+    			{
+    				var xElement = this.Visit(x);
+    				xConstraintClauses.Add(xElement);
+    			}
+    			result.Add(xConstraintClauses);
     		}
-    		result.Add(xConstraintClauses);
     		//OpenBraceToken
     		var xOpenBraceToken = this.Visit(node.OpenBraceToken);
     		xOpenBraceToken.Add(new XAttribute("part", "OpenBraceToken"));
     		result.Add(xOpenBraceToken);
     		//Members
-    		var xMembers = new XElement("List_of_MemberDeclaration");
-    		xMembers.Add(new XAttribute("part", "Members"));
-    		foreach(var x in node.Members)
+    		if(node.Members.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xMembers.Add(xElement);
+    			var xMembers = new XElement("List_of_MemberDeclaration");
+    			xMembers.Add(new XAttribute("part", "Members"));
+    			foreach(var x in node.Members)
+    			{
+    				var xElement = this.Visit(x);
+    				xMembers.Add(xElement);
+    			}
+    			result.Add(xMembers);
     		}
-    		result.Add(xMembers);
     		//CloseBraceToken
     		var xCloseBraceToken = this.Visit(node.CloseBraceToken);
     		xCloseBraceToken.Add(new XAttribute("part", "CloseBraceToken"));
     		result.Add(xCloseBraceToken);
     		//SemicolonToken
-    		if(node.SemicolonToken != null)
+    		if(node.SemicolonToken != null && node.SemicolonToken.Kind() != SyntaxKind.None)
     		{
     			var xSemicolonToken = this.Visit(node.SemicolonToken);
     			xSemicolonToken.Add(new XAttribute("part", "SemicolonToken"));
@@ -2125,23 +2259,29 @@ namespace Jawilliam.CDF.CSharp.RoslynML
         {
     		var result = new XElement("StructDeclaration");
     		//AttributeLists
-    		var xAttributeLists = new XElement("List_of_AttributeList");
-    		xAttributeLists.Add(new XAttribute("part", "AttributeLists"));
-    		foreach(var x in node.AttributeLists)
+    		if(node.AttributeLists.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xAttributeLists.Add(xElement);
+    			var xAttributeLists = new XElement("List_of_AttributeList");
+    			xAttributeLists.Add(new XAttribute("part", "AttributeLists"));
+    			foreach(var x in node.AttributeLists)
+    			{
+    				var xElement = this.Visit(x);
+    				xAttributeLists.Add(xElement);
+    			}
+    			result.Add(xAttributeLists);
     		}
-    		result.Add(xAttributeLists);
     		//Modifiers
-    		var xModifiers = new XElement("TokenList");
-    		xModifiers.Add(new XAttribute("part", "Modifiers"));
-    		foreach(var x in node.Modifiers)
+    		if(node.Modifiers.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xModifiers.Add(xElement);
+    			var xModifiers = new XElement("TokenList");
+    			xModifiers.Add(new XAttribute("part", "Modifiers"));
+    			foreach(var x in node.Modifiers)
+    			{
+    				var xElement = this.Visit(x);
+    				xModifiers.Add(xElement);
+    			}
+    			result.Add(xModifiers);
     		}
-    		result.Add(xModifiers);
     		//Keyword
     		var xKeyword = this.Visit(node.Keyword);
     		xKeyword.Add(new XAttribute("part", "Keyword"));
@@ -2165,33 +2305,39 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			result.Add(xBaseList);
     		}
     		//ConstraintClauses
-    		var xConstraintClauses = new XElement("List_of_TypeParameterConstraintClause");
-    		xConstraintClauses.Add(new XAttribute("part", "ConstraintClauses"));
-    		foreach(var x in node.ConstraintClauses)
+    		if(node.ConstraintClauses.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xConstraintClauses.Add(xElement);
+    			var xConstraintClauses = new XElement("List_of_TypeParameterConstraintClause");
+    			xConstraintClauses.Add(new XAttribute("part", "ConstraintClauses"));
+    			foreach(var x in node.ConstraintClauses)
+    			{
+    				var xElement = this.Visit(x);
+    				xConstraintClauses.Add(xElement);
+    			}
+    			result.Add(xConstraintClauses);
     		}
-    		result.Add(xConstraintClauses);
     		//OpenBraceToken
     		var xOpenBraceToken = this.Visit(node.OpenBraceToken);
     		xOpenBraceToken.Add(new XAttribute("part", "OpenBraceToken"));
     		result.Add(xOpenBraceToken);
     		//Members
-    		var xMembers = new XElement("List_of_MemberDeclaration");
-    		xMembers.Add(new XAttribute("part", "Members"));
-    		foreach(var x in node.Members)
+    		if(node.Members.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xMembers.Add(xElement);
+    			var xMembers = new XElement("List_of_MemberDeclaration");
+    			xMembers.Add(new XAttribute("part", "Members"));
+    			foreach(var x in node.Members)
+    			{
+    				var xElement = this.Visit(x);
+    				xMembers.Add(xElement);
+    			}
+    			result.Add(xMembers);
     		}
-    		result.Add(xMembers);
     		//CloseBraceToken
     		var xCloseBraceToken = this.Visit(node.CloseBraceToken);
     		xCloseBraceToken.Add(new XAttribute("part", "CloseBraceToken"));
     		result.Add(xCloseBraceToken);
     		//SemicolonToken
-    		if(node.SemicolonToken != null)
+    		if(node.SemicolonToken != null && node.SemicolonToken.Kind() != SyntaxKind.None)
     		{
     			var xSemicolonToken = this.Visit(node.SemicolonToken);
     			xSemicolonToken.Add(new XAttribute("part", "SemicolonToken"));
@@ -2214,23 +2360,29 @@ namespace Jawilliam.CDF.CSharp.RoslynML
         {
     		var result = new XElement("InterfaceDeclaration");
     		//AttributeLists
-    		var xAttributeLists = new XElement("List_of_AttributeList");
-    		xAttributeLists.Add(new XAttribute("part", "AttributeLists"));
-    		foreach(var x in node.AttributeLists)
+    		if(node.AttributeLists.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xAttributeLists.Add(xElement);
+    			var xAttributeLists = new XElement("List_of_AttributeList");
+    			xAttributeLists.Add(new XAttribute("part", "AttributeLists"));
+    			foreach(var x in node.AttributeLists)
+    			{
+    				var xElement = this.Visit(x);
+    				xAttributeLists.Add(xElement);
+    			}
+    			result.Add(xAttributeLists);
     		}
-    		result.Add(xAttributeLists);
     		//Modifiers
-    		var xModifiers = new XElement("TokenList");
-    		xModifiers.Add(new XAttribute("part", "Modifiers"));
-    		foreach(var x in node.Modifiers)
+    		if(node.Modifiers.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xModifiers.Add(xElement);
+    			var xModifiers = new XElement("TokenList");
+    			xModifiers.Add(new XAttribute("part", "Modifiers"));
+    			foreach(var x in node.Modifiers)
+    			{
+    				var xElement = this.Visit(x);
+    				xModifiers.Add(xElement);
+    			}
+    			result.Add(xModifiers);
     		}
-    		result.Add(xModifiers);
     		//Keyword
     		var xKeyword = this.Visit(node.Keyword);
     		xKeyword.Add(new XAttribute("part", "Keyword"));
@@ -2254,33 +2406,39 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			result.Add(xBaseList);
     		}
     		//ConstraintClauses
-    		var xConstraintClauses = new XElement("List_of_TypeParameterConstraintClause");
-    		xConstraintClauses.Add(new XAttribute("part", "ConstraintClauses"));
-    		foreach(var x in node.ConstraintClauses)
+    		if(node.ConstraintClauses.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xConstraintClauses.Add(xElement);
+    			var xConstraintClauses = new XElement("List_of_TypeParameterConstraintClause");
+    			xConstraintClauses.Add(new XAttribute("part", "ConstraintClauses"));
+    			foreach(var x in node.ConstraintClauses)
+    			{
+    				var xElement = this.Visit(x);
+    				xConstraintClauses.Add(xElement);
+    			}
+    			result.Add(xConstraintClauses);
     		}
-    		result.Add(xConstraintClauses);
     		//OpenBraceToken
     		var xOpenBraceToken = this.Visit(node.OpenBraceToken);
     		xOpenBraceToken.Add(new XAttribute("part", "OpenBraceToken"));
     		result.Add(xOpenBraceToken);
     		//Members
-    		var xMembers = new XElement("List_of_MemberDeclaration");
-    		xMembers.Add(new XAttribute("part", "Members"));
-    		foreach(var x in node.Members)
+    		if(node.Members.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xMembers.Add(xElement);
+    			var xMembers = new XElement("List_of_MemberDeclaration");
+    			xMembers.Add(new XAttribute("part", "Members"));
+    			foreach(var x in node.Members)
+    			{
+    				var xElement = this.Visit(x);
+    				xMembers.Add(xElement);
+    			}
+    			result.Add(xMembers);
     		}
-    		result.Add(xMembers);
     		//CloseBraceToken
     		var xCloseBraceToken = this.Visit(node.CloseBraceToken);
     		xCloseBraceToken.Add(new XAttribute("part", "CloseBraceToken"));
     		result.Add(xCloseBraceToken);
     		//SemicolonToken
-    		if(node.SemicolonToken != null)
+    		if(node.SemicolonToken != null && node.SemicolonToken.Kind() != SyntaxKind.None)
     		{
     			var xSemicolonToken = this.Visit(node.SemicolonToken);
     			xSemicolonToken.Add(new XAttribute("part", "SemicolonToken"));
@@ -2303,23 +2461,29 @@ namespace Jawilliam.CDF.CSharp.RoslynML
         {
     		var result = new XElement("FieldDeclaration");
     		//AttributeLists
-    		var xAttributeLists = new XElement("List_of_AttributeList");
-    		xAttributeLists.Add(new XAttribute("part", "AttributeLists"));
-    		foreach(var x in node.AttributeLists)
+    		if(node.AttributeLists.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xAttributeLists.Add(xElement);
+    			var xAttributeLists = new XElement("List_of_AttributeList");
+    			xAttributeLists.Add(new XAttribute("part", "AttributeLists"));
+    			foreach(var x in node.AttributeLists)
+    			{
+    				var xElement = this.Visit(x);
+    				xAttributeLists.Add(xElement);
+    			}
+    			result.Add(xAttributeLists);
     		}
-    		result.Add(xAttributeLists);
     		//Modifiers
-    		var xModifiers = new XElement("TokenList");
-    		xModifiers.Add(new XAttribute("part", "Modifiers"));
-    		foreach(var x in node.Modifiers)
+    		if(node.Modifiers.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xModifiers.Add(xElement);
+    			var xModifiers = new XElement("TokenList");
+    			xModifiers.Add(new XAttribute("part", "Modifiers"));
+    			foreach(var x in node.Modifiers)
+    			{
+    				var xElement = this.Visit(x);
+    				xModifiers.Add(xElement);
+    			}
+    			result.Add(xModifiers);
     		}
-    		result.Add(xModifiers);
     		//Declaration
     		var xDeclaration = this.Visit(node.Declaration);
     		xDeclaration.Add(new XAttribute("part", "Declaration"));
@@ -2345,23 +2509,29 @@ namespace Jawilliam.CDF.CSharp.RoslynML
         {
     		var result = new XElement("EventFieldDeclaration");
     		//AttributeLists
-    		var xAttributeLists = new XElement("List_of_AttributeList");
-    		xAttributeLists.Add(new XAttribute("part", "AttributeLists"));
-    		foreach(var x in node.AttributeLists)
+    		if(node.AttributeLists.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xAttributeLists.Add(xElement);
+    			var xAttributeLists = new XElement("List_of_AttributeList");
+    			xAttributeLists.Add(new XAttribute("part", "AttributeLists"));
+    			foreach(var x in node.AttributeLists)
+    			{
+    				var xElement = this.Visit(x);
+    				xAttributeLists.Add(xElement);
+    			}
+    			result.Add(xAttributeLists);
     		}
-    		result.Add(xAttributeLists);
     		//Modifiers
-    		var xModifiers = new XElement("TokenList");
-    		xModifiers.Add(new XAttribute("part", "Modifiers"));
-    		foreach(var x in node.Modifiers)
+    		if(node.Modifiers.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xModifiers.Add(xElement);
+    			var xModifiers = new XElement("TokenList");
+    			xModifiers.Add(new XAttribute("part", "Modifiers"));
+    			foreach(var x in node.Modifiers)
+    			{
+    				var xElement = this.Visit(x);
+    				xModifiers.Add(xElement);
+    			}
+    			result.Add(xModifiers);
     		}
-    		result.Add(xModifiers);
     		//EventKeyword
     		var xEventKeyword = this.Visit(node.EventKeyword);
     		xEventKeyword.Add(new XAttribute("part", "EventKeyword"));
@@ -2391,23 +2561,29 @@ namespace Jawilliam.CDF.CSharp.RoslynML
         {
     		var result = new XElement("MethodDeclaration");
     		//AttributeLists
-    		var xAttributeLists = new XElement("List_of_AttributeList");
-    		xAttributeLists.Add(new XAttribute("part", "AttributeLists"));
-    		foreach(var x in node.AttributeLists)
+    		if(node.AttributeLists.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xAttributeLists.Add(xElement);
+    			var xAttributeLists = new XElement("List_of_AttributeList");
+    			xAttributeLists.Add(new XAttribute("part", "AttributeLists"));
+    			foreach(var x in node.AttributeLists)
+    			{
+    				var xElement = this.Visit(x);
+    				xAttributeLists.Add(xElement);
+    			}
+    			result.Add(xAttributeLists);
     		}
-    		result.Add(xAttributeLists);
     		//Modifiers
-    		var xModifiers = new XElement("TokenList");
-    		xModifiers.Add(new XAttribute("part", "Modifiers"));
-    		foreach(var x in node.Modifiers)
+    		if(node.Modifiers.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xModifiers.Add(xElement);
+    			var xModifiers = new XElement("TokenList");
+    			xModifiers.Add(new XAttribute("part", "Modifiers"));
+    			foreach(var x in node.Modifiers)
+    			{
+    				var xElement = this.Visit(x);
+    				xModifiers.Add(xElement);
+    			}
+    			result.Add(xModifiers);
     		}
-    		result.Add(xModifiers);
     		//ReturnType
     		var xReturnType = this.Visit(node.ReturnType);
     		xReturnType.Add(new XAttribute("part", "ReturnType"));
@@ -2435,14 +2611,17 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     		xParameterList.Add(new XAttribute("part", "ParameterList"));
     		result.Add(xParameterList);
     		//ConstraintClauses
-    		var xConstraintClauses = new XElement("List_of_TypeParameterConstraintClause");
-    		xConstraintClauses.Add(new XAttribute("part", "ConstraintClauses"));
-    		foreach(var x in node.ConstraintClauses)
+    		if(node.ConstraintClauses.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xConstraintClauses.Add(xElement);
+    			var xConstraintClauses = new XElement("List_of_TypeParameterConstraintClause");
+    			xConstraintClauses.Add(new XAttribute("part", "ConstraintClauses"));
+    			foreach(var x in node.ConstraintClauses)
+    			{
+    				var xElement = this.Visit(x);
+    				xConstraintClauses.Add(xElement);
+    			}
+    			result.Add(xConstraintClauses);
     		}
-    		result.Add(xConstraintClauses);
     		//Body
     		if(node.Body != null)
     		{
@@ -2458,7 +2637,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			result.Add(xExpressionBody);
     		}
     		//SemicolonToken
-    		if(node.SemicolonToken != null)
+    		if(node.SemicolonToken != null && node.SemicolonToken.Kind() != SyntaxKind.None)
     		{
     			var xSemicolonToken = this.Visit(node.SemicolonToken);
     			xSemicolonToken.Add(new XAttribute("part", "SemicolonToken"));
@@ -2481,23 +2660,29 @@ namespace Jawilliam.CDF.CSharp.RoslynML
         {
     		var result = new XElement("OperatorDeclaration");
     		//AttributeLists
-    		var xAttributeLists = new XElement("List_of_AttributeList");
-    		xAttributeLists.Add(new XAttribute("part", "AttributeLists"));
-    		foreach(var x in node.AttributeLists)
+    		if(node.AttributeLists.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xAttributeLists.Add(xElement);
+    			var xAttributeLists = new XElement("List_of_AttributeList");
+    			xAttributeLists.Add(new XAttribute("part", "AttributeLists"));
+    			foreach(var x in node.AttributeLists)
+    			{
+    				var xElement = this.Visit(x);
+    				xAttributeLists.Add(xElement);
+    			}
+    			result.Add(xAttributeLists);
     		}
-    		result.Add(xAttributeLists);
     		//Modifiers
-    		var xModifiers = new XElement("TokenList");
-    		xModifiers.Add(new XAttribute("part", "Modifiers"));
-    		foreach(var x in node.Modifiers)
+    		if(node.Modifiers.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xModifiers.Add(xElement);
+    			var xModifiers = new XElement("TokenList");
+    			xModifiers.Add(new XAttribute("part", "Modifiers"));
+    			foreach(var x in node.Modifiers)
+    			{
+    				var xElement = this.Visit(x);
+    				xModifiers.Add(xElement);
+    			}
+    			result.Add(xModifiers);
     		}
-    		result.Add(xModifiers);
     		//ReturnType
     		var xReturnType = this.Visit(node.ReturnType);
     		xReturnType.Add(new XAttribute("part", "ReturnType"));
@@ -2529,7 +2714,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			result.Add(xExpressionBody);
     		}
     		//SemicolonToken
-    		if(node.SemicolonToken != null)
+    		if(node.SemicolonToken != null && node.SemicolonToken.Kind() != SyntaxKind.None)
     		{
     			var xSemicolonToken = this.Visit(node.SemicolonToken);
     			xSemicolonToken.Add(new XAttribute("part", "SemicolonToken"));
@@ -2552,23 +2737,29 @@ namespace Jawilliam.CDF.CSharp.RoslynML
         {
     		var result = new XElement("ConversionOperatorDeclaration");
     		//AttributeLists
-    		var xAttributeLists = new XElement("List_of_AttributeList");
-    		xAttributeLists.Add(new XAttribute("part", "AttributeLists"));
-    		foreach(var x in node.AttributeLists)
+    		if(node.AttributeLists.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xAttributeLists.Add(xElement);
+    			var xAttributeLists = new XElement("List_of_AttributeList");
+    			xAttributeLists.Add(new XAttribute("part", "AttributeLists"));
+    			foreach(var x in node.AttributeLists)
+    			{
+    				var xElement = this.Visit(x);
+    				xAttributeLists.Add(xElement);
+    			}
+    			result.Add(xAttributeLists);
     		}
-    		result.Add(xAttributeLists);
     		//Modifiers
-    		var xModifiers = new XElement("TokenList");
-    		xModifiers.Add(new XAttribute("part", "Modifiers"));
-    		foreach(var x in node.Modifiers)
+    		if(node.Modifiers.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xModifiers.Add(xElement);
+    			var xModifiers = new XElement("TokenList");
+    			xModifiers.Add(new XAttribute("part", "Modifiers"));
+    			foreach(var x in node.Modifiers)
+    			{
+    				var xElement = this.Visit(x);
+    				xModifiers.Add(xElement);
+    			}
+    			result.Add(xModifiers);
     		}
-    		result.Add(xModifiers);
     		//ImplicitOrExplicitKeyword
     		var xImplicitOrExplicitKeyword = this.Visit(node.ImplicitOrExplicitKeyword);
     		xImplicitOrExplicitKeyword.Add(new XAttribute("part", "ImplicitOrExplicitKeyword"));
@@ -2600,7 +2791,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			result.Add(xExpressionBody);
     		}
     		//SemicolonToken
-    		if(node.SemicolonToken != null)
+    		if(node.SemicolonToken != null && node.SemicolonToken.Kind() != SyntaxKind.None)
     		{
     			var xSemicolonToken = this.Visit(node.SemicolonToken);
     			xSemicolonToken.Add(new XAttribute("part", "SemicolonToken"));
@@ -2623,23 +2814,29 @@ namespace Jawilliam.CDF.CSharp.RoslynML
         {
     		var result = new XElement("ConstructorDeclaration");
     		//AttributeLists
-    		var xAttributeLists = new XElement("List_of_AttributeList");
-    		xAttributeLists.Add(new XAttribute("part", "AttributeLists"));
-    		foreach(var x in node.AttributeLists)
+    		if(node.AttributeLists.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xAttributeLists.Add(xElement);
+    			var xAttributeLists = new XElement("List_of_AttributeList");
+    			xAttributeLists.Add(new XAttribute("part", "AttributeLists"));
+    			foreach(var x in node.AttributeLists)
+    			{
+    				var xElement = this.Visit(x);
+    				xAttributeLists.Add(xElement);
+    			}
+    			result.Add(xAttributeLists);
     		}
-    		result.Add(xAttributeLists);
     		//Modifiers
-    		var xModifiers = new XElement("TokenList");
-    		xModifiers.Add(new XAttribute("part", "Modifiers"));
-    		foreach(var x in node.Modifiers)
+    		if(node.Modifiers.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xModifiers.Add(xElement);
+    			var xModifiers = new XElement("TokenList");
+    			xModifiers.Add(new XAttribute("part", "Modifiers"));
+    			foreach(var x in node.Modifiers)
+    			{
+    				var xElement = this.Visit(x);
+    				xModifiers.Add(xElement);
+    			}
+    			result.Add(xModifiers);
     		}
-    		result.Add(xModifiers);
     		//Identifier
     		var xIdentifier = this.Visit(node.Identifier);
     		xIdentifier.Add(new XAttribute("part", "Identifier"));
@@ -2663,7 +2860,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			result.Add(xBody);
     		}
     		//SemicolonToken
-    		if(node.SemicolonToken != null)
+    		if(node.SemicolonToken != null && node.SemicolonToken.Kind() != SyntaxKind.None)
     		{
     			var xSemicolonToken = this.Visit(node.SemicolonToken);
     			xSemicolonToken.Add(new XAttribute("part", "SemicolonToken"));
@@ -2686,23 +2883,29 @@ namespace Jawilliam.CDF.CSharp.RoslynML
         {
     		var result = new XElement("DestructorDeclaration");
     		//AttributeLists
-    		var xAttributeLists = new XElement("List_of_AttributeList");
-    		xAttributeLists.Add(new XAttribute("part", "AttributeLists"));
-    		foreach(var x in node.AttributeLists)
+    		if(node.AttributeLists.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xAttributeLists.Add(xElement);
+    			var xAttributeLists = new XElement("List_of_AttributeList");
+    			xAttributeLists.Add(new XAttribute("part", "AttributeLists"));
+    			foreach(var x in node.AttributeLists)
+    			{
+    				var xElement = this.Visit(x);
+    				xAttributeLists.Add(xElement);
+    			}
+    			result.Add(xAttributeLists);
     		}
-    		result.Add(xAttributeLists);
     		//Modifiers
-    		var xModifiers = new XElement("TokenList");
-    		xModifiers.Add(new XAttribute("part", "Modifiers"));
-    		foreach(var x in node.Modifiers)
+    		if(node.Modifiers.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xModifiers.Add(xElement);
+    			var xModifiers = new XElement("TokenList");
+    			xModifiers.Add(new XAttribute("part", "Modifiers"));
+    			foreach(var x in node.Modifiers)
+    			{
+    				var xElement = this.Visit(x);
+    				xModifiers.Add(xElement);
+    			}
+    			result.Add(xModifiers);
     		}
-    		result.Add(xModifiers);
     		//TildeToken
     		var xTildeToken = this.Visit(node.TildeToken);
     		xTildeToken.Add(new XAttribute("part", "TildeToken"));
@@ -2723,7 +2926,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			result.Add(xBody);
     		}
     		//SemicolonToken
-    		if(node.SemicolonToken != null)
+    		if(node.SemicolonToken != null && node.SemicolonToken.Kind() != SyntaxKind.None)
     		{
     			var xSemicolonToken = this.Visit(node.SemicolonToken);
     			xSemicolonToken.Add(new XAttribute("part", "SemicolonToken"));
@@ -2746,23 +2949,29 @@ namespace Jawilliam.CDF.CSharp.RoslynML
         {
     		var result = new XElement("PropertyDeclaration");
     		//AttributeLists
-    		var xAttributeLists = new XElement("List_of_AttributeList");
-    		xAttributeLists.Add(new XAttribute("part", "AttributeLists"));
-    		foreach(var x in node.AttributeLists)
+    		if(node.AttributeLists.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xAttributeLists.Add(xElement);
+    			var xAttributeLists = new XElement("List_of_AttributeList");
+    			xAttributeLists.Add(new XAttribute("part", "AttributeLists"));
+    			foreach(var x in node.AttributeLists)
+    			{
+    				var xElement = this.Visit(x);
+    				xAttributeLists.Add(xElement);
+    			}
+    			result.Add(xAttributeLists);
     		}
-    		result.Add(xAttributeLists);
     		//Modifiers
-    		var xModifiers = new XElement("TokenList");
-    		xModifiers.Add(new XAttribute("part", "Modifiers"));
-    		foreach(var x in node.Modifiers)
+    		if(node.Modifiers.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xModifiers.Add(xElement);
+    			var xModifiers = new XElement("TokenList");
+    			xModifiers.Add(new XAttribute("part", "Modifiers"));
+    			foreach(var x in node.Modifiers)
+    			{
+    				var xElement = this.Visit(x);
+    				xModifiers.Add(xElement);
+    			}
+    			result.Add(xModifiers);
     		}
-    		result.Add(xModifiers);
     		//Type
     		var xType = this.Visit(node.Type);
     		xType.Add(new XAttribute("part", "Type"));
@@ -2800,7 +3009,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			result.Add(xInitializer);
     		}
     		//SemicolonToken
-    		if(node.SemicolonToken != null)
+    		if(node.SemicolonToken != null && node.SemicolonToken.Kind() != SyntaxKind.None)
     		{
     			var xSemicolonToken = this.Visit(node.SemicolonToken);
     			xSemicolonToken.Add(new XAttribute("part", "SemicolonToken"));
@@ -2823,23 +3032,29 @@ namespace Jawilliam.CDF.CSharp.RoslynML
         {
     		var result = new XElement("EventDeclaration");
     		//AttributeLists
-    		var xAttributeLists = new XElement("List_of_AttributeList");
-    		xAttributeLists.Add(new XAttribute("part", "AttributeLists"));
-    		foreach(var x in node.AttributeLists)
+    		if(node.AttributeLists.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xAttributeLists.Add(xElement);
+    			var xAttributeLists = new XElement("List_of_AttributeList");
+    			xAttributeLists.Add(new XAttribute("part", "AttributeLists"));
+    			foreach(var x in node.AttributeLists)
+    			{
+    				var xElement = this.Visit(x);
+    				xAttributeLists.Add(xElement);
+    			}
+    			result.Add(xAttributeLists);
     		}
-    		result.Add(xAttributeLists);
     		//Modifiers
-    		var xModifiers = new XElement("TokenList");
-    		xModifiers.Add(new XAttribute("part", "Modifiers"));
-    		foreach(var x in node.Modifiers)
+    		if(node.Modifiers.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xModifiers.Add(xElement);
+    			var xModifiers = new XElement("TokenList");
+    			xModifiers.Add(new XAttribute("part", "Modifiers"));
+    			foreach(var x in node.Modifiers)
+    			{
+    				var xElement = this.Visit(x);
+    				xModifiers.Add(xElement);
+    			}
+    			result.Add(xModifiers);
     		}
-    		result.Add(xModifiers);
     		//EventKeyword
     		var xEventKeyword = this.Visit(node.EventKeyword);
     		xEventKeyword.Add(new XAttribute("part", "EventKeyword"));
@@ -2880,23 +3095,29 @@ namespace Jawilliam.CDF.CSharp.RoslynML
         {
     		var result = new XElement("IndexerDeclaration");
     		//AttributeLists
-    		var xAttributeLists = new XElement("List_of_AttributeList");
-    		xAttributeLists.Add(new XAttribute("part", "AttributeLists"));
-    		foreach(var x in node.AttributeLists)
+    		if(node.AttributeLists.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xAttributeLists.Add(xElement);
+    			var xAttributeLists = new XElement("List_of_AttributeList");
+    			xAttributeLists.Add(new XAttribute("part", "AttributeLists"));
+    			foreach(var x in node.AttributeLists)
+    			{
+    				var xElement = this.Visit(x);
+    				xAttributeLists.Add(xElement);
+    			}
+    			result.Add(xAttributeLists);
     		}
-    		result.Add(xAttributeLists);
     		//Modifiers
-    		var xModifiers = new XElement("TokenList");
-    		xModifiers.Add(new XAttribute("part", "Modifiers"));
-    		foreach(var x in node.Modifiers)
+    		if(node.Modifiers.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xModifiers.Add(xElement);
+    			var xModifiers = new XElement("TokenList");
+    			xModifiers.Add(new XAttribute("part", "Modifiers"));
+    			foreach(var x in node.Modifiers)
+    			{
+    				var xElement = this.Visit(x);
+    				xModifiers.Add(xElement);
+    			}
+    			result.Add(xModifiers);
     		}
-    		result.Add(xModifiers);
     		//Type
     		var xType = this.Visit(node.Type);
     		xType.Add(new XAttribute("part", "Type"));
@@ -2931,7 +3152,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			result.Add(xExpressionBody);
     		}
     		//SemicolonToken
-    		if(node.SemicolonToken != null)
+    		if(node.SemicolonToken != null && node.SemicolonToken.Kind() != SyntaxKind.None)
     		{
     			var xSemicolonToken = this.Visit(node.SemicolonToken);
     			xSemicolonToken.Add(new XAttribute("part", "SemicolonToken"));
@@ -3046,14 +3267,17 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     		xOpenParenToken.Add(new XAttribute("part", "OpenParenToken"));
     		result.Add(xOpenParenToken);
     		//Parameters
-    		var xParameters = new XElement("SeparatedList_of_Parameter");
-    		xParameters.Add(new XAttribute("part", "Parameters"));
-    		foreach(var x in node.Parameters)
+    		if(node.Parameters.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xParameters.Add(xElement);
+    			var xParameters = new XElement("SeparatedList_of_Parameter");
+    			xParameters.Add(new XAttribute("part", "Parameters"));
+    			foreach(var x in node.Parameters)
+    			{
+    				var xElement = this.Visit(x);
+    				xParameters.Add(xElement);
+    			}
+    			result.Add(xParameters);
     		}
-    		result.Add(xParameters);
     		//CloseParenToken
     		var xCloseParenToken = this.Visit(node.CloseParenToken);
     		xCloseParenToken.Add(new XAttribute("part", "CloseParenToken"));
@@ -3079,14 +3303,17 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     		xOpenBracketToken.Add(new XAttribute("part", "OpenBracketToken"));
     		result.Add(xOpenBracketToken);
     		//Parameters
-    		var xParameters = new XElement("SeparatedList_of_Parameter");
-    		xParameters.Add(new XAttribute("part", "Parameters"));
-    		foreach(var x in node.Parameters)
+    		if(node.Parameters.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xParameters.Add(xElement);
+    			var xParameters = new XElement("SeparatedList_of_Parameter");
+    			xParameters.Add(new XAttribute("part", "Parameters"));
+    			foreach(var x in node.Parameters)
+    			{
+    				var xElement = this.Visit(x);
+    				xParameters.Add(xElement);
+    			}
+    			result.Add(xParameters);
     		}
-    		result.Add(xParameters);
     		//CloseBracketToken
     		var xCloseBracketToken = this.Visit(node.CloseBracketToken);
     		xCloseBracketToken.Add(new XAttribute("part", "CloseBracketToken"));
@@ -3108,14 +3335,17 @@ namespace Jawilliam.CDF.CSharp.RoslynML
         {
     		var result = new XElement("SkippedTokensTrivia");
     		//Tokens
-    		var xTokens = new XElement("TokenList");
-    		xTokens.Add(new XAttribute("part", "Tokens"));
-    		foreach(var x in node.Tokens)
+    		if(node.Tokens.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xTokens.Add(xElement);
+    			var xTokens = new XElement("TokenList");
+    			xTokens.Add(new XAttribute("part", "Tokens"));
+    			foreach(var x in node.Tokens)
+    			{
+    				var xElement = this.Visit(x);
+    				xTokens.Add(xElement);
+    			}
+    			result.Add(xTokens);
     		}
-    		result.Add(xTokens);
     
     		this.Annotate(result, node);
     
@@ -3133,14 +3363,17 @@ namespace Jawilliam.CDF.CSharp.RoslynML
         {
     		var result = new XElement("DocumentationCommentTrivia");
     		//Content
-    		var xContent = new XElement("List_of_XmlNode");
-    		xContent.Add(new XAttribute("part", "Content"));
-    		foreach(var x in node.Content)
+    		if(node.Content.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xContent.Add(xElement);
+    			var xContent = new XElement("List_of_XmlNode");
+    			xContent.Add(new XAttribute("part", "Content"));
+    			foreach(var x in node.Content)
+    			{
+    				var xElement = this.Visit(x);
+    				xContent.Add(xElement);
+    			}
+    			result.Add(xContent);
     		}
-    		result.Add(xContent);
     		//EndOfComment
     		var xEndOfComment = this.Visit(node.EndOfComment);
     		xEndOfComment.Add(new XAttribute("part", "EndOfComment"));
@@ -3406,7 +3639,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     		xLine.Add(new XAttribute("part", "Line"));
     		result.Add(xLine);
     		//File
-    		if(node.File != null)
+    		if(node.File != null && node.File.Kind() != SyntaxKind.None)
     		{
     			var xFile = this.Visit(node.File);
     			xFile.Add(new XAttribute("part", "File"));
@@ -3449,14 +3682,17 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     		xDisableOrRestoreKeyword.Add(new XAttribute("part", "DisableOrRestoreKeyword"));
     		result.Add(xDisableOrRestoreKeyword);
     		//ErrorCodes
-    		var xErrorCodes = new XElement("SeparatedList_of_Expression");
-    		xErrorCodes.Add(new XAttribute("part", "ErrorCodes"));
-    		foreach(var x in node.ErrorCodes)
+    		if(node.ErrorCodes.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xErrorCodes.Add(xElement);
+    			var xErrorCodes = new XElement("SeparatedList_of_Expression");
+    			xErrorCodes.Add(new XAttribute("part", "ErrorCodes"));
+    			foreach(var x in node.ErrorCodes)
+    			{
+    				var xElement = this.Visit(x);
+    				xErrorCodes.Add(xElement);
+    			}
+    			result.Add(xErrorCodes);
     		}
-    		result.Add(xErrorCodes);
     		//EndOfDirectiveToken
     		var xEndOfDirectiveToken = this.Visit(node.EndOfDirectiveToken);
     		xEndOfDirectiveToken.Add(new XAttribute("part", "EndOfDirectiveToken"));
@@ -3878,14 +4114,17 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     		xOpenParenToken.Add(new XAttribute("part", "OpenParenToken"));
     		result.Add(xOpenParenToken);
     		//Parameters
-    		var xParameters = new XElement("SeparatedList_of_CrefParameter");
-    		xParameters.Add(new XAttribute("part", "Parameters"));
-    		foreach(var x in node.Parameters)
+    		if(node.Parameters.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xParameters.Add(xElement);
+    			var xParameters = new XElement("SeparatedList_of_CrefParameter");
+    			xParameters.Add(new XAttribute("part", "Parameters"));
+    			foreach(var x in node.Parameters)
+    			{
+    				var xElement = this.Visit(x);
+    				xParameters.Add(xElement);
+    			}
+    			result.Add(xParameters);
     		}
-    		result.Add(xParameters);
     		//CloseParenToken
     		var xCloseParenToken = this.Visit(node.CloseParenToken);
     		xCloseParenToken.Add(new XAttribute("part", "CloseParenToken"));
@@ -3911,14 +4150,17 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     		xOpenBracketToken.Add(new XAttribute("part", "OpenBracketToken"));
     		result.Add(xOpenBracketToken);
     		//Parameters
-    		var xParameters = new XElement("SeparatedList_of_CrefParameter");
-    		xParameters.Add(new XAttribute("part", "Parameters"));
-    		foreach(var x in node.Parameters)
+    		if(node.Parameters.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xParameters.Add(xElement);
+    			var xParameters = new XElement("SeparatedList_of_CrefParameter");
+    			xParameters.Add(new XAttribute("part", "Parameters"));
+    			foreach(var x in node.Parameters)
+    			{
+    				var xElement = this.Visit(x);
+    				xParameters.Add(xElement);
+    			}
+    			result.Add(xParameters);
     		}
-    		result.Add(xParameters);
     		//CloseBracketToken
     		var xCloseBracketToken = this.Visit(node.CloseBracketToken);
     		xCloseBracketToken.Add(new XAttribute("part", "CloseBracketToken"));
@@ -3944,14 +4186,17 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     		xStartTag.Add(new XAttribute("part", "StartTag"));
     		result.Add(xStartTag);
     		//Content
-    		var xContent = new XElement("List_of_XmlNode");
-    		xContent.Add(new XAttribute("part", "Content"));
-    		foreach(var x in node.Content)
+    		if(node.Content.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xContent.Add(xElement);
+    			var xContent = new XElement("List_of_XmlNode");
+    			xContent.Add(new XAttribute("part", "Content"));
+    			foreach(var x in node.Content)
+    			{
+    				var xElement = this.Visit(x);
+    				xContent.Add(xElement);
+    			}
+    			result.Add(xContent);
     		}
-    		result.Add(xContent);
     		//EndTag
     		var xEndTag = this.Visit(node.EndTag);
     		xEndTag.Add(new XAttribute("part", "EndTag"));
@@ -3981,14 +4226,17 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     		xName.Add(new XAttribute("part", "Name"));
     		result.Add(xName);
     		//Attributes
-    		var xAttributes = new XElement("List_of_XmlAttribute");
-    		xAttributes.Add(new XAttribute("part", "Attributes"));
-    		foreach(var x in node.Attributes)
+    		if(node.Attributes.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xAttributes.Add(xElement);
+    			var xAttributes = new XElement("List_of_XmlAttribute");
+    			xAttributes.Add(new XAttribute("part", "Attributes"));
+    			foreach(var x in node.Attributes)
+    			{
+    				var xElement = this.Visit(x);
+    				xAttributes.Add(xElement);
+    			}
+    			result.Add(xAttributes);
     		}
-    		result.Add(xAttributes);
     		//SlashGreaterThanToken
     		var xSlashGreaterThanToken = this.Visit(node.SlashGreaterThanToken);
     		xSlashGreaterThanToken.Add(new XAttribute("part", "SlashGreaterThanToken"));
@@ -4010,14 +4258,17 @@ namespace Jawilliam.CDF.CSharp.RoslynML
         {
     		var result = new XElement("XmlText");
     		//TextTokens
-    		var xTextTokens = new XElement("TokenList");
-    		xTextTokens.Add(new XAttribute("part", "TextTokens"));
-    		foreach(var x in node.TextTokens)
+    		if(node.TextTokens.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xTextTokens.Add(xElement);
+    			var xTextTokens = new XElement("TokenList");
+    			xTextTokens.Add(new XAttribute("part", "TextTokens"));
+    			foreach(var x in node.TextTokens)
+    			{
+    				var xElement = this.Visit(x);
+    				xTextTokens.Add(xElement);
+    			}
+    			result.Add(xTextTokens);
     		}
-    		result.Add(xTextTokens);
     
     		this.Annotate(result, node);
     
@@ -4039,14 +4290,17 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     		xStartCDataToken.Add(new XAttribute("part", "StartCDataToken"));
     		result.Add(xStartCDataToken);
     		//TextTokens
-    		var xTextTokens = new XElement("TokenList");
-    		xTextTokens.Add(new XAttribute("part", "TextTokens"));
-    		foreach(var x in node.TextTokens)
+    		if(node.TextTokens.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xTextTokens.Add(xElement);
+    			var xTextTokens = new XElement("TokenList");
+    			xTextTokens.Add(new XAttribute("part", "TextTokens"));
+    			foreach(var x in node.TextTokens)
+    			{
+    				var xElement = this.Visit(x);
+    				xTextTokens.Add(xElement);
+    			}
+    			result.Add(xTextTokens);
     		}
-    		result.Add(xTextTokens);
     		//EndCDataToken
     		var xEndCDataToken = this.Visit(node.EndCDataToken);
     		xEndCDataToken.Add(new XAttribute("part", "EndCDataToken"));
@@ -4076,14 +4330,17 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     		xName.Add(new XAttribute("part", "Name"));
     		result.Add(xName);
     		//TextTokens
-    		var xTextTokens = new XElement("TokenList");
-    		xTextTokens.Add(new XAttribute("part", "TextTokens"));
-    		foreach(var x in node.TextTokens)
+    		if(node.TextTokens.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xTextTokens.Add(xElement);
+    			var xTextTokens = new XElement("TokenList");
+    			xTextTokens.Add(new XAttribute("part", "TextTokens"));
+    			foreach(var x in node.TextTokens)
+    			{
+    				var xElement = this.Visit(x);
+    				xTextTokens.Add(xElement);
+    			}
+    			result.Add(xTextTokens);
     		}
-    		result.Add(xTextTokens);
     		//EndProcessingInstructionToken
     		var xEndProcessingInstructionToken = this.Visit(node.EndProcessingInstructionToken);
     		xEndProcessingInstructionToken.Add(new XAttribute("part", "EndProcessingInstructionToken"));
@@ -4109,14 +4366,17 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     		xLessThanExclamationMinusMinusToken.Add(new XAttribute("part", "LessThanExclamationMinusMinusToken"));
     		result.Add(xLessThanExclamationMinusMinusToken);
     		//TextTokens
-    		var xTextTokens = new XElement("TokenList");
-    		xTextTokens.Add(new XAttribute("part", "TextTokens"));
-    		foreach(var x in node.TextTokens)
+    		if(node.TextTokens.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xTextTokens.Add(xElement);
+    			var xTextTokens = new XElement("TokenList");
+    			xTextTokens.Add(new XAttribute("part", "TextTokens"));
+    			foreach(var x in node.TextTokens)
+    			{
+    				var xElement = this.Visit(x);
+    				xTextTokens.Add(xElement);
+    			}
+    			result.Add(xTextTokens);
     		}
-    		result.Add(xTextTokens);
     		//MinusMinusGreaterThanToken
     		var xMinusMinusGreaterThanToken = this.Visit(node.MinusMinusGreaterThanToken);
     		xMinusMinusGreaterThanToken.Add(new XAttribute("part", "MinusMinusGreaterThanToken"));
@@ -4150,14 +4410,17 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     		xStartQuoteToken.Add(new XAttribute("part", "StartQuoteToken"));
     		result.Add(xStartQuoteToken);
     		//TextTokens
-    		var xTextTokens = new XElement("TokenList");
-    		xTextTokens.Add(new XAttribute("part", "TextTokens"));
-    		foreach(var x in node.TextTokens)
+    		if(node.TextTokens.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xTextTokens.Add(xElement);
+    			var xTextTokens = new XElement("TokenList");
+    			xTextTokens.Add(new XAttribute("part", "TextTokens"));
+    			foreach(var x in node.TextTokens)
+    			{
+    				var xElement = this.Visit(x);
+    				xTextTokens.Add(xElement);
+    			}
+    			result.Add(xTextTokens);
     		}
-    		result.Add(xTextTokens);
     		//EndQuoteToken
     		var xEndQuoteToken = this.Visit(node.EndQuoteToken);
     		xEndQuoteToken.Add(new XAttribute("part", "EndQuoteToken"));
@@ -4283,14 +4546,17 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     		xOpenParenToken.Add(new XAttribute("part", "OpenParenToken"));
     		result.Add(xOpenParenToken);
     		//Arguments
-    		var xArguments = new XElement("SeparatedList_of_Argument");
-    		xArguments.Add(new XAttribute("part", "Arguments"));
-    		foreach(var x in node.Arguments)
+    		if(node.Arguments.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xArguments.Add(xElement);
+    			var xArguments = new XElement("SeparatedList_of_Argument");
+    			xArguments.Add(new XAttribute("part", "Arguments"));
+    			foreach(var x in node.Arguments)
+    			{
+    				var xElement = this.Visit(x);
+    				xArguments.Add(xElement);
+    			}
+    			result.Add(xArguments);
     		}
-    		result.Add(xArguments);
     		//CloseParenToken
     		var xCloseParenToken = this.Visit(node.CloseParenToken);
     		xCloseParenToken.Add(new XAttribute("part", "CloseParenToken"));
@@ -4980,14 +5246,17 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     		xOpenBraceToken.Add(new XAttribute("part", "OpenBraceToken"));
     		result.Add(xOpenBraceToken);
     		//Expressions
-    		var xExpressions = new XElement("SeparatedList_of_Expression");
-    		xExpressions.Add(new XAttribute("part", "Expressions"));
-    		foreach(var x in node.Expressions)
+    		if(node.Expressions.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xExpressions.Add(xElement);
+    			var xExpressions = new XElement("SeparatedList_of_Expression");
+    			xExpressions.Add(new XAttribute("part", "Expressions"));
+    			foreach(var x in node.Expressions)
+    			{
+    				var xElement = this.Visit(x);
+    				xExpressions.Add(xElement);
+    			}
+    			result.Add(xExpressions);
     		}
-    		result.Add(xExpressions);
     		//CloseBraceToken
     		var xCloseBraceToken = this.Visit(node.CloseBraceToken);
     		xCloseBraceToken.Add(new XAttribute("part", "CloseBraceToken"));
@@ -5055,14 +5324,17 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     		xOpenBraceToken.Add(new XAttribute("part", "OpenBraceToken"));
     		result.Add(xOpenBraceToken);
     		//Initializers
-    		var xInitializers = new XElement("SeparatedList_of_AnonymousObjectMemberDeclarator");
-    		xInitializers.Add(new XAttribute("part", "Initializers"));
-    		foreach(var x in node.Initializers)
+    		if(node.Initializers.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xInitializers.Add(xElement);
+    			var xInitializers = new XElement("SeparatedList_of_AnonymousObjectMemberDeclarator");
+    			xInitializers.Add(new XAttribute("part", "Initializers"));
+    			foreach(var x in node.Initializers)
+    			{
+    				var xElement = this.Visit(x);
+    				xInitializers.Add(xElement);
+    			}
+    			result.Add(xInitializers);
     		}
-    		result.Add(xInitializers);
     		//CloseBraceToken
     		var xCloseBraceToken = this.Visit(node.CloseBraceToken);
     		xCloseBraceToken.Add(new XAttribute("part", "CloseBraceToken"));
@@ -5123,14 +5395,17 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     		xOpenBracketToken.Add(new XAttribute("part", "OpenBracketToken"));
     		result.Add(xOpenBracketToken);
     		//Commas
-    		var xCommas = new XElement("TokenList");
-    		xCommas.Add(new XAttribute("part", "Commas"));
-    		foreach(var x in node.Commas)
+    		if(node.Commas.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xCommas.Add(xElement);
+    			var xCommas = new XElement("TokenList");
+    			xCommas.Add(new XAttribute("part", "Commas"));
+    			foreach(var x in node.Commas)
+    			{
+    				var xElement = this.Visit(x);
+    				xCommas.Add(xElement);
+    			}
+    			result.Add(xCommas);
     		}
-    		result.Add(xCommas);
     		//CloseBracketToken
     		var xCloseBracketToken = this.Visit(node.CloseBracketToken);
     		xCloseBracketToken.Add(new XAttribute("part", "CloseBracketToken"));
@@ -5228,14 +5503,17 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     		xStringStartToken.Add(new XAttribute("part", "StringStartToken"));
     		result.Add(xStringStartToken);
     		//Contents
-    		var xContents = new XElement("List_of_InterpolatedStringContent");
-    		xContents.Add(new XAttribute("part", "Contents"));
-    		foreach(var x in node.Contents)
+    		if(node.Contents.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xContents.Add(xElement);
+    			var xContents = new XElement("List_of_InterpolatedStringContent");
+    			xContents.Add(new XAttribute("part", "Contents"));
+    			foreach(var x in node.Contents)
+    			{
+    				var xElement = this.Visit(x);
+    				xContents.Add(xElement);
+    			}
+    			result.Add(xContents);
     		}
-    		result.Add(xContents);
     		//StringEndToken
     		var xStringEndToken = this.Visit(node.StringEndToken);
     		xStringEndToken.Add(new XAttribute("part", "StringEndToken"));
@@ -5333,14 +5611,17 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     		xElementType.Add(new XAttribute("part", "ElementType"));
     		result.Add(xElementType);
     		//RankSpecifiers
-    		var xRankSpecifiers = new XElement("List_of_ArrayRankSpecifier");
-    		xRankSpecifiers.Add(new XAttribute("part", "RankSpecifiers"));
-    		foreach(var x in node.RankSpecifiers)
+    		if(node.RankSpecifiers.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xRankSpecifiers.Add(xElement);
+    			var xRankSpecifiers = new XElement("List_of_ArrayRankSpecifier");
+    			xRankSpecifiers.Add(new XAttribute("part", "RankSpecifiers"));
+    			foreach(var x in node.RankSpecifiers)
+    			{
+    				var xElement = this.Visit(x);
+    				xRankSpecifiers.Add(xElement);
+    			}
+    			result.Add(xRankSpecifiers);
     		}
-    		result.Add(xRankSpecifiers);
     
     		this.Annotate(result, node);
     
@@ -5410,14 +5691,17 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     		xOpenParenToken.Add(new XAttribute("part", "OpenParenToken"));
     		result.Add(xOpenParenToken);
     		//Elements
-    		var xElements = new XElement("SeparatedList_of_TupleElement");
-    		xElements.Add(new XAttribute("part", "Elements"));
-    		foreach(var x in node.Elements)
+    		if(node.Elements.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xElements.Add(xElement);
+    			var xElements = new XElement("SeparatedList_of_TupleElement");
+    			xElements.Add(new XAttribute("part", "Elements"));
+    			foreach(var x in node.Elements)
+    			{
+    				var xElement = this.Visit(x);
+    				xElements.Add(xElement);
+    			}
+    			result.Add(xElements);
     		}
-    		result.Add(xElements);
     		//CloseParenToken
     		var xCloseParenToken = this.Visit(node.CloseParenToken);
     		xCloseParenToken.Add(new XAttribute("part", "CloseParenToken"));
@@ -5515,7 +5799,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     		xAlias.Add(new XAttribute("part", "Alias"));
     		result.Add(xAlias);
     		//ColonColonToken
-    		if(node.ColonColonToken != null)
+    		if(node.ColonColonToken != null && node.ColonColonToken.Kind() != SyntaxKind.None)
     		{
     			var xColonColonToken = this.Visit(node.ColonColonToken);
     			xColonColonToken.Add(new XAttribute("part", "ColonColonToken"));
@@ -5626,7 +5910,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
         {
     		var result = new XElement("AnonymousMethodExpression");
     		//AsyncKeyword
-    		if(node.AsyncKeyword != null)
+    		if(node.AsyncKeyword != null && node.AsyncKeyword.Kind() != SyntaxKind.None)
     		{
     			var xAsyncKeyword = this.Visit(node.AsyncKeyword);
     			xAsyncKeyword.Add(new XAttribute("part", "AsyncKeyword"));
@@ -5664,7 +5948,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
         {
     		var result = new XElement("SimpleLambdaExpression");
     		//AsyncKeyword
-    		if(node.AsyncKeyword != null)
+    		if(node.AsyncKeyword != null && node.AsyncKeyword.Kind() != SyntaxKind.None)
     		{
     			var xAsyncKeyword = this.Visit(node.AsyncKeyword);
     			xAsyncKeyword.Add(new XAttribute("part", "AsyncKeyword"));
@@ -5699,7 +5983,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
         {
     		var result = new XElement("ParenthesizedLambdaExpression");
     		//AsyncKeyword
-    		if(node.AsyncKeyword != null)
+    		if(node.AsyncKeyword != null && node.AsyncKeyword.Kind() != SyntaxKind.None)
     		{
     			var xAsyncKeyword = this.Visit(node.AsyncKeyword);
     			xAsyncKeyword.Add(new XAttribute("part", "AsyncKeyword"));
@@ -5738,14 +6022,17 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     		xOpenParenToken.Add(new XAttribute("part", "OpenParenToken"));
     		result.Add(xOpenParenToken);
     		//Arguments
-    		var xArguments = new XElement("SeparatedList_of_Argument");
-    		xArguments.Add(new XAttribute("part", "Arguments"));
-    		foreach(var x in node.Arguments)
+    		if(node.Arguments.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xArguments.Add(xElement);
+    			var xArguments = new XElement("SeparatedList_of_Argument");
+    			xArguments.Add(new XAttribute("part", "Arguments"));
+    			foreach(var x in node.Arguments)
+    			{
+    				var xElement = this.Visit(x);
+    				xArguments.Add(xElement);
+    			}
+    			result.Add(xArguments);
     		}
-    		result.Add(xArguments);
     		//CloseParenToken
     		var xCloseParenToken = this.Visit(node.CloseParenToken);
     		xCloseParenToken.Add(new XAttribute("part", "CloseParenToken"));
@@ -5771,14 +6058,17 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     		xOpenBracketToken.Add(new XAttribute("part", "OpenBracketToken"));
     		result.Add(xOpenBracketToken);
     		//Arguments
-    		var xArguments = new XElement("SeparatedList_of_Argument");
-    		xArguments.Add(new XAttribute("part", "Arguments"));
-    		foreach(var x in node.Arguments)
+    		if(node.Arguments.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xArguments.Add(xElement);
+    			var xArguments = new XElement("SeparatedList_of_Argument");
+    			xArguments.Add(new XAttribute("part", "Arguments"));
+    			foreach(var x in node.Arguments)
+    			{
+    				var xElement = this.Visit(x);
+    				xArguments.Add(xElement);
+    			}
+    			result.Add(xArguments);
     		}
-    		result.Add(xArguments);
     		//CloseBracketToken
     		var xCloseBracketToken = this.Visit(node.CloseBracketToken);
     		xCloseBracketToken.Add(new XAttribute("part", "CloseBracketToken"));
@@ -5961,14 +6251,17 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     		xOrderByKeyword.Add(new XAttribute("part", "OrderByKeyword"));
     		result.Add(xOrderByKeyword);
     		//Orderings
-    		var xOrderings = new XElement("SeparatedList_of_Ordering");
-    		xOrderings.Add(new XAttribute("part", "Orderings"));
-    		foreach(var x in node.Orderings)
+    		if(node.Orderings.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xOrderings.Add(xElement);
+    			var xOrderings = new XElement("SeparatedList_of_Ordering");
+    			xOrderings.Add(new XAttribute("part", "Orderings"));
+    			foreach(var x in node.Orderings)
+    			{
+    				var xElement = this.Visit(x);
+    				xOrderings.Add(xElement);
+    			}
+    			result.Add(xOrderings);
     		}
-    		result.Add(xOrderings);
     
     		this.Annotate(result, node);
     
@@ -6148,14 +6441,17 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     		xOpenBraceToken.Add(new XAttribute("part", "OpenBraceToken"));
     		result.Add(xOpenBraceToken);
     		//Statements
-    		var xStatements = new XElement("List_of_Statement");
-    		xStatements.Add(new XAttribute("part", "Statements"));
-    		foreach(var x in node.Statements)
+    		if(node.Statements.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xStatements.Add(xElement);
+    			var xStatements = new XElement("List_of_Statement");
+    			xStatements.Add(new XAttribute("part", "Statements"));
+    			foreach(var x in node.Statements)
+    			{
+    				var xElement = this.Visit(x);
+    				xStatements.Add(xElement);
+    			}
+    			result.Add(xStatements);
     		}
-    		result.Add(xStatements);
     		//CloseBraceToken
     		var xCloseBraceToken = this.Visit(node.CloseBraceToken);
     		xCloseBraceToken.Add(new XAttribute("part", "CloseBraceToken"));
@@ -6177,14 +6473,17 @@ namespace Jawilliam.CDF.CSharp.RoslynML
         {
     		var result = new XElement("LocalFunctionStatement");
     		//Modifiers
-    		var xModifiers = new XElement("TokenList");
-    		xModifiers.Add(new XAttribute("part", "Modifiers"));
-    		foreach(var x in node.Modifiers)
+    		if(node.Modifiers.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xModifiers.Add(xElement);
+    			var xModifiers = new XElement("TokenList");
+    			xModifiers.Add(new XAttribute("part", "Modifiers"));
+    			foreach(var x in node.Modifiers)
+    			{
+    				var xElement = this.Visit(x);
+    				xModifiers.Add(xElement);
+    			}
+    			result.Add(xModifiers);
     		}
-    		result.Add(xModifiers);
     		//ReturnType
     		var xReturnType = this.Visit(node.ReturnType);
     		xReturnType.Add(new XAttribute("part", "ReturnType"));
@@ -6205,14 +6504,17 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     		xParameterList.Add(new XAttribute("part", "ParameterList"));
     		result.Add(xParameterList);
     		//ConstraintClauses
-    		var xConstraintClauses = new XElement("List_of_TypeParameterConstraintClause");
-    		xConstraintClauses.Add(new XAttribute("part", "ConstraintClauses"));
-    		foreach(var x in node.ConstraintClauses)
+    		if(node.ConstraintClauses.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xConstraintClauses.Add(xElement);
+    			var xConstraintClauses = new XElement("List_of_TypeParameterConstraintClause");
+    			xConstraintClauses.Add(new XAttribute("part", "ConstraintClauses"));
+    			foreach(var x in node.ConstraintClauses)
+    			{
+    				var xElement = this.Visit(x);
+    				xConstraintClauses.Add(xElement);
+    			}
+    			result.Add(xConstraintClauses);
     		}
-    		result.Add(xConstraintClauses);
     		//Body
     		if(node.Body != null)
     		{
@@ -6228,7 +6530,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			result.Add(xExpressionBody);
     		}
     		//SemicolonToken
-    		if(node.SemicolonToken != null)
+    		if(node.SemicolonToken != null && node.SemicolonToken.Kind() != SyntaxKind.None)
     		{
     			var xSemicolonToken = this.Visit(node.SemicolonToken);
     			xSemicolonToken.Add(new XAttribute("part", "SemicolonToken"));
@@ -6251,14 +6553,17 @@ namespace Jawilliam.CDF.CSharp.RoslynML
         {
     		var result = new XElement("LocalDeclarationStatement");
     		//Modifiers
-    		var xModifiers = new XElement("TokenList");
-    		xModifiers.Add(new XAttribute("part", "Modifiers"));
-    		foreach(var x in node.Modifiers)
+    		if(node.Modifiers.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xModifiers.Add(xElement);
+    			var xModifiers = new XElement("TokenList");
+    			xModifiers.Add(new XAttribute("part", "Modifiers"));
+    			foreach(var x in node.Modifiers)
+    			{
+    				var xElement = this.Visit(x);
+    				xModifiers.Add(xElement);
+    			}
+    			result.Add(xModifiers);
     		}
-    		result.Add(xModifiers);
     		//Declaration
     		var xDeclaration = this.Visit(node.Declaration);
     		xDeclaration.Add(new XAttribute("part", "Declaration"));
@@ -6360,7 +6665,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     		xGotoKeyword.Add(new XAttribute("part", "GotoKeyword"));
     		result.Add(xGotoKeyword);
     		//CaseOrDefaultKeyword
-    		if(node.CaseOrDefaultKeyword != null)
+    		if(node.CaseOrDefaultKeyword != null && node.CaseOrDefaultKeyword.Kind() != SyntaxKind.None)
     		{
     			var xCaseOrDefaultKeyword = this.Visit(node.CaseOrDefaultKeyword);
     			xCaseOrDefaultKeyword.Add(new XAttribute("part", "CaseOrDefaultKeyword"));
@@ -6926,14 +7231,17 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     		xOpenBraceToken.Add(new XAttribute("part", "OpenBraceToken"));
     		result.Add(xOpenBraceToken);
     		//Sections
-    		var xSections = new XElement("List_of_SwitchSection");
-    		xSections.Add(new XAttribute("part", "Sections"));
-    		foreach(var x in node.Sections)
+    		if(node.Sections.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xSections.Add(xElement);
+    			var xSections = new XElement("List_of_SwitchSection");
+    			xSections.Add(new XAttribute("part", "Sections"));
+    			foreach(var x in node.Sections)
+    			{
+    				var xElement = this.Visit(x);
+    				xSections.Add(xElement);
+    			}
+    			result.Add(xSections);
     		}
-    		result.Add(xSections);
     		//CloseBraceToken
     		var xCloseBraceToken = this.Visit(node.CloseBraceToken);
     		xCloseBraceToken.Add(new XAttribute("part", "CloseBraceToken"));
@@ -6963,14 +7271,17 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     		xBlock.Add(new XAttribute("part", "Block"));
     		result.Add(xBlock);
     		//Catches
-    		var xCatches = new XElement("List_of_CatchClause");
-    		xCatches.Add(new XAttribute("part", "Catches"));
-    		foreach(var x in node.Catches)
+    		if(node.Catches.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xCatches.Add(xElement);
+    			var xCatches = new XElement("List_of_CatchClause");
+    			xCatches.Add(new XAttribute("part", "Catches"));
+    			foreach(var x in node.Catches)
+    			{
+    				var xElement = this.Visit(x);
+    				xCatches.Add(xElement);
+    			}
+    			result.Add(xCatches);
     		}
-    		result.Add(xCatches);
     		//Finally
     		if(node.Finally != null)
     		{
@@ -7087,14 +7398,17 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     		xOpenParenToken.Add(new XAttribute("part", "OpenParenToken"));
     		result.Add(xOpenParenToken);
     		//Variables
-    		var xVariables = new XElement("SeparatedList_of_VariableDesignation");
-    		xVariables.Add(new XAttribute("part", "Variables"));
-    		foreach(var x in node.Variables)
+    		if(node.Variables.Count > 0)
     		{
-    			var xElement = this.Visit(x);
-    			xVariables.Add(xElement);
+    			var xVariables = new XElement("SeparatedList_of_VariableDesignation");
+    			xVariables.Add(new XAttribute("part", "Variables"));
+    			foreach(var x in node.Variables)
+    			{
+    				var xElement = this.Visit(x);
+    				xVariables.Add(xElement);
+    			}
+    			result.Add(xVariables);
     		}
-    		result.Add(xVariables);
     		//CloseParenToken
     		var xCloseParenToken = this.Visit(node.CloseParenToken);
     		xCloseParenToken.Add(new XAttribute("part", "CloseParenToken"));

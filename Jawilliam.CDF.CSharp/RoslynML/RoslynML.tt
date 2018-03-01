@@ -174,6 +174,10 @@ public partial class RoslynML : CSharpSyntaxVisitor<XElement>
                         {
                             element.Add(new XAttribute("Punctuation", true));
                         }
+						else
+						{
+							element.Add(new XAttribute("Operator", true));
+						}
 						if (SyntaxFacts.IsLanguagePunctuation(token.Kind()))
 						{
 						    element.Add(new XAttribute("Language", true));
@@ -264,7 +268,15 @@ public partial class RoslynML : CSharpSyntaxVisitor<XElement>
         // if (SyntaxFacts.IsAssignmentExpressionOperatorToken(node.Kind()))
         // {
         //     element.Add(new XAttribute("AssignmentExpressionOperator", true));
-        // }
+        // }		
+
+		if(node.ToString() != "")
+		{
+			element.Add(new XAttribute("startLine", node.GetLocation().GetLineSpan().StartLinePosition.Line + 1));
+			element.Add(new XAttribute("startColumn", node.GetLocation().GetLineSpan().StartLinePosition.Character + 1));
+			element.Add(new XAttribute("endLine", node.GetLocation().GetLineSpan().EndLinePosition.Line + 1));
+			element.Add(new XAttribute("endColumn", node.GetLocation().GetLineSpan().EndLinePosition.Character));
+		}
     }
 
     /// <summary>
@@ -343,7 +355,15 @@ public partial class RoslynML : CSharpSyntaxVisitor<XElement>
         if (SyntaxFacts.IsDocumentationCommentTrivia(node.Kind()))
         {
             element.Add(new XAttribute("DocumentationCommentTrivia", true));
-        }
+        }		
+
+		if(node.ToString() != "")
+		{
+			element.Add(new XAttribute("startLine", node.GetLocation().GetLineSpan().StartLinePosition.Line + 1));
+			element.Add(new XAttribute("startColumn", node.GetLocation().GetLineSpan().StartLinePosition.Character + 1));
+			element.Add(new XAttribute("endLine", node.GetLocation().GetLineSpan().EndLinePosition.Line + 1));
+			element.Add(new XAttribute("endColumn", node.GetLocation().GetLineSpan().EndLinePosition.Character));
+		}
     }
 
     /// <summary>
@@ -419,7 +439,16 @@ foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
 <#
 			if(currentProperty.Item2.optional)
 			{
-#>		if(node.<#= currentProperty.Item1.Name #> != null)
+				var secondCondition = currentProperty.Item2.kind == "Token" 
+					? $" && node.{currentProperty.Item1.Name}.Kind() != SyntaxKind.None"
+					: "";  
+#>		if(node.<#= currentProperty.Item1.Name #> != null<#= secondCondition #>)
+		{
+<#
+			}
+			else if(currentProperty.Item2.multiplicity == "Collection")
+			{
+#>		if(node.<#= currentProperty.Item1.Name #>.Count > 0)
 		{
 <#
 			}
@@ -440,33 +469,38 @@ foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
 			else if(currentProperty.Item2.collectionType == null && currentProperty.Item2.multiplicity == "Collection")
 			{
 #>
-		<#= currentProperty.Item2.optional ? "	" : "" #>var x<#= currentProperty.Item1.Name #> = new XElement("<#= this.GetSyntaxType(currentProperty.Item1.PropertyType, code, listType).Replace("Syntax", "") #>");
-		<#= currentProperty.Item2.optional ? "	" : "" #>x<#= currentProperty.Item1.Name #>.Add(new XAttribute("part", "<#= currentProperty.Item1.Name #>"));
-		<#= currentProperty.Item2.optional ? "	" : "" #>foreach(var x in node.<#= currentProperty.Item1.Name #>)
-		<#= currentProperty.Item2.optional ? "	" : "" #>{
-		<#= currentProperty.Item2.optional ? "	" : "" #>	var xElement = this.Visit(x);
-		<#= currentProperty.Item2.optional ? "	" : "" #>	x<#= currentProperty.Item1.Name #>.Add(xElement);
-		<#= currentProperty.Item2.optional ? "	" : "" #>}
-		<#= currentProperty.Item2.optional ? "	" : "" #>result.Add(x<#= currentProperty.Item1.Name #>);
+			var x<#= currentProperty.Item1.Name #> = new XElement("<#= this.GetSyntaxType(currentProperty.Item1.PropertyType, code, listType).Replace("Syntax", "") #>");
+			x<#= currentProperty.Item1.Name #>.Add(new XAttribute("part", "<#= currentProperty.Item1.Name #>"));
+			foreach(var x in node.<#= currentProperty.Item1.Name #>)
+			{
+				var xElement = this.Visit(x);
+				x<#= currentProperty.Item1.Name #>.Add(xElement);
+			}
+			result.Add(x<#= currentProperty.Item1.Name #>);
 <#
 			}
 			else if(currentProperty.Item2.collectionType != null && currentProperty.Item2.multiplicity == "Collection")
 			{
 #>
-		<#= currentProperty.Item2.optional ? "	" : "" #>var x<#= currentProperty.Item1.Name #> = new XElement("<#= this.GetSyntaxType(currentProperty.Item1.PropertyType, code, listType).Replace("Syntax", "") #>");
-		<#= currentProperty.Item2.optional ? "	" : "" #>x<#= currentProperty.Item1.Name #>.Add(new XAttribute("part", "<#= currentProperty.Item1.Name #>"));
-		<#= currentProperty.Item2.optional ? "	" : "" #>foreach(var x in node.<#= currentProperty.Item1.Name #>)
-		<#= currentProperty.Item2.optional ? "	" : "" #>{
-		<#= currentProperty.Item2.optional ? "	" : "" #>	var xElement = this.Visit(x);
-		<#= currentProperty.Item2.optional ? "	" : "" #>	x<#= currentProperty.Item1.Name #>.Add(xElement);
-		<#= currentProperty.Item2.optional ? "	" : "" #>}
-		<#= currentProperty.Item2.optional ? "	" : "" #>result.Add(x<#= currentProperty.Item1.Name #>);
+			var x<#= currentProperty.Item1.Name #> = new XElement("<#= this.GetSyntaxType(currentProperty.Item1.PropertyType, code, listType).Replace("Syntax", "") #>");
+			x<#= currentProperty.Item1.Name #>.Add(new XAttribute("part", "<#= currentProperty.Item1.Name #>"));
+			foreach(var x in node.<#= currentProperty.Item1.Name #>)
+			{
+				var xElement = this.Visit(x);
+				x<#= currentProperty.Item1.Name #>.Add(xElement);
+			}
+			result.Add(x<#= currentProperty.Item1.Name #>);
 <#
 			}
 			else
 				throw new ApplicationException("Not supported case");
 				
 		if(currentProperty.Item2.optional)
+		{
+#>		}
+<#
+		}
+		else if(currentProperty.Item2.multiplicity == "Collection")
 		{
 #>		}
 <#
