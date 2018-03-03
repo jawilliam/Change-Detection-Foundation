@@ -269,6 +269,10 @@ namespace Jawilliam.CDF.Approach.GumTree
                     {
                         proc.Kill();
                     }
+                    foreach (Process proc in Process.GetProcessesByName("srcml"))
+                    {
+                        proc.Kill();
+                    }
                 }
                 catch (Exception ex)
                 {

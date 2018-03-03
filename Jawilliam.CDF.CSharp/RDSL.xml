@@ -1641,7 +1641,7 @@
           <Children fine="false" coarse="false" jagged="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
-        <Property name="Initializers" kind="Expression" index="3" optional="true" changepoint="true" multiplicity="Collection" collectionType="ExpressionSyntax" collectionSeparator=",">
+        <Property name="Initializers" kind="Expression" index="3" optional="false" changepoint="true" multiplicity="Collection" collectionType="ExpressionSyntax" collectionSeparator=",">
           <Text value="false" signature="false" meaningful="false"/>
           <Children fine="false" coarse="false" jagged="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
@@ -1661,7 +1661,7 @@
           <Children fine="false" coarse="false" jagged="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
-        <Property name="Incrementors" kind="Expression" index="7" optional="true" changepoint="true" multiplicity="Collection" collectionType="ExpressionSyntax" collectionSeparator=",">
+        <Property name="Incrementors" kind="Expression" index="7" optional="false" changepoint="true" multiplicity="Collection" collectionType="ExpressionSyntax" collectionSeparator=",">
           <Text value="false" signature="false" meaningful="false"/>
           <Children fine="false" coarse="false" jagged="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>

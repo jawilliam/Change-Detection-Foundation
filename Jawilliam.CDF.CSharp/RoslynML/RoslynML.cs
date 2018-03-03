@@ -6939,7 +6939,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			result.Add(xDeclaration);
     		}
     		//Initializers
-    		if(node.Initializers != null)
+    		if(node.Initializers.Count > 0)
     		{
     			var xInitializers = new XElement("SeparatedList_of_Expression");
     			xInitializers.Add(new XAttribute("part", "Initializers"));
@@ -6966,7 +6966,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     		xSecondSemicolonToken.Add(new XAttribute("part", "SecondSemicolonToken"));
     		result.Add(xSecondSemicolonToken);
     		//Incrementors
-    		if(node.Incrementors != null)
+    		if(node.Incrementors.Count > 0)
     		{
     			var xIncrementors = new XElement("SeparatedList_of_Expression");
     			xIncrementors.Add(new XAttribute("part", "Incrementors"));

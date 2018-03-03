@@ -742,7 +742,7 @@ namespace Jawilliam.CDF.Labs
                 Modified = @"E:\SourceCode\Modified.cs"
             };
 
-            foreach (var project in Projects.Reverse().Skip(7))
+            foreach (var project in Projects.Reverse().Skip(12))
             {
                 var dbRepository = new GitRepository(project.Name) { Name = project.Name };
                 ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 600;

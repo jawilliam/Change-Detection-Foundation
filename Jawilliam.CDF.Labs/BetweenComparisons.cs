@@ -51,25 +51,31 @@ namespace Jawilliam.CDF.Labs
             DetectionResult rightDetectionResult, ElementTree leftOriginalTree, ElementTree leftModifiedTree,
             ElementTree rightOriginalTree, ElementTree rightModifiedTree, string way)
         {
-            foreach (var leftMatch in leftDetectionResult.Matches)
+            if (this.Config.Matches)
             {
-                if (!rightDetectionResult.Matches.Any(
-                        rightMatch =>
-                            this.Config.MatchCompare(leftMatch, leftDetectionResult, rightMatch, rightDetectionResult)))
+                foreach (var leftMatch in leftDetectionResult.Matches)
                 {
-                    var leftOriginal = leftOriginalTree.PostOrder(n => n.Children).First(n => n.Root.Id == leftMatch.Original.Id);
-                    var leftModified = leftModifiedTree.PostOrder(n => n.Children).First(n => n.Root.Id == leftMatch.Modified.Id);
-                    //var rightOriginal = rightOriginalTree.PostOrder(n => n.Children).First(n => n.Root.Id == rightMatch.Original.Id);
-                    //var rightModified = rightModifiedTree.PostOrder(n => n.Children).First(n => n.Root.Id == rightMatch.Modified.Id);
-                    yield return new BetweenSymptom
+                    if (!rightDetectionResult.Matches.Any(
+                            rightMatch =>
+                                this.Config.MatchCompare(leftMatch, leftDetectionResult, rightMatch, rightDetectionResult)))
                     {
-                        Id = Guid.NewGuid(),
-                        Pattern = $"{way}-Matches",
-                        Left = this.CreateBetweenPartInfo(this.Config.LeftName, "match", leftOriginal, leftModified),
-                        Right = this.CreateBetweenPartInfo(this.Config.RightName, "match", null, null)
-                    };
+                        var leftOriginal = leftOriginalTree.PostOrder(n => n.Children).First(n => n.Root.Id == leftMatch.Original.Id);
+                        var leftModified = leftModifiedTree.PostOrder(n => n.Children).First(n => n.Root.Id == leftMatch.Modified.Id);
+                        //var rightOriginal = rightOriginalTree.PostOrder(n => n.Children).First(n => n.Root.Id == rightMatch.Original.Id);
+                        //var rightModified = rightModifiedTree.PostOrder(n => n.Children).First(n => n.Root.Id == rightMatch.Modified.Id);
+                        yield return new BetweenSymptom
+                        {
+                            Id = Guid.NewGuid(),
+                            Pattern = $"{way}-Matches",
+                            Left = this.CreateBetweenPartInfo(this.Config.LeftName, "match", leftOriginal, leftModified),
+                            Right = this.CreateBetweenPartInfo(this.Config.RightName, "match", null, null),
+                        };
+                    }
                 }
             }
+
+            if (!this.Config.Actions)
+                yield break;
 
             foreach (var leftAction in leftDetectionResult.Actions)
             {
@@ -350,6 +356,16 @@ namespace Jawilliam.CDF.Labs
             /// Gets or sets if the comparison is left-to-right and right-to-left (TRUE), or just left-to-right (FALSE).
             /// </summary>
             public virtual bool TwoWay { get; set; }
+
+            /// <summary>
+            /// Enables or disables the matching analysis.
+            /// </summary>
+            public virtual bool Matches { get; set; }
+
+            /// <summary>
+            /// Enables or disables the actions analysis.
+            /// </summary>
+            public virtual bool Actions { get; set; }
 
             /// <summary>
             /// Gets or sets how to compare two matches.
