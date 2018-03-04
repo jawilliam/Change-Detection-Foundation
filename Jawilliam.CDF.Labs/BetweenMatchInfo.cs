@@ -11,16 +11,18 @@ namespace Jawilliam.CDF.Labs
 {
     using System;
     
-    public partial class ElementDescription
+    public partial class BetweenMatchInfo
     {
-        public ElementDescription()
+        public BetweenMatchInfo()
         {
-            this.Type = "\"\"";
-            this.Id = "\"-1\"";
+            this.PartName = "\"\"";
+            this.Modified = new ElementContext();
+            this.Original = new ElementContext();
         }
     
-        public string Type { get; set; }
-        public string Id { get; set; }
-        public string Hint { get; set; }
+        public string PartName { get; set; }
+    
+        public ElementContext Modified { get; set; }
+        public ElementContext Original { get; set; }
     }
 }
