@@ -10,7 +10,7 @@ using Microsoft.CodeAnalysis.CSharp;
 
 namespace Jawilliam.CDF.Labs
 {
-    public class BetweenComparisons : ImprecisionDiagnostic<MissedElement>
+    public class BetweenComparison : ImprecisionDiagnostic<MissedElement>
     {
         /// <summary>
         /// Gets or sets the configuration for the comparison.
@@ -206,7 +206,7 @@ namespace Jawilliam.CDF.Labs
                 {
                     Hint = missedOriginal?.Root.Value,
                     Id = missedOriginal?.Root.Id ?? "-1",
-                    Type = missedOriginal?.Root.Label
+                    Type = missedOriginal?.Root.Label ?? ""
                 },
                 ScopeHint = missedOriginal == null ? null : this.GetPath(missedOriginal.Ancestors())
             };
@@ -280,8 +280,8 @@ namespace Jawilliam.CDF.Labs
                 try
                 {
                     var symptoms = this.Compare(leftDelta, rightDelta, token).ToList();
-                    if (symptoms.Count > 0)
-                        this.Rate(pair);
+                    //if (symptoms.Count > 0)
+                    //    this.Rate(pair);
                     foreach (var betweenSymptom in symptoms)
                     {
                         if (saveChanges)
@@ -326,7 +326,7 @@ namespace Jawilliam.CDF.Labs
         /// </summary>
         public override void Recognize()
         {
-            this.Recognize(null, false);
+            this.Recognize(null, true);
         }
 
         /// <summary>
@@ -450,12 +450,12 @@ namespace Jawilliam.CDF.Labs
             /// <summary>
             /// Enables or disables the matching analysis.
             /// </summary>
-            public virtual bool Matches { get; set; }
+            public virtual bool Matches { get; set; } = true;
 
             /// <summary>
             /// Enables or disables the actions analysis.
             /// </summary>
-            public virtual bool Actions { get; set; }
+            public virtual bool Actions { get; set; } = true;
 
             /// <summary>
             /// Gets or sets how to compare two matching sets.

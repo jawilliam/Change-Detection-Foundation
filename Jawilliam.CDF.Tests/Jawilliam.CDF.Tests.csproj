@@ -167,6 +167,7 @@
     <Compile Include="CSharp\RoslynMLTests.ExpressionSyntaxes.Statements.cs" />
     <Compile Include="CSharp\RoslynMLTests.ExpressionSyntaxes.cs" />
     <Compile Include="CSharp\RoslynMLTests.NameSyntaxTypes.cs" />
+    <Compile Include="Labs\BetweenComparisonTests.cs.cs" />
     <Compile Include="Metrics\RelativeThresholdTest.cs" />
     <Compile Include="Miscellaneus.cs" />
     <Compile Include="NativeGumTreeResultParsing.cs" />

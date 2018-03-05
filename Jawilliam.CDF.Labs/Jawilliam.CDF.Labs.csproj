@@ -173,7 +173,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Approach.Matching\Matchable.cs" />
-    <Compile Include="BetweenComparisons.cs" />
+    <Compile Include="BetweenComparison.cs" />
     <Compile Include="BetweenMatchInfo.cs">
       <DependentUpon>GitRepository.tt</DependentUpon>
     </Compile>
