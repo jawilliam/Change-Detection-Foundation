@@ -12,22 +12,7 @@ namespace Jawilliam.CDF.Labs
     using System;
     using System.Collections.Generic;
     
-    public partial class BetweenSymptom : Symptom
+    public abstract partial class BetweenSymptom : Symptom
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public BetweenSymptom()
-        {
-            this.Left = new BetweenPartInfo();
-            this.Right = new BetweenPartInfo();
-            this.DivergentLeft = new BetweenPartInfo();
-            this.DivergentRight = new BetweenPartInfo();
-        }
-    
-        public string Pattern { get; set; }
-    
-        public BetweenPartInfo Left { get; set; }
-        public BetweenPartInfo Right { get; set; }
-        public BetweenPartInfo DivergentLeft { get; set; }
-        public BetweenPartInfo DivergentRight { get; set; }
     }
 }

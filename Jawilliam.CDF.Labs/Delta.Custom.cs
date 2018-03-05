@@ -35,7 +35,11 @@ namespace Jawilliam.CDF.Labs
                 switch (this.Approach)
                 {
                     case ChangeDetectionApproaches.NativeGumTree:
+                    case ChangeDetectionApproaches.NativeGumTreeWithChangeDistillerMatcher:
+                    case ChangeDetectionApproaches.NativeGumTreeWithXyMatcher:
                     case ChangeDetectionApproaches.InverseOfNativeGumTree:
+                    case ChangeDetectionApproaches.InverseOfNativeGumTreeWithChangeDistillerMatcher:
+                    case ChangeDetectionApproaches.InverseOfNativeGumTreeWithXyMatcher:
                     case ChangeDetectionApproaches.NativeGumTreeWithoutComments:
                         return this.GetNativeGumTreeResult();
                     default:
@@ -47,6 +51,11 @@ namespace Jawilliam.CDF.Labs
                 switch (this.Approach)
                 {
                     case ChangeDetectionApproaches.NativeGumTree:
+                    case ChangeDetectionApproaches.NativeGumTreeWithChangeDistillerMatcher:
+                    case ChangeDetectionApproaches.NativeGumTreeWithXyMatcher:
+                    case ChangeDetectionApproaches.InverseOfNativeGumTree:
+                    case ChangeDetectionApproaches.InverseOfNativeGumTreeWithChangeDistillerMatcher:
+                    case ChangeDetectionApproaches.InverseOfNativeGumTreeWithXyMatcher:
                     case ChangeDetectionApproaches.NativeGumTreeWithoutComments:
                         this.SetNativeGumTreeResult(value);
                         break;

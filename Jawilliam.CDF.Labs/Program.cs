@@ -551,8 +551,9 @@ namespace Jawilliam.CDF.Labs
             //    return new KeyValuePair<string, double>(v[0], double.Parse(v[1], CultureInfo.InvariantCulture));
             //}));
             //System.IO.File.WriteAllText(@"E:\Phd\Analysis\UniquePairs\RelativeThresholds.csv", analyzer.Report.ToString());
-            DetectingNativeGumTreeDiffWithCustomMatchers();
-            //var analyzer = new BetweenComparisons();
+            //DetectingNativeGumTreeDiffWithCustomMatchers();
+            ComparisonBetweenGumTreeAndReverseGumTree();
+            //var analyzer = new BetweenComparison();
             //analyzer.ConfigGumTreeVsReversedGumTree();
             //foreach (var project in Projects)
             //{
@@ -613,6 +614,26 @@ namespace Jawilliam.CDF.Labs
         //    Console.Out.WriteLine(allSummary);
         //    Console.Out.WriteLine($"Report collected!!!");
         //}
+
+        private static void ComparisonBetweenGumTreeAndReverseGumTree()
+        {
+            var recognizer = new BetweenComparison() { MillisecondsTimeout = 600000 };
+            recognizer.ConfigGumTreeVsReversedGumTree();
+
+            foreach (var project in Projects.Skip(6))
+            {
+                var dbRepository = new GitRepository(project.Name) { Name = project.Name };
+                ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 600;
+                recognizer.SqlRepository = dbRepository;
+                recognizer.Cancel = null;
+
+                recognizer.Warnings = new StringBuilder();
+                recognizer.Recognize();
+                System.IO.File.WriteAllText($@"E:\SourceCode\BetweenComparison_GT_RGT_{project.Name}.txt", recognizer.Warnings.ToString());
+            }
+            Console.Out.WriteLine($"GumTree native collected!!!");
+        }
+
 
         private static void DetectingNotRealSourceCodeChanges()
         {

@@ -173,7 +173,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Approach.Matching\Matchable.cs" />
-    <Compile Include="BetweenComparisons.cs" />
+    <Compile Include="BetweenComparison.cs" />
+    <Compile Include="BetweenMatchInfo.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
     <Compile Include="BetweenPartInfo.cs">
       <DependentUpon>GitRepository.tt</DependentUpon>
     </Compile>
@@ -278,6 +281,9 @@
       <DependentUpon>GitRepository.tt</DependentUpon>
     </Compile>
     <Compile Include="LinesOfCodeMetric.cs" />
+    <Compile Include="LRMatchSymptom.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
     <Compile Include="MissedElement.cs" />
     <Compile Include="MissedElementSymptom.cs">
       <DependentUpon>GitRepository.tt</DependentUpon>
@@ -320,6 +326,9 @@
       <DependentUpon>GitRepository.tt</DependentUpon>
     </Compile>
     <Compile Include="RevisionPairReview.cs" />
+    <Compile Include="RLMatchSymptom.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
     <Compile Include="SourceCodeMetric.cs" />
     <Compile Include="SourceCodeCleaner.cs" />
     <Compile Include="SpuriositySymptom.cs">

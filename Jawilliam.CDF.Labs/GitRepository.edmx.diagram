@@ -41,7 +41,7 @@
         <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.FileVersion" />
         <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.FileChange" />
       </Diagram>
-      <Diagram DiagramId="ac5c40058cf243809cab6af57bb45588" Name="Change Detection" DisplayType="true" ZoomLevel="152" >
+      <Diagram DiagramId="ac5c40058cf243809cab6af57bb45588" Name="Change Detection" DisplayType="true" ZoomLevel="117" >
         <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.FileContentSummary" Width="4.5" PointX="10.125" PointY="3.625" />
         <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.FileVersion" Width="2.125" PointX="6.75" PointY="3.625" />
         <AssociationConnector Association="Jawilliam.CDF.Labs.SQL.OneFileVersion_HasExactly_OneFileContentSummary" />
@@ -80,6 +80,10 @@
         <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.BetweenSymptom" Width="3.125" PointX="32.5" PointY="9.875" />
         <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.BetweenSymptom" />
         <AssociationConnector Association="Jawilliam.CDF.Labs.SQL.OneComplexSymptom_Contains_OtherSymptoms" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.LRMatchSymptom" Width="2.625" PointX="29.875" PointY="12" />
+        <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.LRMatchSymptom" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.RLMatchSymptom" Width="2.625" PointX="29.75" PointY="14.25" />
+        <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.RLMatchSymptom" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

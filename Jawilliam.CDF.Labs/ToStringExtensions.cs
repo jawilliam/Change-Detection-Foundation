@@ -14,11 +14,11 @@ namespace Jawilliam.CDF.Labs
         }
     }
 
-    partial class BetweenSymptom
-    {
-        public override string ToString()
-        {
-            return $"{this.Pattern}: {this.Left} vs. {this.Right}";
-        }
-    }
+    //partial class BetweenSymptom
+    //{
+    //    public override string ToString()
+    //    {
+    //        return $"{this.Pattern}: {this.Left} vs. {this.Right}";
+    //    }
+    //}
 }
