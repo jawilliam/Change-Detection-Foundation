@@ -163,7 +163,10 @@
   <ItemGroup>
     <Compile Include="Approach.GumTree\FileRevisionPairAnalyzerTests.cs" />
     <Compile Include="Approach.GumTree\GumTreeNativeApproachTests.cs" />
-    <Compile Include="Approach.Matching.CSharp\MatchingProvider.cs" />
+    <Compile Include="CSharp\MatchingProvider.cs" />
+    <Compile Include="CSharp\RoslynMLTests.CSharp7x.cs" />
+    <Compile Include="CSharp\RoslynMLTests.ExpressionSyntaxes.CompilationUnit.cs" />
+    <Compile Include="CSharp\RoslynMLTests.ExpressionSyntaxes.Trivia.cs" />
     <Compile Include="CSharp\RoslynMLTestsExpressionSyntaxes.MemberDeclarations.cs" />
     <Compile Include="CSharp\RoslynMLTests.ExpressionSyntaxes.Query.cs" />
     <Compile Include="CSharp\RoslynMLTests.ExpressionSyntaxes.Statements.cs" />
@@ -199,6 +202,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Actions\" />
+    <Folder Include="Approach.Matching.CSharp\" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

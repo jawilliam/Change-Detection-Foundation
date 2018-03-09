@@ -6358,6 +6358,10 @@ namespace Jawilliam.CDF.CSharp.RoslynML
         public override XElement VisitConstantPattern(Microsoft.CodeAnalysis.CSharp.Syntax.ConstantPatternSyntax node)
         {
     		var result = new XElement("ConstantPattern");
+    		//Expression
+    		var xExpression = this.Visit(node.Expression);
+    		xExpression.Add(new XAttribute("part", "Expression"));
+    		result.Add(xExpression);
     
     		this.Annotate(result, node);
     
@@ -7437,6 +7441,17 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     		var xPattern = this.Visit(node.Pattern);
     		xPattern.Add(new XAttribute("part", "Pattern"));
     		result.Add(xPattern);
+    		//WhenClause
+    		if(node.WhenClause != null)
+    		{
+    			var xWhenClause = this.Visit(node.WhenClause);
+    			xWhenClause.Add(new XAttribute("part", "WhenClause"));
+    			result.Add(xWhenClause);
+    		}
+    		//ColonToken
+    		var xColonToken = this.Visit(node.ColonToken);
+    		xColonToken.Add(new XAttribute("part", "ColonToken"));
+    		result.Add(xColonToken);
     
     		this.Annotate(result, node);
     

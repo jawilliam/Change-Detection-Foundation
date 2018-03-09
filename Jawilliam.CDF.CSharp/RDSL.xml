@@ -4675,6 +4675,16 @@
           <Children fine="false" coarse="false" jagged="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
+        <Property name="WhenClause" kind="Expression" index="2" optional="true" changepoint="true" multiplicity="Single">
+          <Text value="false" signature="false" meaningful="false"/>
+          <Children fine="false" coarse="false" jagged="false"/>
+          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+        </Property>
+      <Property name="ColonToken" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single" inherited="true">
+          <Text value="false" signature="false" meaningful="false"/>
+          <Children fine="false" coarse="false" jagged="false"/>
+          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+        </Property>
       </Properties>
     </Type>
     <Type name="DeclarationExpressionSyntax" base="ExpressionSyntax">
@@ -4781,13 +4791,14 @@
     </Type>
     <Type name="ConstantPatternSyntax" base="PatternSyntax">
       <Properties>
-        <Property name="Type" kind="Expression" index="0" optional="false" changepoint="true" multiplicity="Single">
+        <Property name="Expression" kind="Expression" index="0" optional="false" changepoint="true" multiplicity="Single">
           <Text value="false" signature="false" meaningful="false"/>
           <Children fine="false" coarse="false" jagged="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
     </Type>
+    
     <Type name="LocalFunctionStatementSyntax" base="StatementSyntax">
       <Properties>
         <Property name="Modifiers" kind="Expression" index="0" optional="false" changepoint="true" multiplicity="Collection">
