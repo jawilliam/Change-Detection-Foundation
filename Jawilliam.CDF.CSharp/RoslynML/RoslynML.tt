@@ -1,8 +1,8 @@
 <#@ template language="C#" debug="True" hostSpecific="true"#>
 <#@ output extension=".cs" #>
 <#@ include file="TemplateFileManagerV2.1.ttinclude" #>
-<#@ assembly name="$(SolutionDir)\packages\Microsoft.CodeAnalysis.Common.2.1.0\lib\netstandard1.3\Microsoft.CodeAnalysis.dll" #>
-<#@ assembly name="$(SolutionDir)\packages\Microsoft.CodeAnalysis.CSharp.2.1.0\lib\netstandard1.3\Microsoft.CodeAnalysis.CSharp.dll" #>
+<#@ assembly name="$(SolutionDir)\packages\Microsoft.CodeAnalysis.Common.2.7.0\lib\netstandard1.3\Microsoft.CodeAnalysis.dll" #>
+<#@ assembly name="$(SolutionDir)\packages\Microsoft.CodeAnalysis.CSharp.2.7.0\lib\netstandard1.3\Microsoft.CodeAnalysis.CSharp.dll" #>
 <#@ assembly name="$(SolutionDir)\packages\CodePlex.LinqToXsd.2.0.2\lib\Xml.Schema.Linq.dll" #>
 <#@ assembly name="$(SolutionDir)\Jawilliam.CDF\bin\Debug\Jawilliam.CDF.dll" #>
 <#@ assembly name="$(SolutionDir)\Jawilliam.CDF.XObjects\bin\Debug\Jawilliam.CDF.XObjects.dll" #>

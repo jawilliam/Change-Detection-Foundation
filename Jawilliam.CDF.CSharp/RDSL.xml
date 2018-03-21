@@ -4526,7 +4526,6 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="VariableDesignationSyntax" base="CSharpSyntaxNode" abstract="true"/>
     <Type name="TupleTypeSyntax" base="TypeSyntax">
       <Properties>
         <Property name="OpenParenToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single">
@@ -4564,7 +4563,7 @@
          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
        </Property>
      </Properties>
-    </Type>
+    </Type>    
     <Type name="TupleElementSyntax" base="CSharpSyntaxNode">
       <Properties>
         <Property name="Type" kind="Expression" index="0" optional="false" changepoint="true" multiplicity="Single">
@@ -4578,7 +4577,7 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
-    </Type>
+    </Type>    
     <Type name="ThrowExpressionSyntax" base="ExpressionSyntax">
       <Properties>
         <Property name="ThrowKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single">
@@ -4593,29 +4592,12 @@
         </Property>
       </Properties>
     </Type>
+    
+    <Type name="VariableDesignationSyntax" base="CSharpSyntaxNode" abstract="true"/>
     <Type name="SingleVariableDesignationSyntax" base="VariableDesignationSyntax">
       <Properties>
         <Property name="Identifier" kind="Token" index="0" optional="false" changepoint="true" multiplicity="Single">
           <Text value="false" signature="false" meaningful="false" postfix=" "/>
-          <Children fine="false" coarse="false" jagged="false"/>
-          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-        </Property>
-      </Properties>
-    </Type>
-    <Type name="IsPatternExpressionSyntax" base="ExpressionSyntax">
-      <Properties>
-        <Property name="Expression" kind="Expression" index="0" optional="false" changepoint="true" multiplicity="Single">
-          <Text value="false" signature="false" meaningful="false"/>
-          <Children fine="false" coarse="false" jagged="false"/>
-          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-        </Property>
-        <Property name="IsKeyword" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single">
-          <Text value="false" signature="false" meaningful="false"/>
-          <Children fine="false" coarse="false" jagged="false"/>
-          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-        </Property>
-        <Property name="Pattern" kind="Expression" index="0" optional="false" changepoint="true" multiplicity="Single">
-          <Text value="false" signature="false" meaningful="false"/>
           <Children fine="false" coarse="false" jagged="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
@@ -4649,6 +4631,7 @@
         </Property>
       </Properties>
     </Type>
+    
     <Type name="RefExpressionSyntax" base="ExpressionSyntax">
       <Properties>
         <Property name="RefKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single">
@@ -4663,6 +4646,7 @@
         </Property>
       </Properties>
     </Type>
+    
     <Type name="CasePatternSwitchLabelSyntax" base="SwitchLabelSyntax">
       <Properties>
         <Property name="Keyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" inherited="true">
@@ -4681,6 +4665,25 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       <Property name="ColonToken" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single" inherited="true">
+          <Text value="false" signature="false" meaningful="false"/>
+          <Children fine="false" coarse="false" jagged="false"/>
+          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+        </Property>
+      </Properties>
+    </Type>
+    <Type name="IsPatternExpressionSyntax" base="ExpressionSyntax">
+      <Properties>
+        <Property name="Expression" kind="Expression" index="0" optional="false" changepoint="true" multiplicity="Single">
+          <Text value="false" signature="false" meaningful="false"/>
+          <Children fine="false" coarse="false" jagged="false"/>
+          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+        </Property>
+        <Property name="IsKeyword" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single">
+          <Text value="false" signature="false" meaningful="false"/>
+          <Children fine="false" coarse="false" jagged="false"/>
+          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+        </Property>
+        <Property name="Pattern" kind="Expression" index="2" optional="false" changepoint="true" multiplicity="Single">
           <Text value="false" signature="false" meaningful="false"/>
           <Children fine="false" coarse="false" jagged="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
@@ -4735,7 +4738,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="ForEachVariableStatementSyntax" base="CommonForEachStatementSyntax" abstract="true">
+    <Type name="ForEachVariableStatementSyntax" base="CommonForEachStatementSyntax">
       <Properties>
         <Property name="ForEachKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" inherited="true">
           <Text value="false" signature="false" meaningful="false"/>
@@ -4767,13 +4770,14 @@
           <Children fine="false" coarse="false" jagged="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
-        <Property name="Statement" kind="Expression" index="5" optional="false" changepoint="true" multiplicity="Single" inherited="true">
+        <Property name="Statement" kind="Expression" index="6" optional="false" changepoint="true" multiplicity="Single" inherited="true">
           <Text value="false" signature="false" meaningful="false"/>
           <Children fine="false" coarse="false" jagged="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
     </Type>
+    
     <Type name="PatternSyntax" base="CSharpSyntaxNode" abstract="true"/>
     <Type name="DeclarationPatternSyntax" base="PatternSyntax">
       <Properties>

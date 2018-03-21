@@ -7,7 +7,7 @@ namespace Jawilliam.CDF.Tests.CSharp
     partial class RoslynMLTests
     {
         [TestMethod]
-        public void ExternAliasDirectiveSyntax_Mutable_OK()
+        public void ExternAliasDirectiveSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
             var node = SyntaxFactory.ParseCompilationUnit("extern alias a;").Externs[0];
@@ -16,7 +16,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void UsingDirectiveSyntax_Mutable_OK()
+        public void UsingDirectiveSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
 
@@ -38,7 +38,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void AttributeListSyntax_Mutable_OK()
+        public void AttributeListSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
             var node = SyntaxFactory.ParseCompilationUnit("[module: XAttribute(\"X\"), YAttribute(Y: 3), ZAttribute(Z= 4)]").AttributeLists[0];
@@ -47,7 +47,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void AttributeTargetSpecifierSyntax_Mutable_OK()
+        public void AttributeTargetSpecifierSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
             var node = SyntaxFactory.ParseCompilationUnit("[module: XAttribute(\"X\"), YAttribute(\"Y\": 3), ZAttribute(\"Z\"= 4)]").AttributeLists[0];
@@ -56,7 +56,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void AttributeArgumentSyntax_Mutable_OK()
+        public void AttributeArgumentSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
             var node = SyntaxFactory.ParseCompilationUnit("[module: XAttribute(\"X\")]").AttributeLists[0].Attributes[0].ArgumentList.Arguments[0];
@@ -65,7 +65,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void AttributeArgumentListSyntax_Mutable_OK()
+        public void AttributeArgumentListSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
             var node = SyntaxFactory.ParseCompilationUnit("[module: XAttribute(\"X\", Y: 3, Z= 4)]").AttributeLists[0].Attributes[0].ArgumentList;
@@ -74,7 +74,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void AttributeSyntax_Mutable_OK()
+        public void AttributeSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
             var node = SyntaxFactory.ParseCompilationUnit("[module: XAttribute(\"X\", Y: 3, Z= 4)]").AttributeLists[0].Attributes[0];
@@ -83,7 +83,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void CompilationUnitSyntax_Mutable_OK()
+        public void CompilationUnitSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
             var node = SyntaxFactory.ParseCompilationUnit("extern alias b; using static d; [assembly: XAttribute] namespace c{};");

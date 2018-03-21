@@ -11,7 +11,7 @@ namespace Jawilliam.CDF.Tests.CSharp
     partial class RoslynMLTests
     {
         [TestMethod]
-        public void ExpressionSyntax_LiteralExpressionSyntax_Mutable_OK()
+        public void ExpressionSyntax_LiteralExpressionSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
             var node = SyntaxFactory.ParseExpression("3");
@@ -44,7 +44,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void ExpressionSyntax_ParenthesizedExpressionSyntax_Mutable_OK()
+        public void ExpressionSyntax_ParenthesizedExpressionSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
             var node = SyntaxFactory.ParseExpression("(3)");
@@ -53,7 +53,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void ExpressionSyntax_PrefixUnaryExpressionSyntax_Mutable_OK()
+        public void ExpressionSyntax_PrefixUnaryExpressionSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
 
@@ -91,7 +91,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void ExpressionSyntax_PostfixUnaryExpressionSyntax_Mutable_OK()
+        public void ExpressionSyntax_PostfixUnaryExpressionSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
 
@@ -105,7 +105,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void ExpressionSyntax_AwaitExpressionSyntax_Mutable_OK()
+        public void ExpressionSyntax_AwaitExpressionSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
 
@@ -115,7 +115,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void ExpressionSyntax_MemberAccessExpressionSyntax_Mutable_OK()
+        public void ExpressionSyntax_MemberAccessExpressionSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
 
@@ -129,7 +129,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void ExpressionSyntax_ConditionalAccessExpressionSyntax_Mutable_OK()
+        public void ExpressionSyntax_ConditionalAccessExpressionSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
 
@@ -139,7 +139,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void ExpressionSyntax_MemberBindingExpressionSyntax_Mutable_OK()
+        public void ExpressionSyntax_MemberBindingExpressionSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
 
@@ -149,7 +149,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void ExpressionSyntax_ElementBindingExpressionSyntax_Mutable_OK()
+        public void ExpressionSyntax_ElementBindingExpressionSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
 
@@ -159,7 +159,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void ExpressionSyntax_ImplicitElementAccessSyntax_Mutable_OK()
+        public void ExpressionSyntax_ImplicitElementAccessSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
 
@@ -180,7 +180,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void ExpressionSyntax_BinaryExpressionSyntax_Mutable_OK()
+        public void ExpressionSyntax_BinaryExpressionSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
 
@@ -262,7 +262,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void ExpressionSyntax_AssignmentExpressionSyntax_Mutable_OK()
+        public void ExpressionSyntax_AssignmentExpressionSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
 
@@ -312,7 +312,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void ExpressionSyntax_ConditionalExpressionSyntax_Mutable_OK()
+        public void ExpressionSyntax_ConditionalExpressionSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
 
@@ -322,7 +322,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void ExpressionSyntax_ThisExpressionSyntax_Mutable_OK()
+        public void ExpressionSyntax_ThisExpressionSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
             var node = SyntaxFactory.ParseExpression("this");
@@ -331,7 +331,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void ExpressionSyntax_BaseExpressionSyntax_Mutable_OK()
+        public void ExpressionSyntax_BaseExpressionSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
             var node = SyntaxFactory.ParseExpression("base");
@@ -340,7 +340,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void ExpressionSyntax_MakeRefExpressionSyntax_Mutable_OK()
+        public void ExpressionSyntax_MakeRefExpressionSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
             var node = SyntaxFactory.ParseExpression("__makeref(x)");
@@ -357,7 +357,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void ExpressionSyntax_RefTypeExpressionSyntax_Mutable_OK()
+        public void ExpressionSyntax_RefTypeExpressionSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
             var node = SyntaxFactory.ParseExpression("__reftype(x)");
@@ -366,7 +366,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void ExpressionSyntax_RefValueExpressionSyntax_Mutable_OK()
+        public void ExpressionSyntax_RefValueExpressionSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
             var node = SyntaxFactory.ParseExpression("__refvalue(x, int)");
@@ -375,7 +375,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void ExpressionSyntax_CheckedExpressionSyntax_Mutable_OK()
+        public void ExpressionSyntax_CheckedExpressionSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
 
@@ -389,7 +389,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void ExpressionSyntax_DefaultExpressionSyntax_Mutable_OK()
+        public void ExpressionSyntax_DefaultExpressionSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
             var node = SyntaxFactory.ParseExpression("default(x)");
@@ -398,7 +398,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void ExpressionSyntax_TypeOfExpressionSyntax_Mutable_OK()
+        public void ExpressionSyntax_TypeOfExpressionSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
             var node = SyntaxFactory.ParseExpression("typeof(x)");
@@ -407,7 +407,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void ExpressionSyntax_SizeOfExpressionSyntax_Mutable_OK()
+        public void ExpressionSyntax_SizeOfExpressionSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
             var node = SyntaxFactory.ParseExpression("sizeof(x)");
@@ -416,7 +416,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void ExpressionSyntax_InvocationExpressionSyntax_Mutable_OK()
+        public void ExpressionSyntax_InvocationExpressionSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
 
@@ -426,7 +426,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void ExpressionSyntax_ArgumentSyntax_Mutable_OK()
+        public void ExpressionSyntax_ArgumentSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
             var node = (InvocationExpressionSyntax)Microsoft.CodeAnalysis.CSharp.SyntaxFactory.ParseExpression("f(arg: ref 3)");
@@ -439,7 +439,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void ExpressionSyntax_ElementAccessSyntax_Mutable_OK()
+        public void ExpressionSyntax_ElementAccessSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
 
@@ -457,7 +457,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void ExpressionSyntax_CastExpressionSyntax_Mutable_OK()
+        public void ExpressionSyntax_CastExpressionSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
             var node = SyntaxFactory.ParseExpression("(int)x");
@@ -466,7 +466,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void ExpressionSyntax_AnonymousMethodExpressionSyntax_Mutable_OK()
+        public void ExpressionSyntax_AnonymousMethodExpressionSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
 
@@ -484,7 +484,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void ExpressionSyntax_SimpleLambdaExpressionSyntax_Mutable_OK()
+        public void ExpressionSyntax_SimpleLambdaExpressionSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
             var node = SyntaxFactory.ParseExpression("async e => 4 }");
@@ -497,7 +497,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void ExpressionSyntax_ParenthesizedLambdaExpressionSyntax_Mutable_OK()
+        public void ExpressionSyntax_ParenthesizedLambdaExpressionSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
             var node = SyntaxFactory.ParseExpression("async (e) => 4");
@@ -506,7 +506,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void ExpressionSyntax_InitializerExpressionSyntax_Mutable_OK()
+        public void ExpressionSyntax_InitializerExpressionSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
 
@@ -622,7 +622,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void ExpressionSyntax_ObjectCreationExpressionSyntax_Mutable_OK()
+        public void ExpressionSyntax_ObjectCreationExpressionSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
             var node = (ObjectCreationExpressionSyntax)SyntaxFactory.ParseExpression("new F() { Text = 4, Prop = 'r', PropTex = \"hello world\" }");
@@ -635,7 +635,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void ExpressionSyntax_AnonymousObjectMemberDeclaratorSyntax_Mutable_OK()
+        public void ExpressionSyntax_AnonymousObjectMemberDeclaratorSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
             var node = (AnonymousObjectCreationExpressionSyntax)SyntaxFactory.ParseExpression("new { Text = 4 }");
@@ -648,7 +648,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void ExpressionSyntax_AnonymousObjectCreationExpressionSyntax_Mutable_OK()
+        public void ExpressionSyntax_AnonymousObjectCreationExpressionSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
             var node = SyntaxFactory.ParseExpression("new { Text = 4 }");
@@ -661,7 +661,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void ExpressionSyntax_ArrayCreationExpressionSyntax_Mutable_OK()
+        public void ExpressionSyntax_ArrayCreationExpressionSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
             var node = SyntaxFactory.ParseExpression("new A[4, 6]");
@@ -674,7 +674,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void ExpressionSyntax_ImplicitArrayCreationExpressionSyntax_Mutable_OK()
+        public void ExpressionSyntax_ImplicitArrayCreationExpressionSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
             var node = SyntaxFactory.ParseExpression("new [, ,]{4, 6}");
@@ -687,7 +687,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void ExpressionSyntax_StackAllocArrayCreationExpressionSyntax_Mutable_OK()
+        public void ExpressionSyntax_StackAllocArrayCreationExpressionSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
             Func<string, StackAllocArrayCreationExpressionSyntax> function = delegate (string s)

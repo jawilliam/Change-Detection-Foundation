@@ -9,7 +9,7 @@ namespace Jawilliam.CDF.Tests.CSharp
     partial class RoslynMLTests
     {
         [TestMethod]
-        public void MemberDeclaration_NamespaceDeclarationSyntax_Mutable_OK()
+        public void MemberDeclaration_NamespaceDeclarationSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
             var node = SyntaxFactory.ParseCompilationUnit("namespace a{extern alias b; using static d; namespace c{};};").Members[0];
@@ -18,7 +18,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void TypeParameterSyntax_Mutable_OK()
+        public void TypeParameterSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
 
@@ -40,7 +40,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void TypeParameterListSyntax_Mutable_OK()
+        public void TypeParameterListSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
 
@@ -50,7 +50,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void MemberDeclaration_ClassDeclarationSyntax_Mutable_OK()
+        public void MemberDeclaration_ClassDeclarationSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
 
@@ -64,7 +64,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void MemberDeclaration_StructDeclarationSyntax_Mutable_OK()
+        public void MemberDeclaration_StructDeclarationSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
 
@@ -78,7 +78,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void MemberDeclaration_InterfaceDeclarationSyntax_Mutable_OK()
+        public void MemberDeclaration_InterfaceDeclarationSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
 
@@ -92,7 +92,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void BaseListSyntax_Mutable_OK()
+        public void BaseListSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
             var node = (EnumDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public enum a : byte {a1, a2 = 3, bf = 34};").Members[0];
@@ -101,7 +101,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void SimpleBaseTypeSyntax_Mutable_OK()
+        public void SimpleBaseTypeSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
             var node = (EnumDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public enum a : byte {a1, a2 = 3, bf = 34};").Members[0];
@@ -110,7 +110,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void MemberDeclaration_EnumMemberDeclarationSyntax_Mutable_OK()
+        public void MemberDeclaration_EnumMemberDeclarationSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
             var node = (EnumDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("enum a {a1, a2 = 3, [Serializable]bf = 34};").Members[0];
@@ -126,7 +126,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void MemberDeclaration_EnumDeclarationSyntax_Mutable_OK()
+        public void MemberDeclaration_EnumDeclarationSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
             var node = (EnumDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public enum a : byte {a1, a2 = 3, bf = 34};").Members[0];
@@ -135,7 +135,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void TypeParameterConstraintClauseSyntax_Mutable_OK()
+        public void TypeParameterConstraintClauseSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
 
@@ -145,7 +145,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void TypeParameterConstraint_ConstructorConstraintSyntax_Mutable_OK()
+        public void TypeParameterConstraint_ConstructorConstraintSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
 
@@ -155,7 +155,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void TypeParameterConstraint_ClassOrStructConstraintSyntax_Mutable_OK()
+        public void TypeParameterConstraint_ClassOrStructConstraintSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
 
@@ -168,7 +168,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void TypeParameterConstraint_TypeConstraintSyntax_Mutable_OK()
+        public void TypeParameterConstraint_TypeConstraintSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
 
@@ -178,7 +178,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void MemberDeclaration_FieldDeclarationSyntax_Mutable_OK()
+        public void MemberDeclaration_FieldDeclarationSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
             var node = (ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a {B a1; internal static A b2 = 3; [Serializable]A c3 = 3; [Serializable]public int df = 34;}").Members[0];
@@ -197,7 +197,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void MemberDeclaration_EventFieldDeclarationSyntax_Mutable_OK()
+        public void MemberDeclaration_EventFieldDeclarationSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
             var node = (ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a {event B a1; internal static event A b2 = 3; [Serializable]event A c3 = 3; [Serializable]public event int df = 34;}").Members[0];
@@ -216,7 +216,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void ExplicitInterfaceSpecifierSyntax_Mutable_OK()
+        public void ExplicitInterfaceSpecifierSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
             var node = (ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a {event B IA.a1{add; remove;}}").Members[0];
@@ -226,7 +226,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void MemberDeclaration_MethodDeclarationSyntax_Mutable_OK()
+        public void MemberDeclaration_MethodDeclarationSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
 
@@ -264,7 +264,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void MemberDeclaration_OperatorDeclarationSyntax_Mutable_OK()
+        public void MemberDeclaration_OperatorDeclarationSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
 
@@ -302,7 +302,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void MemberDeclaration_ConversionOperatorDeclarationSyntax_Mutable_OK()
+        public void MemberDeclaration_ConversionOperatorDeclarationSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
 
@@ -336,7 +336,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void MemberDeclaration_ConstructorDeclarationSyntax_Mutable_OK()
+        public void MemberDeclaration_ConstructorDeclarationSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
 
@@ -366,7 +366,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void ConstructorInitializerSyntax_Mutable_OK()
+        public void ConstructorInitializerSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
 
@@ -380,7 +380,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void MemberDeclaration_DestructorDeclarationSyntax_Mutable_OK()
+        public void MemberDeclaration_DestructorDeclarationSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
 
@@ -398,7 +398,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void MemberDeclaration_PropertyDeclarationSyntax_Mutable_OK()
+        public void MemberDeclaration_PropertyDeclarationSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
 
@@ -440,7 +440,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void MemberDeclaration_ArrowExpressionClauseSyntax_Mutable_OK()
+        public void MemberDeclaration_ArrowExpressionClauseSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
 
@@ -450,7 +450,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void MemberDeclaration_EventDeclarationSyntax_Mutable_OK()
+        public void MemberDeclaration_EventDeclarationSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
 
@@ -492,7 +492,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void MemberDeclaration_IndexerDeclarationSyntax_Mutable_OK()
+        public void MemberDeclaration_IndexerDeclarationSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
 
@@ -526,7 +526,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
  
         [TestMethod]
-        public void AccessorListSyntax_Mutable_OK()
+        public void AccessorListSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
 
@@ -536,7 +536,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void AccessorDeclarationSyntax_Mutable_OK()
+        public void AccessorDeclarationSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
 
@@ -570,21 +570,21 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void ParameterListSyntax_Mutable_OK()
+        public void ParameterListSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
 
-            var node = (MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("M([Serializable] ref int a = 0, A b){}").Members[0];
+            var node = (MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("int M([Serializable] ref int a = 0, A b){}").Members[0];
             var xElement = converter.Visit(node.ParameterList);
-            Assert.AreEqual("<ParameterList startLine=\"1\" startColumn=\"2\" endLine=\"1\" endColumn=\"36\"><Token kind=\"OpenParenToken\" Punctuation=\"true\" Language=\"true\" startLine=\"1\" startColumn=\"2\" endLine=\"1\" endColumn=\"2\" part=\"OpenParenToken\">(</Token><SeparatedList_of_Parameter part=\"Parameters\"><Parameter startLine=\"1\" startColumn=\"3\" endLine=\"1\" endColumn=\"30\"><List_of_AttributeList part=\"AttributeLists\"><AttributeList startLine=\"1\" startColumn=\"3\" endLine=\"1\" endColumn=\"16\"><Token kind=\"OpenBracketToken\" Punctuation=\"true\" Language=\"true\" startLine=\"1\" startColumn=\"3\" endLine=\"1\" endColumn=\"3\" part=\"OpenBracketToken\">[</Token><SeparatedList_of_Attribute part=\"Attributes\"><Attribute startLine=\"1\" startColumn=\"4\" endLine=\"1\" endColumn=\"15\"><IdentifierName Name=\"true\" TypeSyntax=\"true\" startLine=\"1\" startColumn=\"4\" endLine=\"1\" endColumn=\"15\" part=\"Name\"><Token kind=\"IdentifierToken\" startLine=\"1\" startColumn=\"4\" endLine=\"1\" endColumn=\"15\" part=\"Identifier\">Serializable</Token></IdentifierName></Attribute></SeparatedList_of_Attribute><Token kind=\"CloseBracketToken\" Punctuation=\"true\" Language=\"true\" startLine=\"1\" startColumn=\"16\" endLine=\"1\" endColumn=\"16\" part=\"CloseBracketToken\">]</Token></AttributeList></List_of_AttributeList><TokenList part=\"Modifiers\"><Token kind=\"RefKeyword\" Keyword=\"true\" startLine=\"1\" startColumn=\"18\" endLine=\"1\" endColumn=\"20\">ref</Token></TokenList><PredefinedType TypeSyntax=\"true\" startLine=\"1\" startColumn=\"22\" endLine=\"1\" endColumn=\"24\" part=\"Type\"><Token kind=\"IntKeyword\" Keyword=\"true\" startLine=\"1\" startColumn=\"22\" endLine=\"1\" endColumn=\"24\" part=\"Keyword\">int</Token></PredefinedType><Token kind=\"IdentifierToken\" startLine=\"1\" startColumn=\"26\" endLine=\"1\" endColumn=\"26\" part=\"Identifier\">a</Token><EqualsValueClause startLine=\"1\" startColumn=\"28\" endLine=\"1\" endColumn=\"30\" part=\"Default\"><Token kind=\"EqualsToken\" Operator=\"true\" startLine=\"1\" startColumn=\"28\" endLine=\"1\" endColumn=\"28\" part=\"EqualsToken\">=</Token><LiteralExpression kind=\"NumericLiteralExpression\" startLine=\"1\" startColumn=\"30\" endLine=\"1\" endColumn=\"30\" part=\"Value\"><Token kind=\"NumericLiteralToken\" startLine=\"1\" startColumn=\"30\" endLine=\"1\" endColumn=\"30\" part=\"Token\">0</Token></LiteralExpression></EqualsValueClause></Parameter><Parameter startLine=\"1\" startColumn=\"33\" endLine=\"1\" endColumn=\"35\"><IdentifierName Name=\"true\" TypeSyntax=\"true\" startLine=\"1\" startColumn=\"33\" endLine=\"1\" endColumn=\"33\" part=\"Type\"><Token kind=\"IdentifierToken\" startLine=\"1\" startColumn=\"33\" endLine=\"1\" endColumn=\"33\" part=\"Identifier\">A</Token></IdentifierName><Token kind=\"IdentifierToken\" startLine=\"1\" startColumn=\"35\" endLine=\"1\" endColumn=\"35\" part=\"Identifier\">b</Token></Parameter></SeparatedList_of_Parameter><Token kind=\"CloseParenToken\" Punctuation=\"true\" Language=\"true\" startLine=\"1\" startColumn=\"36\" endLine=\"1\" endColumn=\"36\" part=\"CloseParenToken\">)</Token></ParameterList>", xElement.ToString(SaveOptions.DisableFormatting));
+            Assert.AreEqual("<ParameterList startLine=\"1\" startColumn=\"6\" endLine=\"1\" endColumn=\"40\"><Token kind=\"OpenParenToken\" Punctuation=\"true\" Language=\"true\" startLine=\"1\" startColumn=\"6\" endLine=\"1\" endColumn=\"6\" part=\"OpenParenToken\">(</Token><SeparatedList_of_Parameter part=\"Parameters\"><Parameter startLine=\"1\" startColumn=\"7\" endLine=\"1\" endColumn=\"34\"><List_of_AttributeList part=\"AttributeLists\"><AttributeList startLine=\"1\" startColumn=\"7\" endLine=\"1\" endColumn=\"20\"><Token kind=\"OpenBracketToken\" Punctuation=\"true\" Language=\"true\" startLine=\"1\" startColumn=\"7\" endLine=\"1\" endColumn=\"7\" part=\"OpenBracketToken\">[</Token><SeparatedList_of_Attribute part=\"Attributes\"><Attribute startLine=\"1\" startColumn=\"8\" endLine=\"1\" endColumn=\"19\"><IdentifierName Name=\"true\" TypeSyntax=\"true\" startLine=\"1\" startColumn=\"8\" endLine=\"1\" endColumn=\"19\" part=\"Name\"><Token kind=\"IdentifierToken\" startLine=\"1\" startColumn=\"8\" endLine=\"1\" endColumn=\"19\" part=\"Identifier\">Serializable</Token></IdentifierName></Attribute></SeparatedList_of_Attribute><Token kind=\"CloseBracketToken\" Punctuation=\"true\" Language=\"true\" startLine=\"1\" startColumn=\"20\" endLine=\"1\" endColumn=\"20\" part=\"CloseBracketToken\">]</Token></AttributeList></List_of_AttributeList><TokenList part=\"Modifiers\"><Token kind=\"RefKeyword\" Keyword=\"true\" startLine=\"1\" startColumn=\"22\" endLine=\"1\" endColumn=\"24\">ref</Token></TokenList><PredefinedType TypeSyntax=\"true\" startLine=\"1\" startColumn=\"26\" endLine=\"1\" endColumn=\"28\" part=\"Type\"><Token kind=\"IntKeyword\" Keyword=\"true\" startLine=\"1\" startColumn=\"26\" endLine=\"1\" endColumn=\"28\" part=\"Keyword\">int</Token></PredefinedType><Token kind=\"IdentifierToken\" startLine=\"1\" startColumn=\"30\" endLine=\"1\" endColumn=\"30\" part=\"Identifier\">a</Token><EqualsValueClause startLine=\"1\" startColumn=\"32\" endLine=\"1\" endColumn=\"34\" part=\"Default\"><Token kind=\"EqualsToken\" Operator=\"true\" startLine=\"1\" startColumn=\"32\" endLine=\"1\" endColumn=\"32\" part=\"EqualsToken\">=</Token><LiteralExpression kind=\"NumericLiteralExpression\" startLine=\"1\" startColumn=\"34\" endLine=\"1\" endColumn=\"34\" part=\"Value\"><Token kind=\"NumericLiteralToken\" startLine=\"1\" startColumn=\"34\" endLine=\"1\" endColumn=\"34\" part=\"Token\">0</Token></LiteralExpression></EqualsValueClause></Parameter><Parameter startLine=\"1\" startColumn=\"37\" endLine=\"1\" endColumn=\"39\"><IdentifierName Name=\"true\" TypeSyntax=\"true\" startLine=\"1\" startColumn=\"37\" endLine=\"1\" endColumn=\"37\" part=\"Type\"><Token kind=\"IdentifierToken\" startLine=\"1\" startColumn=\"37\" endLine=\"1\" endColumn=\"37\" part=\"Identifier\">A</Token></IdentifierName><Token kind=\"IdentifierToken\" startLine=\"1\" startColumn=\"39\" endLine=\"1\" endColumn=\"39\" part=\"Identifier\">b</Token></Parameter></SeparatedList_of_Parameter><Token kind=\"CloseParenToken\" Punctuation=\"true\" Language=\"true\" startLine=\"1\" startColumn=\"40\" endLine=\"1\" endColumn=\"40\" part=\"CloseParenToken\">)</Token></ParameterList>", xElement.ToString(SaveOptions.DisableFormatting));
 
-            node = (MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("M(string[] ids){}").Members[0];
+            node = (MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("int M(string[] ids){}").Members[0];
             xElement = converter.Visit(node.ParameterList);
-            Assert.AreEqual("<ParameterList startLine=\"1\" startColumn=\"2\" endLine=\"1\" endColumn=\"15\"><Token kind=\"OpenParenToken\" Punctuation=\"true\" Language=\"true\" startLine=\"1\" startColumn=\"2\" endLine=\"1\" endColumn=\"2\" part=\"OpenParenToken\">(</Token><SeparatedList_of_Parameter part=\"Parameters\"><Parameter startLine=\"1\" startColumn=\"3\" endLine=\"1\" endColumn=\"14\"><ArrayType TypeSyntax=\"true\" startLine=\"1\" startColumn=\"3\" endLine=\"1\" endColumn=\"10\" part=\"Type\"><PredefinedType TypeSyntax=\"true\" startLine=\"1\" startColumn=\"3\" endLine=\"1\" endColumn=\"8\" part=\"ElementType\"><Token kind=\"StringKeyword\" Keyword=\"true\" startLine=\"1\" startColumn=\"3\" endLine=\"1\" endColumn=\"8\" part=\"Keyword\">string</Token></PredefinedType><List_of_ArrayRankSpecifier part=\"RankSpecifiers\"><ArrayRankSpecifier startLine=\"1\" startColumn=\"9\" endLine=\"1\" endColumn=\"10\"><Token kind=\"OpenBracketToken\" Punctuation=\"true\" Language=\"true\" startLine=\"1\" startColumn=\"9\" endLine=\"1\" endColumn=\"9\" part=\"OpenBracketToken\">[</Token><SeparatedList_of_Expression part=\"Sizes\"><OmittedArraySizeExpression><Token kind=\"OmittedArraySizeExpressionToken\" part=\"OmittedArraySizeExpressionToken\"></Token></OmittedArraySizeExpression></SeparatedList_of_Expression><Token kind=\"CloseBracketToken\" Punctuation=\"true\" Language=\"true\" startLine=\"1\" startColumn=\"10\" endLine=\"1\" endColumn=\"10\" part=\"CloseBracketToken\">]</Token></ArrayRankSpecifier></List_of_ArrayRankSpecifier></ArrayType><Token kind=\"IdentifierToken\" startLine=\"1\" startColumn=\"12\" endLine=\"1\" endColumn=\"14\" part=\"Identifier\">ids</Token></Parameter></SeparatedList_of_Parameter><Token kind=\"CloseParenToken\" Punctuation=\"true\" Language=\"true\" startLine=\"1\" startColumn=\"15\" endLine=\"1\" endColumn=\"15\" part=\"CloseParenToken\">)</Token></ParameterList>", xElement.ToString(SaveOptions.DisableFormatting));
+            Assert.AreEqual("<ParameterList startLine=\"1\" startColumn=\"6\" endLine=\"1\" endColumn=\"19\"><Token kind=\"OpenParenToken\" Punctuation=\"true\" Language=\"true\" startLine=\"1\" startColumn=\"6\" endLine=\"1\" endColumn=\"6\" part=\"OpenParenToken\">(</Token><SeparatedList_of_Parameter part=\"Parameters\"><Parameter startLine=\"1\" startColumn=\"7\" endLine=\"1\" endColumn=\"18\"><ArrayType TypeSyntax=\"true\" startLine=\"1\" startColumn=\"7\" endLine=\"1\" endColumn=\"14\" part=\"Type\"><PredefinedType TypeSyntax=\"true\" startLine=\"1\" startColumn=\"7\" endLine=\"1\" endColumn=\"12\" part=\"ElementType\"><Token kind=\"StringKeyword\" Keyword=\"true\" startLine=\"1\" startColumn=\"7\" endLine=\"1\" endColumn=\"12\" part=\"Keyword\">string</Token></PredefinedType><List_of_ArrayRankSpecifier part=\"RankSpecifiers\"><ArrayRankSpecifier startLine=\"1\" startColumn=\"13\" endLine=\"1\" endColumn=\"14\"><Token kind=\"OpenBracketToken\" Punctuation=\"true\" Language=\"true\" startLine=\"1\" startColumn=\"13\" endLine=\"1\" endColumn=\"13\" part=\"OpenBracketToken\">[</Token><SeparatedList_of_Expression part=\"Sizes\"><OmittedArraySizeExpression><Token kind=\"OmittedArraySizeExpressionToken\" part=\"OmittedArraySizeExpressionToken\"></Token></OmittedArraySizeExpression></SeparatedList_of_Expression><Token kind=\"CloseBracketToken\" Punctuation=\"true\" Language=\"true\" startLine=\"1\" startColumn=\"14\" endLine=\"1\" endColumn=\"14\" part=\"CloseBracketToken\">]</Token></ArrayRankSpecifier></List_of_ArrayRankSpecifier></ArrayType><Token kind=\"IdentifierToken\" startLine=\"1\" startColumn=\"16\" endLine=\"1\" endColumn=\"18\" part=\"Identifier\">ids</Token></Parameter></SeparatedList_of_Parameter><Token kind=\"CloseParenToken\" Punctuation=\"true\" Language=\"true\" startLine=\"1\" startColumn=\"19\" endLine=\"1\" endColumn=\"19\" part=\"CloseParenToken\">)</Token></ParameterList>", xElement.ToString(SaveOptions.DisableFormatting));
         }
 
         [TestMethod]
-        public void BracketedParameterListSyntax_Mutable_OK()
+        public void BracketedParameterListSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
 
@@ -598,29 +598,29 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void ParameterSyntax_Mutable_OK()
+        public void ParameterSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
 
-            var node = (MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("M([Serializable] ref int a = 0, A b){}").Members[0];
+            var node = (MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("int M([Serializable] ref int a = 0, A b){}").Members[0];
             var xElement = converter.Visit(node.ParameterList.Parameters[0]);
-            Assert.AreEqual("<Parameter startLine=\"1\" startColumn=\"3\" endLine=\"1\" endColumn=\"30\"><List_of_AttributeList part=\"AttributeLists\"><AttributeList startLine=\"1\" startColumn=\"3\" endLine=\"1\" endColumn=\"16\"><Token kind=\"OpenBracketToken\" Punctuation=\"true\" Language=\"true\" startLine=\"1\" startColumn=\"3\" endLine=\"1\" endColumn=\"3\" part=\"OpenBracketToken\">[</Token><SeparatedList_of_Attribute part=\"Attributes\"><Attribute startLine=\"1\" startColumn=\"4\" endLine=\"1\" endColumn=\"15\"><IdentifierName Name=\"true\" TypeSyntax=\"true\" startLine=\"1\" startColumn=\"4\" endLine=\"1\" endColumn=\"15\" part=\"Name\"><Token kind=\"IdentifierToken\" startLine=\"1\" startColumn=\"4\" endLine=\"1\" endColumn=\"15\" part=\"Identifier\">Serializable</Token></IdentifierName></Attribute></SeparatedList_of_Attribute><Token kind=\"CloseBracketToken\" Punctuation=\"true\" Language=\"true\" startLine=\"1\" startColumn=\"16\" endLine=\"1\" endColumn=\"16\" part=\"CloseBracketToken\">]</Token></AttributeList></List_of_AttributeList><TokenList part=\"Modifiers\"><Token kind=\"RefKeyword\" Keyword=\"true\" startLine=\"1\" startColumn=\"18\" endLine=\"1\" endColumn=\"20\">ref</Token></TokenList><PredefinedType TypeSyntax=\"true\" startLine=\"1\" startColumn=\"22\" endLine=\"1\" endColumn=\"24\" part=\"Type\"><Token kind=\"IntKeyword\" Keyword=\"true\" startLine=\"1\" startColumn=\"22\" endLine=\"1\" endColumn=\"24\" part=\"Keyword\">int</Token></PredefinedType><Token kind=\"IdentifierToken\" startLine=\"1\" startColumn=\"26\" endLine=\"1\" endColumn=\"26\" part=\"Identifier\">a</Token><EqualsValueClause startLine=\"1\" startColumn=\"28\" endLine=\"1\" endColumn=\"30\" part=\"Default\"><Token kind=\"EqualsToken\" Operator=\"true\" startLine=\"1\" startColumn=\"28\" endLine=\"1\" endColumn=\"28\" part=\"EqualsToken\">=</Token><LiteralExpression kind=\"NumericLiteralExpression\" startLine=\"1\" startColumn=\"30\" endLine=\"1\" endColumn=\"30\" part=\"Value\"><Token kind=\"NumericLiteralToken\" startLine=\"1\" startColumn=\"30\" endLine=\"1\" endColumn=\"30\" part=\"Token\">0</Token></LiteralExpression></EqualsValueClause></Parameter>", xElement.ToString(SaveOptions.DisableFormatting));
+            Assert.AreEqual("<Parameter startLine=\"1\" startColumn=\"7\" endLine=\"1\" endColumn=\"34\"><List_of_AttributeList part=\"AttributeLists\"><AttributeList startLine=\"1\" startColumn=\"7\" endLine=\"1\" endColumn=\"20\"><Token kind=\"OpenBracketToken\" Punctuation=\"true\" Language=\"true\" startLine=\"1\" startColumn=\"7\" endLine=\"1\" endColumn=\"7\" part=\"OpenBracketToken\">[</Token><SeparatedList_of_Attribute part=\"Attributes\"><Attribute startLine=\"1\" startColumn=\"8\" endLine=\"1\" endColumn=\"19\"><IdentifierName Name=\"true\" TypeSyntax=\"true\" startLine=\"1\" startColumn=\"8\" endLine=\"1\" endColumn=\"19\" part=\"Name\"><Token kind=\"IdentifierToken\" startLine=\"1\" startColumn=\"8\" endLine=\"1\" endColumn=\"19\" part=\"Identifier\">Serializable</Token></IdentifierName></Attribute></SeparatedList_of_Attribute><Token kind=\"CloseBracketToken\" Punctuation=\"true\" Language=\"true\" startLine=\"1\" startColumn=\"20\" endLine=\"1\" endColumn=\"20\" part=\"CloseBracketToken\">]</Token></AttributeList></List_of_AttributeList><TokenList part=\"Modifiers\"><Token kind=\"RefKeyword\" Keyword=\"true\" startLine=\"1\" startColumn=\"22\" endLine=\"1\" endColumn=\"24\">ref</Token></TokenList><PredefinedType TypeSyntax=\"true\" startLine=\"1\" startColumn=\"26\" endLine=\"1\" endColumn=\"28\" part=\"Type\"><Token kind=\"IntKeyword\" Keyword=\"true\" startLine=\"1\" startColumn=\"26\" endLine=\"1\" endColumn=\"28\" part=\"Keyword\">int</Token></PredefinedType><Token kind=\"IdentifierToken\" startLine=\"1\" startColumn=\"30\" endLine=\"1\" endColumn=\"30\" part=\"Identifier\">a</Token><EqualsValueClause startLine=\"1\" startColumn=\"32\" endLine=\"1\" endColumn=\"34\" part=\"Default\"><Token kind=\"EqualsToken\" Operator=\"true\" startLine=\"1\" startColumn=\"32\" endLine=\"1\" endColumn=\"32\" part=\"EqualsToken\">=</Token><LiteralExpression kind=\"NumericLiteralExpression\" startLine=\"1\" startColumn=\"34\" endLine=\"1\" endColumn=\"34\" part=\"Value\"><Token kind=\"NumericLiteralToken\" startLine=\"1\" startColumn=\"34\" endLine=\"1\" endColumn=\"34\" part=\"Token\">0</Token></LiteralExpression></EqualsValueClause></Parameter>", xElement.ToString(SaveOptions.DisableFormatting));
 
-            node = (MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("M([Serializable] out int a = 0, A b){}").Members[0];
+            node = (MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("int M([Serializable] out int a = 0, A b){}").Members[0];
             xElement = converter.Visit(node.ParameterList.Parameters[0]);
-            Assert.AreEqual("<Parameter startLine=\"1\" startColumn=\"3\" endLine=\"1\" endColumn=\"30\"><List_of_AttributeList part=\"AttributeLists\"><AttributeList startLine=\"1\" startColumn=\"3\" endLine=\"1\" endColumn=\"16\"><Token kind=\"OpenBracketToken\" Punctuation=\"true\" Language=\"true\" startLine=\"1\" startColumn=\"3\" endLine=\"1\" endColumn=\"3\" part=\"OpenBracketToken\">[</Token><SeparatedList_of_Attribute part=\"Attributes\"><Attribute startLine=\"1\" startColumn=\"4\" endLine=\"1\" endColumn=\"15\"><IdentifierName Name=\"true\" TypeSyntax=\"true\" startLine=\"1\" startColumn=\"4\" endLine=\"1\" endColumn=\"15\" part=\"Name\"><Token kind=\"IdentifierToken\" startLine=\"1\" startColumn=\"4\" endLine=\"1\" endColumn=\"15\" part=\"Identifier\">Serializable</Token></IdentifierName></Attribute></SeparatedList_of_Attribute><Token kind=\"CloseBracketToken\" Punctuation=\"true\" Language=\"true\" startLine=\"1\" startColumn=\"16\" endLine=\"1\" endColumn=\"16\" part=\"CloseBracketToken\">]</Token></AttributeList></List_of_AttributeList><TokenList part=\"Modifiers\"><Token kind=\"OutKeyword\" Keyword=\"true\" TypeParameterVariance=\"true\" startLine=\"1\" startColumn=\"18\" endLine=\"1\" endColumn=\"20\">out</Token></TokenList><PredefinedType TypeSyntax=\"true\" startLine=\"1\" startColumn=\"22\" endLine=\"1\" endColumn=\"24\" part=\"Type\"><Token kind=\"IntKeyword\" Keyword=\"true\" startLine=\"1\" startColumn=\"22\" endLine=\"1\" endColumn=\"24\" part=\"Keyword\">int</Token></PredefinedType><Token kind=\"IdentifierToken\" startLine=\"1\" startColumn=\"26\" endLine=\"1\" endColumn=\"26\" part=\"Identifier\">a</Token><EqualsValueClause startLine=\"1\" startColumn=\"28\" endLine=\"1\" endColumn=\"30\" part=\"Default\"><Token kind=\"EqualsToken\" Operator=\"true\" startLine=\"1\" startColumn=\"28\" endLine=\"1\" endColumn=\"28\" part=\"EqualsToken\">=</Token><LiteralExpression kind=\"NumericLiteralExpression\" startLine=\"1\" startColumn=\"30\" endLine=\"1\" endColumn=\"30\" part=\"Value\"><Token kind=\"NumericLiteralToken\" startLine=\"1\" startColumn=\"30\" endLine=\"1\" endColumn=\"30\" part=\"Token\">0</Token></LiteralExpression></EqualsValueClause></Parameter>", xElement.ToString(SaveOptions.DisableFormatting));
+            Assert.AreEqual("<Parameter startLine=\"1\" startColumn=\"7\" endLine=\"1\" endColumn=\"34\"><List_of_AttributeList part=\"AttributeLists\"><AttributeList startLine=\"1\" startColumn=\"7\" endLine=\"1\" endColumn=\"20\"><Token kind=\"OpenBracketToken\" Punctuation=\"true\" Language=\"true\" startLine=\"1\" startColumn=\"7\" endLine=\"1\" endColumn=\"7\" part=\"OpenBracketToken\">[</Token><SeparatedList_of_Attribute part=\"Attributes\"><Attribute startLine=\"1\" startColumn=\"8\" endLine=\"1\" endColumn=\"19\"><IdentifierName Name=\"true\" TypeSyntax=\"true\" startLine=\"1\" startColumn=\"8\" endLine=\"1\" endColumn=\"19\" part=\"Name\"><Token kind=\"IdentifierToken\" startLine=\"1\" startColumn=\"8\" endLine=\"1\" endColumn=\"19\" part=\"Identifier\">Serializable</Token></IdentifierName></Attribute></SeparatedList_of_Attribute><Token kind=\"CloseBracketToken\" Punctuation=\"true\" Language=\"true\" startLine=\"1\" startColumn=\"20\" endLine=\"1\" endColumn=\"20\" part=\"CloseBracketToken\">]</Token></AttributeList></List_of_AttributeList><TokenList part=\"Modifiers\"><Token kind=\"OutKeyword\" Keyword=\"true\" TypeParameterVariance=\"true\" startLine=\"1\" startColumn=\"22\" endLine=\"1\" endColumn=\"24\">out</Token></TokenList><PredefinedType TypeSyntax=\"true\" startLine=\"1\" startColumn=\"26\" endLine=\"1\" endColumn=\"28\" part=\"Type\"><Token kind=\"IntKeyword\" Keyword=\"true\" startLine=\"1\" startColumn=\"26\" endLine=\"1\" endColumn=\"28\" part=\"Keyword\">int</Token></PredefinedType><Token kind=\"IdentifierToken\" startLine=\"1\" startColumn=\"30\" endLine=\"1\" endColumn=\"30\" part=\"Identifier\">a</Token><EqualsValueClause startLine=\"1\" startColumn=\"32\" endLine=\"1\" endColumn=\"34\" part=\"Default\"><Token kind=\"EqualsToken\" Operator=\"true\" startLine=\"1\" startColumn=\"32\" endLine=\"1\" endColumn=\"32\" part=\"EqualsToken\">=</Token><LiteralExpression kind=\"NumericLiteralExpression\" startLine=\"1\" startColumn=\"34\" endLine=\"1\" endColumn=\"34\" part=\"Value\"><Token kind=\"NumericLiteralToken\" startLine=\"1\" startColumn=\"34\" endLine=\"1\" endColumn=\"34\" part=\"Token\">0</Token></LiteralExpression></EqualsValueClause></Parameter>", xElement.ToString(SaveOptions.DisableFormatting));
 
-            node = (MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("M([Serializable] params int[] a = 0, A b){}").Members[0];
+            node = (MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("int M([Serializable] params int[] a = 0, A b){}").Members[0];
             xElement = converter.Visit(node.ParameterList.Parameters[0]);
-            Assert.AreEqual("<Parameter startLine=\"1\" startColumn=\"3\" endLine=\"1\" endColumn=\"35\"><List_of_AttributeList part=\"AttributeLists\"><AttributeList startLine=\"1\" startColumn=\"3\" endLine=\"1\" endColumn=\"16\"><Token kind=\"OpenBracketToken\" Punctuation=\"true\" Language=\"true\" startLine=\"1\" startColumn=\"3\" endLine=\"1\" endColumn=\"3\" part=\"OpenBracketToken\">[</Token><SeparatedList_of_Attribute part=\"Attributes\"><Attribute startLine=\"1\" startColumn=\"4\" endLine=\"1\" endColumn=\"15\"><IdentifierName Name=\"true\" TypeSyntax=\"true\" startLine=\"1\" startColumn=\"4\" endLine=\"1\" endColumn=\"15\" part=\"Name\"><Token kind=\"IdentifierToken\" startLine=\"1\" startColumn=\"4\" endLine=\"1\" endColumn=\"15\" part=\"Identifier\">Serializable</Token></IdentifierName></Attribute></SeparatedList_of_Attribute><Token kind=\"CloseBracketToken\" Punctuation=\"true\" Language=\"true\" startLine=\"1\" startColumn=\"16\" endLine=\"1\" endColumn=\"16\" part=\"CloseBracketToken\">]</Token></AttributeList></List_of_AttributeList><TokenList part=\"Modifiers\"><Token kind=\"ParamsKeyword\" Keyword=\"true\" startLine=\"1\" startColumn=\"18\" endLine=\"1\" endColumn=\"23\">params</Token></TokenList><ArrayType TypeSyntax=\"true\" startLine=\"1\" startColumn=\"25\" endLine=\"1\" endColumn=\"29\" part=\"Type\"><PredefinedType TypeSyntax=\"true\" startLine=\"1\" startColumn=\"25\" endLine=\"1\" endColumn=\"27\" part=\"ElementType\"><Token kind=\"IntKeyword\" Keyword=\"true\" startLine=\"1\" startColumn=\"25\" endLine=\"1\" endColumn=\"27\" part=\"Keyword\">int</Token></PredefinedType><List_of_ArrayRankSpecifier part=\"RankSpecifiers\"><ArrayRankSpecifier startLine=\"1\" startColumn=\"28\" endLine=\"1\" endColumn=\"29\"><Token kind=\"OpenBracketToken\" Punctuation=\"true\" Language=\"true\" startLine=\"1\" startColumn=\"28\" endLine=\"1\" endColumn=\"28\" part=\"OpenBracketToken\">[</Token><SeparatedList_of_Expression part=\"Sizes\"><OmittedArraySizeExpression><Token kind=\"OmittedArraySizeExpressionToken\" part=\"OmittedArraySizeExpressionToken\"></Token></OmittedArraySizeExpression></SeparatedList_of_Expression><Token kind=\"CloseBracketToken\" Punctuation=\"true\" Language=\"true\" startLine=\"1\" startColumn=\"29\" endLine=\"1\" endColumn=\"29\" part=\"CloseBracketToken\">]</Token></ArrayRankSpecifier></List_of_ArrayRankSpecifier></ArrayType><Token kind=\"IdentifierToken\" startLine=\"1\" startColumn=\"31\" endLine=\"1\" endColumn=\"31\" part=\"Identifier\">a</Token><EqualsValueClause startLine=\"1\" startColumn=\"33\" endLine=\"1\" endColumn=\"35\" part=\"Default\"><Token kind=\"EqualsToken\" Operator=\"true\" startLine=\"1\" startColumn=\"33\" endLine=\"1\" endColumn=\"33\" part=\"EqualsToken\">=</Token><LiteralExpression kind=\"NumericLiteralExpression\" startLine=\"1\" startColumn=\"35\" endLine=\"1\" endColumn=\"35\" part=\"Value\"><Token kind=\"NumericLiteralToken\" startLine=\"1\" startColumn=\"35\" endLine=\"1\" endColumn=\"35\" part=\"Token\">0</Token></LiteralExpression></EqualsValueClause></Parameter>", xElement.ToString(SaveOptions.DisableFormatting));
+            Assert.AreEqual("<Parameter startLine=\"1\" startColumn=\"7\" endLine=\"1\" endColumn=\"39\"><List_of_AttributeList part=\"AttributeLists\"><AttributeList startLine=\"1\" startColumn=\"7\" endLine=\"1\" endColumn=\"20\"><Token kind=\"OpenBracketToken\" Punctuation=\"true\" Language=\"true\" startLine=\"1\" startColumn=\"7\" endLine=\"1\" endColumn=\"7\" part=\"OpenBracketToken\">[</Token><SeparatedList_of_Attribute part=\"Attributes\"><Attribute startLine=\"1\" startColumn=\"8\" endLine=\"1\" endColumn=\"19\"><IdentifierName Name=\"true\" TypeSyntax=\"true\" startLine=\"1\" startColumn=\"8\" endLine=\"1\" endColumn=\"19\" part=\"Name\"><Token kind=\"IdentifierToken\" startLine=\"1\" startColumn=\"8\" endLine=\"1\" endColumn=\"19\" part=\"Identifier\">Serializable</Token></IdentifierName></Attribute></SeparatedList_of_Attribute><Token kind=\"CloseBracketToken\" Punctuation=\"true\" Language=\"true\" startLine=\"1\" startColumn=\"20\" endLine=\"1\" endColumn=\"20\" part=\"CloseBracketToken\">]</Token></AttributeList></List_of_AttributeList><TokenList part=\"Modifiers\"><Token kind=\"ParamsKeyword\" Keyword=\"true\" startLine=\"1\" startColumn=\"22\" endLine=\"1\" endColumn=\"27\">params</Token></TokenList><ArrayType TypeSyntax=\"true\" startLine=\"1\" startColumn=\"29\" endLine=\"1\" endColumn=\"33\" part=\"Type\"><PredefinedType TypeSyntax=\"true\" startLine=\"1\" startColumn=\"29\" endLine=\"1\" endColumn=\"31\" part=\"ElementType\"><Token kind=\"IntKeyword\" Keyword=\"true\" startLine=\"1\" startColumn=\"29\" endLine=\"1\" endColumn=\"31\" part=\"Keyword\">int</Token></PredefinedType><List_of_ArrayRankSpecifier part=\"RankSpecifiers\"><ArrayRankSpecifier startLine=\"1\" startColumn=\"32\" endLine=\"1\" endColumn=\"33\"><Token kind=\"OpenBracketToken\" Punctuation=\"true\" Language=\"true\" startLine=\"1\" startColumn=\"32\" endLine=\"1\" endColumn=\"32\" part=\"OpenBracketToken\">[</Token><SeparatedList_of_Expression part=\"Sizes\"><OmittedArraySizeExpression><Token kind=\"OmittedArraySizeExpressionToken\" part=\"OmittedArraySizeExpressionToken\"></Token></OmittedArraySizeExpression></SeparatedList_of_Expression><Token kind=\"CloseBracketToken\" Punctuation=\"true\" Language=\"true\" startLine=\"1\" startColumn=\"33\" endLine=\"1\" endColumn=\"33\" part=\"CloseBracketToken\">]</Token></ArrayRankSpecifier></List_of_ArrayRankSpecifier></ArrayType><Token kind=\"IdentifierToken\" startLine=\"1\" startColumn=\"35\" endLine=\"1\" endColumn=\"35\" part=\"Identifier\">a</Token><EqualsValueClause startLine=\"1\" startColumn=\"37\" endLine=\"1\" endColumn=\"39\" part=\"Default\"><Token kind=\"EqualsToken\" Operator=\"true\" startLine=\"1\" startColumn=\"37\" endLine=\"1\" endColumn=\"37\" part=\"EqualsToken\">=</Token><LiteralExpression kind=\"NumericLiteralExpression\" startLine=\"1\" startColumn=\"39\" endLine=\"1\" endColumn=\"39\" part=\"Value\"><Token kind=\"NumericLiteralToken\" startLine=\"1\" startColumn=\"39\" endLine=\"1\" endColumn=\"39\" part=\"Token\">0</Token></LiteralExpression></EqualsValueClause></Parameter>", xElement.ToString(SaveOptions.DisableFormatting));
 
-            node = (MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("M([Serializable] int[] a){}").Members[0];
+            node = (MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("int M([Serializable] int[] a){}").Members[0];
             xElement = converter.Visit(node.ParameterList.Parameters[0]);
-            Assert.AreEqual("<Parameter startLine=\"1\" startColumn=\"3\" endLine=\"1\" endColumn=\"24\"><List_of_AttributeList part=\"AttributeLists\"><AttributeList startLine=\"1\" startColumn=\"3\" endLine=\"1\" endColumn=\"16\"><Token kind=\"OpenBracketToken\" Punctuation=\"true\" Language=\"true\" startLine=\"1\" startColumn=\"3\" endLine=\"1\" endColumn=\"3\" part=\"OpenBracketToken\">[</Token><SeparatedList_of_Attribute part=\"Attributes\"><Attribute startLine=\"1\" startColumn=\"4\" endLine=\"1\" endColumn=\"15\"><IdentifierName Name=\"true\" TypeSyntax=\"true\" startLine=\"1\" startColumn=\"4\" endLine=\"1\" endColumn=\"15\" part=\"Name\"><Token kind=\"IdentifierToken\" startLine=\"1\" startColumn=\"4\" endLine=\"1\" endColumn=\"15\" part=\"Identifier\">Serializable</Token></IdentifierName></Attribute></SeparatedList_of_Attribute><Token kind=\"CloseBracketToken\" Punctuation=\"true\" Language=\"true\" startLine=\"1\" startColumn=\"16\" endLine=\"1\" endColumn=\"16\" part=\"CloseBracketToken\">]</Token></AttributeList></List_of_AttributeList><ArrayType TypeSyntax=\"true\" startLine=\"1\" startColumn=\"18\" endLine=\"1\" endColumn=\"22\" part=\"Type\"><PredefinedType TypeSyntax=\"true\" startLine=\"1\" startColumn=\"18\" endLine=\"1\" endColumn=\"20\" part=\"ElementType\"><Token kind=\"IntKeyword\" Keyword=\"true\" startLine=\"1\" startColumn=\"18\" endLine=\"1\" endColumn=\"20\" part=\"Keyword\">int</Token></PredefinedType><List_of_ArrayRankSpecifier part=\"RankSpecifiers\"><ArrayRankSpecifier startLine=\"1\" startColumn=\"21\" endLine=\"1\" endColumn=\"22\"><Token kind=\"OpenBracketToken\" Punctuation=\"true\" Language=\"true\" startLine=\"1\" startColumn=\"21\" endLine=\"1\" endColumn=\"21\" part=\"OpenBracketToken\">[</Token><SeparatedList_of_Expression part=\"Sizes\"><OmittedArraySizeExpression><Token kind=\"OmittedArraySizeExpressionToken\" part=\"OmittedArraySizeExpressionToken\"></Token></OmittedArraySizeExpression></SeparatedList_of_Expression><Token kind=\"CloseBracketToken\" Punctuation=\"true\" Language=\"true\" startLine=\"1\" startColumn=\"22\" endLine=\"1\" endColumn=\"22\" part=\"CloseBracketToken\">]</Token></ArrayRankSpecifier></List_of_ArrayRankSpecifier></ArrayType><Token kind=\"IdentifierToken\" startLine=\"1\" startColumn=\"24\" endLine=\"1\" endColumn=\"24\" part=\"Identifier\">a</Token></Parameter>", xElement.ToString(SaveOptions.DisableFormatting));
+            Assert.AreEqual("<Parameter startLine=\"1\" startColumn=\"7\" endLine=\"1\" endColumn=\"28\"><List_of_AttributeList part=\"AttributeLists\"><AttributeList startLine=\"1\" startColumn=\"7\" endLine=\"1\" endColumn=\"20\"><Token kind=\"OpenBracketToken\" Punctuation=\"true\" Language=\"true\" startLine=\"1\" startColumn=\"7\" endLine=\"1\" endColumn=\"7\" part=\"OpenBracketToken\">[</Token><SeparatedList_of_Attribute part=\"Attributes\"><Attribute startLine=\"1\" startColumn=\"8\" endLine=\"1\" endColumn=\"19\"><IdentifierName Name=\"true\" TypeSyntax=\"true\" startLine=\"1\" startColumn=\"8\" endLine=\"1\" endColumn=\"19\" part=\"Name\"><Token kind=\"IdentifierToken\" startLine=\"1\" startColumn=\"8\" endLine=\"1\" endColumn=\"19\" part=\"Identifier\">Serializable</Token></IdentifierName></Attribute></SeparatedList_of_Attribute><Token kind=\"CloseBracketToken\" Punctuation=\"true\" Language=\"true\" startLine=\"1\" startColumn=\"20\" endLine=\"1\" endColumn=\"20\" part=\"CloseBracketToken\">]</Token></AttributeList></List_of_AttributeList><ArrayType TypeSyntax=\"true\" startLine=\"1\" startColumn=\"22\" endLine=\"1\" endColumn=\"26\" part=\"Type\"><PredefinedType TypeSyntax=\"true\" startLine=\"1\" startColumn=\"22\" endLine=\"1\" endColumn=\"24\" part=\"ElementType\"><Token kind=\"IntKeyword\" Keyword=\"true\" startLine=\"1\" startColumn=\"22\" endLine=\"1\" endColumn=\"24\" part=\"Keyword\">int</Token></PredefinedType><List_of_ArrayRankSpecifier part=\"RankSpecifiers\"><ArrayRankSpecifier startLine=\"1\" startColumn=\"25\" endLine=\"1\" endColumn=\"26\"><Token kind=\"OpenBracketToken\" Punctuation=\"true\" Language=\"true\" startLine=\"1\" startColumn=\"25\" endLine=\"1\" endColumn=\"25\" part=\"OpenBracketToken\">[</Token><SeparatedList_of_Expression part=\"Sizes\"><OmittedArraySizeExpression><Token kind=\"OmittedArraySizeExpressionToken\" part=\"OmittedArraySizeExpressionToken\"></Token></OmittedArraySizeExpression></SeparatedList_of_Expression><Token kind=\"CloseBracketToken\" Punctuation=\"true\" Language=\"true\" startLine=\"1\" startColumn=\"26\" endLine=\"1\" endColumn=\"26\" part=\"CloseBracketToken\">]</Token></ArrayRankSpecifier></List_of_ArrayRankSpecifier></ArrayType><Token kind=\"IdentifierToken\" startLine=\"1\" startColumn=\"28\" endLine=\"1\" endColumn=\"28\" part=\"Identifier\">a</Token></Parameter>", xElement.ToString(SaveOptions.DisableFormatting));
         }
 
         [TestMethod]
-        public void IncompleteMemberSyntax_Mutable_OK()
+        public void IncompleteMemberSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
 

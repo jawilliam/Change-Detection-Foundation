@@ -11,7 +11,7 @@ namespace Jawilliam.CDF.Tests.CSharp
     public partial class RoslynMLTests
     {
         [TestMethod]
-        public void TypeSyntax_IdentifierNameSyntax_Mutable_OK()
+        public void TypeSyntax_IdentifierNameSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
             var node = SyntaxFactory.ParseName("var");
@@ -22,7 +22,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void TypeSyntax_QualifiedNameSyntax_Mutable_OK()
+        public void TypeSyntax_QualifiedNameSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
             var node = SyntaxFactory.ParseName("a.b.c");
@@ -59,7 +59,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void TypeSyntax_GenericNameSyntax_Mutable_OK()
+        public void TypeSyntax_GenericNameSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
 
@@ -121,7 +121,7 @@ namespace Jawilliam.CDF.Tests.CSharp
 
 
         [TestMethod]
-        public void TypeSyntax_AliasQualifiedNameSyntax_Mutable_OK()
+        public void TypeSyntax_AliasQualifiedNameSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
             var node = SyntaxFactory.ParseExpression("global::c");
@@ -138,7 +138,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void TypeSyntax_PredefinedTypeSyntax_Mutable_OK()
+        public void TypeSyntax_PredefinedTypeSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
             var node = SyntaxFactory.ParseTypeName("int");
@@ -156,7 +156,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void TypeSyntax_ArrayTypeSyntax_Mutable_OK()
+        public void TypeSyntax_ArrayTypeSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
 
@@ -212,7 +212,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void TypeSyntax_PointerTypeSyntax_Mutable_OK()
+        public void TypeSyntax_PointerTypeSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
             var node = SyntaxFactory.ParseTypeName("int*");
@@ -226,7 +226,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void TypeSyntax_NullableTypeSyntax_Mutable_OK()
+        public void TypeSyntax_NullableTypeSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
             var node = SyntaxFactory.ParseTypeName("int?");

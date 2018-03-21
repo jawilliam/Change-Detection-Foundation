@@ -8,7 +8,7 @@ namespace Jawilliam.CDF.Tests.CSharp
     partial class RoslynMLTests
     {
         [TestMethod]
-        public void ExpressionSyntax_QueryExpressionSyntax_Mutable_OK()
+        public void ExpressionSyntax_QueryExpressionSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
             var node = SyntaxFactory.ParseExpression("from f in s where f.A select f.R");
@@ -17,7 +17,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void ExpressionSyntax_FromClauseSyntax_Mutable_OK()
+        public void ExpressionSyntax_FromClauseSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
 
@@ -31,7 +31,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void ExpressionSyntax_QueryBodySyntax_Mutable_OK()
+        public void ExpressionSyntax_QueryBodySyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
 
@@ -45,7 +45,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void ExpressionSyntax_LetClauseSyntax_Mutable_OK()
+        public void ExpressionSyntax_LetClauseSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
 
@@ -55,7 +55,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void ExpressionSyntax_JoinClauseSyntax_Mutable_OK()
+        public void ExpressionSyntax_JoinClauseSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
 
@@ -65,7 +65,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void ExpressionSyntax_WhereClauseSyntax_Mutable_OK()
+        public void ExpressionSyntax_WhereClauseSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
 
@@ -75,7 +75,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void ExpressionSyntax_OrderByClauseSyntax_Mutable_OK()
+        public void ExpressionSyntax_OrderByClauseSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
 
@@ -89,7 +89,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void ExpressionSyntax_SelectClauseSyntax_Mutable_OK()
+        public void ExpressionSyntax_SelectClauseSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
 
@@ -103,7 +103,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void ExpressionSyntax_GroupClauseSyntax_Mutable_OK()
+        public void ExpressionSyntax_GroupClauseSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
 
@@ -113,7 +113,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void ExpressionSyntax_QueryContinuationSyntax_Mutable_OK()
+        public void ExpressionSyntax_QueryContinuationSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
 
@@ -123,7 +123,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void ExpressionSyntax_InterpolatedStringExpressionSyntaxAndInterpolatedStringTextSyntax_Mutable_OK()
+        public void ExpressionSyntax_InterpolatedStringExpressionSyntaxAndInterpolatedStringTextSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
 
@@ -133,7 +133,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void ExpressionSyntax_InterpolatedStringExpressionSyntaxAndInterpolationSyntax_Mutable_OK()
+        public void ExpressionSyntax_InterpolatedStringExpressionSyntaxAndInterpolationSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
 

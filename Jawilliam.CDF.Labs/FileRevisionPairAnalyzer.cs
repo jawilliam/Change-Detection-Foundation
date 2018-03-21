@@ -78,10 +78,10 @@ namespace Jawilliam.CDF.Labs
         {
             if (analysis == null) throw new ArgumentNullException(nameof(analysis));
 
-            var repositoryObjectIds = /*sqlRepository.Name == "mono"
-                ? sqlRepository.FileRevisionPairs
+            var repositoryObjectIds = /*this.SqlRepository.Name == "mono"
+                ? this.SqlRepository.FileRevisionPairs
                     .Where(onThese)
-                    .Select(fv => fv.Id).ToList().Skip(8).ToList()
+                    .Select(fv => fv.Id).ToList().Skip(13713).ToList()
                 :*/ this.SqlRepository.FileRevisionPairs
                     .Where(onThese)
                     .Select(fv => fv.Id).ToList();

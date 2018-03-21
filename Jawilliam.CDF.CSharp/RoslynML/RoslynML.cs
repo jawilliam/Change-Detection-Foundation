@@ -302,69 +302,6 @@ namespace Jawilliam.CDF.CSharp.RoslynML
         }
     
     	/// <summary>
-        /// Called when the visitor visits a AttributeSyntax node.
-        /// </summary>
-        public override XElement VisitAttribute(Microsoft.CodeAnalysis.CSharp.Syntax.AttributeSyntax node)
-        {
-    		var result = new XElement("Attribute");
-    		//Name
-    		var xName = this.Visit(node.Name);
-    		xName.Add(new XAttribute("part", "Name"));
-    		result.Add(xName);
-    		//ArgumentList
-    		if(node.ArgumentList != null)
-    		{
-    			var xArgumentList = this.Visit(node.ArgumentList);
-    			xArgumentList.Add(new XAttribute("part", "ArgumentList"));
-    			result.Add(xArgumentList);
-    		}
-    
-    		this.Annotate(result, node);
-    
-        	var kindAttribute = result.Attribute("kind");
-            if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
-    
-    		return result;
-        }
-    
-    	/// <summary>
-        /// Called when the visitor visits a AttributeArgumentListSyntax node.
-        /// </summary>
-        public override XElement VisitAttributeArgumentList(Microsoft.CodeAnalysis.CSharp.Syntax.AttributeArgumentListSyntax node)
-        {
-    		var result = new XElement("AttributeArgumentList");
-    		//OpenParenToken
-    		var xOpenParenToken = this.Visit(node.OpenParenToken);
-    		xOpenParenToken.Add(new XAttribute("part", "OpenParenToken"));
-    		result.Add(xOpenParenToken);
-    		//Arguments
-    		if(node.Arguments.Count > 0)
-    		{
-    			var xArguments = new XElement("SeparatedList_of_AttributeArgument");
-    			xArguments.Add(new XAttribute("part", "Arguments"));
-    			foreach(var x in node.Arguments)
-    			{
-    				var xElement = this.Visit(x);
-    				xArguments.Add(xElement);
-    			}
-    			result.Add(xArguments);
-    		}
-    		//CloseParenToken
-    		var xCloseParenToken = this.Visit(node.CloseParenToken);
-    		xCloseParenToken.Add(new XAttribute("part", "CloseParenToken"));
-    		result.Add(xCloseParenToken);
-    
-    		this.Annotate(result, node);
-    
-        	var kindAttribute = result.Attribute("kind");
-            if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
-    
-    		return result;
-        }
-    
-    	/// <summary>
         /// Called when the visitor visits a AttributeArgumentSyntax node.
         /// </summary>
         public override XElement VisitAttributeArgument(Microsoft.CodeAnalysis.CSharp.Syntax.AttributeArgumentSyntax node)
@@ -1799,6 +1736,69 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     		var xColonToken = this.Visit(node.ColonToken);
     		xColonToken.Add(new XAttribute("part", "ColonToken"));
     		result.Add(xColonToken);
+    
+    		this.Annotate(result, node);
+    
+        	var kindAttribute = result.Attribute("kind");
+            if (kindAttribute?.Value == result.Name.LocalName)
+                kindAttribute.Remove();
+    
+    		return result;
+        }
+    
+    	/// <summary>
+        /// Called when the visitor visits a AttributeSyntax node.
+        /// </summary>
+        public override XElement VisitAttribute(Microsoft.CodeAnalysis.CSharp.Syntax.AttributeSyntax node)
+        {
+    		var result = new XElement("Attribute");
+    		//Name
+    		var xName = this.Visit(node.Name);
+    		xName.Add(new XAttribute("part", "Name"));
+    		result.Add(xName);
+    		//ArgumentList
+    		if(node.ArgumentList != null)
+    		{
+    			var xArgumentList = this.Visit(node.ArgumentList);
+    			xArgumentList.Add(new XAttribute("part", "ArgumentList"));
+    			result.Add(xArgumentList);
+    		}
+    
+    		this.Annotate(result, node);
+    
+        	var kindAttribute = result.Attribute("kind");
+            if (kindAttribute?.Value == result.Name.LocalName)
+                kindAttribute.Remove();
+    
+    		return result;
+        }
+    
+    	/// <summary>
+        /// Called when the visitor visits a AttributeArgumentListSyntax node.
+        /// </summary>
+        public override XElement VisitAttributeArgumentList(Microsoft.CodeAnalysis.CSharp.Syntax.AttributeArgumentListSyntax node)
+        {
+    		var result = new XElement("AttributeArgumentList");
+    		//OpenParenToken
+    		var xOpenParenToken = this.Visit(node.OpenParenToken);
+    		xOpenParenToken.Add(new XAttribute("part", "OpenParenToken"));
+    		result.Add(xOpenParenToken);
+    		//Arguments
+    		if(node.Arguments.Count > 0)
+    		{
+    			var xArguments = new XElement("SeparatedList_of_AttributeArgument");
+    			xArguments.Add(new XAttribute("part", "Arguments"));
+    			foreach(var x in node.Arguments)
+    			{
+    				var xElement = this.Visit(x);
+    				xArguments.Add(xElement);
+    			}
+    			result.Add(xArguments);
+    		}
+    		//CloseParenToken
+    		var xCloseParenToken = this.Visit(node.CloseParenToken);
+    		xCloseParenToken.Add(new XAttribute("part", "CloseParenToken"));
+    		result.Add(xCloseParenToken);
     
     		this.Annotate(result, node);
     
@@ -5538,14 +5538,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     		var xExpression = this.Visit(node.Expression);
     		xExpression.Add(new XAttribute("part", "Expression"));
     		result.Add(xExpression);
-    		//Pattern
-    		var xPattern = this.Visit(node.Pattern);
-    		xPattern.Add(new XAttribute("part", "Pattern"));
-    		result.Add(xPattern);
     		//IsKeyword
     		var xIsKeyword = this.Visit(node.IsKeyword);
     		xIsKeyword.Add(new XAttribute("part", "IsKeyword"));
     		result.Add(xIsKeyword);
+    		//Pattern
+    		var xPattern = this.Visit(node.Pattern);
+    		xPattern.Add(new XAttribute("part", "Pattern"));
+    		result.Add(xPattern);
     
     		this.Annotate(result, node);
     
@@ -5746,6 +5746,13 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     		var xRefKeyword = this.Visit(node.RefKeyword);
     		xRefKeyword.Add(new XAttribute("part", "RefKeyword"));
     		result.Add(xRefKeyword);
+    		//ReadOnlyKeyword
+    		if(node.ReadOnlyKeyword != null && node.ReadOnlyKeyword.Kind() != SyntaxKind.None)
+    		{
+    			var xReadOnlyKeyword = this.Visit(node.ReadOnlyKeyword);
+    			xReadOnlyKeyword.Add(new XAttribute("part", "ReadOnlyKeyword"));
+    			result.Add(xReadOnlyKeyword);
+    		}
     		//Type
     		var xType = this.Visit(node.Type);
     		xType.Add(new XAttribute("part", "Type"));
@@ -7325,6 +7332,50 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     		var xIdentifier = this.Visit(node.Identifier);
     		xIdentifier.Add(new XAttribute("part", "Identifier"));
     		result.Add(xIdentifier);
+    		//InKeyword
+    		var xInKeyword = this.Visit(node.InKeyword);
+    		xInKeyword.Add(new XAttribute("part", "InKeyword"));
+    		result.Add(xInKeyword);
+    		//Expression
+    		var xExpression = this.Visit(node.Expression);
+    		xExpression.Add(new XAttribute("part", "Expression"));
+    		result.Add(xExpression);
+    		//CloseParenToken
+    		var xCloseParenToken = this.Visit(node.CloseParenToken);
+    		xCloseParenToken.Add(new XAttribute("part", "CloseParenToken"));
+    		result.Add(xCloseParenToken);
+    		//Statement
+    		var xStatement = this.Visit(node.Statement);
+    		xStatement.Add(new XAttribute("part", "Statement"));
+    		result.Add(xStatement);
+    
+    		this.Annotate(result, node);
+    
+        	var kindAttribute = result.Attribute("kind");
+            if (kindAttribute?.Value == result.Name.LocalName)
+                kindAttribute.Remove();
+    
+    		return result;
+        }
+    
+    	/// <summary>
+        /// Called when the visitor visits a ForEachVariableStatementSyntax node.
+        /// </summary>
+        public override XElement VisitForEachVariableStatement(Microsoft.CodeAnalysis.CSharp.Syntax.ForEachVariableStatementSyntax node)
+        {
+    		var result = new XElement("ForEachVariableStatement");
+    		//ForEachKeyword
+    		var xForEachKeyword = this.Visit(node.ForEachKeyword);
+    		xForEachKeyword.Add(new XAttribute("part", "ForEachKeyword"));
+    		result.Add(xForEachKeyword);
+    		//OpenParenToken
+    		var xOpenParenToken = this.Visit(node.OpenParenToken);
+    		xOpenParenToken.Add(new XAttribute("part", "OpenParenToken"));
+    		result.Add(xOpenParenToken);
+    		//Variable
+    		var xVariable = this.Visit(node.Variable);
+    		xVariable.Add(new XAttribute("part", "Variable"));
+    		result.Add(xVariable);
     		//InKeyword
     		var xInKeyword = this.Visit(node.InKeyword);
     		xInKeyword.Add(new XAttribute("part", "InKeyword"));

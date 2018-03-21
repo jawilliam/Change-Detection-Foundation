@@ -552,7 +552,7 @@ namespace Jawilliam.CDF.Labs
             //}));
             //System.IO.File.WriteAllText(@"E:\Phd\Analysis\UniquePairs\RelativeThresholds.csv", analyzer.Report.ToString());
             //DetectingNativeGumTreeDiffWithCustomMatchers();
-            ComparisonBetweenGumTreeAndReverseGumTree();
+            //ComparisonBetweenGumTreeAndReverseGumTree();
             //var analyzer = new BetweenComparison();
             //analyzer.ConfigGumTreeVsReversedGumTree();
             //foreach (var project in Projects)
@@ -619,9 +619,12 @@ namespace Jawilliam.CDF.Labs
         {
             var recognizer = new BetweenComparison() { MillisecondsTimeout = 600000 };
             recognizer.ConfigGumTreeVsReversedGumTree();
+            var connectionSettings = System.Configuration.ConfigurationManager.ConnectionStrings;
 
-            foreach (var project in Projects.Skip(6))
+            foreach (var project in Projects.Skip(56))
             {
+                //var connection = System.Configuration.ConfigurationManager.ConnectionStrings[project.Name];
+                //var connectionString = connection.ConnectionString.Replace("res://*/GitRepository", ".\\GitRepository");
                 var dbRepository = new GitRepository(project.Name) { Name = project.Name };
                 ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 600;
                 recognizer.SqlRepository = dbRepository;

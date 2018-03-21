@@ -8,7 +8,7 @@ namespace Jawilliam.CDF.Tests.CSharp
     partial class RoslynMLTests
     {
         [TestMethod]
-        public void MemberDeclaration_GlobalStatementSyntax_Mutable_OK()
+        public void MemberDeclaration_GlobalStatementSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
             var node = Microsoft.CodeAnalysis.CSharp.SyntaxFactory.GlobalStatement(SyntaxFactory.ParseStatement("x++"));
@@ -17,7 +17,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void StatementSyntax_BlockSyntax_Mutable_OK()
+        public void StatementSyntax_BlockSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
             var node = SyntaxFactory.ParseStatement("{ x = 5;x += 3; }");
@@ -26,38 +26,38 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void StatementSyntax_VariableDeclaratorSyntax_Mutable_OK()
+        public void StatementSyntax_VariableDeclaratorSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
-            var node = (MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("v() { const int a = 4; }").Members[0];
-            var xElement = converter.Visit(node);
-            Assert.AreEqual("<MethodDeclaration startLine=\"1\" startColumn=\"1\" endLine=\"1\" endColumn=\"24\"><PredefinedType TypeSyntax=\"true\" part=\"ReturnType\"><Token kind=\"VoidKeyword\" Keyword=\"true\" part=\"Keyword\"></Token></PredefinedType><Token kind=\"IdentifierToken\" startLine=\"1\" startColumn=\"1\" endLine=\"1\" endColumn=\"1\" part=\"Identifier\">v</Token><ParameterList startLine=\"1\" startColumn=\"2\" endLine=\"1\" endColumn=\"3\" part=\"ParameterList\"><Token kind=\"OpenParenToken\" Punctuation=\"true\" Language=\"true\" startLine=\"1\" startColumn=\"2\" endLine=\"1\" endColumn=\"2\" part=\"OpenParenToken\">(</Token><Token kind=\"CloseParenToken\" Punctuation=\"true\" Language=\"true\" startLine=\"1\" startColumn=\"3\" endLine=\"1\" endColumn=\"3\" part=\"CloseParenToken\">)</Token></ParameterList><Block startLine=\"1\" startColumn=\"5\" endLine=\"1\" endColumn=\"24\" part=\"Body\"><Token kind=\"OpenBraceToken\" Punctuation=\"true\" Language=\"true\" startLine=\"1\" startColumn=\"5\" endLine=\"1\" endColumn=\"5\" part=\"OpenBraceToken\">{</Token><List_of_Statement part=\"Statements\"><LocalDeclarationStatement startLine=\"1\" startColumn=\"7\" endLine=\"1\" endColumn=\"22\"><TokenList part=\"Modifiers\"><Token kind=\"ConstKeyword\" Keyword=\"true\" startLine=\"1\" startColumn=\"7\" endLine=\"1\" endColumn=\"11\">const</Token></TokenList><VariableDeclaration startLine=\"1\" startColumn=\"13\" endLine=\"1\" endColumn=\"21\" part=\"Declaration\"><PredefinedType TypeSyntax=\"true\" startLine=\"1\" startColumn=\"13\" endLine=\"1\" endColumn=\"15\" part=\"Type\"><Token kind=\"IntKeyword\" Keyword=\"true\" startLine=\"1\" startColumn=\"13\" endLine=\"1\" endColumn=\"15\" part=\"Keyword\">int</Token></PredefinedType><SeparatedList_of_VariableDeclarator part=\"Variables\"><VariableDeclarator startLine=\"1\" startColumn=\"17\" endLine=\"1\" endColumn=\"21\"><Token kind=\"IdentifierToken\" startLine=\"1\" startColumn=\"17\" endLine=\"1\" endColumn=\"17\" part=\"Identifier\">a</Token><EqualsValueClause startLine=\"1\" startColumn=\"19\" endLine=\"1\" endColumn=\"21\" part=\"Initializer\"><Token kind=\"EqualsToken\" Operator=\"true\" startLine=\"1\" startColumn=\"19\" endLine=\"1\" endColumn=\"19\" part=\"EqualsToken\">=</Token><LiteralExpression kind=\"NumericLiteralExpression\" startLine=\"1\" startColumn=\"21\" endLine=\"1\" endColumn=\"21\" part=\"Value\"><Token kind=\"NumericLiteralToken\" startLine=\"1\" startColumn=\"21\" endLine=\"1\" endColumn=\"21\" part=\"Token\">4</Token></LiteralExpression></EqualsValueClause></VariableDeclarator></SeparatedList_of_VariableDeclarator></VariableDeclaration><Token kind=\"SemicolonToken\" Punctuation=\"true\" Language=\"true\" startLine=\"1\" startColumn=\"22\" endLine=\"1\" endColumn=\"22\" part=\"SemicolonToken\">;</Token></LocalDeclarationStatement></List_of_Statement><Token kind=\"CloseBraceToken\" Punctuation=\"true\" Language=\"true\" startLine=\"1\" startColumn=\"24\" endLine=\"1\" endColumn=\"24\" part=\"CloseBraceToken\">}</Token></Block></MethodDeclaration>", xElement.ToString(SaveOptions.DisableFormatting));
+            var node = (MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("int v() { const int a = 4; }").Members[0];
+            var xElement = converter.Visit(((LocalDeclarationStatementSyntax)node.Body.Statements[0]).Declaration.Variables[0]);
+            Assert.AreEqual("<VariableDeclarator startLine=\"1\" startColumn=\"21\" endLine=\"1\" endColumn=\"25\"><Token kind=\"IdentifierToken\" startLine=\"1\" startColumn=\"21\" endLine=\"1\" endColumn=\"21\" part=\"Identifier\">a</Token><EqualsValueClause startLine=\"1\" startColumn=\"23\" endLine=\"1\" endColumn=\"25\" part=\"Initializer\"><Token kind=\"EqualsToken\" Operator=\"true\" startLine=\"1\" startColumn=\"23\" endLine=\"1\" endColumn=\"23\" part=\"EqualsToken\">=</Token><LiteralExpression kind=\"NumericLiteralExpression\" startLine=\"1\" startColumn=\"25\" endLine=\"1\" endColumn=\"25\" part=\"Value\"><Token kind=\"NumericLiteralToken\" startLine=\"1\" startColumn=\"25\" endLine=\"1\" endColumn=\"25\" part=\"Token\">4</Token></LiteralExpression></EqualsValueClause></VariableDeclarator>", xElement.ToString(SaveOptions.DisableFormatting));
 
-            node = (MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("v() { const int z1 = 3/2; }").Members[0];
-            xElement = converter.Visit(node);
-            Assert.AreEqual("<MethodDeclaration startLine=\"1\" startColumn=\"1\" endLine=\"1\" endColumn=\"27\"><PredefinedType TypeSyntax=\"true\" part=\"ReturnType\"><Token kind=\"VoidKeyword\" Keyword=\"true\" part=\"Keyword\"></Token></PredefinedType><Token kind=\"IdentifierToken\" startLine=\"1\" startColumn=\"1\" endLine=\"1\" endColumn=\"1\" part=\"Identifier\">v</Token><ParameterList startLine=\"1\" startColumn=\"2\" endLine=\"1\" endColumn=\"3\" part=\"ParameterList\"><Token kind=\"OpenParenToken\" Punctuation=\"true\" Language=\"true\" startLine=\"1\" startColumn=\"2\" endLine=\"1\" endColumn=\"2\" part=\"OpenParenToken\">(</Token><Token kind=\"CloseParenToken\" Punctuation=\"true\" Language=\"true\" startLine=\"1\" startColumn=\"3\" endLine=\"1\" endColumn=\"3\" part=\"CloseParenToken\">)</Token></ParameterList><Block startLine=\"1\" startColumn=\"5\" endLine=\"1\" endColumn=\"27\" part=\"Body\"><Token kind=\"OpenBraceToken\" Punctuation=\"true\" Language=\"true\" startLine=\"1\" startColumn=\"5\" endLine=\"1\" endColumn=\"5\" part=\"OpenBraceToken\">{</Token><List_of_Statement part=\"Statements\"><LocalDeclarationStatement startLine=\"1\" startColumn=\"7\" endLine=\"1\" endColumn=\"25\"><TokenList part=\"Modifiers\"><Token kind=\"ConstKeyword\" Keyword=\"true\" startLine=\"1\" startColumn=\"7\" endLine=\"1\" endColumn=\"11\">const</Token></TokenList><VariableDeclaration startLine=\"1\" startColumn=\"13\" endLine=\"1\" endColumn=\"24\" part=\"Declaration\"><PredefinedType TypeSyntax=\"true\" startLine=\"1\" startColumn=\"13\" endLine=\"1\" endColumn=\"15\" part=\"Type\"><Token kind=\"IntKeyword\" Keyword=\"true\" startLine=\"1\" startColumn=\"13\" endLine=\"1\" endColumn=\"15\" part=\"Keyword\">int</Token></PredefinedType><SeparatedList_of_VariableDeclarator part=\"Variables\"><VariableDeclarator startLine=\"1\" startColumn=\"17\" endLine=\"1\" endColumn=\"24\"><Token kind=\"IdentifierToken\" startLine=\"1\" startColumn=\"17\" endLine=\"1\" endColumn=\"18\" part=\"Identifier\">z1</Token><EqualsValueClause startLine=\"1\" startColumn=\"20\" endLine=\"1\" endColumn=\"24\" part=\"Initializer\"><Token kind=\"EqualsToken\" Operator=\"true\" startLine=\"1\" startColumn=\"20\" endLine=\"1\" endColumn=\"20\" part=\"EqualsToken\">=</Token><BinaryExpression kind=\"DivideExpression\" startLine=\"1\" startColumn=\"22\" endLine=\"1\" endColumn=\"24\" part=\"Value\"><LiteralExpression kind=\"NumericLiteralExpression\" startLine=\"1\" startColumn=\"22\" endLine=\"1\" endColumn=\"22\" part=\"Left\"><Token kind=\"NumericLiteralToken\" startLine=\"1\" startColumn=\"22\" endLine=\"1\" endColumn=\"22\" part=\"Token\">3</Token></LiteralExpression><Token kind=\"SlashToken\" Operator=\"true\" startLine=\"1\" startColumn=\"23\" endLine=\"1\" endColumn=\"23\" part=\"OperatorToken\">/</Token><LiteralExpression kind=\"NumericLiteralExpression\" startLine=\"1\" startColumn=\"24\" endLine=\"1\" endColumn=\"24\" part=\"Right\"><Token kind=\"NumericLiteralToken\" startLine=\"1\" startColumn=\"24\" endLine=\"1\" endColumn=\"24\" part=\"Token\">2</Token></LiteralExpression></BinaryExpression></EqualsValueClause></VariableDeclarator></SeparatedList_of_VariableDeclarator></VariableDeclaration><Token kind=\"SemicolonToken\" Punctuation=\"true\" Language=\"true\" startLine=\"1\" startColumn=\"25\" endLine=\"1\" endColumn=\"25\" part=\"SemicolonToken\">;</Token></LocalDeclarationStatement></List_of_Statement><Token kind=\"CloseBraceToken\" Punctuation=\"true\" Language=\"true\" startLine=\"1\" startColumn=\"27\" endLine=\"1\" endColumn=\"27\" part=\"CloseBraceToken\">}</Token></Block></MethodDeclaration>", xElement.ToString(SaveOptions.DisableFormatting));
+            node = (MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("int v() { const int z1 = 3/2; }").Members[0];
+            xElement = converter.Visit(((LocalDeclarationStatementSyntax)node.Body.Statements[0]).Declaration.Variables[0]);
+            Assert.AreEqual("<VariableDeclarator startLine=\"1\" startColumn=\"21\" endLine=\"1\" endColumn=\"28\"><Token kind=\"IdentifierToken\" startLine=\"1\" startColumn=\"21\" endLine=\"1\" endColumn=\"22\" part=\"Identifier\">z1</Token><EqualsValueClause startLine=\"1\" startColumn=\"24\" endLine=\"1\" endColumn=\"28\" part=\"Initializer\"><Token kind=\"EqualsToken\" Operator=\"true\" startLine=\"1\" startColumn=\"24\" endLine=\"1\" endColumn=\"24\" part=\"EqualsToken\">=</Token><BinaryExpression kind=\"DivideExpression\" startLine=\"1\" startColumn=\"26\" endLine=\"1\" endColumn=\"28\" part=\"Value\"><LiteralExpression kind=\"NumericLiteralExpression\" startLine=\"1\" startColumn=\"26\" endLine=\"1\" endColumn=\"26\" part=\"Left\"><Token kind=\"NumericLiteralToken\" startLine=\"1\" startColumn=\"26\" endLine=\"1\" endColumn=\"26\" part=\"Token\">3</Token></LiteralExpression><Token kind=\"SlashToken\" Operator=\"true\" startLine=\"1\" startColumn=\"27\" endLine=\"1\" endColumn=\"27\" part=\"OperatorToken\">/</Token><LiteralExpression kind=\"NumericLiteralExpression\" startLine=\"1\" startColumn=\"28\" endLine=\"1\" endColumn=\"28\" part=\"Right\"><Token kind=\"NumericLiteralToken\" startLine=\"1\" startColumn=\"28\" endLine=\"1\" endColumn=\"28\" part=\"Token\">2</Token></LiteralExpression></BinaryExpression></EqualsValueClause></VariableDeclarator>", xElement.ToString(SaveOptions.DisableFormatting));
         }
 
         [TestMethod]
-        public void StatementSyntax_VariableDeclarationSyntax_Mutable_OK()
+        public void StatementSyntax_VariableDeclarationSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
-            var node = (MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("v() { const int a = 4, b = 3; }").Members[0];
-            var xElement = converter.Visit(node);
-            Assert.AreEqual("<MethodDeclaration startLine=\"1\" startColumn=\"1\" endLine=\"1\" endColumn=\"31\"><PredefinedType TypeSyntax=\"true\" part=\"ReturnType\"><Token kind=\"VoidKeyword\" Keyword=\"true\" part=\"Keyword\"></Token></PredefinedType><Token kind=\"IdentifierToken\" startLine=\"1\" startColumn=\"1\" endLine=\"1\" endColumn=\"1\" part=\"Identifier\">v</Token><ParameterList startLine=\"1\" startColumn=\"2\" endLine=\"1\" endColumn=\"3\" part=\"ParameterList\"><Token kind=\"OpenParenToken\" Punctuation=\"true\" Language=\"true\" startLine=\"1\" startColumn=\"2\" endLine=\"1\" endColumn=\"2\" part=\"OpenParenToken\">(</Token><Token kind=\"CloseParenToken\" Punctuation=\"true\" Language=\"true\" startLine=\"1\" startColumn=\"3\" endLine=\"1\" endColumn=\"3\" part=\"CloseParenToken\">)</Token></ParameterList><Block startLine=\"1\" startColumn=\"5\" endLine=\"1\" endColumn=\"31\" part=\"Body\"><Token kind=\"OpenBraceToken\" Punctuation=\"true\" Language=\"true\" startLine=\"1\" startColumn=\"5\" endLine=\"1\" endColumn=\"5\" part=\"OpenBraceToken\">{</Token><List_of_Statement part=\"Statements\"><LocalDeclarationStatement startLine=\"1\" startColumn=\"7\" endLine=\"1\" endColumn=\"29\"><TokenList part=\"Modifiers\"><Token kind=\"ConstKeyword\" Keyword=\"true\" startLine=\"1\" startColumn=\"7\" endLine=\"1\" endColumn=\"11\">const</Token></TokenList><VariableDeclaration startLine=\"1\" startColumn=\"13\" endLine=\"1\" endColumn=\"28\" part=\"Declaration\"><PredefinedType TypeSyntax=\"true\" startLine=\"1\" startColumn=\"13\" endLine=\"1\" endColumn=\"15\" part=\"Type\"><Token kind=\"IntKeyword\" Keyword=\"true\" startLine=\"1\" startColumn=\"13\" endLine=\"1\" endColumn=\"15\" part=\"Keyword\">int</Token></PredefinedType><SeparatedList_of_VariableDeclarator part=\"Variables\"><VariableDeclarator startLine=\"1\" startColumn=\"17\" endLine=\"1\" endColumn=\"21\"><Token kind=\"IdentifierToken\" startLine=\"1\" startColumn=\"17\" endLine=\"1\" endColumn=\"17\" part=\"Identifier\">a</Token><EqualsValueClause startLine=\"1\" startColumn=\"19\" endLine=\"1\" endColumn=\"21\" part=\"Initializer\"><Token kind=\"EqualsToken\" Operator=\"true\" startLine=\"1\" startColumn=\"19\" endLine=\"1\" endColumn=\"19\" part=\"EqualsToken\">=</Token><LiteralExpression kind=\"NumericLiteralExpression\" startLine=\"1\" startColumn=\"21\" endLine=\"1\" endColumn=\"21\" part=\"Value\"><Token kind=\"NumericLiteralToken\" startLine=\"1\" startColumn=\"21\" endLine=\"1\" endColumn=\"21\" part=\"Token\">4</Token></LiteralExpression></EqualsValueClause></VariableDeclarator><VariableDeclarator startLine=\"1\" startColumn=\"24\" endLine=\"1\" endColumn=\"28\"><Token kind=\"IdentifierToken\" startLine=\"1\" startColumn=\"24\" endLine=\"1\" endColumn=\"24\" part=\"Identifier\">b</Token><EqualsValueClause startLine=\"1\" startColumn=\"26\" endLine=\"1\" endColumn=\"28\" part=\"Initializer\"><Token kind=\"EqualsToken\" Operator=\"true\" startLine=\"1\" startColumn=\"26\" endLine=\"1\" endColumn=\"26\" part=\"EqualsToken\">=</Token><LiteralExpression kind=\"NumericLiteralExpression\" startLine=\"1\" startColumn=\"28\" endLine=\"1\" endColumn=\"28\" part=\"Value\"><Token kind=\"NumericLiteralToken\" startLine=\"1\" startColumn=\"28\" endLine=\"1\" endColumn=\"28\" part=\"Token\">3</Token></LiteralExpression></EqualsValueClause></VariableDeclarator></SeparatedList_of_VariableDeclarator></VariableDeclaration><Token kind=\"SemicolonToken\" Punctuation=\"true\" Language=\"true\" startLine=\"1\" startColumn=\"29\" endLine=\"1\" endColumn=\"29\" part=\"SemicolonToken\">;</Token></LocalDeclarationStatement></List_of_Statement><Token kind=\"CloseBraceToken\" Punctuation=\"true\" Language=\"true\" startLine=\"1\" startColumn=\"31\" endLine=\"1\" endColumn=\"31\" part=\"CloseBraceToken\">}</Token></Block></MethodDeclaration>", xElement.ToString(SaveOptions.DisableFormatting));
+            var node = (MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("int v() { const int a = 4, b = 3; }").Members[0];
+            var xElement = converter.Visit(((LocalDeclarationStatementSyntax)node.Body.Statements[0]).Declaration);
+            Assert.AreEqual("<VariableDeclaration startLine=\"1\" startColumn=\"17\" endLine=\"1\" endColumn=\"32\"><PredefinedType TypeSyntax=\"true\" startLine=\"1\" startColumn=\"17\" endLine=\"1\" endColumn=\"19\" part=\"Type\"><Token kind=\"IntKeyword\" Keyword=\"true\" startLine=\"1\" startColumn=\"17\" endLine=\"1\" endColumn=\"19\" part=\"Keyword\">int</Token></PredefinedType><SeparatedList_of_VariableDeclarator part=\"Variables\"><VariableDeclarator startLine=\"1\" startColumn=\"21\" endLine=\"1\" endColumn=\"25\"><Token kind=\"IdentifierToken\" startLine=\"1\" startColumn=\"21\" endLine=\"1\" endColumn=\"21\" part=\"Identifier\">a</Token><EqualsValueClause startLine=\"1\" startColumn=\"23\" endLine=\"1\" endColumn=\"25\" part=\"Initializer\"><Token kind=\"EqualsToken\" Operator=\"true\" startLine=\"1\" startColumn=\"23\" endLine=\"1\" endColumn=\"23\" part=\"EqualsToken\">=</Token><LiteralExpression kind=\"NumericLiteralExpression\" startLine=\"1\" startColumn=\"25\" endLine=\"1\" endColumn=\"25\" part=\"Value\"><Token kind=\"NumericLiteralToken\" startLine=\"1\" startColumn=\"25\" endLine=\"1\" endColumn=\"25\" part=\"Token\">4</Token></LiteralExpression></EqualsValueClause></VariableDeclarator><VariableDeclarator startLine=\"1\" startColumn=\"28\" endLine=\"1\" endColumn=\"32\"><Token kind=\"IdentifierToken\" startLine=\"1\" startColumn=\"28\" endLine=\"1\" endColumn=\"28\" part=\"Identifier\">b</Token><EqualsValueClause startLine=\"1\" startColumn=\"30\" endLine=\"1\" endColumn=\"32\" part=\"Initializer\"><Token kind=\"EqualsToken\" Operator=\"true\" startLine=\"1\" startColumn=\"30\" endLine=\"1\" endColumn=\"30\" part=\"EqualsToken\">=</Token><LiteralExpression kind=\"NumericLiteralExpression\" startLine=\"1\" startColumn=\"32\" endLine=\"1\" endColumn=\"32\" part=\"Value\"><Token kind=\"NumericLiteralToken\" startLine=\"1\" startColumn=\"32\" endLine=\"1\" endColumn=\"32\" part=\"Token\">3</Token></LiteralExpression></EqualsValueClause></VariableDeclarator></SeparatedList_of_VariableDeclarator></VariableDeclaration>", xElement.ToString(SaveOptions.DisableFormatting));
         }
 
         [TestMethod]
-        public void StatementSyntax_LocalDeclarationStatementSyntax_Mutable_OK()
+        public void StatementSyntax_LocalDeclarationStatementSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
-            var node = (MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("a() { const int a; }").Members[0];
-            var xElement = converter.Visit(node);
-            Assert.AreEqual("<MethodDeclaration startLine=\"1\" startColumn=\"1\" endLine=\"1\" endColumn=\"20\"><PredefinedType TypeSyntax=\"true\" part=\"ReturnType\"><Token kind=\"VoidKeyword\" Keyword=\"true\" part=\"Keyword\"></Token></PredefinedType><Token kind=\"IdentifierToken\" startLine=\"1\" startColumn=\"1\" endLine=\"1\" endColumn=\"1\" part=\"Identifier\">a</Token><ParameterList startLine=\"1\" startColumn=\"2\" endLine=\"1\" endColumn=\"3\" part=\"ParameterList\"><Token kind=\"OpenParenToken\" Punctuation=\"true\" Language=\"true\" startLine=\"1\" startColumn=\"2\" endLine=\"1\" endColumn=\"2\" part=\"OpenParenToken\">(</Token><Token kind=\"CloseParenToken\" Punctuation=\"true\" Language=\"true\" startLine=\"1\" startColumn=\"3\" endLine=\"1\" endColumn=\"3\" part=\"CloseParenToken\">)</Token></ParameterList><Block startLine=\"1\" startColumn=\"5\" endLine=\"1\" endColumn=\"20\" part=\"Body\"><Token kind=\"OpenBraceToken\" Punctuation=\"true\" Language=\"true\" startLine=\"1\" startColumn=\"5\" endLine=\"1\" endColumn=\"5\" part=\"OpenBraceToken\">{</Token><List_of_Statement part=\"Statements\"><LocalDeclarationStatement startLine=\"1\" startColumn=\"7\" endLine=\"1\" endColumn=\"18\"><TokenList part=\"Modifiers\"><Token kind=\"ConstKeyword\" Keyword=\"true\" startLine=\"1\" startColumn=\"7\" endLine=\"1\" endColumn=\"11\">const</Token></TokenList><VariableDeclaration startLine=\"1\" startColumn=\"13\" endLine=\"1\" endColumn=\"17\" part=\"Declaration\"><PredefinedType TypeSyntax=\"true\" startLine=\"1\" startColumn=\"13\" endLine=\"1\" endColumn=\"15\" part=\"Type\"><Token kind=\"IntKeyword\" Keyword=\"true\" startLine=\"1\" startColumn=\"13\" endLine=\"1\" endColumn=\"15\" part=\"Keyword\">int</Token></PredefinedType><SeparatedList_of_VariableDeclarator part=\"Variables\"><VariableDeclarator startLine=\"1\" startColumn=\"17\" endLine=\"1\" endColumn=\"17\"><Token kind=\"IdentifierToken\" startLine=\"1\" startColumn=\"17\" endLine=\"1\" endColumn=\"17\" part=\"Identifier\">a</Token></VariableDeclarator></SeparatedList_of_VariableDeclarator></VariableDeclaration><Token kind=\"SemicolonToken\" Punctuation=\"true\" Language=\"true\" startLine=\"1\" startColumn=\"18\" endLine=\"1\" endColumn=\"18\" part=\"SemicolonToken\">;</Token></LocalDeclarationStatement></List_of_Statement><Token kind=\"CloseBraceToken\" Punctuation=\"true\" Language=\"true\" startLine=\"1\" startColumn=\"20\" endLine=\"1\" endColumn=\"20\" part=\"CloseBraceToken\">}</Token></Block></MethodDeclaration>", xElement.ToString(SaveOptions.DisableFormatting));
+            var node = (MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("int a() { const int a; }").Members[0];
+            var xElement = converter.Visit(node.Body.Statements[0]);
+            Assert.AreEqual("<LocalDeclarationStatement startLine=\"1\" startColumn=\"11\" endLine=\"1\" endColumn=\"22\"><TokenList part=\"Modifiers\"><Token kind=\"ConstKeyword\" Keyword=\"true\" startLine=\"1\" startColumn=\"11\" endLine=\"1\" endColumn=\"15\">const</Token></TokenList><VariableDeclaration startLine=\"1\" startColumn=\"17\" endLine=\"1\" endColumn=\"21\" part=\"Declaration\"><PredefinedType TypeSyntax=\"true\" startLine=\"1\" startColumn=\"17\" endLine=\"1\" endColumn=\"19\" part=\"Type\"><Token kind=\"IntKeyword\" Keyword=\"true\" startLine=\"1\" startColumn=\"17\" endLine=\"1\" endColumn=\"19\" part=\"Keyword\">int</Token></PredefinedType><SeparatedList_of_VariableDeclarator part=\"Variables\"><VariableDeclarator startLine=\"1\" startColumn=\"21\" endLine=\"1\" endColumn=\"21\"><Token kind=\"IdentifierToken\" startLine=\"1\" startColumn=\"21\" endLine=\"1\" endColumn=\"21\" part=\"Identifier\">a</Token></VariableDeclarator></SeparatedList_of_VariableDeclarator></VariableDeclaration><Token kind=\"SemicolonToken\" Punctuation=\"true\" Language=\"true\" startLine=\"1\" startColumn=\"22\" endLine=\"1\" endColumn=\"22\" part=\"SemicolonToken\">;</Token></LocalDeclarationStatement>", xElement.ToString(SaveOptions.DisableFormatting));
         }
 
         [TestMethod]
-        public void StatementSyntax_ExpressionStatementSyntax_Mutable_OK()
+        public void StatementSyntax_ExpressionStatementSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
             var node = SyntaxFactory.ParseStatement("3");
@@ -66,7 +66,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void StatementSyntax_EmptyStatementSyntax_Mutable_OK()
+        public void StatementSyntax_EmptyStatementSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
             var node = SyntaxFactory.ParseStatement(";");
@@ -75,7 +75,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void StatementSyntax_LabeledStatementSyntax_Mutable_OK()
+        public void StatementSyntax_LabeledStatementSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
             var node = SyntaxFactory.ParseStatement("l: 3");
@@ -84,7 +84,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void StatementSyntax_GotoStatementSyntax_Mutable_OK()
+        public void StatementSyntax_GotoStatementSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
 
@@ -102,7 +102,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void StatementSyntax_BreakStatementSyntax_Mutable_OK()
+        public void StatementSyntax_BreakStatementSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
             var node = SyntaxFactory.ParseStatement("break;");
@@ -111,7 +111,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void StatementSyntax_ContinueStatementSyntax_Mutable_OK()
+        public void StatementSyntax_ContinueStatementSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
             var node = SyntaxFactory.ParseStatement("continue;");
@@ -120,7 +120,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void StatementSyntax_ReturnStatementSyntax_Mutable_OK()
+        public void StatementSyntax_ReturnStatementSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
 
@@ -134,7 +134,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void StatementSyntax_ThrowStatementSyntax_Mutable_OK()
+        public void StatementSyntax_ThrowStatementSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
 
@@ -148,7 +148,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void StatementSyntax_YieldStatementSyntax_Mutable_OK()
+        public void StatementSyntax_YieldStatementSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
 
@@ -166,7 +166,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void StatementSyntax_WhileStatementSyntax_Mutable_OK()
+        public void StatementSyntax_WhileStatementSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
             var node = SyntaxFactory.ParseStatement("while (x < 0) x = 5;");
@@ -179,7 +179,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void StatementSyntax_DoStatementSyntax_Mutable_OK()
+        public void StatementSyntax_DoStatementSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
             var node = SyntaxFactory.ParseStatement("do x = 5; while (x < 0);");
@@ -192,7 +192,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void StatementSyntax_ForStatementSyntax_Mutable_OK()
+        public void StatementSyntax_ForStatementSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
 
@@ -218,7 +218,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void StatementSyntax_ForEachStatementSyntax_Mutable_OK()
+        public void StatementSyntax_ForEachStatementSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
 
@@ -232,7 +232,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void StatementSyntax_UsingStatementSyntax_Mutable_OK()
+        public void StatementSyntax_UsingStatementSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
 
@@ -246,7 +246,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void StatementSyntax_FixedStatementSyntax_Mutable_OK()
+        public void StatementSyntax_FixedStatementSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
 
@@ -260,7 +260,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void StatementSyntax_CheckedExpressionSyntax_Mutable_OK()
+        public void StatementSyntax_CheckedExpressionSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
 
@@ -270,7 +270,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void StatementSyntax_UnsafeExpressionSyntax_Mutable_OK()
+        public void StatementSyntax_UnsafeExpressionSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
 
@@ -280,7 +280,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void StatementSyntax_LockStatementSyntax_Mutable_OK()
+        public void StatementSyntax_LockStatementSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
 
@@ -294,7 +294,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void StatementSyntax_IfStatementSyntax_Mutable_OK()
+        public void StatementSyntax_IfStatementSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
 
@@ -312,7 +312,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void StatementSyntax_SwitchStatementSyntax_Mutable_OK()
+        public void StatementSyntax_SwitchStatementSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
 
@@ -330,7 +330,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void SwitchSectionSyntax_Mutable_OK()
+        public void SwitchSectionSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
 
@@ -341,7 +341,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void CaseSwitchLabelSyntax_Mutable_OK()
+        public void CaseSwitchLabelSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
 
@@ -352,7 +352,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void StatementSyntax_TryStatementSyntax_Mutable_OK()
+        public void StatementSyntax_TryStatementSyntax_RoslynMLFromRoslyn_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
 
