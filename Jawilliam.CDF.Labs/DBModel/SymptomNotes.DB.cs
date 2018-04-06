@@ -7,17 +7,15 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Jawilliam.CDF.Labs
+namespace Jawilliam.CDF.Labs.DBModel
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class FileContent
+    [Flags]
+    public enum SymptomNotes : int
     {
-        public System.Guid Id { get; set; }
-        public string SourceCode { get; set; }
-        public string Annotations { get; set; }
-    
-        public virtual FileVersion FileVersion { get; set; }
+        None = 0,
+        Full = 1,
+        SubTree = 2
     }
 }

@@ -9,6 +9,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using Jawilliam.CDF.Actions;
 using Jawilliam.CDF.Approach;
+using Jawilliam.CDF.Labs.DBModel;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;

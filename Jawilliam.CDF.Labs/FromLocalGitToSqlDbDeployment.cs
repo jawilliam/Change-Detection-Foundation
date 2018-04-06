@@ -6,6 +6,7 @@ using System.Linq;
 using System.IO;
 using System.Diagnostics;
 using System.Text;
+using Jawilliam.CDF.Labs.DBModel;
 
 namespace Jawilliam.CDF.Labs
 {
@@ -109,8 +110,8 @@ namespace Jawilliam.CDF.Labs
                 //var commitObject = commitObjects[commit.Id.Sha];
                 foreach (var parent in commit.Parents)
                 {
-                    var commitObject = sqlRepository.RepositoryObjects.OfType<Commit>().Single(c => c.ExternalID == commit.Id.Sha);
-                    var parentObject = sqlRepository.RepositoryObjects.OfType<Commit>().Single(c => c.ExternalID == parent.Id.Sha);
+                    var commitObject = sqlRepository.RepositoryObjects.OfType<DBModel.Commit>().Single(c => c.ExternalID == commit.Id.Sha);
+                    var parentObject = sqlRepository.RepositoryObjects.OfType<DBModel.Commit>().Single(c => c.ExternalID == parent.Id.Sha);
                     commitObject.Parents.Add(parentObject);
                     sqlRepository.Flush();
                 }
@@ -206,9 +207,9 @@ namespace Jawilliam.CDF.Labs
         /// <param name="i">the index for the commit which will be deployed.</param>
         /// <param name="repositoryDb">the repository database in which the commit will be deployed.</param>
         /// <returns>the deployed commit.</returns>
-        protected virtual Commit GetDeployedCommit(Contributor author, LibGit2Sharp.Commit commit, int i, GitRepository repositoryDb)
+        protected virtual DBModel.Commit GetDeployedCommit(Contributor author, LibGit2Sharp.Commit commit, int i, GitRepository repositoryDb)
         {
-            var commitObject = repositoryDb.RepositoryObjects.Create<Commit>();
+            var commitObject = repositoryDb.RepositoryObjects.Create<DBModel.Commit>();
             commitObject.Committer = author;
             commitObject.Date = commit.Committer.When;
             commitObject.ExternalID = commit.Id.Sha;
@@ -233,10 +234,10 @@ namespace Jawilliam.CDF.Labs
             foreach (var branch in branches)
             {
                 Console.Out.WriteLine($"Starting {++counter}-branches (of {total}) the file changes of {repositoryDb.Name}");
-                var branchObject = repositoryDb.RepositoryObjects.Create<Branch>();
+                var branchObject = repositoryDb.RepositoryObjects.Create<DBModel.Branch>();
                 branchObject.FullName = branch.CanonicalName;
                 branchObject.Id = Guid.NewGuid();
-                var commitObject = repositoryDb.RepositoryObjects.OfType<Commit>().Single(c => c.ExternalID == branch.Tip.Id.Sha);
+                var commitObject = repositoryDb.RepositoryObjects.OfType<DBModel.Commit>().Single(c => c.ExternalID == branch.Tip.Id.Sha);
                 branchObject.Tip = commitObject;
 
                 int commitCounter = 0;
@@ -244,7 +245,7 @@ namespace Jawilliam.CDF.Labs
                 foreach (var commitId in commitIds)
                 {
                     Console.Out.WriteLine($"Starting to assemble the {++commitCounter}-commit (of {commitIds.Length}) for the {counter}-branches (of {total}) the file changes of {repositoryDb.Name}");
-                    commitObject = repositoryDb.RepositoryObjects.OfType<Commit>().Single(c => c.ExternalID == commitId);
+                    commitObject = repositoryDb.RepositoryObjects.OfType<DBModel.Commit>().Single(c => c.ExternalID == commitId);
                     branchObject.Commits.Add(commitObject);
                     Console.Out.WriteLine($"Ending to assemble the {commitCounter}-commit (of {commitIds.Length}) for the {counter}-branches (of {total}) the file changes of {repositoryDb.Name}");
                 }
@@ -266,13 +267,13 @@ namespace Jawilliam.CDF.Labs
         /// <param name="similarityOptions"></param>
         protected virtual void DeployFileChanges(Repository localRepository, LibGit2Sharp.Commit[] localCommits, GitRepository repositoryDb, Func<PatchEntryChanges,bool> supportedChange, SimilarityOptions similarityOptions)
         {
-            var commitIds = (from c in repositoryDb.RepositoryObjects.OfType<Commit>().OrderBy(c => c.Index)
+            var commitIds = (from c in repositoryDb.RepositoryObjects.OfType<DBModel.Commit>().OrderBy(c => c.Index)
                             select  c.ExternalID).ToArray();
 
             var commitCounter = 0;
             foreach (var commitId in commitIds)
             {
-                var commit = repositoryDb.RepositoryObjects.OfType<Commit>().Include(c => c.Parents).Single(c => c.ExternalID == commitId);
+                var commit = repositoryDb.RepositoryObjects.OfType<DBModel.Commit>().Include(c => c.Parents).Single(c => c.ExternalID == commitId);
 
                 var parents = commit.Parents.DefaultIfEmpty(null).ToArray();
                 var parentCounter = 0;
@@ -343,7 +344,7 @@ namespace Jawilliam.CDF.Labs
         /// <param name="localParentCommit">the parent commit according to the local Git repository.</param>
         /// <param name="dbParentCommit">the parent commit according to the databse Git repository.</param>
         /// <param name="repositoryDb">the repository database in which the file change will be deployed.</param>
-        protected virtual void DeployFileChange(PatchEntryChanges patch, LibGit2Sharp.Commit localCommit, Commit dbCommit, LibGit2Sharp.Commit localParentCommit, Commit dbParentCommit, GitRepository repositoryDb)
+        protected virtual void DeployFileChange(PatchEntryChanges patch, LibGit2Sharp.Commit localCommit, DBModel.Commit dbCommit, LibGit2Sharp.Commit localParentCommit, DBModel.Commit dbParentCommit, GitRepository repositoryDb)
         {
             FileChange change;
             FileVersion originalFileVersionObject = null, modifiedFileVersion = null;
@@ -442,14 +443,14 @@ namespace Jawilliam.CDF.Labs
         {
             const CommitSortStrategies sortBy = CommitSortStrategies.Topological | CommitSortStrategies.Time | CommitSortStrategies.Reverse;
             var commits = localRepository.Commits.QueryBy(new CommitFilter { IncludeReachableFrom = localRepository.Refs, SortBy = sortBy }).ToArray();
-            var dbCommitIds = sqlRepository.RepositoryObjects.OfType<Commit>().Select(c => c.Id).ToArray();
+            var dbCommitIds = sqlRepository.RepositoryObjects.OfType<DBModel.Commit>().Select(c => c.Id).ToArray();
             //Debug.Assert(commits.Length > dbCommitIds.Count(), "There is any problem");
 
             int j = 0;
             foreach (var dbCommitId in dbCommitIds)
             {
                 Console.Out.WriteLine($"Removing the index of the {++j}-commit (of {dbCommitIds.Count()}) of {sqlRepository.Name}");
-                var commit = sqlRepository.RepositoryObjects.OfType<Commit>().Single(c => c.Id == dbCommitId);
+                var commit = sqlRepository.RepositoryObjects.OfType<DBModel.Commit>().Single(c => c.Id == dbCommitId);
                 commit.Index = int.MaxValue;
                 sqlRepository.Flush();
             }
@@ -459,7 +460,7 @@ namespace Jawilliam.CDF.Labs
                 Console.Out.WriteLine($"Repairing the {i + 1}-commit (of {dbCommitIds.Count()}) of {sqlRepository.Name}");
                 var i1 = i;
                 var sha = commits[i1].Sha;
-                var commit = sqlRepository.RepositoryObjects.OfType<Commit>().SingleOrDefault(c => c.ExternalID == sha);
+                var commit = sqlRepository.RepositoryObjects.OfType<DBModel.Commit>().SingleOrDefault(c => c.ExternalID == sha);
                 if (commit != null)
                 {
                     commit.Index = i + 1;
@@ -467,10 +468,10 @@ namespace Jawilliam.CDF.Labs
                 }
             }
 
-            var uncoveredCommitIds = sqlRepository.RepositoryObjects.OfType<Commit>().Where(c => c.Index == int.MaxValue).Select(c => c.Id);
+            var uncoveredCommitIds = sqlRepository.RepositoryObjects.OfType<DBModel.Commit>().Where(c => c.Index == int.MaxValue).Select(c => c.Id);
             foreach (var dbCommitId in uncoveredCommitIds)
             {
-                var hasFileVersions = (from co in sqlRepository.RepositoryObjects.OfType<Commit>()
+                var hasFileVersions = (from co in sqlRepository.RepositoryObjects.OfType<DBModel.Commit>()
                     where co.Id == dbCommitId && (co.BackwardChanges.Any() || co.ForwardChanges.Any())
                     select co).Any();
 
@@ -540,7 +541,7 @@ namespace Jawilliam.CDF.Labs
                         ToCommit = fmc.ToCommit.Index
                     }).ToList();
 
-                sqlRepository.RepositoryObjects.Add(new File
+                sqlRepository.RepositoryObjects.Add(new DBModel.File
                 {
                     Id = Guid.NewGuid(),
                     RevisionPairs = new List<FileRevisionPair>

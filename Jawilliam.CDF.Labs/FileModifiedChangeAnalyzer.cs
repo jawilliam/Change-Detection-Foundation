@@ -17,6 +17,7 @@ using Jawilliam.CDF.Approach.GumTree;
 using Jawilliam.CDF.Approach.Matching.CSharp;
 using Jawilliam.CDF.Metrics.Similarity;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Jawilliam.CDF.Labs.DBModel;
 
 namespace Jawilliam.CDF.Labs
 {

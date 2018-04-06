@@ -82,7 +82,7 @@
         <AssociationConnector Association="Jawilliam.CDF.Labs.SQL.OneComplexSymptom_Contains_OtherSymptoms" />
         <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.LRMatchSymptom" Width="2.625" PointX="29.875" PointY="12" />
         <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.LRMatchSymptom" />
-        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.RLMatchSymptom" Width="2.625" PointX="29.75" PointY="14.25" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.RLMatchSymptom" Width="2.625" PointX="29.875" PointY="14.25" />
         <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.RLMatchSymptom" />
       </Diagram>
     </edmx:Diagrams>

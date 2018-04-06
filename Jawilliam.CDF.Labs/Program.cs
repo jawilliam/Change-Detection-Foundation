@@ -15,6 +15,7 @@ using Jawilliam.CDF.Metrics.Quality;
 using Jawilliam.CDF.Metrics.Similarity;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+using Jawilliam.CDF.Labs.DBModel;
 
 namespace Jawilliam.CDF.Labs
 {
@@ -551,8 +552,11 @@ namespace Jawilliam.CDF.Labs
             //    return new KeyValuePair<string, double>(v[0], double.Parse(v[1], CultureInfo.InvariantCulture));
             //}));
             //System.IO.File.WriteAllText(@"E:\Phd\Analysis\UniquePairs\RelativeThresholds.csv", analyzer.Report.ToString());
-            //DetectingNativeGumTreeDiffWithCustomMatchers();
+            DetectingNativeGumTreeDiffWithCustomMatchers();
             //ComparisonBetweenGumTreeAndReverseGumTree();
+            //ReportBetweenMatches();
+            //StructureBetweenMatches();
+            //Interruptions();
             //var analyzer = new BetweenComparison();
             //analyzer.ConfigGumTreeVsReversedGumTree();
             //foreach (var project in Projects)
@@ -575,6 +579,89 @@ namespace Jawilliam.CDF.Labs
             Console.Out.WriteLine($"DONE");
             //int i = 0; // the warning reports!!!
             System.Console.ReadKey();
+        }
+
+        public static void Interruptions()
+        {
+            var recognizer = new FileRevisionPairAnalyzer() { MillisecondsTimeout = 600000 };
+            System.IO.File.WriteAllText($@"E:\SourceCode\InterruptionsSummary.txt", "Project;#Frps;#GT;%GT;#IGT;%IGT;#CD;%CD;#ICD;%ICD;#XY;%XY;#IXY;%IXY");
+            foreach (var project in Projects.Where(p => p.Name != "HadoopSdk"))
+            {
+                using (var dbRepository = new GitRepository(project.Name) { Name = project.Name })
+                {
+                    ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 600000;
+                    recognizer.SqlRepository = dbRepository;
+                    recognizer.Cancel = null;
+                    var r = recognizer.GetInterruptions(new[] 
+                    {
+                        ChangeDetectionApproaches.NativeGumTree,
+                        ChangeDetectionApproaches.InverseOfNativeGumTree,
+                        ChangeDetectionApproaches.NativeGumTreeWithChangeDistillerMatcher,
+                        ChangeDetectionApproaches.InverseOfNativeGumTreeWithChangeDistillerMatcher,
+                        ChangeDetectionApproaches.NativeGumTreeWithXyMatcher,
+                        ChangeDetectionApproaches.InverseOfNativeGumTreeWithXyMatcher
+                    });
+                    var total = dbRepository.Database.SqlQuery<int>($"SELECT count([Id]) FROM [dbo].[Deltas] WHERE Approach = {(int)ChangeDetectionApproaches.NativeGumTree}").Single();
+                    System.IO.File.AppendAllText($@"E:\SourceCode\InterruptionsSummary.txt",
+                    $"{Environment.NewLine}{project.Name};" +
+                    $"{total};" +
+                    $"{r[0]};{(r[0] * 100d / total).ToString(CultureInfo.InvariantCulture)};" +
+                    $"{r[1]};{(r[1] * 100d / total).ToString(CultureInfo.InvariantCulture)};" +
+                    $"{r[2]};{(r[2] * 100d / total).ToString(CultureInfo.InvariantCulture)};" +
+                    $"{r[3]};{(r[3] * 100d / total).ToString(CultureInfo.InvariantCulture)};" +
+                    $"{r[4]};{(r[4] * 100d / total).ToString(CultureInfo.InvariantCulture)};" +
+                    $"{r[5]};{(r[5] * 100d / total).ToString(CultureInfo.InvariantCulture)}");
+
+                    Console.Out.WriteLine(project.Name);
+                }
+            }
+            Console.Out.WriteLine($"InterruptionsSummary!!!");
+        }
+
+        public static void ReportBetweenMatches()
+        {
+            var recognizer = new BetweenComparison() { MillisecondsTimeout = 600000 };
+            recognizer.ConfigGumTreeVsReversedGumTree();
+            System.IO.File.WriteAllText($@"E:\SourceCode\BetweenMatchComparison_GT_RGT_TreeSummary.txt", "Project;#Frps;#LRMatches;#LRFrps;%LRFrps;RLMatches;#RLFrps;%RLFrps;TotalMatches;#TotalFrps;%TotalFrps");
+            foreach (var project in Projects)
+            {
+                using (var dbRepository = new GitRepository(project.Name) { Name = project.Name })
+                {
+                    ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 600000;
+                    recognizer.SqlRepository = dbRepository;
+                    recognizer.Cancel = null;
+                    var r = recognizer.ReportBetweenMatches();
+                    System.IO.File.AppendAllText($@"E:\SourceCode\BetweenMatchComparison_GT_RGT_TreeSummary.txt", 
+                    $"{Environment.NewLine}{project.Name};" +
+                    $"{r.TotalOfFileRevisionPairs};" +
+                    $"{r.TotalOfSymptoms.LR};{r.TotalOfAffectedFileRevisionPairs.LR};{r.PercentageOfAffectedFileRevisionPairs.LR.ToString(CultureInfo.InvariantCulture)};" +
+                    $"{r.TotalOfSymptoms.RL};{r.TotalOfAffectedFileRevisionPairs.RL};{r.PercentageOfAffectedFileRevisionPairs.RL.ToString(CultureInfo.InvariantCulture)};" +
+                    $"{r.TotalOfSymptoms.All};{r.TotalOfAffectedFileRevisionPairs.All};{r.PercentageOfAffectedFileRevisionPairs.All.ToString(CultureInfo.InvariantCulture)}");
+
+                    Console.Out.WriteLine(project.Name);
+                }
+            }
+            Console.Out.WriteLine($"BetweenMatchComparison_GT_RGT_Summary!!!");
+        }
+
+        public static void StructureBetweenMatches()
+        {
+            var recognizer = new BetweenComparison() { MillisecondsTimeout = 600000 };
+            recognizer.ConfigGumTreeVsReversedGumTree();
+            //System.IO.File.WriteAllText($@"E:\SourceCode\BetweenMatchComparison_GT_RGT_Summary.txt", "Project;#Frps;#LRMatches;#LRFrps;%LRFrps;RLMatches;#RLFrps;%RLFrps;TotalMatches;#TotalFrps;%TotalFrps");
+            foreach (var project in Projects)
+            {
+                using (var dbRepository = new GitRepository(project.Name) { Name = project.Name })
+                {
+                    ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 600000;
+                    recognizer.SqlRepository = dbRepository;
+                    recognizer.Cancel = null;
+                    recognizer.ConnectMatchSymptoms();
+
+                    Console.Out.WriteLine(project.Name);
+                }
+            }
+            Console.Out.WriteLine($"BetweenMatchComparison_GT_RGT_Summary!!!");
         }
 
         //public static void SummarizeFileRevisionPairs()
@@ -621,7 +708,7 @@ namespace Jawilliam.CDF.Labs
             recognizer.ConfigGumTreeVsReversedGumTree();
             var connectionSettings = System.Configuration.ConfigurationManager.ConnectionStrings;
 
-            foreach (var project in Projects.Skip(56))
+            foreach (var project in Projects.Skip(100))
             {
                 //var connection = System.Configuration.ConfigurationManager.ConnectionStrings[project.Name];
                 //var connectionString = connection.ConnectionString.Replace("res://*/GitRepository", ".\\GitRepository");
@@ -766,7 +853,7 @@ namespace Jawilliam.CDF.Labs
                 Modified = @"E:\SourceCode\Modified.cs"
             };
 
-            foreach (var project in Projects.Reverse().Skip(12))
+            foreach (var project in Projects.Reverse().Skip(44))
             {
                 var dbRepository = new GitRepository(project.Name) { Name = project.Name };
                 ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 600;

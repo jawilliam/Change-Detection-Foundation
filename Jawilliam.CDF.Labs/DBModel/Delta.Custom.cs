@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using Jawilliam.CDF.Approach;
 
-namespace Jawilliam.CDF.Labs
+namespace Jawilliam.CDF.Labs.DBModel
 {
     partial class Delta
     {

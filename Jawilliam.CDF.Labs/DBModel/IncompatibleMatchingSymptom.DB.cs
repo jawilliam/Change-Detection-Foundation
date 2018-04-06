@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Jawilliam.CDF.Labs
+namespace Jawilliam.CDF.Labs.DBModel
 {
     using System;
     using System.Collections.Generic;

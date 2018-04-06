@@ -6,6 +6,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using System.IO;
 using System.Threading;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Jawilliam.CDF.Labs.DBModel;
 
 namespace Jawilliam.CDF.Labs
 {

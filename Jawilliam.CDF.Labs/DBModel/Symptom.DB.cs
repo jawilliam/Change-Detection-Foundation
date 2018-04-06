@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Jawilliam.CDF.Labs
+namespace Jawilliam.CDF.Labs.DBModel
 {
     using System;
     using System.Collections.Generic;
@@ -22,7 +22,7 @@ namespace Jawilliam.CDF.Labs
         }
     
         public System.Guid Id { get; set; }
-        public Nullable<int> Notes { get; set; }
+        public Nullable<SymptomNotes> Notes { get; set; }
         public Nullable<bool> IsTop { get; set; }
     
         public Certainty Certainty { get; set; }

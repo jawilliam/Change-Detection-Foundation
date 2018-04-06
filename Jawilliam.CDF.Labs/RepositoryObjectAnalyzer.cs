@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.Data.Entity;
 using System.Linq.Expressions;
+using Jawilliam.CDF.Labs.DBModel;
 
 namespace Jawilliam.CDF.Labs
 {

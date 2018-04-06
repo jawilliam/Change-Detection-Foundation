@@ -66,7 +66,7 @@ namespace Jawilliam.CDF.Approach.GumTree
             if (lines.Any())
             {
                 this.Result.Matches = this.GetMatches(lines).ToList();
-                this.Result.Actions = this.GetActions(lines).Cast<ActionDescriptor>().ToList();
+                this.Result.Actions = this.GetActions(lines).Where(l => l != null).Cast<ActionDescriptor>().ToList();
             }
             else
             {
@@ -236,7 +236,9 @@ namespace Jawilliam.CDF.Approach.GumTree
             {
                 try
                 {
-                    var pattern = actionPatterns.First(p => p.Pattern.IsMatch(s));
+                    var pattern = actionPatterns.FirstOrDefault(p => p.Pattern.IsMatch(s));
+                    if (pattern == null) return null;
+
                     var actionGroups = pattern.Pattern.Matches(s)[0].Groups;
                     var m = new Group[actionGroups.Count];
                     actionGroups.CopyTo(m, 0);

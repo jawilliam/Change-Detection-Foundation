@@ -6,6 +6,7 @@ using System.Threading;
 using Jawilliam.CDF.Actions;
 using Jawilliam.CDF.Approach;
 using Jawilliam.CDF.Approach.GumTree;
+using Jawilliam.CDF.Labs.DBModel;
 using Microsoft.CodeAnalysis.CSharp;
 
 namespace Jawilliam.CDF.Labs
@@ -301,6 +302,133 @@ namespace Jawilliam.CDF.Labs
             }, saveChanges, /*"Principal"*/ "Principal.FileVersion.Content", "Principal.FromFileVersion.Content");
         }
 
+        public virtual void ConnectMatchSymptoms(Func<FileRevisionPair, bool> skipThese = null, bool saveChanges = true)
+        {
+            this.Analyze(f => f.Principal.Deltas.Any(d => d.Approach == this.Config.Left &&
+                                                             d.Matching != null &&
+                                                             d.Differencing != null &&
+                                                             d.Report == null && (d.Symptoms.OfType<LRMatchSymptom>().Any() || d.Symptoms.OfType<RLMatchSymptom>().Any())) &&
+                                 f.Principal.Deltas.Any(d => d.Approach == this.Config.Right &&
+                                                             d.Matching != null &&
+                                                             d.Differencing != null &&
+                                                             d.Report == null),
+               delegate (FileRevisionPair pair, CancellationToken token)
+               {
+                   if (skipThese?.Invoke(pair) ?? false) return;
+                   var leftDelta = this.SqlRepository.Deltas.Single(d => d.RevisionPair.Id == pair.Principal.Id && d.Approach == this.Config.Left);
+                   var rightDelta = this.SqlRepository.Deltas.Single(d => d.RevisionPair.Id == pair.Principal.Id && d.Approach == this.Config.Right);
+
+                   try
+                   {
+                       var leftOriginalTree = ElementTree.Read(leftDelta.OriginalTree, Encoding.Unicode);
+                       //var leftModifiedTree = ElementTree.Read(leftDelta.ModifiedTree, Encoding.Unicode);
+                       //var leftDetectionResult = (DetectionResult)leftDelta.DetectionResult;
+
+                       var rightOriginalTree = ElementTree.Read(rightDelta.OriginalTree, Encoding.Unicode);
+                       //var rightModifiedTree = ElementTree.Read(rightDelta.ModifiedTree, Encoding.Unicode);
+                       //var rightDetectionResult = (DetectionResult)rightDelta.DetectionResult;
+
+                       if (this.Config.Matches)
+                       {
+                           var lrMatchSymptoms = this.SqlRepository.Symptoms.OfType<LRMatchSymptom>().Where(s => s.Delta.Id == leftDelta.Id).ToList();
+                           var leftBfs = leftOriginalTree.BreadthFirstOrder(e => e.Children).Reverse().ToList();
+                           foreach (var item in leftBfs)
+                           {
+                               var lrMatches = lrMatchSymptoms.Where(lr => lr.Left.Original.Element.Id == item.Root.Id).ToList();
+                               if (!lrMatches.Any()) continue;
+                               if (lrMatches.Count > 1)
+                                   ;
+
+                               foreach (var lrMatch in lrMatches)
+                               {
+                                   bool fullSubtree = true;
+                                   foreach (var child in item.Children)
+                                   {
+                                       var lrChildMatches = lrMatchSymptoms.Where(lr => lr.Left.Original.Element.Id == child.Root.Id).ToList();
+                                       if (lrChildMatches.Count > 1)
+                                           ;
+                                       fullSubtree &= lrChildMatches.Any();
+                                       foreach (var lrChildMatch in lrChildMatches)
+                                       {
+                                           lrMatch.Symptoms.Add(lrChildMatch);
+                                       }
+                                   }
+                                   if (fullSubtree)
+                                       lrMatch.Notes = lrMatch.Notes == null
+                                        ? (SymptomNotes.Full | SymptomNotes.SubTree) 
+                                        : lrMatch.Notes | SymptomNotes.Full | SymptomNotes.SubTree;
+                               }
+                           }
+
+                           if (this.Config.TwoWay)
+                           {
+                               var rlMatchSymptoms = this.SqlRepository.Symptoms.OfType<RLMatchSymptom>().Where(s => s.Delta.Id == leftDelta.Id).ToList();
+                               var rightBfs = rightOriginalTree.BreadthFirstOrder(e => e.Children).Reverse().ToList();
+                               foreach (var item in rightBfs)
+                               {
+                                   var rlMatches = rlMatchSymptoms.Where(rl => rl.Right.Original.Element.Id == item.Root.Id).ToList();
+                                   if (!rlMatches.Any()) continue;
+                                   if (rlMatches.Count > 1)
+                                       ;
+
+                                   foreach (var rlMatch in rlMatches)
+                                   {
+                                       bool fullSubtree = true;
+                                       foreach (var child in item.Children)
+                                       {
+                                           var rlChildMatches = rlMatchSymptoms.Where(rl => rl.Right.Original.Element.Id == child.Root.Id).ToList();
+                                           if (rlChildMatches.Count > 1)
+                                               ;
+                                           fullSubtree &= rlChildMatches.Any();
+                                           foreach (var rlChildMatch in rlChildMatches)
+                                           {
+                                               rlMatch.Symptoms.Add(rlChildMatch);
+                                           }
+                                       }
+                                       if (fullSubtree)
+                                           rlMatch.Notes = rlMatch.Notes == null
+                                            ? (SymptomNotes.Full | SymptomNotes.SubTree)
+                                            : rlMatch.Notes | SymptomNotes.Full | SymptomNotes.SubTree;
+                                   }
+                               }
+                           }
+                       }
+
+                       if (this.Config.Actions)
+                       {
+                           //foreach (var leftAction in leftDetectionResult.Actions)
+                           //{
+                           //    if (!rightDetectionResult.Actions.Any(
+                           //            rightAction =>
+                           //                this.Config.ActionCompare(leftAction, leftDetectionResult, rightAction, rightDetectionResult)))
+                           //    {
+                           //        //yield return new BetweenSymptom
+                           //        //{
+                           //        //    Id = Guid.NewGuid(),
+                           //        //    Pattern = $"{way}-Actions",
+                           //        //    Left = this.CreateBetweenPartInfo(this.Config.LeftName, Enum.GetName(typeof(ActionKind), leftAction.Action), 
+                           //        //                leftDetectionResult, leftOriginalTree, leftModifiedTree, leftAction),
+                           //        //    Right = this.CreateBetweenPartInfo(this.Config.RightName, "", null, null)
+                           //        //    //Right = this.CreateBetweenPartInfo(this.Config.RightName, rightDetectionResult,
+                           //        //    //    rightOriginalTree, rightModifiedTree, null)
+                           //        //};
+                           //    }
+                           //}
+                       }
+                   }
+                   catch (OperationCanceledException)
+                   {
+                       this.Report.AppendLine($"CANCELED;{pair.Id}");
+                       throw;
+                   }
+                   catch (OutOfMemoryException)
+                   {
+                       this.Report.AppendLine($"OUTOFMEMORY;{pair.Id}");
+                       throw;
+                   }
+               }, saveChanges, "Principal" /*"Principal.FileVersion.Content", "Principal.FromFileVersion.Content"*/);
+        }
+
         /// <summary>
         /// Iterates symptoms to be rated.
         /// </summary>
@@ -327,6 +455,46 @@ namespace Jawilliam.CDF.Labs
         public override void Recognize()
         {
             this.Recognize(null, true);
+        }
+
+        /// <summary>
+        /// Reports the totals of between match symptoms, as well their percentages in relation to the project corpus.
+        /// </summary>
+        /// <returns>numbers discriminating among LR-matches and RL-matches, and also the total of matches.</returns>
+        public virtual (string Project, int TotalOfFileRevisionPairs, (int LR, int RL, int All) TotalOfSymptoms, (int LR, int RL, int All) TotalOfAffectedFileRevisionPairs, (double LR, double RL, double All) PercentageOfAffectedFileRevisionPairs) ReportBetweenMatches()
+        {
+            var fileRevisionPairs = this.SqlRepository.FileRevisionPairs.AsNoTracking().Where(f =>
+                              f.Principal.Deltas.Any(d => d.Approach == this.Config.Left &&
+                                                          d.Matching != null &&
+                                                          d.Differencing != null &&
+                                                          d.Report == null) &&
+                              f.Principal.Deltas.Any(d => d.Approach == this.Config.Right &&
+                                                          d.Matching != null &&
+                                                          d.Differencing != null &&
+                                                          d.Report == null));
+
+            var totalOfFrps = fileRevisionPairs.Count();
+            var affectedFrps = from f in fileRevisionPairs
+                               let d = f.Principal.Deltas.Where(d => d.Approach == this.Config.Left &&
+                                                          d.Matching != null &&
+                                                          d.Differencing != null &&
+                                                          d.Report == null)
+                               select d.FirstOrDefault();
+
+            var totalOfLrSymptoms = !affectedFrps.Any() ? 0 : affectedFrps.Sum(d => d == null ? 0 : d.Symptoms.OfType<LRMatchSymptom>().Where(s => s.Parent == null).Count());
+            var totalOfRlSymptoms = !affectedFrps.Any() ? 0 : affectedFrps.Sum(d => d == null ? 0 : d.Symptoms.OfType<RLMatchSymptom>().Where(s => s.Parent == null).Count());
+
+            var totalOfLrAffectedFrps = !affectedFrps.Any() ? 0 : affectedFrps.Count(d => d == null ? false : d.Symptoms.OfType<LRMatchSymptom>().Where(s => s.Parent == null).Any());
+            var totalOfRlAffectedFrps = !affectedFrps.Any() ? 0 : affectedFrps.Count(d => d == null ? false : d.Symptoms.OfType<RLMatchSymptom>().Where(s => s.Parent == null).Any());
+            var totalOfAffectedFrps = !affectedFrps.Any() ? 0 : affectedFrps.Count(d => d == null ? false : d.Symptoms.OfType<LRMatchSymptom>().Where(s => s.Parent == null).Any() ||
+                                                                                                            d.Symptoms.OfType<RLMatchSymptom>().Where(s => s.Parent == null).Any());
+
+            return (this.SqlRepository.Name, totalOfFrps, 
+                    (totalOfLrSymptoms, totalOfRlSymptoms, totalOfLrSymptoms + totalOfRlSymptoms), 
+                    (totalOfLrAffectedFrps, totalOfRlAffectedFrps, totalOfAffectedFrps),
+                    (totalOfFrps == 0 ? 0 : totalOfLrAffectedFrps * 100d / totalOfFrps, 
+                     totalOfFrps == 0 ? 0 : totalOfRlAffectedFrps * 100d / totalOfFrps, 
+                     totalOfFrps == 0 ? 0 : totalOfAffectedFrps * 100d / totalOfFrps));
         }
 
         /// <summary>

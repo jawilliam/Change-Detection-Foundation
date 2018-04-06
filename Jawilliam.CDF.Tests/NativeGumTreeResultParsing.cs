@@ -8,6 +8,7 @@ using Jawilliam.CDF.Actions;
 using Jawilliam.CDF.Approach;
 using Jawilliam.CDF.Approach.GumTree;
 using Jawilliam.CDF.Labs;
+using Jawilliam.CDF.Labs.DBModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Jawilliam.CDF.Tests

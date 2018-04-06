@@ -1404,7 +1404,7 @@
           </Key>
           <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="None" />
           <NavigationProperty Name="Delta" Relationship="Jawilliam.CDF.Labs.SQL.OneDelta_MayHave_ManySymptoms" FromRole="Symptom" ToRole="Delta" />
-          <Property Name="Notes" Type="Int32" Nullable="true" />
+          <Property Name="Notes" Type="Jawilliam.CDF.Labs.SQL.SymptomNotes" Nullable="true" />
           <Property Name="Certainty" Type="Jawilliam.CDF.Labs.SQL.Certainty" Nullable="false" />
           <NavigationProperty Name="Symptoms" Relationship="Jawilliam.CDF.Labs.SQL.OneComplexSymptom_Contains_OtherSymptoms" FromRole="Symptom" ToRole="Symptom1" />
           <NavigationProperty Name="Parent" Relationship="Jawilliam.CDF.Labs.SQL.OneComplexSymptom_Contains_OtherSymptoms" FromRole="Symptom1" ToRole="Symptom" />
@@ -1506,6 +1506,11 @@
           <Property Type="Jawilliam.CDF.Labs.SQL.ElementContext" Name="Original" Nullable="false" />
           <Property Type="String" Name="PartName" Nullable="false" DefaultValue="&quot;&quot;" />
         </ComplexType>
+        <EnumType Name="SymptomNotes" IsFlags="true">
+          <Member Name="None" Value="0" />
+          <Member Name="Full" Value="1" />
+          <Member Name="SubTree" Value="2" />
+        </EnumType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->

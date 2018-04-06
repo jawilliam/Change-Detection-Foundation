@@ -164,64 +164,163 @@
   <ItemGroup>
     <Compile Include="Approach.Matching\Matchable.cs" />
     <Compile Include="BetweenComparison.cs" />
-    <Compile Include="DBModel\BetweenMatchInfo.DB.cs" />
-    <Compile Include="DBModel\BetweenPartInfo.DB.cs" />
-    <Compile Include="DBModel\BetweenSymptom.DB.cs" />
-    <Compile Include="DBModel\Branch.DB.cs" />
-    <Compile Include="DBModel\CaseKind.DB.cs" />
-    <Compile Include="DBModel\Certainty.DB.cs" />
-    <Compile Include="DBModel\ChangeDetectionApproaches.DB.cs" />
-    <Compile Include="DBModel\CodeCategory.DB.cs" />
-    <Compile Include="DBModel\CoexistenceSymptom.DB.cs" />
-    <Compile Include="DBModel\Commit.DB.cs" />
-    <Compile Include="DBModel\Contributor.DB.cs" />
-    <Compile Include="DBModel\Delta.DB.cs" />
-    <Compile Include="DBModel\ElementContext.DB.cs" />
-    <Compile Include="DBModel\ElementDescription.DB.cs" />
-    <Compile Include="DBModel\File.DB.cs" />
-    <Compile Include="DBModel\FileAddedChange.DB.cs" />
-    <Compile Include="DBModel\FileChange.DB.cs" />
-    <Compile Include="DBModel\FileContent.DB.cs" />
-    <Compile Include="DBModel\FileContentSummary.DB.cs" />
-    <Compile Include="DBModel\FileDeletedChange.DB.cs" />
-    <Compile Include="DBModel\FileModifiedChange.DB.cs" />
-    <Compile Include="DBModel\FileRenamedChange.DB.cs" />
-    <Compile Include="DBModel\FileRevisionPair.DB.cs" />
-    <Compile Include="DBModel\FileVersion.DB.cs" />
-    <Compile Include="DBModel\GhostSymptom.DB.cs" />
-    <Compile Include="DBModel\GitRepository.Context1.cs" />
-    <Compile Include="DBModel\GitRepository.cs" />
-    <Compile Include="DBModel\IncompatibleMatchingSymptom.DB.cs" />
-    <Compile Include="DBModel\LRMatchSymptom.DB.cs" />
-    <Compile Include="DBModel\MissedElementSymptom.DB.cs" />
-    <Compile Include="DBModel\MissedMatch.DB.cs" />
-    <Compile Include="DBModel\MissedNameSymptom.DB.cs" />
-    <Compile Include="DBModel\NameCoexistenceSymptom.DB.cs" />
-    <Compile Include="DBModel\PairRevisionInfo.DB.cs" />
-    <Compile Include="DBModel\Project.DB.cs" />
-    <Compile Include="DBModel\RepositoryObject.DB.cs" />
-    <Compile Include="DBModel\Review.DB.cs" />
-    <Compile Include="DBModel\ReviewKind.DB.cs" />
-    <Compile Include="DBModel\ReviewSeverity.DB.cs" />
-    <Compile Include="DBModel\RevisionPairFlags.DB.cs" />
-    <Compile Include="DBModel\RLMatchSymptom.DB.cs" />
-    <Compile Include="DBModel\SpuriositySymptom.DB.cs" />
-    <Compile Include="DBModel\SpuriousElementSymptom.DB.cs" />
-    <Compile Include="DBModel\SubcorpusKind.DB.cs" />
-    <Compile Include="DBModel\Symptom.DB.cs" />
-    <Compile Include="DBModel\Topics.DB.cs" />
-    <Compile Include="Delta.Custom.cs" />
+    <Compile Include="DBModel\BetweenMatchInfo.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBModel\BetweenPartInfo.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBModel\BetweenSymptom.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBModel\Branch.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBModel\CaseKind.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBModel\Certainty.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBModel\ChangeDetectionApproaches.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBModel\CodeCategory.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBModel\CoexistenceSymptom.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBModel\Commit.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBModel\Contributor.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBModel\Delta.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBModel\ElementContext.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBModel\ElementDescription.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBModel\File.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBModel\FileAddedChange.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBModel\FileChange.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBModel\FileContent.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBModel\FileContentSummary.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBModel\FileDeletedChange.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBModel\FileModifiedChange.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBModel\FileRenamedChange.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBModel\FileRevisionPair.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBModel\FileVersion.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBModel\GhostSymptom.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBModel\GitRepository.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GitRepository.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBModel\GitRepository.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBModel\IncompatibleMatchingSymptom.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBModel\LRMatchSymptom.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBModel\MissedElementSymptom.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBModel\MissedMatch.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBModel\MissedNameSymptom.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBModel\NameCoexistenceSymptom.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBModel\PairRevisionInfo.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBModel\Project.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBModel\RepositoryObject.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBModel\Review.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBModel\ReviewKind.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBModel\ReviewSeverity.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBModel\RevisionPairFlags.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBModel\RLMatchSymptom.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBModel\SpuriositySymptom.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBModel\SpuriousElementSymptom.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBModel\SubcorpusKind.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBModel\Symptom.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBModel\SymptomNotes.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBModel\Topics.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBModel\Delta.Custom.cs" />
     <Compile Include="DeltaAnalyzer.cs" />
-    <Compile Include="ElementContext.Custom.cs" />
-    <Compile Include="ElementDescription.Custom.cs" />
+    <Compile Include="DBModel\ElementContext.Custom.cs" />
+    <Compile Include="DBModel\ElementDescription.Custom.cs" />
     <Compile Include="FileContentSummarizer.cs" />
-    <Compile Include="FileModifiedChange.Custom.cs" />
+    <Compile Include="DBModel\FileModifiedChange.Custom.cs" />
     <Compile Include="FileModifiedChangeAnalyzer.cs" />
     <Compile Include="FileRevisionPairAnalyzer.cs" />
-    <Compile Include="FileContentSummary.Custom.cs" />
+    <Compile Include="DBModel\FileContentSummary.Custom.cs" />
     <Compile Include="FileVersionAnalyzer.cs" />
     <Compile Include="FromLocalGitToSqlDbDeployment.cs" />
-    <Compile Include="GitRepository.Context.Custom.cs" />
+    <Compile Include="DBModel\GitRepository.Context.Custom.cs" />
     <Compile Include="GitRepository.cs" />
     <Compile Include="ImprecisionDiagnostic.cs" />
     <Compile Include="LinesOfCodeMetric.cs" />
@@ -237,7 +336,7 @@
     <Compile Include="SourceCodeMetric.cs" />
     <Compile Include="SourceCodeCleaner.cs" />
     <Compile Include="SyntaxTokenEqualityComparer.cs" />
-    <Compile Include="ToStringExtensions.cs" />
+    <Compile Include="DBModel\ToStringExtensions.cs" />
     <Compile Include="TransformationSummary.cs" />
     <Compile Include="TransformationInfo.cs" />
     <Compile Include="XDeltaAnnotations.cs" />
@@ -257,6 +356,15 @@
     <None Include="Type System.cd" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Data\BetweenMatchComparison_GumTree_ReveseGumTree_Plain_Summary.txt" />
+    <Content Include="DBModel\GitRepository.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>GitRepository.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="DBModel\GitRepository.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>GitRepository.cs</LastGenOutput>
+    </Content>
     <Content Include="GitRepository.edmx.sql" />
   </ItemGroup>
   <ItemGroup>

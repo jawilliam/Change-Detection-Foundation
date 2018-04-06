@@ -141,6 +141,7 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
+    <Compile Include="RoslynML\RoslynML.Custom.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -152,10 +153,9 @@
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.1.1.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="RDSL.xml">
+    <None Include="RDSL.xml">
       <SubType>Designer</SubType>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    </None>
     <Content Include="RoslynML\RoslynML.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>RoslynML.cs</LastGenOutput>

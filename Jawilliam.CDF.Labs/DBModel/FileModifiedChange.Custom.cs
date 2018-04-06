@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Jawilliam.CDF.Labs
+namespace Jawilliam.CDF.Labs.DBModel
 {
     partial class FileModifiedChange
     {

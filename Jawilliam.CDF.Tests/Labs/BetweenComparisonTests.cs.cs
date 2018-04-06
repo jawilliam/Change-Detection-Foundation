@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using Jawilliam.CDF.Labs;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Jawilliam.CDF.Labs.DBModel;
 
 namespace Jawilliam.CDF.Tests.Labs
 {

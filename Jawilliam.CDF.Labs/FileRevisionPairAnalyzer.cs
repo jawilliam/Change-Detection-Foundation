@@ -11,6 +11,7 @@ using System.Xml.Linq;
 using Jawilliam.CDF.Actions;
 using Jawilliam.CDF.Approach;
 using Jawilliam.CDF.Approach.GumTree;
+using Jawilliam.CDF.Labs.DBModel;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 
@@ -808,6 +809,23 @@ namespace Jawilliam.CDF.Labs
             return new Tuple<int, int, int>(this.SqlRepository.FileRevisionPairs.Count(),
                                             frpWithCodeChanges,
                                             frpWithOnlyCommentChanges);
+        }
+
+        /// <summary>
+        /// Reports the count of file revision pairs, for each of the given approaches, whose change detection was interrupted (e.g., because it took more than 10 minutes).
+        /// </summary>
+        /// <param name="approaches">an ordered list of approaches</param>
+        /// <returns>count of interruptions for approach (in the same order of the given approaches).</returns>
+        public virtual int[] GetInterruptions(ChangeDetectionApproaches[] approaches)
+        {
+            var interruptions = new int[approaches.Length];
+            for (int i = 0; i < approaches.Length; i++)
+            {
+                var approach = approaches[i];
+                string sql = $"SELECT count([Id]) FROM [dbo].[Deltas] WHERE Approach = {(int)approach} and (Matching is null or Differencing is null)";
+                interruptions[i] = this.SqlRepository.Database.SqlQuery<int>(sql).Single();
+            }
+            return interruptions;
         }
     }
 }
