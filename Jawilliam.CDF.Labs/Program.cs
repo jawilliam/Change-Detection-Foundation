@@ -552,7 +552,8 @@ namespace Jawilliam.CDF.Labs
             //    return new KeyValuePair<string, double>(v[0], double.Parse(v[1], CultureInfo.InvariantCulture));
             //}));
             //System.IO.File.WriteAllText(@"E:\Phd\Analysis\UniquePairs\RelativeThresholds.csv", analyzer.Report.ToString());
-            DetectingNativeGumTreeDiffWithCustomMatchers();
+            //DetectingNativeGumTreeDiffWithCustomMatchers();
+            ComparisonBetweenGumTreeAndCDGumTree();
             //ComparisonBetweenGumTreeAndReverseGumTree();
             //ReportBetweenMatches();
             //StructureBetweenMatches();
@@ -701,6 +702,39 @@ namespace Jawilliam.CDF.Labs
         //    Console.Out.WriteLine(allSummary);
         //    Console.Out.WriteLine($"Report collected!!!");
         //}
+
+        private static void ComparisonBetweenGumTreeAndCDGumTree()
+        {
+            var recognizer = new BetweenComparison() { MillisecondsTimeout = 600000 };
+            recognizer.ConfigNativeGumTreeVsChangeDistillerGumTree();
+            var connectionSettings = System.Configuration.ConfigurationManager.ConnectionStrings;
+
+            foreach (var project in Projects.Take(27))
+            {
+                //var connection = System.Configuration.ConfigurationManager.ConnectionStrings[project.Name];
+                //var connectionString = connection.ConnectionString.Replace("res://*/GitRepository", ".\\GitRepository");
+                var dbRepository = new GitRepository(project.Name) { Name = project.Name };
+                ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 600000;
+                recognizer.SqlRepository = dbRepository;
+                recognizer.Cancel = null;
+
+                Func<FileRevisionPair, bool> skipThese = frp => dbRepository.Deltas.Any(d => d.RevisionPair.Id == frp.Id &&
+                                                                             d.Approach == ChangeDetectionApproaches.NativeGumTree &&
+                                                                             d.OriginalTree != null && d.ModifiedTree != null);
+
+                recognizer.Warnings = new StringBuilder();
+                recognizer.Recognize(skipThese, false);
+                System.IO.File.WriteAllText($@"C:\CDF\GT_CDGT.txt", $"{Environment.NewLine}{Environment.NewLine}Between comparison (recognition) completed - {project.Name}" +
+                                                                           $"{Environment.NewLine}{recognizer.Warnings.ToString()}");
+
+                recognizer.Warnings = new StringBuilder();
+                recognizer.ConnectMatchSymptoms(skipThese, false);
+                System.IO.File.WriteAllText($@"C:\CDF\GT_CDGT.txt", $"{Environment.NewLine}{Environment.NewLine}Between comparison (structuring) completed - {project.Name}" +
+                                                                           $"{Environment.NewLine}{recognizer.Warnings.ToString()}");
+
+            }
+            Console.Out.WriteLine($"Change Distiller vs. GumTree - matches collected!!!");
+        }
 
         private static void ComparisonBetweenGumTreeAndReverseGumTree()
         {
@@ -853,7 +887,7 @@ namespace Jawilliam.CDF.Labs
                 Modified = @"E:\SourceCode\Modified.cs"
             };
 
-            foreach (var project in Projects.Reverse().Skip(44))
+            foreach (var project in Projects.Reverse().Take(44)/*.Reverse().Skip(27)*/)
             {
                 var dbRepository = new GitRepository(project.Name) { Name = project.Name };
                 ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 600;

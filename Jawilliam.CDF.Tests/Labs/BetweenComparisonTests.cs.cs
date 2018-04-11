@@ -52,7 +52,7 @@ namespace Jawilliam.CDF.Tests.Labs
                                     "<Item eId=\"328\" eLb=\"using\"/>" +
                                "</Item>"
             };
-            var result = recognizer.Compare(leftDelta, rightDelta, new CancellationToken()).ToList();
+            var result = recognizer.Compare(leftDelta, rightDelta, null, new CancellationToken()).ToList();
             Assert.AreEqual(result.Count, 2);
 
             Assert.AreEqual(((LRMatchSymptom)result[0]).Left.PartName, recognizer.Config.LeftName);
