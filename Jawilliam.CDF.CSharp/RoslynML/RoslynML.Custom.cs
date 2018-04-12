@@ -17,5 +17,15 @@ namespace Jawilliam.CDF.CSharp.RoslynML
             var ast = SyntaxFactory.ParseCompilationUnit(content).SyntaxTree.GetRoot();
             return this.Visit(ast);
         }
+
+        /// <summary>
+        /// Converts an XML-like AST representation to the XML-like AST representation internally expected by GumTree.
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        public virtual XElement Gumtreefy(XElement source)
+        {
+            return null;
+        }
     }
 }

@@ -709,7 +709,7 @@ namespace Jawilliam.CDF.Labs
             recognizer.ConfigNativeGumTreeVsChangeDistillerGumTree();
             var connectionSettings = System.Configuration.ConfigurationManager.ConnectionStrings;
 
-            foreach (var project in Projects.Take(27))
+            foreach (var project in Projects.Skip(1).Take(26))
             {
                 //var connection = System.Configuration.ConfigurationManager.ConnectionStrings[project.Name];
                 //var connectionString = connection.ConnectionString.Replace("res://*/GitRepository", ".\\GitRepository");
@@ -723,13 +723,13 @@ namespace Jawilliam.CDF.Labs
                                                                              d.OriginalTree != null && d.ModifiedTree != null);
 
                 recognizer.Warnings = new StringBuilder();
-                recognizer.Recognize(skipThese, false);
-                System.IO.File.WriteAllText($@"C:\CDF\GT_CDGT.txt", $"{Environment.NewLine}{Environment.NewLine}Between comparison (recognition) completed - {project.Name}" +
+                recognizer.Recognize(skipThese, true);
+                System.IO.File.AppendAllText($@"C:\CDF\GT_CDGT.txt", $"{Environment.NewLine}{Environment.NewLine}Between comparison (recognition) completed - {project.Name}" +
                                                                            $"{Environment.NewLine}{recognizer.Warnings.ToString()}");
 
                 recognizer.Warnings = new StringBuilder();
-                recognizer.ConnectMatchSymptoms(skipThese, false);
-                System.IO.File.WriteAllText($@"C:\CDF\GT_CDGT.txt", $"{Environment.NewLine}{Environment.NewLine}Between comparison (structuring) completed - {project.Name}" +
+                recognizer.ConnectMatchSymptoms(skipThese, true);
+                System.IO.File.AppendAllText($@"E:\CDF\GT_CDGT.txt", $"{Environment.NewLine}{Environment.NewLine}Between comparison (structuring) completed - {project.Name}" +
                                                                            $"{Environment.NewLine}{recognizer.Warnings.ToString()}");
 
             }

@@ -351,7 +351,10 @@ namespace Jawilliam.CDF.Labs
 
             if (this.Config.Matches)
             {
-                var lrMatchSymptoms = this.SqlRepository.Symptoms.OfType<LRMatchSymptom>().Where(s => s.Delta.Id == leftDelta.Id).ToList();
+                var lrMatchSymptoms = this.SqlRepository.Symptoms.OfType<LRMatchSymptom>().Where(s => s.Delta.Id == leftDelta.Id && 
+                                      (s.Left.PartName == this.Config.LeftName || s.OriginalAtRight.PartName == this.Config.LeftName || s.ModifiedAtRight.PartName == this.Config.LeftName) &&
+                                      (s.Left.PartName == this.Config.RightName || s.OriginalAtRight.PartName == this.Config.RightName || s.ModifiedAtRight.PartName == this.Config.RightName))
+                                      .ToList();
                 var leftBfs = leftOriginalTree.BreadthFirstOrder(e => e.Children).Reverse().ToList();
                 foreach (var item in leftBfs)
                 {
@@ -383,7 +386,10 @@ namespace Jawilliam.CDF.Labs
 
                 if (this.Config.TwoWay)
                 {
-                    var rlMatchSymptoms = this.SqlRepository.Symptoms.OfType<RLMatchSymptom>().Where(s => s.Delta.Id == leftDelta.Id).ToList();
+                    var rlMatchSymptoms = this.SqlRepository.Symptoms.OfType<RLMatchSymptom>().Where(s => s.Delta.Id == leftDelta.Id &&
+                                          (s.Right.PartName == this.Config.LeftName || s.OriginalAtLeft.PartName == this.Config.LeftName || s.ModifiedAtLeft.PartName == this.Config.LeftName) &&
+                                          (s.Right.PartName == this.Config.RightName || s.OriginalAtLeft.PartName == this.Config.RightName || s.ModifiedAtLeft.PartName == this.Config.RightName))
+                                          .ToList();
                     var rightBfs = rightOriginalTree.BreadthFirstOrder(e => e.Children).Reverse().ToList();
                     foreach (var item in rightBfs)
                     {
