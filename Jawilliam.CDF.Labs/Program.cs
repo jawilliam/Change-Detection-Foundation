@@ -553,7 +553,7 @@ namespace Jawilliam.CDF.Labs
             //}));
             //System.IO.File.WriteAllText(@"E:\Phd\Analysis\UniquePairs\RelativeThresholds.csv", analyzer.Report.ToString());
             //DetectingNativeGumTreeDiffWithCustomMatchers();
-            ComparisonBetweenGumTreeAndCDGumTree();
+            //ComparisonBetweenGumTreeAndCDGumTree();
             //ComparisonBetweenGumTreeAndReverseGumTree();
             //ReportBetweenMatches();
             //StructureBetweenMatches();
@@ -724,13 +724,13 @@ namespace Jawilliam.CDF.Labs
 
                 recognizer.Warnings = new StringBuilder();
                 recognizer.Recognize(skipThese, true);
-                System.IO.File.AppendAllText($@"C:\CDF\GT_CDGT.txt", $"{Environment.NewLine}{Environment.NewLine}Between comparison (recognition) completed - {project.Name}" +
-                                                                           $"{Environment.NewLine}{recognizer.Warnings.ToString()}");
+                System.IO.File.AppendAllText($@"C:\CDF\GT_CDGT.txt", $"{Environment.NewLine}{Environment.NewLine}Between comparison (recognition) completed {DateTime.Now.ToString("F", CultureInfo.InvariantCulture)} - {project.Name}" +
+                                                                     $"{Environment.NewLine}{recognizer.Warnings.ToString()}");
 
                 recognizer.Warnings = new StringBuilder();
                 recognizer.ConnectMatchSymptoms(skipThese, true);
-                System.IO.File.AppendAllText($@"E:\CDF\GT_CDGT.txt", $"{Environment.NewLine}{Environment.NewLine}Between comparison (structuring) completed - {project.Name}" +
-                                                                           $"{Environment.NewLine}{recognizer.Warnings.ToString()}");
+                System.IO.File.AppendAllText($@"C:\CDF\GT_CDGT.txt", $"{Environment.NewLine}{Environment.NewLine}Between comparison (structuring) completed {DateTime.Now.ToString("F", CultureInfo.InvariantCulture)} - {project.Name}" +
+                                                                     $"{Environment.NewLine}{recognizer.Warnings.ToString()}");
 
             }
             Console.Out.WriteLine($"Change Distiller vs. GumTree - matches collected!!!");

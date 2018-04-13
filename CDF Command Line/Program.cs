@@ -1,6 +1,7 @@
 ﻿using Jawilliam.CDF.CSharp.RoslynML;
 using System;
 using System.Diagnostics;
+using System.Linq;
 
 namespace CDF_Command_Line
 {
@@ -24,10 +25,10 @@ namespace CDF_Command_Line
                     switch (command[0])
                     {
                         case "RoslynML":
-                            if (command.Length != 2)
-                                Console.WriteLine("RoslynML command takes 2 arguments.");
+                            if (command.Length < 2)
+                                Console.WriteLine("RoslynML command takes at least 2 arguments.");
                             else
-                                HandleRoslynMLCommand(command[1]);
+                                HandleRoslynMLCommand(command[1], command.Length > 2 ? command.Skip(2).ToArray() : null);
                             break;
                         //case "sd":
                         //    using (var _process = new Process())
@@ -68,13 +69,29 @@ namespace CDF_Command_Line
         /// Handles the RoslynML command.
         /// </summary>
         /// <param name="fullPath">the full path from which loading the content.</param>
-        private static void HandleRoslynMLCommand(string fullPath)
+        private static void HandleRoslynMLCommand(string fullPath, params string[] options)
         {
             try
             {
                 var loader = new RoslynML();
                 var xElement = loader.Load(fullPath, true);
-                Console.WriteLine(xElement.ToString());
+
+                var opts = options ?? new string[0];
+
+                if (opts.Any(o => o == "-gumtreefy"))
+                    xElement = loader.Gumtreefy(xElement);
+
+                var saveToFile = opts.SingleOrDefault(o => o.StartsWith("-saveToFile="));
+                if (saveToFile != null)
+                {
+                    var path = saveToFile.Replace("-saveToFile=", "");
+                    System.IO.File.WriteAllText(path, xElement.ToString());
+                }
+                else
+                {
+                    Console.WriteLine(xElement.ToString());
+                }
+                    
             }
             catch (Exception ex)
             {
