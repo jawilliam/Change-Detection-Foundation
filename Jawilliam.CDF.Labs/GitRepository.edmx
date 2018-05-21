@@ -33,6 +33,11 @@
     <EntitySet Name="Symptoms_BetweenSymptom" EntityType="Jawilliam.CDF.Labs.SQL.Store.Symptoms_BetweenSymptom" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Branch_Contains_Commits" EntityType="Jawilliam.CDF.Labs.SQL.Store.Branch_Contains_Commits" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Commits_AreParentsOf_Commits" EntityType="Jawilliam.CDF.Labs.SQL.Store.Commits_AreParentsOf_Commits" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="FileFormats" EntityType="Jawilliam.CDF.Labs.SQL.Store.FileFormats" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_OneFileVersion_CanBeSeenFrom_MultipleFileFormat" Association="Jawilliam.CDF.Labs.SQL.Store.FK_OneFileVersion_CanBeSeenFrom_MultipleFileFormat">
+      <End Role="RepositoryObjects_FileVersion" EntitySet="RepositoryObjects_FileVersion" />
+      <End Role="FileFormats" EntitySet="FileFormats" />
+    </AssociationSet>
     <AssociationSet Name="Contributor_IsAuthorOf_Commits" Association="Jawilliam.CDF.Labs.SQL.Store.Contributor_IsAuthorOf_Commits">
       <End Role="Commit" EntitySet="RepositoryObjects_Commit" />
       <End Role="Committer" EntitySet="RepositoryObjects_Contributor" />
@@ -233,6 +238,19 @@
     <Property Name="GlobalUpdatePorcentageSubcorpus" Type="int" Nullable="true" />
     <Property Name="GlobalMovePorcentageSubcorpus" Type="int" Nullable="true" />
     <Property Name="RevisionPair_Id" Type="uniqueidentifier" Nullable="true" />
+  </EntityType>
+  <EntityType Name="FileFormats">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Kind" Type="bigint" Nullable="false" />
+    <Property Name="Error" Type="bigint" />
+    <Property Name="XmlTree" Type="nvarchar(max)" />
+    <Property Name="XTextTree" Type="nvarchar(max)" />
+    <Property Name="TextTree" Type="nvarchar(max)" />
+    <Property Name="Annotations" Type="nvarchar(max)" />
+    <Property Name="FileVersion_Id" Type="uniqueidentifier" Nullable="false" />
   </EntityType>
   <EntityType Name="FileRevisionPairs">
     <Key>
@@ -570,6 +588,18 @@
         <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="FileContent">
+        <PropertyRef Name="FileVersion_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OneFileVersion_CanBeSeenFrom_MultipleFileFormat">
+    <End Role="RepositoryObjects_FileVersion" Type="Jawilliam.CDF.Labs.SQL.Store.RepositoryObjects_FileVersion" Multiplicity="1" />
+    <End Role="FileFormats" Type="Jawilliam.CDF.Labs.SQL.Store.FileFormats" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="RepositoryObjects_FileVersion">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="FileFormats">
         <PropertyRef Name="FileVersion_Id" />
       </Dependent>
     </ReferentialConstraint>
@@ -1101,6 +1131,11 @@
             <End Role="Symptom" EntitySet="Symptoms" />
             <End Role="Symptom1" EntitySet="Symptoms" />
           </AssociationSet>
+          <EntitySet Name="FileFormats" EntityType="Jawilliam.CDF.Labs.SQL.FileFormat" />
+          <AssociationSet Name="OneFileVersion_CanBeSeenFrom_MultipleFileFormat" Association="Jawilliam.CDF.Labs.SQL.OneFileVersion_CanBeSeenFrom_MultipleFileFormat">
+            <End Role="FileVersion" EntitySet="RepositoryObjects" />
+            <End Role="FileFormat" EntitySet="FileFormats" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="RepositoryObject" Abstract="true">
           <Key>
@@ -1159,6 +1194,7 @@
           <NavigationProperty Name="Changes" Relationship="Jawilliam.CDF.Labs.SQL.FileChanges_Originate_ManyFileVersions" FromRole="FileVersion" ToRole="FileChange" />
           <NavigationProperty Name="BackwardModifiedChanges" Relationship="Jawilliam.CDF.Labs.SQL.OneFileVersion_CanBeModifiedFromBy_ManyFileChanges" FromRole="FileVersion" ToRole="FileModifiedChange" />
           <NavigationProperty Name="ContentSummary" Relationship="Jawilliam.CDF.Labs.SQL.OneFileVersion_HasExactly_OneFileContentSummary" FromRole="FileVersion" ToRole="FileContentSummary" />
+          <NavigationProperty Name="Formats" Relationship="Jawilliam.CDF.Labs.SQL.OneFileVersion_CanBeSeenFrom_MultipleFileFormat" FromRole="FileVersion" ToRole="FileFormat" />
         </EntityType>
         <EntityType Name="FileContent">
           <Key>
@@ -1266,6 +1302,8 @@
           <Member Name="InverseOfNativeGumTreeWithChangeDistillerMatcher" Value="7" />
           <Member Name="NativeGumTreeWithXyMatcher" Value="8" />
           <Member Name="InverseOfNativeGumTreeWithXyMatcher" Value="9" />
+          <Member Name="NativeGumTreeGumtreefiedRoslynML" Value="10" />
+          <Member Name="InverseNativeGumTreeGumtreefiedRoslynML" Value="11" />
         </EnumType>
         <EnumType Name="CodeCategory" UnderlyingType="Int16" IsFlags="true">
           <Member Name="Maintained" Value="1" />
@@ -1511,6 +1549,30 @@
           <Member Name="Full" Value="1" />
           <Member Name="SubTree" Value="2" />
         </EnumType>
+        <EntityType Name="FileFormat">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="None" />
+          <Property Name="Kind" Type="Jawilliam.CDF.Labs.SQL.FileFormatKind" Nullable="false" />
+          <Property Name="Error" Type="Jawilliam.CDF.Labs.SQL.FileFormatError" Nullable="true" />
+          <Property Name="XmlTree" Type="String" Nullable="true" />
+          <Property Name="XTextTree" Type="String" Nullable="true" />
+          <Property Name="TextTree" Type="String" Nullable="true" />
+          <Property Name="Annotations" Type="String" Nullable="true" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="FileVersion" Relationship="Jawilliam.CDF.Labs.SQL.OneFileVersion_CanBeSeenFrom_MultipleFileFormat" FromRole="FileFormat" ToRole="FileVersion" />
+        </EntityType>
+        <EnumType Name="FileFormatKind" UnderlyingType="Int64" IsFlags="true" >
+          <Member Name="Gumtreefied" Value="1" />
+          <Member Name="SrcML" Value="2" />
+          <Member Name="RoslynML" Value="4" />
+          <Member Name="NONE" Value="0" />
+        </EnumType>
+        <EnumType Name="FileFormatError" UnderlyingType="Int64" IsFlags="true" />
+        <Association Name="OneFileVersion_CanBeSeenFrom_MultipleFileFormat">
+          <End Type="Jawilliam.CDF.Labs.SQL.FileVersion" Role="FileVersion" Multiplicity="1" />
+          <End Type="Jawilliam.CDF.Labs.SQL.FileFormat" Role="FileFormat" Multiplicity="*" />
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2160,6 +2222,27 @@
       </EndProperty>
       <Condition ColumnName="Parent_Id" IsNull="false" />
     </AssociationSetMapping>
+          <EntitySetMapping Name="FileFormats">
+            <EntityTypeMapping TypeName="IsTypeOf(Jawilliam.CDF.Labs.SQL.FileFormat)">
+              <MappingFragment StoreEntitySet="FileFormats">
+                <ScalarProperty Name="Annotations" ColumnName="Annotations" />
+                <ScalarProperty Name="TextTree" ColumnName="TextTree" />
+                <ScalarProperty Name="XTextTree" ColumnName="XTextTree" />
+                <ScalarProperty Name="XmlTree" ColumnName="XmlTree" />
+                <ScalarProperty Name="Error" ColumnName="Error" />
+                <ScalarProperty Name="Kind" ColumnName="Kind" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="OneFileVersion_CanBeSeenFrom_MultipleFileFormat" TypeName="Jawilliam.CDF.Labs.SQL.OneFileVersion_CanBeSeenFrom_MultipleFileFormat" StoreEntitySet="FileFormats">
+            <EndProperty Name="FileFormat">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <EndProperty Name="FileVersion">
+              <ScalarProperty Name="Id" ColumnName="FileVersion_Id" />
+            </EndProperty>
+          </AssociationSetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>
@@ -2180,6 +2263,78 @@
     </edmx:Options>
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
+      <Diagram DiagramId="3a341a8b9d494aaaa29c4b2115a95257" Name="Diagram1">
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.RepositoryObject" Width="1.5" PointX="19.625" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.Contributor" Width="1.5" PointX="22.625" PointY="7.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.Branch" Width="1.5" PointX="14.625" PointY="7.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.Commit" Width="1.5" PointX="20.625" PointY="10" IsExpanded="true" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.File" Width="1.5" PointX="18.125" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.FileVersion" Width="1.5" PointX="19.625" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.FileContent" Width="1.5" PointX="17.625" PointY="8.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.FileChange" Width="1.5" PointX="22.625" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.FileAddedChange" Width="1.5" PointX="22.5" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.FileDeletedChange" Width="1.5" PointX="24.75" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.FileModifiedChange" Width="1.5" PointX="15.625" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.FileRenamedChange" Width="1.5" PointX="6.625" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.FileContentSummary" Width="1.5" PointX="17.625" PointY="11" IsExpanded="true" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.Delta" Width="1.5" PointX="11.625" PointY="18.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.FileRevisionPair" Width="1.5" PointX="14.625" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.Review" Width="1.5" PointX="16.875" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.Project" Width="1.5" PointX="0.75" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.Symptom" Width="1.5" PointX="11.625" PointY="22.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.MissedNameSymptom" Width="1.5" PointX="12.75" PointY="28.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.MissedElementSymptom" Width="1.5" PointX="12.75" PointY="25.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.CoexistenceSymptom" Width="1.5" PointX="19.5" PointY="25.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.NameCoexistenceSymptom" Width="1.5" PointX="19.5" PointY="28.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.IncompatibleMatchingSymptom" Width="1.5" PointX="3.75" PointY="25.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.SpuriositySymptom" Width="1.5" PointX="6" PointY="25.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.GhostSymptom" Width="1.5" PointX="8.25" PointY="25.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.SpuriousElementSymptom" Width="1.5" PointX="10.5" PointY="25.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.BetweenSymptom" Width="1.5" PointX="16.125" PointY="25.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.LRMatchSymptom" Width="1.5" PointX="17.25" PointY="27.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.RLMatchSymptom" Width="1.5" PointX="15" PointY="27.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.FileFormat" Width="1.5" PointX="17.625" PointY="15" IsExpanded="true" />
+        <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.Contributor" ManuallyRouted="false" />
+        <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.Branch" ManuallyRouted="false" />
+        <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.Commit" ManuallyRouted="false" />
+        <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.File" ManuallyRouted="false" />
+        <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.FileVersion" ManuallyRouted="false" />
+        <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.FileChange" ManuallyRouted="false" />
+        <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.FileAddedChange" ManuallyRouted="false" />
+        <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.FileDeletedChange" ManuallyRouted="false" />
+        <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.FileModifiedChange" ManuallyRouted="false" />
+        <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.FileRenamedChange" ManuallyRouted="false" />
+        <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.MissedNameSymptom" ManuallyRouted="false" />
+        <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.MissedElementSymptom" ManuallyRouted="false" />
+        <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.CoexistenceSymptom" ManuallyRouted="false" />
+        <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.NameCoexistenceSymptom" ManuallyRouted="false" />
+        <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.IncompatibleMatchingSymptom" ManuallyRouted="false" />
+        <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.SpuriositySymptom" ManuallyRouted="false" />
+        <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.GhostSymptom" ManuallyRouted="false" />
+        <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.SpuriousElementSymptom" ManuallyRouted="false" />
+        <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.BetweenSymptom" ManuallyRouted="false" />
+        <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.LRMatchSymptom" ManuallyRouted="false" />
+        <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.RLMatchSymptom" ManuallyRouted="false" />
+        <AssociationConnector Association="Jawilliam.CDF.Labs.SQL.Contributor_IsAuthorOf_Commits" ManuallyRouted="false" />
+        <AssociationConnector Association="Jawilliam.CDF.Labs.SQL.Branch_PointTo_OneCommit" ManuallyRouted="false" />
+        <AssociationConnector Association="Jawilliam.CDF.Labs.SQL.Branch_Contains_Commits" ManuallyRouted="false" />
+        <AssociationConnector Association="Jawilliam.CDF.Labs.SQL.Commits_AreParentsOf_Commits" ManuallyRouted="false" />
+        <AssociationConnector Association="Jawilliam.CDF.Labs.SQL.OneFileVersion_HasExactly_OneFileContent" ManuallyRouted="false" />
+        <AssociationConnector Association="Jawilliam.CDF.Labs.SQL.OneFile_HasMany_Versions" ManuallyRouted="false" />
+        <AssociationConnector Association="Jawilliam.CDF.Labs.SQL.FileChange_DifferencingTo_Commit" ManuallyRouted="false" />
+        <AssociationConnector Association="Jawilliam.CDF.Labs.SQL.FileChange_DifferencingFrom_Commit" ManuallyRouted="false" />
+        <AssociationConnector Association="Jawilliam.CDF.Labs.SQL.FileChanges_Originate_ManyFileVersions" ManuallyRouted="false" />
+        <AssociationConnector Association="Jawilliam.CDF.Labs.SQL.OneFileVersion_CanBeModifiedFromBy_ManyFileChanges" ManuallyRouted="false" />
+        <AssociationConnector Association="Jawilliam.CDF.Labs.SQL.OneFileVersion_HasExactly_OneFileContentSummary" ManuallyRouted="false" />
+        <AssociationConnector Association="Jawilliam.CDF.Labs.SQL.FileModifiedChanges_CanBeDescribedByDifferent_Deltas" ManuallyRouted="false" />
+        <AssociationConnector Association="Jawilliam.CDF.Labs.SQL.OneFile_CanHave_ManyRevisionPairs" ManuallyRouted="false" />
+        <AssociationConnector Association="Jawilliam.CDF.Labs.SQL.FileRevisionPairFileModifiedChange" ManuallyRouted="false" />
+        <AssociationConnector Association="Jawilliam.CDF.Labs.SQL.FileRevisionPair_AlsoReferences_TheDuplicatedFileModifiedChanges" ManuallyRouted="false" />
+        <AssociationConnector Association="Jawilliam.CDF.Labs.SQL.OneFileRevisionPair_MayHave_ManyReview" ManuallyRouted="false" />
+        <AssociationConnector Association="Jawilliam.CDF.Labs.SQL.OneDelta_MayHave_ManySymptoms" ManuallyRouted="false" />
+        <AssociationConnector Association="Jawilliam.CDF.Labs.SQL.OneComplexSymptom_Contains_OtherSymptoms" ManuallyRouted="false" />
+        <AssociationConnector Association="Jawilliam.CDF.Labs.SQL.OneFileVersion_CanBeSeenFrom_MultipleFileFormat" ManuallyRouted="false" />
+      </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

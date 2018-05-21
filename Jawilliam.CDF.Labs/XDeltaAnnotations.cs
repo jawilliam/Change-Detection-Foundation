@@ -25,6 +25,12 @@ namespace Jawilliam.CDF.Labs
         public virtual string Error { get; set; }
 
         /// <summary>
+        /// Gets or sets if the execution time.
+        /// </summary>
+        [XmlAttribute("runtime")]
+        public virtual string RunTime { get; set; }
+
+        /// <summary>
         /// Reconstructs an object from the associated XML string.
         /// </summary>
         /// <param name="text">the raw XML.</param>

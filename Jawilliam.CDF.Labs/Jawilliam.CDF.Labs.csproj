@@ -164,6 +164,7 @@
   <ItemGroup>
     <Compile Include="Approach.Matching\Matchable.cs" />
     <Compile Include="BetweenComparison.cs" />
+    <Compile Include="CorpusInfo.cs" />
     <Compile Include="DBModel\BetweenMatchInfo.DB.cs">
       <DependentUpon>GitRepository.tt</DependentUpon>
     </Compile>
@@ -224,6 +225,15 @@
     <Compile Include="DBModel\FileDeletedChange.DB.cs">
       <DependentUpon>GitRepository.tt</DependentUpon>
     </Compile>
+    <Compile Include="DBModel\FileFormat.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBModel\FileFormatError.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBModel\FileFormatKind.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
     <Compile Include="DBModel\FileModifiedChange.DB.cs">
       <DependentUpon>GitRepository.tt</DependentUpon>
     </Compile>
@@ -249,6 +259,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>GitRepository.tt</DependentUpon>
     </Compile>
+    <Compile Include="DBModel\Delta.Custom.cs" />
     <Compile Include="DBModel\IncompatibleMatchingSymptom.DB.cs">
       <DependentUpon>GitRepository.tt</DependentUpon>
     </Compile>
@@ -309,7 +320,6 @@
     <Compile Include="DBModel\Topics.DB.cs">
       <DependentUpon>GitRepository.tt</DependentUpon>
     </Compile>
-    <Compile Include="DBModel\Delta.Custom.cs" />
     <Compile Include="DeltaAnalyzer.cs" />
     <Compile Include="DBModel\ElementContext.Custom.cs" />
     <Compile Include="DBModel\ElementDescription.Custom.cs" />
@@ -327,6 +337,7 @@
     <Compile Include="MissedElement.cs" />
     <Compile Include="MissedNameContext.cs" />
     <Compile Include="MissedVersion.cs" />
+    <Compile Include="NativeGumTreeCollector.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RedundancyChecking.cs" />

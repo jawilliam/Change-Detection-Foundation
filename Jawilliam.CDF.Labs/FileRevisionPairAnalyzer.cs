@@ -95,34 +95,49 @@ namespace Jawilliam.CDF.Labs
                     : this.SqlRepository.FileRevisionPairs.AsQueryable().AsNoTracking();
 
                 repositoryObjectQuery = includes.Aggregate(repositoryObjectQuery, (current, include) => current.Include(include));
-                FileRevisionPair repositoryObject = repositoryObjectQuery.Single(c => c.Id == repositoryObjectId);
-
-                Console.Out.WriteLine($"Analyzing the {++counter}-{this.SqlRepository.Name} ({repositoryObjectIds.Count}) of {this.SqlRepository.Name}");
-                var cancellationTokenSource = new CancellationTokenSource();
-                var cancellationToken = cancellationTokenSource.Token;
                 try
                 {
+                    FileRevisionPair repositoryObject = repositoryObjectQuery.Single(c => c.Id == repositoryObjectId);
+
+                    Console.Out.WriteLine($"Analyzing the {++counter}-{this.SqlRepository.Name} ({repositoryObjectIds.Count}) of {this.SqlRepository.Name}");
+                    var cancellationTokenSource = new CancellationTokenSource();
+                    var cancellationToken = cancellationTokenSource.Token;
                     try
                     {
-                        var t = Task.Run(() => analysis(repositoryObject, cancellationToken), cancellationToken);
-                        t.Wait(this.MillisecondsTimeout);
-                        cancellationTokenSource.Cancel();
-                        this.Cancel?.Invoke();
+                        try
+                        {
+                            var t = Task.Run(() => analysis(repositoryObject, cancellationToken), cancellationToken);
+                            t.Wait(this.MillisecondsTimeout);
+                            cancellationTokenSource.Cancel();
+                            this.Cancel?.Invoke();
 
-                        t.Wait();
+                            t.Wait();
+                        }
+                        catch (AggregateException ae) { throw ae.InnerException; }
+                        catch (OperationCanceledException) { this.Warnings.AppendLine($"TIMEOUT - {this.SqlRepository.Name}-{repositoryObject.Id}"); }
+                        catch (OutOfMemoryException) { this.Warnings.AppendLine($"OUTOFMEMORY - {this.SqlRepository.Name}-{repositoryObject.Id}"); }
+                        catch (Exception) { this.Warnings.AppendLine($"ERROR - {this.SqlRepository.Name}-{repositoryObject.Id}"); }
                     }
-                    catch (AggregateException ae) { throw ae.InnerException; }
+                    catch (InsufficientExecutionStackException) { this.Warnings.AppendLine($"InsufficientExecutionStack - fileversion-{this.SqlRepository.Name}-{repositoryObject.Id}"); }
                     catch (OperationCanceledException) { this.Warnings.AppendLine($"TIMEOUT - {this.SqlRepository.Name}-{repositoryObject.Id}"); }
+                    catch (InvalidOperationException) { this.Warnings.AppendLine($"INVALIDOPERATION - {this.SqlRepository.Name}-{repositoryObject.Id}"); }
                     catch (OutOfMemoryException) { this.Warnings.AppendLine($"OUTOFMEMORY - {this.SqlRepository.Name}-{repositoryObject.Id}"); }
-                }
-                catch (InsufficientExecutionStackException) { this.Warnings.AppendLine($"InsufficientExecutionStack - fileversion-{this.SqlRepository.Name}-{repositoryObject.Id}"); }
-                catch (OperationCanceledException) { this.Warnings.AppendLine($"TIMEOUT - {this.SqlRepository.Name}-{repositoryObject.Id}"); }
-                catch (InvalidOperationException) { this.Warnings.AppendLine($"INVALIDOPERATION - {this.SqlRepository.Name}-{repositoryObject.Id}"); }
-                catch (OutOfMemoryException) { this.Warnings.AppendLine($"OUTOFMEMORY - {this.SqlRepository.Name}-{repositoryObject.Id}"); }
-                catch (Exception) { this.Warnings.AppendLine($"ERROR - {this.SqlRepository.Name}-{repositoryObject.Id}"); }
+                    catch (Exception) { this.Warnings.AppendLine($"ERROR - {this.SqlRepository.Name}-{repositoryObject.Id}"); }
 
-                Console.Out.WriteLine($"Saving the {counter}-file version ({repositoryObjectIds.Count}) of {this.SqlRepository.Name}");
-                this.SqlRepository.Flush(saveChanges);
+                    Console.Out.WriteLine($"Saving the {counter}-file version ({repositoryObjectIds.Count}) of {this.SqlRepository.Name}");
+                    try
+                    {
+                        this.SqlRepository.Flush(saveChanges);
+                    }
+                    catch (Exception)
+                    {
+                        this.Warnings.AppendLine($"ERROR - {this.SqlRepository.Name}-{repositoryObject.Id}");
+                    }
+                }
+                catch (Exception)
+                {
+                    continue;
+                }
             }
         }
 
@@ -167,7 +182,12 @@ namespace Jawilliam.CDF.Labs
         public virtual void NativeGumTreeDiff(GumTreeNativeApproach gumTree, InteropArgs interopArgs, ChangeDetectionApproaches gumTreeApproach, Func<FileRevisionPair, bool> skipThese, SourceCodeCleaner cleaner = null)
         {
             this.Analyze(/*this.SqlRepository, f => f.Principal.Deltas.Any(d => d.Approach == gumTreeApproach),*/
-            f => f.Principal.Deltas.Any(d => d.Approach == ChangeDetectionApproaches.NativeGumTree) &&
+            f => (f.Principal.Deltas.Any(d => d.Approach == ChangeDetectionApproaches.NativeGumTree) ||
+                  f.Principal.Deltas.Any(d => d.Approach == ChangeDetectionApproaches.InverseOfNativeGumTree) ||
+                  f.Principal.Deltas.Any(d => d.Approach == ChangeDetectionApproaches.NativeGumTreeWithChangeDistillerMatcher) ||
+                  f.Principal.Deltas.Any(d => d.Approach == ChangeDetectionApproaches.InverseOfNativeGumTreeWithChangeDistillerMatcher) ||
+                  f.Principal.Deltas.Any(d => d.Approach == ChangeDetectionApproaches.NativeGumTreeWithXyMatcher) ||
+                  f.Principal.Deltas.Any(d => d.Approach == ChangeDetectionApproaches.InverseOfNativeGumTreeWithXyMatcher)) &&
                  !f.Principal.Deltas.Any(d => d.Approach == gumTreeApproach) /*&& 
                  f.Deltas.All(d => d.Approach != gumTreeApproach), // I am running Levenshtein before, so the longer cases have been already rejected.
             */, delegate (FileRevisionPair repositoryObject, SyntaxNode original, SyntaxNode modified, CancellationToken token)
@@ -193,7 +213,11 @@ namespace Jawilliam.CDF.Labs
 
                 try
                 {
+                    var annotations = delta.XAnnotations;
+                    var start = Environment.TickCount;
                     gumTree.Proceed(interopArgs);
+                    annotations.RunTime = (Environment.TickCount - start).ToString(CultureInfo.InvariantCulture);
+                    delta.XAnnotations = annotations;
                 }
                 catch (Exception e)
                 {
@@ -236,7 +260,12 @@ namespace Jawilliam.CDF.Labs
         public virtual void InverseNativeGumTreeDiff(GumTreeNativeApproach gumTree, InteropArgs interopArgs, ChangeDetectionApproaches gumTreeApproach, Func<FileRevisionPair, bool> skipThese, SourceCodeCleaner cleaner = null)
         {
             this.Analyze(/*this.SqlRepository, f => f.Principal.Deltas.Any(d => d.Approach == gumTreeApproach),*/
-            f => f.Principal.Deltas.Any(d => d.Approach == ChangeDetectionApproaches.NativeGumTree) &&
+            f => (f.Principal.Deltas.Any(d => d.Approach == ChangeDetectionApproaches.NativeGumTree) ||
+                  f.Principal.Deltas.Any(d => d.Approach == ChangeDetectionApproaches.InverseOfNativeGumTree) ||
+                  f.Principal.Deltas.Any(d => d.Approach == ChangeDetectionApproaches.NativeGumTreeWithChangeDistillerMatcher) ||
+                  f.Principal.Deltas.Any(d => d.Approach == ChangeDetectionApproaches.InverseOfNativeGumTreeWithChangeDistillerMatcher) ||
+                  f.Principal.Deltas.Any(d => d.Approach == ChangeDetectionApproaches.NativeGumTreeWithXyMatcher) ||
+                  f.Principal.Deltas.Any(d => d.Approach == ChangeDetectionApproaches.InverseOfNativeGumTreeWithXyMatcher)) &&
                  !f.Principal.Deltas.Any(d => d.Approach == gumTreeApproach) /*&& 
                  f.Deltas.All(d => d.Approach != gumTreeApproach), // I am running Levenshtein before, so the longer cases have been already rejected.
             */, delegate (FileRevisionPair repositoryObject, SyntaxNode original, SyntaxNode modified, CancellationToken token)
@@ -262,7 +291,11 @@ namespace Jawilliam.CDF.Labs
 
                   try
                   {
+                      var annotations = delta.XAnnotations;
+                      var start = Environment.TickCount;
                       gumTree.Proceed(interopArgs);
+                      annotations.RunTime = (Environment.TickCount - start).ToString(CultureInfo.InvariantCulture);
+                      delta.XAnnotations = annotations;
                   }
                   catch (Exception e)
                   {
@@ -806,9 +839,7 @@ namespace Jawilliam.CDF.Labs
                 frpWithCodeChanges += sourceCodeChanges ? 1 : 0;
                 frpWithOnlyCommentChanges += sourceCodeChanges && fileRevisionPair.Principal.XAnnotations.OnlyCommentChanges ? 1 : 0;
             }
-            return new Tuple<int, int, int>(this.SqlRepository.FileRevisionPairs.Count(),
-                                            frpWithCodeChanges,
-                                            frpWithOnlyCommentChanges);
+            return new Tuple<int, int, int>(this.SqlRepository.FileRevisionPairs.Count(), frpWithCodeChanges, frpWithOnlyCommentChanges);
         }
 
         /// <summary>

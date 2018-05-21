@@ -19,6 +19,7 @@ namespace Jawilliam.CDF.Labs.DBModel
         {
             this.Changes = new HashSet<FileChange>();
             this.BackwardModifiedChanges = new HashSet<FileModifiedChange>();
+            this.Formats = new HashSet<FileFormat>();
         }
     
         public string Path { get; set; }
@@ -30,5 +31,7 @@ namespace Jawilliam.CDF.Labs.DBModel
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FileModifiedChange> BackwardModifiedChanges { get; set; }
         public virtual FileContentSummary ContentSummary { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<FileFormat> Formats { get; set; }
     }
 }

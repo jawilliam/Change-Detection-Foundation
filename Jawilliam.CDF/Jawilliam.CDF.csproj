@@ -72,6 +72,8 @@
     <Compile Include="GTED\ITree.cs" />
     <Compile Include="GTED\Node.cs" />
     <Compile Include="GTED\Tree.cs" />
+    <Compile Include="UniDM\AtomicElement.cs" />
+    <Compile Include="UniDM\IDelta.cs" />
     <Compile Include="Metrics.Quality\EditDistance.cs" />
     <Compile Include="Metrics\IMetric.cs" />
     <Compile Include="Metrics\RelativeThreshold.cs" />
@@ -146,10 +148,16 @@
     <Compile Include="ThirdPartCode\InfoTree.cs" />
     <Compile Include="ThirdPartCode\Rted.cs" />
     <Compile Include="Treeable.cs" />
+    <Compile Include="UniDM\EncapsulationRelation.cs" />
+    <Compile Include="UniDM\IChange.cs" />
+    <Compile Include="UniDM\IChangeRelation.cs" />
+    <Compile Include="UniDM\IDocument.cs" />
+    <Compile Include="UniDM\IElement.cs" />
     <Compile Include="XmlHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Approach\Approach Type System.cd" />
+    <None Include="UniDM\Type System.cd" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Approach.Matching\" />

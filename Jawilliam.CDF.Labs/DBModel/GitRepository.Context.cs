@@ -34,5 +34,6 @@ namespace Jawilliam.CDF.Labs.DBModel
         public virtual DbSet<Review> Reviews { get; set; }
         public virtual DbSet<Project> Project { get; set; }
         public virtual DbSet<Symptom> Symptoms { get; set; }
+        public virtual DbSet<FileFormat> FileFormats { get; set; }
     }
 }

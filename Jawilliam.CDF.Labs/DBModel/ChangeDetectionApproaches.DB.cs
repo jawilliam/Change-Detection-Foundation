@@ -22,6 +22,8 @@ namespace Jawilliam.CDF.Labs.DBModel
         NativeGumTreeWithChangeDistillerMatcher = 6,
         InverseOfNativeGumTreeWithChangeDistillerMatcher = 7,
         NativeGumTreeWithXyMatcher = 8,
-        InverseOfNativeGumTreeWithXyMatcher = 9
+        InverseOfNativeGumTreeWithXyMatcher = 9,
+        NativeGumTreeGumtreefiedRoslynML = 10,
+        InverseNativeGumTreeGumtreefiedRoslynML = 11
     }
 }
