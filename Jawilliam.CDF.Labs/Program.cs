@@ -552,7 +552,7 @@ namespace Jawilliam.CDF.Labs
             //    return new KeyValuePair<string, double>(v[0], double.Parse(v[1], CultureInfo.InvariantCulture));
             //}));
             //System.IO.File.WriteAllText(@"E:\Phd\Analysis\UniquePairs\RelativeThresholds.csv", analyzer.Report.ToString());
-            MigrateRoslynMLTreesOfNativeGumTree(ChangeDetectionApproaches.InverseOfNativeGumTree);
+            //MigrateRoslynMLTreesOfNativeGumTree(ChangeDetectionApproaches.InverseOfNativeGumTree);
             //SaveRoslynMLTreesOfNativeGumTree(ChangeDetectionApproaches.NativeGumTreeGumtreefiedRoslynML);
             //DetectingNativeGumTreeWithGumtreefiedRoslynML();
             //DetectingInverseNativeGumTreeWithGumtreefiedRoslynML();
@@ -817,7 +817,7 @@ namespace Jawilliam.CDF.Labs
                     if (nativeGumTreeDelta != null)
                         return nativeGumTreeDelta.Differencing != null ? ((DetectionResult)nativeGumTreeDelta.DetectionResult).Actions.Count < 6 : false;
 
-                    return !dbRepository.Deltas.Any(d => d.RevisionPair.Id == frp.Principal.Id && d.Approach == ChangeDetectionApproaches.InverseOfNativeGumTree);
+                    return false/* !dbRepository.Deltas.Any(d => d.RevisionPair.Id == frp.Principal.Id && d.Approach == ChangeDetectionApproaches.InverseOfNativeGumTree)*/;
                 };
 
                 analyzer.NativeGumTreeDiff(gumTree, interopArgs , gumTreeApproach, skipThese, null);

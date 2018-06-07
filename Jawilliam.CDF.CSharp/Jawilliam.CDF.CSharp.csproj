@@ -136,6 +136,11 @@
     <Compile Include="Approach.Matching.CSharp\MethodDeclarationMatchingOptions.cs" />
     <Compile Include="ElementAbstraction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="EssentialAstInfo.cs">
+      <DependentUpon>EssentialAstInfo.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="RoslynML\RoslynML.cs">
       <DependentUpon>RoslynML.tt</DependentUpon>
       <DesignTime>True</DesignTime>
@@ -146,7 +151,7 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
-    <None Include="RoslynML\TemplateFileManagerV2.1.ttinclude" />
+    <None Include="TemplateFileManagerV2.1.ttinclude" />
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.1.1.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll" />
@@ -156,6 +161,10 @@
     <None Include="RDSL.xml">
       <SubType>Designer</SubType>
     </None>
+    <Content Include="EssentialAstInfo.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>EssentialAstInfo.cs</LastGenOutput>
+    </Content>
     <Content Include="RoslynML\RoslynML.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>RoslynML.cs</LastGenOutput>
