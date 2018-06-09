@@ -1182,7 +1182,7 @@ public class CodeGenerationTools
         return namespaceName;
     }
 
-    private string FieldName(string name)
+    public string FieldName(string name)
     {
         if (CamelCaseFields)
         {

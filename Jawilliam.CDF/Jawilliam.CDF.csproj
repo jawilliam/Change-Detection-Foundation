@@ -58,6 +58,7 @@
     <Compile Include="Domain\IDifferentiable.cs" />
     <Compile Include="Domain\IElementType.cs" />
     <Compile Include="Domain\IElementTypeFormatInfo.cs" />
+    <Compile Include="Domain\ILanguageFormatInfo.cs" />
     <Compile Include="Domain\IMatchable.cs" />
     <Compile Include="Domain\IReportable.cs" />
     <Compile Include="ElementDescriptor.cs" />
