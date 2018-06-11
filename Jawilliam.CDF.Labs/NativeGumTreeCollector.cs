@@ -1,5 +1,6 @@
 ﻿using Jawilliam.CDF.Approach.GumTree;
 using Jawilliam.CDF.CSharp.RoslynML;
+using Jawilliam.CDF.Domain;
 using Jawilliam.CDF.Labs.DBModel;
 using Microsoft.CodeAnalysis;
 using System;
@@ -24,7 +25,10 @@ namespace Jawilliam.CDF.Labs
         /// <param name="gumTreeApproach"></param>
         /// <param name="skipThese">local criterion for determining elements that should be ignored.</param>
         /// <param name="cleaner">A preprocessor for the source code in case it is desired.</param>
-        public virtual void SaveRoslynMLTrees(GumTreeNativeApproach gumTree, InteropArgs interopArgs, ChangeDetectionApproaches gumTreeApproach, Func<FileRevisionPair, bool> skipThese, SourceCodeCleaner cleaner = null)
+        public virtual void SaveRoslynMLTrees(GumTreeNativeApproach gumTree, InteropArgs interopArgs, ChangeDetectionApproaches gumTreeApproach, 
+            Func<FileRevisionPair, bool> skipThese, 
+            SourceCodeCleaner cleaner = null,
+            Func<XElement, bool> pruneFilter = null)
         {
             this.Analyze(f => f.Principal.Deltas.Any(d => d.Approach == gumTreeApproach &&
                                                d.Matching != null &&
@@ -48,15 +52,19 @@ namespace Jawilliam.CDF.Labs
                       System.IO.File.WriteAllText(interopArgs.Original, preprocessedOriginal.ToFullString());
                       System.IO.File.WriteAllText(interopArgs.Modified, preprocessedModified.ToFullString());
 
-                      var loader = new RoslynML();
-                      var xElement = loader.Load(interopArgs.Original, true);
-                      this.SetRoslynMLIDs(xElement);
-                      this.SetGumTreefiedIDs(xElement);
+                      var roslynMlServices = new RoslynML();
+                      var xElement = roslynMlServices.Load(interopArgs.Original, true);
+                      roslynMlServices.SetRoslynMLIDs(xElement);
+                      roslynMlServices.SetGumTreefiedIDs(xElement);
+                      if (pruneFilter != null)
+                          roslynMlServices.Prune(xElement, pruneFilter);
                       delta.OriginalTree = xElement.ToString(SaveOptions.DisableFormatting);
 
-                      xElement = loader.Load(interopArgs.Modified, true);
-                      this.SetRoslynMLIDs(xElement);
-                      this.SetGumTreefiedIDs(xElement);
+                      xElement = roslynMlServices.Load(interopArgs.Modified, true);
+                      roslynMlServices.SetRoslynMLIDs(xElement);
+                      roslynMlServices.SetGumTreefiedIDs(xElement);
+                      if (pruneFilter != null)
+                          roslynMlServices.Prune(xElement, pruneFilter);
                       delta.ModifiedTree = xElement.ToString(SaveOptions.DisableFormatting);
                   }
                   catch (Exception)
@@ -64,24 +72,6 @@ namespace Jawilliam.CDF.Labs
                   }
               }, true,
             "Principal.FileVersion.Content", "Principal.FromFileVersion.Content");
-        }
-
-        private void SetRoslynMLIDs(XElement root)
-        {
-            int i = 0;
-            foreach (var item in root.PostOrder(n => n.Elements()))
-            {
-                item.Add(new XAttribute("RmID", i++.ToString(CultureInfo.InvariantCulture)));
-            }
-        }
-
-        private void SetGumTreefiedIDs(XElement root)
-        {
-            int i = 0;
-            foreach (var item in root.PostOrder(n => n.Elements()).Where(n => !n.Name.LocalName.Contains("_of_") && n.Name.LocalName != "TokenList"))
-            {
-                item.Add(new XAttribute("GtID", i++.ToString(CultureInfo.InvariantCulture)));
-            }
         }
 
         public virtual void MigrateRoslynMLTrees(GumTreeNativeApproach gumTree, InteropArgs interopArgs, ChangeDetectionApproaches gumTreeApproach, Func<FileRevisionPair, bool> skipThese, SourceCodeCleaner cleaner = null)
@@ -146,6 +136,5 @@ namespace Jawilliam.CDF.Labs
               }, true,
             "Principal.FileVersion.Content", "Principal.FromFileVersion.Content");
         }
-
     }
 }

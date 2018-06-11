@@ -13,2044 +13,2261 @@ namespace Jawilliam.CDF.CSharp
     public partial class LanguageFormatInfo : Jawilliam.CDF.Domain.ILanguageFormatInfo
     {
     	/// <summary>
+        /// Gets the <see cref="IElementTypeFormatInfo"/> to provide information for the requested element type.
+        /// </summary>
+        /// <param name="type">requested element type.</param>
+        /// <param name="kind">optionally the element type can be refined to an specific subtype.</param>
+        /// <returns><see cref="IElementTypeFormatInfo"/> implementation intended to provide information for the requested element type.</returns>
+        public virtual Jawilliam.CDF.Domain.IElementTypeFormatInfo GetElementTypeFormatInfo(string type, string subtype = null)
+    	{
+    		switch(type)
+    		{
+    			case "AttributeArgumentList": return this.AttributeArgumentListFormatInfo;
+    			case "AttributeArgument": return this.AttributeArgumentFormatInfo;
+    			case "NameEquals": return this.NameEqualsFormatInfo;
+    			case "TypeParameterList": return this.TypeParameterListFormatInfo;
+    			case "TypeParameter": return this.TypeParameterFormatInfo;
+    			case "BaseList": return this.BaseListFormatInfo;
+    			case "TypeParameterConstraintClause": return this.TypeParameterConstraintClauseFormatInfo;
+    			case "ExplicitInterfaceSpecifier": return this.ExplicitInterfaceSpecifierFormatInfo;
+    			case "ConstructorInitializer": return this.ConstructorInitializerFormatInfo;
+    			case "ArrowExpressionClause": return this.ArrowExpressionClauseFormatInfo;
+    			case "AccessorList": return this.AccessorListFormatInfo;
+    			case "AccessorDeclaration": return this.AccessorDeclarationFormatInfo;
+    			case "Parameter": return this.ParameterFormatInfo;
+    			case "CrefParameter": return this.CrefParameterFormatInfo;
+    			case "XmlElementStartTag": return this.XmlElementStartTagFormatInfo;
+    			case "XmlElementEndTag": return this.XmlElementEndTagFormatInfo;
+    			case "XmlName": return this.XmlNameFormatInfo;
+    			case "XmlPrefix": return this.XmlPrefixFormatInfo;
+    			case "TypeArgumentList": return this.TypeArgumentListFormatInfo;
+    			case "ArrayRankSpecifier": return this.ArrayRankSpecifierFormatInfo;
+    			case "TupleElement": return this.TupleElementFormatInfo;
+    			case "Argument": return this.ArgumentFormatInfo;
+    			case "NameColon": return this.NameColonFormatInfo;
+    			case "AnonymousObjectMemberDeclarator": return this.AnonymousObjectMemberDeclaratorFormatInfo;
+    			case "QueryBody": return this.QueryBodyFormatInfo;
+    			case "JoinIntoClause": return this.JoinIntoClauseFormatInfo;
+    			case "Ordering": return this.OrderingFormatInfo;
+    			case "QueryContinuation": return this.QueryContinuationFormatInfo;
+    			case "WhenClause": return this.WhenClauseFormatInfo;
+    			case "InterpolationAlignmentClause": return this.InterpolationAlignmentClauseFormatInfo;
+    			case "InterpolationFormatClause": return this.InterpolationFormatClauseFormatInfo;
+    			case "VariableDeclaration": return this.VariableDeclarationFormatInfo;
+    			case "VariableDeclarator": return this.VariableDeclaratorFormatInfo;
+    			case "EqualsValueClause": return this.EqualsValueClauseFormatInfo;
+    			case "ElseClause": return this.ElseClauseFormatInfo;
+    			case "SwitchSection": return this.SwitchSectionFormatInfo;
+    			case "CatchClause": return this.CatchClauseFormatInfo;
+    			case "CatchDeclaration": return this.CatchDeclarationFormatInfo;
+    			case "CatchFilterClause": return this.CatchFilterClauseFormatInfo;
+    			case "FinallyClause": return this.FinallyClauseFormatInfo;
+    			case "CompilationUnit": return this.CompilationUnitFormatInfo;
+    			case "ExternAliasDirective": return this.ExternAliasDirectiveFormatInfo;
+    			case "UsingDirective": return this.UsingDirectiveFormatInfo;
+    			case "AttributeList": return this.AttributeListFormatInfo;
+    			case "AttributeTargetSpecifier": return this.AttributeTargetSpecifierFormatInfo;
+    			case "Attribute": return this.AttributeFormatInfo;
+    			case "DelegateDeclaration": return this.DelegateDeclarationFormatInfo;
+    			case "EnumMemberDeclaration": return this.EnumMemberDeclarationFormatInfo;
+    			case "IncompleteMember": return this.IncompleteMemberFormatInfo;
+    			case "GlobalStatement": return this.GlobalStatementFormatInfo;
+    			case "NamespaceDeclaration": return this.NamespaceDeclarationFormatInfo;
+    			case "EnumDeclaration": return this.EnumDeclarationFormatInfo;
+    			case "ClassDeclaration": return this.ClassDeclarationFormatInfo;
+    			case "StructDeclaration": return this.StructDeclarationFormatInfo;
+    			case "InterfaceDeclaration": return this.InterfaceDeclarationFormatInfo;
+    			case "FieldDeclaration": return this.FieldDeclarationFormatInfo;
+    			case "EventFieldDeclaration": return this.EventFieldDeclarationFormatInfo;
+    			case "MethodDeclaration": return this.MethodDeclarationFormatInfo;
+    			case "OperatorDeclaration": return this.OperatorDeclarationFormatInfo;
+    			case "ConversionOperatorDeclaration": return this.ConversionOperatorDeclarationFormatInfo;
+    			case "ConstructorDeclaration": return this.ConstructorDeclarationFormatInfo;
+    			case "DestructorDeclaration": return this.DestructorDeclarationFormatInfo;
+    			case "PropertyDeclaration": return this.PropertyDeclarationFormatInfo;
+    			case "EventDeclaration": return this.EventDeclarationFormatInfo;
+    			case "IndexerDeclaration": return this.IndexerDeclarationFormatInfo;
+    			case "SimpleBaseType": return this.SimpleBaseTypeFormatInfo;
+    			case "ConstructorConstraint": return this.ConstructorConstraintFormatInfo;
+    			case "ClassOrStructConstraint": return this.ClassOrStructConstraintFormatInfo;
+    			case "TypeConstraint": return this.TypeConstraintFormatInfo;
+    			case "ParameterList": return this.ParameterListFormatInfo;
+    			case "BracketedParameterList": return this.BracketedParameterListFormatInfo;
+    			case "SkippedTokensTrivia": return this.SkippedTokensTriviaFormatInfo;
+    			case "DocumentationCommentTrivia": return this.DocumentationCommentTriviaFormatInfo;
+    			case "EndIfDirectiveTrivia": return this.EndIfDirectiveTriviaFormatInfo;
+    			case "RegionDirectiveTrivia": return this.RegionDirectiveTriviaFormatInfo;
+    			case "EndRegionDirectiveTrivia": return this.EndRegionDirectiveTriviaFormatInfo;
+    			case "ErrorDirectiveTrivia": return this.ErrorDirectiveTriviaFormatInfo;
+    			case "WarningDirectiveTrivia": return this.WarningDirectiveTriviaFormatInfo;
+    			case "BadDirectiveTrivia": return this.BadDirectiveTriviaFormatInfo;
+    			case "DefineDirectiveTrivia": return this.DefineDirectiveTriviaFormatInfo;
+    			case "UndefDirectiveTrivia": return this.UndefDirectiveTriviaFormatInfo;
+    			case "LineDirectiveTrivia": return this.LineDirectiveTriviaFormatInfo;
+    			case "PragmaWarningDirectiveTrivia": return this.PragmaWarningDirectiveTriviaFormatInfo;
+    			case "PragmaChecksumDirectiveTrivia": return this.PragmaChecksumDirectiveTriviaFormatInfo;
+    			case "ReferenceDirectiveTrivia": return this.ReferenceDirectiveTriviaFormatInfo;
+    			case "LoadDirectiveTrivia": return this.LoadDirectiveTriviaFormatInfo;
+    			case "ShebangDirectiveTrivia": return this.ShebangDirectiveTriviaFormatInfo;
+    			case "ElseDirectiveTrivia": return this.ElseDirectiveTriviaFormatInfo;
+    			case "IfDirectiveTrivia": return this.IfDirectiveTriviaFormatInfo;
+    			case "ElifDirectiveTrivia": return this.ElifDirectiveTriviaFormatInfo;
+    			case "TypeCref": return this.TypeCrefFormatInfo;
+    			case "QualifiedCref": return this.QualifiedCrefFormatInfo;
+    			case "NameMemberCref": return this.NameMemberCrefFormatInfo;
+    			case "IndexerMemberCref": return this.IndexerMemberCrefFormatInfo;
+    			case "OperatorMemberCref": return this.OperatorMemberCrefFormatInfo;
+    			case "ConversionOperatorMemberCref": return this.ConversionOperatorMemberCrefFormatInfo;
+    			case "CrefParameterList": return this.CrefParameterListFormatInfo;
+    			case "CrefBracketedParameterList": return this.CrefBracketedParameterListFormatInfo;
+    			case "XmlElement": return this.XmlElementFormatInfo;
+    			case "XmlEmptyElement": return this.XmlEmptyElementFormatInfo;
+    			case "XmlText": return this.XmlTextFormatInfo;
+    			case "XmlCDataSection": return this.XmlCDataSectionFormatInfo;
+    			case "XmlProcessingInstruction": return this.XmlProcessingInstructionFormatInfo;
+    			case "XmlComment": return this.XmlCommentFormatInfo;
+    			case "XmlTextAttribute": return this.XmlTextAttributeFormatInfo;
+    			case "XmlCrefAttribute": return this.XmlCrefAttributeFormatInfo;
+    			case "XmlNameAttribute": return this.XmlNameAttributeFormatInfo;
+    			case "ParenthesizedExpression": return this.ParenthesizedExpressionFormatInfo;
+    			case "TupleExpression": return this.TupleExpressionFormatInfo;
+    			case "PrefixUnaryExpression": return this.PrefixUnaryExpressionFormatInfo;
+    			case "AwaitExpression": return this.AwaitExpressionFormatInfo;
+    			case "PostfixUnaryExpression": return this.PostfixUnaryExpressionFormatInfo;
+    			case "MemberAccessExpression": return this.MemberAccessExpressionFormatInfo;
+    			case "ConditionalAccessExpression": return this.ConditionalAccessExpressionFormatInfo;
+    			case "MemberBindingExpression": return this.MemberBindingExpressionFormatInfo;
+    			case "ElementBindingExpression": return this.ElementBindingExpressionFormatInfo;
+    			case "ImplicitElementAccess": return this.ImplicitElementAccessFormatInfo;
+    			case "BinaryExpression": return this.BinaryExpressionFormatInfo;
+    			case "AssignmentExpression": return this.AssignmentExpressionFormatInfo;
+    			case "ConditionalExpression": return this.ConditionalExpressionFormatInfo;
+    			case "LiteralExpression": return this.LiteralExpressionFormatInfo;
+    			case "MakeRefExpression": return this.MakeRefExpressionFormatInfo;
+    			case "RefTypeExpression": return this.RefTypeExpressionFormatInfo;
+    			case "RefValueExpression": return this.RefValueExpressionFormatInfo;
+    			case "CheckedExpression": return this.CheckedExpressionFormatInfo;
+    			case "DefaultExpression": return this.DefaultExpressionFormatInfo;
+    			case "TypeOfExpression": return this.TypeOfExpressionFormatInfo;
+    			case "SizeOfExpression": return this.SizeOfExpressionFormatInfo;
+    			case "InvocationExpression": return this.InvocationExpressionFormatInfo;
+    			case "ElementAccessExpression": return this.ElementAccessExpressionFormatInfo;
+    			case "DeclarationExpression": return this.DeclarationExpressionFormatInfo;
+    			case "CastExpression": return this.CastExpressionFormatInfo;
+    			case "RefExpression": return this.RefExpressionFormatInfo;
+    			case "InitializerExpression": return this.InitializerExpressionFormatInfo;
+    			case "ObjectCreationExpression": return this.ObjectCreationExpressionFormatInfo;
+    			case "AnonymousObjectCreationExpression": return this.AnonymousObjectCreationExpressionFormatInfo;
+    			case "ArrayCreationExpression": return this.ArrayCreationExpressionFormatInfo;
+    			case "ImplicitArrayCreationExpression": return this.ImplicitArrayCreationExpressionFormatInfo;
+    			case "StackAllocArrayCreationExpression": return this.StackAllocArrayCreationExpressionFormatInfo;
+    			case "QueryExpression": return this.QueryExpressionFormatInfo;
+    			case "OmittedArraySizeExpression": return this.OmittedArraySizeExpressionFormatInfo;
+    			case "InterpolatedStringExpression": return this.InterpolatedStringExpressionFormatInfo;
+    			case "IsPatternExpression": return this.IsPatternExpressionFormatInfo;
+    			case "ThrowExpression": return this.ThrowExpressionFormatInfo;
+    			case "PredefinedType": return this.PredefinedTypeFormatInfo;
+    			case "ArrayType": return this.ArrayTypeFormatInfo;
+    			case "PointerType": return this.PointerTypeFormatInfo;
+    			case "NullableType": return this.NullableTypeFormatInfo;
+    			case "TupleType": return this.TupleTypeFormatInfo;
+    			case "OmittedTypeArgument": return this.OmittedTypeArgumentFormatInfo;
+    			case "RefType": return this.RefTypeFormatInfo;
+    			case "QualifiedName": return this.QualifiedNameFormatInfo;
+    			case "AliasQualifiedName": return this.AliasQualifiedNameFormatInfo;
+    			case "IdentifierName": return this.IdentifierNameFormatInfo;
+    			case "GenericName": return this.GenericNameFormatInfo;
+    			case "ThisExpression": return this.ThisExpressionFormatInfo;
+    			case "BaseExpression": return this.BaseExpressionFormatInfo;
+    			case "AnonymousMethodExpression": return this.AnonymousMethodExpressionFormatInfo;
+    			case "SimpleLambdaExpression": return this.SimpleLambdaExpressionFormatInfo;
+    			case "ParenthesizedLambdaExpression": return this.ParenthesizedLambdaExpressionFormatInfo;
+    			case "ArgumentList": return this.ArgumentListFormatInfo;
+    			case "BracketedArgumentList": return this.BracketedArgumentListFormatInfo;
+    			case "FromClause": return this.FromClauseFormatInfo;
+    			case "LetClause": return this.LetClauseFormatInfo;
+    			case "JoinClause": return this.JoinClauseFormatInfo;
+    			case "WhereClause": return this.WhereClauseFormatInfo;
+    			case "OrderByClause": return this.OrderByClauseFormatInfo;
+    			case "SelectClause": return this.SelectClauseFormatInfo;
+    			case "GroupClause": return this.GroupClauseFormatInfo;
+    			case "DeclarationPattern": return this.DeclarationPatternFormatInfo;
+    			case "ConstantPattern": return this.ConstantPatternFormatInfo;
+    			case "InterpolatedStringText": return this.InterpolatedStringTextFormatInfo;
+    			case "Interpolation": return this.InterpolationFormatInfo;
+    			case "Block": return this.BlockFormatInfo;
+    			case "LocalFunctionStatement": return this.LocalFunctionStatementFormatInfo;
+    			case "LocalDeclarationStatement": return this.LocalDeclarationStatementFormatInfo;
+    			case "ExpressionStatement": return this.ExpressionStatementFormatInfo;
+    			case "EmptyStatement": return this.EmptyStatementFormatInfo;
+    			case "LabeledStatement": return this.LabeledStatementFormatInfo;
+    			case "GotoStatement": return this.GotoStatementFormatInfo;
+    			case "BreakStatement": return this.BreakStatementFormatInfo;
+    			case "ContinueStatement": return this.ContinueStatementFormatInfo;
+    			case "ReturnStatement": return this.ReturnStatementFormatInfo;
+    			case "ThrowStatement": return this.ThrowStatementFormatInfo;
+    			case "YieldStatement": return this.YieldStatementFormatInfo;
+    			case "WhileStatement": return this.WhileStatementFormatInfo;
+    			case "DoStatement": return this.DoStatementFormatInfo;
+    			case "ForStatement": return this.ForStatementFormatInfo;
+    			case "UsingStatement": return this.UsingStatementFormatInfo;
+    			case "FixedStatement": return this.FixedStatementFormatInfo;
+    			case "CheckedStatement": return this.CheckedStatementFormatInfo;
+    			case "UnsafeStatement": return this.UnsafeStatementFormatInfo;
+    			case "LockStatement": return this.LockStatementFormatInfo;
+    			case "IfStatement": return this.IfStatementFormatInfo;
+    			case "SwitchStatement": return this.SwitchStatementFormatInfo;
+    			case "TryStatement": return this.TryStatementFormatInfo;
+    			case "ForEachStatement": return this.ForEachStatementFormatInfo;
+    			case "ForEachVariableStatement": return this.ForEachVariableStatementFormatInfo;
+    			case "SingleVariableDesignation": return this.SingleVariableDesignationFormatInfo;
+    			case "DiscardDesignation": return this.DiscardDesignationFormatInfo;
+    			case "ParenthesizedVariableDesignation": return this.ParenthesizedVariableDesignationFormatInfo;
+    			case "CasePatternSwitchLabel": return this.CasePatternSwitchLabelFormatInfo;
+    			case "CaseSwitchLabel": return this.CaseSwitchLabelFormatInfo;
+    			case "DefaultSwitchLabel": return this.DefaultSwitchLabelFormatInfo;
+    			default: throw new ArgumentException(nameof(type));
+    		}
+    	}
+    	/// <summary>
+        /// Provides language-specific information about the "AttributeArgumentList" type.
+        /// </summary>
+    	public virtual AttributeArgumentListFormatInfo AttributeArgumentListFormatInfo
+    	{
+    		get => _attributeArgumentListFormatInfo ?? (_attributeArgumentListFormatInfo = new AttributeArgumentListFormatInfo());
+    		set => _attributeArgumentListFormatInfo = value;
+    	}
+    	private AttributeArgumentListFormatInfo _attributeArgumentListFormatInfo;
+    
+    	/// <summary>
         /// Provides language-specific information about the "AttributeArgument" type.
         /// </summary>
-    	public virtual AttributeArgumentFormatInfo AttributeArgument
+    	public virtual AttributeArgumentFormatInfo AttributeArgumentFormatInfo
     	{
-    		get => _attributeArgument ?? (_attributeArgument = new AttributeArgumentFormatInfo());
-    		set => _attributeArgument = value;
+    		get => _attributeArgumentFormatInfo ?? (_attributeArgumentFormatInfo = new AttributeArgumentFormatInfo());
+    		set => _attributeArgumentFormatInfo = value;
     	}
-    	AttributeArgumentFormatInfo _attributeArgument;
+    	private AttributeArgumentFormatInfo _attributeArgumentFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "NameEquals" type.
         /// </summary>
-    	public virtual NameEqualsFormatInfo NameEquals
+    	public virtual NameEqualsFormatInfo NameEqualsFormatInfo
     	{
-    		get => _nameEquals ?? (_nameEquals = new NameEqualsFormatInfo());
-    		set => _nameEquals = value;
+    		get => _nameEqualsFormatInfo ?? (_nameEqualsFormatInfo = new NameEqualsFormatInfo());
+    		set => _nameEqualsFormatInfo = value;
     	}
-    	NameEqualsFormatInfo _nameEquals;
+    	private NameEqualsFormatInfo _nameEqualsFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "TypeParameterList" type.
         /// </summary>
-    	public virtual TypeParameterListFormatInfo TypeParameterList
+    	public virtual TypeParameterListFormatInfo TypeParameterListFormatInfo
     	{
-    		get => _typeParameterList ?? (_typeParameterList = new TypeParameterListFormatInfo());
-    		set => _typeParameterList = value;
+    		get => _typeParameterListFormatInfo ?? (_typeParameterListFormatInfo = new TypeParameterListFormatInfo());
+    		set => _typeParameterListFormatInfo = value;
     	}
-    	TypeParameterListFormatInfo _typeParameterList;
+    	private TypeParameterListFormatInfo _typeParameterListFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "TypeParameter" type.
         /// </summary>
-    	public virtual TypeParameterFormatInfo TypeParameter
+    	public virtual TypeParameterFormatInfo TypeParameterFormatInfo
     	{
-    		get => _typeParameter ?? (_typeParameter = new TypeParameterFormatInfo());
-    		set => _typeParameter = value;
+    		get => _typeParameterFormatInfo ?? (_typeParameterFormatInfo = new TypeParameterFormatInfo());
+    		set => _typeParameterFormatInfo = value;
     	}
-    	TypeParameterFormatInfo _typeParameter;
+    	private TypeParameterFormatInfo _typeParameterFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "BaseList" type.
         /// </summary>
-    	public virtual BaseListFormatInfo BaseList
+    	public virtual BaseListFormatInfo BaseListFormatInfo
     	{
-    		get => _baseList ?? (_baseList = new BaseListFormatInfo());
-    		set => _baseList = value;
+    		get => _baseListFormatInfo ?? (_baseListFormatInfo = new BaseListFormatInfo());
+    		set => _baseListFormatInfo = value;
     	}
-    	BaseListFormatInfo _baseList;
+    	private BaseListFormatInfo _baseListFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "TypeParameterConstraintClause" type.
         /// </summary>
-    	public virtual TypeParameterConstraintClauseFormatInfo TypeParameterConstraintClause
+    	public virtual TypeParameterConstraintClauseFormatInfo TypeParameterConstraintClauseFormatInfo
     	{
-    		get => _typeParameterConstraintClause ?? (_typeParameterConstraintClause = new TypeParameterConstraintClauseFormatInfo());
-    		set => _typeParameterConstraintClause = value;
+    		get => _typeParameterConstraintClauseFormatInfo ?? (_typeParameterConstraintClauseFormatInfo = new TypeParameterConstraintClauseFormatInfo());
+    		set => _typeParameterConstraintClauseFormatInfo = value;
     	}
-    	TypeParameterConstraintClauseFormatInfo _typeParameterConstraintClause;
+    	private TypeParameterConstraintClauseFormatInfo _typeParameterConstraintClauseFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "ExplicitInterfaceSpecifier" type.
         /// </summary>
-    	public virtual ExplicitInterfaceSpecifierFormatInfo ExplicitInterfaceSpecifier
+    	public virtual ExplicitInterfaceSpecifierFormatInfo ExplicitInterfaceSpecifierFormatInfo
     	{
-    		get => _explicitInterfaceSpecifier ?? (_explicitInterfaceSpecifier = new ExplicitInterfaceSpecifierFormatInfo());
-    		set => _explicitInterfaceSpecifier = value;
+    		get => _explicitInterfaceSpecifierFormatInfo ?? (_explicitInterfaceSpecifierFormatInfo = new ExplicitInterfaceSpecifierFormatInfo());
+    		set => _explicitInterfaceSpecifierFormatInfo = value;
     	}
-    	ExplicitInterfaceSpecifierFormatInfo _explicitInterfaceSpecifier;
+    	private ExplicitInterfaceSpecifierFormatInfo _explicitInterfaceSpecifierFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "ConstructorInitializer" type.
         /// </summary>
-    	public virtual ConstructorInitializerFormatInfo ConstructorInitializer
+    	public virtual ConstructorInitializerFormatInfo ConstructorInitializerFormatInfo
     	{
-    		get => _constructorInitializer ?? (_constructorInitializer = new ConstructorInitializerFormatInfo());
-    		set => _constructorInitializer = value;
+    		get => _constructorInitializerFormatInfo ?? (_constructorInitializerFormatInfo = new ConstructorInitializerFormatInfo());
+    		set => _constructorInitializerFormatInfo = value;
     	}
-    	ConstructorInitializerFormatInfo _constructorInitializer;
+    	private ConstructorInitializerFormatInfo _constructorInitializerFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "ArrowExpressionClause" type.
         /// </summary>
-    	public virtual ArrowExpressionClauseFormatInfo ArrowExpressionClause
+    	public virtual ArrowExpressionClauseFormatInfo ArrowExpressionClauseFormatInfo
     	{
-    		get => _arrowExpressionClause ?? (_arrowExpressionClause = new ArrowExpressionClauseFormatInfo());
-    		set => _arrowExpressionClause = value;
+    		get => _arrowExpressionClauseFormatInfo ?? (_arrowExpressionClauseFormatInfo = new ArrowExpressionClauseFormatInfo());
+    		set => _arrowExpressionClauseFormatInfo = value;
     	}
-    	ArrowExpressionClauseFormatInfo _arrowExpressionClause;
+    	private ArrowExpressionClauseFormatInfo _arrowExpressionClauseFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "AccessorList" type.
         /// </summary>
-    	public virtual AccessorListFormatInfo AccessorList
+    	public virtual AccessorListFormatInfo AccessorListFormatInfo
     	{
-    		get => _accessorList ?? (_accessorList = new AccessorListFormatInfo());
-    		set => _accessorList = value;
+    		get => _accessorListFormatInfo ?? (_accessorListFormatInfo = new AccessorListFormatInfo());
+    		set => _accessorListFormatInfo = value;
     	}
-    	AccessorListFormatInfo _accessorList;
+    	private AccessorListFormatInfo _accessorListFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "AccessorDeclaration" type.
         /// </summary>
-    	public virtual AccessorDeclarationFormatInfo AccessorDeclaration
+    	public virtual AccessorDeclarationFormatInfo AccessorDeclarationFormatInfo
     	{
-    		get => _accessorDeclaration ?? (_accessorDeclaration = new AccessorDeclarationFormatInfo());
-    		set => _accessorDeclaration = value;
+    		get => _accessorDeclarationFormatInfo ?? (_accessorDeclarationFormatInfo = new AccessorDeclarationFormatInfo());
+    		set => _accessorDeclarationFormatInfo = value;
     	}
-    	AccessorDeclarationFormatInfo _accessorDeclaration;
+    	private AccessorDeclarationFormatInfo _accessorDeclarationFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "Parameter" type.
         /// </summary>
-    	public virtual ParameterFormatInfo Parameter
+    	public virtual ParameterFormatInfo ParameterFormatInfo
     	{
-    		get => _parameter ?? (_parameter = new ParameterFormatInfo());
-    		set => _parameter = value;
+    		get => _parameterFormatInfo ?? (_parameterFormatInfo = new ParameterFormatInfo());
+    		set => _parameterFormatInfo = value;
     	}
-    	ParameterFormatInfo _parameter;
+    	private ParameterFormatInfo _parameterFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "CrefParameter" type.
         /// </summary>
-    	public virtual CrefParameterFormatInfo CrefParameter
+    	public virtual CrefParameterFormatInfo CrefParameterFormatInfo
     	{
-    		get => _crefParameter ?? (_crefParameter = new CrefParameterFormatInfo());
-    		set => _crefParameter = value;
+    		get => _crefParameterFormatInfo ?? (_crefParameterFormatInfo = new CrefParameterFormatInfo());
+    		set => _crefParameterFormatInfo = value;
     	}
-    	CrefParameterFormatInfo _crefParameter;
+    	private CrefParameterFormatInfo _crefParameterFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "XmlElementStartTag" type.
         /// </summary>
-    	public virtual XmlElementStartTagFormatInfo XmlElementStartTag
+    	public virtual XmlElementStartTagFormatInfo XmlElementStartTagFormatInfo
     	{
-    		get => _xmlElementStartTag ?? (_xmlElementStartTag = new XmlElementStartTagFormatInfo());
-    		set => _xmlElementStartTag = value;
+    		get => _xmlElementStartTagFormatInfo ?? (_xmlElementStartTagFormatInfo = new XmlElementStartTagFormatInfo());
+    		set => _xmlElementStartTagFormatInfo = value;
     	}
-    	XmlElementStartTagFormatInfo _xmlElementStartTag;
+    	private XmlElementStartTagFormatInfo _xmlElementStartTagFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "XmlElementEndTag" type.
         /// </summary>
-    	public virtual XmlElementEndTagFormatInfo XmlElementEndTag
+    	public virtual XmlElementEndTagFormatInfo XmlElementEndTagFormatInfo
     	{
-    		get => _xmlElementEndTag ?? (_xmlElementEndTag = new XmlElementEndTagFormatInfo());
-    		set => _xmlElementEndTag = value;
+    		get => _xmlElementEndTagFormatInfo ?? (_xmlElementEndTagFormatInfo = new XmlElementEndTagFormatInfo());
+    		set => _xmlElementEndTagFormatInfo = value;
     	}
-    	XmlElementEndTagFormatInfo _xmlElementEndTag;
+    	private XmlElementEndTagFormatInfo _xmlElementEndTagFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "XmlName" type.
         /// </summary>
-    	public virtual XmlNameFormatInfo XmlName
+    	public virtual XmlNameFormatInfo XmlNameFormatInfo
     	{
-    		get => _xmlName ?? (_xmlName = new XmlNameFormatInfo());
-    		set => _xmlName = value;
+    		get => _xmlNameFormatInfo ?? (_xmlNameFormatInfo = new XmlNameFormatInfo());
+    		set => _xmlNameFormatInfo = value;
     	}
-    	XmlNameFormatInfo _xmlName;
+    	private XmlNameFormatInfo _xmlNameFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "XmlPrefix" type.
         /// </summary>
-    	public virtual XmlPrefixFormatInfo XmlPrefix
+    	public virtual XmlPrefixFormatInfo XmlPrefixFormatInfo
     	{
-    		get => _xmlPrefix ?? (_xmlPrefix = new XmlPrefixFormatInfo());
-    		set => _xmlPrefix = value;
+    		get => _xmlPrefixFormatInfo ?? (_xmlPrefixFormatInfo = new XmlPrefixFormatInfo());
+    		set => _xmlPrefixFormatInfo = value;
     	}
-    	XmlPrefixFormatInfo _xmlPrefix;
+    	private XmlPrefixFormatInfo _xmlPrefixFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "TypeArgumentList" type.
         /// </summary>
-    	public virtual TypeArgumentListFormatInfo TypeArgumentList
+    	public virtual TypeArgumentListFormatInfo TypeArgumentListFormatInfo
     	{
-    		get => _typeArgumentList ?? (_typeArgumentList = new TypeArgumentListFormatInfo());
-    		set => _typeArgumentList = value;
+    		get => _typeArgumentListFormatInfo ?? (_typeArgumentListFormatInfo = new TypeArgumentListFormatInfo());
+    		set => _typeArgumentListFormatInfo = value;
     	}
-    	TypeArgumentListFormatInfo _typeArgumentList;
+    	private TypeArgumentListFormatInfo _typeArgumentListFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "ArrayRankSpecifier" type.
         /// </summary>
-    	public virtual ArrayRankSpecifierFormatInfo ArrayRankSpecifier
+    	public virtual ArrayRankSpecifierFormatInfo ArrayRankSpecifierFormatInfo
     	{
-    		get => _arrayRankSpecifier ?? (_arrayRankSpecifier = new ArrayRankSpecifierFormatInfo());
-    		set => _arrayRankSpecifier = value;
+    		get => _arrayRankSpecifierFormatInfo ?? (_arrayRankSpecifierFormatInfo = new ArrayRankSpecifierFormatInfo());
+    		set => _arrayRankSpecifierFormatInfo = value;
     	}
-    	ArrayRankSpecifierFormatInfo _arrayRankSpecifier;
+    	private ArrayRankSpecifierFormatInfo _arrayRankSpecifierFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "TupleElement" type.
         /// </summary>
-    	public virtual TupleElementFormatInfo TupleElement
+    	public virtual TupleElementFormatInfo TupleElementFormatInfo
     	{
-    		get => _tupleElement ?? (_tupleElement = new TupleElementFormatInfo());
-    		set => _tupleElement = value;
+    		get => _tupleElementFormatInfo ?? (_tupleElementFormatInfo = new TupleElementFormatInfo());
+    		set => _tupleElementFormatInfo = value;
     	}
-    	TupleElementFormatInfo _tupleElement;
+    	private TupleElementFormatInfo _tupleElementFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "Argument" type.
         /// </summary>
-    	public virtual ArgumentFormatInfo Argument
+    	public virtual ArgumentFormatInfo ArgumentFormatInfo
     	{
-    		get => _argument ?? (_argument = new ArgumentFormatInfo());
-    		set => _argument = value;
+    		get => _argumentFormatInfo ?? (_argumentFormatInfo = new ArgumentFormatInfo());
+    		set => _argumentFormatInfo = value;
     	}
-    	ArgumentFormatInfo _argument;
+    	private ArgumentFormatInfo _argumentFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "NameColon" type.
         /// </summary>
-    	public virtual NameColonFormatInfo NameColon
+    	public virtual NameColonFormatInfo NameColonFormatInfo
     	{
-    		get => _nameColon ?? (_nameColon = new NameColonFormatInfo());
-    		set => _nameColon = value;
+    		get => _nameColonFormatInfo ?? (_nameColonFormatInfo = new NameColonFormatInfo());
+    		set => _nameColonFormatInfo = value;
     	}
-    	NameColonFormatInfo _nameColon;
+    	private NameColonFormatInfo _nameColonFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "AnonymousObjectMemberDeclarator" type.
         /// </summary>
-    	public virtual AnonymousObjectMemberDeclaratorFormatInfo AnonymousObjectMemberDeclarator
+    	public virtual AnonymousObjectMemberDeclaratorFormatInfo AnonymousObjectMemberDeclaratorFormatInfo
     	{
-    		get => _anonymousObjectMemberDeclarator ?? (_anonymousObjectMemberDeclarator = new AnonymousObjectMemberDeclaratorFormatInfo());
-    		set => _anonymousObjectMemberDeclarator = value;
+    		get => _anonymousObjectMemberDeclaratorFormatInfo ?? (_anonymousObjectMemberDeclaratorFormatInfo = new AnonymousObjectMemberDeclaratorFormatInfo());
+    		set => _anonymousObjectMemberDeclaratorFormatInfo = value;
     	}
-    	AnonymousObjectMemberDeclaratorFormatInfo _anonymousObjectMemberDeclarator;
+    	private AnonymousObjectMemberDeclaratorFormatInfo _anonymousObjectMemberDeclaratorFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "QueryBody" type.
         /// </summary>
-    	public virtual QueryBodyFormatInfo QueryBody
+    	public virtual QueryBodyFormatInfo QueryBodyFormatInfo
     	{
-    		get => _queryBody ?? (_queryBody = new QueryBodyFormatInfo());
-    		set => _queryBody = value;
+    		get => _queryBodyFormatInfo ?? (_queryBodyFormatInfo = new QueryBodyFormatInfo());
+    		set => _queryBodyFormatInfo = value;
     	}
-    	QueryBodyFormatInfo _queryBody;
+    	private QueryBodyFormatInfo _queryBodyFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "JoinIntoClause" type.
         /// </summary>
-    	public virtual JoinIntoClauseFormatInfo JoinIntoClause
+    	public virtual JoinIntoClauseFormatInfo JoinIntoClauseFormatInfo
     	{
-    		get => _joinIntoClause ?? (_joinIntoClause = new JoinIntoClauseFormatInfo());
-    		set => _joinIntoClause = value;
+    		get => _joinIntoClauseFormatInfo ?? (_joinIntoClauseFormatInfo = new JoinIntoClauseFormatInfo());
+    		set => _joinIntoClauseFormatInfo = value;
     	}
-    	JoinIntoClauseFormatInfo _joinIntoClause;
+    	private JoinIntoClauseFormatInfo _joinIntoClauseFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "Ordering" type.
         /// </summary>
-    	public virtual OrderingFormatInfo Ordering
+    	public virtual OrderingFormatInfo OrderingFormatInfo
     	{
-    		get => _ordering ?? (_ordering = new OrderingFormatInfo());
-    		set => _ordering = value;
+    		get => _orderingFormatInfo ?? (_orderingFormatInfo = new OrderingFormatInfo());
+    		set => _orderingFormatInfo = value;
     	}
-    	OrderingFormatInfo _ordering;
+    	private OrderingFormatInfo _orderingFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "QueryContinuation" type.
         /// </summary>
-    	public virtual QueryContinuationFormatInfo QueryContinuation
+    	public virtual QueryContinuationFormatInfo QueryContinuationFormatInfo
     	{
-    		get => _queryContinuation ?? (_queryContinuation = new QueryContinuationFormatInfo());
-    		set => _queryContinuation = value;
+    		get => _queryContinuationFormatInfo ?? (_queryContinuationFormatInfo = new QueryContinuationFormatInfo());
+    		set => _queryContinuationFormatInfo = value;
     	}
-    	QueryContinuationFormatInfo _queryContinuation;
+    	private QueryContinuationFormatInfo _queryContinuationFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "WhenClause" type.
         /// </summary>
-    	public virtual WhenClauseFormatInfo WhenClause
+    	public virtual WhenClauseFormatInfo WhenClauseFormatInfo
     	{
-    		get => _whenClause ?? (_whenClause = new WhenClauseFormatInfo());
-    		set => _whenClause = value;
+    		get => _whenClauseFormatInfo ?? (_whenClauseFormatInfo = new WhenClauseFormatInfo());
+    		set => _whenClauseFormatInfo = value;
     	}
-    	WhenClauseFormatInfo _whenClause;
+    	private WhenClauseFormatInfo _whenClauseFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "InterpolationAlignmentClause" type.
         /// </summary>
-    	public virtual InterpolationAlignmentClauseFormatInfo InterpolationAlignmentClause
+    	public virtual InterpolationAlignmentClauseFormatInfo InterpolationAlignmentClauseFormatInfo
     	{
-    		get => _interpolationAlignmentClause ?? (_interpolationAlignmentClause = new InterpolationAlignmentClauseFormatInfo());
-    		set => _interpolationAlignmentClause = value;
+    		get => _interpolationAlignmentClauseFormatInfo ?? (_interpolationAlignmentClauseFormatInfo = new InterpolationAlignmentClauseFormatInfo());
+    		set => _interpolationAlignmentClauseFormatInfo = value;
     	}
-    	InterpolationAlignmentClauseFormatInfo _interpolationAlignmentClause;
+    	private InterpolationAlignmentClauseFormatInfo _interpolationAlignmentClauseFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "InterpolationFormatClause" type.
         /// </summary>
-    	public virtual InterpolationFormatClauseFormatInfo InterpolationFormatClause
+    	public virtual InterpolationFormatClauseFormatInfo InterpolationFormatClauseFormatInfo
     	{
-    		get => _interpolationFormatClause ?? (_interpolationFormatClause = new InterpolationFormatClauseFormatInfo());
-    		set => _interpolationFormatClause = value;
+    		get => _interpolationFormatClauseFormatInfo ?? (_interpolationFormatClauseFormatInfo = new InterpolationFormatClauseFormatInfo());
+    		set => _interpolationFormatClauseFormatInfo = value;
     	}
-    	InterpolationFormatClauseFormatInfo _interpolationFormatClause;
+    	private InterpolationFormatClauseFormatInfo _interpolationFormatClauseFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "VariableDeclaration" type.
         /// </summary>
-    	public virtual VariableDeclarationFormatInfo VariableDeclaration
+    	public virtual VariableDeclarationFormatInfo VariableDeclarationFormatInfo
     	{
-    		get => _variableDeclaration ?? (_variableDeclaration = new VariableDeclarationFormatInfo());
-    		set => _variableDeclaration = value;
+    		get => _variableDeclarationFormatInfo ?? (_variableDeclarationFormatInfo = new VariableDeclarationFormatInfo());
+    		set => _variableDeclarationFormatInfo = value;
     	}
-    	VariableDeclarationFormatInfo _variableDeclaration;
+    	private VariableDeclarationFormatInfo _variableDeclarationFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "VariableDeclarator" type.
         /// </summary>
-    	public virtual VariableDeclaratorFormatInfo VariableDeclarator
+    	public virtual VariableDeclaratorFormatInfo VariableDeclaratorFormatInfo
     	{
-    		get => _variableDeclarator ?? (_variableDeclarator = new VariableDeclaratorFormatInfo());
-    		set => _variableDeclarator = value;
+    		get => _variableDeclaratorFormatInfo ?? (_variableDeclaratorFormatInfo = new VariableDeclaratorFormatInfo());
+    		set => _variableDeclaratorFormatInfo = value;
     	}
-    	VariableDeclaratorFormatInfo _variableDeclarator;
+    	private VariableDeclaratorFormatInfo _variableDeclaratorFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "EqualsValueClause" type.
         /// </summary>
-    	public virtual EqualsValueClauseFormatInfo EqualsValueClause
+    	public virtual EqualsValueClauseFormatInfo EqualsValueClauseFormatInfo
     	{
-    		get => _equalsValueClause ?? (_equalsValueClause = new EqualsValueClauseFormatInfo());
-    		set => _equalsValueClause = value;
+    		get => _equalsValueClauseFormatInfo ?? (_equalsValueClauseFormatInfo = new EqualsValueClauseFormatInfo());
+    		set => _equalsValueClauseFormatInfo = value;
     	}
-    	EqualsValueClauseFormatInfo _equalsValueClause;
+    	private EqualsValueClauseFormatInfo _equalsValueClauseFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "ElseClause" type.
         /// </summary>
-    	public virtual ElseClauseFormatInfo ElseClause
+    	public virtual ElseClauseFormatInfo ElseClauseFormatInfo
     	{
-    		get => _elseClause ?? (_elseClause = new ElseClauseFormatInfo());
-    		set => _elseClause = value;
+    		get => _elseClauseFormatInfo ?? (_elseClauseFormatInfo = new ElseClauseFormatInfo());
+    		set => _elseClauseFormatInfo = value;
     	}
-    	ElseClauseFormatInfo _elseClause;
+    	private ElseClauseFormatInfo _elseClauseFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "SwitchSection" type.
         /// </summary>
-    	public virtual SwitchSectionFormatInfo SwitchSection
+    	public virtual SwitchSectionFormatInfo SwitchSectionFormatInfo
     	{
-    		get => _switchSection ?? (_switchSection = new SwitchSectionFormatInfo());
-    		set => _switchSection = value;
+    		get => _switchSectionFormatInfo ?? (_switchSectionFormatInfo = new SwitchSectionFormatInfo());
+    		set => _switchSectionFormatInfo = value;
     	}
-    	SwitchSectionFormatInfo _switchSection;
+    	private SwitchSectionFormatInfo _switchSectionFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "CatchClause" type.
         /// </summary>
-    	public virtual CatchClauseFormatInfo CatchClause
+    	public virtual CatchClauseFormatInfo CatchClauseFormatInfo
     	{
-    		get => _catchClause ?? (_catchClause = new CatchClauseFormatInfo());
-    		set => _catchClause = value;
+    		get => _catchClauseFormatInfo ?? (_catchClauseFormatInfo = new CatchClauseFormatInfo());
+    		set => _catchClauseFormatInfo = value;
     	}
-    	CatchClauseFormatInfo _catchClause;
+    	private CatchClauseFormatInfo _catchClauseFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "CatchDeclaration" type.
         /// </summary>
-    	public virtual CatchDeclarationFormatInfo CatchDeclaration
+    	public virtual CatchDeclarationFormatInfo CatchDeclarationFormatInfo
     	{
-    		get => _catchDeclaration ?? (_catchDeclaration = new CatchDeclarationFormatInfo());
-    		set => _catchDeclaration = value;
+    		get => _catchDeclarationFormatInfo ?? (_catchDeclarationFormatInfo = new CatchDeclarationFormatInfo());
+    		set => _catchDeclarationFormatInfo = value;
     	}
-    	CatchDeclarationFormatInfo _catchDeclaration;
+    	private CatchDeclarationFormatInfo _catchDeclarationFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "CatchFilterClause" type.
         /// </summary>
-    	public virtual CatchFilterClauseFormatInfo CatchFilterClause
+    	public virtual CatchFilterClauseFormatInfo CatchFilterClauseFormatInfo
     	{
-    		get => _catchFilterClause ?? (_catchFilterClause = new CatchFilterClauseFormatInfo());
-    		set => _catchFilterClause = value;
+    		get => _catchFilterClauseFormatInfo ?? (_catchFilterClauseFormatInfo = new CatchFilterClauseFormatInfo());
+    		set => _catchFilterClauseFormatInfo = value;
     	}
-    	CatchFilterClauseFormatInfo _catchFilterClause;
+    	private CatchFilterClauseFormatInfo _catchFilterClauseFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "FinallyClause" type.
         /// </summary>
-    	public virtual FinallyClauseFormatInfo FinallyClause
+    	public virtual FinallyClauseFormatInfo FinallyClauseFormatInfo
     	{
-    		get => _finallyClause ?? (_finallyClause = new FinallyClauseFormatInfo());
-    		set => _finallyClause = value;
+    		get => _finallyClauseFormatInfo ?? (_finallyClauseFormatInfo = new FinallyClauseFormatInfo());
+    		set => _finallyClauseFormatInfo = value;
     	}
-    	FinallyClauseFormatInfo _finallyClause;
+    	private FinallyClauseFormatInfo _finallyClauseFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "CompilationUnit" type.
         /// </summary>
-    	public virtual CompilationUnitFormatInfo CompilationUnit
+    	public virtual CompilationUnitFormatInfo CompilationUnitFormatInfo
     	{
-    		get => _compilationUnit ?? (_compilationUnit = new CompilationUnitFormatInfo());
-    		set => _compilationUnit = value;
+    		get => _compilationUnitFormatInfo ?? (_compilationUnitFormatInfo = new CompilationUnitFormatInfo());
+    		set => _compilationUnitFormatInfo = value;
     	}
-    	CompilationUnitFormatInfo _compilationUnit;
+    	private CompilationUnitFormatInfo _compilationUnitFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "ExternAliasDirective" type.
         /// </summary>
-    	public virtual ExternAliasDirectiveFormatInfo ExternAliasDirective
+    	public virtual ExternAliasDirectiveFormatInfo ExternAliasDirectiveFormatInfo
     	{
-    		get => _externAliasDirective ?? (_externAliasDirective = new ExternAliasDirectiveFormatInfo());
-    		set => _externAliasDirective = value;
+    		get => _externAliasDirectiveFormatInfo ?? (_externAliasDirectiveFormatInfo = new ExternAliasDirectiveFormatInfo());
+    		set => _externAliasDirectiveFormatInfo = value;
     	}
-    	ExternAliasDirectiveFormatInfo _externAliasDirective;
+    	private ExternAliasDirectiveFormatInfo _externAliasDirectiveFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "UsingDirective" type.
         /// </summary>
-    	public virtual UsingDirectiveFormatInfo UsingDirective
+    	public virtual UsingDirectiveFormatInfo UsingDirectiveFormatInfo
     	{
-    		get => _usingDirective ?? (_usingDirective = new UsingDirectiveFormatInfo());
-    		set => _usingDirective = value;
+    		get => _usingDirectiveFormatInfo ?? (_usingDirectiveFormatInfo = new UsingDirectiveFormatInfo());
+    		set => _usingDirectiveFormatInfo = value;
     	}
-    	UsingDirectiveFormatInfo _usingDirective;
+    	private UsingDirectiveFormatInfo _usingDirectiveFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "AttributeList" type.
         /// </summary>
-    	public virtual AttributeListFormatInfo AttributeList
+    	public virtual AttributeListFormatInfo AttributeListFormatInfo
     	{
-    		get => _attributeList ?? (_attributeList = new AttributeListFormatInfo());
-    		set => _attributeList = value;
+    		get => _attributeListFormatInfo ?? (_attributeListFormatInfo = new AttributeListFormatInfo());
+    		set => _attributeListFormatInfo = value;
     	}
-    	AttributeListFormatInfo _attributeList;
+    	private AttributeListFormatInfo _attributeListFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "AttributeTargetSpecifier" type.
         /// </summary>
-    	public virtual AttributeTargetSpecifierFormatInfo AttributeTargetSpecifier
+    	public virtual AttributeTargetSpecifierFormatInfo AttributeTargetSpecifierFormatInfo
     	{
-    		get => _attributeTargetSpecifier ?? (_attributeTargetSpecifier = new AttributeTargetSpecifierFormatInfo());
-    		set => _attributeTargetSpecifier = value;
+    		get => _attributeTargetSpecifierFormatInfo ?? (_attributeTargetSpecifierFormatInfo = new AttributeTargetSpecifierFormatInfo());
+    		set => _attributeTargetSpecifierFormatInfo = value;
     	}
-    	AttributeTargetSpecifierFormatInfo _attributeTargetSpecifier;
+    	private AttributeTargetSpecifierFormatInfo _attributeTargetSpecifierFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "Attribute" type.
         /// </summary>
-    	public virtual AttributeFormatInfo Attribute
+    	public virtual AttributeFormatInfo AttributeFormatInfo
     	{
-    		get => _attribute ?? (_attribute = new AttributeFormatInfo());
-    		set => _attribute = value;
+    		get => _attributeFormatInfo ?? (_attributeFormatInfo = new AttributeFormatInfo());
+    		set => _attributeFormatInfo = value;
     	}
-    	AttributeFormatInfo _attribute;
-    
-    	/// <summary>
-        /// Provides language-specific information about the "AttributeArgumentList" type.
-        /// </summary>
-    	public virtual AttributeArgumentListFormatInfo AttributeArgumentList
-    	{
-    		get => _attributeArgumentList ?? (_attributeArgumentList = new AttributeArgumentListFormatInfo());
-    		set => _attributeArgumentList = value;
-    	}
-    	AttributeArgumentListFormatInfo _attributeArgumentList;
+    	private AttributeFormatInfo _attributeFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "DelegateDeclaration" type.
         /// </summary>
-    	public virtual DelegateDeclarationFormatInfo DelegateDeclaration
+    	public virtual DelegateDeclarationFormatInfo DelegateDeclarationFormatInfo
     	{
-    		get => _delegateDeclaration ?? (_delegateDeclaration = new DelegateDeclarationFormatInfo());
-    		set => _delegateDeclaration = value;
+    		get => _delegateDeclarationFormatInfo ?? (_delegateDeclarationFormatInfo = new DelegateDeclarationFormatInfo());
+    		set => _delegateDeclarationFormatInfo = value;
     	}
-    	DelegateDeclarationFormatInfo _delegateDeclaration;
+    	private DelegateDeclarationFormatInfo _delegateDeclarationFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "EnumMemberDeclaration" type.
         /// </summary>
-    	public virtual EnumMemberDeclarationFormatInfo EnumMemberDeclaration
+    	public virtual EnumMemberDeclarationFormatInfo EnumMemberDeclarationFormatInfo
     	{
-    		get => _enumMemberDeclaration ?? (_enumMemberDeclaration = new EnumMemberDeclarationFormatInfo());
-    		set => _enumMemberDeclaration = value;
+    		get => _enumMemberDeclarationFormatInfo ?? (_enumMemberDeclarationFormatInfo = new EnumMemberDeclarationFormatInfo());
+    		set => _enumMemberDeclarationFormatInfo = value;
     	}
-    	EnumMemberDeclarationFormatInfo _enumMemberDeclaration;
+    	private EnumMemberDeclarationFormatInfo _enumMemberDeclarationFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "IncompleteMember" type.
         /// </summary>
-    	public virtual IncompleteMemberFormatInfo IncompleteMember
+    	public virtual IncompleteMemberFormatInfo IncompleteMemberFormatInfo
     	{
-    		get => _incompleteMember ?? (_incompleteMember = new IncompleteMemberFormatInfo());
-    		set => _incompleteMember = value;
+    		get => _incompleteMemberFormatInfo ?? (_incompleteMemberFormatInfo = new IncompleteMemberFormatInfo());
+    		set => _incompleteMemberFormatInfo = value;
     	}
-    	IncompleteMemberFormatInfo _incompleteMember;
+    	private IncompleteMemberFormatInfo _incompleteMemberFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "GlobalStatement" type.
         /// </summary>
-    	public virtual GlobalStatementFormatInfo GlobalStatement
+    	public virtual GlobalStatementFormatInfo GlobalStatementFormatInfo
     	{
-    		get => _globalStatement ?? (_globalStatement = new GlobalStatementFormatInfo());
-    		set => _globalStatement = value;
+    		get => _globalStatementFormatInfo ?? (_globalStatementFormatInfo = new GlobalStatementFormatInfo());
+    		set => _globalStatementFormatInfo = value;
     	}
-    	GlobalStatementFormatInfo _globalStatement;
+    	private GlobalStatementFormatInfo _globalStatementFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "NamespaceDeclaration" type.
         /// </summary>
-    	public virtual NamespaceDeclarationFormatInfo NamespaceDeclaration
+    	public virtual NamespaceDeclarationFormatInfo NamespaceDeclarationFormatInfo
     	{
-    		get => _namespaceDeclaration ?? (_namespaceDeclaration = new NamespaceDeclarationFormatInfo());
-    		set => _namespaceDeclaration = value;
+    		get => _namespaceDeclarationFormatInfo ?? (_namespaceDeclarationFormatInfo = new NamespaceDeclarationFormatInfo());
+    		set => _namespaceDeclarationFormatInfo = value;
     	}
-    	NamespaceDeclarationFormatInfo _namespaceDeclaration;
+    	private NamespaceDeclarationFormatInfo _namespaceDeclarationFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "EnumDeclaration" type.
         /// </summary>
-    	public virtual EnumDeclarationFormatInfo EnumDeclaration
+    	public virtual EnumDeclarationFormatInfo EnumDeclarationFormatInfo
     	{
-    		get => _enumDeclaration ?? (_enumDeclaration = new EnumDeclarationFormatInfo());
-    		set => _enumDeclaration = value;
+    		get => _enumDeclarationFormatInfo ?? (_enumDeclarationFormatInfo = new EnumDeclarationFormatInfo());
+    		set => _enumDeclarationFormatInfo = value;
     	}
-    	EnumDeclarationFormatInfo _enumDeclaration;
+    	private EnumDeclarationFormatInfo _enumDeclarationFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "ClassDeclaration" type.
         /// </summary>
-    	public virtual ClassDeclarationFormatInfo ClassDeclaration
+    	public virtual ClassDeclarationFormatInfo ClassDeclarationFormatInfo
     	{
-    		get => _classDeclaration ?? (_classDeclaration = new ClassDeclarationFormatInfo());
-    		set => _classDeclaration = value;
+    		get => _classDeclarationFormatInfo ?? (_classDeclarationFormatInfo = new ClassDeclarationFormatInfo());
+    		set => _classDeclarationFormatInfo = value;
     	}
-    	ClassDeclarationFormatInfo _classDeclaration;
+    	private ClassDeclarationFormatInfo _classDeclarationFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "StructDeclaration" type.
         /// </summary>
-    	public virtual StructDeclarationFormatInfo StructDeclaration
+    	public virtual StructDeclarationFormatInfo StructDeclarationFormatInfo
     	{
-    		get => _structDeclaration ?? (_structDeclaration = new StructDeclarationFormatInfo());
-    		set => _structDeclaration = value;
+    		get => _structDeclarationFormatInfo ?? (_structDeclarationFormatInfo = new StructDeclarationFormatInfo());
+    		set => _structDeclarationFormatInfo = value;
     	}
-    	StructDeclarationFormatInfo _structDeclaration;
+    	private StructDeclarationFormatInfo _structDeclarationFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "InterfaceDeclaration" type.
         /// </summary>
-    	public virtual InterfaceDeclarationFormatInfo InterfaceDeclaration
+    	public virtual InterfaceDeclarationFormatInfo InterfaceDeclarationFormatInfo
     	{
-    		get => _interfaceDeclaration ?? (_interfaceDeclaration = new InterfaceDeclarationFormatInfo());
-    		set => _interfaceDeclaration = value;
+    		get => _interfaceDeclarationFormatInfo ?? (_interfaceDeclarationFormatInfo = new InterfaceDeclarationFormatInfo());
+    		set => _interfaceDeclarationFormatInfo = value;
     	}
-    	InterfaceDeclarationFormatInfo _interfaceDeclaration;
+    	private InterfaceDeclarationFormatInfo _interfaceDeclarationFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "FieldDeclaration" type.
         /// </summary>
-    	public virtual FieldDeclarationFormatInfo FieldDeclaration
+    	public virtual FieldDeclarationFormatInfo FieldDeclarationFormatInfo
     	{
-    		get => _fieldDeclaration ?? (_fieldDeclaration = new FieldDeclarationFormatInfo());
-    		set => _fieldDeclaration = value;
+    		get => _fieldDeclarationFormatInfo ?? (_fieldDeclarationFormatInfo = new FieldDeclarationFormatInfo());
+    		set => _fieldDeclarationFormatInfo = value;
     	}
-    	FieldDeclarationFormatInfo _fieldDeclaration;
+    	private FieldDeclarationFormatInfo _fieldDeclarationFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "EventFieldDeclaration" type.
         /// </summary>
-    	public virtual EventFieldDeclarationFormatInfo EventFieldDeclaration
+    	public virtual EventFieldDeclarationFormatInfo EventFieldDeclarationFormatInfo
     	{
-    		get => _eventFieldDeclaration ?? (_eventFieldDeclaration = new EventFieldDeclarationFormatInfo());
-    		set => _eventFieldDeclaration = value;
+    		get => _eventFieldDeclarationFormatInfo ?? (_eventFieldDeclarationFormatInfo = new EventFieldDeclarationFormatInfo());
+    		set => _eventFieldDeclarationFormatInfo = value;
     	}
-    	EventFieldDeclarationFormatInfo _eventFieldDeclaration;
+    	private EventFieldDeclarationFormatInfo _eventFieldDeclarationFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "MethodDeclaration" type.
         /// </summary>
-    	public virtual MethodDeclarationFormatInfo MethodDeclaration
+    	public virtual MethodDeclarationFormatInfo MethodDeclarationFormatInfo
     	{
-    		get => _methodDeclaration ?? (_methodDeclaration = new MethodDeclarationFormatInfo());
-    		set => _methodDeclaration = value;
+    		get => _methodDeclarationFormatInfo ?? (_methodDeclarationFormatInfo = new MethodDeclarationFormatInfo());
+    		set => _methodDeclarationFormatInfo = value;
     	}
-    	MethodDeclarationFormatInfo _methodDeclaration;
+    	private MethodDeclarationFormatInfo _methodDeclarationFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "OperatorDeclaration" type.
         /// </summary>
-    	public virtual OperatorDeclarationFormatInfo OperatorDeclaration
+    	public virtual OperatorDeclarationFormatInfo OperatorDeclarationFormatInfo
     	{
-    		get => _operatorDeclaration ?? (_operatorDeclaration = new OperatorDeclarationFormatInfo());
-    		set => _operatorDeclaration = value;
+    		get => _operatorDeclarationFormatInfo ?? (_operatorDeclarationFormatInfo = new OperatorDeclarationFormatInfo());
+    		set => _operatorDeclarationFormatInfo = value;
     	}
-    	OperatorDeclarationFormatInfo _operatorDeclaration;
+    	private OperatorDeclarationFormatInfo _operatorDeclarationFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "ConversionOperatorDeclaration" type.
         /// </summary>
-    	public virtual ConversionOperatorDeclarationFormatInfo ConversionOperatorDeclaration
+    	public virtual ConversionOperatorDeclarationFormatInfo ConversionOperatorDeclarationFormatInfo
     	{
-    		get => _conversionOperatorDeclaration ?? (_conversionOperatorDeclaration = new ConversionOperatorDeclarationFormatInfo());
-    		set => _conversionOperatorDeclaration = value;
+    		get => _conversionOperatorDeclarationFormatInfo ?? (_conversionOperatorDeclarationFormatInfo = new ConversionOperatorDeclarationFormatInfo());
+    		set => _conversionOperatorDeclarationFormatInfo = value;
     	}
-    	ConversionOperatorDeclarationFormatInfo _conversionOperatorDeclaration;
+    	private ConversionOperatorDeclarationFormatInfo _conversionOperatorDeclarationFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "ConstructorDeclaration" type.
         /// </summary>
-    	public virtual ConstructorDeclarationFormatInfo ConstructorDeclaration
+    	public virtual ConstructorDeclarationFormatInfo ConstructorDeclarationFormatInfo
     	{
-    		get => _constructorDeclaration ?? (_constructorDeclaration = new ConstructorDeclarationFormatInfo());
-    		set => _constructorDeclaration = value;
+    		get => _constructorDeclarationFormatInfo ?? (_constructorDeclarationFormatInfo = new ConstructorDeclarationFormatInfo());
+    		set => _constructorDeclarationFormatInfo = value;
     	}
-    	ConstructorDeclarationFormatInfo _constructorDeclaration;
+    	private ConstructorDeclarationFormatInfo _constructorDeclarationFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "DestructorDeclaration" type.
         /// </summary>
-    	public virtual DestructorDeclarationFormatInfo DestructorDeclaration
+    	public virtual DestructorDeclarationFormatInfo DestructorDeclarationFormatInfo
     	{
-    		get => _destructorDeclaration ?? (_destructorDeclaration = new DestructorDeclarationFormatInfo());
-    		set => _destructorDeclaration = value;
+    		get => _destructorDeclarationFormatInfo ?? (_destructorDeclarationFormatInfo = new DestructorDeclarationFormatInfo());
+    		set => _destructorDeclarationFormatInfo = value;
     	}
-    	DestructorDeclarationFormatInfo _destructorDeclaration;
+    	private DestructorDeclarationFormatInfo _destructorDeclarationFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "PropertyDeclaration" type.
         /// </summary>
-    	public virtual PropertyDeclarationFormatInfo PropertyDeclaration
+    	public virtual PropertyDeclarationFormatInfo PropertyDeclarationFormatInfo
     	{
-    		get => _propertyDeclaration ?? (_propertyDeclaration = new PropertyDeclarationFormatInfo());
-    		set => _propertyDeclaration = value;
+    		get => _propertyDeclarationFormatInfo ?? (_propertyDeclarationFormatInfo = new PropertyDeclarationFormatInfo());
+    		set => _propertyDeclarationFormatInfo = value;
     	}
-    	PropertyDeclarationFormatInfo _propertyDeclaration;
+    	private PropertyDeclarationFormatInfo _propertyDeclarationFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "EventDeclaration" type.
         /// </summary>
-    	public virtual EventDeclarationFormatInfo EventDeclaration
+    	public virtual EventDeclarationFormatInfo EventDeclarationFormatInfo
     	{
-    		get => _eventDeclaration ?? (_eventDeclaration = new EventDeclarationFormatInfo());
-    		set => _eventDeclaration = value;
+    		get => _eventDeclarationFormatInfo ?? (_eventDeclarationFormatInfo = new EventDeclarationFormatInfo());
+    		set => _eventDeclarationFormatInfo = value;
     	}
-    	EventDeclarationFormatInfo _eventDeclaration;
+    	private EventDeclarationFormatInfo _eventDeclarationFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "IndexerDeclaration" type.
         /// </summary>
-    	public virtual IndexerDeclarationFormatInfo IndexerDeclaration
+    	public virtual IndexerDeclarationFormatInfo IndexerDeclarationFormatInfo
     	{
-    		get => _indexerDeclaration ?? (_indexerDeclaration = new IndexerDeclarationFormatInfo());
-    		set => _indexerDeclaration = value;
+    		get => _indexerDeclarationFormatInfo ?? (_indexerDeclarationFormatInfo = new IndexerDeclarationFormatInfo());
+    		set => _indexerDeclarationFormatInfo = value;
     	}
-    	IndexerDeclarationFormatInfo _indexerDeclaration;
+    	private IndexerDeclarationFormatInfo _indexerDeclarationFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "SimpleBaseType" type.
         /// </summary>
-    	public virtual SimpleBaseTypeFormatInfo SimpleBaseType
+    	public virtual SimpleBaseTypeFormatInfo SimpleBaseTypeFormatInfo
     	{
-    		get => _simpleBaseType ?? (_simpleBaseType = new SimpleBaseTypeFormatInfo());
-    		set => _simpleBaseType = value;
+    		get => _simpleBaseTypeFormatInfo ?? (_simpleBaseTypeFormatInfo = new SimpleBaseTypeFormatInfo());
+    		set => _simpleBaseTypeFormatInfo = value;
     	}
-    	SimpleBaseTypeFormatInfo _simpleBaseType;
+    	private SimpleBaseTypeFormatInfo _simpleBaseTypeFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "ConstructorConstraint" type.
         /// </summary>
-    	public virtual ConstructorConstraintFormatInfo ConstructorConstraint
+    	public virtual ConstructorConstraintFormatInfo ConstructorConstraintFormatInfo
     	{
-    		get => _constructorConstraint ?? (_constructorConstraint = new ConstructorConstraintFormatInfo());
-    		set => _constructorConstraint = value;
+    		get => _constructorConstraintFormatInfo ?? (_constructorConstraintFormatInfo = new ConstructorConstraintFormatInfo());
+    		set => _constructorConstraintFormatInfo = value;
     	}
-    	ConstructorConstraintFormatInfo _constructorConstraint;
+    	private ConstructorConstraintFormatInfo _constructorConstraintFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "ClassOrStructConstraint" type.
         /// </summary>
-    	public virtual ClassOrStructConstraintFormatInfo ClassOrStructConstraint
+    	public virtual ClassOrStructConstraintFormatInfo ClassOrStructConstraintFormatInfo
     	{
-    		get => _classOrStructConstraint ?? (_classOrStructConstraint = new ClassOrStructConstraintFormatInfo());
-    		set => _classOrStructConstraint = value;
+    		get => _classOrStructConstraintFormatInfo ?? (_classOrStructConstraintFormatInfo = new ClassOrStructConstraintFormatInfo());
+    		set => _classOrStructConstraintFormatInfo = value;
     	}
-    	ClassOrStructConstraintFormatInfo _classOrStructConstraint;
+    	private ClassOrStructConstraintFormatInfo _classOrStructConstraintFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "TypeConstraint" type.
         /// </summary>
-    	public virtual TypeConstraintFormatInfo TypeConstraint
+    	public virtual TypeConstraintFormatInfo TypeConstraintFormatInfo
     	{
-    		get => _typeConstraint ?? (_typeConstraint = new TypeConstraintFormatInfo());
-    		set => _typeConstraint = value;
+    		get => _typeConstraintFormatInfo ?? (_typeConstraintFormatInfo = new TypeConstraintFormatInfo());
+    		set => _typeConstraintFormatInfo = value;
     	}
-    	TypeConstraintFormatInfo _typeConstraint;
+    	private TypeConstraintFormatInfo _typeConstraintFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "ParameterList" type.
         /// </summary>
-    	public virtual ParameterListFormatInfo ParameterList
+    	public virtual ParameterListFormatInfo ParameterListFormatInfo
     	{
-    		get => _parameterList ?? (_parameterList = new ParameterListFormatInfo());
-    		set => _parameterList = value;
+    		get => _parameterListFormatInfo ?? (_parameterListFormatInfo = new ParameterListFormatInfo());
+    		set => _parameterListFormatInfo = value;
     	}
-    	ParameterListFormatInfo _parameterList;
+    	private ParameterListFormatInfo _parameterListFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "BracketedParameterList" type.
         /// </summary>
-    	public virtual BracketedParameterListFormatInfo BracketedParameterList
+    	public virtual BracketedParameterListFormatInfo BracketedParameterListFormatInfo
     	{
-    		get => _bracketedParameterList ?? (_bracketedParameterList = new BracketedParameterListFormatInfo());
-    		set => _bracketedParameterList = value;
+    		get => _bracketedParameterListFormatInfo ?? (_bracketedParameterListFormatInfo = new BracketedParameterListFormatInfo());
+    		set => _bracketedParameterListFormatInfo = value;
     	}
-    	BracketedParameterListFormatInfo _bracketedParameterList;
+    	private BracketedParameterListFormatInfo _bracketedParameterListFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "SkippedTokensTrivia" type.
         /// </summary>
-    	public virtual SkippedTokensTriviaFormatInfo SkippedTokensTrivia
+    	public virtual SkippedTokensTriviaFormatInfo SkippedTokensTriviaFormatInfo
     	{
-    		get => _skippedTokensTrivia ?? (_skippedTokensTrivia = new SkippedTokensTriviaFormatInfo());
-    		set => _skippedTokensTrivia = value;
+    		get => _skippedTokensTriviaFormatInfo ?? (_skippedTokensTriviaFormatInfo = new SkippedTokensTriviaFormatInfo());
+    		set => _skippedTokensTriviaFormatInfo = value;
     	}
-    	SkippedTokensTriviaFormatInfo _skippedTokensTrivia;
+    	private SkippedTokensTriviaFormatInfo _skippedTokensTriviaFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "DocumentationCommentTrivia" type.
         /// </summary>
-    	public virtual DocumentationCommentTriviaFormatInfo DocumentationCommentTrivia
+    	public virtual DocumentationCommentTriviaFormatInfo DocumentationCommentTriviaFormatInfo
     	{
-    		get => _documentationCommentTrivia ?? (_documentationCommentTrivia = new DocumentationCommentTriviaFormatInfo());
-    		set => _documentationCommentTrivia = value;
+    		get => _documentationCommentTriviaFormatInfo ?? (_documentationCommentTriviaFormatInfo = new DocumentationCommentTriviaFormatInfo());
+    		set => _documentationCommentTriviaFormatInfo = value;
     	}
-    	DocumentationCommentTriviaFormatInfo _documentationCommentTrivia;
+    	private DocumentationCommentTriviaFormatInfo _documentationCommentTriviaFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "EndIfDirectiveTrivia" type.
         /// </summary>
-    	public virtual EndIfDirectiveTriviaFormatInfo EndIfDirectiveTrivia
+    	public virtual EndIfDirectiveTriviaFormatInfo EndIfDirectiveTriviaFormatInfo
     	{
-    		get => _endIfDirectiveTrivia ?? (_endIfDirectiveTrivia = new EndIfDirectiveTriviaFormatInfo());
-    		set => _endIfDirectiveTrivia = value;
+    		get => _endIfDirectiveTriviaFormatInfo ?? (_endIfDirectiveTriviaFormatInfo = new EndIfDirectiveTriviaFormatInfo());
+    		set => _endIfDirectiveTriviaFormatInfo = value;
     	}
-    	EndIfDirectiveTriviaFormatInfo _endIfDirectiveTrivia;
+    	private EndIfDirectiveTriviaFormatInfo _endIfDirectiveTriviaFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "RegionDirectiveTrivia" type.
         /// </summary>
-    	public virtual RegionDirectiveTriviaFormatInfo RegionDirectiveTrivia
+    	public virtual RegionDirectiveTriviaFormatInfo RegionDirectiveTriviaFormatInfo
     	{
-    		get => _regionDirectiveTrivia ?? (_regionDirectiveTrivia = new RegionDirectiveTriviaFormatInfo());
-    		set => _regionDirectiveTrivia = value;
+    		get => _regionDirectiveTriviaFormatInfo ?? (_regionDirectiveTriviaFormatInfo = new RegionDirectiveTriviaFormatInfo());
+    		set => _regionDirectiveTriviaFormatInfo = value;
     	}
-    	RegionDirectiveTriviaFormatInfo _regionDirectiveTrivia;
+    	private RegionDirectiveTriviaFormatInfo _regionDirectiveTriviaFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "EndRegionDirectiveTrivia" type.
         /// </summary>
-    	public virtual EndRegionDirectiveTriviaFormatInfo EndRegionDirectiveTrivia
+    	public virtual EndRegionDirectiveTriviaFormatInfo EndRegionDirectiveTriviaFormatInfo
     	{
-    		get => _endRegionDirectiveTrivia ?? (_endRegionDirectiveTrivia = new EndRegionDirectiveTriviaFormatInfo());
-    		set => _endRegionDirectiveTrivia = value;
+    		get => _endRegionDirectiveTriviaFormatInfo ?? (_endRegionDirectiveTriviaFormatInfo = new EndRegionDirectiveTriviaFormatInfo());
+    		set => _endRegionDirectiveTriviaFormatInfo = value;
     	}
-    	EndRegionDirectiveTriviaFormatInfo _endRegionDirectiveTrivia;
+    	private EndRegionDirectiveTriviaFormatInfo _endRegionDirectiveTriviaFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "ErrorDirectiveTrivia" type.
         /// </summary>
-    	public virtual ErrorDirectiveTriviaFormatInfo ErrorDirectiveTrivia
+    	public virtual ErrorDirectiveTriviaFormatInfo ErrorDirectiveTriviaFormatInfo
     	{
-    		get => _errorDirectiveTrivia ?? (_errorDirectiveTrivia = new ErrorDirectiveTriviaFormatInfo());
-    		set => _errorDirectiveTrivia = value;
+    		get => _errorDirectiveTriviaFormatInfo ?? (_errorDirectiveTriviaFormatInfo = new ErrorDirectiveTriviaFormatInfo());
+    		set => _errorDirectiveTriviaFormatInfo = value;
     	}
-    	ErrorDirectiveTriviaFormatInfo _errorDirectiveTrivia;
+    	private ErrorDirectiveTriviaFormatInfo _errorDirectiveTriviaFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "WarningDirectiveTrivia" type.
         /// </summary>
-    	public virtual WarningDirectiveTriviaFormatInfo WarningDirectiveTrivia
+    	public virtual WarningDirectiveTriviaFormatInfo WarningDirectiveTriviaFormatInfo
     	{
-    		get => _warningDirectiveTrivia ?? (_warningDirectiveTrivia = new WarningDirectiveTriviaFormatInfo());
-    		set => _warningDirectiveTrivia = value;
+    		get => _warningDirectiveTriviaFormatInfo ?? (_warningDirectiveTriviaFormatInfo = new WarningDirectiveTriviaFormatInfo());
+    		set => _warningDirectiveTriviaFormatInfo = value;
     	}
-    	WarningDirectiveTriviaFormatInfo _warningDirectiveTrivia;
+    	private WarningDirectiveTriviaFormatInfo _warningDirectiveTriviaFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "BadDirectiveTrivia" type.
         /// </summary>
-    	public virtual BadDirectiveTriviaFormatInfo BadDirectiveTrivia
+    	public virtual BadDirectiveTriviaFormatInfo BadDirectiveTriviaFormatInfo
     	{
-    		get => _badDirectiveTrivia ?? (_badDirectiveTrivia = new BadDirectiveTriviaFormatInfo());
-    		set => _badDirectiveTrivia = value;
+    		get => _badDirectiveTriviaFormatInfo ?? (_badDirectiveTriviaFormatInfo = new BadDirectiveTriviaFormatInfo());
+    		set => _badDirectiveTriviaFormatInfo = value;
     	}
-    	BadDirectiveTriviaFormatInfo _badDirectiveTrivia;
+    	private BadDirectiveTriviaFormatInfo _badDirectiveTriviaFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "DefineDirectiveTrivia" type.
         /// </summary>
-    	public virtual DefineDirectiveTriviaFormatInfo DefineDirectiveTrivia
+    	public virtual DefineDirectiveTriviaFormatInfo DefineDirectiveTriviaFormatInfo
     	{
-    		get => _defineDirectiveTrivia ?? (_defineDirectiveTrivia = new DefineDirectiveTriviaFormatInfo());
-    		set => _defineDirectiveTrivia = value;
+    		get => _defineDirectiveTriviaFormatInfo ?? (_defineDirectiveTriviaFormatInfo = new DefineDirectiveTriviaFormatInfo());
+    		set => _defineDirectiveTriviaFormatInfo = value;
     	}
-    	DefineDirectiveTriviaFormatInfo _defineDirectiveTrivia;
+    	private DefineDirectiveTriviaFormatInfo _defineDirectiveTriviaFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "UndefDirectiveTrivia" type.
         /// </summary>
-    	public virtual UndefDirectiveTriviaFormatInfo UndefDirectiveTrivia
+    	public virtual UndefDirectiveTriviaFormatInfo UndefDirectiveTriviaFormatInfo
     	{
-    		get => _undefDirectiveTrivia ?? (_undefDirectiveTrivia = new UndefDirectiveTriviaFormatInfo());
-    		set => _undefDirectiveTrivia = value;
+    		get => _undefDirectiveTriviaFormatInfo ?? (_undefDirectiveTriviaFormatInfo = new UndefDirectiveTriviaFormatInfo());
+    		set => _undefDirectiveTriviaFormatInfo = value;
     	}
-    	UndefDirectiveTriviaFormatInfo _undefDirectiveTrivia;
+    	private UndefDirectiveTriviaFormatInfo _undefDirectiveTriviaFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "LineDirectiveTrivia" type.
         /// </summary>
-    	public virtual LineDirectiveTriviaFormatInfo LineDirectiveTrivia
+    	public virtual LineDirectiveTriviaFormatInfo LineDirectiveTriviaFormatInfo
     	{
-    		get => _lineDirectiveTrivia ?? (_lineDirectiveTrivia = new LineDirectiveTriviaFormatInfo());
-    		set => _lineDirectiveTrivia = value;
+    		get => _lineDirectiveTriviaFormatInfo ?? (_lineDirectiveTriviaFormatInfo = new LineDirectiveTriviaFormatInfo());
+    		set => _lineDirectiveTriviaFormatInfo = value;
     	}
-    	LineDirectiveTriviaFormatInfo _lineDirectiveTrivia;
+    	private LineDirectiveTriviaFormatInfo _lineDirectiveTriviaFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "PragmaWarningDirectiveTrivia" type.
         /// </summary>
-    	public virtual PragmaWarningDirectiveTriviaFormatInfo PragmaWarningDirectiveTrivia
+    	public virtual PragmaWarningDirectiveTriviaFormatInfo PragmaWarningDirectiveTriviaFormatInfo
     	{
-    		get => _pragmaWarningDirectiveTrivia ?? (_pragmaWarningDirectiveTrivia = new PragmaWarningDirectiveTriviaFormatInfo());
-    		set => _pragmaWarningDirectiveTrivia = value;
+    		get => _pragmaWarningDirectiveTriviaFormatInfo ?? (_pragmaWarningDirectiveTriviaFormatInfo = new PragmaWarningDirectiveTriviaFormatInfo());
+    		set => _pragmaWarningDirectiveTriviaFormatInfo = value;
     	}
-    	PragmaWarningDirectiveTriviaFormatInfo _pragmaWarningDirectiveTrivia;
+    	private PragmaWarningDirectiveTriviaFormatInfo _pragmaWarningDirectiveTriviaFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "PragmaChecksumDirectiveTrivia" type.
         /// </summary>
-    	public virtual PragmaChecksumDirectiveTriviaFormatInfo PragmaChecksumDirectiveTrivia
+    	public virtual PragmaChecksumDirectiveTriviaFormatInfo PragmaChecksumDirectiveTriviaFormatInfo
     	{
-    		get => _pragmaChecksumDirectiveTrivia ?? (_pragmaChecksumDirectiveTrivia = new PragmaChecksumDirectiveTriviaFormatInfo());
-    		set => _pragmaChecksumDirectiveTrivia = value;
+    		get => _pragmaChecksumDirectiveTriviaFormatInfo ?? (_pragmaChecksumDirectiveTriviaFormatInfo = new PragmaChecksumDirectiveTriviaFormatInfo());
+    		set => _pragmaChecksumDirectiveTriviaFormatInfo = value;
     	}
-    	PragmaChecksumDirectiveTriviaFormatInfo _pragmaChecksumDirectiveTrivia;
+    	private PragmaChecksumDirectiveTriviaFormatInfo _pragmaChecksumDirectiveTriviaFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "ReferenceDirectiveTrivia" type.
         /// </summary>
-    	public virtual ReferenceDirectiveTriviaFormatInfo ReferenceDirectiveTrivia
+    	public virtual ReferenceDirectiveTriviaFormatInfo ReferenceDirectiveTriviaFormatInfo
     	{
-    		get => _referenceDirectiveTrivia ?? (_referenceDirectiveTrivia = new ReferenceDirectiveTriviaFormatInfo());
-    		set => _referenceDirectiveTrivia = value;
+    		get => _referenceDirectiveTriviaFormatInfo ?? (_referenceDirectiveTriviaFormatInfo = new ReferenceDirectiveTriviaFormatInfo());
+    		set => _referenceDirectiveTriviaFormatInfo = value;
     	}
-    	ReferenceDirectiveTriviaFormatInfo _referenceDirectiveTrivia;
+    	private ReferenceDirectiveTriviaFormatInfo _referenceDirectiveTriviaFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "LoadDirectiveTrivia" type.
         /// </summary>
-    	public virtual LoadDirectiveTriviaFormatInfo LoadDirectiveTrivia
+    	public virtual LoadDirectiveTriviaFormatInfo LoadDirectiveTriviaFormatInfo
     	{
-    		get => _loadDirectiveTrivia ?? (_loadDirectiveTrivia = new LoadDirectiveTriviaFormatInfo());
-    		set => _loadDirectiveTrivia = value;
+    		get => _loadDirectiveTriviaFormatInfo ?? (_loadDirectiveTriviaFormatInfo = new LoadDirectiveTriviaFormatInfo());
+    		set => _loadDirectiveTriviaFormatInfo = value;
     	}
-    	LoadDirectiveTriviaFormatInfo _loadDirectiveTrivia;
+    	private LoadDirectiveTriviaFormatInfo _loadDirectiveTriviaFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "ShebangDirectiveTrivia" type.
         /// </summary>
-    	public virtual ShebangDirectiveTriviaFormatInfo ShebangDirectiveTrivia
+    	public virtual ShebangDirectiveTriviaFormatInfo ShebangDirectiveTriviaFormatInfo
     	{
-    		get => _shebangDirectiveTrivia ?? (_shebangDirectiveTrivia = new ShebangDirectiveTriviaFormatInfo());
-    		set => _shebangDirectiveTrivia = value;
+    		get => _shebangDirectiveTriviaFormatInfo ?? (_shebangDirectiveTriviaFormatInfo = new ShebangDirectiveTriviaFormatInfo());
+    		set => _shebangDirectiveTriviaFormatInfo = value;
     	}
-    	ShebangDirectiveTriviaFormatInfo _shebangDirectiveTrivia;
+    	private ShebangDirectiveTriviaFormatInfo _shebangDirectiveTriviaFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "ElseDirectiveTrivia" type.
         /// </summary>
-    	public virtual ElseDirectiveTriviaFormatInfo ElseDirectiveTrivia
+    	public virtual ElseDirectiveTriviaFormatInfo ElseDirectiveTriviaFormatInfo
     	{
-    		get => _elseDirectiveTrivia ?? (_elseDirectiveTrivia = new ElseDirectiveTriviaFormatInfo());
-    		set => _elseDirectiveTrivia = value;
+    		get => _elseDirectiveTriviaFormatInfo ?? (_elseDirectiveTriviaFormatInfo = new ElseDirectiveTriviaFormatInfo());
+    		set => _elseDirectiveTriviaFormatInfo = value;
     	}
-    	ElseDirectiveTriviaFormatInfo _elseDirectiveTrivia;
+    	private ElseDirectiveTriviaFormatInfo _elseDirectiveTriviaFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "IfDirectiveTrivia" type.
         /// </summary>
-    	public virtual IfDirectiveTriviaFormatInfo IfDirectiveTrivia
+    	public virtual IfDirectiveTriviaFormatInfo IfDirectiveTriviaFormatInfo
     	{
-    		get => _ifDirectiveTrivia ?? (_ifDirectiveTrivia = new IfDirectiveTriviaFormatInfo());
-    		set => _ifDirectiveTrivia = value;
+    		get => _ifDirectiveTriviaFormatInfo ?? (_ifDirectiveTriviaFormatInfo = new IfDirectiveTriviaFormatInfo());
+    		set => _ifDirectiveTriviaFormatInfo = value;
     	}
-    	IfDirectiveTriviaFormatInfo _ifDirectiveTrivia;
+    	private IfDirectiveTriviaFormatInfo _ifDirectiveTriviaFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "ElifDirectiveTrivia" type.
         /// </summary>
-    	public virtual ElifDirectiveTriviaFormatInfo ElifDirectiveTrivia
+    	public virtual ElifDirectiveTriviaFormatInfo ElifDirectiveTriviaFormatInfo
     	{
-    		get => _elifDirectiveTrivia ?? (_elifDirectiveTrivia = new ElifDirectiveTriviaFormatInfo());
-    		set => _elifDirectiveTrivia = value;
+    		get => _elifDirectiveTriviaFormatInfo ?? (_elifDirectiveTriviaFormatInfo = new ElifDirectiveTriviaFormatInfo());
+    		set => _elifDirectiveTriviaFormatInfo = value;
     	}
-    	ElifDirectiveTriviaFormatInfo _elifDirectiveTrivia;
+    	private ElifDirectiveTriviaFormatInfo _elifDirectiveTriviaFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "TypeCref" type.
         /// </summary>
-    	public virtual TypeCrefFormatInfo TypeCref
+    	public virtual TypeCrefFormatInfo TypeCrefFormatInfo
     	{
-    		get => _typeCref ?? (_typeCref = new TypeCrefFormatInfo());
-    		set => _typeCref = value;
+    		get => _typeCrefFormatInfo ?? (_typeCrefFormatInfo = new TypeCrefFormatInfo());
+    		set => _typeCrefFormatInfo = value;
     	}
-    	TypeCrefFormatInfo _typeCref;
+    	private TypeCrefFormatInfo _typeCrefFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "QualifiedCref" type.
         /// </summary>
-    	public virtual QualifiedCrefFormatInfo QualifiedCref
+    	public virtual QualifiedCrefFormatInfo QualifiedCrefFormatInfo
     	{
-    		get => _qualifiedCref ?? (_qualifiedCref = new QualifiedCrefFormatInfo());
-    		set => _qualifiedCref = value;
+    		get => _qualifiedCrefFormatInfo ?? (_qualifiedCrefFormatInfo = new QualifiedCrefFormatInfo());
+    		set => _qualifiedCrefFormatInfo = value;
     	}
-    	QualifiedCrefFormatInfo _qualifiedCref;
+    	private QualifiedCrefFormatInfo _qualifiedCrefFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "NameMemberCref" type.
         /// </summary>
-    	public virtual NameMemberCrefFormatInfo NameMemberCref
+    	public virtual NameMemberCrefFormatInfo NameMemberCrefFormatInfo
     	{
-    		get => _nameMemberCref ?? (_nameMemberCref = new NameMemberCrefFormatInfo());
-    		set => _nameMemberCref = value;
+    		get => _nameMemberCrefFormatInfo ?? (_nameMemberCrefFormatInfo = new NameMemberCrefFormatInfo());
+    		set => _nameMemberCrefFormatInfo = value;
     	}
-    	NameMemberCrefFormatInfo _nameMemberCref;
+    	private NameMemberCrefFormatInfo _nameMemberCrefFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "IndexerMemberCref" type.
         /// </summary>
-    	public virtual IndexerMemberCrefFormatInfo IndexerMemberCref
+    	public virtual IndexerMemberCrefFormatInfo IndexerMemberCrefFormatInfo
     	{
-    		get => _indexerMemberCref ?? (_indexerMemberCref = new IndexerMemberCrefFormatInfo());
-    		set => _indexerMemberCref = value;
+    		get => _indexerMemberCrefFormatInfo ?? (_indexerMemberCrefFormatInfo = new IndexerMemberCrefFormatInfo());
+    		set => _indexerMemberCrefFormatInfo = value;
     	}
-    	IndexerMemberCrefFormatInfo _indexerMemberCref;
+    	private IndexerMemberCrefFormatInfo _indexerMemberCrefFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "OperatorMemberCref" type.
         /// </summary>
-    	public virtual OperatorMemberCrefFormatInfo OperatorMemberCref
+    	public virtual OperatorMemberCrefFormatInfo OperatorMemberCrefFormatInfo
     	{
-    		get => _operatorMemberCref ?? (_operatorMemberCref = new OperatorMemberCrefFormatInfo());
-    		set => _operatorMemberCref = value;
+    		get => _operatorMemberCrefFormatInfo ?? (_operatorMemberCrefFormatInfo = new OperatorMemberCrefFormatInfo());
+    		set => _operatorMemberCrefFormatInfo = value;
     	}
-    	OperatorMemberCrefFormatInfo _operatorMemberCref;
+    	private OperatorMemberCrefFormatInfo _operatorMemberCrefFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "ConversionOperatorMemberCref" type.
         /// </summary>
-    	public virtual ConversionOperatorMemberCrefFormatInfo ConversionOperatorMemberCref
+    	public virtual ConversionOperatorMemberCrefFormatInfo ConversionOperatorMemberCrefFormatInfo
     	{
-    		get => _conversionOperatorMemberCref ?? (_conversionOperatorMemberCref = new ConversionOperatorMemberCrefFormatInfo());
-    		set => _conversionOperatorMemberCref = value;
+    		get => _conversionOperatorMemberCrefFormatInfo ?? (_conversionOperatorMemberCrefFormatInfo = new ConversionOperatorMemberCrefFormatInfo());
+    		set => _conversionOperatorMemberCrefFormatInfo = value;
     	}
-    	ConversionOperatorMemberCrefFormatInfo _conversionOperatorMemberCref;
+    	private ConversionOperatorMemberCrefFormatInfo _conversionOperatorMemberCrefFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "CrefParameterList" type.
         /// </summary>
-    	public virtual CrefParameterListFormatInfo CrefParameterList
+    	public virtual CrefParameterListFormatInfo CrefParameterListFormatInfo
     	{
-    		get => _crefParameterList ?? (_crefParameterList = new CrefParameterListFormatInfo());
-    		set => _crefParameterList = value;
+    		get => _crefParameterListFormatInfo ?? (_crefParameterListFormatInfo = new CrefParameterListFormatInfo());
+    		set => _crefParameterListFormatInfo = value;
     	}
-    	CrefParameterListFormatInfo _crefParameterList;
+    	private CrefParameterListFormatInfo _crefParameterListFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "CrefBracketedParameterList" type.
         /// </summary>
-    	public virtual CrefBracketedParameterListFormatInfo CrefBracketedParameterList
+    	public virtual CrefBracketedParameterListFormatInfo CrefBracketedParameterListFormatInfo
     	{
-    		get => _crefBracketedParameterList ?? (_crefBracketedParameterList = new CrefBracketedParameterListFormatInfo());
-    		set => _crefBracketedParameterList = value;
+    		get => _crefBracketedParameterListFormatInfo ?? (_crefBracketedParameterListFormatInfo = new CrefBracketedParameterListFormatInfo());
+    		set => _crefBracketedParameterListFormatInfo = value;
     	}
-    	CrefBracketedParameterListFormatInfo _crefBracketedParameterList;
+    	private CrefBracketedParameterListFormatInfo _crefBracketedParameterListFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "XmlElement" type.
         /// </summary>
-    	public virtual XmlElementFormatInfo XmlElement
+    	public virtual XmlElementFormatInfo XmlElementFormatInfo
     	{
-    		get => _xmlElement ?? (_xmlElement = new XmlElementFormatInfo());
-    		set => _xmlElement = value;
+    		get => _xmlElementFormatInfo ?? (_xmlElementFormatInfo = new XmlElementFormatInfo());
+    		set => _xmlElementFormatInfo = value;
     	}
-    	XmlElementFormatInfo _xmlElement;
+    	private XmlElementFormatInfo _xmlElementFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "XmlEmptyElement" type.
         /// </summary>
-    	public virtual XmlEmptyElementFormatInfo XmlEmptyElement
+    	public virtual XmlEmptyElementFormatInfo XmlEmptyElementFormatInfo
     	{
-    		get => _xmlEmptyElement ?? (_xmlEmptyElement = new XmlEmptyElementFormatInfo());
-    		set => _xmlEmptyElement = value;
+    		get => _xmlEmptyElementFormatInfo ?? (_xmlEmptyElementFormatInfo = new XmlEmptyElementFormatInfo());
+    		set => _xmlEmptyElementFormatInfo = value;
     	}
-    	XmlEmptyElementFormatInfo _xmlEmptyElement;
+    	private XmlEmptyElementFormatInfo _xmlEmptyElementFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "XmlText" type.
         /// </summary>
-    	public virtual XmlTextFormatInfo XmlText
+    	public virtual XmlTextFormatInfo XmlTextFormatInfo
     	{
-    		get => _xmlText ?? (_xmlText = new XmlTextFormatInfo());
-    		set => _xmlText = value;
+    		get => _xmlTextFormatInfo ?? (_xmlTextFormatInfo = new XmlTextFormatInfo());
+    		set => _xmlTextFormatInfo = value;
     	}
-    	XmlTextFormatInfo _xmlText;
+    	private XmlTextFormatInfo _xmlTextFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "XmlCDataSection" type.
         /// </summary>
-    	public virtual XmlCDataSectionFormatInfo XmlCDataSection
+    	public virtual XmlCDataSectionFormatInfo XmlCDataSectionFormatInfo
     	{
-    		get => _xmlCDataSection ?? (_xmlCDataSection = new XmlCDataSectionFormatInfo());
-    		set => _xmlCDataSection = value;
+    		get => _xmlCDataSectionFormatInfo ?? (_xmlCDataSectionFormatInfo = new XmlCDataSectionFormatInfo());
+    		set => _xmlCDataSectionFormatInfo = value;
     	}
-    	XmlCDataSectionFormatInfo _xmlCDataSection;
+    	private XmlCDataSectionFormatInfo _xmlCDataSectionFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "XmlProcessingInstruction" type.
         /// </summary>
-    	public virtual XmlProcessingInstructionFormatInfo XmlProcessingInstruction
+    	public virtual XmlProcessingInstructionFormatInfo XmlProcessingInstructionFormatInfo
     	{
-    		get => _xmlProcessingInstruction ?? (_xmlProcessingInstruction = new XmlProcessingInstructionFormatInfo());
-    		set => _xmlProcessingInstruction = value;
+    		get => _xmlProcessingInstructionFormatInfo ?? (_xmlProcessingInstructionFormatInfo = new XmlProcessingInstructionFormatInfo());
+    		set => _xmlProcessingInstructionFormatInfo = value;
     	}
-    	XmlProcessingInstructionFormatInfo _xmlProcessingInstruction;
+    	private XmlProcessingInstructionFormatInfo _xmlProcessingInstructionFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "XmlComment" type.
         /// </summary>
-    	public virtual XmlCommentFormatInfo XmlComment
+    	public virtual XmlCommentFormatInfo XmlCommentFormatInfo
     	{
-    		get => _xmlComment ?? (_xmlComment = new XmlCommentFormatInfo());
-    		set => _xmlComment = value;
+    		get => _xmlCommentFormatInfo ?? (_xmlCommentFormatInfo = new XmlCommentFormatInfo());
+    		set => _xmlCommentFormatInfo = value;
     	}
-    	XmlCommentFormatInfo _xmlComment;
+    	private XmlCommentFormatInfo _xmlCommentFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "XmlTextAttribute" type.
         /// </summary>
-    	public virtual XmlTextAttributeFormatInfo XmlTextAttribute
+    	public virtual XmlTextAttributeFormatInfo XmlTextAttributeFormatInfo
     	{
-    		get => _xmlTextAttribute ?? (_xmlTextAttribute = new XmlTextAttributeFormatInfo());
-    		set => _xmlTextAttribute = value;
+    		get => _xmlTextAttributeFormatInfo ?? (_xmlTextAttributeFormatInfo = new XmlTextAttributeFormatInfo());
+    		set => _xmlTextAttributeFormatInfo = value;
     	}
-    	XmlTextAttributeFormatInfo _xmlTextAttribute;
+    	private XmlTextAttributeFormatInfo _xmlTextAttributeFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "XmlCrefAttribute" type.
         /// </summary>
-    	public virtual XmlCrefAttributeFormatInfo XmlCrefAttribute
+    	public virtual XmlCrefAttributeFormatInfo XmlCrefAttributeFormatInfo
     	{
-    		get => _xmlCrefAttribute ?? (_xmlCrefAttribute = new XmlCrefAttributeFormatInfo());
-    		set => _xmlCrefAttribute = value;
+    		get => _xmlCrefAttributeFormatInfo ?? (_xmlCrefAttributeFormatInfo = new XmlCrefAttributeFormatInfo());
+    		set => _xmlCrefAttributeFormatInfo = value;
     	}
-    	XmlCrefAttributeFormatInfo _xmlCrefAttribute;
+    	private XmlCrefAttributeFormatInfo _xmlCrefAttributeFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "XmlNameAttribute" type.
         /// </summary>
-    	public virtual XmlNameAttributeFormatInfo XmlNameAttribute
+    	public virtual XmlNameAttributeFormatInfo XmlNameAttributeFormatInfo
     	{
-    		get => _xmlNameAttribute ?? (_xmlNameAttribute = new XmlNameAttributeFormatInfo());
-    		set => _xmlNameAttribute = value;
+    		get => _xmlNameAttributeFormatInfo ?? (_xmlNameAttributeFormatInfo = new XmlNameAttributeFormatInfo());
+    		set => _xmlNameAttributeFormatInfo = value;
     	}
-    	XmlNameAttributeFormatInfo _xmlNameAttribute;
+    	private XmlNameAttributeFormatInfo _xmlNameAttributeFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "ParenthesizedExpression" type.
         /// </summary>
-    	public virtual ParenthesizedExpressionFormatInfo ParenthesizedExpression
+    	public virtual ParenthesizedExpressionFormatInfo ParenthesizedExpressionFormatInfo
     	{
-    		get => _parenthesizedExpression ?? (_parenthesizedExpression = new ParenthesizedExpressionFormatInfo());
-    		set => _parenthesizedExpression = value;
+    		get => _parenthesizedExpressionFormatInfo ?? (_parenthesizedExpressionFormatInfo = new ParenthesizedExpressionFormatInfo());
+    		set => _parenthesizedExpressionFormatInfo = value;
     	}
-    	ParenthesizedExpressionFormatInfo _parenthesizedExpression;
+    	private ParenthesizedExpressionFormatInfo _parenthesizedExpressionFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "TupleExpression" type.
         /// </summary>
-    	public virtual TupleExpressionFormatInfo TupleExpression
+    	public virtual TupleExpressionFormatInfo TupleExpressionFormatInfo
     	{
-    		get => _tupleExpression ?? (_tupleExpression = new TupleExpressionFormatInfo());
-    		set => _tupleExpression = value;
+    		get => _tupleExpressionFormatInfo ?? (_tupleExpressionFormatInfo = new TupleExpressionFormatInfo());
+    		set => _tupleExpressionFormatInfo = value;
     	}
-    	TupleExpressionFormatInfo _tupleExpression;
+    	private TupleExpressionFormatInfo _tupleExpressionFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "PrefixUnaryExpression" type.
         /// </summary>
-    	public virtual PrefixUnaryExpressionFormatInfo PrefixUnaryExpression
+    	public virtual PrefixUnaryExpressionFormatInfo PrefixUnaryExpressionFormatInfo
     	{
-    		get => _prefixUnaryExpression ?? (_prefixUnaryExpression = new PrefixUnaryExpressionFormatInfo());
-    		set => _prefixUnaryExpression = value;
+    		get => _prefixUnaryExpressionFormatInfo ?? (_prefixUnaryExpressionFormatInfo = new PrefixUnaryExpressionFormatInfo());
+    		set => _prefixUnaryExpressionFormatInfo = value;
     	}
-    	PrefixUnaryExpressionFormatInfo _prefixUnaryExpression;
+    	private PrefixUnaryExpressionFormatInfo _prefixUnaryExpressionFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "AwaitExpression" type.
         /// </summary>
-    	public virtual AwaitExpressionFormatInfo AwaitExpression
+    	public virtual AwaitExpressionFormatInfo AwaitExpressionFormatInfo
     	{
-    		get => _awaitExpression ?? (_awaitExpression = new AwaitExpressionFormatInfo());
-    		set => _awaitExpression = value;
+    		get => _awaitExpressionFormatInfo ?? (_awaitExpressionFormatInfo = new AwaitExpressionFormatInfo());
+    		set => _awaitExpressionFormatInfo = value;
     	}
-    	AwaitExpressionFormatInfo _awaitExpression;
+    	private AwaitExpressionFormatInfo _awaitExpressionFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "PostfixUnaryExpression" type.
         /// </summary>
-    	public virtual PostfixUnaryExpressionFormatInfo PostfixUnaryExpression
+    	public virtual PostfixUnaryExpressionFormatInfo PostfixUnaryExpressionFormatInfo
     	{
-    		get => _postfixUnaryExpression ?? (_postfixUnaryExpression = new PostfixUnaryExpressionFormatInfo());
-    		set => _postfixUnaryExpression = value;
+    		get => _postfixUnaryExpressionFormatInfo ?? (_postfixUnaryExpressionFormatInfo = new PostfixUnaryExpressionFormatInfo());
+    		set => _postfixUnaryExpressionFormatInfo = value;
     	}
-    	PostfixUnaryExpressionFormatInfo _postfixUnaryExpression;
+    	private PostfixUnaryExpressionFormatInfo _postfixUnaryExpressionFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "MemberAccessExpression" type.
         /// </summary>
-    	public virtual MemberAccessExpressionFormatInfo MemberAccessExpression
+    	public virtual MemberAccessExpressionFormatInfo MemberAccessExpressionFormatInfo
     	{
-    		get => _memberAccessExpression ?? (_memberAccessExpression = new MemberAccessExpressionFormatInfo());
-    		set => _memberAccessExpression = value;
+    		get => _memberAccessExpressionFormatInfo ?? (_memberAccessExpressionFormatInfo = new MemberAccessExpressionFormatInfo());
+    		set => _memberAccessExpressionFormatInfo = value;
     	}
-    	MemberAccessExpressionFormatInfo _memberAccessExpression;
+    	private MemberAccessExpressionFormatInfo _memberAccessExpressionFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "ConditionalAccessExpression" type.
         /// </summary>
-    	public virtual ConditionalAccessExpressionFormatInfo ConditionalAccessExpression
+    	public virtual ConditionalAccessExpressionFormatInfo ConditionalAccessExpressionFormatInfo
     	{
-    		get => _conditionalAccessExpression ?? (_conditionalAccessExpression = new ConditionalAccessExpressionFormatInfo());
-    		set => _conditionalAccessExpression = value;
+    		get => _conditionalAccessExpressionFormatInfo ?? (_conditionalAccessExpressionFormatInfo = new ConditionalAccessExpressionFormatInfo());
+    		set => _conditionalAccessExpressionFormatInfo = value;
     	}
-    	ConditionalAccessExpressionFormatInfo _conditionalAccessExpression;
+    	private ConditionalAccessExpressionFormatInfo _conditionalAccessExpressionFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "MemberBindingExpression" type.
         /// </summary>
-    	public virtual MemberBindingExpressionFormatInfo MemberBindingExpression
+    	public virtual MemberBindingExpressionFormatInfo MemberBindingExpressionFormatInfo
     	{
-    		get => _memberBindingExpression ?? (_memberBindingExpression = new MemberBindingExpressionFormatInfo());
-    		set => _memberBindingExpression = value;
+    		get => _memberBindingExpressionFormatInfo ?? (_memberBindingExpressionFormatInfo = new MemberBindingExpressionFormatInfo());
+    		set => _memberBindingExpressionFormatInfo = value;
     	}
-    	MemberBindingExpressionFormatInfo _memberBindingExpression;
+    	private MemberBindingExpressionFormatInfo _memberBindingExpressionFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "ElementBindingExpression" type.
         /// </summary>
-    	public virtual ElementBindingExpressionFormatInfo ElementBindingExpression
+    	public virtual ElementBindingExpressionFormatInfo ElementBindingExpressionFormatInfo
     	{
-    		get => _elementBindingExpression ?? (_elementBindingExpression = new ElementBindingExpressionFormatInfo());
-    		set => _elementBindingExpression = value;
+    		get => _elementBindingExpressionFormatInfo ?? (_elementBindingExpressionFormatInfo = new ElementBindingExpressionFormatInfo());
+    		set => _elementBindingExpressionFormatInfo = value;
     	}
-    	ElementBindingExpressionFormatInfo _elementBindingExpression;
+    	private ElementBindingExpressionFormatInfo _elementBindingExpressionFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "ImplicitElementAccess" type.
         /// </summary>
-    	public virtual ImplicitElementAccessFormatInfo ImplicitElementAccess
+    	public virtual ImplicitElementAccessFormatInfo ImplicitElementAccessFormatInfo
     	{
-    		get => _implicitElementAccess ?? (_implicitElementAccess = new ImplicitElementAccessFormatInfo());
-    		set => _implicitElementAccess = value;
+    		get => _implicitElementAccessFormatInfo ?? (_implicitElementAccessFormatInfo = new ImplicitElementAccessFormatInfo());
+    		set => _implicitElementAccessFormatInfo = value;
     	}
-    	ImplicitElementAccessFormatInfo _implicitElementAccess;
+    	private ImplicitElementAccessFormatInfo _implicitElementAccessFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "BinaryExpression" type.
         /// </summary>
-    	public virtual BinaryExpressionFormatInfo BinaryExpression
+    	public virtual BinaryExpressionFormatInfo BinaryExpressionFormatInfo
     	{
-    		get => _binaryExpression ?? (_binaryExpression = new BinaryExpressionFormatInfo());
-    		set => _binaryExpression = value;
+    		get => _binaryExpressionFormatInfo ?? (_binaryExpressionFormatInfo = new BinaryExpressionFormatInfo());
+    		set => _binaryExpressionFormatInfo = value;
     	}
-    	BinaryExpressionFormatInfo _binaryExpression;
+    	private BinaryExpressionFormatInfo _binaryExpressionFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "AssignmentExpression" type.
         /// </summary>
-    	public virtual AssignmentExpressionFormatInfo AssignmentExpression
+    	public virtual AssignmentExpressionFormatInfo AssignmentExpressionFormatInfo
     	{
-    		get => _assignmentExpression ?? (_assignmentExpression = new AssignmentExpressionFormatInfo());
-    		set => _assignmentExpression = value;
+    		get => _assignmentExpressionFormatInfo ?? (_assignmentExpressionFormatInfo = new AssignmentExpressionFormatInfo());
+    		set => _assignmentExpressionFormatInfo = value;
     	}
-    	AssignmentExpressionFormatInfo _assignmentExpression;
+    	private AssignmentExpressionFormatInfo _assignmentExpressionFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "ConditionalExpression" type.
         /// </summary>
-    	public virtual ConditionalExpressionFormatInfo ConditionalExpression
+    	public virtual ConditionalExpressionFormatInfo ConditionalExpressionFormatInfo
     	{
-    		get => _conditionalExpression ?? (_conditionalExpression = new ConditionalExpressionFormatInfo());
-    		set => _conditionalExpression = value;
+    		get => _conditionalExpressionFormatInfo ?? (_conditionalExpressionFormatInfo = new ConditionalExpressionFormatInfo());
+    		set => _conditionalExpressionFormatInfo = value;
     	}
-    	ConditionalExpressionFormatInfo _conditionalExpression;
+    	private ConditionalExpressionFormatInfo _conditionalExpressionFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "LiteralExpression" type.
         /// </summary>
-    	public virtual LiteralExpressionFormatInfo LiteralExpression
+    	public virtual LiteralExpressionFormatInfo LiteralExpressionFormatInfo
     	{
-    		get => _literalExpression ?? (_literalExpression = new LiteralExpressionFormatInfo());
-    		set => _literalExpression = value;
+    		get => _literalExpressionFormatInfo ?? (_literalExpressionFormatInfo = new LiteralExpressionFormatInfo());
+    		set => _literalExpressionFormatInfo = value;
     	}
-    	LiteralExpressionFormatInfo _literalExpression;
+    	private LiteralExpressionFormatInfo _literalExpressionFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "MakeRefExpression" type.
         /// </summary>
-    	public virtual MakeRefExpressionFormatInfo MakeRefExpression
+    	public virtual MakeRefExpressionFormatInfo MakeRefExpressionFormatInfo
     	{
-    		get => _makeRefExpression ?? (_makeRefExpression = new MakeRefExpressionFormatInfo());
-    		set => _makeRefExpression = value;
+    		get => _makeRefExpressionFormatInfo ?? (_makeRefExpressionFormatInfo = new MakeRefExpressionFormatInfo());
+    		set => _makeRefExpressionFormatInfo = value;
     	}
-    	MakeRefExpressionFormatInfo _makeRefExpression;
+    	private MakeRefExpressionFormatInfo _makeRefExpressionFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "RefTypeExpression" type.
         /// </summary>
-    	public virtual RefTypeExpressionFormatInfo RefTypeExpression
+    	public virtual RefTypeExpressionFormatInfo RefTypeExpressionFormatInfo
     	{
-    		get => _refTypeExpression ?? (_refTypeExpression = new RefTypeExpressionFormatInfo());
-    		set => _refTypeExpression = value;
+    		get => _refTypeExpressionFormatInfo ?? (_refTypeExpressionFormatInfo = new RefTypeExpressionFormatInfo());
+    		set => _refTypeExpressionFormatInfo = value;
     	}
-    	RefTypeExpressionFormatInfo _refTypeExpression;
+    	private RefTypeExpressionFormatInfo _refTypeExpressionFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "RefValueExpression" type.
         /// </summary>
-    	public virtual RefValueExpressionFormatInfo RefValueExpression
+    	public virtual RefValueExpressionFormatInfo RefValueExpressionFormatInfo
     	{
-    		get => _refValueExpression ?? (_refValueExpression = new RefValueExpressionFormatInfo());
-    		set => _refValueExpression = value;
+    		get => _refValueExpressionFormatInfo ?? (_refValueExpressionFormatInfo = new RefValueExpressionFormatInfo());
+    		set => _refValueExpressionFormatInfo = value;
     	}
-    	RefValueExpressionFormatInfo _refValueExpression;
+    	private RefValueExpressionFormatInfo _refValueExpressionFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "CheckedExpression" type.
         /// </summary>
-    	public virtual CheckedExpressionFormatInfo CheckedExpression
+    	public virtual CheckedExpressionFormatInfo CheckedExpressionFormatInfo
     	{
-    		get => _checkedExpression ?? (_checkedExpression = new CheckedExpressionFormatInfo());
-    		set => _checkedExpression = value;
+    		get => _checkedExpressionFormatInfo ?? (_checkedExpressionFormatInfo = new CheckedExpressionFormatInfo());
+    		set => _checkedExpressionFormatInfo = value;
     	}
-    	CheckedExpressionFormatInfo _checkedExpression;
+    	private CheckedExpressionFormatInfo _checkedExpressionFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "DefaultExpression" type.
         /// </summary>
-    	public virtual DefaultExpressionFormatInfo DefaultExpression
+    	public virtual DefaultExpressionFormatInfo DefaultExpressionFormatInfo
     	{
-    		get => _defaultExpression ?? (_defaultExpression = new DefaultExpressionFormatInfo());
-    		set => _defaultExpression = value;
+    		get => _defaultExpressionFormatInfo ?? (_defaultExpressionFormatInfo = new DefaultExpressionFormatInfo());
+    		set => _defaultExpressionFormatInfo = value;
     	}
-    	DefaultExpressionFormatInfo _defaultExpression;
+    	private DefaultExpressionFormatInfo _defaultExpressionFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "TypeOfExpression" type.
         /// </summary>
-    	public virtual TypeOfExpressionFormatInfo TypeOfExpression
+    	public virtual TypeOfExpressionFormatInfo TypeOfExpressionFormatInfo
     	{
-    		get => _typeOfExpression ?? (_typeOfExpression = new TypeOfExpressionFormatInfo());
-    		set => _typeOfExpression = value;
+    		get => _typeOfExpressionFormatInfo ?? (_typeOfExpressionFormatInfo = new TypeOfExpressionFormatInfo());
+    		set => _typeOfExpressionFormatInfo = value;
     	}
-    	TypeOfExpressionFormatInfo _typeOfExpression;
+    	private TypeOfExpressionFormatInfo _typeOfExpressionFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "SizeOfExpression" type.
         /// </summary>
-    	public virtual SizeOfExpressionFormatInfo SizeOfExpression
+    	public virtual SizeOfExpressionFormatInfo SizeOfExpressionFormatInfo
     	{
-    		get => _sizeOfExpression ?? (_sizeOfExpression = new SizeOfExpressionFormatInfo());
-    		set => _sizeOfExpression = value;
+    		get => _sizeOfExpressionFormatInfo ?? (_sizeOfExpressionFormatInfo = new SizeOfExpressionFormatInfo());
+    		set => _sizeOfExpressionFormatInfo = value;
     	}
-    	SizeOfExpressionFormatInfo _sizeOfExpression;
+    	private SizeOfExpressionFormatInfo _sizeOfExpressionFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "InvocationExpression" type.
         /// </summary>
-    	public virtual InvocationExpressionFormatInfo InvocationExpression
+    	public virtual InvocationExpressionFormatInfo InvocationExpressionFormatInfo
     	{
-    		get => _invocationExpression ?? (_invocationExpression = new InvocationExpressionFormatInfo());
-    		set => _invocationExpression = value;
+    		get => _invocationExpressionFormatInfo ?? (_invocationExpressionFormatInfo = new InvocationExpressionFormatInfo());
+    		set => _invocationExpressionFormatInfo = value;
     	}
-    	InvocationExpressionFormatInfo _invocationExpression;
+    	private InvocationExpressionFormatInfo _invocationExpressionFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "ElementAccessExpression" type.
         /// </summary>
-    	public virtual ElementAccessExpressionFormatInfo ElementAccessExpression
+    	public virtual ElementAccessExpressionFormatInfo ElementAccessExpressionFormatInfo
     	{
-    		get => _elementAccessExpression ?? (_elementAccessExpression = new ElementAccessExpressionFormatInfo());
-    		set => _elementAccessExpression = value;
+    		get => _elementAccessExpressionFormatInfo ?? (_elementAccessExpressionFormatInfo = new ElementAccessExpressionFormatInfo());
+    		set => _elementAccessExpressionFormatInfo = value;
     	}
-    	ElementAccessExpressionFormatInfo _elementAccessExpression;
+    	private ElementAccessExpressionFormatInfo _elementAccessExpressionFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "DeclarationExpression" type.
         /// </summary>
-    	public virtual DeclarationExpressionFormatInfo DeclarationExpression
+    	public virtual DeclarationExpressionFormatInfo DeclarationExpressionFormatInfo
     	{
-    		get => _declarationExpression ?? (_declarationExpression = new DeclarationExpressionFormatInfo());
-    		set => _declarationExpression = value;
+    		get => _declarationExpressionFormatInfo ?? (_declarationExpressionFormatInfo = new DeclarationExpressionFormatInfo());
+    		set => _declarationExpressionFormatInfo = value;
     	}
-    	DeclarationExpressionFormatInfo _declarationExpression;
+    	private DeclarationExpressionFormatInfo _declarationExpressionFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "CastExpression" type.
         /// </summary>
-    	public virtual CastExpressionFormatInfo CastExpression
+    	public virtual CastExpressionFormatInfo CastExpressionFormatInfo
     	{
-    		get => _castExpression ?? (_castExpression = new CastExpressionFormatInfo());
-    		set => _castExpression = value;
+    		get => _castExpressionFormatInfo ?? (_castExpressionFormatInfo = new CastExpressionFormatInfo());
+    		set => _castExpressionFormatInfo = value;
     	}
-    	CastExpressionFormatInfo _castExpression;
+    	private CastExpressionFormatInfo _castExpressionFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "RefExpression" type.
         /// </summary>
-    	public virtual RefExpressionFormatInfo RefExpression
+    	public virtual RefExpressionFormatInfo RefExpressionFormatInfo
     	{
-    		get => _refExpression ?? (_refExpression = new RefExpressionFormatInfo());
-    		set => _refExpression = value;
+    		get => _refExpressionFormatInfo ?? (_refExpressionFormatInfo = new RefExpressionFormatInfo());
+    		set => _refExpressionFormatInfo = value;
     	}
-    	RefExpressionFormatInfo _refExpression;
+    	private RefExpressionFormatInfo _refExpressionFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "InitializerExpression" type.
         /// </summary>
-    	public virtual InitializerExpressionFormatInfo InitializerExpression
+    	public virtual InitializerExpressionFormatInfo InitializerExpressionFormatInfo
     	{
-    		get => _initializerExpression ?? (_initializerExpression = new InitializerExpressionFormatInfo());
-    		set => _initializerExpression = value;
+    		get => _initializerExpressionFormatInfo ?? (_initializerExpressionFormatInfo = new InitializerExpressionFormatInfo());
+    		set => _initializerExpressionFormatInfo = value;
     	}
-    	InitializerExpressionFormatInfo _initializerExpression;
+    	private InitializerExpressionFormatInfo _initializerExpressionFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "ObjectCreationExpression" type.
         /// </summary>
-    	public virtual ObjectCreationExpressionFormatInfo ObjectCreationExpression
+    	public virtual ObjectCreationExpressionFormatInfo ObjectCreationExpressionFormatInfo
     	{
-    		get => _objectCreationExpression ?? (_objectCreationExpression = new ObjectCreationExpressionFormatInfo());
-    		set => _objectCreationExpression = value;
+    		get => _objectCreationExpressionFormatInfo ?? (_objectCreationExpressionFormatInfo = new ObjectCreationExpressionFormatInfo());
+    		set => _objectCreationExpressionFormatInfo = value;
     	}
-    	ObjectCreationExpressionFormatInfo _objectCreationExpression;
+    	private ObjectCreationExpressionFormatInfo _objectCreationExpressionFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "AnonymousObjectCreationExpression" type.
         /// </summary>
-    	public virtual AnonymousObjectCreationExpressionFormatInfo AnonymousObjectCreationExpression
+    	public virtual AnonymousObjectCreationExpressionFormatInfo AnonymousObjectCreationExpressionFormatInfo
     	{
-    		get => _anonymousObjectCreationExpression ?? (_anonymousObjectCreationExpression = new AnonymousObjectCreationExpressionFormatInfo());
-    		set => _anonymousObjectCreationExpression = value;
+    		get => _anonymousObjectCreationExpressionFormatInfo ?? (_anonymousObjectCreationExpressionFormatInfo = new AnonymousObjectCreationExpressionFormatInfo());
+    		set => _anonymousObjectCreationExpressionFormatInfo = value;
     	}
-    	AnonymousObjectCreationExpressionFormatInfo _anonymousObjectCreationExpression;
+    	private AnonymousObjectCreationExpressionFormatInfo _anonymousObjectCreationExpressionFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "ArrayCreationExpression" type.
         /// </summary>
-    	public virtual ArrayCreationExpressionFormatInfo ArrayCreationExpression
+    	public virtual ArrayCreationExpressionFormatInfo ArrayCreationExpressionFormatInfo
     	{
-    		get => _arrayCreationExpression ?? (_arrayCreationExpression = new ArrayCreationExpressionFormatInfo());
-    		set => _arrayCreationExpression = value;
+    		get => _arrayCreationExpressionFormatInfo ?? (_arrayCreationExpressionFormatInfo = new ArrayCreationExpressionFormatInfo());
+    		set => _arrayCreationExpressionFormatInfo = value;
     	}
-    	ArrayCreationExpressionFormatInfo _arrayCreationExpression;
+    	private ArrayCreationExpressionFormatInfo _arrayCreationExpressionFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "ImplicitArrayCreationExpression" type.
         /// </summary>
-    	public virtual ImplicitArrayCreationExpressionFormatInfo ImplicitArrayCreationExpression
+    	public virtual ImplicitArrayCreationExpressionFormatInfo ImplicitArrayCreationExpressionFormatInfo
     	{
-    		get => _implicitArrayCreationExpression ?? (_implicitArrayCreationExpression = new ImplicitArrayCreationExpressionFormatInfo());
-    		set => _implicitArrayCreationExpression = value;
+    		get => _implicitArrayCreationExpressionFormatInfo ?? (_implicitArrayCreationExpressionFormatInfo = new ImplicitArrayCreationExpressionFormatInfo());
+    		set => _implicitArrayCreationExpressionFormatInfo = value;
     	}
-    	ImplicitArrayCreationExpressionFormatInfo _implicitArrayCreationExpression;
+    	private ImplicitArrayCreationExpressionFormatInfo _implicitArrayCreationExpressionFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "StackAllocArrayCreationExpression" type.
         /// </summary>
-    	public virtual StackAllocArrayCreationExpressionFormatInfo StackAllocArrayCreationExpression
+    	public virtual StackAllocArrayCreationExpressionFormatInfo StackAllocArrayCreationExpressionFormatInfo
     	{
-    		get => _stackAllocArrayCreationExpression ?? (_stackAllocArrayCreationExpression = new StackAllocArrayCreationExpressionFormatInfo());
-    		set => _stackAllocArrayCreationExpression = value;
+    		get => _stackAllocArrayCreationExpressionFormatInfo ?? (_stackAllocArrayCreationExpressionFormatInfo = new StackAllocArrayCreationExpressionFormatInfo());
+    		set => _stackAllocArrayCreationExpressionFormatInfo = value;
     	}
-    	StackAllocArrayCreationExpressionFormatInfo _stackAllocArrayCreationExpression;
+    	private StackAllocArrayCreationExpressionFormatInfo _stackAllocArrayCreationExpressionFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "QueryExpression" type.
         /// </summary>
-    	public virtual QueryExpressionFormatInfo QueryExpression
+    	public virtual QueryExpressionFormatInfo QueryExpressionFormatInfo
     	{
-    		get => _queryExpression ?? (_queryExpression = new QueryExpressionFormatInfo());
-    		set => _queryExpression = value;
+    		get => _queryExpressionFormatInfo ?? (_queryExpressionFormatInfo = new QueryExpressionFormatInfo());
+    		set => _queryExpressionFormatInfo = value;
     	}
-    	QueryExpressionFormatInfo _queryExpression;
+    	private QueryExpressionFormatInfo _queryExpressionFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "OmittedArraySizeExpression" type.
         /// </summary>
-    	public virtual OmittedArraySizeExpressionFormatInfo OmittedArraySizeExpression
+    	public virtual OmittedArraySizeExpressionFormatInfo OmittedArraySizeExpressionFormatInfo
     	{
-    		get => _omittedArraySizeExpression ?? (_omittedArraySizeExpression = new OmittedArraySizeExpressionFormatInfo());
-    		set => _omittedArraySizeExpression = value;
+    		get => _omittedArraySizeExpressionFormatInfo ?? (_omittedArraySizeExpressionFormatInfo = new OmittedArraySizeExpressionFormatInfo());
+    		set => _omittedArraySizeExpressionFormatInfo = value;
     	}
-    	OmittedArraySizeExpressionFormatInfo _omittedArraySizeExpression;
+    	private OmittedArraySizeExpressionFormatInfo _omittedArraySizeExpressionFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "InterpolatedStringExpression" type.
         /// </summary>
-    	public virtual InterpolatedStringExpressionFormatInfo InterpolatedStringExpression
+    	public virtual InterpolatedStringExpressionFormatInfo InterpolatedStringExpressionFormatInfo
     	{
-    		get => _interpolatedStringExpression ?? (_interpolatedStringExpression = new InterpolatedStringExpressionFormatInfo());
-    		set => _interpolatedStringExpression = value;
+    		get => _interpolatedStringExpressionFormatInfo ?? (_interpolatedStringExpressionFormatInfo = new InterpolatedStringExpressionFormatInfo());
+    		set => _interpolatedStringExpressionFormatInfo = value;
     	}
-    	InterpolatedStringExpressionFormatInfo _interpolatedStringExpression;
+    	private InterpolatedStringExpressionFormatInfo _interpolatedStringExpressionFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "IsPatternExpression" type.
         /// </summary>
-    	public virtual IsPatternExpressionFormatInfo IsPatternExpression
+    	public virtual IsPatternExpressionFormatInfo IsPatternExpressionFormatInfo
     	{
-    		get => _isPatternExpression ?? (_isPatternExpression = new IsPatternExpressionFormatInfo());
-    		set => _isPatternExpression = value;
+    		get => _isPatternExpressionFormatInfo ?? (_isPatternExpressionFormatInfo = new IsPatternExpressionFormatInfo());
+    		set => _isPatternExpressionFormatInfo = value;
     	}
-    	IsPatternExpressionFormatInfo _isPatternExpression;
+    	private IsPatternExpressionFormatInfo _isPatternExpressionFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "ThrowExpression" type.
         /// </summary>
-    	public virtual ThrowExpressionFormatInfo ThrowExpression
+    	public virtual ThrowExpressionFormatInfo ThrowExpressionFormatInfo
     	{
-    		get => _throwExpression ?? (_throwExpression = new ThrowExpressionFormatInfo());
-    		set => _throwExpression = value;
+    		get => _throwExpressionFormatInfo ?? (_throwExpressionFormatInfo = new ThrowExpressionFormatInfo());
+    		set => _throwExpressionFormatInfo = value;
     	}
-    	ThrowExpressionFormatInfo _throwExpression;
+    	private ThrowExpressionFormatInfo _throwExpressionFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "PredefinedType" type.
         /// </summary>
-    	public virtual PredefinedTypeFormatInfo PredefinedType
+    	public virtual PredefinedTypeFormatInfo PredefinedTypeFormatInfo
     	{
-    		get => _predefinedType ?? (_predefinedType = new PredefinedTypeFormatInfo());
-    		set => _predefinedType = value;
+    		get => _predefinedTypeFormatInfo ?? (_predefinedTypeFormatInfo = new PredefinedTypeFormatInfo());
+    		set => _predefinedTypeFormatInfo = value;
     	}
-    	PredefinedTypeFormatInfo _predefinedType;
+    	private PredefinedTypeFormatInfo _predefinedTypeFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "ArrayType" type.
         /// </summary>
-    	public virtual ArrayTypeFormatInfo ArrayType
+    	public virtual ArrayTypeFormatInfo ArrayTypeFormatInfo
     	{
-    		get => _arrayType ?? (_arrayType = new ArrayTypeFormatInfo());
-    		set => _arrayType = value;
+    		get => _arrayTypeFormatInfo ?? (_arrayTypeFormatInfo = new ArrayTypeFormatInfo());
+    		set => _arrayTypeFormatInfo = value;
     	}
-    	ArrayTypeFormatInfo _arrayType;
+    	private ArrayTypeFormatInfo _arrayTypeFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "PointerType" type.
         /// </summary>
-    	public virtual PointerTypeFormatInfo PointerType
+    	public virtual PointerTypeFormatInfo PointerTypeFormatInfo
     	{
-    		get => _pointerType ?? (_pointerType = new PointerTypeFormatInfo());
-    		set => _pointerType = value;
+    		get => _pointerTypeFormatInfo ?? (_pointerTypeFormatInfo = new PointerTypeFormatInfo());
+    		set => _pointerTypeFormatInfo = value;
     	}
-    	PointerTypeFormatInfo _pointerType;
+    	private PointerTypeFormatInfo _pointerTypeFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "NullableType" type.
         /// </summary>
-    	public virtual NullableTypeFormatInfo NullableType
+    	public virtual NullableTypeFormatInfo NullableTypeFormatInfo
     	{
-    		get => _nullableType ?? (_nullableType = new NullableTypeFormatInfo());
-    		set => _nullableType = value;
+    		get => _nullableTypeFormatInfo ?? (_nullableTypeFormatInfo = new NullableTypeFormatInfo());
+    		set => _nullableTypeFormatInfo = value;
     	}
-    	NullableTypeFormatInfo _nullableType;
+    	private NullableTypeFormatInfo _nullableTypeFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "TupleType" type.
         /// </summary>
-    	public virtual TupleTypeFormatInfo TupleType
+    	public virtual TupleTypeFormatInfo TupleTypeFormatInfo
     	{
-    		get => _tupleType ?? (_tupleType = new TupleTypeFormatInfo());
-    		set => _tupleType = value;
+    		get => _tupleTypeFormatInfo ?? (_tupleTypeFormatInfo = new TupleTypeFormatInfo());
+    		set => _tupleTypeFormatInfo = value;
     	}
-    	TupleTypeFormatInfo _tupleType;
+    	private TupleTypeFormatInfo _tupleTypeFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "OmittedTypeArgument" type.
         /// </summary>
-    	public virtual OmittedTypeArgumentFormatInfo OmittedTypeArgument
+    	public virtual OmittedTypeArgumentFormatInfo OmittedTypeArgumentFormatInfo
     	{
-    		get => _omittedTypeArgument ?? (_omittedTypeArgument = new OmittedTypeArgumentFormatInfo());
-    		set => _omittedTypeArgument = value;
+    		get => _omittedTypeArgumentFormatInfo ?? (_omittedTypeArgumentFormatInfo = new OmittedTypeArgumentFormatInfo());
+    		set => _omittedTypeArgumentFormatInfo = value;
     	}
-    	OmittedTypeArgumentFormatInfo _omittedTypeArgument;
+    	private OmittedTypeArgumentFormatInfo _omittedTypeArgumentFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "RefType" type.
         /// </summary>
-    	public virtual RefTypeFormatInfo RefType
+    	public virtual RefTypeFormatInfo RefTypeFormatInfo
     	{
-    		get => _refType ?? (_refType = new RefTypeFormatInfo());
-    		set => _refType = value;
+    		get => _refTypeFormatInfo ?? (_refTypeFormatInfo = new RefTypeFormatInfo());
+    		set => _refTypeFormatInfo = value;
     	}
-    	RefTypeFormatInfo _refType;
+    	private RefTypeFormatInfo _refTypeFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "QualifiedName" type.
         /// </summary>
-    	public virtual QualifiedNameFormatInfo QualifiedName
+    	public virtual QualifiedNameFormatInfo QualifiedNameFormatInfo
     	{
-    		get => _qualifiedName ?? (_qualifiedName = new QualifiedNameFormatInfo());
-    		set => _qualifiedName = value;
+    		get => _qualifiedNameFormatInfo ?? (_qualifiedNameFormatInfo = new QualifiedNameFormatInfo());
+    		set => _qualifiedNameFormatInfo = value;
     	}
-    	QualifiedNameFormatInfo _qualifiedName;
+    	private QualifiedNameFormatInfo _qualifiedNameFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "AliasQualifiedName" type.
         /// </summary>
-    	public virtual AliasQualifiedNameFormatInfo AliasQualifiedName
+    	public virtual AliasQualifiedNameFormatInfo AliasQualifiedNameFormatInfo
     	{
-    		get => _aliasQualifiedName ?? (_aliasQualifiedName = new AliasQualifiedNameFormatInfo());
-    		set => _aliasQualifiedName = value;
+    		get => _aliasQualifiedNameFormatInfo ?? (_aliasQualifiedNameFormatInfo = new AliasQualifiedNameFormatInfo());
+    		set => _aliasQualifiedNameFormatInfo = value;
     	}
-    	AliasQualifiedNameFormatInfo _aliasQualifiedName;
+    	private AliasQualifiedNameFormatInfo _aliasQualifiedNameFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "IdentifierName" type.
         /// </summary>
-    	public virtual IdentifierNameFormatInfo IdentifierName
+    	public virtual IdentifierNameFormatInfo IdentifierNameFormatInfo
     	{
-    		get => _identifierName ?? (_identifierName = new IdentifierNameFormatInfo());
-    		set => _identifierName = value;
+    		get => _identifierNameFormatInfo ?? (_identifierNameFormatInfo = new IdentifierNameFormatInfo());
+    		set => _identifierNameFormatInfo = value;
     	}
-    	IdentifierNameFormatInfo _identifierName;
+    	private IdentifierNameFormatInfo _identifierNameFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "GenericName" type.
         /// </summary>
-    	public virtual GenericNameFormatInfo GenericName
+    	public virtual GenericNameFormatInfo GenericNameFormatInfo
     	{
-    		get => _genericName ?? (_genericName = new GenericNameFormatInfo());
-    		set => _genericName = value;
+    		get => _genericNameFormatInfo ?? (_genericNameFormatInfo = new GenericNameFormatInfo());
+    		set => _genericNameFormatInfo = value;
     	}
-    	GenericNameFormatInfo _genericName;
+    	private GenericNameFormatInfo _genericNameFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "ThisExpression" type.
         /// </summary>
-    	public virtual ThisExpressionFormatInfo ThisExpression
+    	public virtual ThisExpressionFormatInfo ThisExpressionFormatInfo
     	{
-    		get => _thisExpression ?? (_thisExpression = new ThisExpressionFormatInfo());
-    		set => _thisExpression = value;
+    		get => _thisExpressionFormatInfo ?? (_thisExpressionFormatInfo = new ThisExpressionFormatInfo());
+    		set => _thisExpressionFormatInfo = value;
     	}
-    	ThisExpressionFormatInfo _thisExpression;
+    	private ThisExpressionFormatInfo _thisExpressionFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "BaseExpression" type.
         /// </summary>
-    	public virtual BaseExpressionFormatInfo BaseExpression
+    	public virtual BaseExpressionFormatInfo BaseExpressionFormatInfo
     	{
-    		get => _baseExpression ?? (_baseExpression = new BaseExpressionFormatInfo());
-    		set => _baseExpression = value;
+    		get => _baseExpressionFormatInfo ?? (_baseExpressionFormatInfo = new BaseExpressionFormatInfo());
+    		set => _baseExpressionFormatInfo = value;
     	}
-    	BaseExpressionFormatInfo _baseExpression;
+    	private BaseExpressionFormatInfo _baseExpressionFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "AnonymousMethodExpression" type.
         /// </summary>
-    	public virtual AnonymousMethodExpressionFormatInfo AnonymousMethodExpression
+    	public virtual AnonymousMethodExpressionFormatInfo AnonymousMethodExpressionFormatInfo
     	{
-    		get => _anonymousMethodExpression ?? (_anonymousMethodExpression = new AnonymousMethodExpressionFormatInfo());
-    		set => _anonymousMethodExpression = value;
+    		get => _anonymousMethodExpressionFormatInfo ?? (_anonymousMethodExpressionFormatInfo = new AnonymousMethodExpressionFormatInfo());
+    		set => _anonymousMethodExpressionFormatInfo = value;
     	}
-    	AnonymousMethodExpressionFormatInfo _anonymousMethodExpression;
+    	private AnonymousMethodExpressionFormatInfo _anonymousMethodExpressionFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "SimpleLambdaExpression" type.
         /// </summary>
-    	public virtual SimpleLambdaExpressionFormatInfo SimpleLambdaExpression
+    	public virtual SimpleLambdaExpressionFormatInfo SimpleLambdaExpressionFormatInfo
     	{
-    		get => _simpleLambdaExpression ?? (_simpleLambdaExpression = new SimpleLambdaExpressionFormatInfo());
-    		set => _simpleLambdaExpression = value;
+    		get => _simpleLambdaExpressionFormatInfo ?? (_simpleLambdaExpressionFormatInfo = new SimpleLambdaExpressionFormatInfo());
+    		set => _simpleLambdaExpressionFormatInfo = value;
     	}
-    	SimpleLambdaExpressionFormatInfo _simpleLambdaExpression;
+    	private SimpleLambdaExpressionFormatInfo _simpleLambdaExpressionFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "ParenthesizedLambdaExpression" type.
         /// </summary>
-    	public virtual ParenthesizedLambdaExpressionFormatInfo ParenthesizedLambdaExpression
+    	public virtual ParenthesizedLambdaExpressionFormatInfo ParenthesizedLambdaExpressionFormatInfo
     	{
-    		get => _parenthesizedLambdaExpression ?? (_parenthesizedLambdaExpression = new ParenthesizedLambdaExpressionFormatInfo());
-    		set => _parenthesizedLambdaExpression = value;
+    		get => _parenthesizedLambdaExpressionFormatInfo ?? (_parenthesizedLambdaExpressionFormatInfo = new ParenthesizedLambdaExpressionFormatInfo());
+    		set => _parenthesizedLambdaExpressionFormatInfo = value;
     	}
-    	ParenthesizedLambdaExpressionFormatInfo _parenthesizedLambdaExpression;
+    	private ParenthesizedLambdaExpressionFormatInfo _parenthesizedLambdaExpressionFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "ArgumentList" type.
         /// </summary>
-    	public virtual ArgumentListFormatInfo ArgumentList
+    	public virtual ArgumentListFormatInfo ArgumentListFormatInfo
     	{
-    		get => _argumentList ?? (_argumentList = new ArgumentListFormatInfo());
-    		set => _argumentList = value;
+    		get => _argumentListFormatInfo ?? (_argumentListFormatInfo = new ArgumentListFormatInfo());
+    		set => _argumentListFormatInfo = value;
     	}
-    	ArgumentListFormatInfo _argumentList;
+    	private ArgumentListFormatInfo _argumentListFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "BracketedArgumentList" type.
         /// </summary>
-    	public virtual BracketedArgumentListFormatInfo BracketedArgumentList
+    	public virtual BracketedArgumentListFormatInfo BracketedArgumentListFormatInfo
     	{
-    		get => _bracketedArgumentList ?? (_bracketedArgumentList = new BracketedArgumentListFormatInfo());
-    		set => _bracketedArgumentList = value;
+    		get => _bracketedArgumentListFormatInfo ?? (_bracketedArgumentListFormatInfo = new BracketedArgumentListFormatInfo());
+    		set => _bracketedArgumentListFormatInfo = value;
     	}
-    	BracketedArgumentListFormatInfo _bracketedArgumentList;
+    	private BracketedArgumentListFormatInfo _bracketedArgumentListFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "FromClause" type.
         /// </summary>
-    	public virtual FromClauseFormatInfo FromClause
+    	public virtual FromClauseFormatInfo FromClauseFormatInfo
     	{
-    		get => _fromClause ?? (_fromClause = new FromClauseFormatInfo());
-    		set => _fromClause = value;
+    		get => _fromClauseFormatInfo ?? (_fromClauseFormatInfo = new FromClauseFormatInfo());
+    		set => _fromClauseFormatInfo = value;
     	}
-    	FromClauseFormatInfo _fromClause;
+    	private FromClauseFormatInfo _fromClauseFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "LetClause" type.
         /// </summary>
-    	public virtual LetClauseFormatInfo LetClause
+    	public virtual LetClauseFormatInfo LetClauseFormatInfo
     	{
-    		get => _letClause ?? (_letClause = new LetClauseFormatInfo());
-    		set => _letClause = value;
+    		get => _letClauseFormatInfo ?? (_letClauseFormatInfo = new LetClauseFormatInfo());
+    		set => _letClauseFormatInfo = value;
     	}
-    	LetClauseFormatInfo _letClause;
+    	private LetClauseFormatInfo _letClauseFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "JoinClause" type.
         /// </summary>
-    	public virtual JoinClauseFormatInfo JoinClause
+    	public virtual JoinClauseFormatInfo JoinClauseFormatInfo
     	{
-    		get => _joinClause ?? (_joinClause = new JoinClauseFormatInfo());
-    		set => _joinClause = value;
+    		get => _joinClauseFormatInfo ?? (_joinClauseFormatInfo = new JoinClauseFormatInfo());
+    		set => _joinClauseFormatInfo = value;
     	}
-    	JoinClauseFormatInfo _joinClause;
+    	private JoinClauseFormatInfo _joinClauseFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "WhereClause" type.
         /// </summary>
-    	public virtual WhereClauseFormatInfo WhereClause
+    	public virtual WhereClauseFormatInfo WhereClauseFormatInfo
     	{
-    		get => _whereClause ?? (_whereClause = new WhereClauseFormatInfo());
-    		set => _whereClause = value;
+    		get => _whereClauseFormatInfo ?? (_whereClauseFormatInfo = new WhereClauseFormatInfo());
+    		set => _whereClauseFormatInfo = value;
     	}
-    	WhereClauseFormatInfo _whereClause;
+    	private WhereClauseFormatInfo _whereClauseFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "OrderByClause" type.
         /// </summary>
-    	public virtual OrderByClauseFormatInfo OrderByClause
+    	public virtual OrderByClauseFormatInfo OrderByClauseFormatInfo
     	{
-    		get => _orderByClause ?? (_orderByClause = new OrderByClauseFormatInfo());
-    		set => _orderByClause = value;
+    		get => _orderByClauseFormatInfo ?? (_orderByClauseFormatInfo = new OrderByClauseFormatInfo());
+    		set => _orderByClauseFormatInfo = value;
     	}
-    	OrderByClauseFormatInfo _orderByClause;
+    	private OrderByClauseFormatInfo _orderByClauseFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "SelectClause" type.
         /// </summary>
-    	public virtual SelectClauseFormatInfo SelectClause
+    	public virtual SelectClauseFormatInfo SelectClauseFormatInfo
     	{
-    		get => _selectClause ?? (_selectClause = new SelectClauseFormatInfo());
-    		set => _selectClause = value;
+    		get => _selectClauseFormatInfo ?? (_selectClauseFormatInfo = new SelectClauseFormatInfo());
+    		set => _selectClauseFormatInfo = value;
     	}
-    	SelectClauseFormatInfo _selectClause;
+    	private SelectClauseFormatInfo _selectClauseFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "GroupClause" type.
         /// </summary>
-    	public virtual GroupClauseFormatInfo GroupClause
+    	public virtual GroupClauseFormatInfo GroupClauseFormatInfo
     	{
-    		get => _groupClause ?? (_groupClause = new GroupClauseFormatInfo());
-    		set => _groupClause = value;
+    		get => _groupClauseFormatInfo ?? (_groupClauseFormatInfo = new GroupClauseFormatInfo());
+    		set => _groupClauseFormatInfo = value;
     	}
-    	GroupClauseFormatInfo _groupClause;
+    	private GroupClauseFormatInfo _groupClauseFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "DeclarationPattern" type.
         /// </summary>
-    	public virtual DeclarationPatternFormatInfo DeclarationPattern
+    	public virtual DeclarationPatternFormatInfo DeclarationPatternFormatInfo
     	{
-    		get => _declarationPattern ?? (_declarationPattern = new DeclarationPatternFormatInfo());
-    		set => _declarationPattern = value;
+    		get => _declarationPatternFormatInfo ?? (_declarationPatternFormatInfo = new DeclarationPatternFormatInfo());
+    		set => _declarationPatternFormatInfo = value;
     	}
-    	DeclarationPatternFormatInfo _declarationPattern;
+    	private DeclarationPatternFormatInfo _declarationPatternFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "ConstantPattern" type.
         /// </summary>
-    	public virtual ConstantPatternFormatInfo ConstantPattern
+    	public virtual ConstantPatternFormatInfo ConstantPatternFormatInfo
     	{
-    		get => _constantPattern ?? (_constantPattern = new ConstantPatternFormatInfo());
-    		set => _constantPattern = value;
+    		get => _constantPatternFormatInfo ?? (_constantPatternFormatInfo = new ConstantPatternFormatInfo());
+    		set => _constantPatternFormatInfo = value;
     	}
-    	ConstantPatternFormatInfo _constantPattern;
+    	private ConstantPatternFormatInfo _constantPatternFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "InterpolatedStringText" type.
         /// </summary>
-    	public virtual InterpolatedStringTextFormatInfo InterpolatedStringText
+    	public virtual InterpolatedStringTextFormatInfo InterpolatedStringTextFormatInfo
     	{
-    		get => _interpolatedStringText ?? (_interpolatedStringText = new InterpolatedStringTextFormatInfo());
-    		set => _interpolatedStringText = value;
+    		get => _interpolatedStringTextFormatInfo ?? (_interpolatedStringTextFormatInfo = new InterpolatedStringTextFormatInfo());
+    		set => _interpolatedStringTextFormatInfo = value;
     	}
-    	InterpolatedStringTextFormatInfo _interpolatedStringText;
+    	private InterpolatedStringTextFormatInfo _interpolatedStringTextFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "Interpolation" type.
         /// </summary>
-    	public virtual InterpolationFormatInfo Interpolation
+    	public virtual InterpolationFormatInfo InterpolationFormatInfo
     	{
-    		get => _interpolation ?? (_interpolation = new InterpolationFormatInfo());
-    		set => _interpolation = value;
+    		get => _interpolationFormatInfo ?? (_interpolationFormatInfo = new InterpolationFormatInfo());
+    		set => _interpolationFormatInfo = value;
     	}
-    	InterpolationFormatInfo _interpolation;
+    	private InterpolationFormatInfo _interpolationFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "Block" type.
         /// </summary>
-    	public virtual BlockFormatInfo Block
+    	public virtual BlockFormatInfo BlockFormatInfo
     	{
-    		get => _block ?? (_block = new BlockFormatInfo());
-    		set => _block = value;
+    		get => _blockFormatInfo ?? (_blockFormatInfo = new BlockFormatInfo());
+    		set => _blockFormatInfo = value;
     	}
-    	BlockFormatInfo _block;
+    	private BlockFormatInfo _blockFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "LocalFunctionStatement" type.
         /// </summary>
-    	public virtual LocalFunctionStatementFormatInfo LocalFunctionStatement
+    	public virtual LocalFunctionStatementFormatInfo LocalFunctionStatementFormatInfo
     	{
-    		get => _localFunctionStatement ?? (_localFunctionStatement = new LocalFunctionStatementFormatInfo());
-    		set => _localFunctionStatement = value;
+    		get => _localFunctionStatementFormatInfo ?? (_localFunctionStatementFormatInfo = new LocalFunctionStatementFormatInfo());
+    		set => _localFunctionStatementFormatInfo = value;
     	}
-    	LocalFunctionStatementFormatInfo _localFunctionStatement;
+    	private LocalFunctionStatementFormatInfo _localFunctionStatementFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "LocalDeclarationStatement" type.
         /// </summary>
-    	public virtual LocalDeclarationStatementFormatInfo LocalDeclarationStatement
+    	public virtual LocalDeclarationStatementFormatInfo LocalDeclarationStatementFormatInfo
     	{
-    		get => _localDeclarationStatement ?? (_localDeclarationStatement = new LocalDeclarationStatementFormatInfo());
-    		set => _localDeclarationStatement = value;
+    		get => _localDeclarationStatementFormatInfo ?? (_localDeclarationStatementFormatInfo = new LocalDeclarationStatementFormatInfo());
+    		set => _localDeclarationStatementFormatInfo = value;
     	}
-    	LocalDeclarationStatementFormatInfo _localDeclarationStatement;
+    	private LocalDeclarationStatementFormatInfo _localDeclarationStatementFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "ExpressionStatement" type.
         /// </summary>
-    	public virtual ExpressionStatementFormatInfo ExpressionStatement
+    	public virtual ExpressionStatementFormatInfo ExpressionStatementFormatInfo
     	{
-    		get => _expressionStatement ?? (_expressionStatement = new ExpressionStatementFormatInfo());
-    		set => _expressionStatement = value;
+    		get => _expressionStatementFormatInfo ?? (_expressionStatementFormatInfo = new ExpressionStatementFormatInfo());
+    		set => _expressionStatementFormatInfo = value;
     	}
-    	ExpressionStatementFormatInfo _expressionStatement;
+    	private ExpressionStatementFormatInfo _expressionStatementFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "EmptyStatement" type.
         /// </summary>
-    	public virtual EmptyStatementFormatInfo EmptyStatement
+    	public virtual EmptyStatementFormatInfo EmptyStatementFormatInfo
     	{
-    		get => _emptyStatement ?? (_emptyStatement = new EmptyStatementFormatInfo());
-    		set => _emptyStatement = value;
+    		get => _emptyStatementFormatInfo ?? (_emptyStatementFormatInfo = new EmptyStatementFormatInfo());
+    		set => _emptyStatementFormatInfo = value;
     	}
-    	EmptyStatementFormatInfo _emptyStatement;
+    	private EmptyStatementFormatInfo _emptyStatementFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "LabeledStatement" type.
         /// </summary>
-    	public virtual LabeledStatementFormatInfo LabeledStatement
+    	public virtual LabeledStatementFormatInfo LabeledStatementFormatInfo
     	{
-    		get => _labeledStatement ?? (_labeledStatement = new LabeledStatementFormatInfo());
-    		set => _labeledStatement = value;
+    		get => _labeledStatementFormatInfo ?? (_labeledStatementFormatInfo = new LabeledStatementFormatInfo());
+    		set => _labeledStatementFormatInfo = value;
     	}
-    	LabeledStatementFormatInfo _labeledStatement;
+    	private LabeledStatementFormatInfo _labeledStatementFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "GotoStatement" type.
         /// </summary>
-    	public virtual GotoStatementFormatInfo GotoStatement
+    	public virtual GotoStatementFormatInfo GotoStatementFormatInfo
     	{
-    		get => _gotoStatement ?? (_gotoStatement = new GotoStatementFormatInfo());
-    		set => _gotoStatement = value;
+    		get => _gotoStatementFormatInfo ?? (_gotoStatementFormatInfo = new GotoStatementFormatInfo());
+    		set => _gotoStatementFormatInfo = value;
     	}
-    	GotoStatementFormatInfo _gotoStatement;
+    	private GotoStatementFormatInfo _gotoStatementFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "BreakStatement" type.
         /// </summary>
-    	public virtual BreakStatementFormatInfo BreakStatement
+    	public virtual BreakStatementFormatInfo BreakStatementFormatInfo
     	{
-    		get => _breakStatement ?? (_breakStatement = new BreakStatementFormatInfo());
-    		set => _breakStatement = value;
+    		get => _breakStatementFormatInfo ?? (_breakStatementFormatInfo = new BreakStatementFormatInfo());
+    		set => _breakStatementFormatInfo = value;
     	}
-    	BreakStatementFormatInfo _breakStatement;
+    	private BreakStatementFormatInfo _breakStatementFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "ContinueStatement" type.
         /// </summary>
-    	public virtual ContinueStatementFormatInfo ContinueStatement
+    	public virtual ContinueStatementFormatInfo ContinueStatementFormatInfo
     	{
-    		get => _continueStatement ?? (_continueStatement = new ContinueStatementFormatInfo());
-    		set => _continueStatement = value;
+    		get => _continueStatementFormatInfo ?? (_continueStatementFormatInfo = new ContinueStatementFormatInfo());
+    		set => _continueStatementFormatInfo = value;
     	}
-    	ContinueStatementFormatInfo _continueStatement;
+    	private ContinueStatementFormatInfo _continueStatementFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "ReturnStatement" type.
         /// </summary>
-    	public virtual ReturnStatementFormatInfo ReturnStatement
+    	public virtual ReturnStatementFormatInfo ReturnStatementFormatInfo
     	{
-    		get => _returnStatement ?? (_returnStatement = new ReturnStatementFormatInfo());
-    		set => _returnStatement = value;
+    		get => _returnStatementFormatInfo ?? (_returnStatementFormatInfo = new ReturnStatementFormatInfo());
+    		set => _returnStatementFormatInfo = value;
     	}
-    	ReturnStatementFormatInfo _returnStatement;
+    	private ReturnStatementFormatInfo _returnStatementFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "ThrowStatement" type.
         /// </summary>
-    	public virtual ThrowStatementFormatInfo ThrowStatement
+    	public virtual ThrowStatementFormatInfo ThrowStatementFormatInfo
     	{
-    		get => _throwStatement ?? (_throwStatement = new ThrowStatementFormatInfo());
-    		set => _throwStatement = value;
+    		get => _throwStatementFormatInfo ?? (_throwStatementFormatInfo = new ThrowStatementFormatInfo());
+    		set => _throwStatementFormatInfo = value;
     	}
-    	ThrowStatementFormatInfo _throwStatement;
+    	private ThrowStatementFormatInfo _throwStatementFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "YieldStatement" type.
         /// </summary>
-    	public virtual YieldStatementFormatInfo YieldStatement
+    	public virtual YieldStatementFormatInfo YieldStatementFormatInfo
     	{
-    		get => _yieldStatement ?? (_yieldStatement = new YieldStatementFormatInfo());
-    		set => _yieldStatement = value;
+    		get => _yieldStatementFormatInfo ?? (_yieldStatementFormatInfo = new YieldStatementFormatInfo());
+    		set => _yieldStatementFormatInfo = value;
     	}
-    	YieldStatementFormatInfo _yieldStatement;
+    	private YieldStatementFormatInfo _yieldStatementFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "WhileStatement" type.
         /// </summary>
-    	public virtual WhileStatementFormatInfo WhileStatement
+    	public virtual WhileStatementFormatInfo WhileStatementFormatInfo
     	{
-    		get => _whileStatement ?? (_whileStatement = new WhileStatementFormatInfo());
-    		set => _whileStatement = value;
+    		get => _whileStatementFormatInfo ?? (_whileStatementFormatInfo = new WhileStatementFormatInfo());
+    		set => _whileStatementFormatInfo = value;
     	}
-    	WhileStatementFormatInfo _whileStatement;
+    	private WhileStatementFormatInfo _whileStatementFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "DoStatement" type.
         /// </summary>
-    	public virtual DoStatementFormatInfo DoStatement
+    	public virtual DoStatementFormatInfo DoStatementFormatInfo
     	{
-    		get => _doStatement ?? (_doStatement = new DoStatementFormatInfo());
-    		set => _doStatement = value;
+    		get => _doStatementFormatInfo ?? (_doStatementFormatInfo = new DoStatementFormatInfo());
+    		set => _doStatementFormatInfo = value;
     	}
-    	DoStatementFormatInfo _doStatement;
+    	private DoStatementFormatInfo _doStatementFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "ForStatement" type.
         /// </summary>
-    	public virtual ForStatementFormatInfo ForStatement
+    	public virtual ForStatementFormatInfo ForStatementFormatInfo
     	{
-    		get => _forStatement ?? (_forStatement = new ForStatementFormatInfo());
-    		set => _forStatement = value;
+    		get => _forStatementFormatInfo ?? (_forStatementFormatInfo = new ForStatementFormatInfo());
+    		set => _forStatementFormatInfo = value;
     	}
-    	ForStatementFormatInfo _forStatement;
+    	private ForStatementFormatInfo _forStatementFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "UsingStatement" type.
         /// </summary>
-    	public virtual UsingStatementFormatInfo UsingStatement
+    	public virtual UsingStatementFormatInfo UsingStatementFormatInfo
     	{
-    		get => _usingStatement ?? (_usingStatement = new UsingStatementFormatInfo());
-    		set => _usingStatement = value;
+    		get => _usingStatementFormatInfo ?? (_usingStatementFormatInfo = new UsingStatementFormatInfo());
+    		set => _usingStatementFormatInfo = value;
     	}
-    	UsingStatementFormatInfo _usingStatement;
+    	private UsingStatementFormatInfo _usingStatementFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "FixedStatement" type.
         /// </summary>
-    	public virtual FixedStatementFormatInfo FixedStatement
+    	public virtual FixedStatementFormatInfo FixedStatementFormatInfo
     	{
-    		get => _fixedStatement ?? (_fixedStatement = new FixedStatementFormatInfo());
-    		set => _fixedStatement = value;
+    		get => _fixedStatementFormatInfo ?? (_fixedStatementFormatInfo = new FixedStatementFormatInfo());
+    		set => _fixedStatementFormatInfo = value;
     	}
-    	FixedStatementFormatInfo _fixedStatement;
+    	private FixedStatementFormatInfo _fixedStatementFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "CheckedStatement" type.
         /// </summary>
-    	public virtual CheckedStatementFormatInfo CheckedStatement
+    	public virtual CheckedStatementFormatInfo CheckedStatementFormatInfo
     	{
-    		get => _checkedStatement ?? (_checkedStatement = new CheckedStatementFormatInfo());
-    		set => _checkedStatement = value;
+    		get => _checkedStatementFormatInfo ?? (_checkedStatementFormatInfo = new CheckedStatementFormatInfo());
+    		set => _checkedStatementFormatInfo = value;
     	}
-    	CheckedStatementFormatInfo _checkedStatement;
+    	private CheckedStatementFormatInfo _checkedStatementFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "UnsafeStatement" type.
         /// </summary>
-    	public virtual UnsafeStatementFormatInfo UnsafeStatement
+    	public virtual UnsafeStatementFormatInfo UnsafeStatementFormatInfo
     	{
-    		get => _unsafeStatement ?? (_unsafeStatement = new UnsafeStatementFormatInfo());
-    		set => _unsafeStatement = value;
+    		get => _unsafeStatementFormatInfo ?? (_unsafeStatementFormatInfo = new UnsafeStatementFormatInfo());
+    		set => _unsafeStatementFormatInfo = value;
     	}
-    	UnsafeStatementFormatInfo _unsafeStatement;
+    	private UnsafeStatementFormatInfo _unsafeStatementFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "LockStatement" type.
         /// </summary>
-    	public virtual LockStatementFormatInfo LockStatement
+    	public virtual LockStatementFormatInfo LockStatementFormatInfo
     	{
-    		get => _lockStatement ?? (_lockStatement = new LockStatementFormatInfo());
-    		set => _lockStatement = value;
+    		get => _lockStatementFormatInfo ?? (_lockStatementFormatInfo = new LockStatementFormatInfo());
+    		set => _lockStatementFormatInfo = value;
     	}
-    	LockStatementFormatInfo _lockStatement;
+    	private LockStatementFormatInfo _lockStatementFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "IfStatement" type.
         /// </summary>
-    	public virtual IfStatementFormatInfo IfStatement
+    	public virtual IfStatementFormatInfo IfStatementFormatInfo
     	{
-    		get => _ifStatement ?? (_ifStatement = new IfStatementFormatInfo());
-    		set => _ifStatement = value;
+    		get => _ifStatementFormatInfo ?? (_ifStatementFormatInfo = new IfStatementFormatInfo());
+    		set => _ifStatementFormatInfo = value;
     	}
-    	IfStatementFormatInfo _ifStatement;
+    	private IfStatementFormatInfo _ifStatementFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "SwitchStatement" type.
         /// </summary>
-    	public virtual SwitchStatementFormatInfo SwitchStatement
+    	public virtual SwitchStatementFormatInfo SwitchStatementFormatInfo
     	{
-    		get => _switchStatement ?? (_switchStatement = new SwitchStatementFormatInfo());
-    		set => _switchStatement = value;
+    		get => _switchStatementFormatInfo ?? (_switchStatementFormatInfo = new SwitchStatementFormatInfo());
+    		set => _switchStatementFormatInfo = value;
     	}
-    	SwitchStatementFormatInfo _switchStatement;
+    	private SwitchStatementFormatInfo _switchStatementFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "TryStatement" type.
         /// </summary>
-    	public virtual TryStatementFormatInfo TryStatement
+    	public virtual TryStatementFormatInfo TryStatementFormatInfo
     	{
-    		get => _tryStatement ?? (_tryStatement = new TryStatementFormatInfo());
-    		set => _tryStatement = value;
+    		get => _tryStatementFormatInfo ?? (_tryStatementFormatInfo = new TryStatementFormatInfo());
+    		set => _tryStatementFormatInfo = value;
     	}
-    	TryStatementFormatInfo _tryStatement;
+    	private TryStatementFormatInfo _tryStatementFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "ForEachStatement" type.
         /// </summary>
-    	public virtual ForEachStatementFormatInfo ForEachStatement
+    	public virtual ForEachStatementFormatInfo ForEachStatementFormatInfo
     	{
-    		get => _forEachStatement ?? (_forEachStatement = new ForEachStatementFormatInfo());
-    		set => _forEachStatement = value;
+    		get => _forEachStatementFormatInfo ?? (_forEachStatementFormatInfo = new ForEachStatementFormatInfo());
+    		set => _forEachStatementFormatInfo = value;
     	}
-    	ForEachStatementFormatInfo _forEachStatement;
+    	private ForEachStatementFormatInfo _forEachStatementFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "ForEachVariableStatement" type.
         /// </summary>
-    	public virtual ForEachVariableStatementFormatInfo ForEachVariableStatement
+    	public virtual ForEachVariableStatementFormatInfo ForEachVariableStatementFormatInfo
     	{
-    		get => _forEachVariableStatement ?? (_forEachVariableStatement = new ForEachVariableStatementFormatInfo());
-    		set => _forEachVariableStatement = value;
+    		get => _forEachVariableStatementFormatInfo ?? (_forEachVariableStatementFormatInfo = new ForEachVariableStatementFormatInfo());
+    		set => _forEachVariableStatementFormatInfo = value;
     	}
-    	ForEachVariableStatementFormatInfo _forEachVariableStatement;
+    	private ForEachVariableStatementFormatInfo _forEachVariableStatementFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "SingleVariableDesignation" type.
         /// </summary>
-    	public virtual SingleVariableDesignationFormatInfo SingleVariableDesignation
+    	public virtual SingleVariableDesignationFormatInfo SingleVariableDesignationFormatInfo
     	{
-    		get => _singleVariableDesignation ?? (_singleVariableDesignation = new SingleVariableDesignationFormatInfo());
-    		set => _singleVariableDesignation = value;
+    		get => _singleVariableDesignationFormatInfo ?? (_singleVariableDesignationFormatInfo = new SingleVariableDesignationFormatInfo());
+    		set => _singleVariableDesignationFormatInfo = value;
     	}
-    	SingleVariableDesignationFormatInfo _singleVariableDesignation;
+    	private SingleVariableDesignationFormatInfo _singleVariableDesignationFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "DiscardDesignation" type.
         /// </summary>
-    	public virtual DiscardDesignationFormatInfo DiscardDesignation
+    	public virtual DiscardDesignationFormatInfo DiscardDesignationFormatInfo
     	{
-    		get => _discardDesignation ?? (_discardDesignation = new DiscardDesignationFormatInfo());
-    		set => _discardDesignation = value;
+    		get => _discardDesignationFormatInfo ?? (_discardDesignationFormatInfo = new DiscardDesignationFormatInfo());
+    		set => _discardDesignationFormatInfo = value;
     	}
-    	DiscardDesignationFormatInfo _discardDesignation;
+    	private DiscardDesignationFormatInfo _discardDesignationFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "ParenthesizedVariableDesignation" type.
         /// </summary>
-    	public virtual ParenthesizedVariableDesignationFormatInfo ParenthesizedVariableDesignation
+    	public virtual ParenthesizedVariableDesignationFormatInfo ParenthesizedVariableDesignationFormatInfo
     	{
-    		get => _parenthesizedVariableDesignation ?? (_parenthesizedVariableDesignation = new ParenthesizedVariableDesignationFormatInfo());
-    		set => _parenthesizedVariableDesignation = value;
+    		get => _parenthesizedVariableDesignationFormatInfo ?? (_parenthesizedVariableDesignationFormatInfo = new ParenthesizedVariableDesignationFormatInfo());
+    		set => _parenthesizedVariableDesignationFormatInfo = value;
     	}
-    	ParenthesizedVariableDesignationFormatInfo _parenthesizedVariableDesignation;
+    	private ParenthesizedVariableDesignationFormatInfo _parenthesizedVariableDesignationFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "CasePatternSwitchLabel" type.
         /// </summary>
-    	public virtual CasePatternSwitchLabelFormatInfo CasePatternSwitchLabel
+    	public virtual CasePatternSwitchLabelFormatInfo CasePatternSwitchLabelFormatInfo
     	{
-    		get => _casePatternSwitchLabel ?? (_casePatternSwitchLabel = new CasePatternSwitchLabelFormatInfo());
-    		set => _casePatternSwitchLabel = value;
+    		get => _casePatternSwitchLabelFormatInfo ?? (_casePatternSwitchLabelFormatInfo = new CasePatternSwitchLabelFormatInfo());
+    		set => _casePatternSwitchLabelFormatInfo = value;
     	}
-    	CasePatternSwitchLabelFormatInfo _casePatternSwitchLabel;
+    	private CasePatternSwitchLabelFormatInfo _casePatternSwitchLabelFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "CaseSwitchLabel" type.
         /// </summary>
-    	public virtual CaseSwitchLabelFormatInfo CaseSwitchLabel
+    	public virtual CaseSwitchLabelFormatInfo CaseSwitchLabelFormatInfo
     	{
-    		get => _caseSwitchLabel ?? (_caseSwitchLabel = new CaseSwitchLabelFormatInfo());
-    		set => _caseSwitchLabel = value;
+    		get => _caseSwitchLabelFormatInfo ?? (_caseSwitchLabelFormatInfo = new CaseSwitchLabelFormatInfo());
+    		set => _caseSwitchLabelFormatInfo = value;
     	}
-    	CaseSwitchLabelFormatInfo _caseSwitchLabel;
+    	private CaseSwitchLabelFormatInfo _caseSwitchLabelFormatInfo;
     
     	/// <summary>
         /// Provides language-specific information about the "DefaultSwitchLabel" type.
         /// </summary>
-    	public virtual DefaultSwitchLabelFormatInfo DefaultSwitchLabel
+    	public virtual DefaultSwitchLabelFormatInfo DefaultSwitchLabelFormatInfo
     	{
-    		get => _defaultSwitchLabel ?? (_defaultSwitchLabel = new DefaultSwitchLabelFormatInfo());
-    		set => _defaultSwitchLabel = value;
+    		get => _defaultSwitchLabelFormatInfo ?? (_defaultSwitchLabelFormatInfo = new DefaultSwitchLabelFormatInfo());
+    		set => _defaultSwitchLabelFormatInfo = value;
     	}
-    	DefaultSwitchLabelFormatInfo _defaultSwitchLabel;
+    	private DefaultSwitchLabelFormatInfo _defaultSwitchLabelFormatInfo;
     
     }
 }

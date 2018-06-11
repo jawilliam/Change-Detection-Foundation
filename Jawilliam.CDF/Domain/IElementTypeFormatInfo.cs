@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Jawilliam.CDF.Domain
 {
@@ -12,9 +8,31 @@ namespace Jawilliam.CDF.Domain
     public interface IElementTypeFormatInfo
     {
         /// <summary>
+        /// Gets all the subexpressions of the current element type.
+        /// </summary>
+        IEnumerable<string> SubExpressions { get; }
+
+        /// <summary>
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
-        /// <returns></returns>
-        IEnumerable<string> GetStructuralStopwords();
+        /// <returns>string names of the resulting subexpressions.</returns>
+        IEnumerable<string> GetSyntacticalStopwords();
+    }
+
+    /// <summary>
+    /// Base class for implementations of <see cref="IElementTypeFormatInfo"/>. 
+    /// </summary>
+    public abstract class ElementTypeFormatInfo : IElementTypeFormatInfo
+    {
+        /// <summary>
+        /// Gets all the subexpressions of the current element type.
+        /// </summary>
+        public abstract IEnumerable<string> SubExpressions { get; }
+
+        /// <summary>
+        /// Gets the subexpressions considered stopwords according to structural concerns.
+        /// </summary>
+        /// <returns>string names of the resulting subexpressions.</returns>
+        public abstract IEnumerable<string> GetSyntacticalStopwords();
     }
 }

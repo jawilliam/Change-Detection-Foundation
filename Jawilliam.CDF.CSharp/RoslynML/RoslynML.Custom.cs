@@ -82,5 +82,47 @@ namespace Jawilliam.CDF.CSharp.RoslynML
 
             yield return result;
         }
+
+        /// <summary>
+        /// Sets the ID for all elements in the AST.
+        /// </summary>
+        /// <param name="root">AST root.</param>
+        public virtual void SetRoslynMLIDs(XElement root)
+        {
+            int i = 0;
+            foreach (var item in root.PostOrder(n => n.Elements()))
+            {
+                item.Add(new XAttribute("RmID", i++.ToString(CultureInfo.InvariantCulture)));
+            }
+        }
+
+        /// <summary>
+        /// Sets the ID for elements used for GumTree's AST.
+        /// </summary>
+        /// <param name="root">AST root.</param>
+        public virtual void SetGumTreefiedIDs(XElement root)
+        {
+            int i = 0;
+            foreach (var item in root.PostOrder(n => n.Elements()).Where(n => !n.Name.LocalName.Contains("_of_") && n.Name.LocalName != "TokenList"))
+            {
+                item.Add(new XAttribute("GtID", i++.ToString(CultureInfo.InvariantCulture)));
+            }
+        }
+        
+        /// <summary>
+        /// Removes from the tree those elements that do not satisfy a given filter.
+        /// </summary>
+        /// <param name="source">tree root.</param>
+        /// <param name="selector">predicate to determine what element types remain (true) or not (false).</param>
+        public virtual void Prune(XElement source, Func<XElement, bool> selector)
+        {
+            foreach (var item in source.Elements().ToList())
+            {
+                if (!selector(item))
+                    item.Remove();
+                else
+                    this.Prune(item, selector);
+            }
+        }
     }
 }
