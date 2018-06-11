@@ -16,7 +16,7 @@ namespace Jawilliam.CDF.Domain
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        IEnumerable<string> GetSyntacticalStopwords();
+        IEnumerable<string> SyntacticalStopwords { get; }
     }
 
     /// <summary>
@@ -33,6 +33,6 @@ namespace Jawilliam.CDF.Domain
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public abstract IEnumerable<string> GetSyntacticalStopwords();
+        public abstract IEnumerable<string> SyntacticalStopwords { get; }
     }
 }

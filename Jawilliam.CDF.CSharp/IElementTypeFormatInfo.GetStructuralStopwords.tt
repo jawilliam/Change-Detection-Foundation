@@ -159,8 +159,10 @@ public partial class <#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("
     /// Gets the subexpressions considered stopwords according to structural concerns.
     /// </summary>
     /// <returns>string names of the resulting subexpressions.</returns>
-    public override IEnumerable<string> GetSyntacticalStopwords()
+    public override IEnumerable<string> SyntacticalStopwords
 	{
+		get
+		{
 <#
 		var structuralStopwords = currentPropertiesMetadata.Where(p => !p.Item2.changepoint && p.Item2.@readOnly);
 		if(structuralStopwords.Any())
@@ -168,15 +170,16 @@ public partial class <#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("
 			foreach (var currentProperty in structuralStopwords)
 			{
 #>
-		yield return "<#= currentProperty.Item1.Name #>";
+			yield return "<#= currentProperty.Item1.Name #>";
 <#
 			}
 		}
 		else
 #>
-		yield break;
+			yield break;
 <#
 #>
+		}
 	}
 }
 <#

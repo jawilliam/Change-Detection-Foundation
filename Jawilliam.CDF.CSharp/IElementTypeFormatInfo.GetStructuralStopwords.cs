@@ -26,10 +26,13 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "OpenParenToken";
-    		yield return "CloseParenToken";
+    		get
+    		{
+    			yield return "OpenParenToken";
+    			yield return "CloseParenToken";
+    		}
     	}
     }
     
@@ -52,9 +55,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield break;
+    		get
+    		{
+    			yield break;
+    		}
     	}
     }
     
@@ -76,9 +82,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "EqualsToken";
+    		get
+    		{
+    			yield return "EqualsToken";
+    		}
     	}
     }
     
@@ -101,10 +110,13 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "LessThanToken";
-    		yield return "GreaterThanToken";
+    		get
+    		{
+    			yield return "LessThanToken";
+    			yield return "GreaterThanToken";
+    		}
     	}
     }
     
@@ -127,9 +139,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield break;
+    		get
+    		{
+    			yield break;
+    		}
     	}
     }
     
@@ -151,9 +166,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "ColonToken";
+    		get
+    		{
+    			yield return "ColonToken";
+    		}
     	}
     }
     
@@ -177,10 +195,13 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "WhereKeyword";
-    		yield return "ColonToken";
+    		get
+    		{
+    			yield return "WhereKeyword";
+    			yield return "ColonToken";
+    		}
     	}
     }
     
@@ -202,9 +223,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "DotToken";
+    		get
+    		{
+    			yield return "DotToken";
+    		}
     	}
     }
     
@@ -227,9 +251,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "ColonToken";
+    		get
+    		{
+    			yield return "ColonToken";
+    		}
     	}
     }
     
@@ -251,9 +278,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "ArrowToken";
+    		get
+    		{
+    			yield return "ArrowToken";
+    		}
     	}
     }
     
@@ -276,10 +306,13 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "OpenBraceToken";
-    		yield return "CloseBraceToken";
+    		get
+    		{
+    			yield return "OpenBraceToken";
+    			yield return "CloseBraceToken";
+    		}
     	}
     }
     
@@ -304,9 +337,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield break;
+    		get
+    		{
+    			yield break;
+    		}
     	}
     }
     
@@ -331,9 +367,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield break;
+    		get
+    		{
+    			yield break;
+    		}
     	}
     }
     
@@ -355,9 +394,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield break;
+    		get
+    		{
+    			yield break;
+    		}
     	}
     }
     
@@ -381,10 +423,13 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "LessThanToken";
-    		yield return "GreaterThanToken";
+    		get
+    		{
+    			yield return "LessThanToken";
+    			yield return "GreaterThanToken";
+    		}
     	}
     }
     
@@ -407,10 +452,13 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "LessThanSlashToken";
-    		yield return "GreaterThanToken";
+    		get
+    		{
+    			yield return "LessThanSlashToken";
+    			yield return "GreaterThanToken";
+    		}
     	}
     }
     
@@ -432,9 +480,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield break;
+    		get
+    		{
+    			yield break;
+    		}
     	}
     }
     
@@ -456,9 +507,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "ColonToken";
+    		get
+    		{
+    			yield return "ColonToken";
+    		}
     	}
     }
     
@@ -481,10 +535,13 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "LessThanToken";
-    		yield return "GreaterThanToken";
+    		get
+    		{
+    			yield return "LessThanToken";
+    			yield return "GreaterThanToken";
+    		}
     	}
     }
     
@@ -507,10 +564,13 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "OpenBracketToken";
-    		yield return "CloseBracketToken";
+    		get
+    		{
+    			yield return "OpenBracketToken";
+    			yield return "CloseBracketToken";
+    		}
     	}
     }
     
@@ -532,9 +592,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield break;
+    		get
+    		{
+    			yield break;
+    		}
     	}
     }
     
@@ -557,9 +620,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield break;
+    		get
+    		{
+    			yield break;
+    		}
     	}
     }
     
@@ -581,9 +647,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "ColonToken";
+    		get
+    		{
+    			yield return "ColonToken";
+    		}
     	}
     }
     
@@ -605,9 +674,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield break;
+    		get
+    		{
+    			yield break;
+    		}
     	}
     }
     
@@ -630,9 +702,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield break;
+    		get
+    		{
+    			yield break;
+    		}
     	}
     }
     
@@ -654,9 +729,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "IntoKeyword";
+    		get
+    		{
+    			yield return "IntoKeyword";
+    		}
     	}
     }
     
@@ -678,9 +756,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "AscendingOrDescendingKeyword";
+    		get
+    		{
+    			yield return "AscendingOrDescendingKeyword";
+    		}
     	}
     }
     
@@ -703,9 +784,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "IntoKeyword";
+    		get
+    		{
+    			yield return "IntoKeyword";
+    		}
     	}
     }
     
@@ -727,9 +811,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "WhenKeyword";
+    		get
+    		{
+    			yield return "WhenKeyword";
+    		}
     	}
     }
     
@@ -751,9 +838,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "CommaToken";
+    		get
+    		{
+    			yield return "CommaToken";
+    		}
     	}
     }
     
@@ -775,9 +865,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "ColonToken";
+    		get
+    		{
+    			yield return "ColonToken";
+    		}
     	}
     }
     
@@ -799,9 +892,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield break;
+    		get
+    		{
+    			yield break;
+    		}
     	}
     }
     
@@ -824,9 +920,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield break;
+    		get
+    		{
+    			yield break;
+    		}
     	}
     }
     
@@ -848,9 +947,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "EqualsToken";
+    		get
+    		{
+    			yield return "EqualsToken";
+    		}
     	}
     }
     
@@ -872,9 +974,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "ElseKeyword";
+    		get
+    		{
+    			yield return "ElseKeyword";
+    		}
     	}
     }
     
@@ -896,9 +1001,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield break;
+    		get
+    		{
+    			yield break;
+    		}
     	}
     }
     
@@ -922,9 +1030,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "CatchKeyword";
+    		get
+    		{
+    			yield return "CatchKeyword";
+    		}
     	}
     }
     
@@ -948,10 +1059,13 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "OpenParenToken";
-    		yield return "CloseParenToken";
+    		get
+    		{
+    			yield return "OpenParenToken";
+    			yield return "CloseParenToken";
+    		}
     	}
     }
     
@@ -975,11 +1089,14 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "WhenKeyword";
-    		yield return "OpenParenToken";
-    		yield return "CloseParenToken";
+    		get
+    		{
+    			yield return "WhenKeyword";
+    			yield return "OpenParenToken";
+    			yield return "CloseParenToken";
+    		}
     	}
     }
     
@@ -1001,9 +1118,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "FinallyKeyword";
+    		get
+    		{
+    			yield return "FinallyKeyword";
+    		}
     	}
     }
     
@@ -1028,9 +1148,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "EndOfFileToken";
+    		get
+    		{
+    			yield return "EndOfFileToken";
+    		}
     	}
     }
     
@@ -1054,11 +1177,14 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "ExternKeyword";
-    		yield return "AliasKeyword";
-    		yield return "SemicolonToken";
+    		get
+    		{
+    			yield return "ExternKeyword";
+    			yield return "AliasKeyword";
+    			yield return "SemicolonToken";
+    		}
     	}
     }
     
@@ -1083,10 +1209,13 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "UsingKeyword";
-    		yield return "SemicolonToken";
+    		get
+    		{
+    			yield return "UsingKeyword";
+    			yield return "SemicolonToken";
+    		}
     	}
     }
     
@@ -1110,10 +1239,13 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "OpenBracketToken";
-    		yield return "CloseBracketToken";
+    		get
+    		{
+    			yield return "OpenBracketToken";
+    			yield return "CloseBracketToken";
+    		}
     	}
     }
     
@@ -1135,9 +1267,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "ColonToken";
+    		get
+    		{
+    			yield return "ColonToken";
+    		}
     	}
     }
     
@@ -1159,9 +1294,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield break;
+    		get
+    		{
+    			yield break;
+    		}
     	}
     }
     
@@ -1190,10 +1328,13 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "DelegateKeyword";
-    		yield return "SemicolonToken";
+    		get
+    		{
+    			yield return "DelegateKeyword";
+    			yield return "SemicolonToken";
+    		}
     	}
     }
     
@@ -1216,9 +1357,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield break;
+    		get
+    		{
+    			yield break;
+    		}
     	}
     }
     
@@ -1241,9 +1385,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield break;
+    		get
+    		{
+    			yield break;
+    		}
     	}
     }
     
@@ -1264,9 +1411,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield break;
+    		get
+    		{
+    			yield break;
+    		}
     	}
     }
     
@@ -1294,11 +1444,14 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "NamespaceKeyword";
-    		yield return "OpenBraceToken";
-    		yield return "CloseBraceToken";
+    		get
+    		{
+    			yield return "NamespaceKeyword";
+    			yield return "OpenBraceToken";
+    			yield return "CloseBraceToken";
+    		}
     	}
     }
     
@@ -1327,11 +1480,14 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "EnumKeyword";
-    		yield return "OpenBraceToken";
-    		yield return "CloseBraceToken";
+    		get
+    		{
+    			yield return "EnumKeyword";
+    			yield return "OpenBraceToken";
+    			yield return "CloseBraceToken";
+    		}
     	}
     }
     
@@ -1362,11 +1518,14 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "Keyword";
-    		yield return "OpenBraceToken";
-    		yield return "CloseBraceToken";
+    		get
+    		{
+    			yield return "Keyword";
+    			yield return "OpenBraceToken";
+    			yield return "CloseBraceToken";
+    		}
     	}
     }
     
@@ -1397,11 +1556,14 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "Keyword";
-    		yield return "OpenBraceToken";
-    		yield return "CloseBraceToken";
+    		get
+    		{
+    			yield return "Keyword";
+    			yield return "OpenBraceToken";
+    			yield return "CloseBraceToken";
+    		}
     	}
     }
     
@@ -1432,11 +1594,14 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "Keyword";
-    		yield return "OpenBraceToken";
-    		yield return "CloseBraceToken";
+    		get
+    		{
+    			yield return "Keyword";
+    			yield return "OpenBraceToken";
+    			yield return "CloseBraceToken";
+    		}
     	}
     }
     
@@ -1460,9 +1625,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "SemicolonToken";
+    		get
+    		{
+    			yield return "SemicolonToken";
+    		}
     	}
     }
     
@@ -1487,10 +1655,13 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "EventKeyword";
-    		yield return "SemicolonToken";
+    		get
+    		{
+    			yield return "EventKeyword";
+    			yield return "SemicolonToken";
+    		}
     	}
     }
     
@@ -1521,9 +1692,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield break;
+    		get
+    		{
+    			yield break;
+    		}
     	}
     }
     
@@ -1552,9 +1726,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "OperatorKeyword";
+    		get
+    		{
+    			yield return "OperatorKeyword";
+    		}
     	}
     }
     
@@ -1583,9 +1760,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "OperatorKeyword";
+    		get
+    		{
+    			yield return "OperatorKeyword";
+    		}
     	}
     }
     
@@ -1612,9 +1792,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield break;
+    		get
+    		{
+    			yield break;
+    		}
     	}
     }
     
@@ -1641,11 +1824,14 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "Modifiers";
-    		yield return "TildeToken";
-    		yield return "ParameterList";
+    		get
+    		{
+    			yield return "Modifiers";
+    			yield return "TildeToken";
+    			yield return "ParameterList";
+    		}
     	}
     }
     
@@ -1674,9 +1860,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield break;
+    		get
+    		{
+    			yield break;
+    		}
     	}
     }
     
@@ -1703,9 +1892,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "EventKeyword";
+    		get
+    		{
+    			yield return "EventKeyword";
+    		}
     	}
     }
     
@@ -1734,9 +1926,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "ThisKeyword";
+    		get
+    		{
+    			yield return "ThisKeyword";
+    		}
     	}
     }
     
@@ -1757,9 +1952,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield break;
+    		get
+    		{
+    			yield break;
+    		}
     	}
     }
     
@@ -1782,11 +1980,14 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "NewKeyword";
-    		yield return "OpenParenToken";
-    		yield return "CloseParenToken";
+    		get
+    		{
+    			yield return "NewKeyword";
+    			yield return "OpenParenToken";
+    			yield return "CloseParenToken";
+    		}
     	}
     }
     
@@ -1807,9 +2008,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield break;
+    		get
+    		{
+    			yield break;
+    		}
     	}
     }
     
@@ -1830,9 +2034,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield break;
+    		get
+    		{
+    			yield break;
+    		}
     	}
     }
     
@@ -1855,10 +2062,13 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "OpenParenToken";
-    		yield return "CloseParenToken";
+    		get
+    		{
+    			yield return "OpenParenToken";
+    			yield return "CloseParenToken";
+    		}
     	}
     }
     
@@ -1881,10 +2091,13 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "OpenBracketToken";
-    		yield return "CloseBracketToken";
+    		get
+    		{
+    			yield return "OpenBracketToken";
+    			yield return "CloseBracketToken";
+    		}
     	}
     }
     
@@ -1905,9 +2118,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield break;
+    		get
+    		{
+    			yield break;
+    		}
     	}
     }
     
@@ -1929,9 +2145,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "EndOfComment";
+    		get
+    		{
+    			yield return "EndOfComment";
+    		}
     	}
     }
     
@@ -1954,11 +2173,14 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "HashToken";
-    		yield return "EndIfKeyword";
-    		yield return "EndOfDirectiveToken";
+    		get
+    		{
+    			yield return "HashToken";
+    			yield return "EndIfKeyword";
+    			yield return "EndOfDirectiveToken";
+    		}
     	}
     }
     
@@ -1981,11 +2203,14 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "HashToken";
-    		yield return "RegionKeyword";
-    		yield return "EndOfDirectiveToken";
+    		get
+    		{
+    			yield return "HashToken";
+    			yield return "RegionKeyword";
+    			yield return "EndOfDirectiveToken";
+    		}
     	}
     }
     
@@ -2008,11 +2233,14 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "HashToken";
-    		yield return "EndRegionKeyword";
-    		yield return "EndOfDirectiveToken";
+    		get
+    		{
+    			yield return "HashToken";
+    			yield return "EndRegionKeyword";
+    			yield return "EndOfDirectiveToken";
+    		}
     	}
     }
     
@@ -2035,11 +2263,14 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "HashToken";
-    		yield return "ErrorKeyword";
-    		yield return "EndOfDirectiveToken";
+    		get
+    		{
+    			yield return "HashToken";
+    			yield return "ErrorKeyword";
+    			yield return "EndOfDirectiveToken";
+    		}
     	}
     }
     
@@ -2062,11 +2293,14 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "HashToken";
-    		yield return "WarningKeyword";
-    		yield return "EndOfDirectiveToken";
+    		get
+    		{
+    			yield return "HashToken";
+    			yield return "WarningKeyword";
+    			yield return "EndOfDirectiveToken";
+    		}
     	}
     }
     
@@ -2089,10 +2323,13 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "HashToken";
-    		yield return "EndOfDirectiveToken";
+    		get
+    		{
+    			yield return "HashToken";
+    			yield return "EndOfDirectiveToken";
+    		}
     	}
     }
     
@@ -2116,11 +2353,14 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "HashToken";
-    		yield return "DefineKeyword";
-    		yield return "EndOfDirectiveToken";
+    		get
+    		{
+    			yield return "HashToken";
+    			yield return "DefineKeyword";
+    			yield return "EndOfDirectiveToken";
+    		}
     	}
     }
     
@@ -2144,11 +2384,14 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "HashToken";
-    		yield return "UndefKeyword";
-    		yield return "EndOfDirectiveToken";
+    		get
+    		{
+    			yield return "HashToken";
+    			yield return "UndefKeyword";
+    			yield return "EndOfDirectiveToken";
+    		}
     	}
     }
     
@@ -2173,11 +2416,14 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "HashToken";
-    		yield return "LineKeyword";
-    		yield return "EndOfDirectiveToken";
+    		get
+    		{
+    			yield return "HashToken";
+    			yield return "LineKeyword";
+    			yield return "EndOfDirectiveToken";
+    		}
     	}
     }
     
@@ -2203,12 +2449,15 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "HashToken";
-    		yield return "PragmaKeyword";
-    		yield return "WarningKeyword";
-    		yield return "EndOfDirectiveToken";
+    		get
+    		{
+    			yield return "HashToken";
+    			yield return "PragmaKeyword";
+    			yield return "WarningKeyword";
+    			yield return "EndOfDirectiveToken";
+    		}
     	}
     }
     
@@ -2235,12 +2484,15 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "HashToken";
-    		yield return "PragmaKeyword";
-    		yield return "ChecksumKeyword";
-    		yield return "EndOfDirectiveToken";
+    		get
+    		{
+    			yield return "HashToken";
+    			yield return "PragmaKeyword";
+    			yield return "ChecksumKeyword";
+    			yield return "EndOfDirectiveToken";
+    		}
     	}
     }
     
@@ -2264,11 +2516,14 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "HashToken";
-    		yield return "ReferenceKeyword";
-    		yield return "EndOfDirectiveToken";
+    		get
+    		{
+    			yield return "HashToken";
+    			yield return "ReferenceKeyword";
+    			yield return "EndOfDirectiveToken";
+    		}
     	}
     }
     
@@ -2292,11 +2547,14 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "HashToken";
-    		yield return "LoadKeyword";
-    		yield return "EndOfDirectiveToken";
+    		get
+    		{
+    			yield return "HashToken";
+    			yield return "LoadKeyword";
+    			yield return "EndOfDirectiveToken";
+    		}
     	}
     }
     
@@ -2319,11 +2577,14 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "HashToken";
-    		yield return "ExclamationToken";
-    		yield return "EndOfDirectiveToken";
+    		get
+    		{
+    			yield return "HashToken";
+    			yield return "ExclamationToken";
+    			yield return "EndOfDirectiveToken";
+    		}
     	}
     }
     
@@ -2346,11 +2607,14 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "HashToken";
-    		yield return "ElseKeyword";
-    		yield return "EndOfDirectiveToken";
+    		get
+    		{
+    			yield return "HashToken";
+    			yield return "ElseKeyword";
+    			yield return "EndOfDirectiveToken";
+    		}
     	}
     }
     
@@ -2374,11 +2638,14 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "HashToken";
-    		yield return "IfKeyword";
-    		yield return "EndOfDirectiveToken";
+    		get
+    		{
+    			yield return "HashToken";
+    			yield return "IfKeyword";
+    			yield return "EndOfDirectiveToken";
+    		}
     	}
     }
     
@@ -2402,11 +2669,14 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "HashToken";
-    		yield return "ElifKeyword";
-    		yield return "EndOfDirectiveToken";
+    		get
+    		{
+    			yield return "HashToken";
+    			yield return "ElifKeyword";
+    			yield return "EndOfDirectiveToken";
+    		}
     	}
     }
     
@@ -2427,9 +2697,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield break;
+    		get
+    		{
+    			yield break;
+    		}
     	}
     }
     
@@ -2452,9 +2725,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "DotToken";
+    		get
+    		{
+    			yield return "DotToken";
+    		}
     	}
     }
     
@@ -2476,9 +2752,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield break;
+    		get
+    		{
+    			yield break;
+    		}
     	}
     }
     
@@ -2500,9 +2779,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "ThisKeyword";
+    		get
+    		{
+    			yield return "ThisKeyword";
+    		}
     	}
     }
     
@@ -2525,9 +2807,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "OperatorKeyword";
+    		get
+    		{
+    			yield return "OperatorKeyword";
+    		}
     	}
     }
     
@@ -2551,9 +2836,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "OperatorKeyword";
+    		get
+    		{
+    			yield return "OperatorKeyword";
+    		}
     	}
     }
     
@@ -2576,10 +2864,13 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "OpenParenToken";
-    		yield return "CloseParenToken";
+    		get
+    		{
+    			yield return "OpenParenToken";
+    			yield return "CloseParenToken";
+    		}
     	}
     }
     
@@ -2602,10 +2893,13 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "OpenBracketToken";
-    		yield return "CloseBracketToken";
+    		get
+    		{
+    			yield return "OpenBracketToken";
+    			yield return "CloseBracketToken";
+    		}
     	}
     }
     
@@ -2628,9 +2922,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield break;
+    		get
+    		{
+    			yield break;
+    		}
     	}
     }
     
@@ -2654,10 +2951,13 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "LessThanToken";
-    		yield return "SlashGreaterThanToken";
+    		get
+    		{
+    			yield return "LessThanToken";
+    			yield return "SlashGreaterThanToken";
+    		}
     	}
     }
     
@@ -2678,9 +2978,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield break;
+    		get
+    		{
+    			yield break;
+    		}
     	}
     }
     
@@ -2703,10 +3006,13 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "StartCDataToken";
-    		yield return "EndCDataToken";
+    		get
+    		{
+    			yield return "StartCDataToken";
+    			yield return "EndCDataToken";
+    		}
     	}
     }
     
@@ -2730,10 +3036,13 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "StartProcessingInstructionToken";
-    		yield return "EndProcessingInstructionToken";
+    		get
+    		{
+    			yield return "StartProcessingInstructionToken";
+    			yield return "EndProcessingInstructionToken";
+    		}
     	}
     }
     
@@ -2756,10 +3065,13 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "LessThanExclamationMinusMinusToken";
-    		yield return "MinusMinusGreaterThanToken";
+    		get
+    		{
+    			yield return "LessThanExclamationMinusMinusToken";
+    			yield return "MinusMinusGreaterThanToken";
+    		}
     	}
     }
     
@@ -2784,11 +3096,14 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "EqualsToken";
-    		yield return "StartQuoteToken";
-    		yield return "EndQuoteToken";
+    		get
+    		{
+    			yield return "EqualsToken";
+    			yield return "StartQuoteToken";
+    			yield return "EndQuoteToken";
+    		}
     	}
     }
     
@@ -2813,12 +3128,15 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "Name";
-    		yield return "EqualsToken";
-    		yield return "StartQuoteToken";
-    		yield return "EndQuoteToken";
+    		get
+    		{
+    			yield return "Name";
+    			yield return "EqualsToken";
+    			yield return "StartQuoteToken";
+    			yield return "EndQuoteToken";
+    		}
     	}
     }
     
@@ -2843,12 +3161,15 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "Name";
-    		yield return "EqualsToken";
-    		yield return "StartQuoteToken";
-    		yield return "EndQuoteToken";
+    		get
+    		{
+    			yield return "Name";
+    			yield return "EqualsToken";
+    			yield return "StartQuoteToken";
+    			yield return "EndQuoteToken";
+    		}
     	}
     }
     
@@ -2871,10 +3192,13 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "OpenParenToken";
-    		yield return "CloseParenToken";
+    		get
+    		{
+    			yield return "OpenParenToken";
+    			yield return "CloseParenToken";
+    		}
     	}
     }
     
@@ -2897,10 +3221,13 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "OpenParenToken";
-    		yield return "CloseParenToken";
+    		get
+    		{
+    			yield return "OpenParenToken";
+    			yield return "CloseParenToken";
+    		}
     	}
     }
     
@@ -2922,9 +3249,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield break;
+    		get
+    		{
+    			yield break;
+    		}
     	}
     }
     
@@ -2946,9 +3276,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "AwaitKeyword";
+    		get
+    		{
+    			yield return "AwaitKeyword";
+    		}
     	}
     }
     
@@ -2970,9 +3303,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield break;
+    		get
+    		{
+    			yield break;
+    		}
     	}
     }
     
@@ -2995,9 +3331,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield break;
+    		get
+    		{
+    			yield break;
+    		}
     	}
     }
     
@@ -3020,9 +3359,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "OperatorToken";
+    		get
+    		{
+    			yield return "OperatorToken";
+    		}
     	}
     }
     
@@ -3044,9 +3386,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "OperatorToken";
+    		get
+    		{
+    			yield return "OperatorToken";
+    		}
     	}
     }
     
@@ -3067,9 +3412,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield break;
+    		get
+    		{
+    			yield break;
+    		}
     	}
     }
     
@@ -3090,9 +3438,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield break;
+    		get
+    		{
+    			yield break;
+    		}
     	}
     }
     
@@ -3115,9 +3466,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield break;
+    		get
+    		{
+    			yield break;
+    		}
     	}
     }
     
@@ -3140,9 +3494,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield break;
+    		get
+    		{
+    			yield break;
+    		}
     	}
     }
     
@@ -3167,10 +3524,13 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "QuestionToken";
-    		yield return "ColonToken";
+    		get
+    		{
+    			yield return "QuestionToken";
+    			yield return "ColonToken";
+    		}
     	}
     }
     
@@ -3191,9 +3551,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield break;
+    		get
+    		{
+    			yield break;
+    		}
     	}
     }
     
@@ -3217,11 +3580,14 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "Keyword";
-    		yield return "OpenParenToken";
-    		yield return "CloseParenToken";
+    		get
+    		{
+    			yield return "Keyword";
+    			yield return "OpenParenToken";
+    			yield return "CloseParenToken";
+    		}
     	}
     }
     
@@ -3245,11 +3611,14 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "Keyword";
-    		yield return "OpenParenToken";
-    		yield return "CloseParenToken";
+    		get
+    		{
+    			yield return "Keyword";
+    			yield return "OpenParenToken";
+    			yield return "CloseParenToken";
+    		}
     	}
     }
     
@@ -3275,12 +3644,15 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "Keyword";
-    		yield return "OpenParenToken";
-    		yield return "Comma";
-    		yield return "CloseParenToken";
+    		get
+    		{
+    			yield return "Keyword";
+    			yield return "OpenParenToken";
+    			yield return "Comma";
+    			yield return "CloseParenToken";
+    		}
     	}
     }
     
@@ -3304,10 +3676,13 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "OpenParenToken";
-    		yield return "CloseParenToken";
+    		get
+    		{
+    			yield return "OpenParenToken";
+    			yield return "CloseParenToken";
+    		}
     	}
     }
     
@@ -3331,11 +3706,14 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "Keyword";
-    		yield return "OpenParenToken";
-    		yield return "CloseParenToken";
+    		get
+    		{
+    			yield return "Keyword";
+    			yield return "OpenParenToken";
+    			yield return "CloseParenToken";
+    		}
     	}
     }
     
@@ -3359,11 +3737,14 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "Keyword";
-    		yield return "OpenParenToken";
-    		yield return "CloseParenToken";
+    		get
+    		{
+    			yield return "Keyword";
+    			yield return "OpenParenToken";
+    			yield return "CloseParenToken";
+    		}
     	}
     }
     
@@ -3387,11 +3768,14 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "Keyword";
-    		yield return "OpenParenToken";
-    		yield return "CloseParenToken";
+    		get
+    		{
+    			yield return "Keyword";
+    			yield return "OpenParenToken";
+    			yield return "CloseParenToken";
+    		}
     	}
     }
     
@@ -3413,9 +3797,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield break;
+    		get
+    		{
+    			yield break;
+    		}
     	}
     }
     
@@ -3437,9 +3824,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield break;
+    		get
+    		{
+    			yield break;
+    		}
     	}
     }
     
@@ -3461,9 +3851,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield break;
+    		get
+    		{
+    			yield break;
+    		}
     	}
     }
     
@@ -3487,10 +3880,13 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "OpenParenToken";
-    		yield return "CloseParenToken";
+    		get
+    		{
+    			yield return "OpenParenToken";
+    			yield return "CloseParenToken";
+    		}
     	}
     }
     
@@ -3512,9 +3908,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "RefKeyword";
+    		get
+    		{
+    			yield return "RefKeyword";
+    		}
     	}
     }
     
@@ -3537,10 +3936,13 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "OpenBraceToken";
-    		yield return "CloseBraceToken";
+    		get
+    		{
+    			yield return "OpenBraceToken";
+    			yield return "CloseBraceToken";
+    		}
     	}
     }
     
@@ -3564,9 +3966,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "NewKeyword";
+    		get
+    		{
+    			yield return "NewKeyword";
+    		}
     	}
     }
     
@@ -3590,11 +3995,14 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "NewKeyword";
-    		yield return "OpenBraceToken";
-    		yield return "CloseBraceToken";
+    		get
+    		{
+    			yield return "NewKeyword";
+    			yield return "OpenBraceToken";
+    			yield return "CloseBraceToken";
+    		}
     	}
     }
     
@@ -3617,9 +4025,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "NewKeyword";
+    		get
+    		{
+    			yield return "NewKeyword";
+    		}
     	}
     }
     
@@ -3644,11 +4055,14 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "NewKeyword";
-    		yield return "OpenBracketToken";
-    		yield return "CloseBracketToken";
+    		get
+    		{
+    			yield return "NewKeyword";
+    			yield return "OpenBracketToken";
+    			yield return "CloseBracketToken";
+    		}
     	}
     }
     
@@ -3670,9 +4084,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "StackAllocKeyword";
+    		get
+    		{
+    			yield return "StackAllocKeyword";
+    		}
     	}
     }
     
@@ -3694,9 +4111,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield break;
+    		get
+    		{
+    			yield break;
+    		}
     	}
     }
     
@@ -3717,9 +4137,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "OmittedArraySizeExpressionToken";
+    		get
+    		{
+    			yield return "OmittedArraySizeExpressionToken";
+    		}
     	}
     }
     
@@ -3742,10 +4165,13 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "StringStartToken";
-    		yield return "StringEndToken";
+    		get
+    		{
+    			yield return "StringStartToken";
+    			yield return "StringEndToken";
+    		}
     	}
     }
     
@@ -3768,9 +4194,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "IsKeyword";
+    		get
+    		{
+    			yield return "IsKeyword";
+    		}
     	}
     }
     
@@ -3792,9 +4221,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "ThrowKeyword";
+    		get
+    		{
+    			yield return "ThrowKeyword";
+    		}
     	}
     }
     
@@ -3815,9 +4247,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield break;
+    		get
+    		{
+    			yield break;
+    		}
     	}
     }
     
@@ -3839,9 +4274,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield break;
+    		get
+    		{
+    			yield break;
+    		}
     	}
     }
     
@@ -3863,9 +4301,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "AsteriskToken";
+    		get
+    		{
+    			yield return "AsteriskToken";
+    		}
     	}
     }
     
@@ -3887,9 +4328,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "QuestionToken";
+    		get
+    		{
+    			yield return "QuestionToken";
+    		}
     	}
     }
     
@@ -3912,10 +4356,13 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "OpenParenToken";
-    		yield return "CloseParenToken";
+    		get
+    		{
+    			yield return "OpenParenToken";
+    			yield return "CloseParenToken";
+    		}
     	}
     }
     
@@ -3936,9 +4383,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "OmittedTypeArgumentToken";
+    		get
+    		{
+    			yield return "OmittedTypeArgumentToken";
+    		}
     	}
     }
     
@@ -3961,10 +4411,13 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "RefKeyword";
-    		yield return "ReadOnlyKeyword";
+    		get
+    		{
+    			yield return "RefKeyword";
+    			yield return "ReadOnlyKeyword";
+    		}
     	}
     }
     
@@ -3987,9 +4440,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "DotToken";
+    		get
+    		{
+    			yield return "DotToken";
+    		}
     	}
     }
     
@@ -4012,9 +4468,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "ColonColonToken";
+    		get
+    		{
+    			yield return "ColonColonToken";
+    		}
     	}
     }
     
@@ -4035,9 +4494,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield break;
+    		get
+    		{
+    			yield break;
+    		}
     	}
     }
     
@@ -4059,9 +4521,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield break;
+    		get
+    		{
+    			yield break;
+    		}
     	}
     }
     
@@ -4082,9 +4547,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "Token";
+    		get
+    		{
+    			yield return "Token";
+    		}
     	}
     }
     
@@ -4105,9 +4573,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "Token";
+    		get
+    		{
+    			yield return "Token";
+    		}
     	}
     }
     
@@ -4131,9 +4602,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "DelegateKeyword";
+    		get
+    		{
+    			yield return "DelegateKeyword";
+    		}
     	}
     }
     
@@ -4157,9 +4631,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "ArrowToken";
+    		get
+    		{
+    			yield return "ArrowToken";
+    		}
     	}
     }
     
@@ -4183,9 +4660,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "ArrowToken";
+    		get
+    		{
+    			yield return "ArrowToken";
+    		}
     	}
     }
     
@@ -4208,10 +4688,13 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "OpenParenToken";
-    		yield return "CloseParenToken";
+    		get
+    		{
+    			yield return "OpenParenToken";
+    			yield return "CloseParenToken";
+    		}
     	}
     }
     
@@ -4234,10 +4717,13 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "OpenBracketToken";
-    		yield return "CloseBracketToken";
+    		get
+    		{
+    			yield return "OpenBracketToken";
+    			yield return "CloseBracketToken";
+    		}
     	}
     }
     
@@ -4262,10 +4748,13 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "FromKeyword";
-    		yield return "InKeyword";
+    		get
+    		{
+    			yield return "FromKeyword";
+    			yield return "InKeyword";
+    		}
     	}
     }
     
@@ -4289,10 +4778,13 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "LetKeyword";
-    		yield return "EqualsToken";
+    		get
+    		{
+    			yield return "LetKeyword";
+    			yield return "EqualsToken";
+    		}
     	}
     }
     
@@ -4322,12 +4814,15 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "JoinKeyword";
-    		yield return "InKeyword";
-    		yield return "OnKeyword";
-    		yield return "EqualsKeyword";
+    		get
+    		{
+    			yield return "JoinKeyword";
+    			yield return "InKeyword";
+    			yield return "OnKeyword";
+    			yield return "EqualsKeyword";
+    		}
     	}
     }
     
@@ -4349,9 +4844,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "WhereKeyword";
+    		get
+    		{
+    			yield return "WhereKeyword";
+    		}
     	}
     }
     
@@ -4373,9 +4871,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "OrderByKeyword";
+    		get
+    		{
+    			yield return "OrderByKeyword";
+    		}
     	}
     }
     
@@ -4397,9 +4898,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "SelectKeyword";
+    		get
+    		{
+    			yield return "SelectKeyword";
+    		}
     	}
     }
     
@@ -4423,10 +4927,13 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "GroupKeyword";
-    		yield return "ByKeyword";
+    		get
+    		{
+    			yield return "GroupKeyword";
+    			yield return "ByKeyword";
+    		}
     	}
     }
     
@@ -4448,9 +4955,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield break;
+    		get
+    		{
+    			yield break;
+    		}
     	}
     }
     
@@ -4471,9 +4981,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield break;
+    		get
+    		{
+    			yield break;
+    		}
     	}
     }
     
@@ -4494,9 +5007,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield break;
+    		get
+    		{
+    			yield break;
+    		}
     	}
     }
     
@@ -4521,10 +5037,13 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "OpenBraceToken";
-    		yield return "CloseBraceToken";
+    		get
+    		{
+    			yield return "OpenBraceToken";
+    			yield return "CloseBraceToken";
+    		}
     	}
     }
     
@@ -4547,10 +5066,13 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "OpenBraceToken";
-    		yield return "CloseBraceToken";
+    		get
+    		{
+    			yield return "OpenBraceToken";
+    			yield return "CloseBraceToken";
+    		}
     	}
     }
     
@@ -4579,9 +5101,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "SemicolonToken";
+    		get
+    		{
+    			yield return "SemicolonToken";
+    		}
     	}
     }
     
@@ -4604,9 +5129,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "SemicolonToken";
+    		get
+    		{
+    			yield return "SemicolonToken";
+    		}
     	}
     }
     
@@ -4628,9 +5156,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "SemicolonToken";
+    		get
+    		{
+    			yield return "SemicolonToken";
+    		}
     	}
     }
     
@@ -4651,9 +5182,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "SemicolonToken";
+    		get
+    		{
+    			yield return "SemicolonToken";
+    		}
     	}
     }
     
@@ -4676,9 +5210,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "ColonToken";
+    		get
+    		{
+    			yield return "ColonToken";
+    		}
     	}
     }
     
@@ -4702,10 +5239,13 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "GotoKeyword";
-    		yield return "SemicolonToken";
+    		get
+    		{
+    			yield return "GotoKeyword";
+    			yield return "SemicolonToken";
+    		}
     	}
     }
     
@@ -4727,10 +5267,13 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "BreakKeyword";
-    		yield return "SemicolonToken";
+    		get
+    		{
+    			yield return "BreakKeyword";
+    			yield return "SemicolonToken";
+    		}
     	}
     }
     
@@ -4752,10 +5295,13 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "ContinueKeyword";
-    		yield return "SemicolonToken";
+    		get
+    		{
+    			yield return "ContinueKeyword";
+    			yield return "SemicolonToken";
+    		}
     	}
     }
     
@@ -4778,10 +5324,13 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "ReturnKeyword";
-    		yield return "SemicolonToken";
+    		get
+    		{
+    			yield return "ReturnKeyword";
+    			yield return "SemicolonToken";
+    		}
     	}
     }
     
@@ -4804,10 +5353,13 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "ThrowKeyword";
-    		yield return "SemicolonToken";
+    		get
+    		{
+    			yield return "ThrowKeyword";
+    			yield return "SemicolonToken";
+    		}
     	}
     }
     
@@ -4831,10 +5383,13 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "YieldKeyword";
-    		yield return "SemicolonToken";
+    		get
+    		{
+    			yield return "YieldKeyword";
+    			yield return "SemicolonToken";
+    		}
     	}
     }
     
@@ -4859,11 +5414,14 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "WhileKeyword";
-    		yield return "OpenParenToken";
-    		yield return "CloseParenToken";
+    		get
+    		{
+    			yield return "WhileKeyword";
+    			yield return "OpenParenToken";
+    			yield return "CloseParenToken";
+    		}
     	}
     }
     
@@ -4890,13 +5448,16 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "DoKeyword";
-    		yield return "WhileKeyword";
-    		yield return "OpenParenToken";
-    		yield return "CloseParenToken";
-    		yield return "SemicolonToken";
+    		get
+    		{
+    			yield return "DoKeyword";
+    			yield return "WhileKeyword";
+    			yield return "OpenParenToken";
+    			yield return "CloseParenToken";
+    			yield return "SemicolonToken";
+    		}
     	}
     }
     
@@ -4926,13 +5487,16 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "ForKeyword";
-    		yield return "OpenParenToken";
-    		yield return "FirstSemicolonToken";
-    		yield return "SecondSemicolonToken";
-    		yield return "CloseParenToken";
+    		get
+    		{
+    			yield return "ForKeyword";
+    			yield return "OpenParenToken";
+    			yield return "FirstSemicolonToken";
+    			yield return "SecondSemicolonToken";
+    			yield return "CloseParenToken";
+    		}
     	}
     }
     
@@ -4958,11 +5522,14 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "UsingKeyword";
-    		yield return "OpenParenToken";
-    		yield return "CloseParenToken";
+    		get
+    		{
+    			yield return "UsingKeyword";
+    			yield return "OpenParenToken";
+    			yield return "CloseParenToken";
+    		}
     	}
     }
     
@@ -4987,11 +5554,14 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "FixedKeyword";
-    		yield return "OpenParenToken";
-    		yield return "CloseParenToken";
+    		get
+    		{
+    			yield return "FixedKeyword";
+    			yield return "OpenParenToken";
+    			yield return "CloseParenToken";
+    		}
     	}
     }
     
@@ -5013,9 +5583,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "Keyword";
+    		get
+    		{
+    			yield return "Keyword";
+    		}
     	}
     }
     
@@ -5037,9 +5610,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "UnsafeKeyword";
+    		get
+    		{
+    			yield return "UnsafeKeyword";
+    		}
     	}
     }
     
@@ -5064,11 +5640,14 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "LockKeyword";
-    		yield return "OpenParenToken";
-    		yield return "CloseParenToken";
+    		get
+    		{
+    			yield return "LockKeyword";
+    			yield return "OpenParenToken";
+    			yield return "CloseParenToken";
+    		}
     	}
     }
     
@@ -5094,11 +5673,14 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "IfKeyword";
-    		yield return "OpenParenToken";
-    		yield return "CloseParenToken";
+    		get
+    		{
+    			yield return "IfKeyword";
+    			yield return "OpenParenToken";
+    			yield return "CloseParenToken";
+    		}
     	}
     }
     
@@ -5125,13 +5707,16 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "SwitchKeyword";
-    		yield return "OpenParenToken";
-    		yield return "CloseParenToken";
-    		yield return "OpenBraceToken";
-    		yield return "CloseBraceToken";
+    		get
+    		{
+    			yield return "SwitchKeyword";
+    			yield return "OpenParenToken";
+    			yield return "CloseParenToken";
+    			yield return "OpenBraceToken";
+    			yield return "CloseBraceToken";
+    		}
     	}
     }
     
@@ -5155,9 +5740,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "TryKeyword";
+    		get
+    		{
+    			yield return "TryKeyword";
+    		}
     	}
     }
     
@@ -5185,12 +5773,15 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "ForEachKeyword";
-    		yield return "OpenParenToken";
-    		yield return "InKeyword";
-    		yield return "CloseParenToken";
+    		get
+    		{
+    			yield return "ForEachKeyword";
+    			yield return "OpenParenToken";
+    			yield return "InKeyword";
+    			yield return "CloseParenToken";
+    		}
     	}
     }
     
@@ -5217,12 +5808,15 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "ForEachKeyword";
-    		yield return "OpenParenToken";
-    		yield return "InKeyword";
-    		yield return "CloseParenToken";
+    		get
+    		{
+    			yield return "ForEachKeyword";
+    			yield return "OpenParenToken";
+    			yield return "InKeyword";
+    			yield return "CloseParenToken";
+    		}
     	}
     }
     
@@ -5243,9 +5837,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield break;
+    		get
+    		{
+    			yield break;
+    		}
     	}
     }
     
@@ -5266,9 +5863,12 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "UnderscoreToken";
+    		get
+    		{
+    			yield return "UnderscoreToken";
+    		}
     	}
     }
     
@@ -5291,10 +5891,13 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "OpenParenToken";
-    		yield return "CloseParenToken";
+    		get
+    		{
+    			yield return "OpenParenToken";
+    			yield return "CloseParenToken";
+    		}
     	}
     }
     
@@ -5318,10 +5921,13 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "Keyword";
-    		yield return "ColonToken";
+    		get
+    		{
+    			yield return "Keyword";
+    			yield return "ColonToken";
+    		}
     	}
     }
     
@@ -5344,10 +5950,13 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "Keyword";
-    		yield return "ColonToken";
+    		get
+    		{
+    			yield return "Keyword";
+    			yield return "ColonToken";
+    		}
     	}
     }
     
@@ -5369,10 +5978,13 @@ namespace Jawilliam.CDF.CSharp
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> GetSyntacticalStopwords()
+        public override IEnumerable<string> SyntacticalStopwords
     	{
-    		yield return "Keyword";
-    		yield return "ColonToken";
+    		get
+    		{
+    			yield return "Keyword";
+    			yield return "ColonToken";
+    		}
     	}
     }
     
