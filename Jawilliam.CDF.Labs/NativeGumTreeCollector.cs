@@ -28,7 +28,7 @@ namespace Jawilliam.CDF.Labs
         public virtual void SaveRoslynMLTrees(GumTreeNativeApproach gumTree, InteropArgs interopArgs, ChangeDetectionApproaches gumTreeApproach, 
             Func<FileRevisionPair, bool> skipThese, 
             SourceCodeCleaner cleaner = null,
-            Func<XElement, bool> pruneFilter = null)
+            Func<XElement, bool> pruneSelector = null)
         {
             this.Analyze(f => f.Principal.Deltas.Any(d => d.Approach == gumTreeApproach &&
                                                d.Matching != null &&
@@ -56,15 +56,15 @@ namespace Jawilliam.CDF.Labs
                       var xElement = roslynMlServices.Load(interopArgs.Original, true);
                       roslynMlServices.SetRoslynMLIDs(xElement);
                       roslynMlServices.SetGumTreefiedIDs(xElement);
-                      if (pruneFilter != null)
-                          roslynMlServices.Prune(xElement, pruneFilter);
+                      if (pruneSelector != null)
+                          roslynMlServices.Prune(xElement, pruneSelector);
                       delta.OriginalTree = xElement.ToString(SaveOptions.DisableFormatting);
 
                       xElement = roslynMlServices.Load(interopArgs.Modified, true);
                       roslynMlServices.SetRoslynMLIDs(xElement);
                       roslynMlServices.SetGumTreefiedIDs(xElement);
-                      if (pruneFilter != null)
-                          roslynMlServices.Prune(xElement, pruneFilter);
+                      if (pruneSelector != null)
+                          roslynMlServices.Prune(xElement, pruneSelector);
                       delta.ModifiedTree = xElement.ToString(SaveOptions.DisableFormatting);
                   }
                   catch (Exception)
