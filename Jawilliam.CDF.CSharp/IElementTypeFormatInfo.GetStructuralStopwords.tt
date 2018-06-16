@@ -72,7 +72,7 @@ string namespaceName = code.VsNamespaceSuggestion();
 var manager = TemplateFileManager.Create(this);
 
 // var xSyntaxTypeSystem = Jawilliam.CDF.XObjects.RDSL.Syntax.NodeTypes.Load(@"E:\Projects\Software Development Investigation\Jawilliam.Msr.Roslyn\CSharp\NodeTypeSystem.xml");
-var xSyntaxTypeSystem = Jawilliam.CDF.XObjects.RDSL.Syntax.Load(@"E:\Projects\Change-Detection-Foundation\Jawilliam.CDF.CSharp\RDSL.xml");
+var xSyntaxTypeSystem = Jawilliam.CDF.XObjects.RDSL.Syntax.Load(@"E:\MyRepositories\Change-Detection-Foundation\Jawilliam.CDF.CSharp\RDSL.xml");
 #>
 using Microsoft.CodeAnalysis.CSharp;
 using System;
@@ -130,9 +130,7 @@ foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
 #>
 public partial class <#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>FormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
 {
-	/// <summary>
-    /// Gets all the subexpressions of the current element type.
-    /// </summary>
+	/// <inheritdoc />
     public override IEnumerable<string> SubExpressions 
 	{
 		get
@@ -148,17 +146,16 @@ public partial class <#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("
 			}
 		}
 		else
+		{
 #>
-		yield break;
+			yield break;
 <#
+		}
 #>
 		}
 	}
 
-	/// <summary>
-    /// Gets the subexpressions considered stopwords according to structural concerns.
-    /// </summary>
-    /// <returns>string names of the resulting subexpressions.</returns>
+	/// <inheritdoc />
     public override IEnumerable<string> SyntacticalStopwords
 	{
 		get
@@ -175,15 +172,39 @@ public partial class <#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("
 			}
 		}
 		else
+		{
 #>
 			yield break;
 <#
+		}
 #>
 		}
 	}
-}
+
 <#
+	var keyProperties = currentPropertiesMetadata.Where(p => p.Item1.Name == "Name" || p.Item1.Name == "Identifier");
+	if(keyProperties.Any())
+	{
 #>
+	/// <inheritdoc />
+    public override IEnumerable<string> Keys
+	{
+		get
+		{
+<#
+		foreach (var currentProperty in keyProperties)
+		{
+#>
+			yield return "<#= currentProperty.Item1.Name #>";
+<#
+		}
+#>
+		}
+	}
+<#
+	}
+#>
+}
 
 <#
 	}

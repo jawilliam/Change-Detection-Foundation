@@ -7,40 +7,9 @@ using System.Xml.Linq;
 
 namespace Jawilliam.CDF.CSharp
 {
-    public partial class AttributeArgumentListFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
-    {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
-        public override IEnumerable<string> SubExpressions 
-    	{
-    		get
-    		{
-    			yield return "OpenParenToken";
-    			yield return "Arguments";
-    			yield return "CloseParenToken";
-    		}
-    	}
-    
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
-        public override IEnumerable<string> SyntacticalStopwords
-    	{
-    		get
-    		{
-    			yield return "OpenParenToken";
-    			yield return "CloseParenToken";
-    		}
-    	}
-    }
-    
     public partial class AttributeArgumentFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -51,10 +20,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -62,13 +28,12 @@ namespace Jawilliam.CDF.CSharp
     			yield break;
     		}
     	}
+    
     }
     
     public partial class NameEqualsFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -78,10 +43,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -89,13 +51,20 @@ namespace Jawilliam.CDF.CSharp
     			yield return "EqualsToken";
     		}
     	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> Keys
+    	{
+    		get
+    		{
+    			yield return "Name";
+    		}
+    	}
     }
     
     public partial class TypeParameterListFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -106,10 +75,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -118,13 +84,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "GreaterThanToken";
     		}
     	}
+    
     }
     
     public partial class TypeParameterFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -135,10 +100,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -146,13 +108,20 @@ namespace Jawilliam.CDF.CSharp
     			yield break;
     		}
     	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> Keys
+    	{
+    		get
+    		{
+    			yield return "Identifier";
+    		}
+    	}
     }
     
     public partial class BaseListFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -162,10 +131,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -173,13 +139,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "ColonToken";
     		}
     	}
+    
     }
     
     public partial class TypeParameterConstraintClauseFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -191,10 +156,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -203,13 +165,20 @@ namespace Jawilliam.CDF.CSharp
     			yield return "ColonToken";
     		}
     	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> Keys
+    	{
+    		get
+    		{
+    			yield return "Name";
+    		}
+    	}
     }
     
     public partial class ExplicitInterfaceSpecifierFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -219,10 +188,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -230,13 +196,20 @@ namespace Jawilliam.CDF.CSharp
     			yield return "DotToken";
     		}
     	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> Keys
+    	{
+    		get
+    		{
+    			yield return "Name";
+    		}
+    	}
     }
     
     public partial class ConstructorInitializerFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -247,10 +220,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -258,13 +228,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "ColonToken";
     		}
     	}
+    
     }
     
     public partial class ArrowExpressionClauseFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -274,10 +243,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -285,13 +251,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "ArrowToken";
     		}
     	}
+    
     }
     
     public partial class AccessorListFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -302,10 +267,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -314,13 +276,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "CloseBraceToken";
     		}
     	}
+    
     }
     
     public partial class AccessorDeclarationFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -333,10 +294,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -344,13 +302,12 @@ namespace Jawilliam.CDF.CSharp
     			yield break;
     		}
     	}
+    
     }
     
     public partial class ParameterFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -363,10 +320,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -374,13 +328,20 @@ namespace Jawilliam.CDF.CSharp
     			yield break;
     		}
     	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> Keys
+    	{
+    		get
+    		{
+    			yield return "Identifier";
+    		}
+    	}
     }
     
     public partial class CrefParameterFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -390,10 +351,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -401,13 +359,12 @@ namespace Jawilliam.CDF.CSharp
     			yield break;
     		}
     	}
+    
     }
     
     public partial class XmlElementStartTagFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -419,10 +376,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -431,13 +385,20 @@ namespace Jawilliam.CDF.CSharp
     			yield return "GreaterThanToken";
     		}
     	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> Keys
+    	{
+    		get
+    		{
+    			yield return "Name";
+    		}
+    	}
     }
     
     public partial class XmlElementEndTagFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -448,10 +409,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -460,13 +418,20 @@ namespace Jawilliam.CDF.CSharp
     			yield return "GreaterThanToken";
     		}
     	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> Keys
+    	{
+    		get
+    		{
+    			yield return "Name";
+    		}
+    	}
     }
     
     public partial class XmlNameFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -476,10 +441,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -487,13 +449,12 @@ namespace Jawilliam.CDF.CSharp
     			yield break;
     		}
     	}
+    
     }
     
     public partial class XmlPrefixFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -503,10 +464,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -514,13 +472,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "ColonToken";
     		}
     	}
+    
     }
     
     public partial class TypeArgumentListFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -531,10 +488,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -543,13 +497,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "GreaterThanToken";
     		}
     	}
+    
     }
     
     public partial class ArrayRankSpecifierFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -560,10 +513,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -572,13 +522,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "CloseBracketToken";
     		}
     	}
+    
     }
     
     public partial class TupleElementFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -588,10 +537,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -599,13 +545,20 @@ namespace Jawilliam.CDF.CSharp
     			yield break;
     		}
     	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> Keys
+    	{
+    		get
+    		{
+    			yield return "Identifier";
+    		}
+    	}
     }
     
     public partial class ArgumentFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -616,10 +569,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -627,13 +577,12 @@ namespace Jawilliam.CDF.CSharp
     			yield break;
     		}
     	}
+    
     }
     
     public partial class NameColonFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -643,10 +592,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -654,13 +600,20 @@ namespace Jawilliam.CDF.CSharp
     			yield return "ColonToken";
     		}
     	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> Keys
+    	{
+    		get
+    		{
+    			yield return "Name";
+    		}
+    	}
     }
     
     public partial class AnonymousObjectMemberDeclaratorFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -670,10 +623,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -681,13 +631,12 @@ namespace Jawilliam.CDF.CSharp
     			yield break;
     		}
     	}
+    
     }
     
     public partial class QueryBodyFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -698,10 +647,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -709,13 +655,12 @@ namespace Jawilliam.CDF.CSharp
     			yield break;
     		}
     	}
+    
     }
     
     public partial class JoinIntoClauseFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -725,10 +670,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -736,13 +678,20 @@ namespace Jawilliam.CDF.CSharp
     			yield return "IntoKeyword";
     		}
     	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> Keys
+    	{
+    		get
+    		{
+    			yield return "Identifier";
+    		}
+    	}
     }
     
     public partial class OrderingFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -752,10 +701,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -763,13 +709,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "AscendingOrDescendingKeyword";
     		}
     	}
+    
     }
     
     public partial class QueryContinuationFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -780,10 +725,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -791,13 +733,20 @@ namespace Jawilliam.CDF.CSharp
     			yield return "IntoKeyword";
     		}
     	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> Keys
+    	{
+    		get
+    		{
+    			yield return "Identifier";
+    		}
+    	}
     }
     
     public partial class WhenClauseFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -807,10 +756,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -818,13 +764,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "WhenKeyword";
     		}
     	}
+    
     }
     
     public partial class InterpolationAlignmentClauseFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -834,10 +779,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -845,13 +787,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "CommaToken";
     		}
     	}
+    
     }
     
     public partial class InterpolationFormatClauseFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -861,10 +802,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -872,13 +810,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "ColonToken";
     		}
     	}
+    
     }
     
     public partial class VariableDeclarationFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -888,10 +825,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -899,13 +833,12 @@ namespace Jawilliam.CDF.CSharp
     			yield break;
     		}
     	}
+    
     }
     
     public partial class VariableDeclaratorFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -916,10 +849,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -927,13 +857,20 @@ namespace Jawilliam.CDF.CSharp
     			yield break;
     		}
     	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> Keys
+    	{
+    		get
+    		{
+    			yield return "Identifier";
+    		}
+    	}
     }
     
     public partial class EqualsValueClauseFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -943,10 +880,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -954,13 +888,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "EqualsToken";
     		}
     	}
+    
     }
     
     public partial class ElseClauseFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -970,10 +903,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -981,13 +911,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "ElseKeyword";
     		}
     	}
+    
     }
     
     public partial class SwitchSectionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -997,10 +926,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -1008,13 +934,12 @@ namespace Jawilliam.CDF.CSharp
     			yield break;
     		}
     	}
+    
     }
     
     public partial class CatchClauseFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -1026,10 +951,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -1037,13 +959,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "CatchKeyword";
     		}
     	}
+    
     }
     
     public partial class CatchDeclarationFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -1055,10 +976,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -1067,13 +985,20 @@ namespace Jawilliam.CDF.CSharp
     			yield return "CloseParenToken";
     		}
     	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> Keys
+    	{
+    		get
+    		{
+    			yield return "Identifier";
+    		}
+    	}
     }
     
     public partial class CatchFilterClauseFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -1085,10 +1010,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -1098,13 +1020,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "CloseParenToken";
     		}
     	}
+    
     }
     
     public partial class FinallyClauseFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -1114,10 +1035,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -1125,13 +1043,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "FinallyKeyword";
     		}
     	}
+    
     }
     
     public partial class CompilationUnitFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -1144,10 +1061,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -1155,13 +1069,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "EndOfFileToken";
     		}
     	}
+    
     }
     
     public partial class ExternAliasDirectiveFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -1173,10 +1086,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -1186,13 +1096,20 @@ namespace Jawilliam.CDF.CSharp
     			yield return "SemicolonToken";
     		}
     	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> Keys
+    	{
+    		get
+    		{
+    			yield return "Identifier";
+    		}
+    	}
     }
     
     public partial class UsingDirectiveFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -1205,10 +1122,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -1217,13 +1131,20 @@ namespace Jawilliam.CDF.CSharp
     			yield return "SemicolonToken";
     		}
     	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> Keys
+    	{
+    		get
+    		{
+    			yield return "Name";
+    		}
+    	}
     }
     
     public partial class AttributeListFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -1235,10 +1156,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -1247,13 +1165,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "CloseBracketToken";
     		}
     	}
+    
     }
     
     public partial class AttributeTargetSpecifierFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -1263,10 +1180,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -1274,13 +1188,20 @@ namespace Jawilliam.CDF.CSharp
     			yield return "ColonToken";
     		}
     	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> Keys
+    	{
+    		get
+    		{
+    			yield return "Identifier";
+    		}
+    	}
     }
     
     public partial class AttributeFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -1290,10 +1211,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -1301,13 +1219,45 @@ namespace Jawilliam.CDF.CSharp
     			yield break;
     		}
     	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> Keys
+    	{
+    		get
+    		{
+    			yield return "Name";
+    		}
+    	}
+    }
+    
+    public partial class AttributeArgumentListFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    {
+    	/// <inheritdoc />
+        public override IEnumerable<string> SubExpressions 
+    	{
+    		get
+    		{
+    			yield return "OpenParenToken";
+    			yield return "Arguments";
+    			yield return "CloseParenToken";
+    		}
+    	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> SyntacticalStopwords
+    	{
+    		get
+    		{
+    			yield return "OpenParenToken";
+    			yield return "CloseParenToken";
+    		}
+    	}
+    
     }
     
     public partial class DelegateDeclarationFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -1324,10 +1274,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -1336,13 +1283,20 @@ namespace Jawilliam.CDF.CSharp
     			yield return "SemicolonToken";
     		}
     	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> Keys
+    	{
+    		get
+    		{
+    			yield return "Identifier";
+    		}
+    	}
     }
     
     public partial class EnumMemberDeclarationFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -1353,10 +1307,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -1364,13 +1315,20 @@ namespace Jawilliam.CDF.CSharp
     			yield break;
     		}
     	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> Keys
+    	{
+    		get
+    		{
+    			yield return "Identifier";
+    		}
+    	}
     }
     
     public partial class IncompleteMemberFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -1381,10 +1339,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -1392,13 +1347,12 @@ namespace Jawilliam.CDF.CSharp
     			yield break;
     		}
     	}
+    
     }
     
     public partial class GlobalStatementFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -1407,10 +1361,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -1418,13 +1369,12 @@ namespace Jawilliam.CDF.CSharp
     			yield break;
     		}
     	}
+    
     }
     
     public partial class NamespaceDeclarationFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -1440,10 +1390,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -1453,13 +1400,20 @@ namespace Jawilliam.CDF.CSharp
     			yield return "CloseBraceToken";
     		}
     	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> Keys
+    	{
+    		get
+    		{
+    			yield return "Name";
+    		}
+    	}
     }
     
     public partial class EnumDeclarationFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -1476,10 +1430,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -1487,15 +1438,22 @@ namespace Jawilliam.CDF.CSharp
     			yield return "EnumKeyword";
     			yield return "OpenBraceToken";
     			yield return "CloseBraceToken";
+    		}
+    	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> Keys
+    	{
+    		get
+    		{
+    			yield return "Identifier";
     		}
     	}
     }
     
     public partial class ClassDeclarationFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -1514,10 +1472,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -1525,15 +1480,22 @@ namespace Jawilliam.CDF.CSharp
     			yield return "Keyword";
     			yield return "OpenBraceToken";
     			yield return "CloseBraceToken";
+    		}
+    	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> Keys
+    	{
+    		get
+    		{
+    			yield return "Identifier";
     		}
     	}
     }
     
     public partial class StructDeclarationFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -1552,10 +1514,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -1563,15 +1522,22 @@ namespace Jawilliam.CDF.CSharp
     			yield return "Keyword";
     			yield return "OpenBraceToken";
     			yield return "CloseBraceToken";
+    		}
+    	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> Keys
+    	{
+    		get
+    		{
+    			yield return "Identifier";
     		}
     	}
     }
     
     public partial class InterfaceDeclarationFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -1590,10 +1556,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -1603,13 +1566,20 @@ namespace Jawilliam.CDF.CSharp
     			yield return "CloseBraceToken";
     		}
     	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> Keys
+    	{
+    		get
+    		{
+    			yield return "Identifier";
+    		}
+    	}
     }
     
     public partial class FieldDeclarationFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -1621,10 +1591,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -1632,13 +1599,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "SemicolonToken";
     		}
     	}
+    
     }
     
     public partial class EventFieldDeclarationFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -1651,10 +1617,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -1663,13 +1626,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "SemicolonToken";
     		}
     	}
+    
     }
     
     public partial class MethodDeclarationFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -1688,10 +1650,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -1699,13 +1658,20 @@ namespace Jawilliam.CDF.CSharp
     			yield break;
     		}
     	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> Keys
+    	{
+    		get
+    		{
+    			yield return "Identifier";
+    		}
+    	}
     }
     
     public partial class OperatorDeclarationFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -1722,10 +1688,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -1733,13 +1696,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "OperatorKeyword";
     		}
     	}
+    
     }
     
     public partial class ConversionOperatorDeclarationFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -1756,10 +1718,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -1767,13 +1726,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "OperatorKeyword";
     		}
     	}
+    
     }
     
     public partial class ConstructorDeclarationFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -1788,24 +1746,28 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
     		{
     			yield break;
+    		}
+    	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> Keys
+    	{
+    		get
+    		{
+    			yield return "Identifier";
     		}
     	}
     }
     
     public partial class DestructorDeclarationFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -1820,10 +1782,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -1833,13 +1792,20 @@ namespace Jawilliam.CDF.CSharp
     			yield return "ParameterList";
     		}
     	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> Keys
+    	{
+    		get
+    		{
+    			yield return "Identifier";
+    		}
+    	}
     }
     
     public partial class PropertyDeclarationFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -1856,10 +1822,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -1867,13 +1830,20 @@ namespace Jawilliam.CDF.CSharp
     			yield break;
     		}
     	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> Keys
+    	{
+    		get
+    		{
+    			yield return "Identifier";
+    		}
+    	}
     }
     
     public partial class EventDeclarationFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -1888,10 +1858,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -1899,13 +1866,20 @@ namespace Jawilliam.CDF.CSharp
     			yield return "EventKeyword";
     		}
     	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> Keys
+    	{
+    		get
+    		{
+    			yield return "Identifier";
+    		}
+    	}
     }
     
     public partial class IndexerDeclarationFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -1922,10 +1896,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -1933,13 +1904,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "ThisKeyword";
     		}
     	}
+    
     }
     
     public partial class SimpleBaseTypeFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -1948,10 +1918,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -1959,13 +1926,12 @@ namespace Jawilliam.CDF.CSharp
     			yield break;
     		}
     	}
+    
     }
     
     public partial class ConstructorConstraintFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -1976,10 +1942,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -1989,13 +1952,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "CloseParenToken";
     		}
     	}
+    
     }
     
     public partial class ClassOrStructConstraintFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -2004,10 +1966,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -2015,13 +1974,12 @@ namespace Jawilliam.CDF.CSharp
     			yield break;
     		}
     	}
+    
     }
     
     public partial class TypeConstraintFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -2030,10 +1988,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -2041,13 +1996,12 @@ namespace Jawilliam.CDF.CSharp
     			yield break;
     		}
     	}
+    
     }
     
     public partial class ParameterListFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -2058,10 +2012,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -2070,13 +2021,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "CloseParenToken";
     		}
     	}
+    
     }
     
     public partial class BracketedParameterListFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -2087,10 +2037,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -2099,13 +2046,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "CloseBracketToken";
     		}
     	}
+    
     }
     
     public partial class SkippedTokensTriviaFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -2114,10 +2060,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -2125,13 +2068,12 @@ namespace Jawilliam.CDF.CSharp
     			yield break;
     		}
     	}
+    
     }
     
     public partial class DocumentationCommentTriviaFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -2141,10 +2083,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -2152,13 +2091,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "EndOfComment";
     		}
     	}
+    
     }
     
     public partial class EndIfDirectiveTriviaFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -2169,10 +2107,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -2182,13 +2117,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "EndOfDirectiveToken";
     		}
     	}
+    
     }
     
     public partial class RegionDirectiveTriviaFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -2199,10 +2133,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -2212,13 +2143,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "EndOfDirectiveToken";
     		}
     	}
+    
     }
     
     public partial class EndRegionDirectiveTriviaFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -2229,10 +2159,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -2242,13 +2169,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "EndOfDirectiveToken";
     		}
     	}
+    
     }
     
     public partial class ErrorDirectiveTriviaFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -2259,10 +2185,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -2272,13 +2195,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "EndOfDirectiveToken";
     		}
     	}
+    
     }
     
     public partial class WarningDirectiveTriviaFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -2289,10 +2211,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -2302,13 +2221,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "EndOfDirectiveToken";
     		}
     	}
+    
     }
     
     public partial class BadDirectiveTriviaFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -2319,25 +2237,29 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
     		{
     			yield return "HashToken";
     			yield return "EndOfDirectiveToken";
+    		}
+    	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> Keys
+    	{
+    		get
+    		{
+    			yield return "Identifier";
     		}
     	}
     }
     
     public partial class DefineDirectiveTriviaFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -2349,10 +2271,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -2360,15 +2279,22 @@ namespace Jawilliam.CDF.CSharp
     			yield return "HashToken";
     			yield return "DefineKeyword";
     			yield return "EndOfDirectiveToken";
+    		}
+    	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> Keys
+    	{
+    		get
+    		{
+    			yield return "Name";
     		}
     	}
     }
     
     public partial class UndefDirectiveTriviaFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -2380,10 +2306,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -2393,13 +2316,20 @@ namespace Jawilliam.CDF.CSharp
     			yield return "EndOfDirectiveToken";
     		}
     	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> Keys
+    	{
+    		get
+    		{
+    			yield return "Name";
+    		}
+    	}
     }
     
     public partial class LineDirectiveTriviaFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -2412,10 +2342,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -2425,13 +2352,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "EndOfDirectiveToken";
     		}
     	}
+    
     }
     
     public partial class PragmaWarningDirectiveTriviaFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -2445,10 +2371,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -2459,13 +2382,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "EndOfDirectiveToken";
     		}
     	}
+    
     }
     
     public partial class PragmaChecksumDirectiveTriviaFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -2480,10 +2402,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -2494,13 +2413,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "EndOfDirectiveToken";
     		}
     	}
+    
     }
     
     public partial class ReferenceDirectiveTriviaFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -2512,10 +2430,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -2525,13 +2440,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "EndOfDirectiveToken";
     		}
     	}
+    
     }
     
     public partial class LoadDirectiveTriviaFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -2543,10 +2457,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -2556,13 +2467,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "EndOfDirectiveToken";
     		}
     	}
+    
     }
     
     public partial class ShebangDirectiveTriviaFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -2573,10 +2483,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -2586,13 +2493,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "EndOfDirectiveToken";
     		}
     	}
+    
     }
     
     public partial class ElseDirectiveTriviaFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -2603,10 +2509,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -2616,13 +2519,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "EndOfDirectiveToken";
     		}
     	}
+    
     }
     
     public partial class IfDirectiveTriviaFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -2634,10 +2536,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -2647,13 +2546,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "EndOfDirectiveToken";
     		}
     	}
+    
     }
     
     public partial class ElifDirectiveTriviaFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -2665,10 +2563,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -2678,13 +2573,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "EndOfDirectiveToken";
     		}
     	}
+    
     }
     
     public partial class TypeCrefFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -2693,10 +2587,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -2704,13 +2595,12 @@ namespace Jawilliam.CDF.CSharp
     			yield break;
     		}
     	}
+    
     }
     
     public partial class QualifiedCrefFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -2721,10 +2611,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -2732,13 +2619,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "DotToken";
     		}
     	}
+    
     }
     
     public partial class NameMemberCrefFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -2748,10 +2634,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -2759,13 +2642,20 @@ namespace Jawilliam.CDF.CSharp
     			yield break;
     		}
     	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> Keys
+    	{
+    		get
+    		{
+    			yield return "Name";
+    		}
+    	}
     }
     
     public partial class IndexerMemberCrefFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -2775,10 +2665,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -2786,13 +2673,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "ThisKeyword";
     		}
     	}
+    
     }
     
     public partial class OperatorMemberCrefFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -2803,10 +2689,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -2814,13 +2697,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "OperatorKeyword";
     		}
     	}
+    
     }
     
     public partial class ConversionOperatorMemberCrefFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -2832,10 +2714,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -2843,13 +2722,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "OperatorKeyword";
     		}
     	}
+    
     }
     
     public partial class CrefParameterListFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -2860,10 +2738,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -2872,13 +2747,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "CloseParenToken";
     		}
     	}
+    
     }
     
     public partial class CrefBracketedParameterListFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -2889,10 +2763,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -2901,13 +2772,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "CloseBracketToken";
     		}
     	}
+    
     }
     
     public partial class XmlElementFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -2918,10 +2788,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -2929,13 +2796,12 @@ namespace Jawilliam.CDF.CSharp
     			yield break;
     		}
     	}
+    
     }
     
     public partial class XmlEmptyElementFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -2947,10 +2813,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -2959,13 +2822,20 @@ namespace Jawilliam.CDF.CSharp
     			yield return "SlashGreaterThanToken";
     		}
     	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> Keys
+    	{
+    		get
+    		{
+    			yield return "Name";
+    		}
+    	}
     }
     
     public partial class XmlTextFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -2974,10 +2844,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -2985,13 +2852,12 @@ namespace Jawilliam.CDF.CSharp
     			yield break;
     		}
     	}
+    
     }
     
     public partial class XmlCDataSectionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -3002,10 +2868,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -3014,13 +2877,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "EndCDataToken";
     		}
     	}
+    
     }
     
     public partial class XmlProcessingInstructionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -3032,25 +2894,29 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
     		{
     			yield return "StartProcessingInstructionToken";
     			yield return "EndProcessingInstructionToken";
+    		}
+    	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> Keys
+    	{
+    		get
+    		{
+    			yield return "Name";
     		}
     	}
     }
     
     public partial class XmlCommentFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -3061,10 +2927,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -3073,13 +2936,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "MinusMinusGreaterThanToken";
     		}
     	}
+    
     }
     
     public partial class XmlTextAttributeFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -3092,10 +2954,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -3105,13 +2964,20 @@ namespace Jawilliam.CDF.CSharp
     			yield return "EndQuoteToken";
     		}
     	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> Keys
+    	{
+    		get
+    		{
+    			yield return "Name";
+    		}
+    	}
     }
     
     public partial class XmlCrefAttributeFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -3124,10 +2990,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -3138,13 +3001,20 @@ namespace Jawilliam.CDF.CSharp
     			yield return "EndQuoteToken";
     		}
     	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> Keys
+    	{
+    		get
+    		{
+    			yield return "Name";
+    		}
+    	}
     }
     
     public partial class XmlNameAttributeFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -3157,10 +3027,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -3171,13 +3038,21 @@ namespace Jawilliam.CDF.CSharp
     			yield return "EndQuoteToken";
     		}
     	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> Keys
+    	{
+    		get
+    		{
+    			yield return "Name";
+    			yield return "Identifier";
+    		}
+    	}
     }
     
     public partial class ParenthesizedExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -3188,10 +3063,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -3200,13 +3072,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "CloseParenToken";
     		}
     	}
+    
     }
     
     public partial class TupleExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -3217,10 +3088,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -3229,13 +3097,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "CloseParenToken";
     		}
     	}
+    
     }
     
     public partial class PrefixUnaryExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -3245,10 +3112,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -3256,13 +3120,12 @@ namespace Jawilliam.CDF.CSharp
     			yield break;
     		}
     	}
+    
     }
     
     public partial class AwaitExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -3272,10 +3135,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -3283,13 +3143,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "AwaitKeyword";
     		}
     	}
+    
     }
     
     public partial class PostfixUnaryExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -3299,10 +3158,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -3310,13 +3166,12 @@ namespace Jawilliam.CDF.CSharp
     			yield break;
     		}
     	}
+    
     }
     
     public partial class MemberAccessExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -3327,10 +3182,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -3338,13 +3190,20 @@ namespace Jawilliam.CDF.CSharp
     			yield break;
     		}
     	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> Keys
+    	{
+    		get
+    		{
+    			yield return "Name";
+    		}
+    	}
     }
     
     public partial class ConditionalAccessExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -3355,10 +3214,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -3366,13 +3222,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "OperatorToken";
     		}
     	}
+    
     }
     
     public partial class MemberBindingExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -3382,24 +3237,28 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
     		{
     			yield return "OperatorToken";
+    		}
+    	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> Keys
+    	{
+    		get
+    		{
+    			yield return "Name";
     		}
     	}
     }
     
     public partial class ElementBindingExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -3408,10 +3267,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -3419,13 +3275,12 @@ namespace Jawilliam.CDF.CSharp
     			yield break;
     		}
     	}
+    
     }
     
     public partial class ImplicitElementAccessFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -3434,10 +3289,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -3445,13 +3297,12 @@ namespace Jawilliam.CDF.CSharp
     			yield break;
     		}
     	}
+    
     }
     
     public partial class BinaryExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -3462,10 +3313,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -3473,13 +3321,12 @@ namespace Jawilliam.CDF.CSharp
     			yield break;
     		}
     	}
+    
     }
     
     public partial class AssignmentExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -3490,10 +3337,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -3501,13 +3345,12 @@ namespace Jawilliam.CDF.CSharp
     			yield break;
     		}
     	}
+    
     }
     
     public partial class ConditionalExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -3520,10 +3363,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -3532,13 +3372,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "ColonToken";
     		}
     	}
+    
     }
     
     public partial class LiteralExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -3547,10 +3386,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -3558,13 +3394,12 @@ namespace Jawilliam.CDF.CSharp
     			yield break;
     		}
     	}
+    
     }
     
     public partial class MakeRefExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -3576,10 +3411,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -3589,13 +3421,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "CloseParenToken";
     		}
     	}
+    
     }
     
     public partial class RefTypeExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -3607,10 +3438,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -3620,13 +3448,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "CloseParenToken";
     		}
     	}
+    
     }
     
     public partial class RefValueExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -3640,10 +3467,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -3654,13 +3478,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "CloseParenToken";
     		}
     	}
+    
     }
     
     public partial class CheckedExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -3672,10 +3495,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -3684,13 +3504,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "CloseParenToken";
     		}
     	}
+    
     }
     
     public partial class DefaultExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -3702,10 +3521,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -3715,13 +3531,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "CloseParenToken";
     		}
     	}
+    
     }
     
     public partial class TypeOfExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -3733,10 +3548,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -3746,13 +3558,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "CloseParenToken";
     		}
     	}
+    
     }
     
     public partial class SizeOfExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -3764,10 +3575,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -3777,13 +3585,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "CloseParenToken";
     		}
     	}
+    
     }
     
     public partial class InvocationExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -3793,10 +3600,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -3804,13 +3608,12 @@ namespace Jawilliam.CDF.CSharp
     			yield break;
     		}
     	}
+    
     }
     
     public partial class ElementAccessExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -3820,10 +3623,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -3831,13 +3631,12 @@ namespace Jawilliam.CDF.CSharp
     			yield break;
     		}
     	}
+    
     }
     
     public partial class DeclarationExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -3847,10 +3646,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -3858,13 +3654,12 @@ namespace Jawilliam.CDF.CSharp
     			yield break;
     		}
     	}
+    
     }
     
     public partial class CastExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -3876,10 +3671,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -3888,13 +3680,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "CloseParenToken";
     		}
     	}
+    
     }
     
     public partial class RefExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -3904,10 +3695,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -3915,13 +3703,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "RefKeyword";
     		}
     	}
+    
     }
     
     public partial class InitializerExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -3932,10 +3719,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -3944,13 +3728,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "CloseBraceToken";
     		}
     	}
+    
     }
     
     public partial class ObjectCreationExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -3962,10 +3745,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -3973,13 +3753,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "NewKeyword";
     		}
     	}
+    
     }
     
     public partial class AnonymousObjectCreationExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -3991,10 +3770,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -4004,13 +3780,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "CloseBraceToken";
     		}
     	}
+    
     }
     
     public partial class ArrayCreationExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -4021,10 +3796,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -4032,13 +3804,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "NewKeyword";
     		}
     	}
+    
     }
     
     public partial class ImplicitArrayCreationExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -4051,10 +3822,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -4064,13 +3832,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "CloseBracketToken";
     		}
     	}
+    
     }
     
     public partial class StackAllocArrayCreationExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -4080,10 +3847,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -4091,13 +3855,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "StackAllocKeyword";
     		}
     	}
+    
     }
     
     public partial class QueryExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -4107,10 +3870,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -4118,13 +3878,12 @@ namespace Jawilliam.CDF.CSharp
     			yield break;
     		}
     	}
+    
     }
     
     public partial class OmittedArraySizeExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -4133,10 +3892,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -4144,13 +3900,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "OmittedArraySizeExpressionToken";
     		}
     	}
+    
     }
     
     public partial class InterpolatedStringExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -4161,10 +3916,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -4173,13 +3925,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "StringEndToken";
     		}
     	}
+    
     }
     
     public partial class IsPatternExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -4190,10 +3941,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -4201,13 +3949,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "IsKeyword";
     		}
     	}
+    
     }
     
     public partial class ThrowExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -4217,10 +3964,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -4228,13 +3972,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "ThrowKeyword";
     		}
     	}
+    
     }
     
     public partial class PredefinedTypeFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -4243,10 +3986,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -4254,13 +3994,12 @@ namespace Jawilliam.CDF.CSharp
     			yield break;
     		}
     	}
+    
     }
     
     public partial class ArrayTypeFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -4270,10 +4009,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -4281,13 +4017,12 @@ namespace Jawilliam.CDF.CSharp
     			yield break;
     		}
     	}
+    
     }
     
     public partial class PointerTypeFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -4297,10 +4032,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -4308,13 +4040,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "AsteriskToken";
     		}
     	}
+    
     }
     
     public partial class NullableTypeFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -4324,10 +4055,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -4335,13 +4063,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "QuestionToken";
     		}
     	}
+    
     }
     
     public partial class TupleTypeFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -4352,10 +4079,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -4364,13 +4088,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "CloseParenToken";
     		}
     	}
+    
     }
     
     public partial class OmittedTypeArgumentFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -4379,10 +4102,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -4390,13 +4110,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "OmittedTypeArgumentToken";
     		}
     	}
+    
     }
     
     public partial class RefTypeFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -4407,10 +4126,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -4419,13 +4135,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "ReadOnlyKeyword";
     		}
     	}
+    
     }
     
     public partial class QualifiedNameFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -4436,10 +4151,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -4447,13 +4159,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "DotToken";
     		}
     	}
+    
     }
     
     public partial class AliasQualifiedNameFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -4464,10 +4175,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -4475,13 +4183,20 @@ namespace Jawilliam.CDF.CSharp
     			yield return "ColonColonToken";
     		}
     	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> Keys
+    	{
+    		get
+    		{
+    			yield return "Name";
+    		}
+    	}
     }
     
     public partial class IdentifierNameFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -4490,10 +4205,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -4501,13 +4213,20 @@ namespace Jawilliam.CDF.CSharp
     			yield break;
     		}
     	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> Keys
+    	{
+    		get
+    		{
+    			yield return "Identifier";
+    		}
+    	}
     }
     
     public partial class GenericNameFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -4517,10 +4236,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -4528,13 +4244,20 @@ namespace Jawilliam.CDF.CSharp
     			yield break;
     		}
     	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> Keys
+    	{
+    		get
+    		{
+    			yield return "Identifier";
+    		}
+    	}
     }
     
     public partial class ThisExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -4543,10 +4266,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -4554,13 +4274,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "Token";
     		}
     	}
+    
     }
     
     public partial class BaseExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -4569,10 +4288,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -4580,13 +4296,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "Token";
     		}
     	}
+    
     }
     
     public partial class AnonymousMethodExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -4598,10 +4313,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -4609,13 +4321,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "DelegateKeyword";
     		}
     	}
+    
     }
     
     public partial class SimpleLambdaExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -4627,10 +4338,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -4638,13 +4346,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "ArrowToken";
     		}
     	}
+    
     }
     
     public partial class ParenthesizedLambdaExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -4656,10 +4363,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -4667,13 +4371,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "ArrowToken";
     		}
     	}
+    
     }
     
     public partial class ArgumentListFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -4684,10 +4387,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -4696,13 +4396,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "CloseParenToken";
     		}
     	}
+    
     }
     
     public partial class BracketedArgumentListFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -4713,10 +4412,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -4725,13 +4421,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "CloseBracketToken";
     		}
     	}
+    
     }
     
     public partial class FromClauseFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -4744,10 +4439,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -4756,13 +4448,20 @@ namespace Jawilliam.CDF.CSharp
     			yield return "InKeyword";
     		}
     	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> Keys
+    	{
+    		get
+    		{
+    			yield return "Identifier";
+    		}
+    	}
     }
     
     public partial class LetClauseFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -4774,10 +4473,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -4786,13 +4482,20 @@ namespace Jawilliam.CDF.CSharp
     			yield return "EqualsToken";
     		}
     	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> Keys
+    	{
+    		get
+    		{
+    			yield return "Identifier";
+    		}
+    	}
     }
     
     public partial class JoinClauseFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -4810,10 +4513,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -4824,13 +4524,20 @@ namespace Jawilliam.CDF.CSharp
     			yield return "EqualsKeyword";
     		}
     	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> Keys
+    	{
+    		get
+    		{
+    			yield return "Identifier";
+    		}
+    	}
     }
     
     public partial class WhereClauseFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -4840,10 +4547,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -4851,13 +4555,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "WhereKeyword";
     		}
     	}
+    
     }
     
     public partial class OrderByClauseFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -4867,10 +4570,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -4878,13 +4578,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "OrderByKeyword";
     		}
     	}
+    
     }
     
     public partial class SelectClauseFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -4894,10 +4593,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -4905,13 +4601,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "SelectKeyword";
     		}
     	}
+    
     }
     
     public partial class GroupClauseFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -4923,10 +4618,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -4935,13 +4627,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "ByKeyword";
     		}
     	}
+    
     }
     
     public partial class DeclarationPatternFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -4951,10 +4642,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -4962,13 +4650,12 @@ namespace Jawilliam.CDF.CSharp
     			yield break;
     		}
     	}
+    
     }
     
     public partial class ConstantPatternFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -4977,10 +4664,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -4988,13 +4672,12 @@ namespace Jawilliam.CDF.CSharp
     			yield break;
     		}
     	}
+    
     }
     
     public partial class InterpolatedStringTextFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -5003,10 +4686,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -5014,13 +4694,12 @@ namespace Jawilliam.CDF.CSharp
     			yield break;
     		}
     	}
+    
     }
     
     public partial class InterpolationFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -5033,10 +4712,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -5045,13 +4721,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "CloseBraceToken";
     		}
     	}
+    
     }
     
     public partial class BlockFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -5062,10 +4737,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -5074,13 +4746,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "CloseBraceToken";
     		}
     	}
+    
     }
     
     public partial class LocalFunctionStatementFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -5097,10 +4768,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -5108,13 +4776,20 @@ namespace Jawilliam.CDF.CSharp
     			yield return "SemicolonToken";
     		}
     	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> Keys
+    	{
+    		get
+    		{
+    			yield return "Identifier";
+    		}
+    	}
     }
     
     public partial class LocalDeclarationStatementFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -5125,10 +4800,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -5136,13 +4808,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "SemicolonToken";
     		}
     	}
+    
     }
     
     public partial class ExpressionStatementFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -5152,10 +4823,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -5163,13 +4831,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "SemicolonToken";
     		}
     	}
+    
     }
     
     public partial class EmptyStatementFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -5178,10 +4845,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -5189,13 +4853,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "SemicolonToken";
     		}
     	}
+    
     }
     
     public partial class LabeledStatementFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -5206,10 +4869,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -5217,13 +4877,20 @@ namespace Jawilliam.CDF.CSharp
     			yield return "ColonToken";
     		}
     	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> Keys
+    	{
+    		get
+    		{
+    			yield return "Identifier";
+    		}
+    	}
     }
     
     public partial class GotoStatementFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -5235,10 +4902,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -5247,13 +4911,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "SemicolonToken";
     		}
     	}
+    
     }
     
     public partial class BreakStatementFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -5263,10 +4926,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -5275,13 +4935,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "SemicolonToken";
     		}
     	}
+    
     }
     
     public partial class ContinueStatementFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -5291,10 +4950,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -5303,13 +4959,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "SemicolonToken";
     		}
     	}
+    
     }
     
     public partial class ReturnStatementFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -5320,10 +4975,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -5332,13 +4984,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "SemicolonToken";
     		}
     	}
+    
     }
     
     public partial class ThrowStatementFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -5349,10 +5000,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -5361,13 +5009,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "SemicolonToken";
     		}
     	}
+    
     }
     
     public partial class YieldStatementFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -5379,10 +5026,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -5391,13 +5035,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "SemicolonToken";
     		}
     	}
+    
     }
     
     public partial class WhileStatementFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -5410,10 +5053,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -5423,13 +5063,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "CloseParenToken";
     		}
     	}
+    
     }
     
     public partial class DoStatementFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -5444,10 +5083,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -5459,13 +5095,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "SemicolonToken";
     		}
     	}
+    
     }
     
     public partial class ForStatementFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -5483,10 +5118,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -5498,13 +5130,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "CloseParenToken";
     		}
     	}
+    
     }
     
     public partial class UsingStatementFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -5518,10 +5149,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -5531,13 +5159,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "CloseParenToken";
     		}
     	}
+    
     }
     
     public partial class FixedStatementFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -5550,10 +5177,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -5563,13 +5187,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "CloseParenToken";
     		}
     	}
+    
     }
     
     public partial class CheckedStatementFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -5579,10 +5202,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -5590,13 +5210,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "Keyword";
     		}
     	}
+    
     }
     
     public partial class UnsafeStatementFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -5606,10 +5225,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -5617,13 +5233,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "UnsafeKeyword";
     		}
     	}
+    
     }
     
     public partial class LockStatementFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -5636,10 +5251,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -5649,13 +5261,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "CloseParenToken";
     		}
     	}
+    
     }
     
     public partial class IfStatementFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -5669,10 +5280,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -5682,13 +5290,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "CloseParenToken";
     		}
     	}
+    
     }
     
     public partial class SwitchStatementFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -5703,10 +5310,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -5718,13 +5322,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "CloseBraceToken";
     		}
     	}
+    
     }
     
     public partial class TryStatementFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -5736,10 +5339,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -5747,13 +5347,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "TryKeyword";
     		}
     	}
+    
     }
     
     public partial class ForEachStatementFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -5769,10 +5368,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -5783,13 +5379,20 @@ namespace Jawilliam.CDF.CSharp
     			yield return "CloseParenToken";
     		}
     	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> Keys
+    	{
+    		get
+    		{
+    			yield return "Identifier";
+    		}
+    	}
     }
     
     public partial class ForEachVariableStatementFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -5804,10 +5407,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -5818,13 +5418,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "CloseParenToken";
     		}
     	}
+    
     }
     
     public partial class SingleVariableDesignationFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -5833,10 +5432,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -5844,13 +5440,20 @@ namespace Jawilliam.CDF.CSharp
     			yield break;
     		}
     	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> Keys
+    	{
+    		get
+    		{
+    			yield return "Identifier";
+    		}
+    	}
     }
     
     public partial class DiscardDesignationFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -5859,10 +5462,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -5870,13 +5470,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "UnderscoreToken";
     		}
     	}
+    
     }
     
     public partial class ParenthesizedVariableDesignationFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -5887,10 +5486,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -5899,13 +5495,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "CloseParenToken";
     		}
     	}
+    
     }
     
     public partial class CasePatternSwitchLabelFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -5917,10 +5512,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -5929,13 +5521,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "ColonToken";
     		}
     	}
+    
     }
     
     public partial class CaseSwitchLabelFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -5946,10 +5537,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -5958,13 +5546,12 @@ namespace Jawilliam.CDF.CSharp
     			yield return "ColonToken";
     		}
     	}
+    
     }
     
     public partial class DefaultSwitchLabelFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
-    	/// <summary>
-        /// Gets all the subexpressions of the current element type.
-        /// </summary>
+    	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
     	{
     		get
@@ -5974,10 +5561,7 @@ namespace Jawilliam.CDF.CSharp
     		}
     	}
     
-    	/// <summary>
-        /// Gets the subexpressions considered stopwords according to structural concerns.
-        /// </summary>
-        /// <returns>string names of the resulting subexpressions.</returns>
+    	/// <inheritdoc />
         public override IEnumerable<string> SyntacticalStopwords
     	{
     		get
@@ -5986,6 +5570,7 @@ namespace Jawilliam.CDF.CSharp
     			yield return "ColonToken";
     		}
     	}
+    
     }
     
 }

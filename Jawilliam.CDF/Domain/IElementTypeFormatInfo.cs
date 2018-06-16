@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Microsoft.SqlServer.Server;
 
 namespace Jawilliam.CDF.Domain
 {
@@ -17,6 +18,11 @@ namespace Jawilliam.CDF.Domain
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
         IEnumerable<string> SyntacticalStopwords { get; }
+
+        /// <summary>
+        /// Gets the key subexpression names in case it has any.
+        /// </summary>
+        IEnumerable<string> Keys { get; }
     }
 
     /// <summary>
@@ -34,5 +40,10 @@ namespace Jawilliam.CDF.Domain
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
         public abstract IEnumerable<string> SyntacticalStopwords { get; }
+
+        /// <summary>
+        /// Gets the key subexpression names in case it has any.
+        /// </summary>
+        public virtual IEnumerable<string> Keys => null;
     }
 }

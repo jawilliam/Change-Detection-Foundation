@@ -15,7 +15,7 @@ namespace CDF_Command_Line
                 if (input == "quit")
                     break;
 
-                string[] command = input.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                string[] command = (input ?? "").Split(' ', StringSplitOptions.RemoveEmptyEntries);
                 if (command.Length == 0)
                 {
                     Console.WriteLine("Specify a command.");
@@ -26,7 +26,7 @@ namespace CDF_Command_Line
                     {
                         case "RoslynML":
                             if (command.Length < 2)
-                                Console.WriteLine("RoslynML command takes at least 2 arguments.");
+                                Console.WriteLine("RoslynML command takes at least 1 argument.");
                             else
                                 HandleRoslynMLCommand(command[1], command.Length > 2 ? command.Skip(2).ToArray() : null);
                             break;
