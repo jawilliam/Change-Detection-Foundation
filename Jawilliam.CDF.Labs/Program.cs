@@ -16,6 +16,8 @@ using Jawilliam.CDF.Metrics.Similarity;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Jawilliam.CDF.Labs.DBModel;
+using System.IO;
+using Jawilliam.CDF.CSharp.RoslynML;
 
 namespace Jawilliam.CDF.Labs
 {
@@ -66,7 +68,7 @@ namespace Jawilliam.CDF.Labs
             new Project{ Path = @"E:\Repositories\FakeItEasy", Name = "FakeItEasy" },
             new Project{ Path = @"E:\Repositories\FileHelpers", Name = "FileHelpers" },
             new Project{ Path = @"E:\Repositories\Force.com-Toolkit-for-NET", Name = "ForcecomToolkitForNET" },
-            new Project{ Path = @"E:\Repositories\hadoopsdk", Name = "HadoopSdk" },
+            //new Project{ Path = @"E:\Repositories\hadoopsdk", Name = "HadoopSdk" },
             new Project{ Path = @"E:\Repositories\Hangfire", Name = "Hangfire" },
             new Project{ Path = @"E:\Repositories\Hearthstone-Deck-Tracker", Name = "HDT" },
             new Project{ Path = @"E:\Repositories\Humanizer", Name = "Humanizer" },
@@ -553,12 +555,14 @@ namespace Jawilliam.CDF.Labs
             //}));
             //System.IO.File.WriteAllText(@"E:\Phd\Analysis\UniquePairs\RelativeThresholds.csv", analyzer.Report.ToString());
             //MigrateRoslynMLTreesOfNativeGumTree(ChangeDetectionApproaches.InverseOfNativeGumTree);
-            //SaveRoslynMLTreesOfNativeGumTree(ChangeDetectionApproaches.NativeGumTreeGumtreefiedRoslynML);
+            //SaveRoslynMLTreesOfNativeGumTree(ChangeDetectionApproaches.NativeGTtreefiedRoslynML);
             //DetectingNativeGumTreeWithGumtreefiedRoslynML();
+            //DetectingNativeGumTreeWithGumtreefiedRoslynMLOnMultipleConfigurations();
             //DetectingInverseNativeGumTreeWithGumtreefiedRoslynML();
             //DetectingNativeGumTreeDiffWithCustomMatchers();
             //ComparisonBetweenGumTreeAndCDGumTree();
             //ComparisonBetweenGumTreeAndReverseGumTree();
+            ComparisonBetweenGumTreeWithMultipleConfigurations();
             //ReportBetweenMatches();
             //StructureBetweenMatches();
             //Interruptions();
@@ -590,7 +594,7 @@ namespace Jawilliam.CDF.Labs
         private static void ComparisonBetweenGumTreeAndCDGumTree()
         {
             var recognizer = new BetweenComparison() { MillisecondsTimeout = 600000 };
-            recognizer.ConfigNativeGumTreeVsChangeDistillerGumTree();
+            recognizer.ConfigLeftVsRight((ChangeDetectionApproaches.NativeGumTree, "GumTree"), (ChangeDetectionApproaches.NativeGumTreeWithChangeDistillerMatcher, "ChangeDistillerGumTree"));
             var connectionSettings = System.Configuration.ConfigurationManager.ConnectionStrings;
 
             foreach (var project in Projects.Reverse().Skip(17).Take(27))
@@ -785,11 +789,138 @@ namespace Jawilliam.CDF.Labs
         //    Console.Out.WriteLine($"Report collected!!!");
         //}
 
+        private static void DetectingNativeGumTreeWithGumtreefiedRoslynMLOnMultipleConfigurations()
+        {
+            var configurations = new[]
+            {
+                new { Name = @"gumtree_Minh2Sim0d5Size100", Path = @"D:\GT_Runtimes\gumtree_Minh2Sim0d5Size100", Approach = ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size100 },
+                new { Name = @"gumtree_Minh2Sim0d5Size325", Path = @"D:\GT_Runtimes\gumtree_Minh2Sim0d5Size325", Approach = ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size325 },
+                new { Name = @"gumtree_Minh2Sim0d5Size550", Path = @"D:\GT_Runtimes\gumtree_Minh2Sim0d5Size550", Approach = ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size550 },
+                new { Name = @"gumtree_Minh2Sim0d5Size775", Path = @"D:\GT_Runtimes\gumtree_Minh2Sim0d5Size775", Approach = ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size775 },
+                new { Name = @"gumtree_Minh2Sim0d5Size1225", Path = @"D:\GT_Runtimes\gumtree_Minh2Sim0d5Size1225", Approach = ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1225 },
+                new { Name = @"gumtree_Minh2Sim0d5Size1450", Path = @"D:\GT_Runtimes\gumtree_Minh2Sim0d5Size1450", Approach = ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1450 },
+                new { Name = @"gumtree_Minh2Sim0d5Size1675", Path = @"D:\GT_Runtimes\gumtree_Minh2Sim0d5Size1675", Approach = ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1675 },
+                new { Name = @"gumtree_Minh2Sim0d5Size1900", Path = @"D:\GT_Runtimes\gumtree_Minh2Sim0d5Size1900", Approach = ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1900 }
+            };
+
+            var analyzer = new FileRevisionPairAnalyzer { MillisecondsTimeout = 600000 };
+            var gumTree = new GumTreeNativeApproach();
+            var interopArgs = new InteropArgs()
+            {
+                GumTreePath = null,
+                Original = @"E:\SourceCode\Original.cs",
+                Modified = @"E:\SourceCode\Modified.cs"
+            };
+
+            foreach (var project in Projects)
+            {
+                foreach (var configuration in configurations)
+                {
+                    var dbRepository = new GitRepository(project.Name) { Name = project.Name };
+                    ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 600;
+
+                    analyzer.Warnings = new StringBuilder();
+                    analyzer.SqlRepository = dbRepository;
+                    analyzer.Cancel = () => gumTree.Cancel();
+
+                    interopArgs.GumTreePath = configuration.Path;
+
+                    analyzer.NativeGumTreeDiff(gumTree, interopArgs, configuration.Approach, null, null);
+                    //analyzer.InverseNativeGumTreeDiff(gumTree, interopArgs, gumTreeApproach, skipThese, cleaner);
+                    System.IO.File.AppendAllText($@"D:\ExperimentLogs\{configuration.Name}.txt",
+                        $"{Environment.NewLine}{Environment.NewLine}GumTreefied RoslynML ({configuration.Name}) completed {DateTime.Now.ToString("F", CultureInfo.InvariantCulture)} - {project.Name}" +
+                        $"{Environment.NewLine}{analyzer.Warnings.ToString()}");
+                }
+            }
+            Console.Out.WriteLine($"DONE!!!");
+        }
+
+        private static void ComparisonBetweenGumTreeWithMultipleConfigurations()
+        {
+            var configurations = new[]
+            {
+                new { Name = @"gumtree_Minh2Sim0d5Size100", Path = @"D:\GT_Runtimes\gumtree_Minh2Sim0d5Size100", Approach = ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size100 },
+                new { Name = @"gumtree_Minh2Sim0d5Size325", Path = @"D:\GT_Runtimes\gumtree_Minh2Sim0d5Size325", Approach = ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size325 },
+                new { Name = @"gumtree_Minh2Sim0d5Size550", Path = @"D:\GT_Runtimes\gumtree_Minh2Sim0d5Size550", Approach = ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size550 },
+                new { Name = @"gumtree_Minh2Sim0d5Size775", Path = @"D:\GT_Runtimes\gumtree_Minh2Sim0d5Size775", Approach = ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size775 },
+                new { Name = @"gumtree_Minh2Sim0d5Size1225", Path = @"D:\GT_Runtimes\gumtree_Minh2Sim0d5Size1225", Approach = ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1225 },
+                new { Name = @"gumtree_Minh2Sim0d5Size1450", Path = @"D:\GT_Runtimes\gumtree_Minh2Sim0d5Size1450", Approach = ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1450 },
+                new { Name = @"gumtree_Minh2Sim0d5Size1675", Path = @"D:\GT_Runtimes\gumtree_Minh2Sim0d5Size1675", Approach = ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1675 },
+                new { Name = @"gumtree_Minh2Sim0d5Size1900", Path = @"D:\GT_Runtimes\gumtree_Minh2Sim0d5Size1900", Approach = ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1900 }
+            };
+
+            var recognizer = new BetweenComparison()
+            {
+                MillisecondsTimeout = 600000
+            };            
+
+            var connectionSettings = System.Configuration.ConfigurationManager.ConnectionStrings;
+
+            foreach (var project in Projects.Take(23))
+            {
+                foreach (var configuration in configurations)
+                {
+                    recognizer.ConfigLeftVsRight((ChangeDetectionApproaches.NativeGTtreefiedRoslynML, "gumtree_Minh2Sim0d5Size1000"), (configuration.Approach, configuration.Name));
+
+                    var dbRepository = new GitRepository(project.Name) { Name = project.Name };
+                    ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 600000;
+                    recognizer.SqlRepository = dbRepository;
+                    recognizer.Cancel = null;
+
+                    Func<FileRevisionPair, bool> skipThese = delegate (FileRevisionPair pair)
+                    {
+                        var anyOriginal = dbRepository.FileFormats.Any(ff => ff.FileVersion.Id == pair.Principal.FromFileVersion.Id && ff.Kind == (FileFormatKind.Gumtreefied | FileFormatKind.RoslynML));
+                        var anyModified = dbRepository.FileFormats.Any(ff => ff.FileVersion.Id == pair.Principal.FileVersion.Id && ff.Kind == (FileFormatKind.Gumtreefied | FileFormatKind.RoslynML));
+
+                        return !anyOriginal || !anyModified;
+                    };
+                    //frp => dbRepository.Deltas.Any(d => d.RevisionPair.Id == frp.Id &&
+                    //                                                             d.Approach == ChangeDetectionApproaches.NativeGumTree &&
+                    //                                                             d.OriginalTree != null && d.ModifiedTree != null);
+
+                    recognizer.Config.GetTree = delegate ((Delta Delta, FileRevisionPair Pair, bool TrueForOriginalOtherwiseModified) args)
+                    {
+                        var version = args.TrueForOriginalOtherwiseModified
+                            ? dbRepository.FileFormats.AsNoTracking().Single(ff => ff.Kind == (FileFormatKind.Gumtreefied | FileFormatKind.RoslynML) && ff.FileVersion.Id == args.Pair.Principal.FromFileVersion.Id)
+                            : dbRepository.FileFormats.AsNoTracking().Single(ff => ff.Kind == (FileFormatKind.Gumtreefied | FileFormatKind.RoslynML) && ff.FileVersion.Id == args.Pair.Principal.FileVersion.Id);
+
+                        var xTree = XElement.Load(new StringReader(version.XmlTree));
+                        var roslynMLServices = new RoslynML();
+                        xTree = roslynMLServices.Gumtreefy(xTree);
+                        roslynMLServices.SetRoslynMLIDs(xTree);
+
+                        return roslynMLServices.AsGumtreefiedElementTree(xTree);
+                    };
+
+                    recognizer.Warnings = new StringBuilder();
+                    recognizer.Recognize(skipThese, true);
+                    System.IO.File.AppendAllText($@"D:\ExperimentLogs\gumtree_Minh2Sim0d5Size1000_VS_{configuration.Name}.txt",
+                        $"{Environment.NewLine}{Environment.NewLine}Between comparison (recognition) completed {DateTime.Now.ToString("F", CultureInfo.InvariantCulture)} - {project.Name}" +
+                        $"{Environment.NewLine}{recognizer.Warnings.ToString()}");
+
+                    recognizer.Warnings = new StringBuilder();
+                    recognizer.ConnectMatchSymptoms(skipThese, true);
+                    System.IO.File.AppendAllText($@"D:\ExperimentLogs\gumtree_Minh2Sim0d5Size1000_VS_{configuration.Name}.txt",
+                        $"{Environment.NewLine}{Environment.NewLine}Between comparison (structuring) completed {DateTime.Now.ToString("F", CultureInfo.InvariantCulture)} - {project.Name}" +
+                        $"{Environment.NewLine}{recognizer.Warnings.ToString()}");
+
+                    //analyzer.InverseNativeGumTreeDiff(gumTree, interopArgs, gumTreeApproach, skipThese, cleaner);
+
+                }
+
+                //var connection = System.Configuration.ConfigurationManager.ConnectionStrings[project.Name];
+                //var connectionString = connection.ConnectionString.Replace("res://*/GitRepository", ".\\GitRepository");
+                
+
+            }
+            Console.Out.WriteLine($"Change Distiller vs. GumTree - matches collected!!!");
+        }
+
         private static void DetectingNativeGumTreeWithGumtreefiedRoslynML()
         {
             var analyzer = new FileRevisionPairAnalyzer { MillisecondsTimeout = 600000 };
             var gumTree = new GumTreeNativeApproach();
-            var gumTreeApproach = ChangeDetectionApproaches.NativeGumTreeGumtreefiedRoslynML;
+            var gumTreeApproach = ChangeDetectionApproaches.NativeGTtreefiedRoslynML;
             var interopArgs = new InteropArgs()
             {
                 GumTreePath = @"E:\SourceCode\gtfiedroslynml27418",
@@ -797,7 +928,7 @@ namespace Jawilliam.CDF.Labs
                 Modified = @"E:\SourceCode\Modified.cs"
             };            
 
-            foreach (var project in Projects)
+            foreach (var project in Projects.Skip(23))
             {
                 var dbRepository = new GitRepository(project.Name) { Name = project.Name };
                 ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 600;
@@ -820,7 +951,7 @@ namespace Jawilliam.CDF.Labs
                     return false/* !dbRepository.Deltas.Any(d => d.RevisionPair.Id == frp.Principal.Id && d.Approach == ChangeDetectionApproaches.InverseOfNativeGumTree)*/;
                 };
 
-                analyzer.NativeGumTreeDiff(gumTree, interopArgs , gumTreeApproach, skipThese, null);
+                analyzer.NativeGumTreeDiff(gumTree, interopArgs , gumTreeApproach, null, null);
                 //analyzer.InverseNativeGumTreeDiff(gumTree, interopArgs, gumTreeApproach, skipThese, cleaner);
                 System.IO.File.AppendAllText($@"E:\SourceCode\GT_GumtreefiedRoslynML.txt", 
                     $"{Environment.NewLine}{Environment.NewLine}GumTreefied RoslynML completed {DateTime.Now.ToString("F", CultureInfo.InvariantCulture)} - {project.Name}" +
@@ -833,15 +964,15 @@ namespace Jawilliam.CDF.Labs
         {
             var analyzer = new FileRevisionPairAnalyzer { MillisecondsTimeout = 600000 };
             var gumTree = new GumTreeNativeApproach();
-            var gumTreeApproach = ChangeDetectionApproaches.InverseNativeGumTreeGumtreefiedRoslynML;
+            var gumTreeApproach = ChangeDetectionApproaches.InverseNativeGTtreefiedRoslynML;
             var interopArgs = new InteropArgs()
             {
-                GumTreePath = @"E:\SourceCode\gtfiedroslynml27418",
-                Original = @"E:\SourceCode\Original.cs",
-                Modified = @"E:\SourceCode\Modified.cs"
+                GumTreePath = @"C:\CDF\gtfiedroslynml27418",
+                Original = @"C:\CDF\Original.cs",
+                Modified = @"C:\CDF\Modified.cs"
             };
 
-            foreach (var project in Projects.Skip(25))
+            foreach (var project in Projects)
             {
                 var dbRepository = new GitRepository(project.Name) { Name = project.Name };
                 ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 600;
@@ -865,8 +996,8 @@ namespace Jawilliam.CDF.Labs
                 };
 
                 //analyzer.NativeGumTreeDiff(gumTree, interopArgs, gumTreeApproach, skipThese, null);
-                analyzer.InverseNativeGumTreeDiff(gumTree, interopArgs, gumTreeApproach, skipThese, null);
-                System.IO.File.AppendAllText($@"E:\SourceCode\IGT_GumtreefiedRoslynML.txt",
+                analyzer.InverseNativeGumTreeDiff(gumTree, interopArgs, gumTreeApproach, null, null);
+                System.IO.File.AppendAllText($@"C:\CDF\IGT_GumtreefiedRoslynML.txt",
                     $"{Environment.NewLine}{Environment.NewLine}GumTreefied RoslynML completed {DateTime.Now.ToString("F", CultureInfo.InvariantCulture)} - {project.Name}" +
                     $"{Environment.NewLine}{analyzer.Warnings.ToString()}");
             }
@@ -1025,13 +1156,13 @@ namespace Jawilliam.CDF.Labs
                 Modified = @"E:\SourceCode\M02.cs"
             };
 
-            foreach (var project in Projects.Reverse().Skip(51))
+            foreach (var project in Projects)
             {
                 analyzer.Warnings = new StringBuilder();
                 var dbRepository = new GitRepository(project.Name) { Name = project.Name };
-                ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 600;
+                ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 600000;
                 analyzer.SqlRepository = dbRepository;
-                analyzer.SaveRoslynMLTrees(gumTree, interopArgs, gumTreeApproach, skipThese, cleaner);
+                analyzer.SaveRoslynMLTrees(gumTree, interopArgs, gumTreeApproach, skipThese, FileFormatKind.Gumtreefied | FileFormatKind.RoslynML, cleaner);
 
                 //System.IO.File.WriteAllText($@"E:\Phd\Analysis\SaveNativeTrees33{project.Name}.txt", analyzer.Warnings.ToString());
             }

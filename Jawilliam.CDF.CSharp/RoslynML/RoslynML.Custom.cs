@@ -124,5 +124,34 @@ namespace Jawilliam.CDF.CSharp.RoslynML
                     this.Prune(item, selector);
             }
         }
+
+        /// <summary>
+        /// Converts an XML-like AST representation internally expected by GumTree to an equivalent <see cref="ElementTree"/>.
+        /// </summary>
+        /// <param name="source">XML-like AST representation internally expected by GumTree</param>
+        /// <returns>the equivalent representation according to the <see cref="ElementTree"/> format.</returns>
+        public virtual ElementTree AsGumtreefiedElementTree(XElement source)
+        {
+            var eSource = new ElementTree()
+            {
+                Root = new ElementDescriptor
+                {
+                    Id = source.Attribute("RmID").Value,
+                    Label = source.Attribute("typeLabel").Value,
+                    Value = source.Attribute("label")?.Value
+                }
+            };
+
+            var eChildren = new List<ElementTree>(source.Elements().Count());
+            foreach (var item in source.Elements())
+            {
+                var eItem = this.AsGumtreefiedElementTree(item);
+                eChildren.Add(eItem);
+                eItem.Parent = eSource;
+            }
+
+            eSource.Children = eChildren;
+            return eSource;
+        }
     }
 }

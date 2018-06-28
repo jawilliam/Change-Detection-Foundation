@@ -181,18 +181,21 @@ namespace Jawilliam.CDF.Labs
         /// <param name="cleaner">A preprocessor for the source code in case it is desired.</param>
         public virtual void NativeGumTreeDiff(GumTreeNativeApproach gumTree, InteropArgs interopArgs, ChangeDetectionApproaches gumTreeApproach, Func<FileRevisionPair, bool> skipThese, SourceCodeCleaner cleaner = null)
         {
-            this.Analyze(/*this.SqlRepository, f => f.Principal.Deltas.Any(d => d.Approach == gumTreeApproach),*/
-            f => (f.Principal.Deltas.Any(d => d.Approach == ChangeDetectionApproaches.NativeGumTree) ||
+            this.Analyze(/*this.SqlRepository, f => f.Principal.Deltas.Any(d => d.Approach == ChangeDetectionApproaches.NativeGTtreefiedRoslynML),*/
+            f => f.Principal.Deltas.Any(d => d.Approach == ChangeDetectionApproaches.NativeGTtreefiedRoslynML) && /*||
                   f.Principal.Deltas.Any(d => d.Approach == ChangeDetectionApproaches.InverseOfNativeGumTree) ||
                   f.Principal.Deltas.Any(d => d.Approach == ChangeDetectionApproaches.NativeGumTreeWithChangeDistillerMatcher) ||
                   f.Principal.Deltas.Any(d => d.Approach == ChangeDetectionApproaches.InverseOfNativeGumTreeWithChangeDistillerMatcher) ||
                   f.Principal.Deltas.Any(d => d.Approach == ChangeDetectionApproaches.NativeGumTreeWithXyMatcher) ||
-                  f.Principal.Deltas.Any(d => d.Approach == ChangeDetectionApproaches.InverseOfNativeGumTreeWithXyMatcher)) &&
-                 !f.Principal.Deltas.Any(d => d.Approach == gumTreeApproach) /*&& 
+                  f.Principal.Deltas.Any(d => d.Approach == ChangeDetectionApproaches.InverseOfNativeGumTreeWithXyMatcher)) &&*/
+                 f.Principal.Deltas.All(d => d.Approach != gumTreeApproach) &&
+                 f.Principal.FromFileVersion.ContentSummary.TotalLines != null && 
+                 f.Principal.FileVersion.ContentSummary.TotalLines != null/*&& 
                  f.Deltas.All(d => d.Approach != gumTreeApproach), // I am running Levenshtein before, so the longer cases have been already rejected.
             */, delegate (FileRevisionPair repositoryObject, SyntaxNode original, SyntaxNode modified, CancellationToken token)
             {
-                if (!repositoryObject.Principal.XAnnotations.SourceCodeChanges || (skipThese?.Invoke(repositoryObject) ?? false))
+                if (!repositoryObject.Principal.XAnnotations.SourceCodeChanges ||
+                    (skipThese?.Invoke(repositoryObject) ?? false))
                     return;
 
                 this.SqlRepository.Deltas.Where(d => d.RevisionPair.Id == repositoryObject.Principal.Id && d.Approach == gumTreeApproach)
@@ -260,17 +263,20 @@ namespace Jawilliam.CDF.Labs
         public virtual void InverseNativeGumTreeDiff(GumTreeNativeApproach gumTree, InteropArgs interopArgs, ChangeDetectionApproaches gumTreeApproach, Func<FileRevisionPair, bool> skipThese, SourceCodeCleaner cleaner = null)
         {
             this.Analyze(/*this.SqlRepository, f => f.Principal.Deltas.Any(d => d.Approach == gumTreeApproach),*/
-            f => (f.Principal.Deltas.Any(d => d.Approach == ChangeDetectionApproaches.NativeGumTree) ||
+            f => f.Principal.Deltas.Any(d => d.Approach == ChangeDetectionApproaches.NativeGTtreefiedRoslynML) &&  /*||
                   f.Principal.Deltas.Any(d => d.Approach == ChangeDetectionApproaches.InverseOfNativeGumTree) ||
                   f.Principal.Deltas.Any(d => d.Approach == ChangeDetectionApproaches.NativeGumTreeWithChangeDistillerMatcher) ||
                   f.Principal.Deltas.Any(d => d.Approach == ChangeDetectionApproaches.InverseOfNativeGumTreeWithChangeDistillerMatcher) ||
                   f.Principal.Deltas.Any(d => d.Approach == ChangeDetectionApproaches.NativeGumTreeWithXyMatcher) ||
-                  f.Principal.Deltas.Any(d => d.Approach == ChangeDetectionApproaches.InverseOfNativeGumTreeWithXyMatcher)) &&
-                 !f.Principal.Deltas.Any(d => d.Approach == gumTreeApproach) /*&& 
+                  f.Principal.Deltas.Any(d => d.Approach == ChangeDetectionApproaches.InverseOfNativeGumTreeWithXyMatcher)) &&*/
+                 f.Principal.Deltas.All(d => d.Approach != gumTreeApproach) &&
+                 f.Principal.FromFileVersion.ContentSummary.TotalLines != null &&
+                 f.Principal.FileVersion.ContentSummary.TotalLines != null /*&& 
                  f.Deltas.All(d => d.Approach != gumTreeApproach), // I am running Levenshtein before, so the longer cases have been already rejected.
             */, delegate (FileRevisionPair repositoryObject, SyntaxNode original, SyntaxNode modified, CancellationToken token)
               {
-                  if (!repositoryObject.Principal.XAnnotations.SourceCodeChanges || (skipThese?.Invoke(repositoryObject) ?? false))
+                  if (!repositoryObject.Principal.XAnnotations.SourceCodeChanges ||
+                      (skipThese?.Invoke(repositoryObject) ?? false))
                       return;
 
                   this.SqlRepository.Deltas.Where(d => d.RevisionPair.Id == repositoryObject.Principal.Id && d.Approach == gumTreeApproach)

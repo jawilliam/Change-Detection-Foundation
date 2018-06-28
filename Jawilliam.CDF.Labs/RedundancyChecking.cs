@@ -31,11 +31,12 @@ namespace Jawilliam.CDF.Labs
         /// </summary>
         /// <param name="delta">delta to analyze.</param>
         /// <param name="token">mechanism for cancelling the analisys.</param>
+        /// <param name="pair">file revision pair being analized.</param>
         /// <returns>a collection of the candidate missed matches found in the given delta.</returns>
-        protected virtual IEnumerable<MissedElement> FindMissedMatches(Delta delta, CancellationToken token)
+        protected virtual IEnumerable<MissedElement> FindMissedMatches(Delta delta, FileRevisionPair pair, CancellationToken token)
         {
-            var originalTree = ElementTree.Read(delta.OriginalTree, Encoding.Unicode);
-            var modifiedTree = ElementTree.Read(delta.ModifiedTree, Encoding.Unicode);
+            var originalTree = this.Config.GetTree((delta, pair, true));
+            var modifiedTree = this.Config.GetTree((delta, pair, false));
             var detectionResult = (DetectionResult)delta.DetectionResult;
 
             // Missed matches - Deleted and Inserted
@@ -204,28 +205,27 @@ namespace Jawilliam.CDF.Labs
         /// </summary>
         public override void Recognize()
         {
-            this.Recognize(ChangeDetectionApproaches.NativeGumTree);
+            this.Recognize();
         }
 
         /// <summary>
         /// Looks for symptoms of imprecision.
         /// </summary>
-        /// <param name="approach">change detection variant to consider for each file revision pair.</param>
         /// <param name="skipThese">local criterion for determining elements that should be ignored.</param>
         /// <param name="saveChanges">Enables or disables the persistence of the changes.</param>
-        public virtual void Recognize(ChangeDetectionApproaches approach, Func<FileRevisionPair, bool> skipThese = null, bool saveChanges = true)
+        public virtual void Recognize(Func<FileRevisionPair, bool> skipThese = null, bool saveChanges = true)
         {
-            this.Analyze(f => f.Principal.Deltas.Any(d => d.Approach == approach &&
+            this.Analyze(f => f.Principal.Deltas.Any(d => d.Approach == this.Config.Approach &&
                                                d.Matching != null &&
                                                d.Differencing != null &&
                                                d.Report == null),
                 delegate (FileRevisionPair pair, CancellationToken token)
                 {
                     if (skipThese?.Invoke(pair) ?? false) return;
-                    var delta = this.SqlRepository.Deltas.Single(d => d.RevisionPair.Id == pair.Principal.Id && d.Approach == approach);
+                    var delta = this.SqlRepository.Deltas.Single(d => d.RevisionPair.Id == pair.Principal.Id && d.Approach == this.Config.Approach);
                     try
                     {
-                        var missedMatchesA = this.FindMissedMatches(delta, token);
+                        var missedMatchesA = this.FindMissedMatches(delta, pair, token);
                         foreach (var missedMatchA in missedMatchesA)
                         {
                             var originalAncestorOfReference = missedMatchA.Original.Element.LabelOf(t => t.Parent, t => t.Root.Label == "name")
@@ -599,6 +599,11 @@ namespace Jawilliam.CDF.Labs
         public class Criterion
         {
             /// <summary>
+            /// Gets or sets the checking approach.
+            /// </summary>
+            public virtual ChangeDetectionApproaches Approach { get; set; }
+
+            /// <summary>
             /// Determines if a given operation is candidate to look for mismatches.
             /// </summary>
             public virtual Func<OperationDescriptor, bool> IsSubject { get; set; }
@@ -632,6 +637,14 @@ namespace Jawilliam.CDF.Labs
             /// Gets or sets how to shape the resulting redundancies.
             /// </summary>
             public Func<TSubject, TSubject, string, DetectionResult, MissedElement> AsResult { get; set; }
+
+            /// <summary>
+            /// Gets or sets the how to get the original (or modified) tree of the delta.
+            /// </summary>
+            public virtual Func<(Delta Delta, FileRevisionPair Pair, bool TrueForOriginalOtherwiseModified), ElementTree> GetTree { get; set; }
+                = (a) => a.TrueForOriginalOtherwiseModified
+                ? ElementTree.Read(a.Delta.OriginalTree, Encoding.Unicode)
+                : ElementTree.Read(a.Delta.ModifiedTree, Encoding.Unicode);
         }
     }
 }

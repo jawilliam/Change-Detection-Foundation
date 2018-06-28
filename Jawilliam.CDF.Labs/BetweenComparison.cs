@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Xml.Linq;
 using Jawilliam.CDF.Actions;
 using Jawilliam.CDF.Approach;
 using Jawilliam.CDF.Approach.GumTree;
@@ -23,26 +24,27 @@ namespace Jawilliam.CDF.Labs
         /// </summary>
         /// <param name="leftDelta">left delta.</param> 
         /// <param name="rightDelta">right delta.</param>
+        /// <param name="pair">file revision pair being analized.</param>
         /// <param name="token">mechanism for cancelling the analisys.</param>
         public virtual IEnumerable<BetweenSymptom> Compare(Delta leftDelta, Delta rightDelta, FileRevisionPair pair, CancellationToken token)
         {
-            var lDelta = this.Config.LeftDeltaContainer(leftDelta, pair);
-            var leftOriginalTree = ElementTree.Read(lDelta.OriginalTree, Encoding.Unicode);
-            var leftModifiedTree = ElementTree.Read(lDelta.ModifiedTree, Encoding.Unicode);
+            //var lDelta = this.Config.LeftDeltaContainer(leftDelta, pair);
+            //var leftOriginalTree = ElementTree.Read(lDelta.OriginalTree, Encoding.Unicode);
+            //var leftModifiedTree = ElementTree.Read(lDelta.ModifiedTree, Encoding.Unicode);
+            //var leftDetectionResult = (DetectionResult)leftDelta.DetectionResult;
+            var leftOriginalTree = this.Config.GetTree((leftDelta, pair, true));
+            var leftModifiedTree = this.Config.GetTree((leftDelta, pair, false));
             var leftDetectionResult = (DetectionResult)leftDelta.DetectionResult;
 
-            var rDelta = this.Config.RightDeltaContainer(rightDelta, pair);
-            var rightOriginalTree = ElementTree.Read(rDelta.OriginalTree, Encoding.Unicode);
-            var rightModifiedTree = ElementTree.Read(rDelta.ModifiedTree, Encoding.Unicode);
+            var rightOriginalTree = this.Config.GetTree((rightDelta, pair, true));
+            var rightModifiedTree = this.Config.GetTree((rightDelta, pair, false));
             var rightDetectionResult = (DetectionResult)rightDelta.DetectionResult;
 
             if (this.Config.Matches)
             {
                 foreach (var leftMatch in leftDetectionResult.Matches)
                 {
-                    if (!rightDetectionResult.Matches.Any(
-                            rightMatch =>
-                                this.Config.MatchCompare(leftMatch, leftDetectionResult, rightMatch, rightDetectionResult)))
+                    if (!rightDetectionResult.Matches.Any(rightMatch => this.Config.MatchCompare(leftMatch, leftDetectionResult, rightMatch, rightDetectionResult)))
                     {
                         yield return this.CreateBetweenMatchInfo("LR", leftMatch,
                             leftDetectionResult, rightDetectionResult,
@@ -55,9 +57,7 @@ namespace Jawilliam.CDF.Labs
                 {
                     foreach (var rightMatch in rightDetectionResult.Matches)
                     {
-                        if (!leftDetectionResult.Matches.Any(
-                                leftMatch =>
-                                    this.Config.MatchCompare(rightMatch, rightDetectionResult, leftMatch, leftDetectionResult)))
+                        if (!leftDetectionResult.Matches.Any(leftMatch => this.Config.MatchCompare(rightMatch, rightDetectionResult, leftMatch, leftDetectionResult)))
                         {
                             yield return this.CreateBetweenMatchInfo("RL", rightMatch,
                                 leftDetectionResult, rightDetectionResult,
@@ -68,27 +68,25 @@ namespace Jawilliam.CDF.Labs
                 }
             }
 
-            if (this.Config.Actions)
-            {
-                //foreach (var leftAction in leftDetectionResult.Actions)
-                //{
-                //    if (!rightDetectionResult.Actions.Any(
-                //            rightAction =>
-                //                this.Config.ActionCompare(leftAction, leftDetectionResult, rightAction, rightDetectionResult)))
-                //    {
-                //        //yield return new BetweenSymptom
-                //        //{
-                //        //    Id = Guid.NewGuid(),
-                //        //    Pattern = $"{way}-Actions",
-                //        //    Left = this.CreateBetweenPartInfo(this.Config.LeftName, Enum.GetName(typeof(ActionKind), leftAction.Action), 
-                //        //                leftDetectionResult, leftOriginalTree, leftModifiedTree, leftAction),
-                //        //    Right = this.CreateBetweenPartInfo(this.Config.RightName, "", null, null)
-                //        //    //Right = this.CreateBetweenPartInfo(this.Config.RightName, rightDetectionResult,
-                //        //    //    rightOriginalTree, rightModifiedTree, null)
-                //        //};
-                //    }
-                //}
-            }
+            //if (this.Config.Actions)
+            //{
+            //    foreach (var leftAction in leftDetectionResult.Actions)
+            //    {
+            //        if (!rightDetectionResult.Actions.Any(rightAction => this.Config.ActionCompare(leftAction, leftDetectionResult, rightAction, rightDetectionResult)))
+            //        {
+            //            //yield return new BetweenSymptom
+            //            //{
+            //            //    Id = Guid.NewGuid(),
+            //            //    Pattern = $"{way}-Actions",
+            //            //    Left = this.CreateBetweenPartInfo(this.Config.LeftName, Enum.GetName(typeof(ActionKind), leftAction.Action), 
+            //            //                leftDetectionResult, leftOriginalTree, leftModifiedTree, leftAction),
+            //            //    Right = this.CreateBetweenPartInfo(this.Config.RightName, "", null, null)
+            //            //    //Right = this.CreateBetweenPartInfo(this.Config.RightName, rightDetectionResult,
+            //            //    //    rightOriginalTree, rightModifiedTree, null)
+            //            //};
+            //        }
+            //    }
+            //}
         }
 
         /// <summary>
@@ -119,6 +117,7 @@ namespace Jawilliam.CDF.Labs
                         Left = new BetweenMatchInfo
                         {
                             PartName = this.Config.LeftName,
+                            Approach = (int)this.Config.Left,
                             Original = this.CreateElementContext(missedOriginal),
                             Modified = this.CreateElementContext(missedModified)
                         }
@@ -134,6 +133,7 @@ namespace Jawilliam.CDF.Labs
                     lr.OriginalAtRight = new BetweenMatchInfo
                     {
                         PartName = this.Config.RightName,
+                        Approach = (int)this.Config.Right,
                         Original = this.CreateElementContext(divergentOriginal),
                         Modified = this.CreateElementContext(divergentModified)
                     };
@@ -148,6 +148,7 @@ namespace Jawilliam.CDF.Labs
                     lr.ModifiedAtRight = new BetweenMatchInfo
                     {
                         PartName = this.Config.RightName,
+                        Approach = (int)this.Config.Right,
                         Original = this.CreateElementContext(divergentOriginal),
                         Modified = this.CreateElementContext(divergentModified)
                     };
@@ -163,6 +164,7 @@ namespace Jawilliam.CDF.Labs
                         Right = new BetweenMatchInfo
                         {
                             PartName = this.Config.RightName,
+                            Approach = (int)this.Config.Right,
                             Original = this.CreateElementContext(missedOriginal),
                             Modified = this.CreateElementContext(missedModified)
                         }
@@ -178,6 +180,7 @@ namespace Jawilliam.CDF.Labs
                     rl.OriginalAtLeft = new BetweenMatchInfo
                     {
                         PartName = this.Config.LeftName,
+                        Approach = (int)this.Config.Left,
                         Original = this.CreateElementContext(divergentOriginal),
                         Modified = this.CreateElementContext(divergentModified)
                     };
@@ -192,6 +195,7 @@ namespace Jawilliam.CDF.Labs
                     rl.ModifiedAtLeft = new BetweenMatchInfo
                     {
                         PartName = this.Config.LeftName,
+                        Approach = (int)this.Config.Left,
                         Original = this.CreateElementContext(divergentOriginal),
                         Modified = this.CreateElementContext(divergentModified)
                     };
@@ -301,7 +305,7 @@ namespace Jawilliam.CDF.Labs
                     this.Report.AppendLine($"OUTOFMEMORY;{pair.Id}");
                     throw;
                 }
-            }, saveChanges, /*"Principal"*/ "Principal.FileVersion.Content", "Principal.FromFileVersion.Content");
+            }, saveChanges, /*"Principal"*/ "Principal.FileVersion"/*".Content"*/, "Principal.FromFileVersion"/*".Content"*/);
         }
 
         public virtual void ConnectMatchSymptoms(Func<FileRevisionPair, bool> skipThese = null, bool saveChanges = true)
@@ -339,21 +343,22 @@ namespace Jawilliam.CDF.Labs
 
         private void ConnectMatchSymptoms(Delta leftDelta, Delta rightDelta, FileRevisionPair pair)
         {
-            var lDelta = this.Config.LeftDeltaContainer(leftDelta, pair);
-            var leftOriginalTree = ElementTree.Read(lDelta.OriginalTree, Encoding.Unicode);
+            //var lDelta = this.Config.LeftDeltaContainer(leftDelta, pair);
+            var leftOriginalTree = this.Config.GetTree((leftDelta, pair, true));
             //var leftModifiedTree = ElementTree.Read(leftDelta.ModifiedTree, Encoding.Unicode);
             //var leftDetectionResult = (DetectionResult)leftDelta.DetectionResult;
 
-            var rDelta = this.Config.RightDeltaContainer(rightDelta, pair);
-            var rightOriginalTree = ElementTree.Read(rDelta.OriginalTree, Encoding.Unicode);
+            //var rDelta = this.Config.RightDeltaContainer(rightDelta, pair);
+            var rightOriginalTree = this.Config.GetTree((rightDelta, pair, true));
             //var rightModifiedTree = ElementTree.Read(rightDelta.ModifiedTree, Encoding.Unicode);
             //var rightDetectionResult = (DetectionResult)rightDelta.DetectionResult;
 
             if (this.Config.Matches)
             {
+                var lApproach = (int)this.Config.Left;
+                var rApproach = (int)this.Config.Right;
                 var lrMatchSymptoms = this.SqlRepository.Symptoms.OfType<LRMatchSymptom>().Where(s => s.Delta.Id == leftDelta.Id && 
-                                      (s.Left.PartName == this.Config.LeftName || s.OriginalAtRight.PartName == this.Config.LeftName || s.ModifiedAtRight.PartName == this.Config.LeftName) &&
-                                      (s.Left.PartName == this.Config.RightName || s.OriginalAtRight.PartName == this.Config.RightName || s.ModifiedAtRight.PartName == this.Config.RightName))
+                                      (s.Left.Approach == lApproach && s.OriginalAtRight.Approach == rApproach && s.ModifiedAtRight.Approach == rApproach))
                                       .ToList();
                 var leftBfs = leftOriginalTree.BreadthFirstOrder(e => e.Children).Reverse().ToList();
                 foreach (var item in leftBfs)
@@ -387,8 +392,7 @@ namespace Jawilliam.CDF.Labs
                 if (this.Config.TwoWay)
                 {
                     var rlMatchSymptoms = this.SqlRepository.Symptoms.OfType<RLMatchSymptom>().Where(s => s.Delta.Id == leftDelta.Id &&
-                                          (s.Right.PartName == this.Config.LeftName || s.OriginalAtLeft.PartName == this.Config.LeftName || s.ModifiedAtLeft.PartName == this.Config.LeftName) &&
-                                          (s.Right.PartName == this.Config.RightName || s.OriginalAtLeft.PartName == this.Config.RightName || s.ModifiedAtLeft.PartName == this.Config.RightName))
+                                          (s.Right.Approach == rApproach && s.OriginalAtLeft.Approach == lApproach && s.ModifiedAtLeft.Approach == lApproach))
                                           .ToList();
                     var rightBfs = rightOriginalTree.BreadthFirstOrder(e => e.Children).Reverse().ToList();
                     foreach (var item in rightBfs)
@@ -421,27 +425,27 @@ namespace Jawilliam.CDF.Labs
                 }
             }
 
-            if (this.Config.Actions)
-            {
-                //foreach (var leftAction in leftDetectionResult.Actions)
-                //{
-                //    if (!rightDetectionResult.Actions.Any(
-                //            rightAction =>
-                //                this.Config.ActionCompare(leftAction, leftDetectionResult, rightAction, rightDetectionResult)))
-                //    {
-                //        //yield return new BetweenSymptom
-                //        //{
-                //        //    Id = Guid.NewGuid(),
-                //        //    Pattern = $"{way}-Actions",
-                //        //    Left = this.CreateBetweenPartInfo(this.Config.LeftName, Enum.GetName(typeof(ActionKind), leftAction.Action), 
-                //        //                leftDetectionResult, leftOriginalTree, leftModifiedTree, leftAction),
-                //        //    Right = this.CreateBetweenPartInfo(this.Config.RightName, "", null, null)
-                //        //    //Right = this.CreateBetweenPartInfo(this.Config.RightName, rightDetectionResult,
-                //        //    //    rightOriginalTree, rightModifiedTree, null)
-                //        //};
-                //    }
-                //}
-            }
+            //if (this.Config.Actions)
+            //{
+            //    //foreach (var leftAction in leftDetectionResult.Actions)
+            //    //{
+            //    //    if (!rightDetectionResult.Actions.Any(
+            //    //            rightAction =>
+            //    //                this.Config.ActionCompare(leftAction, leftDetectionResult, rightAction, rightDetectionResult)))
+            //    //    {
+            //    //        //yield return new BetweenSymptom
+            //    //        //{
+            //    //        //    Id = Guid.NewGuid(),
+            //    //        //    Pattern = $"{way}-Actions",
+            //    //        //    Left = this.CreateBetweenPartInfo(this.Config.LeftName, Enum.GetName(typeof(ActionKind), leftAction.Action), 
+            //    //        //                leftDetectionResult, leftOriginalTree, leftModifiedTree, leftAction),
+            //    //        //    Right = this.CreateBetweenPartInfo(this.Config.RightName, "", null, null)
+            //    //        //    //Right = this.CreateBetweenPartInfo(this.Config.RightName, rightDetectionResult,
+            //    //        //    //    rightOriginalTree, rightModifiedTree, null)
+            //    //        //};
+            //    //    }
+            //    //}
+            //}
         }
 
         /// <summary>
@@ -603,18 +607,20 @@ namespace Jawilliam.CDF.Labs
         /// <summary>
         /// Returns a configuration to check for reversible changes.
         /// </summary>
-        public virtual void ConfigNativeGumTreeVsChangeDistillerGumTree()
+        /// <param name="leftName"></param>
+        /// <param name="leftApproach"></param>
+        /// <param name="rightApproach"></param>
+        /// <param name="rightName"></param>
+        public virtual void ConfigLeftVsRight((ChangeDetectionApproaches Approach, string Name) left, (ChangeDetectionApproaches Approach, string Name) right)
         {
             this.Config = new Criterion
             {
-                Left = ChangeDetectionApproaches.NativeGumTree,
-                LeftName = "GumTree",
-                Right = ChangeDetectionApproaches.NativeGumTreeWithChangeDistillerMatcher,
-                RightName = "ChangeDistillerGumTree",
+                Left = left.Approach,
+                LeftName = left.Name,
+                Right = right.Approach,
+                RightName = right.Name,
                 TwoWay = true,
-                MatchCompare = (leftMatch, leftDelta, rightMatch, rightDelta) =>
-                    leftMatch.Original.Id == rightMatch.Original.Id &&
-                    leftMatch.Modified.Id == rightMatch.Modified.Id,
+                MatchCompare = (leftMatch, leftDelta, rightMatch, rightDelta) => leftMatch.Original.Id == rightMatch.Original.Id && leftMatch.Modified.Id == rightMatch.Modified.Id,
                 ActionCompare = delegate (ActionDescriptor leftAction, DetectionResult leftDelta, ActionDescriptor rightAction, DetectionResult rightDelta)
                 {
                     switch (leftAction.Action)
@@ -660,12 +666,14 @@ namespace Jawilliam.CDF.Labs
 
                     return false;
                 },
-                DivergentMatchForOriginal = (missedMatch, leftDetection, rightDetection) =>
-                    rightDetection.Matches.FirstOrDefault(m => missedMatch.Original.Id == m.Original.Id),
-                DivergentMatchForModified = (missedMatch, leftDetection, rightDetection) =>
-                    rightDetection.Matches.FirstOrDefault(m => missedMatch.Modified.Id == m.Modified.Id),
-                LeftDeltaContainer = (ld, frp) => ld,
-                RightDeltaContainer = (rd, frp) => this.SqlRepository.Deltas.Single(d => frp.Principal.Id == d.RevisionPair.Id && d.Approach == ChangeDetectionApproaches.NativeGumTree),
+                DivergentMatchForOriginal = (missedMatch, leftDetection, rightDetection) => rightDetection.Matches.FirstOrDefault(m => missedMatch.Original.Id == m.Original.Id),
+                DivergentMatchForModified = (missedMatch, leftDetection, rightDetection) => rightDetection.Matches.FirstOrDefault(m => missedMatch.Modified.Id == m.Modified.Id),
+                //LeftDeltaContainer = (ld, frp) => ld,
+                //RightDeltaContainer = (rd, frp) => this.SqlRepository.Deltas.Single(d => frp.Principal.Id == d.RevisionPair.Id && d.Approach == left.Approach),
+                //GetTree = delegate ((Delta Delta, FileRevisionPair Pair, bool TrueForOriginalOtherwiseModified) args)
+                //{
+                //    var d = 
+                //}
             };
         }
 
@@ -729,15 +737,23 @@ namespace Jawilliam.CDF.Labs
             /// </summary>
             public Func<ActionDescriptor, DetectionResult, ActionDescriptor, DetectionResult, bool> ActionCompare { get; set; }
 
-            /// <summary>
-            /// Gets or sets the delta from which to take the left ASTs (original and modified).
-            /// </summary>
-            public virtual Func<Delta, FileRevisionPair, Delta> LeftDeltaContainer { get; set; } = (d, frp) => d;
+            ///// <summary>
+            ///// Gets or sets the delta from which to take the left ASTs (original and modified).
+            ///// </summary>
+            //public virtual Func<Delta, FileRevisionPair, Delta> LeftDeltaContainer { get; set; } = (d, frp) => d;
+
+            ///// <summary>
+            ///// Gets or sets the delta from which to take the right ASTs (original and modified).
+            ///// </summary>
+            //public virtual Func<Delta, FileRevisionPair, Delta> RightDeltaContainer { get; set; } = (d, frp) => d;
 
             /// <summary>
-            /// Gets or sets the delta from which to take the right ASTs (original and modified).
+            /// Gets or sets the how to get the original (or modified) tree of the left (or right) comparing delta.
             /// </summary>
-            public virtual Func<Delta, FileRevisionPair, Delta> RightDeltaContainer { get; set; } = (d, frp) => d;
+            public virtual Func<(Delta Delta, FileRevisionPair Pair, bool TrueForOriginalOtherwiseModified), ElementTree> GetTree { get; set; } 
+                = (a) => a.TrueForOriginalOtherwiseModified
+                ? ElementTree.Read(a.Delta.OriginalTree, Encoding.Unicode) 
+                : ElementTree.Read(a.Delta.ModifiedTree, Encoding.Unicode);
         }
     }
 }

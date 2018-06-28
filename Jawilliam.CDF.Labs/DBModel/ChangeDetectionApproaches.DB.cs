@@ -23,7 +23,15 @@ namespace Jawilliam.CDF.Labs.DBModel
         InverseOfNativeGumTreeWithChangeDistillerMatcher = 7,
         NativeGumTreeWithXyMatcher = 8,
         InverseOfNativeGumTreeWithXyMatcher = 9,
-        NativeGumTreeGumtreefiedRoslynML = 10,
-        InverseNativeGumTreeGumtreefiedRoslynML = 11
+        NativeGTtreefiedRoslynML = 10,
+        InverseNativeGTtreefiedRoslynML = 11,
+        NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size100 = 12,
+        NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size325 = 13,
+        NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size550 = 14,
+        NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size775 = 15,
+        NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1225 = 16,
+        NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1450 = 17,
+        NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1675 = 18,
+        NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1900 = 19
     }
 }

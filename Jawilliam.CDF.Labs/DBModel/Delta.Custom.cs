@@ -41,6 +41,15 @@ namespace Jawilliam.CDF.Labs.DBModel
                     case ChangeDetectionApproaches.InverseOfNativeGumTreeWithChangeDistillerMatcher:
                     case ChangeDetectionApproaches.InverseOfNativeGumTreeWithXyMatcher:
                     case ChangeDetectionApproaches.NativeGumTreeWithoutComments:
+                    case ChangeDetectionApproaches.NativeGTtreefiedRoslynML:
+                    case ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size100:
+                    case ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size325:
+                    case ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size550:
+                    case ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size775:
+                    case ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1225:
+                    case ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1450:
+                    case ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1675:
+                    case ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1900:
                         return this.GetNativeGumTreeResult();
                     default:
                         throw new InvalidEnumArgumentException();
@@ -57,6 +66,15 @@ namespace Jawilliam.CDF.Labs.DBModel
                     case ChangeDetectionApproaches.InverseOfNativeGumTreeWithChangeDistillerMatcher:
                     case ChangeDetectionApproaches.InverseOfNativeGumTreeWithXyMatcher:
                     case ChangeDetectionApproaches.NativeGumTreeWithoutComments:
+                    case ChangeDetectionApproaches.NativeGTtreefiedRoslynML:
+                    case ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size100:
+                    case ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size325:
+                    case ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size550:
+                    case ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size775:
+                    case ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1225:
+                    case ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1450:
+                    case ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1675:
+                    case ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1900:
                         this.SetNativeGumTreeResult(value);
                         break;
                     default:

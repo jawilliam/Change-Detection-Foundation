@@ -21,6 +21,7 @@ namespace Jawilliam.CDF.Labs.DBModel
         }
     
         public string PartName { get; set; }
+        public Nullable<int> Approach { get; set; }
     
         public ElementContext Modified { get; set; }
         public ElementContext Original { get; set; }
