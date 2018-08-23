@@ -586,6 +586,10 @@ namespace Jawilliam.CDF.Labs
             //    //System.IO.File.AppendAllText(@"E:\Phd\Analysis\UniquePairs\WarningsGhost.csv", analyzer.Warnings.ToString());
             //}
 
+            var v = Enum.GetValues(typeof(Microsoft.CodeAnalysis.CSharp.SyntaxKind));
+            var x = Jawilliam.CDF.XObjects.RDSL.Syntax.Load(@"E:\MyRepositories\Change-Detection-Foundation\Jawilliam.CDF.CSharp\RDSL.xml");
+            var nonAbstractTypes = x.Nodes.Type.Where(n => !n.@abstract).ToArray();
+
             Console.Out.WriteLine($"DONE");
             //int i = 0; // the warning reports!!!
             System.Console.ReadKey();
@@ -856,9 +860,11 @@ namespace Jawilliam.CDF.Labs
 
             var connectionSettings = System.Configuration.ConfigurationManager.ConnectionStrings;
 
-            foreach (var project in Projects.Take(23))
+            //var projects = Projects.Take(72).Skip(26);
+            var projects = Projects.Skip(82);
+            foreach (var project in projects)
             {
-                foreach (var configuration in configurations)
+                foreach (var configuration in configurations.Where(a => project.Name == "Roslyn" ? (int)a.Approach >= (int)ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1450 : true))
                 {
                     recognizer.ConfigLeftVsRight((ChangeDetectionApproaches.NativeGTtreefiedRoslynML, "gumtree_Minh2Sim0d5Size1000"), (configuration.Approach, configuration.Name));
 

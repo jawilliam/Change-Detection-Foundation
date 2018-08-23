@@ -160,6 +160,9 @@
       <HintPath>..\packages\System.Xml.XPath.XDocument.4.3.0\lib\net46\System.Xml.XPath.XDocument.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Xml.Schema.Linq, Version=2.0.2.12, Culture=neutral, PublicKeyToken=47d0c84d0ebb13e5, processorArchitecture=MSIL">
+      <HintPath>..\packages\CodePlex.LinqToXsd.2.0.2\lib\Xml.Schema.Linq.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Approach.Matching\Matchable.cs" />
@@ -394,6 +397,10 @@
       <Project>{1843502c-d26f-432c-ac2e-cdf45f6b8991}</Project>
       <Name>Jawilliam.CDF.Labs.Resources</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Jawilliam.CDF.XObjects\Jawilliam.CDF.XObjects.csproj">
+      <Project>{111ff008-fabe-4d66-9a27-c7edcfde25f4}</Project>
+      <Name>Jawilliam.CDF.XObjects</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Jawilliam.CDF\Jawilliam.CDF.csproj">
       <Project>{58d5a3a8-6a46-4930-81f3-adf81cab411f}</Project>
       <Name>Jawilliam.CDF</Name>
@@ -408,7 +415,9 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\LibGit2Sharp.NativeBinaries.1.0.165\build\LibGit2Sharp.NativeBinaries.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\LibGit2Sharp.NativeBinaries.1.0.165\build\LibGit2Sharp.NativeBinaries.props'))" />
+    <Error Condition="!Exists('..\packages\CodePlex.LinqToXsd.2.0.2\build\CodePlex.LinqToXsd.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\CodePlex.LinqToXsd.2.0.2\build\CodePlex.LinqToXsd.targets'))" />
   </Target>
+  <Import Project="..\packages\CodePlex.LinqToXsd.2.0.2\build\CodePlex.LinqToXsd.targets" Condition="Exists('..\packages\CodePlex.LinqToXsd.2.0.2\build\CodePlex.LinqToXsd.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
