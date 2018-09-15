@@ -125,11 +125,24 @@ foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
 		//	string listType = currentProperty.Item2.collectionType;
 		//}
 
-	if(xSyntaxNodeType != null)
-	{
-		var baseDeclarationText = xSyntaxNodeBaseType == null ? "Jawilliam.CDF.Domain.ElementTypeFormatInfo" : code.Escape(xSyntaxNodeBaseType.name.ToString()).Replace("Syntax", "") + "FormatInfo";
+		if(xSyntaxNodeType != null)
+		{
+			var baseDeclarationText = xSyntaxNodeBaseType == null ? "Jawilliam.CDF.Domain.ElementTypeFormatInfo" : code.Escape(xSyntaxNodeBaseType.name.ToString()).Replace("Syntax", "") + "FormatInfo";
+#>
+public <#= isAbstract ? "abstract " : "" #>partial class <#=code.Escape(syntaxNode.Root.Label.ToString())#><TAnnotation> : <#=syntaxNode.Parent != null && !object.Equals(syntaxNode.Parent.Root.Label, "CSharpSyntaxNode") ? code.Escape(syntaxNode.Parent.Root.Label.ToString()) + "<TAnnotation>" : "CSharpSyntaxNode<TAnnotation>"#>
+{
+<#
+			foreach (var currentProperty in currentPropertiesMetadata.Where(p => p.Item2.inherited != true))
+			{
+				string listType = currentProperty.Item2.collectionType;
+#>	public virtual <#= this.GetSyntaxType(currentProperty.Item1.PropertyType, code, listType)  #> <#= currentProperty.Item1.Name #> { get; <#=!currentProperty.Item2.readOnly ? "set;" : "private set;"#> } 
+<#
+			}
+#>
+}
+<#
+		}
 	}
- }
 }
 	
 EndNamespace(namespaceName);
@@ -164,13 +177,13 @@ void EndNamespace(string namespaceName)
 string GetSyntaxType(Type t, CodeGenerationTools code, string listTypeArgument)
 {
 	if(t.FullName.StartsWith("Microsoft.CodeAnalysis.SeparatedSyntaxList"))
-		return "SeparatedList_of_" + listTypeArgument;
+		return $"SeparatedSyntaxList<TAnnotation, {listTypeArgument}<TAnnotation>>";
 
 	if(t.FullName.StartsWith("Microsoft.CodeAnalysis.SyntaxList"))
-		return "List_of_" + listTypeArgument;
+		return $"SyntaxList<TAnnotation, {listTypeArgument}<TAnnotation>>";
 
 	if(t.FullName.StartsWith("Microsoft.CodeAnalysis.SyntaxTokenList"))
-		return "TokenList";
+		return "SyntaxTokenList<TAnnotation>";
 
 	if(!t.FullName.StartsWith("Microsoft.CodeAnalysis."))
 		return t.Name;

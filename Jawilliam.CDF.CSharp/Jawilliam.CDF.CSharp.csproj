@@ -139,6 +139,7 @@
   <ItemGroup>
     <Compile Include="Approach.Matching.CSharp\MatchingProvider.cs" />
     <Compile Include="Approach.Matching.CSharp\MethodDeclarationMatchingOptions.cs" />
+    <Compile Include="CSharpSyntaxNode.cs" />
     <Compile Include="ElementAbstraction.cs" />
     <Compile Include="MutableNodes.cs">
       <AutoGen>True</AutoGen>
@@ -162,6 +163,10 @@
       <AutoGen>True</AutoGen>
     </Compile>
     <Compile Include="RoslynML\RoslynML.Custom.cs" />
+    <Compile Include="SeparatedSyntaxList.cs" />
+    <Compile Include="SyntaxList.cs" />
+    <Compile Include="SyntaxToken.cs" />
+    <Compile Include="SyntaxTokenList.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
