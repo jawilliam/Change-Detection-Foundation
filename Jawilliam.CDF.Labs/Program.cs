@@ -562,7 +562,7 @@ namespace Jawilliam.CDF.Labs
             //DetectingNativeGumTreeDiffWithCustomMatchers();
             //ComparisonBetweenGumTreeAndCDGumTree();
             //ComparisonBetweenGumTreeAndReverseGumTree();
-            ComparisonBetweenGumTreeWithMultipleConfigurations();
+            //ComparisonBetweenGumTreeWithMultipleConfigurations();
             //ReportBetweenMatches();
             //StructureBetweenMatches();
             //Interruptions();
@@ -584,15 +584,26 @@ namespace Jawilliam.CDF.Labs
             //    Console.Out.WriteLine($"{project.Name}");
             //    System.IO.File.AppendAllText(@"E:\Phd\Analysis\UniquePairs\SymptomsSummaryEnumValueNotNullAndArgNot2.csv", analyzer.Report.ToString());
             //    //System.IO.File.AppendAllText(@"E:\Phd\Analysis\UniquePairs\WarningsGhost.csv", analyzer.Warnings.ToString());
-            //}
+            //}           
 
-            var v = Enum.GetValues(typeof(Microsoft.CodeAnalysis.CSharp.SyntaxKind));
-            var x = Jawilliam.CDF.XObjects.RDSL.Syntax.Load(@"E:\MyRepositories\Change-Detection-Foundation\Jawilliam.CDF.CSharp\RDSL.xml");
-            var nonAbstractTypes = x.Nodes.Type.Where(n => !n.@abstract).ToArray();
-
+            ExploringRDSL();
             Console.Out.WriteLine($"DONE");
             //int i = 0; // the warning reports!!!
             System.Console.ReadKey();
+        }
+
+        public static void ExploringRDSL()
+        {
+            var v = Enum.GetValues(typeof(Microsoft.CodeAnalysis.CSharp.SyntaxKind));
+            var x = Jawilliam.CDF.XObjects.RDSL.Syntax.Load(@"E:\MyRepositories\Change-Detection-Foundation\Jawilliam.CDF.CSharp\RDSL.xml");
+            var nonAbstractTypes = x.Nodes.Type.Where(n => !n.@abstract).ToArray();
+            var abstractTypes = x.Nodes.Type.Where(n => n.@abstract).ToArray();
+
+            var declarationTypes = x.Nodes.Type.Where(n => n.name.Contains("DeclarationSyntax")).ToArray();
+
+            var statementTypes = x.Nodes.Type.Where(n => n.name.Contains("StatementSyntax")).ToArray();
+
+            var expressionTypes = x.Nodes.Type.Where(n => n.name.Contains("ExpressionSyntax")).ToArray();
         }
 
         private static void ComparisonBetweenGumTreeAndCDGumTree()

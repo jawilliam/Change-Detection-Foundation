@@ -31,7 +31,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class NameEqualsFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class NameEqualsFormatInfo : ExpressionFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -556,7 +556,7 @@ namespace Jawilliam.CDF.CSharp
     	}
     }
     
-    public partial class ArgumentFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class ArgumentFormatInfo : ExpressionFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -580,7 +580,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class NameColonFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class NameColonFormatInfo : ExpressionFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -1255,7 +1255,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class DelegateDeclarationFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class DelegateDeclarationFormatInfo : MemberDeclarationFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -1294,7 +1294,7 @@ namespace Jawilliam.CDF.CSharp
     	}
     }
     
-    public partial class EnumMemberDeclarationFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class EnumMemberDeclarationFormatInfo : MemberDeclarationFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -1326,7 +1326,7 @@ namespace Jawilliam.CDF.CSharp
     	}
     }
     
-    public partial class IncompleteMemberFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class IncompleteMemberFormatInfo : MemberDeclarationFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -1350,7 +1350,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class GlobalStatementFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class GlobalStatementFormatInfo : MemberDeclarationFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -1372,7 +1372,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class NamespaceDeclarationFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class NamespaceDeclarationFormatInfo : MemberDeclarationFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -1411,7 +1411,7 @@ namespace Jawilliam.CDF.CSharp
     	}
     }
     
-    public partial class EnumDeclarationFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class EnumDeclarationFormatInfo : BaseTypeDeclarationFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -1451,7 +1451,7 @@ namespace Jawilliam.CDF.CSharp
     	}
     }
     
-    public partial class ClassDeclarationFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class ClassDeclarationFormatInfo : TypeDeclarationFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -1493,7 +1493,7 @@ namespace Jawilliam.CDF.CSharp
     	}
     }
     
-    public partial class StructDeclarationFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class StructDeclarationFormatInfo : TypeDeclarationFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -1535,7 +1535,7 @@ namespace Jawilliam.CDF.CSharp
     	}
     }
     
-    public partial class InterfaceDeclarationFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class InterfaceDeclarationFormatInfo : TypeDeclarationFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -1577,7 +1577,69 @@ namespace Jawilliam.CDF.CSharp
     	}
     }
     
-    public partial class FieldDeclarationFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public abstract partial class TypeDeclarationFormatInfo : BaseTypeDeclarationFormatInfo
+    {
+    	/// <inheritdoc />
+        public override IEnumerable<string> SubExpressions 
+    	{
+    		get
+    		{
+    			yield return "Keyword";
+    			yield return "TypeParameterList";
+    			yield return "ConstraintClauses";
+    			yield return "Members";
+    		}
+    	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> SyntacticalStopwords
+    	{
+    		get
+    		{
+    			yield return "Keyword";
+    		}
+    	}
+    
+    }
+    
+    public abstract partial class BaseTypeDeclarationFormatInfo : MemberDeclarationFormatInfo
+    {
+    	/// <inheritdoc />
+        public override IEnumerable<string> SubExpressions 
+    	{
+    		get
+    		{
+    			yield return "AttributeLists";
+    			yield return "Modifiers";
+    			yield return "Identifier";
+    			yield return "BaseList";
+    			yield return "OpenBraceToken";
+    			yield return "CloseBraceToken";
+    			yield return "SemicolonToken";
+    		}
+    	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> SyntacticalStopwords
+    	{
+    		get
+    		{
+    			yield return "OpenBraceToken";
+    			yield return "CloseBraceToken";
+    		}
+    	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> Keys
+    	{
+    		get
+    		{
+    			yield return "Identifier";
+    		}
+    	}
+    }
+    
+    public partial class FieldDeclarationFormatInfo : BaseFieldDeclarationFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -1602,7 +1664,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class EventFieldDeclarationFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class EventFieldDeclarationFormatInfo : BaseFieldDeclarationFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -1629,7 +1691,32 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class MethodDeclarationFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public abstract partial class BaseFieldDeclarationFormatInfo : MemberDeclarationFormatInfo
+    {
+    	/// <inheritdoc />
+        public override IEnumerable<string> SubExpressions 
+    	{
+    		get
+    		{
+    			yield return "AttributeLists";
+    			yield return "Modifiers";
+    			yield return "Declaration";
+    			yield return "SemicolonToken";
+    		}
+    	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> SyntacticalStopwords
+    	{
+    		get
+    		{
+    			yield return "SemicolonToken";
+    		}
+    	}
+    
+    }
+    
+    public partial class MethodDeclarationFormatInfo : BaseMethodDeclarationFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -1669,7 +1756,7 @@ namespace Jawilliam.CDF.CSharp
     	}
     }
     
-    public partial class OperatorDeclarationFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class OperatorDeclarationFormatInfo : BaseMethodDeclarationFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -1699,7 +1786,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class ConversionOperatorDeclarationFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class ConversionOperatorDeclarationFormatInfo : BaseMethodDeclarationFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -1729,7 +1816,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class ConstructorDeclarationFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class ConstructorDeclarationFormatInfo : BaseMethodDeclarationFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -1765,7 +1852,7 @@ namespace Jawilliam.CDF.CSharp
     	}
     }
     
-    public partial class DestructorDeclarationFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class DestructorDeclarationFormatInfo : BaseMethodDeclarationFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -1803,7 +1890,33 @@ namespace Jawilliam.CDF.CSharp
     	}
     }
     
-    public partial class PropertyDeclarationFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public abstract partial class BaseMethodDeclarationFormatInfo : MemberDeclarationFormatInfo
+    {
+    	/// <inheritdoc />
+        public override IEnumerable<string> SubExpressions 
+    	{
+    		get
+    		{
+    			yield return "AttributeLists";
+    			yield return "Modifiers";
+    			yield return "ParameterList";
+    			yield return "Body";
+    			yield return "SemicolonToken";
+    		}
+    	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> SyntacticalStopwords
+    	{
+    		get
+    		{
+    			yield break;
+    		}
+    	}
+    
+    }
+    
+    public partial class PropertyDeclarationFormatInfo : BasePropertyDeclarationFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -1841,7 +1954,7 @@ namespace Jawilliam.CDF.CSharp
     	}
     }
     
-    public partial class EventDeclarationFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class EventDeclarationFormatInfo : BasePropertyDeclarationFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -1877,7 +1990,7 @@ namespace Jawilliam.CDF.CSharp
     	}
     }
     
-    public partial class IndexerDeclarationFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class IndexerDeclarationFormatInfo : BasePropertyDeclarationFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -1907,7 +2020,55 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class SimpleBaseTypeFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public abstract partial class BasePropertyDeclarationFormatInfo : MemberDeclarationFormatInfo
+    {
+    	/// <inheritdoc />
+        public override IEnumerable<string> SubExpressions 
+    	{
+    		get
+    		{
+    			yield return "AttributeLists";
+    			yield return "Modifiers";
+    			yield return "Type";
+    			yield return "ExplicitInterfaceSpecifier";
+    			yield return "AccessorList";
+    		}
+    	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> SyntacticalStopwords
+    	{
+    		get
+    		{
+    			yield break;
+    		}
+    	}
+    
+    }
+    
+    public abstract partial class MemberDeclarationFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    {
+    	/// <inheritdoc />
+        public override IEnumerable<string> SubExpressions 
+    	{
+    		get
+    		{
+    			yield break;
+    		}
+    	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> SyntacticalStopwords
+    	{
+    		get
+    		{
+    			yield break;
+    		}
+    	}
+    
+    }
+    
+    public partial class SimpleBaseTypeFormatInfo : BaseTypeFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -1929,7 +2090,29 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class ConstructorConstraintFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public abstract partial class BaseTypeFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    {
+    	/// <inheritdoc />
+        public override IEnumerable<string> SubExpressions 
+    	{
+    		get
+    		{
+    			yield return "Type";
+    		}
+    	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> SyntacticalStopwords
+    	{
+    		get
+    		{
+    			yield break;
+    		}
+    	}
+    
+    }
+    
+    public partial class ConstructorConstraintFormatInfo : TypeParameterConstraintFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -1955,7 +2138,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class ClassOrStructConstraintFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class ClassOrStructConstraintFormatInfo : TypeParameterConstraintFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -1977,7 +2160,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class TypeConstraintFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class TypeConstraintFormatInfo : TypeParameterConstraintFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -1999,7 +2182,29 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class ParameterListFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public abstract partial class TypeParameterConstraintFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    {
+    	/// <inheritdoc />
+        public override IEnumerable<string> SubExpressions 
+    	{
+    		get
+    		{
+    			yield break;
+    		}
+    	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> SyntacticalStopwords
+    	{
+    		get
+    		{
+    			yield break;
+    		}
+    	}
+    
+    }
+    
+    public partial class ParameterListFormatInfo : BaseParameterListFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -2024,7 +2229,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class BracketedParameterListFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class BracketedParameterListFormatInfo : BaseParameterListFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -2049,7 +2254,29 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class SkippedTokensTriviaFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public abstract partial class BaseParameterListFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    {
+    	/// <inheritdoc />
+        public override IEnumerable<string> SubExpressions 
+    	{
+    		get
+    		{
+    			yield return "Parameters";
+    		}
+    	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> SyntacticalStopwords
+    	{
+    		get
+    		{
+    			yield break;
+    		}
+    	}
+    
+    }
+    
+    public partial class SkippedTokensTriviaFormatInfo : StructuredTriviaFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -2071,7 +2298,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class DocumentationCommentTriviaFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class DocumentationCommentTriviaFormatInfo : StructuredTriviaFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -2094,7 +2321,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class EndIfDirectiveTriviaFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class EndIfDirectiveTriviaFormatInfo : DirectiveTriviaFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -2120,7 +2347,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class RegionDirectiveTriviaFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class RegionDirectiveTriviaFormatInfo : DirectiveTriviaFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -2146,7 +2373,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class EndRegionDirectiveTriviaFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class EndRegionDirectiveTriviaFormatInfo : DirectiveTriviaFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -2172,7 +2399,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class ErrorDirectiveTriviaFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class ErrorDirectiveTriviaFormatInfo : DirectiveTriviaFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -2198,7 +2425,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class WarningDirectiveTriviaFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class WarningDirectiveTriviaFormatInfo : DirectiveTriviaFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -2224,7 +2451,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class BadDirectiveTriviaFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class BadDirectiveTriviaFormatInfo : DirectiveTriviaFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -2257,7 +2484,7 @@ namespace Jawilliam.CDF.CSharp
     	}
     }
     
-    public partial class DefineDirectiveTriviaFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class DefineDirectiveTriviaFormatInfo : DirectiveTriviaFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -2292,7 +2519,7 @@ namespace Jawilliam.CDF.CSharp
     	}
     }
     
-    public partial class UndefDirectiveTriviaFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class UndefDirectiveTriviaFormatInfo : DirectiveTriviaFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -2327,7 +2554,7 @@ namespace Jawilliam.CDF.CSharp
     	}
     }
     
-    public partial class LineDirectiveTriviaFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class LineDirectiveTriviaFormatInfo : DirectiveTriviaFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -2355,7 +2582,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class PragmaWarningDirectiveTriviaFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class PragmaWarningDirectiveTriviaFormatInfo : DirectiveTriviaFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -2385,7 +2612,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class PragmaChecksumDirectiveTriviaFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class PragmaChecksumDirectiveTriviaFormatInfo : DirectiveTriviaFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -2416,7 +2643,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class ReferenceDirectiveTriviaFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class ReferenceDirectiveTriviaFormatInfo : DirectiveTriviaFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -2443,7 +2670,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class LoadDirectiveTriviaFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class LoadDirectiveTriviaFormatInfo : DirectiveTriviaFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -2470,7 +2697,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class ShebangDirectiveTriviaFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class ShebangDirectiveTriviaFormatInfo : DirectiveTriviaFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -2496,7 +2723,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class ElseDirectiveTriviaFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class ElseDirectiveTriviaFormatInfo : BranchingDirectiveTriviaFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -2522,7 +2749,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class IfDirectiveTriviaFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class IfDirectiveTriviaFormatInfo : ConditionalDirectiveTriviaFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -2549,7 +2776,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class ElifDirectiveTriviaFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class ElifDirectiveTriviaFormatInfo : ConditionalDirectiveTriviaFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -2576,7 +2803,97 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class TypeCrefFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public abstract partial class ConditionalDirectiveTriviaFormatInfo : BranchingDirectiveTriviaFormatInfo
+    {
+    	/// <inheritdoc />
+        public override IEnumerable<string> SubExpressions 
+    	{
+    		get
+    		{
+    			yield return "Condition";
+    		}
+    	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> SyntacticalStopwords
+    	{
+    		get
+    		{
+    			yield break;
+    		}
+    	}
+    
+    }
+    
+    public abstract partial class BranchingDirectiveTriviaFormatInfo : DirectiveTriviaFormatInfo
+    {
+    	/// <inheritdoc />
+        public override IEnumerable<string> SubExpressions 
+    	{
+    		get
+    		{
+    			yield break;
+    		}
+    	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> SyntacticalStopwords
+    	{
+    		get
+    		{
+    			yield break;
+    		}
+    	}
+    
+    }
+    
+    public abstract partial class DirectiveTriviaFormatInfo : StructuredTriviaFormatInfo
+    {
+    	/// <inheritdoc />
+        public override IEnumerable<string> SubExpressions 
+    	{
+    		get
+    		{
+    			yield return "HashToken";
+    			yield return "EndOfDirectiveToken";
+    		}
+    	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> SyntacticalStopwords
+    	{
+    		get
+    		{
+    			yield return "HashToken";
+    			yield return "EndOfDirectiveToken";
+    		}
+    	}
+    
+    }
+    
+    public abstract partial class StructuredTriviaFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    {
+    	/// <inheritdoc />
+        public override IEnumerable<string> SubExpressions 
+    	{
+    		get
+    		{
+    			yield break;
+    		}
+    	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> SyntacticalStopwords
+    	{
+    		get
+    		{
+    			yield break;
+    		}
+    	}
+    
+    }
+    
+    public partial class TypeCrefFormatInfo : CrefFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -2598,7 +2915,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class QualifiedCrefFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class QualifiedCrefFormatInfo : CrefFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -2622,7 +2939,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class NameMemberCrefFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class NameMemberCrefFormatInfo : MemberCrefFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -2653,7 +2970,7 @@ namespace Jawilliam.CDF.CSharp
     	}
     }
     
-    public partial class IndexerMemberCrefFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class IndexerMemberCrefFormatInfo : MemberCrefFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -2676,7 +2993,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class OperatorMemberCrefFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class OperatorMemberCrefFormatInfo : MemberCrefFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -2700,7 +3017,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class ConversionOperatorMemberCrefFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class ConversionOperatorMemberCrefFormatInfo : MemberCrefFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -2725,7 +3042,51 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class CrefParameterListFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public abstract partial class MemberCrefFormatInfo : CrefFormatInfo
+    {
+    	/// <inheritdoc />
+        public override IEnumerable<string> SubExpressions 
+    	{
+    		get
+    		{
+    			yield break;
+    		}
+    	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> SyntacticalStopwords
+    	{
+    		get
+    		{
+    			yield break;
+    		}
+    	}
+    
+    }
+    
+    public abstract partial class CrefFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    {
+    	/// <inheritdoc />
+        public override IEnumerable<string> SubExpressions 
+    	{
+    		get
+    		{
+    			yield break;
+    		}
+    	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> SyntacticalStopwords
+    	{
+    		get
+    		{
+    			yield break;
+    		}
+    	}
+    
+    }
+    
+    public partial class CrefParameterListFormatInfo : BaseCrefParameterListFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -2750,7 +3111,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class CrefBracketedParameterListFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class CrefBracketedParameterListFormatInfo : BaseCrefParameterListFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -2775,7 +3136,29 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class XmlElementFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public abstract partial class BaseCrefParameterListFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    {
+    	/// <inheritdoc />
+        public override IEnumerable<string> SubExpressions 
+    	{
+    		get
+    		{
+    			yield return "Parameters";
+    		}
+    	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> SyntacticalStopwords
+    	{
+    		get
+    		{
+    			yield break;
+    		}
+    	}
+    
+    }
+    
+    public partial class XmlElementFormatInfo : XmlNodeFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -2799,7 +3182,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class XmlEmptyElementFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class XmlEmptyElementFormatInfo : XmlNodeFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -2833,7 +3216,7 @@ namespace Jawilliam.CDF.CSharp
     	}
     }
     
-    public partial class XmlTextFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class XmlTextFormatInfo : XmlNodeFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -2855,7 +3238,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class XmlCDataSectionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class XmlCDataSectionFormatInfo : XmlNodeFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -2880,7 +3263,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class XmlProcessingInstructionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class XmlProcessingInstructionFormatInfo : XmlNodeFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -2914,7 +3297,7 @@ namespace Jawilliam.CDF.CSharp
     	}
     }
     
-    public partial class XmlCommentFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class XmlCommentFormatInfo : XmlNodeFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -2939,7 +3322,29 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class XmlTextAttributeFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public abstract partial class XmlNodeFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    {
+    	/// <inheritdoc />
+        public override IEnumerable<string> SubExpressions 
+    	{
+    		get
+    		{
+    			yield break;
+    		}
+    	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> SyntacticalStopwords
+    	{
+    		get
+    		{
+    			yield break;
+    		}
+    	}
+    
+    }
+    
+    public partial class XmlTextAttributeFormatInfo : XmlAttributeFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -2975,7 +3380,7 @@ namespace Jawilliam.CDF.CSharp
     	}
     }
     
-    public partial class XmlCrefAttributeFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class XmlCrefAttributeFormatInfo : XmlAttributeFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -3012,7 +3417,7 @@ namespace Jawilliam.CDF.CSharp
     	}
     }
     
-    public partial class XmlNameAttributeFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class XmlNameAttributeFormatInfo : XmlAttributeFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -3050,7 +3455,42 @@ namespace Jawilliam.CDF.CSharp
     	}
     }
     
-    public partial class ParenthesizedExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public abstract partial class XmlAttributeFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    {
+    	/// <inheritdoc />
+        public override IEnumerable<string> SubExpressions 
+    	{
+    		get
+    		{
+    			yield return "Name";
+    			yield return "EqualsToken";
+    			yield return "StartQuoteToken";
+    			yield return "EndQuoteToken";
+    		}
+    	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> SyntacticalStopwords
+    	{
+    		get
+    		{
+    			yield return "EqualsToken";
+    			yield return "StartQuoteToken";
+    			yield return "EndQuoteToken";
+    		}
+    	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> Keys
+    	{
+    		get
+    		{
+    			yield return "Name";
+    		}
+    	}
+    }
+    
+    public partial class ParenthesizedExpressionFormatInfo : ExpressionFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -3075,7 +3515,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class TupleExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class TupleExpressionFormatInfo : ExpressionFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -3100,7 +3540,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class PrefixUnaryExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class PrefixUnaryExpressionFormatInfo : ExpressionFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -3123,7 +3563,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class AwaitExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class AwaitExpressionFormatInfo : ExpressionFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -3146,7 +3586,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class PostfixUnaryExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class PostfixUnaryExpressionFormatInfo : ExpressionFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -3169,7 +3609,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class MemberAccessExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class MemberAccessExpressionFormatInfo : ExpressionFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -3201,7 +3641,7 @@ namespace Jawilliam.CDF.CSharp
     	}
     }
     
-    public partial class ConditionalAccessExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class ConditionalAccessExpressionFormatInfo : ExpressionFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -3225,7 +3665,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class MemberBindingExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class MemberBindingExpressionFormatInfo : ExpressionFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -3256,7 +3696,7 @@ namespace Jawilliam.CDF.CSharp
     	}
     }
     
-    public partial class ElementBindingExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class ElementBindingExpressionFormatInfo : ExpressionFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -3278,7 +3718,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class ImplicitElementAccessFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class ImplicitElementAccessFormatInfo : ExpressionFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -3300,7 +3740,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class BinaryExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class BinaryExpressionFormatInfo : ExpressionFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -3324,7 +3764,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class AssignmentExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class AssignmentExpressionFormatInfo : ExpressionFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -3348,7 +3788,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class ConditionalExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class ConditionalExpressionFormatInfo : ExpressionFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -3375,7 +3815,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class LiteralExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class LiteralExpressionFormatInfo : ExpressionFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -3397,7 +3837,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class MakeRefExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class MakeRefExpressionFormatInfo : ExpressionFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -3424,7 +3864,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class RefTypeExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class RefTypeExpressionFormatInfo : ExpressionFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -3451,7 +3891,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class RefValueExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class RefValueExpressionFormatInfo : ExpressionFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -3481,7 +3921,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class CheckedExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class CheckedExpressionFormatInfo : ExpressionFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -3507,7 +3947,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class DefaultExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class DefaultExpressionFormatInfo : ExpressionFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -3534,7 +3974,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class TypeOfExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class TypeOfExpressionFormatInfo : ExpressionFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -3561,7 +4001,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class SizeOfExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class SizeOfExpressionFormatInfo : ExpressionFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -3588,30 +4028,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class InvocationExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
-    {
-    	/// <inheritdoc />
-        public override IEnumerable<string> SubExpressions 
-    	{
-    		get
-    		{
-    			yield return "Expression";
-    			yield return "ArgumentList";
-    		}
-    	}
-    
-    	/// <inheritdoc />
-        public override IEnumerable<string> SyntacticalStopwords
-    	{
-    		get
-    		{
-    			yield break;
-    		}
-    	}
-    
-    }
-    
-    public partial class ElementAccessExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class InvocationExpressionFormatInfo : ExpressionFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -3634,7 +4051,30 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class DeclarationExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class ElementAccessExpressionFormatInfo : ExpressionFormatInfo
+    {
+    	/// <inheritdoc />
+        public override IEnumerable<string> SubExpressions 
+    	{
+    		get
+    		{
+    			yield return "Expression";
+    			yield return "ArgumentList";
+    		}
+    	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> SyntacticalStopwords
+    	{
+    		get
+    		{
+    			yield break;
+    		}
+    	}
+    
+    }
+    
+    public partial class DeclarationExpressionFormatInfo : ExpressionFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -3657,7 +4097,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class CastExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class CastExpressionFormatInfo : ExpressionFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -3683,7 +4123,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class RefExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class RefExpressionFormatInfo : ExpressionFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -3706,7 +4146,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class InitializerExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class InitializerExpressionFormatInfo : ExpressionFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -3731,7 +4171,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class ObjectCreationExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class ObjectCreationExpressionFormatInfo : ExpressionFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -3756,7 +4196,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class AnonymousObjectCreationExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class AnonymousObjectCreationExpressionFormatInfo : ExpressionFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -3783,7 +4223,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class ArrayCreationExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class ArrayCreationExpressionFormatInfo : ExpressionFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -3807,7 +4247,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class ImplicitArrayCreationExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class ImplicitArrayCreationExpressionFormatInfo : ExpressionFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -3835,7 +4275,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class StackAllocArrayCreationExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class StackAllocArrayCreationExpressionFormatInfo : ExpressionFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -3858,7 +4298,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class QueryExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class QueryExpressionFormatInfo : ExpressionFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -3881,7 +4321,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class OmittedArraySizeExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class OmittedArraySizeExpressionFormatInfo : ExpressionFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -3903,7 +4343,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class InterpolatedStringExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class InterpolatedStringExpressionFormatInfo : ExpressionFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -3928,7 +4368,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class IsPatternExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class IsPatternExpressionFormatInfo : ExpressionFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -3952,7 +4392,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class ThrowExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class ThrowExpressionFormatInfo : ExpressionFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -3975,7 +4415,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class PredefinedTypeFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class PredefinedTypeFormatInfo : TypeFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -3997,7 +4437,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class ArrayTypeFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class ArrayTypeFormatInfo : TypeFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -4020,7 +4460,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class PointerTypeFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class PointerTypeFormatInfo : TypeFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -4043,7 +4483,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class NullableTypeFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class NullableTypeFormatInfo : TypeFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -4066,7 +4506,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class TupleTypeFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class TupleTypeFormatInfo : TypeFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -4091,7 +4531,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class OmittedTypeArgumentFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class OmittedTypeArgumentFormatInfo : TypeFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -4113,7 +4553,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class RefTypeFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class RefTypeFormatInfo : TypeFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -4138,7 +4578,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class QualifiedNameFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class QualifiedNameFormatInfo : NameFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -4162,7 +4602,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class AliasQualifiedNameFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class AliasQualifiedNameFormatInfo : NameFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -4194,7 +4634,7 @@ namespace Jawilliam.CDF.CSharp
     	}
     }
     
-    public partial class IdentifierNameFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class IdentifierNameFormatInfo : SimpleNameFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -4224,7 +4664,7 @@ namespace Jawilliam.CDF.CSharp
     	}
     }
     
-    public partial class GenericNameFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class GenericNameFormatInfo : SimpleNameFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -4255,7 +4695,81 @@ namespace Jawilliam.CDF.CSharp
     	}
     }
     
-    public partial class ThisExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public abstract partial class SimpleNameFormatInfo : NameFormatInfo
+    {
+    	/// <inheritdoc />
+        public override IEnumerable<string> SubExpressions 
+    	{
+    		get
+    		{
+    			yield return "Identifier";
+    		}
+    	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> SyntacticalStopwords
+    	{
+    		get
+    		{
+    			yield break;
+    		}
+    	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> Keys
+    	{
+    		get
+    		{
+    			yield return "Identifier";
+    		}
+    	}
+    }
+    
+    public abstract partial class NameFormatInfo : TypeFormatInfo
+    {
+    	/// <inheritdoc />
+        public override IEnumerable<string> SubExpressions 
+    	{
+    		get
+    		{
+    			yield break;
+    		}
+    	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> SyntacticalStopwords
+    	{
+    		get
+    		{
+    			yield break;
+    		}
+    	}
+    
+    }
+    
+    public abstract partial class TypeFormatInfo : ExpressionFormatInfo
+    {
+    	/// <inheritdoc />
+        public override IEnumerable<string> SubExpressions 
+    	{
+    		get
+    		{
+    			yield break;
+    		}
+    	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> SyntacticalStopwords
+    	{
+    		get
+    		{
+    			yield break;
+    		}
+    	}
+    
+    }
+    
+    public partial class ThisExpressionFormatInfo : InstanceExpressionFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -4277,7 +4791,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class BaseExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class BaseExpressionFormatInfo : InstanceExpressionFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -4299,7 +4813,29 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class AnonymousMethodExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public abstract partial class InstanceExpressionFormatInfo : ExpressionFormatInfo
+    {
+    	/// <inheritdoc />
+        public override IEnumerable<string> SubExpressions 
+    	{
+    		get
+    		{
+    			yield break;
+    		}
+    	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> SyntacticalStopwords
+    	{
+    		get
+    		{
+    			yield break;
+    		}
+    	}
+    
+    }
+    
+    public partial class AnonymousMethodExpressionFormatInfo : AnonymousFunctionExpressionFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -4324,7 +4860,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class SimpleLambdaExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class SimpleLambdaExpressionFormatInfo : LambdaExpressionFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -4349,7 +4885,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class ParenthesizedLambdaExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class ParenthesizedLambdaExpressionFormatInfo : LambdaExpressionFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -4374,7 +4910,74 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class ArgumentListFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public abstract partial class LambdaExpressionFormatInfo : AnonymousFunctionExpressionFormatInfo
+    {
+    	/// <inheritdoc />
+        public override IEnumerable<string> SubExpressions 
+    	{
+    		get
+    		{
+    			yield return "ArrowToken";
+    		}
+    	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> SyntacticalStopwords
+    	{
+    		get
+    		{
+    			yield return "ArrowToken";
+    		}
+    	}
+    
+    }
+    
+    public abstract partial class AnonymousFunctionExpressionFormatInfo : ExpressionFormatInfo
+    {
+    	/// <inheritdoc />
+        public override IEnumerable<string> SubExpressions 
+    	{
+    		get
+    		{
+    			yield return "AsyncKeyword";
+    			yield return "Body";
+    		}
+    	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> SyntacticalStopwords
+    	{
+    		get
+    		{
+    			yield break;
+    		}
+    	}
+    
+    }
+    
+    public abstract partial class ExpressionFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    {
+    	/// <inheritdoc />
+        public override IEnumerable<string> SubExpressions 
+    	{
+    		get
+    		{
+    			yield break;
+    		}
+    	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> SyntacticalStopwords
+    	{
+    		get
+    		{
+    			yield break;
+    		}
+    	}
+    
+    }
+    
+    public partial class ArgumentListFormatInfo : BaseArgumentListFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -4399,7 +5002,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class BracketedArgumentListFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class BracketedArgumentListFormatInfo : BaseArgumentListFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -4424,7 +5027,29 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class FromClauseFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public abstract partial class BaseArgumentListFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    {
+    	/// <inheritdoc />
+        public override IEnumerable<string> SubExpressions 
+    	{
+    		get
+    		{
+    			yield return "Arguments";
+    		}
+    	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> SyntacticalStopwords
+    	{
+    		get
+    		{
+    			yield break;
+    		}
+    	}
+    
+    }
+    
+    public partial class FromClauseFormatInfo : QueryClauseFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -4459,7 +5084,7 @@ namespace Jawilliam.CDF.CSharp
     	}
     }
     
-    public partial class LetClauseFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class LetClauseFormatInfo : QueryClauseFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -4493,7 +5118,7 @@ namespace Jawilliam.CDF.CSharp
     	}
     }
     
-    public partial class JoinClauseFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class JoinClauseFormatInfo : QueryClauseFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -4535,7 +5160,7 @@ namespace Jawilliam.CDF.CSharp
     	}
     }
     
-    public partial class WhereClauseFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class WhereClauseFormatInfo : QueryClauseFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -4558,7 +5183,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class OrderByClauseFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class OrderByClauseFormatInfo : QueryClauseFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -4581,7 +5206,29 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class SelectClauseFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public abstract partial class QueryClauseFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    {
+    	/// <inheritdoc />
+        public override IEnumerable<string> SubExpressions 
+    	{
+    		get
+    		{
+    			yield break;
+    		}
+    	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> SyntacticalStopwords
+    	{
+    		get
+    		{
+    			yield break;
+    		}
+    	}
+    
+    }
+    
+    public partial class SelectClauseFormatInfo : SelectOrGroupClauseFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -4604,7 +5251,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class GroupClauseFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class GroupClauseFormatInfo : SelectOrGroupClauseFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -4630,7 +5277,29 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class DeclarationPatternFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public abstract partial class SelectOrGroupClauseFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    {
+    	/// <inheritdoc />
+        public override IEnumerable<string> SubExpressions 
+    	{
+    		get
+    		{
+    			yield break;
+    		}
+    	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> SyntacticalStopwords
+    	{
+    		get
+    		{
+    			yield break;
+    		}
+    	}
+    
+    }
+    
+    public partial class DeclarationPatternFormatInfo : PatternFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -4653,7 +5322,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class ConstantPatternFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class ConstantPatternFormatInfo : PatternFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -4675,7 +5344,29 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class InterpolatedStringTextFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public abstract partial class PatternFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    {
+    	/// <inheritdoc />
+        public override IEnumerable<string> SubExpressions 
+    	{
+    		get
+    		{
+    			yield break;
+    		}
+    	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> SyntacticalStopwords
+    	{
+    		get
+    		{
+    			yield break;
+    		}
+    	}
+    
+    }
+    
+    public partial class InterpolatedStringTextFormatInfo : InterpolatedStringContentFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -4697,7 +5388,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class InterpolationFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class InterpolationFormatInfo : InterpolatedStringContentFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -4724,7 +5415,29 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class BlockFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public abstract partial class InterpolatedStringContentFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    {
+    	/// <inheritdoc />
+        public override IEnumerable<string> SubExpressions 
+    	{
+    		get
+    		{
+    			yield break;
+    		}
+    	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> SyntacticalStopwords
+    	{
+    		get
+    		{
+    			yield break;
+    		}
+    	}
+    
+    }
+    
+    public partial class BlockFormatInfo : StatementFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -4749,7 +5462,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class LocalFunctionStatementFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class LocalFunctionStatementFormatInfo : StatementFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -4787,7 +5500,7 @@ namespace Jawilliam.CDF.CSharp
     	}
     }
     
-    public partial class LocalDeclarationStatementFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class LocalDeclarationStatementFormatInfo : StatementFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -4811,7 +5524,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class ExpressionStatementFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class ExpressionStatementFormatInfo : StatementFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -4834,7 +5547,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class EmptyStatementFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class EmptyStatementFormatInfo : StatementFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -4856,7 +5569,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class LabeledStatementFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class LabeledStatementFormatInfo : StatementFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -4888,7 +5601,7 @@ namespace Jawilliam.CDF.CSharp
     	}
     }
     
-    public partial class GotoStatementFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class GotoStatementFormatInfo : StatementFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -4914,7 +5627,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class BreakStatementFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class BreakStatementFormatInfo : StatementFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -4938,7 +5651,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class ContinueStatementFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class ContinueStatementFormatInfo : StatementFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -4962,7 +5675,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class ReturnStatementFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class ReturnStatementFormatInfo : StatementFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -4987,7 +5700,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class ThrowStatementFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class ThrowStatementFormatInfo : StatementFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -5012,7 +5725,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class YieldStatementFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class YieldStatementFormatInfo : StatementFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -5038,7 +5751,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class WhileStatementFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class WhileStatementFormatInfo : StatementFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -5066,7 +5779,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class DoStatementFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class DoStatementFormatInfo : StatementFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -5098,7 +5811,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class ForStatementFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class ForStatementFormatInfo : StatementFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -5133,7 +5846,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class UsingStatementFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class UsingStatementFormatInfo : StatementFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -5162,7 +5875,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class FixedStatementFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class FixedStatementFormatInfo : StatementFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -5190,7 +5903,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class CheckedStatementFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class CheckedStatementFormatInfo : StatementFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -5213,7 +5926,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class UnsafeStatementFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class UnsafeStatementFormatInfo : StatementFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -5236,7 +5949,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class LockStatementFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class LockStatementFormatInfo : StatementFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -5264,7 +5977,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class IfStatementFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class IfStatementFormatInfo : StatementFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -5293,7 +6006,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class SwitchStatementFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class SwitchStatementFormatInfo : StatementFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -5325,7 +6038,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class TryStatementFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class TryStatementFormatInfo : StatementFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -5350,7 +6063,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class ForEachStatementFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class ForEachStatementFormatInfo : StatementFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -5390,7 +6103,7 @@ namespace Jawilliam.CDF.CSharp
     	}
     }
     
-    public partial class ForEachVariableStatementFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class ForEachVariableStatementFormatInfo : CommonForEachStatementFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -5421,7 +6134,59 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class SingleVariableDesignationFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public abstract partial class CommonForEachStatementFormatInfo : StatementFormatInfo
+    {
+    	/// <inheritdoc />
+        public override IEnumerable<string> SubExpressions 
+    	{
+    		get
+    		{
+    			yield return "ForEachKeyword";
+    			yield return "OpenParenToken";
+    			yield return "InKeyword";
+    			yield return "Expression";
+    			yield return "CloseParenToken";
+    			yield return "Statement";
+    		}
+    	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> SyntacticalStopwords
+    	{
+    		get
+    		{
+    			yield return "ForEachKeyword";
+    			yield return "OpenParenToken";
+    			yield return "InKeyword";
+    			yield return "CloseParenToken";
+    		}
+    	}
+    
+    }
+    
+    public abstract partial class StatementFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    {
+    	/// <inheritdoc />
+        public override IEnumerable<string> SubExpressions 
+    	{
+    		get
+    		{
+    			yield break;
+    		}
+    	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> SyntacticalStopwords
+    	{
+    		get
+    		{
+    			yield break;
+    		}
+    	}
+    
+    }
+    
+    public partial class SingleVariableDesignationFormatInfo : VariableDesignationFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -5451,7 +6216,7 @@ namespace Jawilliam.CDF.CSharp
     	}
     }
     
-    public partial class DiscardDesignationFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class DiscardDesignationFormatInfo : VariableDesignationFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -5473,7 +6238,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class ParenthesizedVariableDesignationFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class ParenthesizedVariableDesignationFormatInfo : VariableDesignationFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -5498,7 +6263,29 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class CasePatternSwitchLabelFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public abstract partial class VariableDesignationFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    {
+    	/// <inheritdoc />
+        public override IEnumerable<string> SubExpressions 
+    	{
+    		get
+    		{
+    			yield break;
+    		}
+    	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> SyntacticalStopwords
+    	{
+    		get
+    		{
+    			yield break;
+    		}
+    	}
+    
+    }
+    
+    public partial class CasePatternSwitchLabelFormatInfo : SwitchLabelFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -5524,7 +6311,7 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class CaseSwitchLabelFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class CaseSwitchLabelFormatInfo : SwitchLabelFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 
@@ -5549,7 +6336,31 @@ namespace Jawilliam.CDF.CSharp
     
     }
     
-    public partial class DefaultSwitchLabelFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
+    public partial class DefaultSwitchLabelFormatInfo : SwitchLabelFormatInfo
+    {
+    	/// <inheritdoc />
+        public override IEnumerable<string> SubExpressions 
+    	{
+    		get
+    		{
+    			yield return "Keyword";
+    			yield return "ColonToken";
+    		}
+    	}
+    
+    	/// <inheritdoc />
+        public override IEnumerable<string> SyntacticalStopwords
+    	{
+    		get
+    		{
+    			yield return "Keyword";
+    			yield return "ColonToken";
+    		}
+    	}
+    
+    }
+    
+    public abstract partial class SwitchLabelFormatInfo : Jawilliam.CDF.Domain.ElementTypeFormatInfo
     {
     	/// <inheritdoc />
         public override IEnumerable<string> SubExpressions 

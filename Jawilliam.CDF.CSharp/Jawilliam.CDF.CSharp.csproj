@@ -140,6 +140,11 @@
     <Compile Include="Approach.Matching.CSharp\MatchingProvider.cs" />
     <Compile Include="Approach.Matching.CSharp\MethodDeclarationMatchingOptions.cs" />
     <Compile Include="ElementAbstraction.cs" />
+    <Compile Include="MutableNodes.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MutableNodes.tt</DependentUpon>
+    </Compile>
     <Compile Include="IElementTypeFormatInfo.GetStructuralStopwords.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -171,6 +176,10 @@
     <None Include="RDSL.xml">
       <SubType>Designer</SubType>
     </None>
+    <Content Include="MutableNodes.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>MutableNodes.cs</LastGenOutput>
+    </Content>
     <Content Include="IElementTypeFormatInfo.GetStructuralStopwords.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>IElementTypeFormatInfo.GetStructuralStopwords.cs</LastGenOutput>
@@ -192,6 +201,9 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="MutableAst\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\CodePlex.LinqToXsd.2.0.2\build\CodePlex.LinqToXsd.targets" Condition="Exists('..\packages\CodePlex.LinqToXsd.2.0.2\build\CodePlex.LinqToXsd.targets')" />
