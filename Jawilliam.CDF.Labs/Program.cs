@@ -595,7 +595,8 @@ namespace Jawilliam.CDF.Labs
         public static void ExploringRDSL()
         {
             var v = Enum.GetValues(typeof(Microsoft.CodeAnalysis.CSharp.SyntaxKind));
-            var x = Jawilliam.CDF.XObjects.RDSL.Syntax.Load(@"E:\MyRepositories\Change-Detection-Foundation\Jawilliam.CDF.CSharp\RDSL.xml");
+            //var x = Jawilliam.CDF.XObjects.RDSL.Syntax.Load(@"E:\MyRepositories\Change-Detection-Foundation\Jawilliam.CDF.CSharp\RDSL.xml");
+            var x = Jawilliam.CDF.XObjects.RDSL.Syntax.Load(@"E:\Projects\Change-Detection-Foundation\Jawilliam.CDF.CSharp\RDSL.xml");
             var nonAbstractTypes = x.Nodes.Type.Where(n => !n.@abstract).ToArray();
             var abstractTypes = x.Nodes.Type.Where(n => n.@abstract).ToArray();
 
@@ -604,6 +605,53 @@ namespace Jawilliam.CDF.Labs
             var statementTypes = x.Nodes.Type.Where(n => n.name.Contains("StatementSyntax")).ToArray();
 
             var expressionTypes = x.Nodes.Type.Where(n => n.name.Contains("ExpressionSyntax")).ToArray();
+
+            var assembly = typeof(RoslynML).Assembly;
+            var syntaxTokenType = assembly.GetType($"Jawilliam.CDF.CSharp.SyntaxToken`1");
+            var syntaxTokenListType = assembly.GetType($"Jawilliam.CDF.CSharp.SyntaxTokenList`1");
+            var csharpSyntaxNodeType = assembly.GetType($"Jawilliam.CDF.CSharp.CSharpSyntaxNode`1");
+            var syntaxListType = assembly.GetType($"Jawilliam.CDF.CSharp.SyntaxList`2");
+            var separatedSyntaxListType = assembly.GetType($"Jawilliam.CDF.CSharp.SeparatedSyntaxList`2");
+
+            var elementTypeInfos = x.Nodes.Type.Select((n, i) => new {
+                ElementType = n,
+                Id = i,
+                ClassType = assembly.GetType($"Jawilliam.CDF.CSharp.{n.name}`1")
+            })
+                .ToArray();
+
+            var edges = new List<Edge>();
+            foreach (var elemenTypeInfo in elementTypeInfos)
+            {
+                foreach (var property in elemenTypeInfo.ClassType.GetProperties())
+                {
+                    if (property.PropertyType.Name == syntaxListType.Name || property.PropertyType.Name == separatedSyntaxListType.Name)
+                    {
+                        var propertyElementType = elementTypeInfos.Single(n => n.ClassType.Name == property.PropertyType.GenericTypeArguments[1].Name);
+                        if (!edges.Exists(n => n.StartNode == elemenTypeInfo.Id && n.EndNode == propertyElementType.Id))
+                            edges.Add(new Edge { StartNode = elemenTypeInfo.Id, EndNode = propertyElementType.Id });
+                        continue;
+                    }
+
+                    if (property.PropertyType.Name == csharpSyntaxNodeType.Name)
+                        continue;
+
+                    if (property.PropertyType.Name != syntaxTokenType.Name && property.PropertyType.Name != syntaxTokenListType.Name)
+                    {
+                        var propertyElementType = elementTypeInfos.Single(n => n.ClassType.Name == property.PropertyType.Name);
+                        if (!edges.Exists(n => n.StartNode == elemenTypeInfo.Id && n.EndNode == propertyElementType.Id))
+                            edges.Add(new Edge { StartNode = elemenTypeInfo.Id, EndNode = propertyElementType.Id });
+                    }
+                }
+            }
+
+            var spanningTrees = KruskalAlgorithm.Kruskal(elementTypeInfos.Length, edges).ToArray();
+            var result = spanningTrees.Select(edge => new
+            {
+                Start = elementTypeInfos.Single(n => n.Id == edge.StartNode),
+                End = elementTypeInfos.Single(n => n.Id == edge.EndNode)
+            }).ToArray();
+
         }
 
         private static void ComparisonBetweenGumTreeAndCDGumTree()

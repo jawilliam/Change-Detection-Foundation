@@ -6,10 +6,22 @@ using System.Threading.Tasks;
 
 namespace Jawilliam.CDF
 {
-    public class Edge
+    public class Edge : IComparable
     {
-        public int StartNode { get; internal set; }
-        public int EndNode { get; internal set; }
+        public int StartNode { get; set; }
+        public int EndNode { get; set; }
+
+        public int CompareTo(object obj)
+        {
+            Edge other = (Edge)obj;
+            if (this.StartNode != other.StartNode)
+                return this.StartNode.CompareTo(other.StartNode);
+
+            if (this.EndNode != other.EndNode)
+                return this.EndNode.CompareTo(other.EndNode);
+
+            return 0;
+        }
     }
 
     public static class KruskalAlgorithm
