@@ -75,6 +75,7 @@
     <Compile Include="GTED\Node.cs" />
     <Compile Include="GTED\Tree.cs" />
     <Compile Include="KruskalAlgorithm.cs" />
+    <Compile Include="Evaluation\RedundancyComparison.cs" />
     <Compile Include="UniDM\AtomicElement.cs" />
     <Compile Include="UniDM\IDelta.cs" />
     <Compile Include="Metrics.Quality\EditDistance.cs" />
