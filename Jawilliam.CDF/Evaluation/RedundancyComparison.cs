@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Jawilliam.CDF.Evaluation
 {
     /// <summary>
-    /// Compares two SCCD solutions by redundancy.
+    /// Defines the logic to compare solutions based on redundant changes and related indicators.
     /// </summary>
     public class RedundancyComparison
     {
@@ -27,11 +27,17 @@ namespace Jawilliam.CDF.Evaluation
         }
 
         /// <summary>
-        /// Defines the logic of corrections by redundancy.
+        /// Stores the value of the <see cref="Corrector"/> property.
         /// </summary>
-        /// <param name="pattern">the redundancy pattern to look for.</param>
-        /// <param name="delta"></param>
-        /// <returns></returns>
-        public delegate IEnumerable<(ActionDescriptor Original, ActionDescriptor Modified)> Corrector(string pattern, IEnumerable<ActionDescriptor> delta);
+        private RedundancyFinder _corrector;
+
+        /// <summary>
+        /// Gets or sets the logic to look for symptoms of redundant changes.
+        /// </summary>
+        public virtual RedundancyFinder Corrector
+        {
+            get { return this._corrector == null ? throw new ArgumentNullException("Must specify the corrector") : this._corrector; }
+            set { this._corrector = value == null ? throw new ArgumentNullException("value") : value; }
+        }
     }
 }
