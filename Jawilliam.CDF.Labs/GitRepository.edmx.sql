@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 02/19/2018 16:51:33
+-- Date Created: 09/20/2018 17:31:46
 -- Generated from EDMX file: E:\MyRepositories\Change-Detection-Foundation\Jawilliam.CDF.Labs\GitRepository.edmx
 -- --------------------------------------------------
 
@@ -17,6 +17,9 @@ GO
 -- Dropping existing FOREIGN KEY constraints
 -- --------------------------------------------------
 
+IF OBJECT_ID(N'[dbo].[FK_OneFileVersion_CanBeSeenFrom_MultipleFileFormat]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[FileFormats] DROP CONSTRAINT [FK_OneFileVersion_CanBeSeenFrom_MultipleFileFormat];
+GO
 IF OBJECT_ID(N'[dbo].[FK_Contributor_IsAuthorOf_Commits]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[RepositoryObjects_Commit] DROP CONSTRAINT [FK_Contributor_IsAuthorOf_Commits];
 GO
@@ -77,6 +80,12 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_OneComplexSymptom_Contains_OtherSymptoms]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Symptoms] DROP CONSTRAINT [FK_OneComplexSymptom_Contains_OtherSymptoms];
 GO
+IF OBJECT_ID(N'[dbo].[FK_ElementTypeRevisionPairSummaryCommonElementTypeSummary]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[DeltaContentSummaries_CommonElementTypeSummary] DROP CONSTRAINT [FK_ElementTypeRevisionPairSummaryCommonElementTypeSummary];
+GO
+IF OBJECT_ID(N'[dbo].[FK_DeltaDeltaContentSummary]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[DeltaContentSummaries] DROP CONSTRAINT [FK_DeltaDeltaContentSummary];
+GO
 IF OBJECT_ID(N'[dbo].[FK_Commit_inherits_RepositoryObject]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[RepositoryObjects_Commit] DROP CONSTRAINT [FK_Commit_inherits_RepositoryObject];
 GO
@@ -98,6 +107,12 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_FileModifiedChange_inherits_FileChange]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[RepositoryObjects_FileModifiedChange] DROP CONSTRAINT [FK_FileModifiedChange_inherits_FileChange];
 GO
+IF OBJECT_ID(N'[dbo].[FK_ElementTypeRevisionPairSummary_inherits_DeltaContentSummary]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[DeltaContentSummaries_ElementTypeRevisionPairSummary] DROP CONSTRAINT [FK_ElementTypeRevisionPairSummary_inherits_DeltaContentSummary];
+GO
+IF OBJECT_ID(N'[dbo].[FK_CommonElementTypeSummary_inherits_DeltaContentSummary]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[DeltaContentSummaries_CommonElementTypeSummary] DROP CONSTRAINT [FK_CommonElementTypeSummary_inherits_DeltaContentSummary];
+GO
 IF OBJECT_ID(N'[dbo].[FK_FileAddedChange_inherits_FileChange]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[RepositoryObjects_FileAddedChange] DROP CONSTRAINT [FK_FileAddedChange_inherits_FileChange];
 GO
@@ -107,17 +122,11 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_FileRenamedChange_inherits_FileModifiedChange]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[RepositoryObjects_FileRenamedChange] DROP CONSTRAINT [FK_FileRenamedChange_inherits_FileModifiedChange];
 GO
-IF OBJECT_ID(N'[dbo].[FK_MissedElementSymptom_inherits_Symptom]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Symptoms_MissedElementSymptom] DROP CONSTRAINT [FK_MissedElementSymptom_inherits_Symptom];
+IF OBJECT_ID(N'[dbo].[FK_MissedNameSymptom_inherits_Symptom]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Symptoms_MissedNameSymptom] DROP CONSTRAINT [FK_MissedNameSymptom_inherits_Symptom];
 GO
-IF OBJECT_ID(N'[dbo].[FK_MissedNameSymptom_inherits_MissedElementSymptom]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Symptoms_MissedNameSymptom] DROP CONSTRAINT [FK_MissedNameSymptom_inherits_MissedElementSymptom];
-GO
-IF OBJECT_ID(N'[dbo].[FK_CoexistenceSymptom_inherits_Symptom]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Symptoms_CoexistenceSymptom] DROP CONSTRAINT [FK_CoexistenceSymptom_inherits_Symptom];
-GO
-IF OBJECT_ID(N'[dbo].[FK_NameCoexistenceSymptom_inherits_CoexistenceSymptom]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Symptoms_NameCoexistenceSymptom] DROP CONSTRAINT [FK_NameCoexistenceSymptom_inherits_CoexistenceSymptom];
+IF OBJECT_ID(N'[dbo].[FK_NameCoexistenceSymptom_inherits_Symptom]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Symptoms_NameCoexistenceSymptom] DROP CONSTRAINT [FK_NameCoexistenceSymptom_inherits_Symptom];
 GO
 IF OBJECT_ID(N'[dbo].[FK_IncompatibleMatchingSymptom_inherits_Symptom]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Symptoms_IncompatibleMatchingSymptom] DROP CONSTRAINT [FK_IncompatibleMatchingSymptom_inherits_Symptom];
@@ -133,6 +142,9 @@ IF OBJECT_ID(N'[dbo].[FK_SpuriousElementSymptom_inherits_Symptom]', 'F') IS NOT 
 GO
 IF OBJECT_ID(N'[dbo].[FK_BetweenSymptom_inherits_Symptom]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Symptoms_BetweenSymptom] DROP CONSTRAINT [FK_BetweenSymptom_inherits_Symptom];
+GO
+IF OBJECT_ID(N'[dbo].[FK_RedundancySymptom_inherits_Symptom]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Symptoms_RedundancySymptom] DROP CONSTRAINT [FK_RedundancySymptom_inherits_Symptom];
 GO
 
 -- --------------------------------------------------
@@ -163,6 +175,9 @@ GO
 IF OBJECT_ID(N'[dbo].[Symptoms]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Symptoms];
 GO
+IF OBJECT_ID(N'[dbo].[DeltaContentSummaries]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[DeltaContentSummaries];
+GO
 IF OBJECT_ID(N'[dbo].[RepositoryObjects_Commit]', 'U') IS NOT NULL
     DROP TABLE [dbo].[RepositoryObjects_Commit];
 GO
@@ -184,6 +199,12 @@ GO
 IF OBJECT_ID(N'[dbo].[RepositoryObjects_FileModifiedChange]', 'U') IS NOT NULL
     DROP TABLE [dbo].[RepositoryObjects_FileModifiedChange];
 GO
+IF OBJECT_ID(N'[dbo].[DeltaContentSummaries_ElementTypeRevisionPairSummary]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[DeltaContentSummaries_ElementTypeRevisionPairSummary];
+GO
+IF OBJECT_ID(N'[dbo].[DeltaContentSummaries_CommonElementTypeSummary]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[DeltaContentSummaries_CommonElementTypeSummary];
+GO
 IF OBJECT_ID(N'[dbo].[RepositoryObjects_FileAddedChange]', 'U') IS NOT NULL
     DROP TABLE [dbo].[RepositoryObjects_FileAddedChange];
 GO
@@ -193,14 +214,11 @@ GO
 IF OBJECT_ID(N'[dbo].[RepositoryObjects_FileRenamedChange]', 'U') IS NOT NULL
     DROP TABLE [dbo].[RepositoryObjects_FileRenamedChange];
 GO
-IF OBJECT_ID(N'[dbo].[Symptoms_MissedElementSymptom]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Symptoms_MissedElementSymptom];
-GO
 IF OBJECT_ID(N'[dbo].[Symptoms_MissedNameSymptom]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Symptoms_MissedNameSymptom];
 GO
-IF OBJECT_ID(N'[dbo].[Symptoms_CoexistenceSymptom]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Symptoms_CoexistenceSymptom];
+IF OBJECT_ID(N'[dbo].[Symptoms_RedundancySymptom]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Symptoms_RedundancySymptom];
 GO
 IF OBJECT_ID(N'[dbo].[Symptoms_NameCoexistenceSymptom]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Symptoms_NameCoexistenceSymptom];
@@ -225,6 +243,9 @@ IF OBJECT_ID(N'[dbo].[Branch_Contains_Commits]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[Commits_AreParentsOf_Commits]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Commits_AreParentsOf_Commits];
+GO
+IF OBJECT_ID(N'[dbo].[FileFormats]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[FileFormats];
 GO
 
 -- --------------------------------------------------
@@ -343,6 +364,30 @@ CREATE TABLE [dbo].[Symptoms] (
 );
 GO
 
+-- Creating table 'FileFormats'
+CREATE TABLE [dbo].[FileFormats] (
+    [Id] uniqueidentifier  NOT NULL,
+    [Kind] bigint  NOT NULL,
+    [Error] bigint  NULL,
+    [XmlTree] nvarchar(max)  NULL,
+    [XTextTree] nvarchar(max)  NULL,
+    [TextTree] nvarchar(max)  NULL,
+    [Annotations] nvarchar(max)  NULL,
+    [FileVersion_Id] uniqueidentifier  NOT NULL
+);
+GO
+
+-- Creating table 'DeltaContentSummaries'
+CREATE TABLE [dbo].[DeltaContentSummaries] (
+    [Id] uniqueidentifier  NOT NULL,
+    [Annotations] nvarchar(max)  NULL,
+    [Approach] int  NOT NULL,
+    [Max] bigint  NULL,
+    [Min] bigint  NULL,
+    [Delta_Id] uniqueidentifier  NOT NULL
+);
+GO
+
 -- Creating table 'RepositoryObjects_Commit'
 CREATE TABLE [dbo].[RepositoryObjects_Commit] (
     [Date] datetimeoffset  NOT NULL,
@@ -402,6 +447,24 @@ CREATE TABLE [dbo].[RepositoryObjects_FileModifiedChange] (
     [Id] uniqueidentifier  NOT NULL,
     [FromFileVersion_Id] uniqueidentifier  NOT NULL,
     [FileRevisionPair_AlsoReferences_TheDuplicatedFileModifiedChanges_FileModifiedChange_Id] uniqueidentifier  NULL
+);
+GO
+
+-- Creating table 'DeltaContentSummaries_ElementTypeRevisionPairSummary'
+CREATE TABLE [dbo].[DeltaContentSummaries_ElementTypeRevisionPairSummary] (
+    [ElementType] int  NOT NULL,
+    [Id] uniqueidentifier  NOT NULL
+);
+GO
+
+-- Creating table 'DeltaContentSummaries_CommonElementTypeSummary'
+CREATE TABLE [dbo].[DeltaContentSummaries_CommonElementTypeSummary] (
+    [ElementType] int  NOT NULL,
+    [Tf] bigint  NULL,
+    [Idf] bigint  NULL,
+    [Tf_Idf] bigint  NULL,
+    [Id] uniqueidentifier  NOT NULL,
+    [CommonAncestor_Id] uniqueidentifier  NULL
 );
 GO
 
@@ -538,47 +601,119 @@ GO
 
 -- Creating table 'Symptoms_BetweenSymptom'
 CREATE TABLE [dbo].[Symptoms_BetweenSymptom] (
-    [Pattern] nvarchar(max)  NOT NULL,
-    [Left_Parent4IDU_Original4U_Element_Type] nvarchar(max)  NOT NULL,
-    [Left_Parent4IDU_Original4U_Element_Id] nvarchar(max)  NOT NULL,
-    [Left_Parent4IDU_Original4U_Element_Hint] nvarchar(max)  NULL,
-    [Left_Parent4IDU_Original4U_ScopeHint] nvarchar(max)  NULL,
-    [Left_Element4IDM_Modified4U_Element_Type] nvarchar(max)  NOT NULL,
-    [Left_Element4IDM_Modified4U_Element_Id] nvarchar(max)  NOT NULL,
-    [Left_Element4IDM_Modified4U_Element_Hint] nvarchar(max)  NULL,
-    [Left_Element4IDM_Modified4U_ScopeHint] nvarchar(max)  NULL,
+    [Id] uniqueidentifier  NOT NULL
+);
+GO
+
+-- Creating table 'Symptoms_LRMatchSymptom'
+CREATE TABLE [dbo].[Symptoms_LRMatchSymptom] (
+    [Left_Modified_Element_Type] nvarchar(max)  NOT NULL,
+    [Left_Modified_Element_Id] nvarchar(max)  NOT NULL,
+    [Left_Modified_Element_Hint] nvarchar(max)  NULL,
+    [Left_Modified_ScopeHint] nvarchar(max)  NULL,
+    [Left_Original_Element_Type] nvarchar(max)  NOT NULL,
+    [Left_Original_Element_Id] nvarchar(max)  NOT NULL,
+    [Left_Original_Element_Hint] nvarchar(max)  NULL,
+    [Left_Original_ScopeHint] nvarchar(max)  NULL,
     [Left_PartName] nvarchar(max)  NOT NULL,
-    [Left_Operation] nvarchar(max)  NULL,
-    [Right_Parent4IDU_Original4U_Element_Type] nvarchar(max)  NOT NULL,
-    [Right_Parent4IDU_Original4U_Element_Id] nvarchar(max)  NOT NULL,
-    [Right_Parent4IDU_Original4U_Element_Hint] nvarchar(max)  NULL,
-    [Right_Parent4IDU_Original4U_ScopeHint] nvarchar(max)  NULL,
-    [Right_Element4IDM_Modified4U_Element_Type] nvarchar(max)  NOT NULL,
-    [Right_Element4IDM_Modified4U_Element_Id] nvarchar(max)  NOT NULL,
-    [Right_Element4IDM_Modified4U_Element_Hint] nvarchar(max)  NULL,
-    [Right_Element4IDM_Modified4U_ScopeHint] nvarchar(max)  NULL,
+    [Left_Approach] int  NULL,
+    [NullRight_Modified_Element_Type] nvarchar(max)  NOT NULL,
+    [NullRight_Modified_Element_Id] nvarchar(max)  NOT NULL,
+    [NullRight_Modified_Element_Hint] nvarchar(max)  NULL,
+    [NullRight_Modified_ScopeHint] nvarchar(max)  NULL,
+    [NullRight_Original_Element_Type] nvarchar(max)  NOT NULL,
+    [NullRight_Original_Element_Id] nvarchar(max)  NOT NULL,
+    [NullRight_Original_Element_Hint] nvarchar(max)  NULL,
+    [NullRight_Original_ScopeHint] nvarchar(max)  NULL,
+    [NullRight_PartName] nvarchar(max)  NOT NULL,
+    [NullRight_Approach] int  NULL,
+    [OriginalAtRight_Modified_Element_Type] nvarchar(max)  NOT NULL,
+    [OriginalAtRight_Modified_Element_Id] nvarchar(max)  NOT NULL,
+    [OriginalAtRight_Modified_Element_Hint] nvarchar(max)  NULL,
+    [OriginalAtRight_Modified_ScopeHint] nvarchar(max)  NULL,
+    [OriginalAtRight_Original_Element_Type] nvarchar(max)  NOT NULL,
+    [OriginalAtRight_Original_Element_Id] nvarchar(max)  NOT NULL,
+    [OriginalAtRight_Original_Element_Hint] nvarchar(max)  NULL,
+    [OriginalAtRight_Original_ScopeHint] nvarchar(max)  NULL,
+    [OriginalAtRight_PartName] nvarchar(max)  NOT NULL,
+    [OriginalAtRight_Approach] int  NULL,
+    [ModifiedAtRight_Modified_Element_Type] nvarchar(max)  NOT NULL,
+    [ModifiedAtRight_Modified_Element_Id] nvarchar(max)  NOT NULL,
+    [ModifiedAtRight_Modified_Element_Hint] nvarchar(max)  NULL,
+    [ModifiedAtRight_Modified_ScopeHint] nvarchar(max)  NULL,
+    [ModifiedAtRight_Original_Element_Type] nvarchar(max)  NOT NULL,
+    [ModifiedAtRight_Original_Element_Id] nvarchar(max)  NOT NULL,
+    [ModifiedAtRight_Original_Element_Hint] nvarchar(max)  NULL,
+    [ModifiedAtRight_Original_ScopeHint] nvarchar(max)  NULL,
+    [ModifiedAtRight_PartName] nvarchar(max)  NOT NULL,
+    [ModifiedAtRight_Approach] int  NULL,
+    [Id] uniqueidentifier  NOT NULL
+);
+GO
+
+-- Creating table 'Symptoms_RLMatchSymptom'
+CREATE TABLE [dbo].[Symptoms_RLMatchSymptom] (
+    [Right_Modified_Element_Type] nvarchar(max)  NOT NULL,
+    [Right_Modified_Element_Id] nvarchar(max)  NOT NULL,
+    [Right_Modified_Element_Hint] nvarchar(max)  NULL,
+    [Right_Modified_ScopeHint] nvarchar(max)  NULL,
+    [Right_Original_Element_Type] nvarchar(max)  NOT NULL,
+    [Right_Original_Element_Id] nvarchar(max)  NOT NULL,
+    [Right_Original_Element_Hint] nvarchar(max)  NULL,
+    [Right_Original_ScopeHint] nvarchar(max)  NULL,
     [Right_PartName] nvarchar(max)  NOT NULL,
-    [Right_Operation] nvarchar(max)  NULL,
-    [DivergentLeft_Parent4IDU_Original4U_Element_Type] nvarchar(max)  NOT NULL,
-    [DivergentLeft_Parent4IDU_Original4U_Element_Id] nvarchar(max)  NOT NULL,
-    [DivergentLeft_Parent4IDU_Original4U_Element_Hint] nvarchar(max)  NULL,
-    [DivergentLeft_Parent4IDU_Original4U_ScopeHint] nvarchar(max)  NULL,
-    [DivergentLeft_Element4IDM_Modified4U_Element_Type] nvarchar(max)  NOT NULL,
-    [DivergentLeft_Element4IDM_Modified4U_Element_Id] nvarchar(max)  NOT NULL,
-    [DivergentLeft_Element4IDM_Modified4U_Element_Hint] nvarchar(max)  NULL,
-    [DivergentLeft_Element4IDM_Modified4U_ScopeHint] nvarchar(max)  NULL,
-    [DivergentLeft_PartName] nvarchar(max)  NOT NULL,
-    [DivergentLeft_Operation] nvarchar(max)  NULL,
-    [DivergentRight_Parent4IDU_Original4U_Element_Type] nvarchar(max)  NOT NULL,
-    [DivergentRight_Parent4IDU_Original4U_Element_Id] nvarchar(max)  NOT NULL,
-    [DivergentRight_Parent4IDU_Original4U_Element_Hint] nvarchar(max)  NULL,
-    [DivergentRight_Parent4IDU_Original4U_ScopeHint] nvarchar(max)  NULL,
-    [DivergentRight_Element4IDM_Modified4U_Element_Type] nvarchar(max)  NOT NULL,
-    [DivergentRight_Element4IDM_Modified4U_Element_Id] nvarchar(max)  NOT NULL,
-    [DivergentRight_Element4IDM_Modified4U_Element_Hint] nvarchar(max)  NULL,
-    [DivergentRight_Element4IDM_Modified4U_ScopeHint] nvarchar(max)  NULL,
-    [DivergentRight_PartName] nvarchar(max)  NOT NULL,
-    [DivergentRight_Operation] nvarchar(max)  NULL,
+    [Right_Approach] int  NULL,
+    [OriginalAtLeft_Modified_Element_Type] nvarchar(max)  NOT NULL,
+    [OriginalAtLeft_Modified_Element_Id] nvarchar(max)  NOT NULL,
+    [OriginalAtLeft_Modified_Element_Hint] nvarchar(max)  NULL,
+    [OriginalAtLeft_Modified_ScopeHint] nvarchar(max)  NULL,
+    [OriginalAtLeft_Original_Element_Type] nvarchar(max)  NOT NULL,
+    [OriginalAtLeft_Original_Element_Id] nvarchar(max)  NOT NULL,
+    [OriginalAtLeft_Original_Element_Hint] nvarchar(max)  NULL,
+    [OriginalAtLeft_Original_ScopeHint] nvarchar(max)  NULL,
+    [OriginalAtLeft_PartName] nvarchar(max)  NOT NULL,
+    [OriginalAtLeft_Approach] int  NULL,
+    [ModifiedAtLeft_Modified_Element_Type] nvarchar(max)  NOT NULL,
+    [ModifiedAtLeft_Modified_Element_Id] nvarchar(max)  NOT NULL,
+    [ModifiedAtLeft_Modified_Element_Hint] nvarchar(max)  NULL,
+    [ModifiedAtLeft_Modified_ScopeHint] nvarchar(max)  NULL,
+    [ModifiedAtLeft_Original_Element_Type] nvarchar(max)  NOT NULL,
+    [ModifiedAtLeft_Original_Element_Id] nvarchar(max)  NOT NULL,
+    [ModifiedAtLeft_Original_Element_Hint] nvarchar(max)  NULL,
+    [ModifiedAtLeft_Original_ScopeHint] nvarchar(max)  NULL,
+    [ModifiedAtLeft_PartName] nvarchar(max)  NOT NULL,
+    [ModifiedAtLeft_Approach] int  NULL,
+    [NullLeft_Modified_Element_Type] nvarchar(max)  NOT NULL,
+    [NullLeft_Modified_Element_Id] nvarchar(max)  NOT NULL,
+    [NullLeft_Modified_Element_Hint] nvarchar(max)  NULL,
+    [NullLeft_Modified_ScopeHint] nvarchar(max)  NULL,
+    [NullLeft_Original_Element_Type] nvarchar(max)  NOT NULL,
+    [NullLeft_Original_Element_Id] nvarchar(max)  NOT NULL,
+    [NullLeft_Original_Element_Hint] nvarchar(max)  NULL,
+    [NullLeft_Original_ScopeHint] nvarchar(max)  NULL,
+    [NullLeft_PartName] nvarchar(max)  NOT NULL,
+    [NullLeft_Approach] int  NULL,
+    [Id] uniqueidentifier  NOT NULL
+);
+GO
+
+-- Creating table 'Symptoms_RedundancySymptom'
+CREATE TABLE [dbo].[Symptoms_RedundancySymptom] (
+    [Pattern] tinyint  NOT NULL,
+    [Original_Type] nvarchar(max)  NOT NULL,
+    [Original_Id] nvarchar(max)  NOT NULL,
+    [Original_Hint] nvarchar(max)  NULL,
+    [AndOriginal_Type] nvarchar(max)  NOT NULL,
+    [AndOriginal_Id] nvarchar(max)  NOT NULL,
+    [AndOriginal_Hint] nvarchar(max)  NULL,
+    [Modified_Type] nvarchar(max)  NOT NULL,
+    [Modified_Id] nvarchar(max)  NOT NULL,
+    [Modified_Hint] nvarchar(max)  NULL,
+    [AndModified_Type] nvarchar(max)  NOT NULL,
+    [AndModified_Id] nvarchar(max)  NOT NULL,
+    [AndModified_Hint] nvarchar(max)  NULL,
+    [LeftApproach] int  NOT NULL,
+    [RightApproach] int  NOT NULL,
     [Id] uniqueidentifier  NOT NULL
 );
 GO
@@ -649,6 +784,18 @@ ADD CONSTRAINT [PK_Symptoms]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
+-- Creating primary key on [Id] in table 'FileFormats'
+ALTER TABLE [dbo].[FileFormats]
+ADD CONSTRAINT [PK_FileFormats]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'DeltaContentSummaries'
+ALTER TABLE [dbo].[DeltaContentSummaries]
+ADD CONSTRAINT [PK_DeltaContentSummaries]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
 -- Creating primary key on [Id] in table 'RepositoryObjects_Commit'
 ALTER TABLE [dbo].[RepositoryObjects_Commit]
 ADD CONSTRAINT [PK_RepositoryObjects_Commit]
@@ -688,6 +835,18 @@ GO
 -- Creating primary key on [Id] in table 'RepositoryObjects_FileModifiedChange'
 ALTER TABLE [dbo].[RepositoryObjects_FileModifiedChange]
 ADD CONSTRAINT [PK_RepositoryObjects_FileModifiedChange]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'DeltaContentSummaries_ElementTypeRevisionPairSummary'
+ALTER TABLE [dbo].[DeltaContentSummaries_ElementTypeRevisionPairSummary]
+ADD CONSTRAINT [PK_DeltaContentSummaries_ElementTypeRevisionPairSummary]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'DeltaContentSummaries_CommonElementTypeSummary'
+ALTER TABLE [dbo].[DeltaContentSummaries_CommonElementTypeSummary]
+ADD CONSTRAINT [PK_DeltaContentSummaries_CommonElementTypeSummary]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -760,6 +919,24 @@ GO
 -- Creating primary key on [Id] in table 'Symptoms_BetweenSymptom'
 ALTER TABLE [dbo].[Symptoms_BetweenSymptom]
 ADD CONSTRAINT [PK_Symptoms_BetweenSymptom]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'Symptoms_LRMatchSymptom'
+ALTER TABLE [dbo].[Symptoms_LRMatchSymptom]
+ADD CONSTRAINT [PK_Symptoms_LRMatchSymptom]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'Symptoms_RLMatchSymptom'
+ALTER TABLE [dbo].[Symptoms_RLMatchSymptom]
+ADD CONSTRAINT [PK_Symptoms_RLMatchSymptom]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'Symptoms_RedundancySymptom'
+ALTER TABLE [dbo].[Symptoms_RedundancySymptom]
+ADD CONSTRAINT [PK_Symptoms_RedundancySymptom]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -1067,6 +1244,51 @@ ON [dbo].[Symptoms]
     ([Parent_Id]);
 GO
 
+-- Creating foreign key on [FileVersion_Id] in table 'FileFormats'
+ALTER TABLE [dbo].[FileFormats]
+ADD CONSTRAINT [FK_OneFileVersion_CanBeSeenFrom_MultipleFileFormat]
+    FOREIGN KEY ([FileVersion_Id])
+    REFERENCES [dbo].[RepositoryObjects_FileVersion]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_OneFileVersion_CanBeSeenFrom_MultipleFileFormat'
+CREATE INDEX [IX_FK_OneFileVersion_CanBeSeenFrom_MultipleFileFormat]
+ON [dbo].[FileFormats]
+    ([FileVersion_Id]);
+GO
+
+-- Creating foreign key on [CommonAncestor_Id] in table 'DeltaContentSummaries_CommonElementTypeSummary'
+ALTER TABLE [dbo].[DeltaContentSummaries_CommonElementTypeSummary]
+ADD CONSTRAINT [FK_ElementTypeRevisionPairSummaryCommonElementTypeSummary]
+    FOREIGN KEY ([CommonAncestor_Id])
+    REFERENCES [dbo].[DeltaContentSummaries_ElementTypeRevisionPairSummary]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_ElementTypeRevisionPairSummaryCommonElementTypeSummary'
+CREATE INDEX [IX_FK_ElementTypeRevisionPairSummaryCommonElementTypeSummary]
+ON [dbo].[DeltaContentSummaries_CommonElementTypeSummary]
+    ([CommonAncestor_Id]);
+GO
+
+-- Creating foreign key on [Delta_Id] in table 'DeltaContentSummaries'
+ALTER TABLE [dbo].[DeltaContentSummaries]
+ADD CONSTRAINT [FK_DeltaDeltaContentSummary]
+    FOREIGN KEY ([Delta_Id])
+    REFERENCES [dbo].[Deltas]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_DeltaDeltaContentSummary'
+CREATE INDEX [IX_FK_DeltaDeltaContentSummary]
+ON [dbo].[DeltaContentSummaries]
+    ([Delta_Id]);
+GO
+
 -- Creating foreign key on [Id] in table 'RepositoryObjects_Commit'
 ALTER TABLE [dbo].[RepositoryObjects_Commit]
 ADD CONSTRAINT [FK_Commit_inherits_RepositoryObject]
@@ -1126,6 +1348,24 @@ ALTER TABLE [dbo].[RepositoryObjects_FileModifiedChange]
 ADD CONSTRAINT [FK_FileModifiedChange_inherits_FileChange]
     FOREIGN KEY ([Id])
     REFERENCES [dbo].[RepositoryObjects_FileChange]
+        ([Id])
+    ON DELETE CASCADE ON UPDATE NO ACTION;
+GO
+
+-- Creating foreign key on [Id] in table 'DeltaContentSummaries_ElementTypeRevisionPairSummary'
+ALTER TABLE [dbo].[DeltaContentSummaries_ElementTypeRevisionPairSummary]
+ADD CONSTRAINT [FK_ElementTypeRevisionPairSummary_inherits_DeltaContentSummary]
+    FOREIGN KEY ([Id])
+    REFERENCES [dbo].[DeltaContentSummaries]
+        ([Id])
+    ON DELETE CASCADE ON UPDATE NO ACTION;
+GO
+
+-- Creating foreign key on [Id] in table 'DeltaContentSummaries_CommonElementTypeSummary'
+ALTER TABLE [dbo].[DeltaContentSummaries_CommonElementTypeSummary]
+ADD CONSTRAINT [FK_CommonElementTypeSummary_inherits_DeltaContentSummary]
+    FOREIGN KEY ([Id])
+    REFERENCES [dbo].[DeltaContentSummaries]
         ([Id])
     ON DELETE CASCADE ON UPDATE NO ACTION;
 GO
@@ -1232,6 +1472,33 @@ GO
 -- Creating foreign key on [Id] in table 'Symptoms_BetweenSymptom'
 ALTER TABLE [dbo].[Symptoms_BetweenSymptom]
 ADD CONSTRAINT [FK_BetweenSymptom_inherits_Symptom]
+    FOREIGN KEY ([Id])
+    REFERENCES [dbo].[Symptoms]
+        ([Id])
+    ON DELETE CASCADE ON UPDATE NO ACTION;
+GO
+
+-- Creating foreign key on [Id] in table 'Symptoms_LRMatchSymptom'
+ALTER TABLE [dbo].[Symptoms_LRMatchSymptom]
+ADD CONSTRAINT [FK_LRMatchSymptom_inherits_BetweenSymptom]
+    FOREIGN KEY ([Id])
+    REFERENCES [dbo].[Symptoms_BetweenSymptom]
+        ([Id])
+    ON DELETE CASCADE ON UPDATE NO ACTION;
+GO
+
+-- Creating foreign key on [Id] in table 'Symptoms_RLMatchSymptom'
+ALTER TABLE [dbo].[Symptoms_RLMatchSymptom]
+ADD CONSTRAINT [FK_RLMatchSymptom_inherits_BetweenSymptom]
+    FOREIGN KEY ([Id])
+    REFERENCES [dbo].[Symptoms_BetweenSymptom]
+        ([Id])
+    ON DELETE CASCADE ON UPDATE NO ACTION;
+GO
+
+-- Creating foreign key on [Id] in table 'Symptoms_RedundancySymptom'
+ALTER TABLE [dbo].[Symptoms_RedundancySymptom]
+ADD CONSTRAINT [FK_RedundancySymptom_inherits_Symptom]
     FOREIGN KEY ([Id])
     REFERENCES [dbo].[Symptoms]
         ([Id])

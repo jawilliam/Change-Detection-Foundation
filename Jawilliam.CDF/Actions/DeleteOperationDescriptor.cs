@@ -24,5 +24,14 @@ namespace Jawilliam.CDF.Actions
 
             reader.Read();
         }
+
+        /// <summary>
+        /// Returns a string that represents the current object.
+        /// </summary>
+        /// <returns>A string that represents the current object.</returns>
+        public override string ToString()
+        {
+            return $"Delete {Element.Label}({Element.Id})";
+        }
     }
 }

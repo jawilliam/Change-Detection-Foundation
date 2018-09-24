@@ -166,6 +166,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Approach.Matching\Matchable.cs" />
+    <Compile Include="DBModel\RedundancySymptom.Custom.cs" />
+    <Compile Include="DBModel\RedundancyPattern.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ImprecisionComparison.cs" />
+    <Compile Include="RedundancyComparison.cs" />
     <Compile Include="BetweenComparison.cs" />
     <Compile Include="CorpusInfo.cs" />
     <Compile Include="DBModel\BetweenMatchInfo.DB.cs">
@@ -198,16 +204,25 @@
     <Compile Include="DBModel\Commit.DB.cs">
       <DependentUpon>GitRepository.tt</DependentUpon>
     </Compile>
+    <Compile Include="DBModel\CommonElementTypeSummary.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
     <Compile Include="DBModel\Contributor.DB.cs">
       <DependentUpon>GitRepository.tt</DependentUpon>
     </Compile>
     <Compile Include="DBModel\Delta.DB.cs">
       <DependentUpon>GitRepository.tt</DependentUpon>
     </Compile>
+    <Compile Include="DBModel\DeltaContentSummary.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
     <Compile Include="DBModel\ElementContext.DB.cs">
       <DependentUpon>GitRepository.tt</DependentUpon>
     </Compile>
     <Compile Include="DBModel\ElementDescription.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBModel\ElementTypeRevisionPairSummary.DB.cs">
       <DependentUpon>GitRepository.tt</DependentUpon>
     </Compile>
     <Compile Include="DBModel\File.DB.cs">
@@ -285,6 +300,9 @@
       <DependentUpon>GitRepository.tt</DependentUpon>
     </Compile>
     <Compile Include="DBModel\Project.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBModel\RedundancySymptom.DB.cs">
       <DependentUpon>GitRepository.tt</DependentUpon>
     </Compile>
     <Compile Include="DBModel\RepositoryObject.DB.cs">

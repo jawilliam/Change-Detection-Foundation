@@ -73,7 +73,6 @@
     <Compile Include="Approach\MatchingCriterion.cs" />
     <Compile Include="ElementTree.cs" />
     <Compile Include="Evaluation\MatchingSetRedundancyFinder.cs" />
-    <Compile Include="Evaluation\RedundancyFinder.cs" />
     <Compile Include="Evaluation\RedundancyPattern.cs" />
     <Compile Include="GTED\IForest.cs" />
     <Compile Include="GTED\INode.cs" />
@@ -81,7 +80,7 @@
     <Compile Include="GTED\Node.cs" />
     <Compile Include="GTED\Tree.cs" />
     <Compile Include="KruskalAlgorithm.cs" />
-    <Compile Include="Evaluation\RedundancyComparison.cs" />
+    <Compile Include="Evaluation\RedundancyFinder.cs" />
     <Compile Include="UniDM\AtomicElement.cs" />
     <Compile Include="UniDM\IDelta.cs" />
     <Compile Include="Metrics.Quality\EditDistance.cs" />

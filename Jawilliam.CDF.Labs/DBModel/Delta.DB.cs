@@ -37,5 +37,6 @@ namespace Jawilliam.CDF.Labs.DBModel
         public virtual FileModifiedChange RevisionPair { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Symptom> Symptoms { get; set; }
+        public virtual DeltaContentSummary ContentSummary { get; set; }
     }
 }

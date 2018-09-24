@@ -63,5 +63,14 @@ namespace Jawilliam.CDF.Approach
             if (this.Modified.Value != null)
                 writer.WriteAttributeString("mVl", this.Modified.Value);
         }
+
+        /// <summary>
+        /// Returns a string that represents the current object.
+        /// </summary>
+        /// <returns>A string that represents the current object.</returns>
+        public override string ToString()
+        {
+            return $"Matched {Original} with {Modified}";
+        }
     }
 }

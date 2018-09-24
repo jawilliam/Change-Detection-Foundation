@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Jawilliam.CDF.Labs.DBModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,7 +15,9 @@ namespace Jawilliam.CDF.Labs
         /// <summary>
         /// Looks for symptoms of imprecision.
         /// </summary>
-        public abstract void Recognize();
+        /// <param name="skipThese">local criterion for determining elements that should be ignored.</param>
+        /// <param name="saveChanges">Enables or disables the persistence of the changes.</param>
+        public abstract void Recognize(Func<FileRevisionPair, bool> skipThese = null, bool saveChanges = true);
 
         /// <summary>
         /// Gathers a referential summary and save it in <see cref="FileRevisionPairAnalyzer.Report"/>.

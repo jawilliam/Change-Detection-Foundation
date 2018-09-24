@@ -14,6 +14,7 @@
     <EntitySet Name="Reviews" EntityType="Jawilliam.CDF.Labs.SQL.Store.Reviews" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Project" EntityType="Jawilliam.CDF.Labs.SQL.Store.Project" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Symptoms" EntityType="Jawilliam.CDF.Labs.SQL.Store.Symptoms" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="DeltaContentSummaries" EntityType="Jawilliam.CDF.Labs.SQL.Store.DeltaContentSummaries" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="RepositoryObjects_Commit" EntityType="Jawilliam.CDF.Labs.SQL.Store.RepositoryObjects_Commit" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="RepositoryObjects_Contributor" EntityType="Jawilliam.CDF.Labs.SQL.Store.RepositoryObjects_Contributor" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="RepositoryObjects_Branch" EntityType="Jawilliam.CDF.Labs.SQL.Store.RepositoryObjects_Branch" store:Type="Tables" Schema="dbo" />
@@ -21,10 +22,13 @@
     <EntitySet Name="RepositoryObjects_File" EntityType="Jawilliam.CDF.Labs.SQL.Store.RepositoryObjects_File" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="RepositoryObjects_FileChange" EntityType="Jawilliam.CDF.Labs.SQL.Store.RepositoryObjects_FileChange" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="RepositoryObjects_FileModifiedChange" EntityType="Jawilliam.CDF.Labs.SQL.Store.RepositoryObjects_FileModifiedChange" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="DeltaContentSummaries_ElementTypeRevisionPairSummary" EntityType="Jawilliam.CDF.Labs.SQL.Store.DeltaContentSummaries_ElementTypeRevisionPairSummary" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="DeltaContentSummaries_CommonElementTypeSummary" EntityType="Jawilliam.CDF.Labs.SQL.Store.DeltaContentSummaries_CommonElementTypeSummary" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="RepositoryObjects_FileAddedChange" EntityType="Jawilliam.CDF.Labs.SQL.Store.RepositoryObjects_FileAddedChange" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="RepositoryObjects_FileDeletedChange" EntityType="Jawilliam.CDF.Labs.SQL.Store.RepositoryObjects_FileDeletedChange" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="RepositoryObjects_FileRenamedChange" EntityType="Jawilliam.CDF.Labs.SQL.Store.RepositoryObjects_FileRenamedChange" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Symptoms_MissedNameSymptom" EntityType="Jawilliam.CDF.Labs.SQL.Store.Symptoms_MissedNameSymptom" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Symptoms_RedundancySymptom" EntityType="Jawilliam.CDF.Labs.SQL.Store.Symptoms_RedundancySymptom" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Symptoms_NameCoexistenceSymptom" EntityType="Jawilliam.CDF.Labs.SQL.Store.Symptoms_NameCoexistenceSymptom" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Symptoms_IncompatibleMatchingSymptom" EntityType="Jawilliam.CDF.Labs.SQL.Store.Symptoms_IncompatibleMatchingSymptom" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Symptoms_SpuriositySymptom" EntityType="Jawilliam.CDF.Labs.SQL.Store.Symptoms_SpuriositySymptom" store:Type="Tables" Schema="dbo" />
@@ -118,6 +122,14 @@
       <End Role="Symptom" EntitySet="Symptoms" />
       <End Role="Symptom1" EntitySet="Symptoms" />
     </AssociationSet>
+    <AssociationSet Name="ElementTypeRevisionPairSummaryCommonElementTypeSummary" Association="Jawilliam.CDF.Labs.SQL.Store.ElementTypeRevisionPairSummaryCommonElementTypeSummary">
+      <End Role="ElementTypeRevisionPairSummary" EntitySet="DeltaContentSummaries_ElementTypeRevisionPairSummary" />
+      <End Role="CommonElementTypeSummary" EntitySet="DeltaContentSummaries_CommonElementTypeSummary" />
+    </AssociationSet>
+    <AssociationSet Name="DeltaDeltaContentSummary" Association="Jawilliam.CDF.Labs.SQL.Store.DeltaDeltaContentSummary">
+      <End Role="Delta" EntitySet="Deltas" />
+      <End Role="DeltaContentSummary" EntitySet="DeltaContentSummaries" />
+    </AssociationSet>
     <AssociationSet Name="FK_Commit_inherits_RepositoryObject" Association="Jawilliam.CDF.Labs.SQL.Store.FK_Commit_inherits_RepositoryObject">
       <End Role="RepositoryObject" EntitySet="RepositoryObjects" />
       <End Role="Commit" EntitySet="RepositoryObjects_Commit" />
@@ -145,6 +157,14 @@
     <AssociationSet Name="FK_FileModifiedChange_inherits_FileChange" Association="Jawilliam.CDF.Labs.SQL.Store.FK_FileModifiedChange_inherits_FileChange">
       <End Role="FileChange" EntitySet="RepositoryObjects_FileChange" />
       <End Role="FileModifiedChange" EntitySet="RepositoryObjects_FileModifiedChange" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ElementTypeRevisionPairSummary_inherits_DeltaContentSummary" Association="Jawilliam.CDF.Labs.SQL.Store.FK_ElementTypeRevisionPairSummary_inherits_DeltaContentSummary">
+      <End Role="DeltaContentSummary" EntitySet="DeltaContentSummaries" />
+      <End Role="ElementTypeRevisionPairSummary" EntitySet="DeltaContentSummaries_ElementTypeRevisionPairSummary" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CommonElementTypeSummary_inherits_DeltaContentSummary" Association="Jawilliam.CDF.Labs.SQL.Store.FK_CommonElementTypeSummary_inherits_DeltaContentSummary">
+      <End Role="DeltaContentSummary" EntitySet="DeltaContentSummaries" />
+      <End Role="CommonElementTypeSummary" EntitySet="DeltaContentSummaries_CommonElementTypeSummary" />
     </AssociationSet>
     <AssociationSet Name="FK_FileAddedChange_inherits_FileChange" Association="Jawilliam.CDF.Labs.SQL.Store.FK_FileAddedChange_inherits_FileChange">
       <End Role="FileChange" EntitySet="RepositoryObjects_FileChange" />
@@ -185,6 +205,10 @@
     <AssociationSet Name="FK_BetweenSymptom_inherits_Symptom" Association="Jawilliam.CDF.Labs.SQL.Store.FK_BetweenSymptom_inherits_Symptom">
       <End Role="Symptom" EntitySet="Symptoms" />
       <End Role="BetweenSymptom" EntitySet="Symptoms_BetweenSymptom" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RedundancySymptom_inherits_Symptom" Association="Jawilliam.CDF.Labs.SQL.Store.FK_RedundancySymptom_inherits_Symptom">
+      <End Role="Symptom" EntitySet="Symptoms" />
+      <End Role="RedundancySymptom" EntitySet="Symptoms_RedundancySymptom" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="RepositoryObjects">
@@ -312,6 +336,17 @@
     <Property Name="Delta_Id" Type="uniqueidentifier" Nullable="false" />
     <Property Name="Parent_Id" Type="uniqueidentifier" Nullable="true" />
   </EntityType>
+  <EntityType Name="DeltaContentSummaries">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Annotations" Type="xml" Nullable="true" />
+    <Property Name="Approach" Type="int" Nullable="false" />
+    <Property Name="Max" Type="bigint" Nullable="true" />
+    <Property Name="Min" Type="bigint" Nullable="true" />
+    <Property Name="Delta_Id" Type="uniqueidentifier" Nullable="false" />
+  </EntityType>
   <EntityType Name="RepositoryObjects_Commit">
     <Key>
       <PropertyRef Name="Id" />
@@ -373,6 +408,24 @@
     <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
     <Property Name="FromFileVersion_Id" Type="uniqueidentifier" Nullable="false" />
     <Property Name="FileRevisionPair_AlsoReferences_TheDuplicatedFileModifiedChanges_FileModifiedChange_Id" Type="uniqueidentifier" Nullable="true" />
+  </EntityType>
+  <EntityType Name="DeltaContentSummaries_ElementTypeRevisionPairSummary">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="ElementType" Type="int" Nullable="false" />
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+  </EntityType>
+  <EntityType Name="DeltaContentSummaries_CommonElementTypeSummary">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="ElementType" Type="int" Nullable="false" />
+    <Property Name="Tf" Type="bigint" Nullable="true" />
+    <Property Name="Idf" Type="bigint" Nullable="true" />
+    <Property Name="Tf_Idf" Type="bigint" Nullable="true" />
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="CommonAncestor_Id" Type="uniqueidentifier" Nullable="true" />
   </EntityType>
   <EntityType Name="RepositoryObjects_FileAddedChange">
     <Key>
@@ -542,6 +595,33 @@
     <Property Name="Right_PartApproach" Type="int" Nullable="true" />
     <Property Name="DivergentLeft_PartApproach" Type="int" Nullable="true" />
     <Property Name="DivergentRight_PartApproach" Type="int" Nullable="true" />
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Symptoms_RedundancySymptom">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Pattern" Type="tinyint" Nullable="false" />
+    <Property Name="Original_Type" Type="nvarchar(max)" Nullable="false" DefaultValue="&quot;&quot;" />
+    <Property Name="Original_Id" Type="nvarchar(max)" Nullable="false" DefaultValue="&quot;-1&quot;" />
+    <Property Name="Original_Hint" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="AndOriginal_Type" Type="nvarchar(max)" Nullable="false" DefaultValue="&quot;&quot;" />
+    <Property Name="AndOriginal_Id" Type="nvarchar(max)" Nullable="false" DefaultValue="&quot;-1&quot;" />
+    <Property Name="AndOriginal_Hint" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Modified_Type" Type="nvarchar(max)" Nullable="false" DefaultValue="&quot;&quot;" />
+    <Property Name="Modified_Id" Type="nvarchar(max)" Nullable="false" DefaultValue="&quot;-1&quot;" />
+    <Property Name="Modified_Hint" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="AndModified_Type" Type="nvarchar(max)" Nullable="false" DefaultValue="&quot;&quot;" />
+    <Property Name="AndModified_Id" Type="nvarchar(max)" Nullable="false" DefaultValue="&quot;-1&quot;" />
+    <Property Name="AndModified_Hint" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="AnotherOriginal_Type" Type="nvarchar(max)" Nullable="false" DefaultValue="&quot;&quot;" />
+    <Property Name="AnotherOriginal_Id" Type="nvarchar(max)" Nullable="false" DefaultValue="&quot;-1&quot;" />
+    <Property Name="AnotherOriginal_Hint" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="AnotherModified_Type" Type="nvarchar(max)" Nullable="false" DefaultValue="&quot;&quot;" />
+    <Property Name="AnotherModified_Id" Type="nvarchar(max)" Nullable="false" DefaultValue="&quot;-1&quot;" />
+    <Property Name="AnotherModified_Hint" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="LeftApproach" Type="int" Nullable="false" />
+    <Property Name="RightApproach" Type="int" Nullable="false" />
     <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
   </EntityType>
   <EntityType Name="Branch_Contains_Commits">
@@ -764,6 +844,30 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="ElementTypeRevisionPairSummaryCommonElementTypeSummary">
+    <End Role="ElementTypeRevisionPairSummary" Type="Jawilliam.CDF.Labs.SQL.Store.DeltaContentSummaries_ElementTypeRevisionPairSummary" Multiplicity="0..1" />
+    <End Role="CommonElementTypeSummary" Type="Jawilliam.CDF.Labs.SQL.Store.DeltaContentSummaries_CommonElementTypeSummary" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ElementTypeRevisionPairSummary">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CommonElementTypeSummary">
+        <PropertyRef Name="CommonAncestor_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="DeltaDeltaContentSummary">
+    <End Role="Delta" Type="Jawilliam.CDF.Labs.SQL.Store.Deltas" Multiplicity="1" />
+    <End Role="DeltaContentSummary" Type="Jawilliam.CDF.Labs.SQL.Store.DeltaContentSummaries" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Delta">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="DeltaContentSummary">
+        <PropertyRef Name="Delta_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Branch_Contains_Commits_Commit">
     <End Role="Commit" Type="Jawilliam.CDF.Labs.SQL.Store.RepositoryObjects_Commit" Multiplicity="1" />
     <End Role="Branch_Contains_Commits" Type="Jawilliam.CDF.Labs.SQL.Store.Branch_Contains_Commits" Multiplicity="*" />
@@ -910,6 +1014,34 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_ElementTypeRevisionPairSummary_inherits_DeltaContentSummary">
+    <End Role="DeltaContentSummary" Type="Jawilliam.CDF.Labs.SQL.Store.DeltaContentSummaries" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="ElementTypeRevisionPairSummary" Type="Jawilliam.CDF.Labs.SQL.Store.DeltaContentSummaries_ElementTypeRevisionPairSummary" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="DeltaContentSummary">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ElementTypeRevisionPairSummary">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CommonElementTypeSummary_inherits_DeltaContentSummary">
+    <End Role="DeltaContentSummary" Type="Jawilliam.CDF.Labs.SQL.Store.DeltaContentSummaries" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="CommonElementTypeSummary" Type="Jawilliam.CDF.Labs.SQL.Store.DeltaContentSummaries_CommonElementTypeSummary" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="DeltaContentSummary">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CommonElementTypeSummary">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_FileAddedChange_inherits_FileChange">
     <End Role="FileChange" Type="Jawilliam.CDF.Labs.SQL.Store.RepositoryObjects_FileChange" Multiplicity="1">
       <OnDelete Action="Cascade" />
@@ -1050,6 +1182,20 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_RedundancySymptom_inherits_Symptom">
+    <End Role="Symptom" Type="Jawilliam.CDF.Labs.SQL.Store.Symptoms" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="RedundancySymptom" Type="Jawilliam.CDF.Labs.SQL.Store.Symptoms_RedundancySymptom" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Symptom">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="RedundancySymptom">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -1139,6 +1285,15 @@
           <AssociationSet Name="OneFileVersion_CanBeSeenFrom_MultipleFileFormat" Association="Jawilliam.CDF.Labs.SQL.OneFileVersion_CanBeSeenFrom_MultipleFileFormat">
             <End Role="FileVersion" EntitySet="RepositoryObjects" />
             <End Role="FileFormat" EntitySet="FileFormats" />
+          </AssociationSet>
+          <EntitySet Name="DeltaContentSummaries" EntityType="Jawilliam.CDF.Labs.SQL.DeltaContentSummary" />
+          <AssociationSet Name="ElementTypeRevisionPairSummaryCommonElementTypeSummary" Association="Jawilliam.CDF.Labs.SQL.ElementTypeRevisionPairSummaryCommonElementTypeSummary">
+            <End Role="ElementTypeRevisionPairSummary" EntitySet="DeltaContentSummaries" />
+            <End Role="CommonElementTypeSummary" EntitySet="DeltaContentSummaries" />
+          </AssociationSet>
+          <AssociationSet Name="DeltaDeltaContentSummary" Association="Jawilliam.CDF.Labs.SQL.DeltaDeltaContentSummary">
+            <End Role="Delta" EntitySet="Deltas" />
+            <End Role="DeltaContentSummary" EntitySet="DeltaContentSummaries" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="RepositoryObject" Abstract="true">
@@ -1290,6 +1445,7 @@
           <Property Name="GlobalDeletePorcentageSubcorpus" Type="Jawilliam.CDF.Labs.SQL.SubcorpusKind" Nullable="true" />
           <Property Name="GlobalUpdatePorcentageSubcorpus" Type="Jawilliam.CDF.Labs.SQL.SubcorpusKind" Nullable="true" />
           <Property Name="GlobalMovePorcentageSubcorpus" Type="Jawilliam.CDF.Labs.SQL.SubcorpusKind" Nullable="true" />
+          <NavigationProperty Name="ContentSummary" Relationship="Jawilliam.CDF.Labs.SQL.DeltaDeltaContentSummary" FromRole="Delta" ToRole="DeltaContentSummary" />
         </EntityType>
         <Association Name="FileModifiedChanges_CanBeDescribedByDifferent_Deltas">
           <End Type="Jawilliam.CDF.Labs.SQL.FileModifiedChange" Role="FileModifiedChange" Multiplicity="0..1" />
@@ -1586,6 +1742,65 @@
           <End Type="Jawilliam.CDF.Labs.SQL.FileVersion" Role="FileVersion" Multiplicity="1" />
           <End Type="Jawilliam.CDF.Labs.SQL.FileFormat" Role="FileFormat" Multiplicity="*" />
         </Association>
+        <EntityType Name="RedundancySymptom" BaseType="Jawilliam.CDF.Labs.SQL.Symptom" >
+          <Property Name="Pattern" Type="Jawilliam.CDF.Labs.SQL.RedundancyPattern" Nullable="false" />
+          <Property Name="MissedOriginal" Type="Jawilliam.CDF.Labs.SQL.ElementDescription" Nullable="false" />
+          <Property Name="SpuriousOriginal" Type="Jawilliam.CDF.Labs.SQL.ElementDescription" Nullable="false" />
+          <Property Name="MissedModified" Type="Jawilliam.CDF.Labs.SQL.ElementDescription" Nullable="false" />
+          <Property Name="SpuriousModified" Type="Jawilliam.CDF.Labs.SQL.ElementDescription" Nullable="false" />
+          <Property Name="DeltaApproach" Type="Jawilliam.CDF.Labs.SQL.ChangeDetectionApproaches" Nullable="false" />
+          <Property Name="CorrectorApproach" Type="Jawilliam.CDF.Labs.SQL.ChangeDetectionApproaches" Nullable="false" />
+          <Property Name="AndSpuriousOriginal" Type="Jawilliam.CDF.Labs.SQL.ElementDescription" Nullable="false" />
+          <Property Name="AndSpuriousModified" Type="Jawilliam.CDF.Labs.SQL.ElementDescription" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DeltaContentSummary">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="None" />
+          <Property Name="Annotations" Type="String" Nullable="true" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Approach" Type="Int32" Nullable="false" />
+          <Property Name="Max" Type="Int64" Nullable="true" />
+          <Property Name="Min" Type="Int64" Nullable="true" />
+          <NavigationProperty Name="Delta" Relationship="Jawilliam.CDF.Labs.SQL.DeltaDeltaContentSummary" FromRole="DeltaContentSummary" ToRole="Delta" />
+        </EntityType>
+        <EntityType Name="ElementTypeRevisionPairSummary" BaseType="Jawilliam.CDF.Labs.SQL.DeltaContentSummary" >
+          <Property Name="ElementType" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Commonalities" Relationship="Jawilliam.CDF.Labs.SQL.ElementTypeRevisionPairSummaryCommonElementTypeSummary" FromRole="ElementTypeRevisionPairSummary" ToRole="CommonElementTypeSummary" />
+        </EntityType>
+        <EntityType Name="CommonElementTypeSummary" BaseType="Jawilliam.CDF.Labs.SQL.DeltaContentSummary">
+          <Property Name="ElementType" Type="Int32" Nullable="false" />
+          <Property Name="Tf" Type="Int64" Nullable="true" />
+          <Property Name="Idf" Type="Int64" Nullable="true" />
+          <Property Name="Tf_Idf" Type="Int64" Nullable="true" />
+          <NavigationProperty Name="CommonAncestor" Relationship="Jawilliam.CDF.Labs.SQL.ElementTypeRevisionPairSummaryCommonElementTypeSummary" FromRole="CommonElementTypeSummary" ToRole="ElementTypeRevisionPairSummary" />
+        </EntityType>
+        <Association Name="ElementTypeRevisionPairSummaryCommonElementTypeSummary">
+          <End Type="Jawilliam.CDF.Labs.SQL.ElementTypeRevisionPairSummary" Role="ElementTypeRevisionPairSummary" Multiplicity="0..1" />
+          <End Type="Jawilliam.CDF.Labs.SQL.CommonElementTypeSummary" Role="CommonElementTypeSummary" Multiplicity="*" />
+        </Association>
+        <Association Name="DeltaDeltaContentSummary">
+          <End Type="Jawilliam.CDF.Labs.SQL.Delta" Role="Delta" Multiplicity="1" />
+          <End Type="Jawilliam.CDF.Labs.SQL.DeltaContentSummary" Role="DeltaContentSummary" Multiplicity="0..1" />
+        </Association>
+        <EnumType Name="RedundancyPattern" UnderlyingType="Byte">
+          <Member Name="DI" Value="1" />
+          <Member Name="UI" Value="2" />
+          <Member Name="DU" Value="3" />
+          <Member Name="UU" Value="4" />
+          <Member Name="DM" Value="5" />
+          <Member Name="MI" Value="6" />
+          <Member Name="MM" Value="7" />
+          <Member Name="UM" Value="8" />
+          <Member Name="MU" Value="9" />
+          <Member Name="UMI" Value="10" />
+          <Member Name="DUM" Value="11" />
+          <Member Name="UMU" Value="12" />
+          <Member Name="UUM" Value="13" />
+          <Member Name="UMUM" Value="14" />
+          <Member Name="MUM" Value="15" />
+          <Member Name="UMM" Value="16" />
+        </EnumType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1772,8 +1987,8 @@
       </EntityTypeMapping>
       <EntityTypeMapping TypeName="IsTypeOf(Jawilliam.CDF.Labs.SQL.MissedNameSymptom)">
         <MappingFragment StoreEntitySet="Symptoms_MissedNameSymptom">
-          <ScalarProperty Name="Pattern" ColumnName="Pattern" />
           <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Pattern" ColumnName="Pattern" />
           <ComplexProperty Name="Original" TypeName="Jawilliam.CDF.Labs.SQL.MissedMatch">
             <ScalarProperty Name="Hint" ColumnName="Original_Hint" />
             <ComplexProperty Name="Element" TypeName="Jawilliam.CDF.Labs.SQL.ElementDescription">
@@ -2093,6 +2308,44 @@
                 </ComplexProperty>
               </MappingFragment>
             </EntityTypeMapping>
+            <EntityTypeMapping TypeName="IsTypeOf(Jawilliam.CDF.Labs.SQL.RedundancySymptom)" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+              <MappingFragment StoreEntitySet="Symptoms_RedundancySymptom">
+                <ScalarProperty Name="Pattern" ColumnName="Pattern" />
+                <ComplexProperty Name="MissedOriginal" TypeName="Jawilliam.CDF.Labs.SQL.ElementDescription">
+                  <ScalarProperty Name="Type" ColumnName="Original_Type" />
+                  <ScalarProperty Name="Id" ColumnName="Original_Id" />
+                  <ScalarProperty Name="Hint" ColumnName="Original_Hint" />
+                </ComplexProperty>
+                <ComplexProperty Name="MissedModified" TypeName="Jawilliam.CDF.Labs.SQL.ElementDescription">
+                  <ScalarProperty Name="Type" ColumnName="Modified_Type" />
+                  <ScalarProperty Name="Id" ColumnName="Modified_Id" />
+                  <ScalarProperty Name="Hint" ColumnName="Modified_Hint" />
+                </ComplexProperty>
+                <ComplexProperty Name="SpuriousOriginal" TypeName="Jawilliam.CDF.Labs.SQL.ElementDescription">
+                  <ScalarProperty Name="Type" ColumnName="AndOriginal_Type" />
+                  <ScalarProperty Name="Id" ColumnName="AndOriginal_Id" />
+                  <ScalarProperty Name="Hint" ColumnName="AndOriginal_Hint" />
+                </ComplexProperty>
+                <ComplexProperty Name="SpuriousModified" TypeName="Jawilliam.CDF.Labs.SQL.ElementDescription">
+                  <ScalarProperty Name="Type" ColumnName="AndModified_Type" />
+                  <ScalarProperty Name="Id" ColumnName="AndModified_Id" />
+                  <ScalarProperty Name="Hint" ColumnName="AndModified_Hint" />
+                </ComplexProperty>
+                <ComplexProperty Name="AndSpuriousOriginal" TypeName="Jawilliam.CDF.Labs.SQL.ElementDescription">
+                  <ScalarProperty Name="Type" ColumnName="AnotherOriginal_Type" />
+                  <ScalarProperty Name="Id" ColumnName="AnotherOriginal_Id" />
+                  <ScalarProperty Name="Hint" ColumnName="AnotherOriginal_Hint" />
+                </ComplexProperty>
+                <ComplexProperty Name="AndSpuriousModified" TypeName="Jawilliam.CDF.Labs.SQL.ElementDescription">
+                  <ScalarProperty Name="Type" ColumnName="AnotherModified_Type" />
+                  <ScalarProperty Name="Id" ColumnName="AnotherModified_Id" />
+                  <ScalarProperty Name="Hint" ColumnName="AnotherModified_Hint" />
+                </ComplexProperty>
+                <ScalarProperty Name="DeltaApproach" ColumnName="LeftApproach" />
+                <ScalarProperty Name="CorrectorApproach" ColumnName="RightApproach" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
     </EntitySetMapping>
     <AssociationSetMapping Name="Contributor_IsAuthorOf_Commits" TypeName="Jawilliam.CDF.Labs.SQL.Contributor_IsAuthorOf_Commits" StoreEntitySet="RepositoryObjects_Commit">
       <EndProperty Name="Committer">
@@ -2256,7 +2509,34 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="OneFileVersion_CanBeSeenFrom_MultipleFileFormat" TypeName="Jawilliam.CDF.Labs.SQL.OneFileVersion_CanBeSeenFrom_MultipleFileFormat" StoreEntitySet="FileFormats">
+    <EntitySetMapping Name="DeltaContentSummaries">
+      <EntityTypeMapping TypeName="IsTypeOf(Jawilliam.CDF.Labs.SQL.DeltaContentSummary)">
+        <MappingFragment StoreEntitySet="DeltaContentSummaries">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Annotations" ColumnName="Annotations" />
+          <ScalarProperty Name="Approach" ColumnName="Approach" />
+          <ScalarProperty Name="Max" ColumnName="Max" />
+          <ScalarProperty Name="Min" ColumnName="Min" />
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="IsTypeOf(Jawilliam.CDF.Labs.SQL.ElementTypeRevisionPairSummary)">
+        <MappingFragment StoreEntitySet="DeltaContentSummaries_ElementTypeRevisionPairSummary">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="ElementType" ColumnName="ElementType" />
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="IsTypeOf(Jawilliam.CDF.Labs.SQL.CommonElementTypeSummary)">
+        <MappingFragment StoreEntitySet="DeltaContentSummaries_CommonElementTypeSummary">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="ElementType" ColumnName="ElementType" />
+          <ScalarProperty Name="Tf" ColumnName="Tf" />
+          <ScalarProperty Name="Idf" ColumnName="Idf" />
+          <ScalarProperty Name="Tf_Idf" ColumnName="Tf_Idf" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+
+    <AssociationSetMapping Name="OneFileVersion_CanBeSeenFrom_MultipleFileFormat" TypeName="Jawilliam.CDF.Labs.SQL.OneFileVersion_CanBeSeenFrom_MultipleFileFormat" StoreEntitySet="FileFormats">
             <EndProperty Name="FileFormat">
               <ScalarProperty Name="Id" ColumnName="Id" />
             </EndProperty>
@@ -2264,7 +2544,24 @@
               <ScalarProperty Name="Id" ColumnName="FileVersion_Id" />
             </EndProperty>
           </AssociationSetMapping>
-  </EntityContainerMapping>
+    <AssociationSetMapping Name="ElementTypeRevisionPairSummaryCommonElementTypeSummary" TypeName="Jawilliam.CDF.Labs.SQL.ElementTypeRevisionPairSummaryCommonElementTypeSummary" StoreEntitySet="DeltaContentSummaries_CommonElementTypeSummary">
+      <EndProperty Name="ElementTypeRevisionPairSummary">
+        <ScalarProperty Name="Id" ColumnName="CommonAncestor_Id" />
+      </EndProperty>
+      <EndProperty Name="CommonElementTypeSummary">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="CommonAncestor_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="DeltaDeltaContentSummary" TypeName="Jawilliam.CDF.Labs.SQL.DeltaDeltaContentSummary" StoreEntitySet="DeltaContentSummaries">
+      <EndProperty Name="Delta">
+        <ScalarProperty Name="Id" ColumnName="Delta_Id" />
+      </EndProperty>
+      <EndProperty Name="DeltaContentSummary">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+          </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->

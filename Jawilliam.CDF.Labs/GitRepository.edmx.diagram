@@ -86,6 +86,16 @@
         <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.LRMatchSymptom" />
         <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.RLMatchSymptom" Width="2.625" PointX="29.875" PointY="14.25" />
         <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.RLMatchSymptom" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.RedundancySymptom" Width="4.75" PointX="35.875" PointY="9.875" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.DeltaContentSummary" Width="3" PointX="16.25" PointY="5.875" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.ElementTypeRevisionPairSummary" Width="2.5" PointX="15.125" PointY="3" />
+        <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.ElementTypeRevisionPairSummary" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.CommonElementTypeSummary" Width="2.5" PointX="18.25" PointY="3" />
+        <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.CommonElementTypeSummary" />
+        <AssociationConnector Association="Jawilliam.CDF.Labs.SQL.ElementTypeRevisionPairSummaryCommonElementTypeSummary" />
+        <AssociationConnector Association="Jawilliam.CDF.Labs.SQL.DeltaDeltaContentSummary" />
+        <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.RedundancySymptom" />
+        <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.RedundancySymptom" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -69,5 +69,14 @@ namespace Jawilliam.CDF.Actions
 
             writer.WriteAttributeString("pos", XmlConvert.ToString(this.Position));
         }
+
+        /// <summary>
+        /// Returns a string that represents the current object.
+        /// </summary>
+        /// <returns>A string that represents the current object.</returns>
+        public override string ToString()
+        {
+            return $"Insert {Element.Label}({Element.Id}) into {this.Parent.Label}({this.Parent.Id}) at {this.Position}";
+        }
     }
 }

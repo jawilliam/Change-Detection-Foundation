@@ -12,12 +12,12 @@ using Microsoft.CodeAnalysis.CSharp;
 
 namespace Jawilliam.CDF.Labs
 {
-    public class BetweenComparison : ImprecisionDiagnostic<MissedElement>
+    public class BetweenComparison : ImprecisionComparison<BetweenSymptom>
     {
         /// <summary>
         /// Gets or sets the configuration for the comparison.
         /// </summary>
-        public virtual Criterion Config { get; set; }
+        public virtual BetweenComparisonCriterion Config { get; set; }
 
         /// <summary>
         /// Looks for symptoms of imprecision.
@@ -26,7 +26,7 @@ namespace Jawilliam.CDF.Labs
         /// <param name="rightDelta">right delta.</param>
         /// <param name="pair">file revision pair being analized.</param>
         /// <param name="token">mechanism for cancelling the analisys.</param>
-        public virtual IEnumerable<BetweenSymptom> Compare(Delta leftDelta, Delta rightDelta, FileRevisionPair pair, CancellationToken token)
+        public override IEnumerable<BetweenSymptom> Compare(Delta leftDelta, Delta rightDelta, FileRevisionPair pair, CancellationToken token)
         {
             //var lDelta = this.Config.LeftDeltaContainer(leftDelta, pair);
             //var leftOriginalTree = ElementTree.Read(lDelta.OriginalTree, Encoding.Unicode);
@@ -268,7 +268,7 @@ namespace Jawilliam.CDF.Labs
         /// </summary>
         /// <param name="skipThese">local criterion for determining elements that should be ignored.</param>
         /// <param name="saveChanges">Enables or disables the persistence of the changes.</param>
-        public virtual void Recognize(Func<FileRevisionPair, bool> skipThese, bool saveChanges = true)
+        public override void Recognize(Func<FileRevisionPair, bool> skipThese = null, bool saveChanges = true)
         {
             this.Analyze(f => f.Principal.Deltas.Any(d => d.Approach == this.Config.Left &&
                                                           d.Matching != null && 
@@ -469,14 +469,6 @@ namespace Jawilliam.CDF.Labs
         }
 
         /// <summary>
-        /// Looks for symptoms of imprecision.
-        /// </summary>
-        public override void Recognize()
-        {
-            this.Recognize(null, false);
-        }
-
-        /// <summary>
         /// Reports the totals of between match symptoms, as well their percentages in relation to the project corpus.
         /// </summary>
         /// <returns>numbers discriminating among LR-matches and RL-matches, and also the total of matches.</returns>
@@ -535,73 +527,76 @@ namespace Jawilliam.CDF.Labs
         /// <summary>
         /// Returns a configuration to check for reversible changes.
         /// </summary>
+        protected new void ConfigGumTreeVsReversedGumTree<T>(T criterion) where T : BetweenComparisonCriterion, new()
+        {
+            base.ConfigGumTreeVsReversedGumTree(criterion);
+
+            criterion.MatchCompare = (leftMatch, leftDelta, rightMatch, rightDelta) =>
+                    leftMatch.Original.Id == rightMatch.Modified.Id &&
+                    leftMatch.Modified.Id == rightMatch.Original.Id;
+
+            criterion.ActionCompare = delegate (ActionDescriptor leftAction, DetectionResult leftDelta, ActionDescriptor rightAction, DetectionResult rightDelta)
+            {
+                switch (leftAction.Action)
+                {
+                    case ActionKind.Update:
+                        if (rightAction.Action == ActionKind.Update)
+                        {
+                            var l = (UpdateOperationDescriptor)leftAction;
+                            var leftMatch = leftDelta.Matches.Single(m => m.Original.Id == l.Element.Id);
+                            var r = (UpdateOperationDescriptor)rightAction;
+                            var rightMatch = rightDelta.Matches.Single(m => m.Original.Id == r.Element.Id);
+
+                            return leftMatch.Original.Id == rightMatch.Modified.Id &&
+                                   leftMatch.Modified.Id == rightMatch.Original.Id;
+                        }
+                        break;
+                    case ActionKind.Insert:
+                        if (rightAction.Action == ActionKind.Delete)
+                        {
+                            var l = (InsertOperationDescriptor)leftAction;
+                            var r = (DeleteOperationDescriptor)rightAction;
+                            return l.Element.Id == r.Element.Id;
+                        }
+                        break;
+                    case ActionKind.Delete:
+                        if (rightAction.Action == ActionKind.Insert)
+                        {
+                            var l = (DeleteOperationDescriptor)leftAction;
+                            var r = (InsertOperationDescriptor)rightAction;
+                            return l.Element.Id == r.Element.Id;
+                        }
+                        break;
+                    case ActionKind.Move:
+                        if (rightAction.Action == ActionKind.Move)
+                        {
+                            var l = (MoveOperationDescriptor)leftAction;
+                            var leftMatch = leftDelta.Matches.Single(m => m.Original.Id == l.Element.Id);
+                            var r = (MoveOperationDescriptor)rightAction;
+                            var rightMatch = rightDelta.Matches.Single(m => m.Original.Id == r.Element.Id);
+
+                            return leftMatch.Original.Id == rightMatch.Modified.Id &&
+                                   leftMatch.Modified.Id == rightMatch.Original.Id;
+                        }
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+
+                return false;
+            };
+
+            criterion.DivergentMatchForOriginal = (missedMatch, leftDetection, rightDetection) => rightDetection.Matches.FirstOrDefault(m => missedMatch.Original.Id == m.Modified.Id);
+            criterion.DivergentMatchForModified = (missedMatch, leftDetection, rightDetection) => rightDetection.Matches.FirstOrDefault(m => missedMatch.Modified.Id == m.Original.Id);
+        }
+
+        /// <summary>
+        /// Returns a configuration to check for reversible changes.
+        /// </summary>
         public virtual void ConfigGumTreeVsReversedGumTree()
         {
-            this.Config = new Criterion
-            {
-                Left = ChangeDetectionApproaches.NativeGumTree,
-                LeftName = "GumTree",
-                Right = ChangeDetectionApproaches.InverseOfNativeGumTree,
-                RightName = "ReversedGumTree",
-                TwoWay = true,
-                MatchCompare = (leftMatch, leftDelta, rightMatch, rightDelta) => 
-                    leftMatch.Original.Id == rightMatch.Modified.Id &&
-                    leftMatch.Modified.Id == rightMatch.Original.Id,
-                ActionCompare = delegate(ActionDescriptor leftAction, DetectionResult leftDelta, ActionDescriptor rightAction, DetectionResult rightDelta)
-                {
-                    switch (leftAction.Action)
-                    {
-                        case ActionKind.Update:
-                            if (rightAction.Action == ActionKind.Update)
-                            {
-                                var l = (UpdateOperationDescriptor)leftAction;
-                                var leftMatch = leftDelta.Matches.Single(m => m.Original.Id == l.Element.Id);
-                                var r = (UpdateOperationDescriptor)rightAction;
-                                var rightMatch = rightDelta.Matches.Single(m => m.Original.Id == r.Element.Id);
-
-                                return leftMatch.Original.Id == rightMatch.Modified.Id &&
-                                       leftMatch.Modified.Id == rightMatch.Original.Id;
-                            }
-                            break;
-                        case ActionKind.Insert:
-                            if (rightAction.Action == ActionKind.Delete)
-                            {
-                                var l = (InsertOperationDescriptor)leftAction;
-                                var r = (DeleteOperationDescriptor)rightAction;
-                                return l.Element.Id == r.Element.Id;
-                            }
-                            break;
-                        case ActionKind.Delete:
-                            if (rightAction.Action == ActionKind.Insert)
-                            {
-                                var l = (DeleteOperationDescriptor)leftAction;
-                                var r = (InsertOperationDescriptor)rightAction;
-                                return l.Element.Id == r.Element.Id;
-                            }
-                            break;
-                        case ActionKind.Move:
-                            if (rightAction.Action == ActionKind.Move)
-                            {
-                                var l = (MoveOperationDescriptor)leftAction;
-                                var leftMatch = leftDelta.Matches.Single(m => m.Original.Id == l.Element.Id);
-                                var r = (MoveOperationDescriptor)rightAction;
-                                var rightMatch = rightDelta.Matches.Single(m => m.Original.Id == r.Element.Id);
-
-                                return leftMatch.Original.Id == rightMatch.Modified.Id &&
-                                       leftMatch.Modified.Id == rightMatch.Original.Id;
-                            }
-                            break;
-                        default:
-                            throw new ArgumentOutOfRangeException();
-                    }
-
-                    return false;
-                },
-                DivergentMatchForOriginal = (missedMatch, leftDetection, rightDetection) => 
-                    rightDetection.Matches.FirstOrDefault(m => missedMatch.Original.Id == m.Modified.Id),
-                DivergentMatchForModified = (missedMatch, leftDetection, rightDetection) =>
-                    rightDetection.Matches.FirstOrDefault(m => missedMatch.Modified.Id == m.Original.Id)
-            };
+            this.Config = new BetweenComparisonCriterion();
+            this.ConfigGumTreeVsReversedGumTree<BetweenComparisonCriterion>(this.Config);
         }
 
         /// <summary>
@@ -613,7 +608,7 @@ namespace Jawilliam.CDF.Labs
         /// <param name="rightName"></param>
         public virtual void ConfigLeftVsRight((ChangeDetectionApproaches Approach, string Name) left, (ChangeDetectionApproaches Approach, string Name) right)
         {
-            this.Config = new Criterion
+            this.Config = new BetweenComparisonCriterion
             {
                 Left = left.Approach,
                 LeftName = left.Name,
@@ -680,33 +675,8 @@ namespace Jawilliam.CDF.Labs
         /// <summary>
         /// Implements placeholders to configure the between comparison.
         /// </summary>
-        public class Criterion
+        public class BetweenComparisonCriterion : ImprecisionComparisonCriterion
         {
-            /// <summary>
-            /// Gets or sets the left-comparing approach.
-            /// </summary>
-            public virtual ChangeDetectionApproaches Left { get; set; }
-
-            /// <summary>
-            /// Gets or sets the name of the left-comparing approach.
-            /// </summary>
-            public virtual string LeftName { get; set; }
-
-            /// <summary>
-            /// Gets or sets the left-comparing approach.
-            /// </summary>
-            public virtual ChangeDetectionApproaches Right { get; set; }
-
-            /// <summary>
-            /// Gets or sets the name of the right-comparing approach.
-            /// </summary>
-            public virtual string RightName { get; set; }
-
-            /// <summary>
-            /// Gets or sets if the comparison is left-to-right and right-to-left (TRUE), or just left-to-right (FALSE).
-            /// </summary>
-            public virtual bool TwoWay { get; set; }
-
             /// <summary>
             /// Enables or disables the matching analysis.
             /// </summary>
@@ -746,14 +716,6 @@ namespace Jawilliam.CDF.Labs
             ///// Gets or sets the delta from which to take the right ASTs (original and modified).
             ///// </summary>
             //public virtual Func<Delta, FileRevisionPair, Delta> RightDeltaContainer { get; set; } = (d, frp) => d;
-
-            /// <summary>
-            /// Gets or sets the how to get the original (or modified) tree of the left (or right) comparing delta.
-            /// </summary>
-            public virtual Func<(Delta Delta, FileRevisionPair Pair, bool TrueForOriginalOtherwiseModified), ElementTree> GetTree { get; set; } 
-                = (a) => a.TrueForOriginalOtherwiseModified
-                ? ElementTree.Read(a.Delta.OriginalTree, Encoding.Unicode) 
-                : ElementTree.Read(a.Delta.ModifiedTree, Encoding.Unicode);
         }
     }
 }

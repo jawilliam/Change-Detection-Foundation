@@ -22,5 +22,14 @@ namespace Jawilliam.CDF
         /// Gets or sets an value identifying the current element.
         /// </summary>
         public virtual string Value { get; set; }
+
+        /// <summary>
+        /// Returns a string that represents the current object.
+        /// </summary>
+        /// <returns>A string that represents the current object.</returns>
+        public override string ToString()
+        {
+            return $"{Label}({Id})";
+        }
     }
 }
