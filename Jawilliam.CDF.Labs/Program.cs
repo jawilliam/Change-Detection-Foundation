@@ -586,8 +586,8 @@ namespace Jawilliam.CDF.Labs
             //    //System.IO.File.AppendAllText(@"E:\Phd\Analysis\UniquePairs\WarningsGhost.csv", analyzer.Warnings.ToString());
             //}           
 
-            //ExploringRDSL();
-            RedundancyComparisonGumTreeWithMultipleConfigurations();
+            ExploringRDSL();
+            //RedundancyComparisonGumTreeWithMultipleConfigurations();
             Console.Out.WriteLine($"DONE");
             //int i = 0; // the warning reports!!!
             System.Console.ReadKey();
@@ -597,15 +597,44 @@ namespace Jawilliam.CDF.Labs
         {
             var v = Enum.GetValues(typeof(Microsoft.CodeAnalysis.CSharp.SyntaxKind));
             //var x = Jawilliam.CDF.XObjects.RDSL.Syntax.Load(@"E:\MyRepositories\Change-Detection-Foundation\Jawilliam.CDF.CSharp\RDSL.xml");
-            var x = Jawilliam.CDF.XObjects.RDSL.Syntax.Load(@"E:\Projects\Change-Detection-Foundation\Jawilliam.CDF.CSharp\RDSL.xml");
+            var x = Jawilliam.CDF.XObjects.RDSL.Syntax.Load(@"E:\MyRepositories\Change-Detection-Foundation\Jawilliam.CDF.CSharp\RDSL.xml");
             var nonAbstractTypes = x.Nodes.Type.Where(n => !n.@abstract).ToArray();
             var abstractTypes = x.Nodes.Type.Where(n => n.@abstract).ToArray();
 
-            var declarationTypes = x.Nodes.Type.Where(n => n.name.Contains("DeclarationSyntax")).ToArray();
+            var members = x.Nodes.Type.Where(n => n.name.Contains("Member")).ToArray();
+            var declarations = x.Nodes.Type.Where(n => n.name.Contains("DeclarationSyntax")).ToArray();
+            var memberDeclarations = declarations.Where(n => n.name.Contains("Member")).ToArray();
+            var abstractDeclarations = abstractTypes.Where(n => n.name.Contains("DeclarationSyntax") || n.name.Contains("DeclaratorSyntax")).ToArray();
+            var nonAbstractDeclarations = nonAbstractTypes.Where(n => n.name.Contains("DeclarationSyntax") || n.name.Contains("DeclaratorSyntax")).ToArray();
+            var typeDeclarations = nonAbstractDeclarations.Where(n => n.@base != null && n.@base.Contains("Type")).Union(nonAbstractDeclarations.Where(n => n.name == "DelegateDeclarationSyntax")).ToArray();
+            var methodDeclarations = nonAbstractDeclarations.Where(n => n.@base != null && n.@base.Contains("Method")).Union(nonAbstractDeclarations.Where(n => n.name == "AccessorDeclarationSyntax")).ToArray();
+            var propertyDeclarations = nonAbstractDeclarations.Where(n => n.@base != null && n.@base.Contains("Property")).Union(nonAbstractDeclarations.Where(n => n.name == "AnonymousObjectMemberDeclaratorSyntax")).ToArray();
+            var fieldDeclarations = nonAbstractDeclarations.Where(n => (n.@base != null && n.@base.Contains("Field")) || n.name.Contains("EnumMember")).ToArray();
+            var variableDeclarations = nonAbstractDeclarations.Where(n => (n.@base != null && n.@base.Contains("Variable")) || n.name.Contains("Variable")).ToArray();
+            var otherDeclarations = nonAbstractDeclarations.Except(typeDeclarations.Union(methodDeclarations).Union(propertyDeclarations).Union(fieldDeclarations).Union(variableDeclarations)).ToArray();
+            //var otherMembers = nonAbstractDeclarations.Except(typeDeclarations.Union(methodDeclarations).Union(propertyDeclarations).Union(fieldDeclarations)).ToArray();
 
-            var statementTypes = x.Nodes.Type.Where(n => n.name.Contains("StatementSyntax")).ToArray();
+            //var declarationTypes = x.Nodes.Type.Where(n => n.name.Contains("DeclarationSyntax")).ToArray();
+            //var nonAbstractDeclarationElementTypes = declarationTypes.Where(n => !n.@abstract).ToArray();
+
+            var statements = x.Nodes.Type.Where(n => n.name.Contains("StatementSyntax")).ToArray();
+            var nonAbstractStatements = nonAbstractTypes.Where(n => n.name.Contains("StatementSyntax")).ToArray();
 
             var expressionTypes = x.Nodes.Type.Where(n => n.name.Contains("ExpressionSyntax")).ToArray();
+            var nonAbstractExpressionTypes = nonAbstractTypes.Where(n => n.name.Contains("ExpressionSyntax")).ToArray();
+
+            var elementTypesWithOperator = x.Nodes.Type.Where(n => !n.@abstract && n.name.Contains("Operator")).ToArray();
+
+            var elementTypesWithIdentifier = x.Nodes.Type.Where(n => !n.@abstract && n.Properties != null && (n.Properties.Property.Any(p => p.name == "Identifier"))).ToArray();
+            var elementTypesWithAName = x.Nodes.Type.Where(n => !n.@abstract && n.Properties != null && (n.Properties.Property.Any(p => p.name == "Name"))).ToArray();
+            var elementTypesWithThisKeyword = x.Nodes.Type.Where(n => !n.@abstract && n.Properties != null && (n.Properties.Property.Any(p => p.name == "ThisKeyword"))).ToArray();
+            var elementTypesWithName = elementTypesWithIdentifier.Union(elementTypesWithAName).Union(elementTypesWithThisKeyword).ToArray();
+            var elementTypesWithExplicitInterfaceSpecifier = x.Nodes.Type.Where(n => !n.@abstract && n.Properties != null && n.Properties.Property.Any(p => p.name == "ExplicitInterfaceSpecifier")).ToArray();
+            var elementTypesWithTypeParameterList = x.Nodes.Type.Where(n => !n.@abstract && n.Properties != null && n.Properties.Property.Any(p => p.name == "TypeParameterList")).ToArray();
+            var elementTypesWithParameterList = x.Nodes.Type.Where(n => !n.@abstract && n.Properties != null && n.Properties.Property.Any(p => p.name == "ParameterList")).ToArray();
+            var elementTypesWithSignature = elementTypesWithExplicitInterfaceSpecifier.Union(elementTypesWithTypeParameterList).Union(elementTypesWithParameterList).ToArray();
+            var elementTypesWithKey = elementTypesWithName.Union(elementTypesWithSignature).ToArray();
+            var elementTypesWithNameTieBreaking = elementTypesWithName.Intersect(elementTypesWithSignature).ToArray();
 
             var assembly = typeof(RoslynML).Assembly;
             var syntaxTokenType = assembly.GetType($"Jawilliam.CDF.CSharp.SyntaxToken`1");
@@ -920,7 +949,7 @@ namespace Jawilliam.CDF.Labs
 
             var connectionSettings = System.Configuration.ConfigurationManager.ConnectionStrings;
 
-            var projects = Projects.Take(27);
+            var projects = Projects.Take(27).Skip(1);
             //var projects = Projects.Skip(27);
             foreach (var project in projects)
             {
