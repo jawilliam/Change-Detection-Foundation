@@ -596,8 +596,8 @@ namespace Jawilliam.CDF.Labs
         public static void ExploringRDSL()
         {
             var v = Enum.GetValues(typeof(Microsoft.CodeAnalysis.CSharp.SyntaxKind));
+            var x = Jawilliam.CDF.XObjects.RDSL.Syntax.Load(@"E:\Projects\Change-Detection-Foundation\Jawilliam.CDF.CSharp\RDSL.xml");
             //var x = Jawilliam.CDF.XObjects.RDSL.Syntax.Load(@"E:\MyRepositories\Change-Detection-Foundation\Jawilliam.CDF.CSharp\RDSL.xml");
-            var x = Jawilliam.CDF.XObjects.RDSL.Syntax.Load(@"E:\MyRepositories\Change-Detection-Foundation\Jawilliam.CDF.CSharp\RDSL.xml");
             var nonAbstractTypes = x.Nodes.Type.Where(n => !n.@abstract).ToArray();
             var abstractTypes = x.Nodes.Type.Where(n => n.@abstract).ToArray();
 
@@ -628,6 +628,10 @@ namespace Jawilliam.CDF.Labs
             var elementTypesWithIdentifier = x.Nodes.Type.Where(n => !n.@abstract && n.Properties != null && (n.Properties.Property.Any(p => p.name == "Identifier"))).ToArray();
             var elementTypesWithAName = x.Nodes.Type.Where(n => !n.@abstract && n.Properties != null && (n.Properties.Property.Any(p => p.name == "Name"))).ToArray();
             var elementTypesWithThisKeyword = x.Nodes.Type.Where(n => !n.@abstract && n.Properties != null && (n.Properties.Property.Any(p => p.name == "ThisKeyword"))).ToArray();
+            var elementTypesWithOperatorToken = x.Nodes.Type.Where(n => !n.@abstract && !n.name.Contains("Expression") && n.Properties != null && (n.Properties.Property.Any(p => p.name == "OperatorToken"))).ToArray();
+            var elementTypesWithOperatorToken2 = x.Nodes.Type.Where(n => !n.@abstract && n.name.Contains("Operator")).ToArray();
+            var elementTypesWithOperatorToken3 = x.Nodes.Type.Where(n => !n.@abstract && n.name.Contains("Indexer")).ToArray();
+            var elementTypesWithOperatorKeyword = x.Nodes.Type.Where(n => !n.@abstract && n.Properties != null && (n.Properties.Property.Any(p => p.name == "OperatorKeyword"))).ToArray();
             var elementTypesWithName = elementTypesWithIdentifier.Union(elementTypesWithAName).Union(elementTypesWithThisKeyword).ToArray();
             var elementTypesWithExplicitInterfaceSpecifier = x.Nodes.Type.Where(n => !n.@abstract && n.Properties != null && n.Properties.Property.Any(p => p.name == "ExplicitInterfaceSpecifier")).ToArray();
             var elementTypesWithTypeParameterList = x.Nodes.Type.Where(n => !n.@abstract && n.Properties != null && n.Properties.Property.Any(p => p.name == "TypeParameterList")).ToArray();
