@@ -85,7 +85,7 @@ namespace Jawilliam.CDF.Labs
                     .Select(fv => fv.Id).ToList().Skip(13713).ToList()
                 :*/ this.SqlRepository.FileRevisionPairs
                     .Where(onThese)
-                    .Select(fv => fv.Id).ToList();
+                    .Select(fv => fv.Id).ToList().Skip(3951).ToList()/**/;
 
             int counter = 0;
             foreach (var repositoryObjectId in repositoryObjectIds)
@@ -99,7 +99,7 @@ namespace Jawilliam.CDF.Labs
                 {
                     FileRevisionPair repositoryObject = repositoryObjectQuery.Single(c => c.Id == repositoryObjectId);
 
-                    Console.Out.WriteLine($"Analyzing the {++counter}-{this.SqlRepository.Name} ({repositoryObjectIds.Count}) of {this.SqlRepository.Name}");
+                    Console.Out.WriteLine($"Analyzing the {++counter}-{this.SqlRepository.Name} ({repositoryObjectIds.Count}) Guid-{repositoryObjectId}");
                     var cancellationTokenSource = new CancellationTokenSource();
                     var cancellationToken = cancellationTokenSource.Token;
                     try
@@ -124,7 +124,7 @@ namespace Jawilliam.CDF.Labs
                     catch (OutOfMemoryException) { this.Warnings.AppendLine($"OUTOFMEMORY - {this.SqlRepository.Name}-{repositoryObject.Id}"); }
                     catch (Exception) { this.Warnings.AppendLine($"ERROR - {this.SqlRepository.Name}-{repositoryObject.Id}"); }
 
-                    Console.Out.WriteLine($"Saving the {counter}-file version ({repositoryObjectIds.Count}) of {this.SqlRepository.Name}");
+                    Console.Out.WriteLine($"Saving the {counter}-{this.SqlRepository.Name} ({repositoryObjectIds.Count})");
                     try
                     {
                         this.SqlRepository.Flush(saveChanges);

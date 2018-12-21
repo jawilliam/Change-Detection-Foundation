@@ -374,6 +374,7 @@
     <Compile Include="XDeltaAnnotations.cs" />
     <Compile Include="XFileContentSummaryAnnotations.cs" />
     <Compile Include="XFileModifiedChangeAnnotations.cs" />
+    <Compile Include="XSkipTheseFileRevisionPairs.cs" />
     <Compile Include="XSyntaxKindAnnotations.cs" />
     <Compile Include="XSyntaxElementTypeSummary.cs" />
     <Compile Include="XmlColumn.cs" />

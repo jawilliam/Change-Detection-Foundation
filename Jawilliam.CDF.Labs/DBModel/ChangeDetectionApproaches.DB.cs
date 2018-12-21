@@ -32,6 +32,14 @@ namespace Jawilliam.CDF.Labs.DBModel
         NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1225 = 16,
         NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1450 = 17,
         NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1675 = 18,
-        NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1900 = 19
+        NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1900 = 19,
+        InverseNativeGTtreefiedRoslynMLWithMinH2Sim0d5Size100 = 20,
+        InverseNativeGTtreefiedRoslynMLWithMinH2Sim0d5Size325 = 21,
+        InverseNativeGTtreefiedRoslynMLWithMinH2Sim0d5Size550 = 22,
+        InverseNativeGTtreefiedRoslynMLWithMinH2Sim0d5Size775 = 23,
+        InverseNativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1225 = 24,
+        InverseNativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1450 = 25,
+        InverseNativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1675 = 26,
+        InverseNativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1900 = 27
     }
 }

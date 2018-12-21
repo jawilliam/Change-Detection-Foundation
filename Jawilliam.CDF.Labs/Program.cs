@@ -586,8 +586,36 @@ namespace Jawilliam.CDF.Labs
             //    //System.IO.File.AppendAllText(@"E:\Phd\Analysis\UniquePairs\WarningsGhost.csv", analyzer.Warnings.ToString());
             //}           
 
-            ExploringRDSL();
-            //RedundancyComparisonGumTreeWithMultipleConfigurations();
+            //ExploringRDSL();
+            //int fragments = 0, frps = 0; 
+            //foreach (var project in Projects)
+            //{
+            //    using (var dbRepository = new GitRepository(project.Name) { Name = project.Name })
+            //    {
+            //        ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 600000;
+            //        Console.Out.WriteLine($"{project.Name}");
+
+            //        fragments += dbRepository.Reviews.AsNoTracking().Where(r => r.Kind == ReviewKind.Redundancy_MissedName ||
+            //                                                     r.Kind == ReviewKind.Spuriosity_IncompatibleMatches ||
+            //                                                     r.Kind == ReviewKind.Spuriosity_SpuriousElements).Count();
+
+            //        frps += dbRepository.Reviews.AsNoTracking().Where(r => r.Kind == ReviewKind.Redundancy_MissedName ||
+            //                                                     r.Kind == ReviewKind.Spuriosity_IncompatibleMatches ||
+            //                                                     r.Kind == ReviewKind.Spuriosity_SpuriousElements).Select(r => r.RevisionPair.Id).Distinct().Count();
+            //    }
+            //}
+
+            RedundancyComparisonGumTreeWithMultipleConfigurations();
+            //DetectingInverseOfNativeGumTreeWithGumtreefiedRoslynMLOnMultipleConfigurations();
+            //ReviewRevisionPairs2(@"E:\Phd\Analysis\OriginalForReversibilityExample.cs", @"E:\Phd\Analysis\ModifiedForReversibilityExample.cs",
+            //    ReviewKind.Ratio_LevenshteinGumTreeAdditions_LocalOutliers, ReviewRevisionPair/*,
+            //                new SourceCodeCleaner
+            //                {
+            //                    Normalize = true,
+            //                    Indentation = "",
+            //                    //RemoveComments = true
+            //                }*/);
+
             Console.Out.WriteLine($"DONE");
             //int i = 0; // the warning reports!!!
             System.Console.ReadKey();
@@ -596,10 +624,17 @@ namespace Jawilliam.CDF.Labs
         public static void ExploringRDSL()
         {
             var v = Enum.GetValues(typeof(Microsoft.CodeAnalysis.CSharp.SyntaxKind));
-            var x = Jawilliam.CDF.XObjects.RDSL.Syntax.Load(@"E:\Projects\Change-Detection-Foundation\Jawilliam.CDF.CSharp\RDSL.xml");
-            //var x = Jawilliam.CDF.XObjects.RDSL.Syntax.Load(@"E:\MyRepositories\Change-Detection-Foundation\Jawilliam.CDF.CSharp\RDSL.xml");
+            //var x = Jawilliam.CDF.XObjects.RDSL.Syntax.Load(@"E:\Projects\Change-Detection-Foundation\Jawilliam.CDF.CSharp\RDSL.xml");
+            var x = Jawilliam.CDF.XObjects.RDSL.Syntax.Load(@"E:\MyRepositories\Change-Detection-Foundation\Jawilliam.CDF.CSharp\RDSL.xml");
             var nonAbstractTypes = x.Nodes.Type.Where(n => !n.@abstract).ToArray();
             var abstractTypes = x.Nodes.Type.Where(n => n.@abstract).ToArray();
+
+            var assembly = typeof(RoslynML).Assembly;
+            var elementTypeInfos = x.Nodes.Type.Select((n, i) => new {
+                ElementType = n,
+                Id = i,
+                ClassType = assembly.GetType($"Jawilliam.CDF.CSharp.{n.name}`1")
+            }).ToArray();
 
             var members = x.Nodes.Type.Where(n => n.name.Contains("Member")).ToArray();
             var declarations = x.Nodes.Type.Where(n => n.name.Contains("DeclarationSyntax")).ToArray();
@@ -625,34 +660,63 @@ namespace Jawilliam.CDF.Labs
 
             var elementTypesWithOperator = x.Nodes.Type.Where(n => !n.@abstract && n.name.Contains("Operator")).ToArray();
 
+            //NameKey
             var elementTypesWithIdentifier = x.Nodes.Type.Where(n => !n.@abstract && n.Properties != null && (n.Properties.Property.Any(p => p.name == "Identifier"))).ToArray();
             var elementTypesWithAName = x.Nodes.Type.Where(n => !n.@abstract && n.Properties != null && (n.Properties.Property.Any(p => p.name == "Name"))).ToArray();
-            var elementTypesWithThisKeyword = x.Nodes.Type.Where(n => !n.@abstract && n.Properties != null && (n.Properties.Property.Any(p => p.name == "ThisKeyword"))).ToArray();
-            var elementTypesWithOperatorToken = x.Nodes.Type.Where(n => !n.@abstract && !n.name.Contains("Expression") && n.Properties != null && (n.Properties.Property.Any(p => p.name == "OperatorToken"))).ToArray();
-            var elementTypesWithOperatorToken2 = x.Nodes.Type.Where(n => !n.@abstract && n.name.Contains("Operator")).ToArray();
-            var elementTypesWithOperatorToken3 = x.Nodes.Type.Where(n => !n.@abstract && n.name.Contains("Indexer")).ToArray();
+            var comparisonOperatorsOrDocumentationRelatedElementTypes = x.Nodes.Type.Where(n => !n.@abstract && n.name.Contains("Operator") && !n.name.Contains("Conversion")).ToArray();
+            var indexerOrDocumentationRelatedElementTypes = x.Nodes.Type.Where(n => !n.@abstract && n.name.Contains("Indexer")).ToArray(); 
+            //var elementTypesWithDeclaration = x.Nodes.Type.Where(n => !n.@abstract && n.Properties != null && (n.Properties.Property.Any(p => p.name == "Declaration"))).ToArray();
+            var variableDeclarationElementType = x.Nodes.Type.Where(n => !n.@abstract && n.name == "VariableDeclarationSyntax").ToArray();
+
+            // All
+            var elementTypesSuitableForNameKeys = elementTypesWithIdentifier.Union(elementTypesWithAName)
+                                                                            .Union(comparisonOperatorsOrDocumentationRelatedElementTypes)
+                                                                            .Union(indexerOrDocumentationRelatedElementTypes)
+                                                                            /*.Union(elementTypesWithDeclaration)*/
+                                                                            .Union(variableDeclarationElementType).ToArray();
+            // Navigable NameKeys
+            var elementTypesWithNavigableNameKeys = elementTypeInfos.Where(eti => !eti.ElementType.@abstract && eti.ClassType.GetProperties().Any(p => elementTypesSuitableForNameKeys.Any(en => p.PropertyType.Name == en.name + "`1")/* ||
+                                                                                                                                                       elementTypesSuitableForNameKeys.Any(en => p.Name == en.name)*/))
+                                                                                                                                                       .Select(eti => eti.ElementType)
+                                                                                                                                                       .ToArray();
+            var newElementTypesWithName = elementTypesWithNavigableNameKeys.Except(elementTypesSuitableForNameKeys).ToArray();
+
+            // 
+            var totalElementTypesSuitableForNameKeys = elementTypesSuitableForNameKeys.Union(newElementTypesWithName).ToArray();
+
+            var elementTypesWithDeclarationProp = x.Nodes.Type.Where(n => !n.@abstract && n.Properties != null && (n.Properties.Property.Any(p => p.name == "Declaration"))).ToArray();
+            var elementTypesWithDeclarationProp2 = x.Nodes.Type.Where(n => !n.@abstract && n.Properties != null && (n.Properties.Property.Any(p => p.name == "Declaration"))).ToArray();
+
+            var elementTypesWithTypeProp = x.Nodes.Type.Where(n => !n.@abstract && n.Properties != null && (n.Properties.Property.Any(p => p.name == "Type"))).ToArray();
+            var elementTypesWithKeywordProp = x.Nodes.Type.Where(n => !n.@abstract && n.Properties != null && (n.Properties.Property.Any(p => p.name == "Keyword" && !p.readOnly))).ToArray();
+            var elementTypesWithFileProp = x.Nodes.Type.Where(n => !n.@abstract && n.Properties != null && (n.Properties.Property.Any(p => p.name == "File"))).ToArray();
+            var elementTypesWithLocalNameProp = x.Nodes.Type.Where(n => !n.@abstract && n.Properties != null && (n.Properties.Property.Any(p => p.name == "LocalName"))).ToArray();
+            var elementTypesWithPrefixProp = x.Nodes.Type.Where(n => !n.@abstract && n.Properties != null && (n.Properties.Property.Any(p => p.name == "Prefix"))).ToArray();
+            var elementTypesWithAliasProp = x.Nodes.Type.Where(n => !n.@abstract && n.Properties != null && (n.Properties.Property.Any(p => p.name == "Alias"))).ToArray();
+            var elementTypesWithNameEqualsProp = x.Nodes.Type.Where(n => !n.@abstract && n.Properties != null && (n.Properties.Property.Any(p => p.name == "NameEquals"))).ToArray();
+            var elementTypesWithNameColonProp = x.Nodes.Type.Where(n => !n.@abstract && n.Properties != null && (n.Properties.Property.Any(p => p.name == "NameColon"))).ToArray();
+            var elementTypesWithExpressionProp = x.Nodes.Type.Where(n => !n.@abstract && n.Properties != null && (n.Properties.Property.Any(p => p.name == "Expression"))).ToArray();
+
             var elementTypesWithOperatorKeyword = x.Nodes.Type.Where(n => !n.@abstract && n.Properties != null && (n.Properties.Property.Any(p => p.name == "OperatorKeyword"))).ToArray();
-            var elementTypesWithName = elementTypesWithIdentifier.Union(elementTypesWithAName).Union(elementTypesWithThisKeyword).ToArray();
             var elementTypesWithExplicitInterfaceSpecifier = x.Nodes.Type.Where(n => !n.@abstract && n.Properties != null && n.Properties.Property.Any(p => p.name == "ExplicitInterfaceSpecifier")).ToArray();
             var elementTypesWithTypeParameterList = x.Nodes.Type.Where(n => !n.@abstract && n.Properties != null && n.Properties.Property.Any(p => p.name == "TypeParameterList")).ToArray();
             var elementTypesWithParameterList = x.Nodes.Type.Where(n => !n.@abstract && n.Properties != null && n.Properties.Property.Any(p => p.name == "ParameterList")).ToArray();
-            var elementTypesWithSignature = elementTypesWithExplicitInterfaceSpecifier.Union(elementTypesWithTypeParameterList).Union(elementTypesWithParameterList).ToArray();
-            var elementTypesWithKey = elementTypesWithName.Union(elementTypesWithSignature).ToArray();
-            var elementTypesWithNameTieBreaking = elementTypesWithName.Intersect(elementTypesWithSignature).ToArray();
 
-            var assembly = typeof(RoslynML).Assembly;
+            var elementTypesWithSignature = elementTypesWithExplicitInterfaceSpecifier.Union(elementTypesWithTypeParameterList).Union(elementTypesWithParameterList).ToArray();
+            var elementTypesWithKey = totalElementTypesSuitableForNameKeys.Union(elementTypesWithSignature).ToArray();
+            var elementTypesWithNameTieBreaking = totalElementTypesSuitableForNameKeys.Intersect(elementTypesWithSignature).ToArray();
+            
             var syntaxTokenType = assembly.GetType($"Jawilliam.CDF.CSharp.SyntaxToken`1");
             var syntaxTokenListType = assembly.GetType($"Jawilliam.CDF.CSharp.SyntaxTokenList`1");
             var csharpSyntaxNodeType = assembly.GetType($"Jawilliam.CDF.CSharp.CSharpSyntaxNode`1");
             var syntaxListType = assembly.GetType($"Jawilliam.CDF.CSharp.SyntaxList`2");
-            var separatedSyntaxListType = assembly.GetType($"Jawilliam.CDF.CSharp.SeparatedSyntaxList`2");
+            var separatedSyntaxListType = assembly.GetType($"Jawilliam.CDF.CSharp.SeparatedSyntaxList`2");          
 
-            var elementTypeInfos = x.Nodes.Type.Select((n, i) => new {
-                ElementType = n,
-                Id = i,
-                ClassType = assembly.GetType($"Jawilliam.CDF.CSharp.{n.name}`1")
-            })
-                .ToArray();
+            
+
+            var elementTypesWithNameExpressions2 = elementTypeInfos.Where(eti => !eti.ElementType.@abstract && eti.ClassType.GetProperties().Any(p => totalElementTypesSuitableForNameKeys.Any(en => p.PropertyType.Name == en.name + "`1") ||
+                                                                                                                        totalElementTypesSuitableForNameKeys.Any(en => p.Name == en.name))).Select(eti => eti.ElementType).ToArray();
+            var newElementTypesWithName2 = elementTypesWithNameExpressions2.Except(totalElementTypesSuitableForNameKeys).ToArray();
 
             var edges = new List<Edge>();
             foreach (var elemenTypeInfo in elementTypeInfos)
@@ -886,6 +950,123 @@ namespace Jawilliam.CDF.Labs
         //    Console.Out.WriteLine($"Report collected!!!");
         //}
 
+        private static void DetectingInverseOfNativeGumTreeWithGumtreefiedRoslynMLOnMultipleConfigurations()
+        {
+            var configurations = new[]
+            {
+                new { Path = @"D:\GT_Runtimes\gumtree_Minh2Sim0d5Size100",
+                      Forward = new { Name = @"gumtree_Minh2Sim0d5Size100", Approach = ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size100 },
+                      Backward = new { Name = @"inverse_gumtree_Minh2Sim0d5Size100", Approach = ChangeDetectionApproaches.InverseNativeGTtreefiedRoslynMLWithMinH2Sim0d5Size100 }},
+
+                new { Path = @"D:\GT_Runtimes\gumtree_Minh2Sim0d5Size325",
+                      Forward = new {  Name = @"gumtree_Minh2Sim0d5Size325", Approach = ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size325 },
+                      Backward = new {  Name = @"inverse_gumtree_Minh2Sim0d5Size325", Approach = ChangeDetectionApproaches.InverseNativeGTtreefiedRoslynMLWithMinH2Sim0d5Size325 } },
+
+                new { Path = @"D:\GT_Runtimes\gumtree_Minh2Sim0d5Size550",
+                      Forward = new {  Name = @"gumtree_Minh2Sim0d5Size550", Approach = ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size550 },
+                      Backward = new {  Name = @"inverse_gumtree_Minh2Sim0d5Size550", Approach = ChangeDetectionApproaches.InverseNativeGTtreefiedRoslynMLWithMinH2Sim0d5Size550 } },
+
+                new { Path = @"D:\GT_Runtimes\gumtree_Minh2Sim0d5Size775",
+                      Forward = new {  Name = @"gumtree_Minh2Sim0d5Size775", Approach = ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size775 },
+                      Backward = new {  Name = @"inverse_gumtree_Minh2Sim0d5Size775", Approach = ChangeDetectionApproaches.InverseNativeGTtreefiedRoslynMLWithMinH2Sim0d5Size775 } },
+
+                new { Path = @"D:\GT_Runtimes\gumtree_Minh2Sim0d5Size1225",
+                      Forward = new {  Name = @"gumtree_Minh2Sim0d5Size1225", Approach = ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1225 },
+                      Backward = new {  Name = @"inverse_gumtree_Minh2Sim0d5Size1225", Approach = ChangeDetectionApproaches.InverseNativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1225 } },
+
+                new { Path = @"D:\GT_Runtimes\gumtree_Minh2Sim0d5Size1450",
+                      Forward = new {  Name = @"gumtree_Minh2Sim0d5Size1450", Approach = ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1450 },
+                      Backward = new {  Name = @"inverse_gumtree_Minh2Sim0d5Size1450", Approach = ChangeDetectionApproaches.InverseNativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1450 } },
+
+                new { Path = @"D:\GT_Runtimes\gumtree_Minh2Sim0d5Size1675",
+                      Forward = new {  Name = @"gumtree_Minh2Sim0d5Size1675", Approach = ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1675 },
+                      Backward = new {  Name = @"inverse_gumtree_Minh2Sim0d5Size1675", Approach = ChangeDetectionApproaches.InverseNativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1675 } },
+
+                new { Path = @"D:\GT_Runtimes\gumtree_Minh2Sim0d5Size1900",
+                      Forward = new {  Name = @"gumtree_Minh2Sim0d5Size1900", Approach = ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1900 },
+                      Backward = new {  Name = @"inverse_gumtree_Minh2Sim0d5Size1900", Approach = ChangeDetectionApproaches.InverseNativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1900 } }
+            };
+
+            var analyzer = new FileRevisionPairAnalyzer { MillisecondsTimeout = 600000 };
+            var gumTree = new GumTreeNativeApproach();
+            var interopArgs = new InteropArgs()
+            {
+                GumTreePath = null,
+                Original = @"D:\ExperimentLogs\InverseForMultipleConfigurationsOriginal.cs",
+                Modified = @"D:\ExperimentLogs\InverseForMultipleConfigurationsModified.cs"
+            };
+            var xSkipThesePath = $@"D:\ExperimentLogs\SkipThese.xml";
+            var xSkipThese = XSkipTheseFileRevisionPairs.Read(System.IO.File.ReadAllText(xSkipThesePath), Encoding.Unicode);
+
+            var recognizer = new BetweenComparison()
+            {
+                MillisecondsTimeout = 600000
+            };
+
+            foreach (var project in Projects)
+            {
+                foreach (var configuration in configurations)
+                {
+                    var dbRepository = new GitRepository(project.Name) { Name = project.Name };
+                    ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 600;
+
+                    analyzer.Warnings = new StringBuilder();
+                    analyzer.SqlRepository = dbRepository;
+                    analyzer.Cancel = () => gumTree.Cancel();
+
+                    Func<FileRevisionPair, bool> skipThese = delegate (FileRevisionPair pair)
+                    {
+                        var anyOriginal = dbRepository.FileFormats.Any(ff => ff.FileVersion.Id == pair.Principal.FromFileVersion.Id && ff.Kind == (FileFormatKind.Gumtreefied | FileFormatKind.RoslynML));
+                        var anyModified = dbRepository.FileFormats.Any(ff => ff.FileVersion.Id == pair.Principal.FileVersion.Id && ff.Kind == (FileFormatKind.Gumtreefied | FileFormatKind.RoslynML));
+
+                        return !anyOriginal || !anyModified || (xSkipThese.Projects.Any(p => p.Name == project.Name && p.FileRevisionPairs.Any(frp => Guid.Parse(frp.Guid) == pair.Id)));
+                    };
+
+                    interopArgs.GumTreePath = configuration.Path;
+
+                    analyzer.InverseNativeGumTreeDiff(gumTree, interopArgs, configuration.Backward.Approach, null, null);
+                    //analyzer.InverseNativeGumTreeDiff(gumTree, interopArgs, gumTreeApproach, skipThese, cleaner);
+                    System.IO.File.AppendAllText($@"D:\ExperimentLogs\{configuration.Backward.Name}.txt",
+                        $"{Environment.NewLine}{Environment.NewLine}GumTreefied RoslynML (collection) completed {DateTime.Now.ToString("F", CultureInfo.InvariantCulture)} - {project.Name}" +
+                        $"{Environment.NewLine}{analyzer.Warnings.ToString()}");
+
+
+
+                    recognizer.ConfigForwardVsBackward((configuration.Forward.Approach, configuration.Forward.Name), (configuration.Backward.Approach, configuration.Backward.Name));
+                    recognizer.SqlRepository = dbRepository;
+                    recognizer.Cancel = null;
+                    //frp => dbRepository.Deltas.Any(d => d.RevisionPair.Id == frp.Id &&
+                    //                                                             d.Approach == ChangeDetectionApproaches.NativeGumTree &&
+                    //                                                             d.OriginalTree != null && d.ModifiedTree != null);
+
+                    recognizer.Config.GetTree = delegate ((Delta Delta, FileRevisionPair Pair, bool TrueForOriginalOtherwiseModified) args)
+                    {
+                        var version = args.TrueForOriginalOtherwiseModified
+                            ? dbRepository.FileFormats.AsNoTracking().Single(ff => ff.Kind == (FileFormatKind.Gumtreefied | FileFormatKind.RoslynML) && ff.FileVersion.Id == args.Pair.Principal.FromFileVersion.Id)
+                            : dbRepository.FileFormats.AsNoTracking().Single(ff => ff.Kind == (FileFormatKind.Gumtreefied | FileFormatKind.RoslynML) && ff.FileVersion.Id == args.Pair.Principal.FileVersion.Id);
+
+                        var xTree = XElement.Load(new StringReader(version.XmlTree));
+                        var roslynMLServices = new RoslynML();
+                        xTree = roslynMLServices.Gumtreefy(xTree);
+                        roslynMLServices.SetRoslynMLIDs(xTree);
+
+                        return roslynMLServices.AsGumtreefiedElementTree(xTree);
+                    };
+
+                    recognizer.Warnings = new StringBuilder();
+                    recognizer.Recognize(skipThese, true);
+                    System.IO.File.AppendAllText($@"D:\ExperimentLogs\{configuration.Backward.Name}.txt",
+                        $"{Environment.NewLine}{Environment.NewLine}Reversibility comparison (recognition) completed {DateTime.Now.ToString("F", CultureInfo.InvariantCulture)} - {project.Name}");
+
+                    recognizer.Warnings = new StringBuilder();
+                    recognizer.ConnectMatchSymptoms(skipThese, true);
+                    System.IO.File.AppendAllText($@"D:\ExperimentLogs\{configuration.Backward.Name}.txt",
+                        $"{Environment.NewLine}{Environment.NewLine}Reversibility comparison (structuring) completed {DateTime.Now.ToString("F", CultureInfo.InvariantCulture)} - {project.Name}");
+                }
+            }
+            Console.Out.WriteLine($"DONE!!!");
+        }
+
         private static void DetectingNativeGumTreeWithGumtreefiedRoslynMLOnMultipleConfigurations()
         {
             var configurations = new[]
@@ -945,6 +1126,8 @@ namespace Jawilliam.CDF.Labs
                 new { Name = @"gumtree_Minh2Sim0d5Size1675", Path = @"D:\GT_Runtimes\gumtree_Minh2Sim0d5Size1675", Approach = ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1675 },
                 new { Name = @"gumtree_Minh2Sim0d5Size1900", Path = @"D:\GT_Runtimes\gumtree_Minh2Sim0d5Size1900", Approach = ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1900 }
             };
+            var xSkipThesePath = $@"D:\ExperimentLogs\SkipThese.xml";
+            var xSkipThese = XSkipTheseFileRevisionPairs.Read(System.IO.File.ReadAllText(xSkipThesePath), Encoding.Unicode);
 
             var recognizer = new RedundancyComparison()
             {
@@ -953,12 +1136,13 @@ namespace Jawilliam.CDF.Labs
 
             var connectionSettings = System.Configuration.ConfigurationManager.ConnectionStrings;
 
-            var projects = Projects.Take(27).Skip(1);
-            //var projects = Projects.Skip(27);
+            //var projects = Projects.Take(27).Skip(26);
+            var projects = Projects.Skip(55);
             foreach (var project in projects)
             {
-                foreach (var configuration in configurations)
+                foreach (var configuration in configurations.Take(1)/*/*.Where(a => project.Name == "KestrelHttpServer" ? (int)a.Approach >= (int)ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size775 : true)*/)
                 {
+                    xSkipThese = XSkipTheseFileRevisionPairs.Read(System.IO.File.ReadAllText(xSkipThesePath), Encoding.Unicode);
                     recognizer.ConfigLeftVsRight((ChangeDetectionApproaches.NativeGTtreefiedRoslynML, "gumtree_Minh2Sim0d5Size1000"), (configuration.Approach, configuration.Name));
 
                     var dbRepository = new GitRepository(project.Name) { Name = project.Name };
@@ -971,7 +1155,7 @@ namespace Jawilliam.CDF.Labs
                         var anyOriginal = dbRepository.FileFormats.Any(ff => ff.FileVersion.Id == pair.Principal.FromFileVersion.Id && ff.Kind == (FileFormatKind.Gumtreefied | FileFormatKind.RoslynML));
                         var anyModified = dbRepository.FileFormats.Any(ff => ff.FileVersion.Id == pair.Principal.FileVersion.Id && ff.Kind == (FileFormatKind.Gumtreefied | FileFormatKind.RoslynML));
 
-                        return !anyOriginal || !anyModified;
+                        return !anyOriginal || !anyModified || (xSkipThese.Projects.Any(p => p.Name == project.Name && p.FileRevisionPairs.Any(frp => Guid.Parse(frp.Guid) == pair.Id)));
                     };
 
                     recognizer.Config.GetTree = delegate ((Delta Delta, FileRevisionPair Pair, bool TrueForOriginalOtherwiseModified) args)
@@ -989,10 +1173,10 @@ namespace Jawilliam.CDF.Labs
                     };
 
                     recognizer.Warnings = new StringBuilder();
-                    recognizer.Recognize(skipThese, true);
-                    System.IO.File.AppendAllText($@"D:\ExperimentLogs\gumtree_Minh2Sim0d5Size1000_VS_{configuration.Name}_RedundancySymptoms.txt",
-                        $"{Environment.NewLine}{Environment.NewLine}Between comparison (recognition) completed {DateTime.Now.ToString("F", CultureInfo.InvariantCulture)} - {project.Name}" +
-                        $"{Environment.NewLine}{recognizer.Warnings.ToString()}");
+                    recognizer.Recognize(skipThese, /*true*/false);
+                    //System.IO.File.AppendAllText($@"D:\ExperimentLogs\gumtree_Minh2Sim0d5Size1000_VS_{configuration.Name}_RedundancySymptoms.txt",
+                    //    $"{Environment.NewLine}{Environment.NewLine}Between comparison (recognition) completed {DateTime.Now.ToString("F", CultureInfo.InvariantCulture)} - {project.Name}" +
+                    //    $"{Environment.NewLine}{recognizer.Warnings.ToString()}");
                 }
             }
             Console.Out.WriteLine($"GumTree Minh2Sim0d5Size1000 - redundant symptoms collected!!!");
@@ -1586,14 +1770,14 @@ namespace Jawilliam.CDF.Labs
             {
                 var loader = new RevisionPairReview();
 
-                var project = Projects.Single(p => p.Name == "AjaxControlToolkit");
+                var project = Projects.Single(p => p.Name == "AkkaNET");
                 var gumTree = new GumTreeNativeApproach();
                 var interopArgs = new InteropArgs { Original = originalFilePath, Modified = modifiedFilePath };
                 using (var dbRepository = new GitRepository(project.Name) { Name = project.Name })
                 {
                     ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 180;
                     //var guid = Guid.Parse("cd6881d7-a572-46cc-9a92-bdea3c808694");
-                    var guid = Guid.Parse("BC2ED041-8A6C-4EA7-90E9-2335E356DD72");
+                    var guid = Guid.Parse("DC10379D-0EC1-4B3B-90C5-9452E98BE479");
                     action(originalFilePath, modifiedFilePath, currentReview, cleaner, loader, dbRepository, guid);
                     //ReviewRevisionPair(originalFilePath, modifiedFilePath, currentReview, cleaner, loader, dbRepository, guid);
                 }
@@ -1606,7 +1790,7 @@ namespace Jawilliam.CDF.Labs
             var revisionPair = dbRepository.FileRevisionPairs
                 .Include(frp => frp.Principal.FileVersion.Content)
                 .Include(frp => frp.Principal.FromFileVersion.Content)
-                .Include(frp => frp.Reviews)
+                //.Include(frp => frp.Reviews)
                 .Single(frp => frp.Principal.Id == guid);
 
             var original = SyntaxFactory.ParseCompilationUnit(revisionPair.Principal.FromFileVersion.Content.SourceCode).SyntaxTree.GetRoot();
@@ -1627,7 +1811,7 @@ namespace Jawilliam.CDF.Labs
                 
             }
 
-            dbRepository.Flush();
+            //dbRepository.Flush();
         }
 
         private static void ReviewMissedMatches(string originalFilePath, string modifiedFilePath, ReviewKind currentReview,

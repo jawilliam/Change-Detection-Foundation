@@ -17,8 +17,8 @@ namespace Jawilliam.CDF.Labs.DBModel
         public System.Guid Id { get; set; }
         public string Annotations { get; set; }
         public int Approach { get; set; }
-        public Nullable<long> Max { get; set; }
-        public Nullable<long> Min { get; set; }
+        public Nullable<long> Modified { get; set; }
+        public Nullable<long> Original { get; set; }
     
         public virtual Delta Delta { get; set; }
     }

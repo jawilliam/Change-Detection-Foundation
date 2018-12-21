@@ -1472,6 +1472,14 @@
           <Member Name="NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1450" Value="17" />
           <Member Name="NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1675" Value="18" />
           <Member Name="NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1900" Value="19" />
+          <Member Name="InverseNativeGTtreefiedRoslynMLWithMinH2Sim0d5Size100" Value="20" />
+          <Member Name="InverseNativeGTtreefiedRoslynMLWithMinH2Sim0d5Size325" Value="21" />
+          <Member Name="InverseNativeGTtreefiedRoslynMLWithMinH2Sim0d5Size550" Value="22" />
+          <Member Name="InverseNativeGTtreefiedRoslynMLWithMinH2Sim0d5Size775" Value="23" />
+          <Member Name="InverseNativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1225" Value="24" />
+          <Member Name="InverseNativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1450" Value="25" />
+          <Member Name="InverseNativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1675" Value="26" />
+          <Member Name="InverseNativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1900" Value="27" />
         </EnumType>
         <EnumType Name="CodeCategory" UnderlyingType="Int16" IsFlags="true">
           <Member Name="Maintained" Value="1" />
@@ -1760,8 +1768,8 @@
           <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="None" />
           <Property Name="Annotations" Type="String" Nullable="true" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Approach" Type="Int32" Nullable="false" />
-          <Property Name="Max" Type="Int64" Nullable="true" />
-          <Property Name="Min" Type="Int64" Nullable="true" />
+          <Property Name="Modified" Type="Int64" Nullable="true" />
+          <Property Name="Original" Type="Int64" Nullable="true" />
           <NavigationProperty Name="Delta" Relationship="Jawilliam.CDF.Labs.SQL.DeltaDeltaContentSummary" FromRole="DeltaContentSummary" ToRole="Delta" />
         </EntityType>
         <EntityType Name="ElementTypeRevisionPairSummary" BaseType="Jawilliam.CDF.Labs.SQL.DeltaContentSummary" >
@@ -2515,8 +2523,8 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Annotations" ColumnName="Annotations" />
           <ScalarProperty Name="Approach" ColumnName="Approach" />
-          <ScalarProperty Name="Max" ColumnName="Max" />
-          <ScalarProperty Name="Min" ColumnName="Min" />
+          <ScalarProperty Name="Modified" ColumnName="Max" />
+          <ScalarProperty Name="Original" ColumnName="Min" />
         </MappingFragment>
       </EntityTypeMapping>
       <EntityTypeMapping TypeName="IsTypeOf(Jawilliam.CDF.Labs.SQL.ElementTypeRevisionPairSummary)">

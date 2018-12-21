@@ -606,6 +606,80 @@ namespace Jawilliam.CDF.Labs
         /// <param name="leftApproach"></param>
         /// <param name="rightApproach"></param>
         /// <param name="rightName"></param>
+        public virtual void ConfigForwardVsBackward((ChangeDetectionApproaches Approach, string Name) forward, (ChangeDetectionApproaches Approach, string Name) backward)
+        {
+            this.Config = new BetweenComparisonCriterion
+            {
+                Left = forward.Approach,
+                LeftName = forward.Name,
+                Right = backward.Approach,
+                RightName = backward.Name,
+                TwoWay = true,
+                MatchCompare = (leftMatch, leftDelta, rightMatch, rightDelta) => leftMatch.Original.Id == rightMatch.Modified.Id && leftMatch.Modified.Id == rightMatch.Original.Id,
+
+                ActionCompare = delegate (ActionDescriptor leftAction, DetectionResult leftDelta, ActionDescriptor rightAction, DetectionResult rightDelta)
+                {
+                    switch (leftAction.Action)
+                    {
+                        case ActionKind.Update:
+                            if (rightAction.Action == ActionKind.Update)
+                            {
+                                var l = (UpdateOperationDescriptor)leftAction;
+                                var leftMatch = leftDelta.Matches.Single(m => m.Original.Id == l.Element.Id);
+                                var r = (UpdateOperationDescriptor)rightAction;
+                                var rightMatch = rightDelta.Matches.Single(m => m.Original.Id == r.Element.Id);
+
+                                return leftMatch.Original.Id == rightMatch.Modified.Id &&
+                                       leftMatch.Modified.Id == rightMatch.Original.Id;
+                            }
+                            break;
+                        case ActionKind.Insert:
+                            if (rightAction.Action == ActionKind.Delete)
+                            {
+                                var l = (InsertOperationDescriptor)leftAction;
+                                var r = (DeleteOperationDescriptor)rightAction;
+                                return l.Element.Id == r.Element.Id;
+                            }
+                            break;
+                        case ActionKind.Delete:
+                            if (rightAction.Action == ActionKind.Insert)
+                            {
+                                var l = (DeleteOperationDescriptor)leftAction;
+                                var r = (InsertOperationDescriptor)rightAction;
+                                return l.Element.Id == r.Element.Id;
+                            }
+                            break;
+                        case ActionKind.Move:
+                            if (rightAction.Action == ActionKind.Move)
+                            {
+                                var l = (MoveOperationDescriptor)leftAction;
+                                var leftMatch = leftDelta.Matches.Single(m => m.Original.Id == l.Element.Id);
+                                var r = (MoveOperationDescriptor)rightAction;
+                                var rightMatch = rightDelta.Matches.Single(m => m.Original.Id == r.Element.Id);
+
+                                return leftMatch.Original.Id == rightMatch.Modified.Id &&
+                                       leftMatch.Modified.Id == rightMatch.Original.Id;
+                            }
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
+
+                    return false;
+                },
+
+                DivergentMatchForOriginal = (missedMatch, leftDetection, rightDetection) => rightDetection.Matches.FirstOrDefault(m => missedMatch.Original.Id == m.Modified.Id),
+                DivergentMatchForModified = (missedMatch, leftDetection, rightDetection) => rightDetection.Matches.FirstOrDefault(m => missedMatch.Modified.Id == m.Original.Id)
+            };
+        }
+
+        /// <summary>
+        /// Returns a configuration to check for reversible changes.
+        /// </summary>
+        /// <param name="leftName"></param>
+        /// <param name="leftApproach"></param>
+        /// <param name="rightApproach"></param>
+        /// <param name="rightName"></param>
         public virtual void ConfigLeftVsRight((ChangeDetectionApproaches Approach, string Name) left, (ChangeDetectionApproaches Approach, string Name) right)
         {
             this.Config = new BetweenComparisonCriterion

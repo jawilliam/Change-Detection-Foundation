@@ -170,6 +170,7 @@
     <Compile Include="Miscellaneus.cs" />
     <Compile Include="NativeGumTreeResultParsing.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="XSkipTheseFileRevisionPairTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Jawilliam.CDF.CSharp\Jawilliam.CDF.CSharp.csproj">
