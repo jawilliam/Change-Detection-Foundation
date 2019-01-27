@@ -34,6 +34,7 @@ namespace Jawilliam.CDF.Labs.DBModel
             {
                 switch (this.Approach)
                 {
+                    case ChangeDetectionApproaches.Manually:
                     case ChangeDetectionApproaches.NativeGumTree:
                     case ChangeDetectionApproaches.NativeGumTreeWithChangeDistillerMatcher:
                     case ChangeDetectionApproaches.NativeGumTreeWithXyMatcher:
@@ -50,6 +51,14 @@ namespace Jawilliam.CDF.Labs.DBModel
                     case ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1450:
                     case ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1675:
                     case ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1900:
+                    case ChangeDetectionApproaches.InverseNativeGTtreefiedRoslynMLWithMinH2Sim0d5Size100:
+                    case ChangeDetectionApproaches.InverseNativeGTtreefiedRoslynMLWithMinH2Sim0d5Size325:
+                    case ChangeDetectionApproaches.InverseNativeGTtreefiedRoslynMLWithMinH2Sim0d5Size550:
+                    case ChangeDetectionApproaches.InverseNativeGTtreefiedRoslynMLWithMinH2Sim0d5Size775:
+                    case ChangeDetectionApproaches.InverseNativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1225:
+                    case ChangeDetectionApproaches.InverseNativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1450:
+                    case ChangeDetectionApproaches.InverseNativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1675:
+                    case ChangeDetectionApproaches.InverseNativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1900:
                         return this.GetNativeGumTreeResult();
                     default:
                         throw new InvalidEnumArgumentException();
@@ -59,6 +68,7 @@ namespace Jawilliam.CDF.Labs.DBModel
             {
                 switch (this.Approach)
                 {
+                    case ChangeDetectionApproaches.Manually:
                     case ChangeDetectionApproaches.NativeGumTree:
                     case ChangeDetectionApproaches.NativeGumTreeWithChangeDistillerMatcher:
                     case ChangeDetectionApproaches.NativeGumTreeWithXyMatcher:
@@ -75,6 +85,14 @@ namespace Jawilliam.CDF.Labs.DBModel
                     case ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1450:
                     case ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1675:
                     case ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1900:
+                    case ChangeDetectionApproaches.InverseNativeGTtreefiedRoslynMLWithMinH2Sim0d5Size100:
+                    case ChangeDetectionApproaches.InverseNativeGTtreefiedRoslynMLWithMinH2Sim0d5Size325:
+                    case ChangeDetectionApproaches.InverseNativeGTtreefiedRoslynMLWithMinH2Sim0d5Size550:
+                    case ChangeDetectionApproaches.InverseNativeGTtreefiedRoslynMLWithMinH2Sim0d5Size775:
+                    case ChangeDetectionApproaches.InverseNativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1225:
+                    case ChangeDetectionApproaches.InverseNativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1450:
+                    case ChangeDetectionApproaches.InverseNativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1675:
+                    case ChangeDetectionApproaches.InverseNativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1900:
                         this.SetNativeGumTreeResult(value);
                         break;
                     default:

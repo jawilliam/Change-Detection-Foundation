@@ -1,6 +1,10 @@
 ﻿using Jawilliam.CDF.CSharp.RoslynML;
+using Jawilliam.CDF.Labs;
+using Jawilliam.CDF.Labs.DBModel;
 using System;
+using System.Data.Entity.Infrastructure;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 
 namespace CDF_Command_Line
@@ -57,6 +61,13 @@ namespace CDF_Command_Line
                         //        _process.Close();
                         //    }
                         //    break;
+
+                        case "BetweenComparison":
+                            if (command.Length < 3)
+                                Console.WriteLine("BetweenComparison command takes at least 2 arguments (information of interest and project name).");
+                            else
+                                HandleBetweenComparisonCommand(command.Skip(1).ToArray());
+                            break;
                         default:
                             Console.WriteLine("Unknown command.");
                             break;
@@ -92,6 +103,55 @@ namespace CDF_Command_Line
                     Console.WriteLine(xElement.ToString());
                 }
                     
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// Handles the BetweenComparison command.
+        /// </summary>
+        private static void HandleBetweenComparisonCommand(params string[] options)
+        {
+            var recognizer = new BetweenComparison()
+            {
+                MillisecondsTimeout = 600000
+            };
+            
+            try
+            {
+                switch (options[0])
+                {
+                    case "statistics":
+                        if (options.Length != 4)
+                            Console.WriteLine("statistics command requires 3 arguments (project name, left approach , and right approach).");
+                        int leftApproach, rightApproach;
+                        try { leftApproach = int.Parse(options[2], CultureInfo.InvariantCulture); } catch (Exception) { throw new ApplicationException("Bad left approach."); }
+                        try { rightApproach = int.Parse(options[3], CultureInfo.InvariantCulture); } catch (Exception) { throw new ApplicationException("Bad right approach."); }
+
+                        var dbRepository = new GitRepository(options[1]) { Name = options[1] };
+                        ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 600;
+
+                        recognizer.ConfigForwardVsBackward(((ChangeDetectionApproaches)leftApproach, null), ((ChangeDetectionApproaches)rightApproach, null));
+                        recognizer.SqlRepository = dbRepository;
+                        recognizer.Cancel = null;
+
+                        var output = recognizer.ReportBetweenMatches();
+                        Console.WriteLine($"BetweenComparison - statistics ({output.Project})");
+                        Console.WriteLine($"File revision pairs: Total-({output.TotalOfFileRevisionPairs}) " +
+                            $"Affected-(" +
+                            $"LR:{output.TotalOfAffectedFileRevisionPairs.LR}({output.PercentageOfAffectedFileRevisionPairs.LR}%), " +
+                            $"RL:{output.TotalOfAffectedFileRevisionPairs.RL}({output.PercentageOfAffectedFileRevisionPairs.RL}%), " +
+                            $"All:{output.TotalOfAffectedFileRevisionPairs.All}({output.PercentageOfAffectedFileRevisionPairs.All}%))");
+                        Console.WriteLine($"Symptoms-(LR:{output.TotalOfSymptoms.LR}, RL:{output.TotalOfSymptoms.RL}, All:{output.TotalOfSymptoms.All})");
+                        break;
+
+                    default:
+                        break;
+                }
+
             }
             catch (Exception ex)
             {

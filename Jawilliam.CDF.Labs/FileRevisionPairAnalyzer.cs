@@ -85,7 +85,7 @@ namespace Jawilliam.CDF.Labs
                     .Select(fv => fv.Id).ToList().Skip(13713).ToList()
                 :*/ this.SqlRepository.FileRevisionPairs
                     .Where(onThese)
-                    .Select(fv => fv.Id).ToList().Skip(3951).ToList()/**/;
+                    .Select(fv => fv.Id).ToList()/*.Skip(4999).ToList()*/;
 
             int counter = 0;
             foreach (var repositoryObjectId in repositoryObjectIds)
@@ -269,7 +269,11 @@ namespace Jawilliam.CDF.Labs
                   f.Principal.Deltas.Any(d => d.Approach == ChangeDetectionApproaches.InverseOfNativeGumTreeWithChangeDistillerMatcher) ||
                   f.Principal.Deltas.Any(d => d.Approach == ChangeDetectionApproaches.NativeGumTreeWithXyMatcher) ||
                   f.Principal.Deltas.Any(d => d.Approach == ChangeDetectionApproaches.InverseOfNativeGumTreeWithXyMatcher)) &&*/
-                 f.Principal.Deltas.All(d => d.Approach != gumTreeApproach) &&
+
+                 /*f.Principal.Deltas.All(d => d.Approach != gumTreeApproach) &&*///TODO: restore this
+                 f.Principal.Deltas.All(d => d.Approach != gumTreeApproach /*&& d.Report == null*/) &&
+
+
                  f.Principal.FromFileVersion.ContentSummary.TotalLines != null &&
                  f.Principal.FileVersion.ContentSummary.TotalLines != null /*&& 
                  f.Deltas.All(d => d.Approach != gumTreeApproach), // I am running Levenshtein before, so the longer cases have been already rejected.

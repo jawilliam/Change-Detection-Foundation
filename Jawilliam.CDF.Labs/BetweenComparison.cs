@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -474,31 +475,17 @@ namespace Jawilliam.CDF.Labs
         /// <returns>numbers discriminating among LR-matches and RL-matches, and also the total of matches.</returns>
         public virtual (string Project, int TotalOfFileRevisionPairs, (int LR, int RL, int All) TotalOfSymptoms, (int LR, int RL, int All) TotalOfAffectedFileRevisionPairs, (double LR, double RL, double All) PercentageOfAffectedFileRevisionPairs) ReportBetweenMatches()
         {
-            var fileRevisionPairs = this.SqlRepository.FileRevisionPairs.AsNoTracking().Where(f =>
-                              f.Principal.Deltas.Any(d => d.Approach == this.Config.Left &&
-                                                          d.Matching != null &&
-                                                          d.Differencing != null &&
-                                                          d.Report == null) &&
-                              f.Principal.Deltas.Any(d => d.Approach == this.Config.Right &&
-                                                          d.Matching != null &&
-                                                          d.Differencing != null &&
-                                                          d.Report == null));
+            var fileRevisionPairs = ComparisonQuery().ToList();
 
-            var totalOfFrps = fileRevisionPairs.Count();
-            var affectedFrps = from f in fileRevisionPairs
-                               let d = f.Principal.Deltas.Where(d => d.Approach == this.Config.Left &&
-                                                          d.Matching != null &&
-                                                          d.Differencing != null &&
-                                                          d.Report == null)
-                               select d.FirstOrDefault();
+            var totalOfFrps = fileRevisionPairs.Count;
+            var affectedFrps = fileRevisionPairs.Where(frp => frp.LrDisagreementMatches > 0 || frp.RlDisagreementMatches > 0).ToList();
 
-            var totalOfLrSymptoms = !affectedFrps.Any() ? 0 : affectedFrps.Sum(d => d == null ? 0 : d.Symptoms.OfType<LRMatchSymptom>().Where(s => s.Parent == null).Count());
-            var totalOfRlSymptoms = !affectedFrps.Any() ? 0 : affectedFrps.Sum(d => d == null ? 0 : d.Symptoms.OfType<RLMatchSymptom>().Where(s => s.Parent == null).Count());
+            var totalOfLrSymptoms = affectedFrps.Sum(d => d.LrDisagreementMatches);
+            var totalOfRlSymptoms = affectedFrps.Sum(d => d.RlDisagreementMatches);
 
-            var totalOfLrAffectedFrps = !affectedFrps.Any() ? 0 : affectedFrps.Count(d => d == null ? false : d.Symptoms.OfType<LRMatchSymptom>().Where(s => s.Parent == null).Any());
-            var totalOfRlAffectedFrps = !affectedFrps.Any() ? 0 : affectedFrps.Count(d => d == null ? false : d.Symptoms.OfType<RLMatchSymptom>().Where(s => s.Parent == null).Any());
-            var totalOfAffectedFrps = !affectedFrps.Any() ? 0 : affectedFrps.Count(d => d == null ? false : d.Symptoms.OfType<LRMatchSymptom>().Where(s => s.Parent == null).Any() ||
-                                                                                                            d.Symptoms.OfType<RLMatchSymptom>().Where(s => s.Parent == null).Any());
+            var totalOfLrAffectedFrps = affectedFrps.Count(frp => frp.LrDisagreementMatches > 0);
+            var totalOfRlAffectedFrps = affectedFrps.Count(frp => frp.RlDisagreementMatches > 0);
+            var totalOfAffectedFrps = affectedFrps.Count;
 
             return (this.SqlRepository.Name, totalOfFrps, 
                     (totalOfLrSymptoms, totalOfRlSymptoms, totalOfLrSymptoms + totalOfRlSymptoms), 
@@ -506,6 +493,47 @@ namespace Jawilliam.CDF.Labs
                     (totalOfFrps == 0 ? 0 : totalOfLrAffectedFrps * 100d / totalOfFrps, 
                      totalOfFrps == 0 ? 0 : totalOfRlAffectedFrps * 100d / totalOfFrps, 
                      totalOfFrps == 0 ? 0 : totalOfAffectedFrps * 100d / totalOfFrps));
+        }
+
+        /// <summary>
+        /// Gathers a referential summary and save it in <see cref="FileRevisionPairAnalyzer.Report"/>.
+        /// </summary>
+        public virtual void ReportData(bool writeHeader = true)
+        {
+            var fileRevisionPairs = ComparisonQuery().ToList();
+            var affectedFrps = fileRevisionPairs.Where(frp => frp.LrDisagreementMatches > 0 || frp.RlDisagreementMatches > 0);
+
+            if (writeHeader)
+                this.Report.AppendLine($"Project;Id;LrDisagreementMatches;RlDisagreementMatches");
+
+            foreach (var frp in affectedFrps)
+            {
+                this.Report.AppendLine($"{this.SqlRepository.Name};{frp.Id};{frp.LrDisagreementMatches};{frp.RlDisagreementMatches}");
+            }
+        }
+
+        private IEnumerable<(Guid Id, int LrDisagreementMatches, int RlDisagreementMatches)> ComparisonQuery()
+        {
+            var query = from f in this.SqlRepository.FileRevisionPairs.AsNoTracking()
+                        where f.Principal.Deltas.Any(d => d.Approach == this.Config.Left && d.Matching != null && d.Matching != "<Matches />" && d.Differencing != null && d.Differencing != "<Actions />" && d.Report == null) &&
+                              f.Principal.Deltas.Any(d => d.Approach == this.Config.Right && d.Matching != null && d.Matching != "<Matches />" && d.Differencing != null && d.Differencing != "<Actions />" && d.Report == null)
+                        let fd = (from d in f.Principal.Deltas where d.Approach == this.Config.Left && d.Matching != null && d.Differencing != null && d.Report == null select d).FirstOrDefault()
+                        let rd = (from d in f.Principal.Deltas where d.Approach == this.Config.Right && d.Matching != null && d.Differencing != null && d.Report == null select d).FirstOrDefault()
+                        select new
+                        {
+                            f.Id,
+                            LrDisagreementMatches = fd.Symptoms.OfType<LRMatchSymptom>().Count(lr => lr.Left.Approach == (int)this.Config.Left &&
+                                                                                                     lr.OriginalAtRight.Approach == (int)this.Config.Right &&
+                                                                                                     lr.ModifiedAtRight.Approach == (int)this.Config.Right),
+                            RlDisagreementMatches = fd.Symptoms.OfType<RLMatchSymptom>().Count(rl => rl.Right.Approach == (int)this.Config.Right &&
+                                                                                                     rl.OriginalAtLeft.Approach == (int)this.Config.Left &&
+                                                                                                     rl.ModifiedAtLeft.Approach == (int)this.Config.Left)
+                        };
+
+            foreach (var element in query)
+            {
+                yield return (element.Id, element.LrDisagreementMatches, element.RlDisagreementMatches);
+            }
         }
 
         /// <summary>

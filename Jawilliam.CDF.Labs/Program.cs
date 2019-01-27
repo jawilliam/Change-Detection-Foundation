@@ -605,8 +605,8 @@ namespace Jawilliam.CDF.Labs
             //    }
             //}
 
-            RedundancyComparisonGumTreeWithMultipleConfigurations();
-            //DetectingInverseOfNativeGumTreeWithGumtreefiedRoslynMLOnMultipleConfigurations();
+            //RedundancyComparisonGumTreeWithMultipleConfigurations();
+            DetectingInverseOfNativeGumTreeWithGumtreefiedRoslynMLOnMultipleConfigurations();
             //ReviewRevisionPairs2(@"E:\Phd\Analysis\OriginalForReversibilityExample.cs", @"E:\Phd\Analysis\ModifiedForReversibilityExample.cs",
             //    ReviewKind.Ratio_LevenshteinGumTreeAdditions_LocalOutliers, ReviewRevisionPair/*,
             //                new SourceCodeCleaner
@@ -1003,9 +1003,9 @@ namespace Jawilliam.CDF.Labs
                 MillisecondsTimeout = 600000
             };
 
-            foreach (var project in Projects)
+            foreach (var project in Projects.Skip(23))
             {
-                foreach (var configuration in configurations)
+                foreach (var configuration in configurations.Where(c => project.Name == "CoreFx" ? (int)c.Forward.Approach >= 15 : true))
                 {
                     var dbRepository = new GitRepository(project.Name) { Name = project.Name };
                     ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 600;
@@ -1024,13 +1024,13 @@ namespace Jawilliam.CDF.Labs
 
                     interopArgs.GumTreePath = configuration.Path;
 
-                    analyzer.InverseNativeGumTreeDiff(gumTree, interopArgs, configuration.Backward.Approach, null, null);
-                    //analyzer.InverseNativeGumTreeDiff(gumTree, interopArgs, gumTreeApproach, skipThese, cleaner);
-                    System.IO.File.AppendAllText($@"D:\ExperimentLogs\{configuration.Backward.Name}.txt",
-                        $"{Environment.NewLine}{Environment.NewLine}GumTreefied RoslynML (collection) completed {DateTime.Now.ToString("F", CultureInfo.InvariantCulture)} - {project.Name}" +
-                        $"{Environment.NewLine}{analyzer.Warnings.ToString()}");
-
-
+                    //if (project.Name != "AzureSdkForNet")
+                    //{
+                        analyzer.InverseNativeGumTreeDiff(gumTree, interopArgs, configuration.Backward.Approach, null, null);
+                        //analyzer.InverseNativeGumTreeDiff(gumTree, interopArgs, gumTreeApproach, skipThese, cleaner);
+                        System.IO.File.AppendAllText($@"D:\ExperimentLogs\{configuration.Backward.Name}.txt",
+                            $"{Environment.NewLine}{Environment.NewLine}GumTreefied RoslynML (collection) completed {DateTime.Now.ToString("F", CultureInfo.InvariantCulture)} - {project.Name}");
+                    //}
 
                     recognizer.ConfigForwardVsBackward((configuration.Forward.Approach, configuration.Forward.Name), (configuration.Backward.Approach, configuration.Backward.Name));
                     recognizer.SqlRepository = dbRepository;

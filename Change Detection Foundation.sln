@@ -17,7 +17,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jawilliam.CDF.Labs.Resource
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{588C3C79-2005-4FEA-A997-C353C898B149}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CDF Command Line", "CDF Command Line\CDF Command Line.csproj", "{58B83C0D-51F2-4DE6-985C-E38810FB72FE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CDF Command Line", "CDF Command Line\CDF Command Line.csproj", "{58B83C0D-51F2-4DE6-985C-E38810FB72FE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CDF Labs Console", "CDF Labs Console\CDF Labs Console.csproj", "{6F44C09D-51F4-4CC1-AF0B-97A428C59A32}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,12 +55,17 @@ Global
 		{58B83C0D-51F2-4DE6-985C-E38810FB72FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{58B83C0D-51F2-4DE6-985C-E38810FB72FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{58B83C0D-51F2-4DE6-985C-E38810FB72FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F44C09D-51F4-4CC1-AF0B-97A428C59A32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F44C09D-51F4-4CC1-AF0B-97A428C59A32}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F44C09D-51F4-4CC1-AF0B-97A428C59A32}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F44C09D-51F4-4CC1-AF0B-97A428C59A32}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{58B83C0D-51F2-4DE6-985C-E38810FB72FE} = {588C3C79-2005-4FEA-A997-C353C898B149}
+		{6F44C09D-51F4-4CC1-AF0B-97A428C59A32} = {588C3C79-2005-4FEA-A997-C353C898B149}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9FCAC852-AC8C-43C4-8A5F-C2AB38F30EB6}

@@ -289,21 +289,21 @@ namespace Jawilliam.CDF.Approach.GumTree
         {
             //¢
             string options = args.Options == null ? "" : $"{args.Options} ";
-            string header = $"Microsoft Windows [Versión 10.0.16299.492]\r\n(c) 2017 Microsoft Corporation. Todos los derechos reservados.\r\n\r\n{Environment.CurrentDirectory}>D:\r\n\r\nD:\\>cd {args.GumTreePath}\\bin\r\n\r\n{args.GumTreePath}\\bin>set PATH=%PATH%;C:\\Program Files (x86)\\srcML 0.9.5\\bin\r\n\r\n{args.GumTreePath}\\bin>gumtree.bat jsondiff {options}{args.Original} {args.Modified}\r\n";
+            string header = $"Microsoft Windows [Versión 10.0.17134.472]\r\n(c) 2018 Microsoft Corporation. Todos los derechos reservados.\r\n\r\n{Environment.CurrentDirectory}>D:\r\n\r\nD:\\>cd {args.GumTreePath}\\bin\r\n\r\n{args.GumTreePath}\\bin>set PATH=%PATH%;C:\\Program Files (x86)\\srcML 0.9.5\\bin\r\n\r\n{args.GumTreePath}\\bin>gumtree.bat jsondiff {options}{args.Original} {args.Modified}\r\n";
             return ExecuteCommand(args, header, $"gumtree.bat jsondiff {options}{args.Original} {args.Modified}", "");
         }
 
         public string ExecuteDiffCommand(InteropArgs args)
         {
             string options = args.Options == null ? "" : $"{args.Options} ";
-            string header = $"Microsoft Windows [Versión 10.0.16299.492]\r\n(c) 2017 Microsoft Corporation. Todos los derechos reservados.\r\n\r\n{Environment.CurrentDirectory}>D:\r\n\r\nD:\\>cd {args.GumTreePath}\\bin\r\n\r\n{args.GumTreePath}\\bin>set PATH=%PATH%;C:\\Program Files (x86)\\srcML 0.9.5\\bin\r\n\r\n{args.GumTreePath}\\bin>gumtree.bat diff {options}{args.Original} {args.Modified}\r\n";
+            string header = $"Microsoft Windows [Versión 10.0.17134.472]\r\n(c) 2018 Microsoft Corporation. Todos los derechos reservados.\r\n\r\n{Environment.CurrentDirectory}>D:\r\n\r\nD:\\>cd {args.GumTreePath}\\bin\r\n\r\n{args.GumTreePath}\\bin>set PATH=%PATH%;C:\\Program Files (x86)\\srcML 0.9.5\\bin\r\n\r\n{args.GumTreePath}\\bin>gumtree.bat diff {options}{args.Original} {args.Modified}\r\n";
             return ExecuteCommand(args, header, $"gumtree.bat diff {options}{args.Original} {args.Modified}", "");
         }
 
         public virtual ElementTree ParseTree(InteropArgs args, bool modified = false)
         {//¢
             var file = !modified ? args.Original : args.Modified;
-            string header = $"Microsoft Windows [Versión 10.0.16299.492]\r\n(c) 2017 Microsoft Corporation. Todos los derechos reservados.\r\n\r\n{Environment.CurrentDirectory}>D:\r\n\r\nD:\\>cd {args.GumTreePath}\\bin\r\n\r\n{args.GumTreePath}\\bin>set PATH=%PATH%;C:\\Program Files (x86)\\srcML 0.9.5\\bin\r\n\r\n{args.GumTreePath}\\bin>gumtree.bat parse {file}\r\n";
+            string header = $"Microsoft Windows [Versión 10.0.17134.472]\r\n(c) 2018 Microsoft Corporation. Todos los derechos reservados.\r\n\r\n{Environment.CurrentDirectory}>D:\r\n\r\nD:\\>cd {args.GumTreePath}\\bin\r\n\r\n{args.GumTreePath}\\bin>set PATH=%PATH%;C:\\Program Files (x86)\\srcML 0.9.5\\bin\r\n\r\n{args.GumTreePath}\\bin>gumtree.bat parse {file}\r\n";
             var result = ExecuteCommand(args, header, $"gumtree.bat parse {file}", "");
             //XDocument xjsonDiff;
             XElement xml;
