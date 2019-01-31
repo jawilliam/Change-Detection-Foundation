@@ -10,7 +10,7 @@
         /// <summary>
         /// Gets the arguments initially given, i.e., the input with which the current procedure is currently executing.
         /// </summary>
-        public virtual TArgs Args { get; private set; }
+        public virtual TArgs Args { get; protected set; }
 
         /// <summary>
         /// Gets the output information.
@@ -21,9 +21,35 @@
         /// Executes the current procedure given a particular input.
         /// </summary>
         /// <param name="args">arguments initially given, i.e., the input with which the current procedure will execute.</param>
-        public virtual void Proceed(TArgs args)
+        void IProcedure<TArgs, TResult>.Proceed(TArgs args)
         {
             this.Args = args;
+            this.CoreProceed();
         }
+
+        ///// <summary>
+        ///// Executes the current procedure given a particular input.
+        ///// </summary>
+        ///// <param name="args">arguments initially given, i.e., the input with which the current procedure will execute.</param>
+        //void IProcedure<TArgs, TResult>.Proceed(TArgs args)
+        //{
+        //    this.Args = args;
+        //    this.CoreProceed();
+        //}
+
+        /// <summary>
+        /// The core implementation of the procedure.
+        /// </summary>
+        protected abstract void CoreProceed();
+
+        /// <summary>
+        /// Gets the arguments initially given, i.e., the input with which the current procedure is currently executing.
+        /// </summary>
+        TArgs IProcedure<TArgs, TResult>.Args => this.Args;
+
+        /// <summary>
+        /// Gets the output information.
+        /// </summary>
+        TResult IProcedure<TArgs, TResult>.Result => this.Result;
     }
 }

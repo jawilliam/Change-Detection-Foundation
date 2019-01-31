@@ -242,7 +242,7 @@ namespace Jawilliam.CDF.Labs
 
                 try
                 {
-                    gumTree.Proceed(interopArgs);
+                    gumTree.Run(interopArgs);
                 }
                 catch (Exception e)
                 {
@@ -434,7 +434,7 @@ namespace Jawilliam.CDF.Labs
                     System.IO.File.WriteAllText(interopArgs.Modified, modifiedContent);
                     try
                     {
-                        gumTree.Proceed(interopArgs);
+                        gumTree.Run(interopArgs);
                     }
                     catch (Exception e)
                     {

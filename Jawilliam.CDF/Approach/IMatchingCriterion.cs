@@ -4,12 +4,12 @@
     /// Defines a logic for determining if two elements match or not.
     /// </summary>
     /// <typeparam name="T">Type of the comparing elements.</typeparam>
-    public interface IMatchingCriterion<T> : IProcedure<RevisionPair<T>, bool>
+    public interface IMatchingCriterion<T> : IProcedure<DetectionStep<T>, (bool, MatchingPair<T>)>
     {
         /// <summary>
         /// Gets or sets a transformation to apply before the matching occurs.
         /// </summary>
-        IMatchingTransformation<T> Transform { get; set; }
+        TransformDelegate<T> Transform { get; set; }
 
         /// <summary>
         /// Determines if the given elements are or not similar.

@@ -218,7 +218,7 @@ namespace Jawilliam.CDF.Labs
                 {
                     var annotations = delta.XAnnotations;
                     var start = Environment.TickCount;
-                    gumTree.Proceed(interopArgs);
+                    gumTree.Run(interopArgs);
                     annotations.RunTime = (Environment.TickCount - start).ToString(CultureInfo.InvariantCulture);
                     delta.XAnnotations = annotations;
                 }
@@ -303,7 +303,7 @@ namespace Jawilliam.CDF.Labs
                   {
                       var annotations = delta.XAnnotations;
                       var start = Environment.TickCount;
-                      gumTree.Proceed(interopArgs);
+                      gumTree.Run(interopArgs);
                       annotations.RunTime = (Environment.TickCount - start).ToString(CultureInfo.InvariantCulture);
                       delta.XAnnotations = annotations;
                   }

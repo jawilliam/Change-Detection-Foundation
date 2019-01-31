@@ -26,9 +26,19 @@ namespace Jawilliam.CDF.Approach.GumTree
         /// Executes the current procedure given a particular input.
         /// </summary>
         /// <param name="args">arguments initially given, i.e., the input with which the current procedure will execute.</param>
-        public override void Proceed(InteropArgs args)
+        public void Run(InteropArgs args)
         {
-            base.Proceed(args);
+            ((IProcedure<InteropArgs, DetectionResult>)this).Proceed(args);
+            //matchingPair = this.Result.Item2;
+            //return this.Result.Item1;
+        }
+
+        /// <summary>
+        /// Executes the current procedure given a particular input.
+        /// </summary>
+        /// <param name="args">arguments initially given, i.e., the input with which the current procedure will execute.</param>
+        protected override void CoreProceed()
+        {
             this.Result = new DetectionResult();
 
 #if SKIPELEMENT
@@ -40,7 +50,7 @@ namespace Jawilliam.CDF.Approach.GumTree
             //string output = ExecuteCommand(args, header, $"gumtree.bat axmldiff {args.Original} {args.Modified}", "\n");
             //string header = $"Microsoft Windows [Versión 10.0.10586]\r\n(c) 2015 Microsoft Corporation. Todos los derechos reservados.\r\n\r\n{Environment.CurrentDirectory}>E:\r\n\r\n{Environment.CurrentDirectory}>cd {args.GumTreePath}\\bin\r\n\r\n{args.GumTreePath}\\bin>set PATH=%PATH%;C:\\Program Files (x86)\\srcML 0.9.5\\bin\r\n\r\n{args.GumTreePath}\\bin>gumtree.bat jsondiff {args.Original} {args.Modified}\r\n";
             //string output = ExecuteCommand(args, header, $"gumtree.bat jsondiff {args.Original} {args.Modified}", "");
-            var diff = this.ExecuteDiffCommand(args);
+            var diff = this.ExecuteDiffCommand(this.Args);
             var lines = diff.Split(new[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
             var temp = "";
             var lines1 = lines;
