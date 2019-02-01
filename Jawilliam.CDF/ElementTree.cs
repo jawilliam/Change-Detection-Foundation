@@ -19,7 +19,7 @@ namespace Jawilliam.CDF
         /// <summary>
         /// Gets or sets the root element descriptor.
         /// </summary>
-        public virtual ElementDescriptor Root { get; set; }
+        public virtual ElementVersion Root { get; set; }
 
         /// <summary>
         /// Gets or sets the parent element descriptor.
@@ -86,7 +86,7 @@ namespace Jawilliam.CDF
         /// <param name="reader">The <see cref="T:System.Xml.XmlReader"/> stream from which the object is deserialized. </param>
         public virtual void ReadXml(XmlReader reader, bool readNext = false)
         {
-            this.Root = new ElementDescriptor
+            this.Root = new ElementVersion
             {
                 Id = reader.GetAttribute("eId"),
                 Label = reader.GetAttribute("eLb"),

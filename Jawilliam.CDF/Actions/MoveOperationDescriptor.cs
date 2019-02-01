@@ -17,7 +17,7 @@ namespace Jawilliam.CDF.Actions
         /// <summary>
         /// Gets or sets the node to be the parent of the node to be inserted.
         /// </summary>
-        public virtual ElementDescriptor Parent { get; set; }
+        public virtual ElementVersion Parent { get; set; }
 
         /// <summary>
         /// Generates an object from its XML representation.
@@ -27,7 +27,7 @@ namespace Jawilliam.CDF.Actions
         {
             base.ReadXml(reader);
 
-            var parent = new ElementDescriptor
+            var parent = new ElementVersion
             {
                 Id = reader.GetAttribute("pId"),
                 Label = reader.GetAttribute("pLb"),

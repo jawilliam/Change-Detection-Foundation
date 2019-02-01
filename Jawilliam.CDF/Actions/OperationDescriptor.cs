@@ -34,7 +34,7 @@ namespace Jawilliam.CDF.Actions
             //if (!Equals(Enum.Parse(typeof(ActionKind), kind), this.Action))
             //    throw new InvalidOperationException($"An {Enum.GetName(typeof(ActionKind), this.Action)} operation is expected.");
 
-            this.Element = new ElementDescriptor
+            this.Element = new ElementVersion
             {
                 Id = reader.GetAttribute("eId"),
                 Label = reader.GetAttribute("eLb"),
@@ -63,6 +63,6 @@ namespace Jawilliam.CDF.Actions
         /// <summary>
         /// Gets or sets the element to be operated.
         /// </summary>
-        public virtual ElementDescriptor Element { get; set; }
+        public virtual ElementVersion Element { get; set; }
     }
 }

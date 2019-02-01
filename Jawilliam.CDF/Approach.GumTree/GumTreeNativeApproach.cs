@@ -80,7 +80,7 @@ namespace Jawilliam.CDF.Approach.GumTree
             }
             else
             {
-                this.Result.Matches = new List<RevisionDescriptor>();
+                this.Result.Matches = new List<MatchDescriptor>();
                 this.Result.Actions = new List<ActionDescriptor>();
                 this.Result.Error = "Error on the side of GumTree";
             }
@@ -90,26 +90,26 @@ namespace Jawilliam.CDF.Approach.GumTree
         /// Returns structured descriptions of matches.
         /// </summary>
         /// <param name="diffOutput">informations to select from.</param>
-        public virtual IEnumerable<RevisionDescriptor> GetMatches(string[] diffOutput)
+        public virtual IEnumerable<MatchDescriptor> GetMatches(string[] diffOutput)
         {
             var matchPatterns = new[]
             {
                 new
                 {
                     Pattern = new Regex(@"^Match ([^:]*): (.*)\((\d+)\) to ([^:]*): (.*)\((\d+)\)", RegexOptions.Singleline),
-                    Selector = new Func<string[], RevisionDescriptor>(captures => new RevisionDescriptor
+                    Selector = new Func<string[], MatchDescriptor>(captures => new MatchDescriptor
                     {
-                        Original = new ElementDescriptor {Id = captures[2], Label = captures[0], Value = captures[0] == "name" ? captures[1] : "##"},
-                        Modified = new ElementDescriptor {Id = captures[5], Label = captures[3], Value = captures[3] == "name" ? captures[4] : "##"},
+                        Original = new ElementVersion {Id = captures[2], Label = captures[0], Value = captures[0] == "name" ? captures[1] : "##"},
+                        Modified = new ElementVersion {Id = captures[5], Label = captures[3], Value = captures[3] == "name" ? captures[4] : "##"},
                     })
                 },
                 new
                 {
                     Pattern = new Regex(@"^Match (.*)\((\d+)\) to (.*)\((\d+)\)", RegexOptions.Singleline),
-                    Selector = new Func<string[], RevisionDescriptor>(captures => new RevisionDescriptor
+                    Selector = new Func<string[], MatchDescriptor>(captures => new MatchDescriptor
                     {
-                        Original = new ElementDescriptor {Id = captures[1], Label = captures[0]},
-                        Modified = new ElementDescriptor {Id = captures[3], Label = captures[2]},
+                        Original = new ElementVersion {Id = captures[1], Label = captures[0]},
+                        Modified = new ElementVersion {Id = captures[3], Label = captures[2]},
                     })
                 }
             };
@@ -156,8 +156,8 @@ namespace Jawilliam.CDF.Approach.GumTree
                     Pattern = new Regex(@"^Insert ([^:]*): (.*)\((\d+)\) into (.*)\((\d+)\) at (\d+)", RegexOptions.Singleline),
                     Selector = new Func<string[], OperationDescriptor>(captures => new InsertOperationDescriptor
                     {
-                        Element = new ElementDescriptor { Id = captures[2], Label = captures[0], Value = captures[0] == "name" ? captures[1] : "##"},
-                        Parent = new ElementDescriptor { Id = captures[4], Label = captures[3] },
+                        Element = new ElementVersion { Id = captures[2], Label = captures[0], Value = captures[0] == "name" ? captures[1] : "##"},
+                        Parent = new ElementVersion { Id = captures[4], Label = captures[3] },
                         Position = int.Parse(captures[5], CultureInfo.InvariantCulture)
                     })
                 },
@@ -166,8 +166,8 @@ namespace Jawilliam.CDF.Approach.GumTree
                     Pattern = new Regex(@"^Insert (.*)\((\d+)\) into (.*)\((\d+)\) at (\d+)", RegexOptions.Singleline),
                     Selector = new Func<string[], OperationDescriptor>(captures => new InsertOperationDescriptor
                     {
-                        Element = new ElementDescriptor { Id = captures[1], Label = captures[0] },
-                        Parent = new ElementDescriptor { Id = captures[3], Label = captures[2] },
+                        Element = new ElementVersion { Id = captures[1], Label = captures[0] },
+                        Parent = new ElementVersion { Id = captures[3], Label = captures[2] },
                         Position = int.Parse(captures[4], CultureInfo.InvariantCulture)
                     })
                 },
@@ -176,7 +176,7 @@ namespace Jawilliam.CDF.Approach.GumTree
                     Pattern = new Regex(@"^Update ([^:]*): (.*)\((\d+)\) to (.*)", RegexOptions.Singleline),
                     Selector = new Func<string[], OperationDescriptor>(captures => new UpdateOperationDescriptor
                     {
-                        Element = new ElementDescriptor { Id = captures[2], Label = captures[0], Value = captures[0] == "name" ? captures[1] : "##" },
+                        Element = new ElementVersion { Id = captures[2], Label = captures[0], Value = captures[0] == "name" ? captures[1] : "##" },
                         Value = captures[3]
                     })
                 },
@@ -185,7 +185,7 @@ namespace Jawilliam.CDF.Approach.GumTree
                     Pattern = new Regex(@"^Update (.*)\((\d+)\) to (.*)", RegexOptions.Singleline),
                     Selector = new Func<string[], OperationDescriptor>(captures => new UpdateOperationDescriptor
                     {
-                        Element = new ElementDescriptor { Id = captures[1], Label = captures[0] },
+                        Element = new ElementVersion { Id = captures[1], Label = captures[0] },
                         Value = captures[2]
                     })
                 },/*,
@@ -212,8 +212,8 @@ namespace Jawilliam.CDF.Approach.GumTree
                     Pattern = new Regex(@"^Move ([^:]*): (.*)\((\d+)\) into (.*)\((\d+)\) at (\d+)", RegexOptions.Singleline),
                     Selector = new Func<string[], OperationDescriptor>(captures => new MoveOperationDescriptor
                     {
-                        Element = new ElementDescriptor { Id = captures[2], Label = captures[0], Value = captures[0] == "name" ? captures[1] : "##" },
-                        Parent = new ElementDescriptor { Id = captures[4], Label = captures[3] },
+                        Element = new ElementVersion { Id = captures[2], Label = captures[0], Value = captures[0] == "name" ? captures[1] : "##" },
+                        Parent = new ElementVersion { Id = captures[4], Label = captures[3] },
                         Position = Int32.Parse(captures[5], CultureInfo.InvariantCulture)
                     })
                 },
@@ -222,15 +222,15 @@ namespace Jawilliam.CDF.Approach.GumTree
                     Pattern = new Regex(@"^Move (.*)\((\d+)\) into (.*)\((\d+)\) at (\d+)", RegexOptions.Singleline),
                     Selector = new Func<string[], OperationDescriptor>(captures => new MoveOperationDescriptor
                     {
-                        Element = new ElementDescriptor { Id = captures[1], Label = captures[0] },
-                        Parent = new ElementDescriptor { Id = captures[3], Label = captures[2] },
+                        Element = new ElementVersion { Id = captures[1], Label = captures[0] },
+                        Parent = new ElementVersion { Id = captures[3], Label = captures[2] },
                         Position = Int32.Parse(captures[4], CultureInfo.InvariantCulture)
                     })
                 },
                 new { Pattern = new Regex(@"^Delete ([^:]*): (.*)\((\d+)\)", RegexOptions.Singleline),
                     Selector = new Func<string[], OperationDescriptor>(captures => new DeleteOperationDescriptor
                     {
-                        Element = new ElementDescriptor { Id = captures[2], Label = captures[0], Value = captures[0] == "name" ? captures[1] : "##" }
+                        Element = new ElementVersion { Id = captures[2], Label = captures[0], Value = captures[0] == "name" ? captures[1] : "##" }
                     })
                 },
                 new
@@ -238,7 +238,7 @@ namespace Jawilliam.CDF.Approach.GumTree
                     Pattern = new Regex(@"^Delete (.*)\((\d+)\)", RegexOptions.Singleline),
                     Selector = new Func<string[], OperationDescriptor>(captures => new DeleteOperationDescriptor
                     {
-                        Element = new ElementDescriptor { Id = captures[1], Label = captures[0] }
+                        Element = new ElementVersion { Id = captures[1], Label = captures[0] }
                     })
                 }
             };
@@ -330,7 +330,7 @@ namespace Jawilliam.CDF.Approach.GumTree
         {
             var tree = new ElementTree
             {
-                Root = new ElementDescriptor
+                Root = new ElementVersion
                 {
                     Label = root.Elements("typeLabel").Single().Value,
                     Value = root.Elements("label").SingleOrDefault()?.Value
@@ -389,17 +389,17 @@ namespace Jawilliam.CDF.Approach.GumTree
         /// </summary>
         /// <param name="native"></param>
         /// <returns></returns>
-        private IEnumerable<RevisionDescriptor> ToMatchingDescriptors(XDocument native)
+        private IEnumerable<MatchDescriptor> ToMatchingDescriptors(XDocument native)
         {
             var xMatches = native.Root?.Element("matches");
             if (xMatches != null)
             {
                 foreach (var xItem in xMatches.Elements("item"))
                 {
-                    yield return new RevisionDescriptor
+                    yield return new MatchDescriptor
                     {
-                        Original = new ElementDescriptor { Id = xItem.Element("src")?.Value },
-                        Modified = new ElementDescriptor { Id = xItem.Element("dest")?.Value }
+                        Original = new ElementVersion { Id = xItem.Element("src")?.Value },
+                        Modified = new ElementVersion { Id = xItem.Element("dest")?.Value }
                     };
                 }
             }
@@ -422,29 +422,29 @@ namespace Jawilliam.CDF.Approach.GumTree
                         case "insert":
                             yield return new InsertOperationDescriptor
                             {
-                                Element = new ElementDescriptor { Id = xItem.Element("tree").Value },
-                                Parent = new ElementDescriptor { Id = xItem.Element("parent").Value },
+                                Element = new ElementVersion { Id = xItem.Element("tree").Value },
+                                Parent = new ElementVersion { Id = xItem.Element("parent").Value },
                                 Position = XmlConvert.ToInt32(xItem.Element("at").Value)
                             };
                             break;
                         case "delete":
                             yield return new DeleteOperationDescriptor
                             {
-                                Element = new ElementDescriptor { Id = xItem.Element("tree").Value }
+                                Element = new ElementVersion { Id = xItem.Element("tree").Value }
                             };
                             break;
                         case "update":
                             yield return new UpdateOperationDescriptor
                             {
-                                Element = new ElementDescriptor { Id = xItem.Element("tree").Value },
+                                Element = new ElementVersion { Id = xItem.Element("tree").Value },
                                 Value = xItem.Element("label").Value
                             };
                             break;
                         case "move":
                             yield return new MoveOperationDescriptor
                             {
-                                Element = new ElementDescriptor { Id = xItem.Element("tree").Value },
-                                Parent = new ElementDescriptor { Id = xItem.Element("parent").Value },
+                                Element = new ElementVersion { Id = xItem.Element("tree").Value },
+                                Parent = new ElementVersion { Id = xItem.Element("parent").Value },
                                 Position = XmlConvert.ToInt32(xItem.Element("at").Value)
                             };
                             break;
@@ -461,26 +461,26 @@ namespace Jawilliam.CDF.Approach.GumTree
         /// <param name="matches">existing matches to complete.</param>
         /// <param name="actions">existing actions to complete.</param>
         /// <param name="diffOutput">informations to complete from.</param>
-        public virtual void CompleteDeltaInfo(IEnumerable<RevisionDescriptor> matches, IEnumerable<OperationDescriptor> actions, string[] diffOutput)
+        public virtual void CompleteDeltaInfo(IEnumerable<MatchDescriptor> matches, IEnumerable<OperationDescriptor> actions, string[] diffOutput)
         {
             var matchPatterns = new[]
             {
                 new
                 {
                     Pattern = new Regex(@"^Match ([^:]*): (.*)\((\d+)\) to ([^:]*): (.*)\((\d+)\)"),
-                    Selector = new Func<string[], RevisionDescriptor>(captures => new RevisionDescriptor
+                    Selector = new Func<string[], MatchDescriptor>(captures => new MatchDescriptor
                     {
-                        Original = new ElementDescriptor {Id = captures[2], Label = captures[0], Value = captures[0] == "name" ? captures[1] : "##"},
-                        Modified = new ElementDescriptor {Id = captures[5], Label = captures[3], Value = captures[3] == "name" ? captures[4] : "##"},
+                        Original = new ElementVersion {Id = captures[2], Label = captures[0], Value = captures[0] == "name" ? captures[1] : "##"},
+                        Modified = new ElementVersion {Id = captures[5], Label = captures[3], Value = captures[3] == "name" ? captures[4] : "##"},
                     })
                 },
                 new
                 {
                     Pattern = new Regex(@"^Match (.*)\((\d+)\) to (.*)\((\d+)\)"),
-                    Selector = new Func<string[], RevisionDescriptor>(captures => new RevisionDescriptor
+                    Selector = new Func<string[], MatchDescriptor>(captures => new MatchDescriptor
                     {
-                        Original = new ElementDescriptor {Id = captures[1], Label = captures[0]},
-                        Modified = new ElementDescriptor {Id = captures[3], Label = captures[2]},
+                        Original = new ElementVersion {Id = captures[1], Label = captures[0]},
+                        Modified = new ElementVersion {Id = captures[3], Label = captures[2]},
                     })
                 }
             };
@@ -514,8 +514,8 @@ namespace Jawilliam.CDF.Approach.GumTree
                     Pattern = new Regex(@"^Insert ([^:]*): (.*)\((\d+)\) into (.*)\((\d+)\) at (\d+)"),
                     Selector = new Func<string[], OperationDescriptor>(captures => new InsertOperationDescriptor
                     {
-                        Element = new ElementDescriptor { Id = captures[2], Label = captures[0], Value = captures[0] == "name" ? captures[1] : "##"},
-                        Parent = new ElementDescriptor { Id = captures[4], Label = captures[3] },
+                        Element = new ElementVersion { Id = captures[2], Label = captures[0], Value = captures[0] == "name" ? captures[1] : "##"},
+                        Parent = new ElementVersion { Id = captures[4], Label = captures[3] },
                         Position = int.Parse(captures[5], CultureInfo.InvariantCulture)
                     })
                 },
@@ -524,8 +524,8 @@ namespace Jawilliam.CDF.Approach.GumTree
                     Pattern = new Regex(@"^Insert (.*)\((\d+)\) into (.*)\((\d+)\) at (\d+)"),
                     Selector = new Func<string[], OperationDescriptor>(captures => new InsertOperationDescriptor
                     {
-                        Element = new ElementDescriptor { Id = captures[1], Label = captures[0] },
-                        Parent = new ElementDescriptor { Id = captures[3], Label = captures[2] },
+                        Element = new ElementVersion { Id = captures[1], Label = captures[0] },
+                        Parent = new ElementVersion { Id = captures[3], Label = captures[2] },
                         Position = int.Parse(captures[4], CultureInfo.InvariantCulture)
                     })
                 },
@@ -534,7 +534,7 @@ namespace Jawilliam.CDF.Approach.GumTree
                     Pattern = new Regex(@"^Update ([^:]*): (.*)\((\d+)\) to (.*)"),
                     Selector = new Func<string[], OperationDescriptor>(captures => new UpdateOperationDescriptor
                     {
-                        Element = new ElementDescriptor { Id = captures[2], Label = captures[0], Value = captures[0] == "name" ? captures[1] : "##" },
+                        Element = new ElementVersion { Id = captures[2], Label = captures[0], Value = captures[0] == "name" ? captures[1] : "##" },
                         Value = captures[3]
                     })
                 },
@@ -543,7 +543,7 @@ namespace Jawilliam.CDF.Approach.GumTree
                     Pattern = new Regex(@"^Update (.*)\((\d+)\) to (.*)"),
                     Selector = new Func<string[], OperationDescriptor>(captures => new UpdateOperationDescriptor
                     {
-                        Element = new ElementDescriptor { Id = captures[1], Label = captures[0] },
+                        Element = new ElementVersion { Id = captures[1], Label = captures[0] },
                         Value = captures[2]
                     })
                 },/*,
@@ -570,8 +570,8 @@ namespace Jawilliam.CDF.Approach.GumTree
                     Pattern = new Regex(@"^Move ([^:]*): (.*)\((\d+)\) into (.*)\((\d+)\) at (\d+)"),
                     Selector = new Func<string[], OperationDescriptor>(captures => new MoveOperationDescriptor
                     {
-                        Element = new ElementDescriptor { Id = captures[2], Label = captures[0], Value = captures[0] == "name" ? captures[1] : "##" },
-                        Parent = new ElementDescriptor { Id = captures[4], Label = captures[3] },
+                        Element = new ElementVersion { Id = captures[2], Label = captures[0], Value = captures[0] == "name" ? captures[1] : "##" },
+                        Parent = new ElementVersion { Id = captures[4], Label = captures[3] },
                         Position = Int32.Parse(captures[5], CultureInfo.InvariantCulture)
                     })
                 },
@@ -580,15 +580,15 @@ namespace Jawilliam.CDF.Approach.GumTree
                     Pattern = new Regex(@"^Move (.*)\((\d+)\) into (.*)\((\d+)\) at (\d+)"),
                     Selector = new Func<string[], OperationDescriptor>(captures => new MoveOperationDescriptor
                     {
-                        Element = new ElementDescriptor { Id = captures[1], Label = captures[0] },
-                        Parent = new ElementDescriptor { Id = captures[3], Label = captures[2] },
+                        Element = new ElementVersion { Id = captures[1], Label = captures[0] },
+                        Parent = new ElementVersion { Id = captures[3], Label = captures[2] },
                         Position = Int32.Parse(captures[4], CultureInfo.InvariantCulture)
                     })
                 },
                 new { Pattern = new Regex(@"^Delete ([^:]*): (.*)\((\d+)\)"),
                     Selector = new Func<string[], OperationDescriptor>(captures => new DeleteOperationDescriptor
                     {
-                        Element = new ElementDescriptor { Id = captures[2], Label = captures[0], Value = captures[0] == "name" ? captures[1] : "##" }
+                        Element = new ElementVersion { Id = captures[2], Label = captures[0], Value = captures[0] == "name" ? captures[1] : "##" }
                     })
                 },
                 new
@@ -596,7 +596,7 @@ namespace Jawilliam.CDF.Approach.GumTree
                     Pattern = new Regex(@"^Delete (.*)\((\d+)\)"),
                     Selector = new Func<string[], OperationDescriptor>(captures => new DeleteOperationDescriptor
                     {
-                        Element = new ElementDescriptor { Id = captures[1], Label = captures[0] }
+                        Element = new ElementVersion { Id = captures[1], Label = captures[0] }
                     })
                 }
             };
@@ -630,9 +630,9 @@ namespace Jawilliam.CDF.Approach.GumTree
         /// </summary>
         /// <param name="matches">existing matches to complete.</param>
         /// <param name="diffMatches">informations to complete from.</param>
-        public virtual void CompleteDeltaMatchesInfo(IEnumerable<RevisionDescriptor> matches, RevisionDescriptor[] diffMatches)
+        public virtual void CompleteDeltaMatchesInfo(IEnumerable<MatchDescriptor> matches, MatchDescriptor[] diffMatches)
         {
-            var matchesToComplete = matches as RevisionDescriptor[] ?? matches.ToArray();
+            var matchesToComplete = matches as MatchDescriptor[] ?? matches.ToArray();
             foreach (var revisionDescriptor in diffMatches)
             {
                 var matchToComplete = matchesToComplete.Single(m => m.Original.Id == revisionDescriptor.Original.Id &&

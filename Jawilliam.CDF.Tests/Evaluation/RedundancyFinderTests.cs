@@ -20,29 +20,29 @@ namespace Jawilliam.CDF.Tests.Evaluation
             {
                 Actions = new List<ActionDescriptor>
                 {
-                    new DeleteOperationDescriptor { Element = new ElementDescriptor{ Id = "1di" } },
-                    new InsertOperationDescriptor { Element = new ElementDescriptor{ Id = "2di" } },
-                    new DeleteOperationDescriptor { Element = new ElementDescriptor{ Id = "3di", Label = "l3di", Value = "v3di" } },
-                    new InsertOperationDescriptor { Element = new ElementDescriptor{ Id = "4di", Label = "l4di", Value = "v4di" } }
+                    new DeleteOperationDescriptor { Element = new ElementVersion{ Id = "1di" } },
+                    new InsertOperationDescriptor { Element = new ElementVersion{ Id = "2di" } },
+                    new DeleteOperationDescriptor { Element = new ElementVersion{ Id = "3di", Label = "l3di", Value = "v3di" } },
+                    new InsertOperationDescriptor { Element = new ElementVersion{ Id = "4di", Label = "l4di", Value = "v4di" } }
                 }
             };
  
             RedundancyFinder finder = new MatchingSetRedundancyFinder
             {
                 Delta = delta,
-                MatchingSet = new RevisionDescriptor[]
+                MatchingSet = new MatchDescriptor[]
                 {
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "3di"},
-                        Modified = new ElementDescriptor{Id = "4di"}
+                        Original = new ElementVersion{Id = "3di"},
+                        Modified = new ElementVersion{Id = "4di"}
                     }
                 }
             };
 
-            (RedundancyPattern pattern, ElementDescriptor MissedOriginal, ElementDescriptor MissedModified,
-             ElementDescriptor SpuriousOriginal, ElementDescriptor SpuriousModified,
-             ElementDescriptor AndSpuriousOriginal, ElementDescriptor AndSpuriousModified)[] symptoms = finder.Find().ToArray();
+            (RedundancyPattern pattern, ElementVersion MissedOriginal, ElementVersion MissedModified,
+             ElementVersion SpuriousOriginal, ElementVersion SpuriousModified,
+             ElementVersion AndSpuriousOriginal, ElementVersion AndSpuriousModified)[] symptoms = finder.Find().ToArray();
             Assert.AreEqual(symptoms.Count(), 1);
             Assert.AreEqual(symptoms[0].pattern, RedundancyPattern.DI);
             Assert.AreEqual(symptoms[0].MissedOriginal.Id, "3di");
@@ -64,22 +64,22 @@ namespace Jawilliam.CDF.Tests.Evaluation
             {
                 Actions = new List<ActionDescriptor>
                 {
-                    new UpdateOperationDescriptor { Element = new ElementDescriptor{ Id = "1ui" } },
-                    new InsertOperationDescriptor { Element = new ElementDescriptor{ Id = "2ui" } },
-                    new UpdateOperationDescriptor { Element = new ElementDescriptor{ Id = "3ui", Label = "l3ui", Value = "v3ui" } },
-                    new InsertOperationDescriptor { Element = new ElementDescriptor{ Id = "4ui", Label = "l4ui", Value = "v4ui" } }
+                    new UpdateOperationDescriptor { Element = new ElementVersion{ Id = "1ui" } },
+                    new InsertOperationDescriptor { Element = new ElementVersion{ Id = "2ui" } },
+                    new UpdateOperationDescriptor { Element = new ElementVersion{ Id = "3ui", Label = "l3ui", Value = "v3ui" } },
+                    new InsertOperationDescriptor { Element = new ElementVersion{ Id = "4ui", Label = "l4ui", Value = "v4ui" } }
                 },
-                Matches = new List<RevisionDescriptor>
+                Matches = new List<MatchDescriptor>
                 {
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "1ui"},
-                        Modified = new ElementDescriptor{Id = "1uix"}
+                        Original = new ElementVersion{Id = "1ui"},
+                        Modified = new ElementVersion{Id = "1uix"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "3ui"},
-                        Modified = new ElementDescriptor{Id = "3uix"}
+                        Original = new ElementVersion{Id = "3ui"},
+                        Modified = new ElementVersion{Id = "3uix"}
                     }
                 }
             };
@@ -87,19 +87,19 @@ namespace Jawilliam.CDF.Tests.Evaluation
             RedundancyFinder finder = new MatchingSetRedundancyFinder
             {
                 Delta = delta,
-                MatchingSet = new RevisionDescriptor[]
+                MatchingSet = new MatchDescriptor[]
                 {
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "3ui"},
-                        Modified = new ElementDescriptor{Id = "4ui"}
+                        Original = new ElementVersion{Id = "3ui"},
+                        Modified = new ElementVersion{Id = "4ui"}
                     }
                 }
             };
 
-            (RedundancyPattern pattern, ElementDescriptor MissedOriginal, ElementDescriptor MissedModified,
-             ElementDescriptor SpuriousOriginal, ElementDescriptor SpuriousModified,
-             ElementDescriptor AndSpuriousOriginal, ElementDescriptor AndSpuriousModified)[] symptoms = finder.Find().ToArray();
+            (RedundancyPattern pattern, ElementVersion MissedOriginal, ElementVersion MissedModified,
+             ElementVersion SpuriousOriginal, ElementVersion SpuriousModified,
+             ElementVersion AndSpuriousOriginal, ElementVersion AndSpuriousModified)[] symptoms = finder.Find().ToArray();
             Assert.AreEqual(symptoms.Count(), 1);
             Assert.AreEqual(symptoms[0].pattern, RedundancyPattern.UI);
             Assert.AreEqual(symptoms[0].MissedOriginal.Id, "3ui");
@@ -125,24 +125,24 @@ namespace Jawilliam.CDF.Tests.Evaluation
             {
                 Actions = new List<ActionDescriptor>
                 {
-                    new MoveOperationDescriptor { Element = new ElementDescriptor{ Id = "1umi" } },
-                    new UpdateOperationDescriptor { Element = new ElementDescriptor{ Id = "1umi" } },
-                    new InsertOperationDescriptor { Element = new ElementDescriptor{ Id = "2umi" } },
-                    new MoveOperationDescriptor { Element = new ElementDescriptor{ Id = "3umi", Label = "l3umi", Value = "v3umi" } },
-                    new UpdateOperationDescriptor { Element = new ElementDescriptor{ Id = "3umi", Label = "l3umi", Value = "v3umi" } },
-                    new InsertOperationDescriptor { Element = new ElementDescriptor{ Id = "4umi", Label = "l4umi", Value = "v4umi" } }
+                    new MoveOperationDescriptor { Element = new ElementVersion{ Id = "1umi" } },
+                    new UpdateOperationDescriptor { Element = new ElementVersion{ Id = "1umi" } },
+                    new InsertOperationDescriptor { Element = new ElementVersion{ Id = "2umi" } },
+                    new MoveOperationDescriptor { Element = new ElementVersion{ Id = "3umi", Label = "l3umi", Value = "v3umi" } },
+                    new UpdateOperationDescriptor { Element = new ElementVersion{ Id = "3umi", Label = "l3umi", Value = "v3umi" } },
+                    new InsertOperationDescriptor { Element = new ElementVersion{ Id = "4umi", Label = "l4umi", Value = "v4umi" } }
                 },
-                Matches = new List<RevisionDescriptor>
+                Matches = new List<MatchDescriptor>
                 {
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "1umi"},
-                        Modified = new ElementDescriptor{Id = "1umix"}
+                        Original = new ElementVersion{Id = "1umi"},
+                        Modified = new ElementVersion{Id = "1umix"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "3umi"},
-                        Modified = new ElementDescriptor{Id = "3umix"}
+                        Original = new ElementVersion{Id = "3umi"},
+                        Modified = new ElementVersion{Id = "3umix"}
                     }
                 }
             };
@@ -150,19 +150,19 @@ namespace Jawilliam.CDF.Tests.Evaluation
             RedundancyFinder finder = new MatchingSetRedundancyFinder
             {
                 Delta = delta,
-                MatchingSet = new RevisionDescriptor[]
+                MatchingSet = new MatchDescriptor[]
                 {
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "3umi"},
-                        Modified = new ElementDescriptor{Id = "4umi"}
+                        Original = new ElementVersion{Id = "3umi"},
+                        Modified = new ElementVersion{Id = "4umi"}
                     }
                 }
             };
 
-            (RedundancyPattern pattern, ElementDescriptor MissedOriginal, ElementDescriptor MissedModified,
-             ElementDescriptor SpuriousOriginal, ElementDescriptor SpuriousModified,
-             ElementDescriptor AndSpuriousOriginal, ElementDescriptor AndSpuriousModified)[] symptoms = finder.Find().ToArray();
+            (RedundancyPattern pattern, ElementVersion MissedOriginal, ElementVersion MissedModified,
+             ElementVersion SpuriousOriginal, ElementVersion SpuriousModified,
+             ElementVersion AndSpuriousOriginal, ElementVersion AndSpuriousModified)[] symptoms = finder.Find().ToArray();
             Assert.AreEqual(symptoms.Count(), 1);
             Assert.AreEqual(symptoms[0].pattern, RedundancyPattern.UMI);
             Assert.AreEqual(symptoms[0].MissedOriginal.Id, "3umi");
@@ -188,22 +188,22 @@ namespace Jawilliam.CDF.Tests.Evaluation
             {
                 Actions = new List<ActionDescriptor>
                 {
-                    new DeleteOperationDescriptor { Element = new ElementDescriptor{ Id = "1du" } },
-                    new UpdateOperationDescriptor { Element = new ElementDescriptor{ Id = "2du", Label = "l3du", Value = "v3du" } },
-                    new DeleteOperationDescriptor { Element = new ElementDescriptor{ Id = "3du", Label = "l3du", Value = "v3du" } },
-                    new UpdateOperationDescriptor { Element = new ElementDescriptor{ Id = "4dux", Label = "l4dux", Value = "v4dux" } }
+                    new DeleteOperationDescriptor { Element = new ElementVersion{ Id = "1du" } },
+                    new UpdateOperationDescriptor { Element = new ElementVersion{ Id = "2du", Label = "l3du", Value = "v3du" } },
+                    new DeleteOperationDescriptor { Element = new ElementVersion{ Id = "3du", Label = "l3du", Value = "v3du" } },
+                    new UpdateOperationDescriptor { Element = new ElementVersion{ Id = "4dux", Label = "l4dux", Value = "v4dux" } }
                 },
-                Matches = new List<RevisionDescriptor>
+                Matches = new List<MatchDescriptor>
                 {
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "2du"},
-                        Modified = new ElementDescriptor{Id = "2dux"}
+                        Original = new ElementVersion{Id = "2du"},
+                        Modified = new ElementVersion{Id = "2dux"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "4dux"},
-                        Modified = new ElementDescriptor{Id = "4du"}
+                        Original = new ElementVersion{Id = "4dux"},
+                        Modified = new ElementVersion{Id = "4du"}
                     }
                 }
             };
@@ -211,19 +211,19 @@ namespace Jawilliam.CDF.Tests.Evaluation
             RedundancyFinder finder = new MatchingSetRedundancyFinder
             {
                 Delta = delta,
-                MatchingSet = new RevisionDescriptor[]
+                MatchingSet = new MatchDescriptor[]
                 {
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "3du"},
-                        Modified = new ElementDescriptor{Id = "4du"}
+                        Original = new ElementVersion{Id = "3du"},
+                        Modified = new ElementVersion{Id = "4du"}
                     }
                 }
             };
 
-            (RedundancyPattern pattern, ElementDescriptor MissedOriginal, ElementDescriptor MissedModified,
-             ElementDescriptor SpuriousOriginal, ElementDescriptor SpuriousModified,
-             ElementDescriptor AndSpuriousOriginal, ElementDescriptor AndSpuriousModified)[] symptoms = finder.Find().ToArray();
+            (RedundancyPattern pattern, ElementVersion MissedOriginal, ElementVersion MissedModified,
+             ElementVersion SpuriousOriginal, ElementVersion SpuriousModified,
+             ElementVersion AndSpuriousOriginal, ElementVersion AndSpuriousModified)[] symptoms = finder.Find().ToArray();
             Assert.AreEqual(symptoms.Count(), 1);
             Assert.AreEqual(symptoms[0].pattern, RedundancyPattern.DU);
             Assert.AreEqual(symptoms[0].MissedOriginal.Id, "3du");
@@ -249,24 +249,24 @@ namespace Jawilliam.CDF.Tests.Evaluation
             {
                 Actions = new List<ActionDescriptor>
                 {
-                    new DeleteOperationDescriptor { Element = new ElementDescriptor{ Id = "1dum" } },
-                    new MoveOperationDescriptor { Element = new ElementDescriptor{ Id = "2dum" } },
-                    new UpdateOperationDescriptor { Element = new ElementDescriptor{ Id = "2dum", Label = "l2dum", Value = "v2dum" } },
-                    new DeleteOperationDescriptor { Element = new ElementDescriptor{ Id = "3dum", Label = "l3dum", Value = "v3dum" } },
-                    new MoveOperationDescriptor { Element = new ElementDescriptor{ Id = "4dumx", Label = "l4dumx", Value = "v4dumx" } },
-                    new UpdateOperationDescriptor { Element = new ElementDescriptor{ Id = "4dumx", Label = "l4dumx", Value = "v4dumx" } }
+                    new DeleteOperationDescriptor { Element = new ElementVersion{ Id = "1dum" } },
+                    new MoveOperationDescriptor { Element = new ElementVersion{ Id = "2dum" } },
+                    new UpdateOperationDescriptor { Element = new ElementVersion{ Id = "2dum", Label = "l2dum", Value = "v2dum" } },
+                    new DeleteOperationDescriptor { Element = new ElementVersion{ Id = "3dum", Label = "l3dum", Value = "v3dum" } },
+                    new MoveOperationDescriptor { Element = new ElementVersion{ Id = "4dumx", Label = "l4dumx", Value = "v4dumx" } },
+                    new UpdateOperationDescriptor { Element = new ElementVersion{ Id = "4dumx", Label = "l4dumx", Value = "v4dumx" } }
                 },
-                Matches = new List<RevisionDescriptor>
+                Matches = new List<MatchDescriptor>
                 {
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "2dum"},
-                        Modified = new ElementDescriptor{Id = "2dumx"}
+                        Original = new ElementVersion{Id = "2dum"},
+                        Modified = new ElementVersion{Id = "2dumx"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "4dumx"},
-                        Modified = new ElementDescriptor{Id = "4dum"}
+                        Original = new ElementVersion{Id = "4dumx"},
+                        Modified = new ElementVersion{Id = "4dum"}
                     }
                 }
             };
@@ -274,19 +274,19 @@ namespace Jawilliam.CDF.Tests.Evaluation
             RedundancyFinder finder = new MatchingSetRedundancyFinder
             {
                 Delta = delta,
-                MatchingSet = new RevisionDescriptor[]
+                MatchingSet = new MatchDescriptor[]
                 {
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "3dum"},
-                        Modified = new ElementDescriptor{Id = "4dum"}
+                        Original = new ElementVersion{Id = "3dum"},
+                        Modified = new ElementVersion{Id = "4dum"}
                     }
                 }
             };
 
-            (RedundancyPattern pattern, ElementDescriptor MissedOriginal, ElementDescriptor MissedModified,
-             ElementDescriptor SpuriousOriginal, ElementDescriptor SpuriousModified,
-             ElementDescriptor AndSpuriousOriginal, ElementDescriptor AndSpuriousModified)[] symptoms = finder.Find().ToArray();
+            (RedundancyPattern pattern, ElementVersion MissedOriginal, ElementVersion MissedModified,
+             ElementVersion SpuriousOriginal, ElementVersion SpuriousModified,
+             ElementVersion AndSpuriousOriginal, ElementVersion AndSpuriousModified)[] symptoms = finder.Find().ToArray();
             Assert.AreEqual(symptoms.Count(), 1);
             Assert.AreEqual(symptoms[0].pattern, RedundancyPattern.DUM);
             Assert.AreEqual(symptoms[0].MissedOriginal.Id, "3dum");
@@ -312,32 +312,32 @@ namespace Jawilliam.CDF.Tests.Evaluation
             {
                 Actions = new List<ActionDescriptor>
                 {
-                    new UpdateOperationDescriptor { Element = new ElementDescriptor{ Id = "1uu" } },
-                    new UpdateOperationDescriptor { Element = new ElementDescriptor{ Id = "2uu" } },
-                    new UpdateOperationDescriptor { Element = new ElementDescriptor{ Id = "3uu", Label = "l3uu", Value = "v3uu" } },
-                    new UpdateOperationDescriptor { Element = new ElementDescriptor{ Id = "4uux", Label = "l4uux", Value = "v4uux" } }
+                    new UpdateOperationDescriptor { Element = new ElementVersion{ Id = "1uu" } },
+                    new UpdateOperationDescriptor { Element = new ElementVersion{ Id = "2uu" } },
+                    new UpdateOperationDescriptor { Element = new ElementVersion{ Id = "3uu", Label = "l3uu", Value = "v3uu" } },
+                    new UpdateOperationDescriptor { Element = new ElementVersion{ Id = "4uux", Label = "l4uux", Value = "v4uux" } }
                 },
-                Matches = new List<RevisionDescriptor>
+                Matches = new List<MatchDescriptor>
                 {
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "1uu"},
-                        Modified = new ElementDescriptor{Id = "1uux"}
+                        Original = new ElementVersion{Id = "1uu"},
+                        Modified = new ElementVersion{Id = "1uux"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "2uu"},
-                        Modified = new ElementDescriptor{Id = "2uux"}
+                        Original = new ElementVersion{Id = "2uu"},
+                        Modified = new ElementVersion{Id = "2uux"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "3uu"},
-                        Modified = new ElementDescriptor{Id = "3uux"}
+                        Original = new ElementVersion{Id = "3uu"},
+                        Modified = new ElementVersion{Id = "3uux"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "4uux"},
-                        Modified = new ElementDescriptor{Id = "4uu"}
+                        Original = new ElementVersion{Id = "4uux"},
+                        Modified = new ElementVersion{Id = "4uu"}
                     }
                 }
             };
@@ -345,19 +345,19 @@ namespace Jawilliam.CDF.Tests.Evaluation
             RedundancyFinder finder = new MatchingSetRedundancyFinder
             {
                 Delta = delta,
-                MatchingSet = new RevisionDescriptor[]
+                MatchingSet = new MatchDescriptor[]
                 {
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "3uu"},
-                        Modified = new ElementDescriptor{Id = "4uu"}
+                        Original = new ElementVersion{Id = "3uu"},
+                        Modified = new ElementVersion{Id = "4uu"}
                     }
                 }
             };
 
-            (RedundancyPattern pattern, ElementDescriptor MissedOriginal, ElementDescriptor MissedModified,
-             ElementDescriptor SpuriousOriginal, ElementDescriptor SpuriousModified,
-             ElementDescriptor AndSpuriousOriginal, ElementDescriptor AndSpuriousModified)[] symptoms = finder.Find().ToArray();
+            (RedundancyPattern pattern, ElementVersion MissedOriginal, ElementVersion MissedModified,
+             ElementVersion SpuriousOriginal, ElementVersion SpuriousModified,
+             ElementVersion AndSpuriousOriginal, ElementVersion AndSpuriousModified)[] symptoms = finder.Find().ToArray();
             Assert.AreEqual(symptoms.Count(), 1);
             Assert.AreEqual(symptoms[0].pattern, RedundancyPattern.UU);
             Assert.AreEqual(symptoms[0].MissedOriginal.Id, "3uu");
@@ -387,34 +387,34 @@ namespace Jawilliam.CDF.Tests.Evaluation
             {
                 Actions = new List<ActionDescriptor>
                 {
-                    new MoveOperationDescriptor { Element = new ElementDescriptor{ Id = "1umu" } },
-                    new UpdateOperationDescriptor { Element = new ElementDescriptor{ Id = "1umu" } },
-                    new UpdateOperationDescriptor { Element = new ElementDescriptor{ Id = "2umu" } },
-                    new MoveOperationDescriptor { Element = new ElementDescriptor{ Id = "3umu", Label = "l3umu", Value = "v3umu" } },
-                    new UpdateOperationDescriptor { Element = new ElementDescriptor{ Id = "3umu", Label = "l3umu", Value = "v3umu" } },
-                    new UpdateOperationDescriptor { Element = new ElementDescriptor{ Id = "4umux", Label = "l4umux", Value = "v4umux" } }
+                    new MoveOperationDescriptor { Element = new ElementVersion{ Id = "1umu" } },
+                    new UpdateOperationDescriptor { Element = new ElementVersion{ Id = "1umu" } },
+                    new UpdateOperationDescriptor { Element = new ElementVersion{ Id = "2umu" } },
+                    new MoveOperationDescriptor { Element = new ElementVersion{ Id = "3umu", Label = "l3umu", Value = "v3umu" } },
+                    new UpdateOperationDescriptor { Element = new ElementVersion{ Id = "3umu", Label = "l3umu", Value = "v3umu" } },
+                    new UpdateOperationDescriptor { Element = new ElementVersion{ Id = "4umux", Label = "l4umux", Value = "v4umux" } }
                 },
-                Matches = new List<RevisionDescriptor>
+                Matches = new List<MatchDescriptor>
                 {
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "1umu"},
-                        Modified = new ElementDescriptor{Id = "1umux"}
+                        Original = new ElementVersion{Id = "1umu"},
+                        Modified = new ElementVersion{Id = "1umux"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "2umu"},
-                        Modified = new ElementDescriptor{Id = "2umux"}
+                        Original = new ElementVersion{Id = "2umu"},
+                        Modified = new ElementVersion{Id = "2umux"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "3umu"},
-                        Modified = new ElementDescriptor{Id = "3umux"}
+                        Original = new ElementVersion{Id = "3umu"},
+                        Modified = new ElementVersion{Id = "3umux"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "4umux"},
-                        Modified = new ElementDescriptor{Id = "4umu"}
+                        Original = new ElementVersion{Id = "4umux"},
+                        Modified = new ElementVersion{Id = "4umu"}
                     }
                 }
             };
@@ -422,19 +422,19 @@ namespace Jawilliam.CDF.Tests.Evaluation
             RedundancyFinder finder = new MatchingSetRedundancyFinder
             {
                 Delta = delta,
-                MatchingSet = new RevisionDescriptor[]
+                MatchingSet = new MatchDescriptor[]
                 {
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "3umu"},
-                        Modified = new ElementDescriptor{Id = "4umu"}
+                        Original = new ElementVersion{Id = "3umu"},
+                        Modified = new ElementVersion{Id = "4umu"}
                     }
                 }
             };
 
-            (RedundancyPattern pattern, ElementDescriptor MissedOriginal, ElementDescriptor MissedModified,
-             ElementDescriptor SpuriousOriginal, ElementDescriptor SpuriousModified,
-             ElementDescriptor AndSpuriousOriginal, ElementDescriptor AndSpuriousModified)[] symptoms = finder.Find().ToArray();
+            (RedundancyPattern pattern, ElementVersion MissedOriginal, ElementVersion MissedModified,
+             ElementVersion SpuriousOriginal, ElementVersion SpuriousModified,
+             ElementVersion AndSpuriousOriginal, ElementVersion AndSpuriousModified)[] symptoms = finder.Find().ToArray();
             Assert.AreEqual(symptoms.Count(), 1);
             Assert.AreEqual(symptoms[0].pattern, RedundancyPattern.UMU);
             Assert.AreEqual(symptoms[0].MissedOriginal.Id, "3umu");
@@ -464,34 +464,34 @@ namespace Jawilliam.CDF.Tests.Evaluation
             {
                 Actions = new List<ActionDescriptor>
                 {
-                    new MoveOperationDescriptor { Element = new ElementDescriptor{ Id = "2uum" } },
-                    new UpdateOperationDescriptor { Element = new ElementDescriptor{ Id = "1uum" } },
-                    new UpdateOperationDescriptor { Element = new ElementDescriptor{ Id = "2uum" } },
-                    new MoveOperationDescriptor { Element = new ElementDescriptor{ Id = "4uumx", Label = "l4uumx", Value = "v4uumx"} },
-                    new UpdateOperationDescriptor { Element = new ElementDescriptor{ Id = "3uum", Label = "l3uum", Value = "v3uum" } },
-                    new UpdateOperationDescriptor { Element = new ElementDescriptor{ Id = "4uumx", Label = "l4uumx", Value = "v4uumx" } }
+                    new MoveOperationDescriptor { Element = new ElementVersion{ Id = "2uum" } },
+                    new UpdateOperationDescriptor { Element = new ElementVersion{ Id = "1uum" } },
+                    new UpdateOperationDescriptor { Element = new ElementVersion{ Id = "2uum" } },
+                    new MoveOperationDescriptor { Element = new ElementVersion{ Id = "4uumx", Label = "l4uumx", Value = "v4uumx"} },
+                    new UpdateOperationDescriptor { Element = new ElementVersion{ Id = "3uum", Label = "l3uum", Value = "v3uum" } },
+                    new UpdateOperationDescriptor { Element = new ElementVersion{ Id = "4uumx", Label = "l4uumx", Value = "v4uumx" } }
                 },
-                Matches = new List<RevisionDescriptor>
+                Matches = new List<MatchDescriptor>
                 {
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "1uum"},
-                        Modified = new ElementDescriptor{Id = "1uumx"}
+                        Original = new ElementVersion{Id = "1uum"},
+                        Modified = new ElementVersion{Id = "1uumx"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "2uum"},
-                        Modified = new ElementDescriptor{Id = "2uumx"}
+                        Original = new ElementVersion{Id = "2uum"},
+                        Modified = new ElementVersion{Id = "2uumx"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "3uum"},
-                        Modified = new ElementDescriptor{Id = "3uumx"}
+                        Original = new ElementVersion{Id = "3uum"},
+                        Modified = new ElementVersion{Id = "3uumx"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "4uumx"},
-                        Modified = new ElementDescriptor{Id = "4uum"}
+                        Original = new ElementVersion{Id = "4uumx"},
+                        Modified = new ElementVersion{Id = "4uum"}
                     }
                 }
             };
@@ -499,19 +499,19 @@ namespace Jawilliam.CDF.Tests.Evaluation
             RedundancyFinder finder = new MatchingSetRedundancyFinder
             {
                 Delta = delta,
-                MatchingSet = new RevisionDescriptor[]
+                MatchingSet = new MatchDescriptor[]
                 {
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "3uum"},
-                        Modified = new ElementDescriptor{Id = "4uum"}
+                        Original = new ElementVersion{Id = "3uum"},
+                        Modified = new ElementVersion{Id = "4uum"}
                     }
                 }
             };
 
-            (RedundancyPattern pattern, ElementDescriptor MissedOriginal, ElementDescriptor MissedModified,
-             ElementDescriptor SpuriousOriginal, ElementDescriptor SpuriousModified,
-             ElementDescriptor AndSpuriousOriginal, ElementDescriptor AndSpuriousModified)[] symptoms = finder.Find().ToArray();
+            (RedundancyPattern pattern, ElementVersion MissedOriginal, ElementVersion MissedModified,
+             ElementVersion SpuriousOriginal, ElementVersion SpuriousModified,
+             ElementVersion AndSpuriousOriginal, ElementVersion AndSpuriousModified)[] symptoms = finder.Find().ToArray();
             Assert.AreEqual(symptoms.Count(), 1);
             Assert.AreEqual(symptoms[0].pattern, RedundancyPattern.UUM);
             Assert.AreEqual(symptoms[0].MissedOriginal.Id, "3uum");
@@ -541,36 +541,36 @@ namespace Jawilliam.CDF.Tests.Evaluation
             {
                 Actions = new List<ActionDescriptor>
                 {
-                    new MoveOperationDescriptor { Element = new ElementDescriptor{ Id = "1umum" } },
-                    new UpdateOperationDescriptor { Element = new ElementDescriptor{ Id = "1umum" } },
-                    new MoveOperationDescriptor { Element = new ElementDescriptor{ Id = "2umum" } },
-                    new UpdateOperationDescriptor { Element = new ElementDescriptor{ Id = "2umum" } },
-                    new MoveOperationDescriptor { Element = new ElementDescriptor{ Id = "3umum", Label = "l3umum", Value = "v3umum" } },
-                    new UpdateOperationDescriptor { Element = new ElementDescriptor{ Id = "3umum", Label = "l3umum", Value = "v3umum" } },
-                    new MoveOperationDescriptor { Element = new ElementDescriptor{ Id = "4umumx", Label = "l4umumx", Value = "v4umumx" } },
-                    new UpdateOperationDescriptor { Element = new ElementDescriptor{ Id = "4umumx", Label = "l4umumx", Value = "v4umumx" } }
+                    new MoveOperationDescriptor { Element = new ElementVersion{ Id = "1umum" } },
+                    new UpdateOperationDescriptor { Element = new ElementVersion{ Id = "1umum" } },
+                    new MoveOperationDescriptor { Element = new ElementVersion{ Id = "2umum" } },
+                    new UpdateOperationDescriptor { Element = new ElementVersion{ Id = "2umum" } },
+                    new MoveOperationDescriptor { Element = new ElementVersion{ Id = "3umum", Label = "l3umum", Value = "v3umum" } },
+                    new UpdateOperationDescriptor { Element = new ElementVersion{ Id = "3umum", Label = "l3umum", Value = "v3umum" } },
+                    new MoveOperationDescriptor { Element = new ElementVersion{ Id = "4umumx", Label = "l4umumx", Value = "v4umumx" } },
+                    new UpdateOperationDescriptor { Element = new ElementVersion{ Id = "4umumx", Label = "l4umumx", Value = "v4umumx" } }
                 },
-                Matches = new List<RevisionDescriptor>
+                Matches = new List<MatchDescriptor>
                 {
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "1umum"},
-                        Modified = new ElementDescriptor{Id = "1umumx"}
+                        Original = new ElementVersion{Id = "1umum"},
+                        Modified = new ElementVersion{Id = "1umumx"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "2umum"},
-                        Modified = new ElementDescriptor{Id = "2umumx"}
+                        Original = new ElementVersion{Id = "2umum"},
+                        Modified = new ElementVersion{Id = "2umumx"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "3umum"},
-                        Modified = new ElementDescriptor{Id = "3umumx"}
+                        Original = new ElementVersion{Id = "3umum"},
+                        Modified = new ElementVersion{Id = "3umumx"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "4umumx"},
-                        Modified = new ElementDescriptor{Id = "4umum"}
+                        Original = new ElementVersion{Id = "4umumx"},
+                        Modified = new ElementVersion{Id = "4umum"}
                     }
                 }
             };
@@ -578,19 +578,19 @@ namespace Jawilliam.CDF.Tests.Evaluation
             RedundancyFinder finder = new MatchingSetRedundancyFinder
             {
                 Delta = delta,
-                MatchingSet = new RevisionDescriptor[]
+                MatchingSet = new MatchDescriptor[]
                 {
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "3umum"},
-                        Modified = new ElementDescriptor{Id = "4umum"}
+                        Original = new ElementVersion{Id = "3umum"},
+                        Modified = new ElementVersion{Id = "4umum"}
                     }
                 }
             };
 
-            (RedundancyPattern pattern, ElementDescriptor MissedOriginal, ElementDescriptor MissedModified,
-             ElementDescriptor SpuriousOriginal, ElementDescriptor SpuriousModified,
-             ElementDescriptor AndSpuriousOriginal, ElementDescriptor AndSpuriousModified)[] symptoms = finder.Find().ToArray();
+            (RedundancyPattern pattern, ElementVersion MissedOriginal, ElementVersion MissedModified,
+             ElementVersion SpuriousOriginal, ElementVersion SpuriousModified,
+             ElementVersion AndSpuriousOriginal, ElementVersion AndSpuriousModified)[] symptoms = finder.Find().ToArray();
             Assert.AreEqual(symptoms.Count(), 1);
             Assert.AreEqual(symptoms[0].pattern, RedundancyPattern.UMUM);
             Assert.AreEqual(symptoms[0].MissedOriginal.Id, "3umum");
@@ -620,22 +620,22 @@ namespace Jawilliam.CDF.Tests.Evaluation
             {
                 Actions = new List<ActionDescriptor>
                 {
-                    new DeleteOperationDescriptor { Element = new ElementDescriptor{ Id = "1dm" } },
-                    new MoveOperationDescriptor { Element = new ElementDescriptor{ Id = "2dm" } },
-                    new DeleteOperationDescriptor { Element = new ElementDescriptor{ Id = "3dm", Label = "l3dm", Value = "v3dm" } },
-                    new MoveOperationDescriptor { Element = new ElementDescriptor{ Id = "4dmx", Label = "l4dmx", Value = "v4dmx" } }
+                    new DeleteOperationDescriptor { Element = new ElementVersion{ Id = "1dm" } },
+                    new MoveOperationDescriptor { Element = new ElementVersion{ Id = "2dm" } },
+                    new DeleteOperationDescriptor { Element = new ElementVersion{ Id = "3dm", Label = "l3dm", Value = "v3dm" } },
+                    new MoveOperationDescriptor { Element = new ElementVersion{ Id = "4dmx", Label = "l4dmx", Value = "v4dmx" } }
                 },
-                Matches = new List<RevisionDescriptor>
+                Matches = new List<MatchDescriptor>
                 {
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "2dm"},
-                        Modified = new ElementDescriptor{Id = "2dmx"}
+                        Original = new ElementVersion{Id = "2dm"},
+                        Modified = new ElementVersion{Id = "2dmx"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "4dmx"},
-                        Modified = new ElementDescriptor{Id = "4dm"}
+                        Original = new ElementVersion{Id = "4dmx"},
+                        Modified = new ElementVersion{Id = "4dm"}
                     }
                 }
             };
@@ -643,19 +643,19 @@ namespace Jawilliam.CDF.Tests.Evaluation
             RedundancyFinder finder = new MatchingSetRedundancyFinder
             {
                 Delta = delta,
-                MatchingSet = new RevisionDescriptor[]
+                MatchingSet = new MatchDescriptor[]
                 {
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "3dm"},
-                        Modified = new ElementDescriptor{Id = "4dm"}
+                        Original = new ElementVersion{Id = "3dm"},
+                        Modified = new ElementVersion{Id = "4dm"}
                     }
                 }
             };
 
-            (RedundancyPattern pattern, ElementDescriptor MissedOriginal, ElementDescriptor MissedModified,
-             ElementDescriptor SpuriousOriginal, ElementDescriptor SpuriousModified,
-             ElementDescriptor AndSpuriousOriginal, ElementDescriptor AndSpuriousModified)[] symptoms = finder.Find().ToArray();
+            (RedundancyPattern pattern, ElementVersion MissedOriginal, ElementVersion MissedModified,
+             ElementVersion SpuriousOriginal, ElementVersion SpuriousModified,
+             ElementVersion AndSpuriousOriginal, ElementVersion AndSpuriousModified)[] symptoms = finder.Find().ToArray();
             Assert.AreEqual(symptoms.Count(), 1);
             Assert.AreEqual(symptoms[0].pattern, RedundancyPattern.DM);
             Assert.AreEqual(symptoms[0].MissedOriginal.Id, "3dm");
@@ -681,22 +681,22 @@ namespace Jawilliam.CDF.Tests.Evaluation
             {
                 Actions = new List<ActionDescriptor>
                 {
-                    new MoveOperationDescriptor { Element = new ElementDescriptor{ Id = "1mi" } },
-                    new InsertOperationDescriptor { Element = new ElementDescriptor{ Id = "2mi" } },
-                    new MoveOperationDescriptor { Element = new ElementDescriptor{ Id = "3mi", Label = "l3mi", Value = "v3mi" } },
-                    new InsertOperationDescriptor { Element = new ElementDescriptor{ Id = "4mi", Label = "l4mi", Value = "v4mi" } }
+                    new MoveOperationDescriptor { Element = new ElementVersion{ Id = "1mi" } },
+                    new InsertOperationDescriptor { Element = new ElementVersion{ Id = "2mi" } },
+                    new MoveOperationDescriptor { Element = new ElementVersion{ Id = "3mi", Label = "l3mi", Value = "v3mi" } },
+                    new InsertOperationDescriptor { Element = new ElementVersion{ Id = "4mi", Label = "l4mi", Value = "v4mi" } }
                 },
-                Matches = new List<RevisionDescriptor>
+                Matches = new List<MatchDescriptor>
                 {
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "1mi"},
-                        Modified = new ElementDescriptor{Id = "1mix"}
+                        Original = new ElementVersion{Id = "1mi"},
+                        Modified = new ElementVersion{Id = "1mix"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "3mi"},
-                        Modified = new ElementDescriptor{Id = "3mix"}
+                        Original = new ElementVersion{Id = "3mi"},
+                        Modified = new ElementVersion{Id = "3mix"}
                     }
                 }
             };
@@ -704,19 +704,19 @@ namespace Jawilliam.CDF.Tests.Evaluation
             RedundancyFinder finder = new MatchingSetRedundancyFinder
             {
                 Delta = delta,
-                MatchingSet = new RevisionDescriptor[]
+                MatchingSet = new MatchDescriptor[]
                 {
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "3mi"},
-                        Modified = new ElementDescriptor{Id = "4mi"}
+                        Original = new ElementVersion{Id = "3mi"},
+                        Modified = new ElementVersion{Id = "4mi"}
                     }
                 }
             };
 
-            (RedundancyPattern pattern, ElementDescriptor MissedOriginal, ElementDescriptor MissedModified,
-             ElementDescriptor SpuriousOriginal, ElementDescriptor SpuriousModified,
-             ElementDescriptor AndSpuriousOriginal, ElementDescriptor AndSpuriousModified)[] symptoms = finder.Find().ToArray();
+            (RedundancyPattern pattern, ElementVersion MissedOriginal, ElementVersion MissedModified,
+             ElementVersion SpuriousOriginal, ElementVersion SpuriousModified,
+             ElementVersion AndSpuriousOriginal, ElementVersion AndSpuriousModified)[] symptoms = finder.Find().ToArray();
             Assert.AreEqual(symptoms.Count(), 1);
             Assert.AreEqual(symptoms[0].pattern, RedundancyPattern.MI);
             Assert.AreEqual(symptoms[0].MissedOriginal.Id, "3mi");
@@ -742,32 +742,32 @@ namespace Jawilliam.CDF.Tests.Evaluation
             {
                 Actions = new List<ActionDescriptor>
                 {
-                    new MoveOperationDescriptor { Element = new ElementDescriptor{ Id = "1mm" } },
-                    new MoveOperationDescriptor { Element = new ElementDescriptor{ Id = "2mm" } },
-                    new MoveOperationDescriptor { Element = new ElementDescriptor{ Id = "3mm", Label = "l3mm", Value = "v3mm" } },
-                    new MoveOperationDescriptor { Element = new ElementDescriptor{ Id = "4mmx", Label = "l4mmx", Value = "v4mmx" } }
+                    new MoveOperationDescriptor { Element = new ElementVersion{ Id = "1mm" } },
+                    new MoveOperationDescriptor { Element = new ElementVersion{ Id = "2mm" } },
+                    new MoveOperationDescriptor { Element = new ElementVersion{ Id = "3mm", Label = "l3mm", Value = "v3mm" } },
+                    new MoveOperationDescriptor { Element = new ElementVersion{ Id = "4mmx", Label = "l4mmx", Value = "v4mmx" } }
                 },
-                Matches = new List<RevisionDescriptor>
+                Matches = new List<MatchDescriptor>
                 {
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "1mm"},
-                        Modified = new ElementDescriptor{Id = "1mmx"}
+                        Original = new ElementVersion{Id = "1mm"},
+                        Modified = new ElementVersion{Id = "1mmx"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "2mm"},
-                        Modified = new ElementDescriptor{Id = "2mmx"}
+                        Original = new ElementVersion{Id = "2mm"},
+                        Modified = new ElementVersion{Id = "2mmx"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "3mm"},
-                        Modified = new ElementDescriptor{Id = "3mmx"}
+                        Original = new ElementVersion{Id = "3mm"},
+                        Modified = new ElementVersion{Id = "3mmx"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "4mmx"},
-                        Modified = new ElementDescriptor{Id = "4mm"}
+                        Original = new ElementVersion{Id = "4mmx"},
+                        Modified = new ElementVersion{Id = "4mm"}
                     }
                 }
             };
@@ -775,19 +775,19 @@ namespace Jawilliam.CDF.Tests.Evaluation
             RedundancyFinder finder = new MatchingSetRedundancyFinder
             {
                 Delta = delta,
-                MatchingSet = new RevisionDescriptor[]
+                MatchingSet = new MatchDescriptor[]
                 {
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "3mm"},
-                        Modified = new ElementDescriptor{Id = "4mm"}
+                        Original = new ElementVersion{Id = "3mm"},
+                        Modified = new ElementVersion{Id = "4mm"}
                     }
                 }
             };
 
-            (RedundancyPattern pattern, ElementDescriptor MissedOriginal, ElementDescriptor MissedModified,
-             ElementDescriptor SpuriousOriginal, ElementDescriptor SpuriousModified,
-             ElementDescriptor AndSpuriousOriginal, ElementDescriptor AndSpuriousModified)[] symptoms = finder.Find().ToArray();
+            (RedundancyPattern pattern, ElementVersion MissedOriginal, ElementVersion MissedModified,
+             ElementVersion SpuriousOriginal, ElementVersion SpuriousModified,
+             ElementVersion AndSpuriousOriginal, ElementVersion AndSpuriousModified)[] symptoms = finder.Find().ToArray();
             Assert.AreEqual(symptoms.Count(), 1);
             Assert.AreEqual(symptoms[0].pattern, RedundancyPattern.MM);
             Assert.AreEqual(symptoms[0].MissedOriginal.Id, "3mm");
@@ -817,34 +817,34 @@ namespace Jawilliam.CDF.Tests.Evaluation
             {
                 Actions = new List<ActionDescriptor>
                 {
-                    new MoveOperationDescriptor { Element = new ElementDescriptor{ Id = "1umm" } },
-                    new UpdateOperationDescriptor { Element = new ElementDescriptor{ Id = "1umm" } },
-                    new MoveOperationDescriptor { Element = new ElementDescriptor{ Id = "2umm" } },
-                    new MoveOperationDescriptor { Element = new ElementDescriptor{ Id = "3umm", Label = "l3umm", Value = "v3umm" } },
-                    new UpdateOperationDescriptor { Element = new ElementDescriptor{ Id = "3umm", Label = "l3umm", Value = "v3umm" } },
-                    new MoveOperationDescriptor { Element = new ElementDescriptor{ Id = "4ummx", Label = "l4ummx", Value = "v4ummx" } }
+                    new MoveOperationDescriptor { Element = new ElementVersion{ Id = "1umm" } },
+                    new UpdateOperationDescriptor { Element = new ElementVersion{ Id = "1umm" } },
+                    new MoveOperationDescriptor { Element = new ElementVersion{ Id = "2umm" } },
+                    new MoveOperationDescriptor { Element = new ElementVersion{ Id = "3umm", Label = "l3umm", Value = "v3umm" } },
+                    new UpdateOperationDescriptor { Element = new ElementVersion{ Id = "3umm", Label = "l3umm", Value = "v3umm" } },
+                    new MoveOperationDescriptor { Element = new ElementVersion{ Id = "4ummx", Label = "l4ummx", Value = "v4ummx" } }
                 },
-                Matches = new List<RevisionDescriptor>
+                Matches = new List<MatchDescriptor>
                 {
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "1umm"},
-                        Modified = new ElementDescriptor{Id = "1ummx"}
+                        Original = new ElementVersion{Id = "1umm"},
+                        Modified = new ElementVersion{Id = "1ummx"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "2umm"},
-                        Modified = new ElementDescriptor{Id = "2ummx"}
+                        Original = new ElementVersion{Id = "2umm"},
+                        Modified = new ElementVersion{Id = "2ummx"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "3umm"},
-                        Modified = new ElementDescriptor{Id = "3ummx"}
+                        Original = new ElementVersion{Id = "3umm"},
+                        Modified = new ElementVersion{Id = "3ummx"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "4ummx"},
-                        Modified = new ElementDescriptor{Id = "4umm"}
+                        Original = new ElementVersion{Id = "4ummx"},
+                        Modified = new ElementVersion{Id = "4umm"}
                     }
                 }
             };
@@ -852,19 +852,19 @@ namespace Jawilliam.CDF.Tests.Evaluation
             RedundancyFinder finder = new MatchingSetRedundancyFinder
             {
                 Delta = delta,
-                MatchingSet = new RevisionDescriptor[]
+                MatchingSet = new MatchDescriptor[]
                 {
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "3umm"},
-                        Modified = new ElementDescriptor{Id = "4umm"}
+                        Original = new ElementVersion{Id = "3umm"},
+                        Modified = new ElementVersion{Id = "4umm"}
                     }
                 }
             };
 
-            (RedundancyPattern pattern, ElementDescriptor MissedOriginal, ElementDescriptor MissedModified,
-             ElementDescriptor SpuriousOriginal, ElementDescriptor SpuriousModified,
-             ElementDescriptor AndSpuriousOriginal, ElementDescriptor AndSpuriousModified)[] symptoms = finder.Find().ToArray();
+            (RedundancyPattern pattern, ElementVersion MissedOriginal, ElementVersion MissedModified,
+             ElementVersion SpuriousOriginal, ElementVersion SpuriousModified,
+             ElementVersion AndSpuriousOriginal, ElementVersion AndSpuriousModified)[] symptoms = finder.Find().ToArray();
             Assert.AreEqual(symptoms.Count(), 1);
             Assert.AreEqual(symptoms[0].pattern, RedundancyPattern.UMM);
             Assert.AreEqual(symptoms[0].MissedOriginal.Id, "3umm");
@@ -894,34 +894,34 @@ namespace Jawilliam.CDF.Tests.Evaluation
             {
                 Actions = new List<ActionDescriptor>
                 {
-                    new MoveOperationDescriptor { Element = new ElementDescriptor{ Id = "1mum" } },
-                    new MoveOperationDescriptor { Element = new ElementDescriptor{ Id = "2mum" } },
-                    new UpdateOperationDescriptor { Element = new ElementDescriptor{ Id = "2mum" } },
-                    new MoveOperationDescriptor { Element = new ElementDescriptor{ Id = "3mum", Label = "l3mum", Value = "v3mum" } },
-                    new MoveOperationDescriptor { Element = new ElementDescriptor{ Id = "4mumx", Label = "l4mumx", Value = "v4mumx" } },
-                    new UpdateOperationDescriptor { Element = new ElementDescriptor{ Id = "4mumx", Label = "l4mumx", Value = "v4mumx" } }
+                    new MoveOperationDescriptor { Element = new ElementVersion{ Id = "1mum" } },
+                    new MoveOperationDescriptor { Element = new ElementVersion{ Id = "2mum" } },
+                    new UpdateOperationDescriptor { Element = new ElementVersion{ Id = "2mum" } },
+                    new MoveOperationDescriptor { Element = new ElementVersion{ Id = "3mum", Label = "l3mum", Value = "v3mum" } },
+                    new MoveOperationDescriptor { Element = new ElementVersion{ Id = "4mumx", Label = "l4mumx", Value = "v4mumx" } },
+                    new UpdateOperationDescriptor { Element = new ElementVersion{ Id = "4mumx", Label = "l4mumx", Value = "v4mumx" } }
                 },
-                Matches = new List<RevisionDescriptor>
+                Matches = new List<MatchDescriptor>
                 {
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "1mum"},
-                        Modified = new ElementDescriptor{Id = "1mumx"}
+                        Original = new ElementVersion{Id = "1mum"},
+                        Modified = new ElementVersion{Id = "1mumx"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "2mum"},
-                        Modified = new ElementDescriptor{Id = "2mumx"}
+                        Original = new ElementVersion{Id = "2mum"},
+                        Modified = new ElementVersion{Id = "2mumx"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "3mum"},
-                        Modified = new ElementDescriptor{Id = "3mumx"}
+                        Original = new ElementVersion{Id = "3mum"},
+                        Modified = new ElementVersion{Id = "3mumx"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "4mumx"},
-                        Modified = new ElementDescriptor{Id = "4mum"}
+                        Original = new ElementVersion{Id = "4mumx"},
+                        Modified = new ElementVersion{Id = "4mum"}
                     }
                 }
             };
@@ -929,19 +929,19 @@ namespace Jawilliam.CDF.Tests.Evaluation
             RedundancyFinder finder = new MatchingSetRedundancyFinder
             {
                 Delta = delta,
-                MatchingSet = new RevisionDescriptor[]
+                MatchingSet = new MatchDescriptor[]
                 {
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "3mum"},
-                        Modified = new ElementDescriptor{Id = "4mum"}
+                        Original = new ElementVersion{Id = "3mum"},
+                        Modified = new ElementVersion{Id = "4mum"}
                     }
                 }
             };
 
-            (RedundancyPattern pattern, ElementDescriptor MissedOriginal, ElementDescriptor MissedModified,
-             ElementDescriptor SpuriousOriginal, ElementDescriptor SpuriousModified,
-             ElementDescriptor AndSpuriousOriginal, ElementDescriptor AndSpuriousModified)[] symptoms = finder.Find().ToArray();
+            (RedundancyPattern pattern, ElementVersion MissedOriginal, ElementVersion MissedModified,
+             ElementVersion SpuriousOriginal, ElementVersion SpuriousModified,
+             ElementVersion AndSpuriousOriginal, ElementVersion AndSpuriousModified)[] symptoms = finder.Find().ToArray();
             Assert.AreEqual(symptoms.Count(), 1);
             Assert.AreEqual(symptoms[0].pattern, RedundancyPattern.MUM);
             Assert.AreEqual(symptoms[0].MissedOriginal.Id, "3mum");
@@ -971,32 +971,32 @@ namespace Jawilliam.CDF.Tests.Evaluation
             {
                 Actions = new List<ActionDescriptor>
                 {
-                    new UpdateOperationDescriptor { Element = new ElementDescriptor{ Id = "1um" } },
-                    new MoveOperationDescriptor { Element = new ElementDescriptor{ Id = "2um" } },
-                    new UpdateOperationDescriptor { Element = new ElementDescriptor{ Id = "3um", Label = "l3um", Value = "v3um" } },
-                    new MoveOperationDescriptor { Element = new ElementDescriptor{ Id = "4umx", Label = "l4umx", Value = "v4umx" } }
+                    new UpdateOperationDescriptor { Element = new ElementVersion{ Id = "1um" } },
+                    new MoveOperationDescriptor { Element = new ElementVersion{ Id = "2um" } },
+                    new UpdateOperationDescriptor { Element = new ElementVersion{ Id = "3um", Label = "l3um", Value = "v3um" } },
+                    new MoveOperationDescriptor { Element = new ElementVersion{ Id = "4umx", Label = "l4umx", Value = "v4umx" } }
                 },
-                Matches = new List<RevisionDescriptor>
+                Matches = new List<MatchDescriptor>
                 {
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "1um"},
-                        Modified = new ElementDescriptor{Id = "1umx"}
+                        Original = new ElementVersion{Id = "1um"},
+                        Modified = new ElementVersion{Id = "1umx"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "2um"},
-                        Modified = new ElementDescriptor{Id = "2umx"}
+                        Original = new ElementVersion{Id = "2um"},
+                        Modified = new ElementVersion{Id = "2umx"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "3um"},
-                        Modified = new ElementDescriptor{Id = "3umx"}
+                        Original = new ElementVersion{Id = "3um"},
+                        Modified = new ElementVersion{Id = "3umx"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "4umx"},
-                        Modified = new ElementDescriptor{Id = "4um"}
+                        Original = new ElementVersion{Id = "4umx"},
+                        Modified = new ElementVersion{Id = "4um"}
                     }
                 }
             };
@@ -1004,19 +1004,19 @@ namespace Jawilliam.CDF.Tests.Evaluation
             RedundancyFinder finder = new MatchingSetRedundancyFinder
             {
                 Delta = delta,
-                MatchingSet = new RevisionDescriptor[]
+                MatchingSet = new MatchDescriptor[]
                 {
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "3um"},
-                        Modified = new ElementDescriptor{Id = "4um"}
+                        Original = new ElementVersion{Id = "3um"},
+                        Modified = new ElementVersion{Id = "4um"}
                     }
                 }
             };
 
-            (RedundancyPattern pattern, ElementDescriptor MissedOriginal, ElementDescriptor MissedModified,
-             ElementDescriptor SpuriousOriginal, ElementDescriptor SpuriousModified,
-             ElementDescriptor AndSpuriousOriginal, ElementDescriptor AndSpuriousModified)[] symptoms = finder.Find().ToArray();
+            (RedundancyPattern pattern, ElementVersion MissedOriginal, ElementVersion MissedModified,
+             ElementVersion SpuriousOriginal, ElementVersion SpuriousModified,
+             ElementVersion AndSpuriousOriginal, ElementVersion AndSpuriousModified)[] symptoms = finder.Find().ToArray();
             Assert.AreEqual(symptoms.Count(), 1);
             Assert.AreEqual(symptoms[0].pattern, RedundancyPattern.UM);
             Assert.AreEqual(symptoms[0].MissedOriginal.Id, "3um");
@@ -1046,32 +1046,32 @@ namespace Jawilliam.CDF.Tests.Evaluation
             {
                 Actions = new List<ActionDescriptor>
                 {
-                    new MoveOperationDescriptor { Element = new ElementDescriptor{ Id = "1mu" } },
-                    new UpdateOperationDescriptor { Element = new ElementDescriptor{ Id = "2mu" } },
-                    new MoveOperationDescriptor { Element = new ElementDescriptor{ Id = "3mu", Label = "l3mu", Value = "v3mu" } },
-                    new UpdateOperationDescriptor { Element = new ElementDescriptor{ Id = "4mux", Label = "l4mux", Value = "v4mux" } }
+                    new MoveOperationDescriptor { Element = new ElementVersion{ Id = "1mu" } },
+                    new UpdateOperationDescriptor { Element = new ElementVersion{ Id = "2mu" } },
+                    new MoveOperationDescriptor { Element = new ElementVersion{ Id = "3mu", Label = "l3mu", Value = "v3mu" } },
+                    new UpdateOperationDescriptor { Element = new ElementVersion{ Id = "4mux", Label = "l4mux", Value = "v4mux" } }
                 },
-                Matches = new List<RevisionDescriptor>
+                Matches = new List<MatchDescriptor>
                 {
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "1mu"},
-                        Modified = new ElementDescriptor{Id = "1mux"}
+                        Original = new ElementVersion{Id = "1mu"},
+                        Modified = new ElementVersion{Id = "1mux"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "2mu"},
-                        Modified = new ElementDescriptor{Id = "2mux"}
+                        Original = new ElementVersion{Id = "2mu"},
+                        Modified = new ElementVersion{Id = "2mux"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "3mu"},
-                        Modified = new ElementDescriptor{Id = "3mux"}
+                        Original = new ElementVersion{Id = "3mu"},
+                        Modified = new ElementVersion{Id = "3mux"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "4mux"},
-                        Modified = new ElementDescriptor{Id = "4mu"}
+                        Original = new ElementVersion{Id = "4mux"},
+                        Modified = new ElementVersion{Id = "4mu"}
                     }
                 }
             };
@@ -1079,19 +1079,19 @@ namespace Jawilliam.CDF.Tests.Evaluation
             RedundancyFinder finder = new MatchingSetRedundancyFinder
             {
                 Delta = delta,
-                MatchingSet = new RevisionDescriptor[]
+                MatchingSet = new MatchDescriptor[]
                 {
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "3mu"},
-                        Modified = new ElementDescriptor{Id = "4mu"}
+                        Original = new ElementVersion{Id = "3mu"},
+                        Modified = new ElementVersion{Id = "4mu"}
                     }
                 }
             };
 
-            (RedundancyPattern pattern, ElementDescriptor MissedOriginal, ElementDescriptor MissedModified,
-             ElementDescriptor SpuriousOriginal, ElementDescriptor SpuriousModified,
-             ElementDescriptor AndSpuriousOriginal, ElementDescriptor AndSpuriousModified)[] symptoms = finder.Find().ToArray();
+            (RedundancyPattern pattern, ElementVersion MissedOriginal, ElementVersion MissedModified,
+             ElementVersion SpuriousOriginal, ElementVersion SpuriousModified,
+             ElementVersion AndSpuriousOriginal, ElementVersion AndSpuriousModified)[] symptoms = finder.Find().ToArray();
             Assert.AreEqual(symptoms.Count(), 1);
             Assert.AreEqual(symptoms[0].pattern, RedundancyPattern.MU);
             Assert.AreEqual(symptoms[0].MissedOriginal.Id, "3mu");
@@ -1121,328 +1121,328 @@ namespace Jawilliam.CDF.Tests.Evaluation
             {
                 Actions = new List<ActionDescriptor>
                 {
-                    new DeleteOperationDescriptor { Element = new ElementDescriptor{ Id = "1di" } },
-                    new InsertOperationDescriptor { Element = new ElementDescriptor{ Id = "2di" } },
-                    new DeleteOperationDescriptor { Element = new ElementDescriptor{ Id = "3di", Label = "l3di", Value = "v3di" } },
-                    new InsertOperationDescriptor { Element = new ElementDescriptor{ Id = "4di", Label = "l4di", Value = "v4di" } },
-                    new UpdateOperationDescriptor { Element = new ElementDescriptor{ Id = "1ui" } },
-                    new InsertOperationDescriptor { Element = new ElementDescriptor{ Id = "2ui" } },
-                    new UpdateOperationDescriptor { Element = new ElementDescriptor{ Id = "3ui", Label = "l3ui", Value = "v3ui" } },
-                    new InsertOperationDescriptor { Element = new ElementDescriptor{ Id = "4ui", Label = "l4ui", Value = "v4ui" } },
-                    new MoveOperationDescriptor { Element = new ElementDescriptor{ Id = "1umi" } },
-                    new UpdateOperationDescriptor { Element = new ElementDescriptor{ Id = "1umi" } },
-                    new InsertOperationDescriptor { Element = new ElementDescriptor{ Id = "2umi" } },
-                    new MoveOperationDescriptor { Element = new ElementDescriptor{ Id = "3umi", Label = "l3umi", Value = "v3umi" } },
-                    new UpdateOperationDescriptor { Element = new ElementDescriptor{ Id = "3umi", Label = "l3umi", Value = "v3umi" } },
-                    new InsertOperationDescriptor { Element = new ElementDescriptor{ Id = "4umi", Label = "l4umi", Value = "v4umi" } },
-                    new DeleteOperationDescriptor { Element = new ElementDescriptor{ Id = "1du" } },
-                    new UpdateOperationDescriptor { Element = new ElementDescriptor{ Id = "2du", Label = "l3du", Value = "v3du" } },
-                    new DeleteOperationDescriptor { Element = new ElementDescriptor{ Id = "3du", Label = "l3du", Value = "v3du" } },
-                    new UpdateOperationDescriptor { Element = new ElementDescriptor{ Id = "4dux", Label = "l4dux", Value = "v4dux" } },
-                    new DeleteOperationDescriptor { Element = new ElementDescriptor{ Id = "1dum" } },
-                    new MoveOperationDescriptor { Element = new ElementDescriptor{ Id = "2dum" } },
-                    new UpdateOperationDescriptor { Element = new ElementDescriptor{ Id = "2dum", Label = "l2dum", Value = "v2dum" } },
-                    new DeleteOperationDescriptor { Element = new ElementDescriptor{ Id = "3dum", Label = "l3dum", Value = "v3dum" } },
-                    new MoveOperationDescriptor { Element = new ElementDescriptor{ Id = "4dumx", Label = "l4dumx", Value = "v4dumx" } },
-                    new UpdateOperationDescriptor { Element = new ElementDescriptor{ Id = "4dumx", Label = "l4dumx", Value = "v4dumx" } },
-                    new UpdateOperationDescriptor { Element = new ElementDescriptor{ Id = "1uu" } },
-                    new UpdateOperationDescriptor { Element = new ElementDescriptor{ Id = "2uu" } },
-                    new UpdateOperationDescriptor { Element = new ElementDescriptor{ Id = "3uu", Label = "l3uu", Value = "v3uu" } },
-                    new UpdateOperationDescriptor { Element = new ElementDescriptor{ Id = "4uux", Label = "l4uux", Value = "v4uux" } },
-                    new MoveOperationDescriptor { Element = new ElementDescriptor{ Id = "1umu" } },
-                    new UpdateOperationDescriptor { Element = new ElementDescriptor{ Id = "1umu" } },
-                    new UpdateOperationDescriptor { Element = new ElementDescriptor{ Id = "2umu" } },
-                    new MoveOperationDescriptor { Element = new ElementDescriptor{ Id = "3umu", Label = "l3umu", Value = "v3umu" } },
-                    new UpdateOperationDescriptor { Element = new ElementDescriptor{ Id = "3umu", Label = "l3umu", Value = "v3umu" } },
-                    new UpdateOperationDescriptor { Element = new ElementDescriptor{ Id = "4umux", Label = "l4umux", Value = "v4umux" } },
-                    new MoveOperationDescriptor { Element = new ElementDescriptor{ Id = "2uum" } },
-                    new UpdateOperationDescriptor { Element = new ElementDescriptor{ Id = "1uum" } },
-                    new UpdateOperationDescriptor { Element = new ElementDescriptor{ Id = "2uum" } },
-                    new MoveOperationDescriptor { Element = new ElementDescriptor{ Id = "4uumx", Label = "l4uumx", Value = "v4uumx"} },
-                    new UpdateOperationDescriptor { Element = new ElementDescriptor{ Id = "3uum", Label = "l3uum", Value = "v3uum" } },
-                    new UpdateOperationDescriptor { Element = new ElementDescriptor{ Id = "4uumx", Label = "l4uumx", Value = "v4uumx" } },
-                    new MoveOperationDescriptor { Element = new ElementDescriptor{ Id = "1umum" } },
-                    new UpdateOperationDescriptor { Element = new ElementDescriptor{ Id = "1umum" } },
-                    new MoveOperationDescriptor { Element = new ElementDescriptor{ Id = "2umum" } },
-                    new UpdateOperationDescriptor { Element = new ElementDescriptor{ Id = "2umum" } },
-                    new MoveOperationDescriptor { Element = new ElementDescriptor{ Id = "3umum", Label = "l3umum", Value = "v3umum" } },
-                    new UpdateOperationDescriptor { Element = new ElementDescriptor{ Id = "3umum", Label = "l3umum", Value = "v3umum" } },
-                    new MoveOperationDescriptor { Element = new ElementDescriptor{ Id = "4umumx", Label = "l4umumx", Value = "v4umumx" } },
-                    new UpdateOperationDescriptor { Element = new ElementDescriptor{ Id = "4umumx", Label = "l4umumx", Value = "v4umumx" } },
-                    new DeleteOperationDescriptor { Element = new ElementDescriptor{ Id = "1dm" } },
-                    new MoveOperationDescriptor { Element = new ElementDescriptor{ Id = "2dm" } },
-                    new DeleteOperationDescriptor { Element = new ElementDescriptor{ Id = "3dm", Label = "l3dm", Value = "v3dm" } },
-                    new MoveOperationDescriptor { Element = new ElementDescriptor{ Id = "4dmx", Label = "l4dmx", Value = "v4dmx" } },
-                    new MoveOperationDescriptor { Element = new ElementDescriptor{ Id = "1mi" } },
-                    new InsertOperationDescriptor { Element = new ElementDescriptor{ Id = "2mi" } },
-                    new MoveOperationDescriptor { Element = new ElementDescriptor{ Id = "3mi", Label = "l3mi", Value = "v3mi" } },
-                    new InsertOperationDescriptor { Element = new ElementDescriptor{ Id = "4mi", Label = "l4mi", Value = "v4mi" } },
-                    new MoveOperationDescriptor { Element = new ElementDescriptor{ Id = "1mm" } },
-                    new MoveOperationDescriptor { Element = new ElementDescriptor{ Id = "2mm" } },
-                    new MoveOperationDescriptor { Element = new ElementDescriptor{ Id = "3mm", Label = "l3mm", Value = "v3mm" } },
-                    new MoveOperationDescriptor { Element = new ElementDescriptor{ Id = "4mmx", Label = "l4mmx", Value = "v4mmx" } },
-                    new MoveOperationDescriptor { Element = new ElementDescriptor{ Id = "1umm" } },
-                    new UpdateOperationDescriptor { Element = new ElementDescriptor{ Id = "1umm" } },
-                    new MoveOperationDescriptor { Element = new ElementDescriptor{ Id = "2umm" } },
-                    new MoveOperationDescriptor { Element = new ElementDescriptor{ Id = "3umm", Label = "l3umm", Value = "v3umm" } },
-                    new UpdateOperationDescriptor { Element = new ElementDescriptor{ Id = "3umm", Label = "l3umm", Value = "v3umm" } },
-                    new MoveOperationDescriptor { Element = new ElementDescriptor{ Id = "4ummx", Label = "l4ummx", Value = "v4ummx" } },
-                    new MoveOperationDescriptor { Element = new ElementDescriptor{ Id = "1mum" } },
-                    new MoveOperationDescriptor { Element = new ElementDescriptor{ Id = "2mum" } },
-                    new UpdateOperationDescriptor { Element = new ElementDescriptor{ Id = "2mum" } },
-                    new MoveOperationDescriptor { Element = new ElementDescriptor{ Id = "3mum", Label = "l3mum", Value = "v3mum" } },
-                    new MoveOperationDescriptor { Element = new ElementDescriptor{ Id = "4mumx", Label = "l4mumx", Value = "v4mumx" } },
-                    new UpdateOperationDescriptor { Element = new ElementDescriptor{ Id = "4mumx", Label = "l4mumx", Value = "v4mumx" } },
-                    new UpdateOperationDescriptor { Element = new ElementDescriptor{ Id = "1um" } },
-                    new MoveOperationDescriptor { Element = new ElementDescriptor{ Id = "2um" } },
-                    new UpdateOperationDescriptor { Element = new ElementDescriptor{ Id = "3um", Label = "l3um", Value = "v3um" } },
-                    new MoveOperationDescriptor { Element = new ElementDescriptor{ Id = "4umx", Label = "l4umx", Value = "v4umx" } },
-                    new MoveOperationDescriptor { Element = new ElementDescriptor{ Id = "1mu" } },
-                    new UpdateOperationDescriptor { Element = new ElementDescriptor{ Id = "2mu" } },
-                    new MoveOperationDescriptor { Element = new ElementDescriptor{ Id = "3mu", Label = "l3mu", Value = "v3mu" } },
-                    new UpdateOperationDescriptor { Element = new ElementDescriptor{ Id = "4mux", Label = "l4mux", Value = "v4mux" } }
+                    new DeleteOperationDescriptor { Element = new ElementVersion{ Id = "1di" } },
+                    new InsertOperationDescriptor { Element = new ElementVersion{ Id = "2di" } },
+                    new DeleteOperationDescriptor { Element = new ElementVersion{ Id = "3di", Label = "l3di", Value = "v3di" } },
+                    new InsertOperationDescriptor { Element = new ElementVersion{ Id = "4di", Label = "l4di", Value = "v4di" } },
+                    new UpdateOperationDescriptor { Element = new ElementVersion{ Id = "1ui" } },
+                    new InsertOperationDescriptor { Element = new ElementVersion{ Id = "2ui" } },
+                    new UpdateOperationDescriptor { Element = new ElementVersion{ Id = "3ui", Label = "l3ui", Value = "v3ui" } },
+                    new InsertOperationDescriptor { Element = new ElementVersion{ Id = "4ui", Label = "l4ui", Value = "v4ui" } },
+                    new MoveOperationDescriptor { Element = new ElementVersion{ Id = "1umi" } },
+                    new UpdateOperationDescriptor { Element = new ElementVersion{ Id = "1umi" } },
+                    new InsertOperationDescriptor { Element = new ElementVersion{ Id = "2umi" } },
+                    new MoveOperationDescriptor { Element = new ElementVersion{ Id = "3umi", Label = "l3umi", Value = "v3umi" } },
+                    new UpdateOperationDescriptor { Element = new ElementVersion{ Id = "3umi", Label = "l3umi", Value = "v3umi" } },
+                    new InsertOperationDescriptor { Element = new ElementVersion{ Id = "4umi", Label = "l4umi", Value = "v4umi" } },
+                    new DeleteOperationDescriptor { Element = new ElementVersion{ Id = "1du" } },
+                    new UpdateOperationDescriptor { Element = new ElementVersion{ Id = "2du", Label = "l3du", Value = "v3du" } },
+                    new DeleteOperationDescriptor { Element = new ElementVersion{ Id = "3du", Label = "l3du", Value = "v3du" } },
+                    new UpdateOperationDescriptor { Element = new ElementVersion{ Id = "4dux", Label = "l4dux", Value = "v4dux" } },
+                    new DeleteOperationDescriptor { Element = new ElementVersion{ Id = "1dum" } },
+                    new MoveOperationDescriptor { Element = new ElementVersion{ Id = "2dum" } },
+                    new UpdateOperationDescriptor { Element = new ElementVersion{ Id = "2dum", Label = "l2dum", Value = "v2dum" } },
+                    new DeleteOperationDescriptor { Element = new ElementVersion{ Id = "3dum", Label = "l3dum", Value = "v3dum" } },
+                    new MoveOperationDescriptor { Element = new ElementVersion{ Id = "4dumx", Label = "l4dumx", Value = "v4dumx" } },
+                    new UpdateOperationDescriptor { Element = new ElementVersion{ Id = "4dumx", Label = "l4dumx", Value = "v4dumx" } },
+                    new UpdateOperationDescriptor { Element = new ElementVersion{ Id = "1uu" } },
+                    new UpdateOperationDescriptor { Element = new ElementVersion{ Id = "2uu" } },
+                    new UpdateOperationDescriptor { Element = new ElementVersion{ Id = "3uu", Label = "l3uu", Value = "v3uu" } },
+                    new UpdateOperationDescriptor { Element = new ElementVersion{ Id = "4uux", Label = "l4uux", Value = "v4uux" } },
+                    new MoveOperationDescriptor { Element = new ElementVersion{ Id = "1umu" } },
+                    new UpdateOperationDescriptor { Element = new ElementVersion{ Id = "1umu" } },
+                    new UpdateOperationDescriptor { Element = new ElementVersion{ Id = "2umu" } },
+                    new MoveOperationDescriptor { Element = new ElementVersion{ Id = "3umu", Label = "l3umu", Value = "v3umu" } },
+                    new UpdateOperationDescriptor { Element = new ElementVersion{ Id = "3umu", Label = "l3umu", Value = "v3umu" } },
+                    new UpdateOperationDescriptor { Element = new ElementVersion{ Id = "4umux", Label = "l4umux", Value = "v4umux" } },
+                    new MoveOperationDescriptor { Element = new ElementVersion{ Id = "2uum" } },
+                    new UpdateOperationDescriptor { Element = new ElementVersion{ Id = "1uum" } },
+                    new UpdateOperationDescriptor { Element = new ElementVersion{ Id = "2uum" } },
+                    new MoveOperationDescriptor { Element = new ElementVersion{ Id = "4uumx", Label = "l4uumx", Value = "v4uumx"} },
+                    new UpdateOperationDescriptor { Element = new ElementVersion{ Id = "3uum", Label = "l3uum", Value = "v3uum" } },
+                    new UpdateOperationDescriptor { Element = new ElementVersion{ Id = "4uumx", Label = "l4uumx", Value = "v4uumx" } },
+                    new MoveOperationDescriptor { Element = new ElementVersion{ Id = "1umum" } },
+                    new UpdateOperationDescriptor { Element = new ElementVersion{ Id = "1umum" } },
+                    new MoveOperationDescriptor { Element = new ElementVersion{ Id = "2umum" } },
+                    new UpdateOperationDescriptor { Element = new ElementVersion{ Id = "2umum" } },
+                    new MoveOperationDescriptor { Element = new ElementVersion{ Id = "3umum", Label = "l3umum", Value = "v3umum" } },
+                    new UpdateOperationDescriptor { Element = new ElementVersion{ Id = "3umum", Label = "l3umum", Value = "v3umum" } },
+                    new MoveOperationDescriptor { Element = new ElementVersion{ Id = "4umumx", Label = "l4umumx", Value = "v4umumx" } },
+                    new UpdateOperationDescriptor { Element = new ElementVersion{ Id = "4umumx", Label = "l4umumx", Value = "v4umumx" } },
+                    new DeleteOperationDescriptor { Element = new ElementVersion{ Id = "1dm" } },
+                    new MoveOperationDescriptor { Element = new ElementVersion{ Id = "2dm" } },
+                    new DeleteOperationDescriptor { Element = new ElementVersion{ Id = "3dm", Label = "l3dm", Value = "v3dm" } },
+                    new MoveOperationDescriptor { Element = new ElementVersion{ Id = "4dmx", Label = "l4dmx", Value = "v4dmx" } },
+                    new MoveOperationDescriptor { Element = new ElementVersion{ Id = "1mi" } },
+                    new InsertOperationDescriptor { Element = new ElementVersion{ Id = "2mi" } },
+                    new MoveOperationDescriptor { Element = new ElementVersion{ Id = "3mi", Label = "l3mi", Value = "v3mi" } },
+                    new InsertOperationDescriptor { Element = new ElementVersion{ Id = "4mi", Label = "l4mi", Value = "v4mi" } },
+                    new MoveOperationDescriptor { Element = new ElementVersion{ Id = "1mm" } },
+                    new MoveOperationDescriptor { Element = new ElementVersion{ Id = "2mm" } },
+                    new MoveOperationDescriptor { Element = new ElementVersion{ Id = "3mm", Label = "l3mm", Value = "v3mm" } },
+                    new MoveOperationDescriptor { Element = new ElementVersion{ Id = "4mmx", Label = "l4mmx", Value = "v4mmx" } },
+                    new MoveOperationDescriptor { Element = new ElementVersion{ Id = "1umm" } },
+                    new UpdateOperationDescriptor { Element = new ElementVersion{ Id = "1umm" } },
+                    new MoveOperationDescriptor { Element = new ElementVersion{ Id = "2umm" } },
+                    new MoveOperationDescriptor { Element = new ElementVersion{ Id = "3umm", Label = "l3umm", Value = "v3umm" } },
+                    new UpdateOperationDescriptor { Element = new ElementVersion{ Id = "3umm", Label = "l3umm", Value = "v3umm" } },
+                    new MoveOperationDescriptor { Element = new ElementVersion{ Id = "4ummx", Label = "l4ummx", Value = "v4ummx" } },
+                    new MoveOperationDescriptor { Element = new ElementVersion{ Id = "1mum" } },
+                    new MoveOperationDescriptor { Element = new ElementVersion{ Id = "2mum" } },
+                    new UpdateOperationDescriptor { Element = new ElementVersion{ Id = "2mum" } },
+                    new MoveOperationDescriptor { Element = new ElementVersion{ Id = "3mum", Label = "l3mum", Value = "v3mum" } },
+                    new MoveOperationDescriptor { Element = new ElementVersion{ Id = "4mumx", Label = "l4mumx", Value = "v4mumx" } },
+                    new UpdateOperationDescriptor { Element = new ElementVersion{ Id = "4mumx", Label = "l4mumx", Value = "v4mumx" } },
+                    new UpdateOperationDescriptor { Element = new ElementVersion{ Id = "1um" } },
+                    new MoveOperationDescriptor { Element = new ElementVersion{ Id = "2um" } },
+                    new UpdateOperationDescriptor { Element = new ElementVersion{ Id = "3um", Label = "l3um", Value = "v3um" } },
+                    new MoveOperationDescriptor { Element = new ElementVersion{ Id = "4umx", Label = "l4umx", Value = "v4umx" } },
+                    new MoveOperationDescriptor { Element = new ElementVersion{ Id = "1mu" } },
+                    new UpdateOperationDescriptor { Element = new ElementVersion{ Id = "2mu" } },
+                    new MoveOperationDescriptor { Element = new ElementVersion{ Id = "3mu", Label = "l3mu", Value = "v3mu" } },
+                    new UpdateOperationDescriptor { Element = new ElementVersion{ Id = "4mux", Label = "l4mux", Value = "v4mux" } }
                 },
-                Matches = new List<RevisionDescriptor>
+                Matches = new List<MatchDescriptor>
                 {
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "1ui"},
-                        Modified = new ElementDescriptor{Id = "1uix"}
+                        Original = new ElementVersion{Id = "1ui"},
+                        Modified = new ElementVersion{Id = "1uix"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "3ui"},
-                        Modified = new ElementDescriptor{Id = "3uix"}
+                        Original = new ElementVersion{Id = "3ui"},
+                        Modified = new ElementVersion{Id = "3uix"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "1umi"},
-                        Modified = new ElementDescriptor{Id = "1umix"}
+                        Original = new ElementVersion{Id = "1umi"},
+                        Modified = new ElementVersion{Id = "1umix"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "3umi"},
-                        Modified = new ElementDescriptor{Id = "3umix"}
+                        Original = new ElementVersion{Id = "3umi"},
+                        Modified = new ElementVersion{Id = "3umix"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "2du"},
-                        Modified = new ElementDescriptor{Id = "2dux"}
+                        Original = new ElementVersion{Id = "2du"},
+                        Modified = new ElementVersion{Id = "2dux"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "4dux"},
-                        Modified = new ElementDescriptor{Id = "4du"}
+                        Original = new ElementVersion{Id = "4dux"},
+                        Modified = new ElementVersion{Id = "4du"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "2dum"},
-                        Modified = new ElementDescriptor{Id = "2dumx"}
+                        Original = new ElementVersion{Id = "2dum"},
+                        Modified = new ElementVersion{Id = "2dumx"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "4dumx"},
-                        Modified = new ElementDescriptor{Id = "4dum"}
+                        Original = new ElementVersion{Id = "4dumx"},
+                        Modified = new ElementVersion{Id = "4dum"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "1uu"},
-                        Modified = new ElementDescriptor{Id = "1uux"}
+                        Original = new ElementVersion{Id = "1uu"},
+                        Modified = new ElementVersion{Id = "1uux"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "2uu"},
-                        Modified = new ElementDescriptor{Id = "2uux"}
+                        Original = new ElementVersion{Id = "2uu"},
+                        Modified = new ElementVersion{Id = "2uux"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "3uu"},
-                        Modified = new ElementDescriptor{Id = "3uux"}
+                        Original = new ElementVersion{Id = "3uu"},
+                        Modified = new ElementVersion{Id = "3uux"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "4uux"},
-                        Modified = new ElementDescriptor{Id = "4uu"}
+                        Original = new ElementVersion{Id = "4uux"},
+                        Modified = new ElementVersion{Id = "4uu"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "1umu"},
-                        Modified = new ElementDescriptor{Id = "1umux"}
+                        Original = new ElementVersion{Id = "1umu"},
+                        Modified = new ElementVersion{Id = "1umux"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "2umu"},
-                        Modified = new ElementDescriptor{Id = "2umux"}
+                        Original = new ElementVersion{Id = "2umu"},
+                        Modified = new ElementVersion{Id = "2umux"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "3umu"},
-                        Modified = new ElementDescriptor{Id = "3umux"}
+                        Original = new ElementVersion{Id = "3umu"},
+                        Modified = new ElementVersion{Id = "3umux"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "4umux"},
-                        Modified = new ElementDescriptor{Id = "4umu"}
+                        Original = new ElementVersion{Id = "4umux"},
+                        Modified = new ElementVersion{Id = "4umu"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "1uum"},
-                        Modified = new ElementDescriptor{Id = "1uumx"}
+                        Original = new ElementVersion{Id = "1uum"},
+                        Modified = new ElementVersion{Id = "1uumx"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "2uum"},
-                        Modified = new ElementDescriptor{Id = "2uumx"}
+                        Original = new ElementVersion{Id = "2uum"},
+                        Modified = new ElementVersion{Id = "2uumx"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "3uum"},
-                        Modified = new ElementDescriptor{Id = "3uumx"}
+                        Original = new ElementVersion{Id = "3uum"},
+                        Modified = new ElementVersion{Id = "3uumx"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "4uumx"},
-                        Modified = new ElementDescriptor{Id = "4uum"}
+                        Original = new ElementVersion{Id = "4uumx"},
+                        Modified = new ElementVersion{Id = "4uum"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "1umum"},
-                        Modified = new ElementDescriptor{Id = "1umumx"}
+                        Original = new ElementVersion{Id = "1umum"},
+                        Modified = new ElementVersion{Id = "1umumx"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "2umum"},
-                        Modified = new ElementDescriptor{Id = "2umumx"}
+                        Original = new ElementVersion{Id = "2umum"},
+                        Modified = new ElementVersion{Id = "2umumx"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "3umum"},
-                        Modified = new ElementDescriptor{Id = "3umumx"}
+                        Original = new ElementVersion{Id = "3umum"},
+                        Modified = new ElementVersion{Id = "3umumx"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "4umumx"},
-                        Modified = new ElementDescriptor{Id = "4umum"}
+                        Original = new ElementVersion{Id = "4umumx"},
+                        Modified = new ElementVersion{Id = "4umum"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "2dm"},
-                        Modified = new ElementDescriptor{Id = "2dmx"}
+                        Original = new ElementVersion{Id = "2dm"},
+                        Modified = new ElementVersion{Id = "2dmx"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "4dmx"},
-                        Modified = new ElementDescriptor{Id = "4dm"}
+                        Original = new ElementVersion{Id = "4dmx"},
+                        Modified = new ElementVersion{Id = "4dm"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "1mi"},
-                        Modified = new ElementDescriptor{Id = "1mix"}
+                        Original = new ElementVersion{Id = "1mi"},
+                        Modified = new ElementVersion{Id = "1mix"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "3mi"},
-                        Modified = new ElementDescriptor{Id = "3mix"}
+                        Original = new ElementVersion{Id = "3mi"},
+                        Modified = new ElementVersion{Id = "3mix"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "1mm"},
-                        Modified = new ElementDescriptor{Id = "1mmx"}
+                        Original = new ElementVersion{Id = "1mm"},
+                        Modified = new ElementVersion{Id = "1mmx"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "2mm"},
-                        Modified = new ElementDescriptor{Id = "2mmx"}
+                        Original = new ElementVersion{Id = "2mm"},
+                        Modified = new ElementVersion{Id = "2mmx"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "3mm"},
-                        Modified = new ElementDescriptor{Id = "3mmx"}
+                        Original = new ElementVersion{Id = "3mm"},
+                        Modified = new ElementVersion{Id = "3mmx"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "4mmx"},
-                        Modified = new ElementDescriptor{Id = "4mm"}
+                        Original = new ElementVersion{Id = "4mmx"},
+                        Modified = new ElementVersion{Id = "4mm"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "1umm"},
-                        Modified = new ElementDescriptor{Id = "1ummx"}
+                        Original = new ElementVersion{Id = "1umm"},
+                        Modified = new ElementVersion{Id = "1ummx"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "2umm"},
-                        Modified = new ElementDescriptor{Id = "2ummx"}
+                        Original = new ElementVersion{Id = "2umm"},
+                        Modified = new ElementVersion{Id = "2ummx"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "3umm"},
-                        Modified = new ElementDescriptor{Id = "3ummx"}
+                        Original = new ElementVersion{Id = "3umm"},
+                        Modified = new ElementVersion{Id = "3ummx"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "4ummx"},
-                        Modified = new ElementDescriptor{Id = "4umm"}
+                        Original = new ElementVersion{Id = "4ummx"},
+                        Modified = new ElementVersion{Id = "4umm"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "1mum"},
-                        Modified = new ElementDescriptor{Id = "1mumx"}
+                        Original = new ElementVersion{Id = "1mum"},
+                        Modified = new ElementVersion{Id = "1mumx"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "2mum"},
-                        Modified = new ElementDescriptor{Id = "2mumx"}
+                        Original = new ElementVersion{Id = "2mum"},
+                        Modified = new ElementVersion{Id = "2mumx"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "3mum"},
-                        Modified = new ElementDescriptor{Id = "3mumx"}
+                        Original = new ElementVersion{Id = "3mum"},
+                        Modified = new ElementVersion{Id = "3mumx"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "4mumx"},
-                        Modified = new ElementDescriptor{Id = "4mum"}
+                        Original = new ElementVersion{Id = "4mumx"},
+                        Modified = new ElementVersion{Id = "4mum"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "1um"},
-                        Modified = new ElementDescriptor{Id = "1umx"}
+                        Original = new ElementVersion{Id = "1um"},
+                        Modified = new ElementVersion{Id = "1umx"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "2um"},
-                        Modified = new ElementDescriptor{Id = "2umx"}
+                        Original = new ElementVersion{Id = "2um"},
+                        Modified = new ElementVersion{Id = "2umx"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "3um"},
-                        Modified = new ElementDescriptor{Id = "3umx"}
+                        Original = new ElementVersion{Id = "3um"},
+                        Modified = new ElementVersion{Id = "3umx"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "4umx"},
-                        Modified = new ElementDescriptor{Id = "4um"}
+                        Original = new ElementVersion{Id = "4umx"},
+                        Modified = new ElementVersion{Id = "4um"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "1mu"},
-                        Modified = new ElementDescriptor{Id = "1mux"}
+                        Original = new ElementVersion{Id = "1mu"},
+                        Modified = new ElementVersion{Id = "1mux"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "2mu"},
-                        Modified = new ElementDescriptor{Id = "2mux"}
+                        Original = new ElementVersion{Id = "2mu"},
+                        Modified = new ElementVersion{Id = "2mux"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "3mu"},
-                        Modified = new ElementDescriptor{Id = "3mux"}
+                        Original = new ElementVersion{Id = "3mu"},
+                        Modified = new ElementVersion{Id = "3mux"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "4mux"},
-                        Modified = new ElementDescriptor{Id = "4mu"}
+                        Original = new ElementVersion{Id = "4mux"},
+                        Modified = new ElementVersion{Id = "4mu"}
                     }
                 }
             };
@@ -1450,94 +1450,94 @@ namespace Jawilliam.CDF.Tests.Evaluation
             RedundancyFinder finder = new MatchingSetRedundancyFinder
             {
                 Delta = delta,
-                MatchingSet = new RevisionDescriptor[]
+                MatchingSet = new MatchDescriptor[]
                 {
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "3di"},
-                        Modified = new ElementDescriptor{Id = "4di"}
+                        Original = new ElementVersion{Id = "3di"},
+                        Modified = new ElementVersion{Id = "4di"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "3ui"},
-                        Modified = new ElementDescriptor{Id = "4ui"}
+                        Original = new ElementVersion{Id = "3ui"},
+                        Modified = new ElementVersion{Id = "4ui"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "3umi"},
-                        Modified = new ElementDescriptor{Id = "4umi"}
+                        Original = new ElementVersion{Id = "3umi"},
+                        Modified = new ElementVersion{Id = "4umi"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "3du"},
-                        Modified = new ElementDescriptor{Id = "4du"}
+                        Original = new ElementVersion{Id = "3du"},
+                        Modified = new ElementVersion{Id = "4du"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "3dum"},
-                        Modified = new ElementDescriptor{Id = "4dum"}
+                        Original = new ElementVersion{Id = "3dum"},
+                        Modified = new ElementVersion{Id = "4dum"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "3uu"},
-                        Modified = new ElementDescriptor{Id = "4uu"}
+                        Original = new ElementVersion{Id = "3uu"},
+                        Modified = new ElementVersion{Id = "4uu"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "3umu"},
-                        Modified = new ElementDescriptor{Id = "4umu"}
+                        Original = new ElementVersion{Id = "3umu"},
+                        Modified = new ElementVersion{Id = "4umu"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "3uum"},
-                        Modified = new ElementDescriptor{Id = "4uum"}
+                        Original = new ElementVersion{Id = "3uum"},
+                        Modified = new ElementVersion{Id = "4uum"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "3umum"},
-                        Modified = new ElementDescriptor{Id = "4umum"}
+                        Original = new ElementVersion{Id = "3umum"},
+                        Modified = new ElementVersion{Id = "4umum"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "3dm"},
-                        Modified = new ElementDescriptor{Id = "4dm"}
+                        Original = new ElementVersion{Id = "3dm"},
+                        Modified = new ElementVersion{Id = "4dm"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "3mi"},
-                        Modified = new ElementDescriptor{Id = "4mi"}
+                        Original = new ElementVersion{Id = "3mi"},
+                        Modified = new ElementVersion{Id = "4mi"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "3mm"},
-                        Modified = new ElementDescriptor{Id = "4mm"}
+                        Original = new ElementVersion{Id = "3mm"},
+                        Modified = new ElementVersion{Id = "4mm"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "3umm"},
-                        Modified = new ElementDescriptor{Id = "4umm"}
+                        Original = new ElementVersion{Id = "3umm"},
+                        Modified = new ElementVersion{Id = "4umm"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "3mum"},
-                        Modified = new ElementDescriptor{Id = "4mum"}
+                        Original = new ElementVersion{Id = "3mum"},
+                        Modified = new ElementVersion{Id = "4mum"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "3um"},
-                        Modified = new ElementDescriptor{Id = "4um"}
+                        Original = new ElementVersion{Id = "3um"},
+                        Modified = new ElementVersion{Id = "4um"}
                     },
-                    new RevisionDescriptor
+                    new MatchDescriptor
                     {
-                        Original = new ElementDescriptor{Id = "3mu"},
-                        Modified = new ElementDescriptor{Id = "4mu"}
+                        Original = new ElementVersion{Id = "3mu"},
+                        Modified = new ElementVersion{Id = "4mu"}
                     }
                 }
             };
 
-            (RedundancyPattern pattern, ElementDescriptor MissedOriginal, ElementDescriptor MissedModified,
-             ElementDescriptor SpuriousOriginal, ElementDescriptor SpuriousModified,
-             ElementDescriptor AndSpuriousOriginal, ElementDescriptor AndSpuriousModified)[] symptoms = finder.Find().ToArray();
+            (RedundancyPattern pattern, ElementVersion MissedOriginal, ElementVersion MissedModified,
+             ElementVersion SpuriousOriginal, ElementVersion SpuriousModified,
+             ElementVersion AndSpuriousOriginal, ElementVersion AndSpuriousModified)[] symptoms = finder.Find().ToArray();
 
             Assert.AreEqual(symptoms.Count(), 16);
             Assert.AreEqual(symptoms[0].pattern, RedundancyPattern.DI);

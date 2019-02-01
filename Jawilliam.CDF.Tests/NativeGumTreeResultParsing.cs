@@ -26,8 +26,8 @@ namespace Jawilliam.CDF.Tests
                     Pattern = new Regex(@"^Insert ([^:]*): (.*)\((\d+)\) into (.*)\((\d+)\) at (\d+)"),
                     Selector = new Func<string[], OperationDescriptor>(captures => new InsertOperationDescriptor
                     {
-                        Element = new ElementDescriptor {Id = captures[2], Label = captures[0]},
-                        Parent = new ElementDescriptor {Id = captures[4], Label = captures[3]},
+                        Element = new ElementVersion {Id = captures[2], Label = captures[0]},
+                        Parent = new ElementVersion {Id = captures[4], Label = captures[3]},
                         Position = int.Parse(captures[5], CultureInfo.InvariantCulture)
                     })
                 },
@@ -36,8 +36,8 @@ namespace Jawilliam.CDF.Tests
                     Pattern = new Regex(@"^Insert (.*)\((\d+)\) into (.*)\((\d+)\) at (\d+)"),
                     Selector = new Func<string[], OperationDescriptor>(captures => new InsertOperationDescriptor
                     {
-                        Element = new ElementDescriptor {Id = captures[1], Label = captures[0]},
-                        Parent = new ElementDescriptor {Id = captures[3], Label = captures[2]},
+                        Element = new ElementVersion {Id = captures[1], Label = captures[0]},
+                        Parent = new ElementVersion {Id = captures[3], Label = captures[2]},
                         Position = int.Parse(captures[4], CultureInfo.InvariantCulture)
                     })
                 },
@@ -46,7 +46,7 @@ namespace Jawilliam.CDF.Tests
                     Pattern = new Regex(@"^Update ([^:]*): (.*)\((\d+)\) to (.*)"),
                     Selector = new Func<string[], OperationDescriptor>(captures => new UpdateOperationDescriptor
                     {
-                        Element = new ElementDescriptor { Id = captures[2], Label = captures[0] },
+                        Element = new ElementVersion { Id = captures[2], Label = captures[0] },
                         Value = captures[3]
                     })
                 },
@@ -55,7 +55,7 @@ namespace Jawilliam.CDF.Tests
                     Pattern = new Regex(@"^Update (.*)\((\d+)\) to (.*)"),
                     Selector = new Func<string[], OperationDescriptor>(captures => new UpdateOperationDescriptor
                     {
-                        Element = new ElementDescriptor { Id = captures[1], Label = captures[0] },
+                        Element = new ElementVersion { Id = captures[1], Label = captures[0] },
                         Value = captures[2]
                     })
                 },
@@ -64,8 +64,8 @@ namespace Jawilliam.CDF.Tests
                     Pattern = new Regex(@"^Move ([^:]*): (.*)\((\d+)\) into (.*)\((\d+)\) at (\d+)"),
                     Selector = new Func<string[], OperationDescriptor>(captures => new MoveOperationDescriptor
                     {
-                        Element = new ElementDescriptor {Id = captures[2], Label = captures[0]},
-                        Parent = new ElementDescriptor {Id = captures[4], Label = captures[3]},
+                        Element = new ElementVersion {Id = captures[2], Label = captures[0]},
+                        Parent = new ElementVersion {Id = captures[4], Label = captures[3]},
                         Position = Int32.Parse(captures[5], CultureInfo.InvariantCulture)
                     })
                 },
@@ -74,8 +74,8 @@ namespace Jawilliam.CDF.Tests
                     Pattern = new Regex(@"^Move (.*)\((\d+)\) into (.*)\((\d+)\) at (\d+)"),
                     Selector = new Func<string[], OperationDescriptor>(captures => new MoveOperationDescriptor
                     {
-                        Element = new ElementDescriptor {Id = captures[1], Label = captures[0]},
-                        Parent = new ElementDescriptor {Id = captures[3], Label = captures[2]},
+                        Element = new ElementVersion {Id = captures[1], Label = captures[0]},
+                        Parent = new ElementVersion {Id = captures[3], Label = captures[2]},
                         Position = Int32.Parse(captures[4], CultureInfo.InvariantCulture)
                     })
                 },
@@ -84,7 +84,7 @@ namespace Jawilliam.CDF.Tests
                     Pattern = new Regex(@"^Delete ([^:]*): (.*)\((\d+)\)"),
                     Selector = new Func<string[], OperationDescriptor>(captures => new DeleteOperationDescriptor
                     {
-                        Element = new ElementDescriptor {Id = captures[2], Label = captures[0]}
+                        Element = new ElementVersion {Id = captures[2], Label = captures[0]}
                     })
                 },
                 new
@@ -92,7 +92,7 @@ namespace Jawilliam.CDF.Tests
                     Pattern = new Regex(@"^Delete (.*)\((\d+)\)"),
                     Selector = new Func<string[], OperationDescriptor>(captures => new DeleteOperationDescriptor
                     {
-                        Element = new ElementDescriptor {Id = captures[1], Label = captures[0]}
+                        Element = new ElementVersion {Id = captures[1], Label = captures[0]}
                     })
                 }
             };
@@ -102,19 +102,19 @@ namespace Jawilliam.CDF.Tests
                 new
                 {
                     Pattern = new Regex(@"^Match ([^:]*): (.*)\((\d+)\) to ([^:]*):? (.*)\((\d+)\)"),
-                    Selector = new Func<string[], RevisionDescriptor>(captures => new RevisionDescriptor
+                    Selector = new Func<string[], MatchDescriptor>(captures => new MatchDescriptor
                     {
-                        Original = new ElementDescriptor {Id = captures[2], Label = captures[0]},
-                        Modified = new ElementDescriptor {Id = captures[5], Label = captures[3]},
+                        Original = new ElementVersion {Id = captures[2], Label = captures[0]},
+                        Modified = new ElementVersion {Id = captures[5], Label = captures[3]},
                     })
                 },
                 new
                 {
                     Pattern = new Regex(@"^Match (.*)\((\d+)\) to (.*)\((\d+)\)"),
-                    Selector = new Func<string[], RevisionDescriptor>(captures => new RevisionDescriptor
+                    Selector = new Func<string[], MatchDescriptor>(captures => new MatchDescriptor
                     {
-                        Original = new ElementDescriptor {Id = captures[1], Label = captures[0]},
-                        Modified = new ElementDescriptor {Id = captures[3], Label = captures[2]},
+                        Original = new ElementVersion {Id = captures[1], Label = captures[0]},
+                        Modified = new ElementVersion {Id = captures[3], Label = captures[2]},
                     })
                 }
             };

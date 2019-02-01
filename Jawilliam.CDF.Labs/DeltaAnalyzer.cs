@@ -673,15 +673,15 @@ namespace Jawilliam.CDF.Labs
                                         Descendants = new Transformations()
                                     };
                                     originalTransformations[insertAction.Element.Id] = transformationInfo;
-                                    detectionResult.Matches.Add(new RevisionDescriptor
+                                    detectionResult.Matches.Add(new MatchDescriptor
                                     {
-                                        Original = new ElementDescriptor
+                                        Original = new ElementVersion
                                         {
                                             Id = insertionIndex.ToString(),
                                             Label = insertAction.Element.Label,
                                             Value = insertAction.Element.Value
                                         },
-                                        Modified = new ElementDescriptor
+                                        Modified = new ElementVersion
                                         {
                                             Id = insertAction.Element.Id,
                                             Label = insertAction.Element.Label,
@@ -705,7 +705,7 @@ namespace Jawilliam.CDF.Labs
                                         new ElementTree
                                         {
                                             Parent = parentElement,
-                                            Root = new ElementDescriptor
+                                            Root = new ElementVersion
                                             {
                                                 Id = insertionIndex.ToString(), 
                                                 Label = insertAction.Element.Label,
@@ -742,10 +742,10 @@ namespace Jawilliam.CDF.Labs
                                     var moveAction = (MoveOperationDescriptor)action;
                                     element = originalTree.PostOrder(n => n.Children).Single(n => n.Root.Id == moveAction.Element.Id);
                                     var parentsMatches = detectionResult.Matches.Where(m => m.Modified.Id == moveAction.Parent.Id).ToList();
-                                    RevisionDescriptor parentsMatch;
+                                    MatchDescriptor parentsMatch;
                                     if (parentsMatches.Count > 1)
                                     {
-                                        parentsMatch = parentsMatches.Single(delegate(RevisionDescriptor descriptor)
+                                        parentsMatch = parentsMatches.Single(delegate(MatchDescriptor descriptor)
                                         {
                                             var o = originalTree.PostOrder(n => n.Children).Single(n => n.Root.Id == descriptor.Original.Id);
                                             return !o.Children.Contains(element);

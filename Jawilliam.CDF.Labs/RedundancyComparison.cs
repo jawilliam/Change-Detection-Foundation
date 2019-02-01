@@ -47,9 +47,9 @@ namespace Jawilliam.CDF.Labs
             var rightDetectionResult = (DetectionResult)rightDelta.DetectionResult;
 
             RedundancyFinder finder = new MatchingSetRedundancyFinder { MatchingSet = rightDetectionResult.Matches, Delta = leftDetectionResult };
-            (Evaluation.RedundancyPattern pattern, ElementDescriptor MissedOriginal, ElementDescriptor MissedModified,
-             ElementDescriptor SpuriousOriginal, ElementDescriptor SpuriousModified,
-             ElementDescriptor AndSpuriousOriginal, ElementDescriptor AndSpuriousModified)[] symptoms = finder.Find().ToArray();
+            (Evaluation.RedundancyPattern pattern, ElementVersion MissedOriginal, ElementVersion MissedModified,
+             ElementVersion SpuriousOriginal, ElementVersion SpuriousModified,
+             ElementVersion AndSpuriousOriginal, ElementVersion AndSpuriousModified)[] symptoms = finder.Find().ToArray();
 
             foreach (var symptom in symptoms)
             {
@@ -94,7 +94,7 @@ namespace Jawilliam.CDF.Labs
             }
         }
 
-        private ElementDescription CreateElementDescriptor(ElementDescriptor version)
+        private ElementDescription CreateElementDescriptor(ElementVersion version)
         {
             return new ElementDescription
             {

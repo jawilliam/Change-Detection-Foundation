@@ -9,8 +9,18 @@ namespace Jawilliam.CDF.Approach
     /// Describes a basic result of a change detection step.
     /// </summary>
     [Serializable]
-    public class RevisionDescriptor : RevisionPair<ElementDescriptor>, IXmlSerializable
+    public class MatchDescriptor : RevisionPair<ElementVersion>, IXmlSerializable
     {
+        /// <summary>
+        /// Gets or sets the distance according to the current metric.
+        /// </summary>
+        public virtual double? Distance { get; set; }
+
+        /// <summary>
+        /// Gets or sets the similarity according to the current metric.
+        /// </summary>
+        public virtual double? Similarity { get; set; }
+
         /// <summary>
         /// This method is reserved and should not be used. When implementing the IXmlSerializable interface, you should return null (Nothing in Visual Basic) from this method, and instead, if specifying a custom schema is required, apply the <see cref="T:System.Xml.Serialization.XmlSchemaProviderAttribute"/> to the class.
         /// </summary>
@@ -28,19 +38,27 @@ namespace Jawilliam.CDF.Approach
         /// <param name="reader">The <see cref="T:System.Xml.XmlReader"/> stream from which the object is deserialized. </param>
         public virtual void ReadXml(XmlReader reader)
         {
-            this.Original = new ElementDescriptor
+            this.Original = new ElementVersion
             {
                 Id = reader.GetAttribute("oId"),
                 Label = reader.GetAttribute("oLb"),
                 Value = reader.GetAttribute("oVl")
             };
 
-            this.Modified = new ElementDescriptor
+            this.Modified = new ElementVersion
             {
                 Id = reader.GetAttribute("mId"),
                 Label = reader.GetAttribute("mLb"),
                 Value = reader.GetAttribute("mVl")
             };
+
+            var distanceAttribute = reader.GetAttribute("distance");
+            if (distanceAttribute != null)
+                this.Distance = XmlConvert.ToDouble(distanceAttribute);
+
+            var similarityAttribute = reader.GetAttribute("similarity");
+            if (similarityAttribute != null)
+                this.Similarity = XmlConvert.ToDouble(similarityAttribute);
 
             reader.Read();
         }
@@ -62,6 +80,12 @@ namespace Jawilliam.CDF.Approach
                 writer.WriteAttributeString("mLb", this.Modified.Label);
             if (this.Modified.Value != null)
                 writer.WriteAttributeString("mVl", this.Modified.Value);
+
+            if (this.Distance != null)
+                writer.WriteAttributeString("distance", XmlConvert.ToString(this.Distance.Value));
+
+            if (this.Similarity != null)
+                writer.WriteAttributeString("similarity", XmlConvert.ToString(this.Similarity.Value));
         }
 
         /// <summary>

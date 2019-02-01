@@ -11,21 +11,21 @@ namespace Jawilliam.CDF.Approach
     /// </summary>
     [Serializable]
     [XmlRoot("Result")]
-    public class DetectionResult : RevisionPair<ElementDescriptor>
+    public class DetectionResult : RevisionPair<ElementVersion>
     {
         /// <summary>
         /// The backing field for the <see cref="Matches"/> property. 
         /// </summary>
-        private List<RevisionDescriptor> _matches;
+        private List<MatchDescriptor> _matches;
 
         /// <summary>
         /// Gets or sets the matching set.
         /// </summary>
         [XmlArray("Matches")]
         [XmlArrayItem("Match")]
-        public virtual List<RevisionDescriptor> Matches
+        public virtual List<MatchDescriptor> Matches
         {
-            get { return this._matches ?? (this._matches = new List<RevisionDescriptor>()); }
+            get { return this._matches ?? (this._matches = new List<MatchDescriptor>()); }
             set { this._matches = value; }
         }
 

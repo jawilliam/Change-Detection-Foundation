@@ -6,7 +6,7 @@ namespace Jawilliam.CDF
     /// Describes an element inside a matching description.
     /// </summary>
     [Serializable]
-    public class ElementDescriptor
+    public class ElementVersion
     {
         /// <summary>
         /// Gets or sets an value identifying the current element.

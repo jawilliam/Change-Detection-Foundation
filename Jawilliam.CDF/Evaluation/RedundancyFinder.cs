@@ -33,9 +33,9 @@ namespace Jawilliam.CDF.Evaluation
         /// <param name="pattern">redundancy pattern to look for.</param>
         /// <param name="delta">diagnosable delta</param>
         /// <returns>Symptoms of redundant changes.</returns>
-        public virtual IEnumerable<(RedundancyPattern Pattern, ElementDescriptor MissedOriginal, ElementDescriptor MissedModified, 
-                                                               ElementDescriptor SpuriousOriginal, ElementDescriptor SpuriousModified,
-                                                               ElementDescriptor AndSpuriousOriginal, ElementDescriptor AndSpuriousModified)> Find()
+        public virtual IEnumerable<(RedundancyPattern Pattern, ElementVersion MissedOriginal, ElementVersion MissedModified, 
+                                                               ElementVersion SpuriousOriginal, ElementVersion SpuriousModified,
+                                                               ElementVersion AndSpuriousOriginal, ElementVersion AndSpuriousModified)> Find()
         {
             var deletions = this.Delta.Actions.Where(a => a.Action == ActionKind.Delete).Cast<DeleteOperationDescriptor>().ToArray();
             var insertions = this.Delta.Actions.Where(a => a.Action == ActionKind.Insert).Cast<InsertOperationDescriptor>().ToArray();
@@ -48,35 +48,35 @@ namespace Jawilliam.CDF.Evaluation
                                from i in insertions
                                where this.AreRedundant(RedundancyPattern.DI, d.Element.Id, i.Element.Id)
                                select (Pattern: RedundancyPattern.DI, MissedOriginal: d.Element, MissedModified: i.Element,
-                                       SpuriousOriginal: null as ElementDescriptor, SpuriousModified: null as ElementDescriptor,
-                                       AndSpuriousOriginal: null as ElementDescriptor, AndSpuriousModified: null as ElementDescriptor);
+                                       SpuriousOriginal: null as ElementVersion, SpuriousModified: null as ElementVersion,
+                                       AndSpuriousOriginal: null as ElementVersion, AndSpuriousModified: null as ElementVersion);
 
             var symptomsOfUI = from u in fullUpdates.Where(ua => !moves.Any(ma => ma.Element.Id == ua.Action.Element.Id))
                                from i in insertions
                                where this.AreRedundant(RedundancyPattern.UI, u.Action.Element.Id, i.Element.Id)
                                select (Pattern: RedundancyPattern.UI, MissedOriginal: u.Action.Element, MissedModified: i.Element,
                                        SpuriousOriginal: u.Action.Element, SpuriousModified: u.Match.Modified,
-                                       AndSpuriousOriginal: null as ElementDescriptor, AndSpuriousModified: null as ElementDescriptor);
+                                       AndSpuriousOriginal: null as ElementVersion, AndSpuriousModified: null as ElementVersion);
 
             var symptomsOfUM_I = from u in fullUpdates.Where(ua => moves.Any(ma => ma.Element.Id == ua.Action.Element.Id))
                                  from i in insertions
                                  where this.AreRedundant(RedundancyPattern.UMI, u.Action.Element.Id, i.Element.Id)
                                  select (Pattern: RedundancyPattern.UMI, MissedOriginal: u.Action.Element, MissedModified: i.Element,
                                          SpuriousOriginal: u.Action.Element, SpuriousModified: u.Match.Modified,
-                                         AndSpuriousOriginal: null as ElementDescriptor, AndSpuriousModified: null as ElementDescriptor);
+                                         AndSpuriousOriginal: null as ElementVersion, AndSpuriousModified: null as ElementVersion);
 
             var symptomsOfDU = from d in deletions
                                from u in fullUpdates.Where(ua => !moves.Any(ma => ma.Element.Id == ua.Action.Element.Id))
                                where this.AreRedundant(RedundancyPattern.DU, d.Element.Id, u.Match.Modified.Id)
                                select (Pattern: RedundancyPattern.DU, MissedOriginal: d.Element, MissedModified: u.Match.Modified,
-                                       SpuriousOriginal: null as ElementDescriptor, SpuriousModified: null as ElementDescriptor,
+                                       SpuriousOriginal: null as ElementVersion, SpuriousModified: null as ElementVersion,
                                        AndSpuriousOriginal: u.Action.Element, AndSpuriousModified: u.Match.Modified);
 
             var symptomsOfD_UM = from d in deletions
                                  from u in fullUpdates.Where(ua => moves.Any(ma => ma.Element.Id == ua.Action.Element.Id))
                                  where this.AreRedundant(RedundancyPattern.DUM, d.Element.Id, u.Match.Modified.Id)
                                  select (Pattern: RedundancyPattern.DUM, MissedOriginal: d.Element, MissedModified: u.Match.Modified,
-                                         SpuriousOriginal: null as ElementDescriptor, SpuriousModified: null as ElementDescriptor,
+                                         SpuriousOriginal: null as ElementVersion, SpuriousModified: null as ElementVersion,
                                          AndSpuriousOriginal: u.Action.Element, AndSpuriousModified: u.Match.Modified);
 
             var symptomsOfUU = from u1 in fullUpdates.Where(ua => !moves.Any(ma => ma.Element.Id == ua.Action.Element.Id))
@@ -111,7 +111,7 @@ namespace Jawilliam.CDF.Evaluation
                                from m in fullMoves.Where(ma => !updates.Any(um => um.Element.Id == ma.Action.Element.Id))
                                where this.AreRedundant(RedundancyPattern.DM, d.Element.Id, m.Match.Modified.Id)
                                select (Pattern: RedundancyPattern.DM, MissedOriginal: d.Element, MissedModified: m.Match.Modified,
-                                       SpuriousOriginal: null as ElementDescriptor, SpuriousModified: null as ElementDescriptor,
+                                       SpuriousOriginal: null as ElementVersion, SpuriousModified: null as ElementVersion,
                                        AndSpuriousOriginal: m.Action.Element, AndSpuriousModified: m.Match.Modified);
 
             var symptomsOfMI = from m in fullMoves.Where(ma => !updates.Any(um => um.Element.Id == ma.Action.Element.Id))
@@ -119,7 +119,7 @@ namespace Jawilliam.CDF.Evaluation
                                where this.AreRedundant(RedundancyPattern.MI, m.Action.Element.Id, i.Element.Id)
                                select (Pattern: RedundancyPattern.MI, MissedOriginal: m.Action.Element, MissedModified: i.Element,
                                        SpuriousOriginal: m.Action.Element, SpuriousModified: m.Match.Modified,
-                                       AndSpuriousOriginal: null as ElementDescriptor, AndSpuriousModified: null as ElementDescriptor);
+                                       AndSpuriousOriginal: null as ElementVersion, AndSpuriousModified: null as ElementVersion);
 
             var symptomsOfMM = from m1 in fullMoves.Where(ma => !updates.Any(um => um.Element.Id == ma.Action.Element.Id))
                                from m2 in fullMoves.Where(ma => ma != m1 && !updates.Any(um => um.Element.Id == ma.Action.Element.Id))

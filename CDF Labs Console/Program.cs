@@ -1,9 +1,11 @@
 ﻿using Jawilliam.CDF.CSharp.RoslynML;
 using Jawilliam.CDF.Labs;
 using Jawilliam.CDF.Labs.DBModel;
+using Microsoft.CodeAnalysis.CSharp;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Infrastructure;
+using System.Data.Entity;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -36,39 +38,17 @@ namespace CDF_Labs_Console
                             else
                                 HandleRoslynMLCommand(command[1], command.Length > 2 ? command.Skip(2).ToArray() : null);
                             break;
-                        //case "sd":
-                        //    using (var _process = new Process())
-                        //    {
-                        //        var procStartInfo = new ProcessStartInfo("powershell.exe")
-                        //        {
-                        //            RedirectStandardOutput = true,
-                        //            RedirectStandardInput = true,
-                        //            UseShellExecute = false,
-                        //            CreateNoWindow = true
-                        //        };
-
-                        //        var proc = new Process { StartInfo = procStartInfo };
-                        //        proc.Start();
-                        //        //proc.StandardInput.WriteLine(@"cd E:\MyRepositories\Change-Detection-Foundation\CDF Command Line\bin\Debug\netcoreapp2.0");
-                        //        proc.StandardInput.WriteLine(@"dotnet '.\CDF Command Line.dll'");
-                        //        proc.StandardInput.WriteLine($@"RoslynML E:\SourceCode\OriginalAbstractBoardGame.cs");
-                        //        proc.StandardInput.WriteLine(command);
-                        //        proc.StandardInput.Flush();
-                        //        proc.StandardInput.Close();
-                        //        // Get the output into a string
-                        //        //proc.WaitForExit();
-                        //        var result = proc.StandardOutput.ReadToEnd()/*.Replace(header, "")*/;
-                        //        //result = result.Replace($@"{sPrefix}{args.GumTreePath}\bin>", "")
-                        //        //               .Replace($@"{args.GumTreePath}\bin>", "");
-                        //        _process.Close();
-                        //    }
-                        //    break;
-
                         case "BetweenComparison":
                             if (command.Length < 3)
                                 Console.WriteLine("BetweenComparison command takes at least 2 arguments (information of interest and project name).");
                             else
                                 HandleBetweenComparisonCommand(options: command.Skip(1).ToArray());
+                            break;
+                        case "GetFileRevisionPair":
+                            if (command.Length != 4)
+                                Console.WriteLine("GetFileRevisionPair command takes 3 arguments (-saveToPrefix='pathPrefix', PrincipalID of the file revision pair, and the project name).");
+                            else
+                                GetFileRevisionPairCommand(options: command.Skip(1).ToArray());
                             break;
                         default:
                             Console.WriteLine("Unknown command.");
@@ -218,6 +198,50 @@ namespace CDF_Labs_Console
         {
             try { leftApproach = int.Parse(options[2], CultureInfo.InvariantCulture); } catch (Exception) { throw new ApplicationException("Bad left approach."); }
             try { rightApproach = int.Parse(options[3], CultureInfo.InvariantCulture); } catch (Exception) { throw new ApplicationException("Bad right approach."); }
+        }
+
+        /// <summary>
+        /// Handles the GetFileRevisionPair command.
+        /// </summary>
+        private static void GetFileRevisionPairCommand(params string[] options)
+        {
+            try
+            {
+                var option = options[0];
+                if (option.StartsWith("-saveToPrefix="))
+                {
+                    var path = option.Replace("-saveToPrefix=", "");
+
+                    Guid principalID;
+                    try
+                    {
+                        principalID = Guid.Parse(options[1]);
+                    }
+                    catch (Exception) { throw new ApplicationException("Error parsing the PrincipalID Guid."); }
+
+                    using (var dbRepository = new GitRepository(options[2]) { Name = options[2] })
+                    {
+                        ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 180;
+
+                        var revisionPair = dbRepository.FileRevisionPairs.Include(frp => frp.Principal.FileVersion.Content)
+                                                                         .Include(frp => frp.Principal.FromFileVersion.Content)
+                                                                         .Single(frp => frp.Principal.Id == principalID);
+
+                        var original = SyntaxFactory.ParseCompilationUnit(revisionPair.Principal.FromFileVersion.Content.SourceCode).SyntaxTree.GetRoot();
+                        var modified = SyntaxFactory.ParseCompilationUnit(revisionPair.Principal.FileVersion.Content.SourceCode).SyntaxTree.GetRoot();
+
+                        //var preprocessedOriginal = cleaner != null ? cleaner.Clean(original) : original;
+                        //var preprocessedModified = cleaner != null ? cleaner.Clean(modified) : modified;
+                        System.IO.File.WriteAllText($"{path}Original.cs", original.ToFullString(), Encoding.Default);
+                        System.IO.File.WriteAllText($"{path}Modified.cs", modified.ToFullString(), Encoding.Default);
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
         }
 
         /// <summary>

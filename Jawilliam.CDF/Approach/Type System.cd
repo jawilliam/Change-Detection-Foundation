@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="Jawilliam.CDF.Approach.RevisionPair&lt;TOriginal, TModified&gt;">
+    <Position X="14.25" Y="0.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Approach\RevisionPair.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Jawilliam.CDF.Approach.RevisionPair&lt;T&gt;">
+    <Position X="14.25" Y="2.25" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Approach\RevisionPair.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Jawilliam.CDF.Approach.DetectionResult">
+    <Position X="16" Y="4" Width="3.75" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAIAAACQAAAAAAAAAgAAAABAAACAAAAAAAAAA=</HashCode>
+      <FileName>Approach\DetectionResult.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Jawilliam.CDF.Approach.MatchDescriptor">
+    <Position X="12.75" Y="4" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAEAAAAAAACAABAAABAAAAAgAAAAAA=</HashCode>
+      <FileName>Approach\RevisionDescriptor.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Jawilliam.CDF.Approach.Procedure&lt;TArgs, TResult&gt;">
+    <Position X="2" Y="7" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAIAAAAgAAAAgAAEAAQ=</HashCode>
+      <FileName>Approach\Procedure.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Jawilliam.CDF.Approach.FrameworkProcedure&lt;TArgs, TResult&gt;">
+    <Position X="2" Y="10" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Approach\Procedure.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Jawilliam.CDF.Approach.MatchingCriterion&lt;T&gt;">
+    <Position X="4.5" Y="12" Width="4.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Approach\MatchingCriterion.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="Jawilliam.CDF.Approach.IProcedure&lt;TArgs, TResult&gt;">
+    <Position X="2" Y="0.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAABAAAAAAAAQAAAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>Approach\IProcedure.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Jawilliam.CDF.Approach.IFrameworkProcedure&lt;TArgs, TResult&gt;">
+    <Position X="4" Y="3" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Approach\IProcedure.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Jawilliam.CDF.Approach.IApproach&lt;TArgs&gt;">
+    <Position X="0.5" Y="3" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Approach\IApproach.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Jawilliam.CDF.Approach.IFrameworkApproach">
+    <Position X="0.5" Y="4.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Approach\IApproach.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Jawilliam.CDF.Approach.IMatchingCriterion&lt;T&gt;">
+    <Position X="7.75" Y="0.5" Width="4.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Approach\IMatchingCriterion.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Delegate Name="Jawilliam.CDF.Approach.TransformDelegate&lt;T&gt;">
+    <Position X="5.25" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Approach\IMatchingTransformation.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

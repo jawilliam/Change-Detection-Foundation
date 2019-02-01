@@ -22,5 +22,5 @@
     /// <param name="resultingOriginal">the original variant to be finally compared.</param>
     /// <param name="resultingModified">the original variant to be finally compared.</param>
     /// <typeparam name="T">Type of the elements to be transformed.</typeparam>
-    public delegate void TransformDelegate<T>(DetectionStep<T> pair, out T resultingOriginal, out T resultingModified);
+    public delegate void TransformDelegate<T>(RevisionPair<T> pair, out T resultingOriginal, out T resultingModified);
 }

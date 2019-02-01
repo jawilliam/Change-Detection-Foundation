@@ -64,7 +64,7 @@
     <Compile Include="Domain\ILanguageFormatInfo.cs" />
     <Compile Include="Domain\IMatchable.cs" />
     <Compile Include="Domain\IReportable.cs" />
-    <Compile Include="ElementDescriptor.cs" />
+    <Compile Include="ElementVersion.cs" />
     <Compile Include="Approach\IApproach.cs" />
     <Compile Include="Approach\IDelta.cs" />
     <Compile Include="Approach\IMatchingCriterion.cs" />
@@ -166,6 +166,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Approach\Approach Type System.cd" />
+    <None Include="Approach\Type System.cd" />
     <None Include="packages.config" />
     <None Include="UniDM\Type System.cd" />
   </ItemGroup>

@@ -16,12 +16,12 @@ namespace Jawilliam.CDF.Evaluation
         /// <summary>
         /// Stores the value of the <see cref="MatchingSet"/> property.
         /// </summary>
-        private IEnumerable<RevisionDescriptor> _matchingSet;
+        private IEnumerable<MatchDescriptor> _matchingSet;
 
         /// <summary>
         /// Gets or sets the matching set discovered by a comparing (e.g., candidate) solution.
         /// </summary>
-        public virtual IEnumerable<RevisionDescriptor> MatchingSet
+        public virtual IEnumerable<MatchDescriptor> MatchingSet
         {
             get { return this._matchingSet == null ? throw new ArgumentNullException("Must specify the discovered matching set") : this._matchingSet; }
             set { this._matchingSet = value == null ? throw new ArgumentNullException("value") : value; }

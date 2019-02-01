@@ -134,7 +134,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
         {
             var eSource = new ElementTree()
             {
-                Root = new ElementDescriptor
+                Root = new ElementVersion
                 {
                     Id = source.Attribute("RmID").Value,
                     Label = source.Attribute("typeLabel").Value,

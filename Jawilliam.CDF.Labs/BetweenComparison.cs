@@ -102,10 +102,10 @@ namespace Jawilliam.CDF.Labs
         /// <param name="rightModifiedTree">the modified tree analized in the right behavior.</param>
         /// <param name="way">flags to know if the analisys was done forward ("LR") or redward ("RL").</param>
         /// <returns>an structure describing the missed match and how the conceptual versions were detected in the contrasting result.</returns>
-        protected virtual BetweenSymptom CreateBetweenMatchInfo(string way, RevisionDescriptor missedMatch, DetectionResult leftDetection, DetectionResult rightDetection, ElementTree leftOriginalTree, ElementTree leftModifiedTree, ElementTree rightOriginalTree, ElementTree rightModifiedTree)
+        protected virtual BetweenSymptom CreateBetweenMatchInfo(string way, MatchDescriptor missedMatch, DetectionResult leftDetection, DetectionResult rightDetection, ElementTree leftOriginalTree, ElementTree leftModifiedTree, ElementTree rightOriginalTree, ElementTree rightModifiedTree)
         {
             ElementTree missedOriginal, missedModified, divergentOriginal, divergentModified;
-            RevisionDescriptor divergentMatch;
+            MatchDescriptor divergentMatch;
             switch (way)
             {
                 case "LR":
@@ -792,17 +792,17 @@ namespace Jawilliam.CDF.Labs
             /// <summary>
             /// Gets or sets how to compare two matching sets.
             /// </summary>
-            public Func<RevisionDescriptor, DetectionResult, RevisionDescriptor, DetectionResult, bool> MatchCompare { get; set; }
+            public Func<MatchDescriptor, DetectionResult, MatchDescriptor, DetectionResult, bool> MatchCompare { get; set; }
 
             /// <summary>
             /// Gets or sets how to: given a match supposely not detected, know how its original was otherwise matched.
             /// </summary>
-            public Func<RevisionDescriptor, DetectionResult, DetectionResult, RevisionDescriptor> DivergentMatchForOriginal { get; set; }
+            public Func<MatchDescriptor, DetectionResult, DetectionResult, MatchDescriptor> DivergentMatchForOriginal { get; set; }
 
             /// <summary>
             /// Gets or sets how to: given a match supposely not detected, know how its modified was otherwise matched.
             /// </summary>
-            public Func<RevisionDescriptor, DetectionResult, DetectionResult, RevisionDescriptor> DivergentMatchForModified { get; set; }
+            public Func<MatchDescriptor, DetectionResult, DetectionResult, MatchDescriptor> DivergentMatchForModified { get; set; }
 
             /// <summary>
             /// Gets or sets how to compare two detection results.
