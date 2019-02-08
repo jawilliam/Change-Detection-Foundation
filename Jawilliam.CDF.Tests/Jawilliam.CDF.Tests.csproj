@@ -153,6 +153,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Approach\MatchingInfoTests.cs" />
     <Compile Include="Approach.GumTree\FileRevisionPairAnalyzerTests.cs" />
     <Compile Include="Approach.GumTree\GumTreeNativeApproachTests.cs" />
     <Compile Include="CSharp\MatchingProvider.cs" />

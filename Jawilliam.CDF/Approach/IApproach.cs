@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 
 namespace Jawilliam.CDF.Approach
 {
@@ -11,10 +12,24 @@ namespace Jawilliam.CDF.Approach
     }
 
     /// <summary>
-    /// Defines an approach or algorithm of change detection that is implemented based on the Change Detection Foundation framework.
+    /// Defines an approach or algorithm of change detection.
     /// </summary>
-    public interface IFrameworkApproach : IApproach<RevisionPair<TextReader>>
+    /// <typeparam name="T">Type of the supported elements.</typeparam>
+    public interface IFrameworkApproach<T> : IApproach<RevisionPair<TextReader>>
     {
-        //IProcedure<IFrameworkApproach, >
+        /// <summary>
+        /// Gets the heuristics to execute in the current step.
+        /// </summary>
+        long Step { get; }
+
+        /// <summary>
+        /// Gets the list of choices that will be executed as part of a change detection.
+        /// </summary>
+        IList<IChoice<T>> Choices { get; }
+
+        /// <summary>
+        /// Gets the structure to store the matches.
+        /// </summary>
+        MatchingInfo<T> MatchingInfo { get; }
     }
 }

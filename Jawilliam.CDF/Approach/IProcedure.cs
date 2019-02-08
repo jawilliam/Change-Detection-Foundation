@@ -23,17 +23,4 @@
         /// </summary>
         TResult Result { get; }
     }
-
-    /// <summary>
-    /// Defines a framework procedure for change detection.
-    /// </summary>
-    /// <typeparam name="TArgs">Concrete type of the arguments.</typeparam>
-    /// <typeparam name="TResult">Concrete type of the result.</typeparam>
-    public interface IFrameworkProcedure<TArgs, out TResult> : IProcedure<TArgs, TResult>
-    {
-        /// <summary>
-        /// Gets or sets the solution wherein the current procedure is being called.
-        /// </summary>
-        IFrameworkApproach Context { get; set; }
-    }
 }

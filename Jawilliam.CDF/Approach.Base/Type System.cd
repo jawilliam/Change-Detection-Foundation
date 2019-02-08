@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="Jawilliam.CDF.Approach.Procedure&lt;TArgs, TResult&gt;">
+    <Position X="2" Y="0.5" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAIAAAAgAAAAgAAEAAQ=</HashCode>
+      <FileName>Approach.Base\Procedure.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Jawilliam.CDF.Approach.FrameworkApproach&lt;T&gt;">
+    <Position X="0.5" Y="3.5" Width="3.25" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAJABQAAAAAQBAABAACAAAAAAAAAAAAAAAAAIAAIAQ=</HashCode>
+      <FileName>Approach.Base\FrameworkApproach.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Jawilliam.CDF.Approach.Choice&lt;T&gt;">
+    <Position X="4" Y="3.5" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAIAAAAAAAAAAAAAAAAgAAAABAAAAAAAAAAAA=</HashCode>
+      <FileName>Approach.Base\Choice.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Enum Name="Jawilliam.CDF.Approach.StepInfo">
+    <Position X="8.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAAAIAQAAAAAAQACAAAAAAEAAAAAAEAQAE=</HashCode>
+      <FileName>Approach.Flad\StepInfo.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

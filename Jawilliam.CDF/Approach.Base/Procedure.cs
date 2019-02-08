@@ -42,17 +42,4 @@
         /// </summary>
         TResult IProcedure<TArgs, TResult>.Result => this.Result;
     }
-
-    /// <summary>
-    /// Base class for the implementations of a framework procedure for change detection.
-    /// </summary>
-    /// <typeparam name="TArgs">Concrete type of the arguments.</typeparam>
-    /// <typeparam name="TResult">Concrete type of the result.</typeparam>
-    public abstract class FrameworkProcedure<TArgs, TResult> : Procedure<TArgs, TResult>, IFrameworkProcedure<TArgs, TResult>
-    {
-        /// <summary>
-        /// Gets or sets the solution wherein the current procedure is being called.
-        /// </summary>
-        public virtual IFrameworkApproach Context { get; set; }
-    }
 }

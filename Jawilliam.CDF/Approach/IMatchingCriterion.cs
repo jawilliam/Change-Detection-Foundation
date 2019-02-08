@@ -4,12 +4,13 @@
     /// Defines a logic for determining if two elements match or not.
     /// </summary>
     /// <typeparam name="T">Type of the comparing elements.</typeparam>
-    public interface IMatchingCriterion<T> //: IFrameworkProcedure<RevisionPair<T>, System.Tuple<bool, MatchDescriptor>>
+    /// <typeparam name="K">The type of the really processed representation when comparing two elements.</typeparam>
+    public interface IMatchingCriterion<T, K> //: IFrameworkProcedure<RevisionPair<T>, System.Tuple<bool, MatchDescriptor>>
     {
         /// <summary>
         /// Gets or sets a transformation to apply before the matching occurs.
         /// </summary>
-        TransformDelegate<T> Transform { get; set; }
+        ConvertDelegate<T, K> Transform { get; set; }
 
         /// <summary>
         /// Determines if the given elements are or not similar.

@@ -55,8 +55,13 @@
     <Compile Include="Actions\ActionDescriptor.cs" />
     <Compile Include="Actions\ActionKind.cs" />
     <Compile Include="Approach.GumTree\InteropArgs.cs" />
+    <Compile Include="Approach.Base\Choice.cs" />
     <Compile Include="Approach\DetectionResult.cs" />
-    <Compile Include="Approach\DetectionStep.cs" />
+    <Compile Include="Approach.Base\FrameworkApproach.cs" />
+    <Compile Include="Approach\GetRevisionPairDelegate.cs" />
+    <Compile Include="Approach\IChoice.cs" />
+    <Compile Include="Approach.Flad\StepInfo.cs" />
+    <Compile Include="Approach\MatchingInfo.cs" />
     <Compile Include="DomainExtensions.cs" />
     <Compile Include="Domain\IDifferentiable.cs" />
     <Compile Include="Domain\IElementType.cs" />
@@ -66,11 +71,10 @@
     <Compile Include="Domain\IReportable.cs" />
     <Compile Include="ElementVersion.cs" />
     <Compile Include="Approach\IApproach.cs" />
-    <Compile Include="Approach\IDelta.cs" />
     <Compile Include="Approach\IMatchingCriterion.cs" />
     <Compile Include="Approach\IProcedure.cs" />
-    <Compile Include="Approach\IMatchingTransformation.cs" />
-    <Compile Include="Approach\MatchingCriterion.cs" />
+    <Compile Include="Approach\ConvertDelegate.cs" />
+    <Compile Include="Approach.Base\MatchingCriterion.cs" />
     <Compile Include="ElementTree.cs" />
     <Compile Include="Evaluation\MatchingSetRedundancyFinder.cs" />
     <Compile Include="Evaluation\RedundancyPattern.cs" />
@@ -88,8 +92,7 @@
     <Compile Include="Metrics\RelativeThreshold.cs" />
     <Compile Include="MissingValueException.cs" />
     <Compile Include="Approach\RevisionDescriptor.cs" />
-    <Compile Include="Approach\MatchingPair.cs" />
-    <Compile Include="Approach\Procedure.cs" />
+    <Compile Include="Approach.Base\Procedure.cs" />
     <Compile Include="Approach\RevisionPair.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Metrics.Similarity\AbstractAffineGapCost.cs" />
@@ -165,7 +168,7 @@
     <Compile Include="XmlHelper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Approach\Approach Type System.cd" />
+    <None Include="Approach.Base\Type System.cd" />
     <None Include="Approach\Type System.cd" />
     <None Include="packages.config" />
     <None Include="UniDM\Type System.cd" />

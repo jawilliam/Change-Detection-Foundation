@@ -756,7 +756,7 @@ namespace Jawilliam.CDF.Labs
                     var match = detectionResult.Matches.Single(m => m.Original.Id == t.Element.Id);
                     var modified = modifiedTree.PostOrder(n => n.Children).First(n => n.Root.Id == match.Modified.Id);
                     var original = originalTree.PostOrder(n => n.Children).First(n => n.Root.Id == t.Element.Id);
-                    return new RevisionPair<ElementTree, ElementTree>
+                    return new RevisionPair<ElementTree>
                     {
                         Original = original,
                         Modified = modified

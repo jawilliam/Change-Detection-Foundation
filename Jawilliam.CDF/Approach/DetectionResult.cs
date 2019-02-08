@@ -11,7 +11,7 @@ namespace Jawilliam.CDF.Approach
     /// </summary>
     [Serializable]
     [XmlRoot("Result")]
-    public class DetectionResult : RevisionPair<ElementVersion>
+    public class DetectionResult : RevisionPair<ElementTree>
     {
         /// <summary>
         /// The backing field for the <see cref="Matches"/> property. 

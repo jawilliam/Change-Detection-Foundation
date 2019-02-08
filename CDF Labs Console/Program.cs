@@ -75,6 +75,9 @@ namespace CDF_Labs_Console
                 if (opts.Any(o => o == "-gumtreefy"))
                     xElement = loader.Gumtreefy(xElement);
 
+                loader.SetRoslynMLIDs(xElement);
+                loader.SetGumTreefiedIDs(xElement);
+
                 var saveToFile = opts.SingleOrDefault(o => o.StartsWith("-saveToFile="));
                 if (saveToFile != null)
                 {
