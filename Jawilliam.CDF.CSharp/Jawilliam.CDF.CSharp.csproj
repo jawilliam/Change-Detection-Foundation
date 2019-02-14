@@ -136,26 +136,41 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Flad\AttributeArgumentServiceProvider.Partial.cs" />
+    <Compile Include="Flad\CSharpFlad.cs" />
+    <Compile Include="Flad\CSharpNameEqualityChoice.cs" />
+    <Compile Include="Flad\CSharpSignatureEqualityChoice.cs" />
+    <Compile Include="Flad\CSharpFladStepInfo.cs" />
     <Compile Include="Approach.Matching.CSharp\MatchingProvider.cs" />
     <Compile Include="Approach.Matching.CSharp\MethodDeclarationMatchingOptions.cs" />
     <Compile Include="CSharpSyntaxNode.cs" />
     <Compile Include="ElementAbstraction.cs" />
+    <Compile Include="Flad\ElementTypeServiceProvider.cs" />
+    <Compile Include="Flad\ElementTypeServiceProviders.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ElementTypeServiceProviders.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Flad\LanguageServiceProvider.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LanguageServiceProvider.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Flad\LanguageServiceProvider.Partial.cs" />
+    <Compile Include="Flad\NameColonServiceProvider.Partial.cs" />
+    <Compile Include="Flad\NameEqualityServices.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NameEqualityServices.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Flad\NameEqualsServiceProvider.Partial.cs" />
+    <Compile Include="Flad\NameServiceProvider.Partial.cs" />
     <Compile Include="MutableNodes.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>MutableNodes.tt</DependentUpon>
     </Compile>
-    <Compile Include="IElementTypeFormatInfo.GetStructuralStopwords.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>IElementTypeFormatInfo.GetStructuralStopwords.tt</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="LanguageFormatInfo.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>LanguageFormatInfo.tt</DependentUpon>
-    </Compile>
     <Compile Include="RoslynML\RoslynML.cs">
       <DependentUpon>RoslynML.tt</DependentUpon>
       <DesignTime>True</DesignTime>
@@ -180,17 +195,21 @@
     <None Include="RDSL.xml">
       <SubType>Designer</SubType>
     </None>
+    <Content Include="Flad\NameEqualityServices.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>NameEqualityServices.cs</LastGenOutput>
+    </Content>
     <Content Include="MutableNodes.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>MutableNodes.cs</LastGenOutput>
     </Content>
-    <Content Include="IElementTypeFormatInfo.GetStructuralStopwords.tt">
+    <Content Include="Flad\ElementTypeServiceProviders.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>IElementTypeFormatInfo.GetStructuralStopwords.cs</LastGenOutput>
+      <LastGenOutput>ElementTypeServiceProviders.cs</LastGenOutput>
     </Content>
-    <Content Include="LanguageFormatInfo.tt">
+    <Content Include="Flad\LanguageServiceProvider.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>LanguageFormatInfo.cs</LastGenOutput>
+      <LastGenOutput>LanguageServiceProvider.cs</LastGenOutput>
     </Content>
     <Content Include="RoslynML\RoslynML.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

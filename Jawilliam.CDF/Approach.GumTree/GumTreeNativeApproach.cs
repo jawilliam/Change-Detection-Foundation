@@ -12,13 +12,14 @@ using System.Text.RegularExpressions;
 using System.Xml;
 using System.Xml.Linq;
 using Jawilliam.CDF.Actions;
+using Jawilliam.CDF.Approach.Base;
 
 namespace Jawilliam.CDF.Approach.GumTree
 {
     /// <summary>
     /// Implements a console call to a native GumTree snapshot.
     /// </summary>
-    public class GumTreeNativeApproach : Procedure<InteropArgs, DetectionResult>, IApproach<InteropArgs>
+    public class GumTreeNativeApproach : Procedure<InteropArgs, DetectionResult>
     {
         private Process _process;
 

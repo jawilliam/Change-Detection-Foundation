@@ -7,11 +7,12 @@ using Jawilliam.CDF.Actions;
 namespace Jawilliam.CDF.Approach
 {
     /// <summary>
-    /// Defines the standard output for a change detection approach over a pair of element versions, i.e., the original and the modified.
+    /// Defines the standard output for a change detection approach over two versions of a file or fragment.
     /// </summary>
+    /// <typeparam name="TRevision">Type of the comparing versions.</typeparam>
     [Serializable]
     [XmlRoot("Result")]
-    public class DetectionResult : RevisionPair<ElementTree>
+    public class DetectionResult<TRevision> : RevisionPair<TRevision>
     {
         /// <summary>
         /// The backing field for the <see cref="Matches"/> property. 
@@ -72,7 +73,26 @@ namespace Jawilliam.CDF.Approach
         /// <param name="text">the raw XML.</param>
         /// <param name="encoding">the encoding of the read raw XML.</param>
         /// <returns>The instance reconstructed from the given text.</returns>
-        public static DetectionResult Read(string text, Encoding encoding)
+        public static DetectionResult<TRevision> Read(string text, Encoding encoding)
+        {
+            return XmlHelper.DeserializeObject<DetectionResult<TRevision>>(text ?? "<Result/>", encoding);
+        }
+    }
+
+    /// <summary>
+    /// Defines the standard output for a change detection approach over a pair of element versions, i.e., the original and the modified.
+    /// </summary>
+    [Serializable]
+    [XmlRoot("Result")]
+    public class DetectionResult : DetectionResult<object>
+    {
+        /// <summary>
+        /// Reconstructs an object from the associated XML string.
+        /// </summary>
+        /// <param name="text">the raw XML.</param>
+        /// <param name="encoding">the encoding of the read raw XML.</param>
+        /// <returns>The instance reconstructed from the given text.</returns>
+        public new static DetectionResult Read(string text, Encoding encoding)
         {
             return XmlHelper.DeserializeObject<DetectionResult>(text ?? "<Result/>", encoding);
         }

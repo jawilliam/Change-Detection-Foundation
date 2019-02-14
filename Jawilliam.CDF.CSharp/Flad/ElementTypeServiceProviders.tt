@@ -1,6 +1,6 @@
 <#@ template language="C#" debug="True" hostSpecific="true"#>
 <#@ output extension=".cs" #>
-<#@ include file="TemplateFileManagerV2.1.ttinclude" #>
+<#@ include file="..\TemplateFileManagerV2.1.ttinclude" #>
 <#@ assembly name="$(SolutionDir)\packages\Microsoft.CodeAnalysis.Common.2.7.0\lib\netstandard1.3\Microsoft.CodeAnalysis.dll" #>
 <#@ assembly name="$(SolutionDir)\packages\Microsoft.CodeAnalysis.CSharp.2.7.0\lib\netstandard1.3\Microsoft.CodeAnalysis.CSharp.dll" #>
 <#@ assembly name="$(SolutionDir)\packages\CodePlex.LinqToXsd.2.0.2\lib\Xml.Schema.Linq.dll" #>
@@ -74,6 +74,7 @@ var manager = TemplateFileManager.Create(this);
 // var xSyntaxTypeSystem = Jawilliam.CDF.XObjects.RDSL.Syntax.NodeTypes.Load(@"E:\Projects\Software Development Investigation\Jawilliam.Msr.Roslyn\CSharp\NodeTypeSystem.xml");
 var xSyntaxTypeSystem = Jawilliam.CDF.XObjects.RDSL.Syntax.Load(@"E:\MyRepositories\Change-Detection-Foundation\Jawilliam.CDF.CSharp\RDSL.xml");
 #>
+using Jawilliam.CDF.Domain;
 using Microsoft.CodeAnalysis.CSharp;
 using System;
 using System.Collections.Generic;
@@ -127,10 +128,19 @@ foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
 
 	if(xSyntaxNodeType != null)
 	{
-		var baseDeclarationText = xSyntaxNodeBaseType == null ? "Jawilliam.CDF.Domain.ElementTypeFormatInfo" : code.Escape(xSyntaxNodeBaseType.name.ToString()).Replace("Syntax", "") + "FormatInfo";
+		var baseDeclarationText = xSyntaxNodeBaseType == null ? "ElementTypeServiceProvider" : code.Escape(xSyntaxNodeBaseType.name.ToString()).Replace("Syntax", "") + "ServiceProvider";
 #>
-public <#= isAbstract ? "abstract " : "" #>partial class <#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>FormatInfo : <#= baseDeclarationText #>
+/// <summary>
+/// Provides language-aware services regarding <see cref="<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>"/>.
+/// </summary>
+public <#= isAbstract ? "abstract " : "" #>partial class <#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>ServiceProvider : <#= baseDeclarationText #>
 {
+    /// <summary>
+    /// Initializes the instance.
+    /// </summary>
+    /// <param name="languageServiceProvider">the container <see cref="LanguageServiceProvider"/>.</param>
+    public <#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>ServiceProvider(LanguageServiceProvider languageServiceProvider) : base(languageServiceProvider) {}
+
 	/// <inheritdoc />
     public override IEnumerable<string> SubExpressions 
 	{

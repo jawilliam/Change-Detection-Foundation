@@ -1,6 +1,6 @@
 <#@ template language="C#" debug="True" hostSpecific="true"#>
 <#@ output extension=".cs" #>
-<#@ include file="TemplateFileManagerV2.1.ttinclude" #>
+<#@ include file="..\TemplateFileManagerV2.1.ttinclude" #>
 <#@ assembly name="$(SolutionDir)\packages\Microsoft.CodeAnalysis.Common.2.7.0\lib\netstandard1.3\Microsoft.CodeAnalysis.dll" #>
 <#@ assembly name="$(SolutionDir)\packages\Microsoft.CodeAnalysis.CSharp.2.7.0\lib\netstandard1.3\Microsoft.CodeAnalysis.CSharp.dll" #>
 <#@ assembly name="$(SolutionDir)\packages\CodePlex.LinqToXsd.2.0.2\lib\Xml.Schema.Linq.dll" #>
@@ -72,7 +72,7 @@ string namespaceName = code.VsNamespaceSuggestion();
 var manager = TemplateFileManager.Create(this);
 
 // var xSyntaxTypeSystem = Jawilliam.CDF.XObjects.RDSL.Syntax.NodeTypes.Load(@"E:\Projects\Software Development Investigation\Jawilliam.Msr.Roslyn\CSharp\NodeTypeSystem.xml");
-var xSyntaxTypeSystem = Jawilliam.CDF.XObjects.RDSL.Syntax.Load(@"E:\Projects\Change-Detection-Foundation\Jawilliam.CDF.CSharp\RDSL.xml");
+var xSyntaxTypeSystem = Jawilliam.CDF.XObjects.RDSL.Syntax.Load(@"E:\MyRepositories\Change-Detection-Foundation\Jawilliam.CDF.CSharp\RDSL.xml");
 
 #>using Microsoft.CodeAnalysis.CSharp;
 using System;
@@ -86,15 +86,29 @@ BeginNamespace(namespaceName, code);
 /// <summary>
 /// Provides C#-specific information for source code change detection. 
 /// </summary>
-public partial class LanguageFormatInfo : Jawilliam.CDF.Domain.ILanguageFormatInfo
+public partial class LanguageServiceProvider : Jawilliam.CDF.Approach.Flad.ILanguageServiceProvider
 {
+    /// <summary>
+    /// Initializes the instance.
+    /// </summary>
+    /// <param name="approach">the solution wherein the current procedure is being called.</param>
+    public LanguageServiceProvider(CSharpFlad approach)
+    {
+        this.Approach = approach == null ? throw new ArgumentNullException(nameof(approach)) : approach;
+    }
+
+    /// <summary>
+    /// Gets or sets the solution wherein the current procedure is being called.
+    /// </summary>
+    public virtual CSharpFlad Approach { get; private set; }
+
 	/// <summary>
-    /// Gets the <see cref="IElementTypeFormatInfo"/> to provide information for the requested element type.
+    /// Gets the <see cref="IElementTypeServiceProvider"/> to provide information for the requested element type.
     /// </summary>
     /// <param name="type">requested element type.</param>
     /// <param name="kind">optionally the element type can be refined to an specific subtype.</param>
-    /// <returns><see cref="IElementTypeFormatInfo"/> implementation intended to provide information for the requested element type.</returns>
-    public virtual Jawilliam.CDF.Domain.IElementTypeFormatInfo GetElementTypeFormatInfo(string type, string subtype = null)
+    /// <returns><see cref="IElementTypeServiceProvider"/> implementation intended to provide information for the requested element type.</returns>
+    public virtual Jawilliam.CDF.Approach.Flad.IElementTypeServiceProvider GetElementTypeServiceProvider(string type, string subtype = null)
 	{
 		switch(type)
 		{
@@ -127,8 +141,194 @@ foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
 	if(xSyntaxNodeType != null && !isAbstract)
 	{
 #>
-			case "<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>": return this.<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>FormatInfo;
+			case "<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>": return this.<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>ServiceProvider;
 <#
+	}
+ }
+}
+#>
+			default: return null;//throw new ArgumentException(nameof(type));
+		}
+	}
+
+	/// <summary>
+    /// Gets the <see cref="IElementTypeServiceProvider"/> to provide information for the requested element type.
+    /// </summary>
+    /// <param name="type">requested element type.</param>
+    /// <param name="kind">optionally the element type can be refined to an specific subtype.</param>
+    /// <returns><see cref="IElementTypeServiceProvider"/> implementation intended to provide information for the requested element type.</returns>
+    public virtual Jawilliam.CDF.Approach.Flad.IElementTypeServiceProvider GetElementTypeServiceProvider(SyntaxKind type, string subtype = null)
+	{
+		switch(type)
+		{
+<#
+
+foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
+.Where(n => !object.Equals(n.Root.Label, "SyntaxNode") && 
+            !object.Equals(n.Root.Label, "CSharpSyntaxNode")))
+{
+	//manager.StartNewFile(syntaxNode.Root.Label + ".cs");
+
+	var xSyntaxNodeType = xSyntaxTypeSystem.Nodes.Type.SingleOrDefault(n => n.name == syntaxNode.Root.Label.ToString());
+	if(xSyntaxNodeType == null) continue;
+	var xSyntaxNodeBaseType = xSyntaxNodeType != null && xSyntaxNodeType.@base != null ?
+	 xSyntaxTypeSystem.Nodes.Type.SingleOrDefault(n => n.name == xSyntaxNodeType.@base) 
+	 : null;
+
+	var isAbstract = xSyntaxNodeType.@abstract;
+	if(xSyntaxNodeType != null)
+    {
+		var xSyntaxNodeBaseTypeProperties = xSyntaxNodeBaseType != null && xSyntaxNodeBaseType.Properties != null 
+											&& xSyntaxNodeBaseType.Properties.Property != null 
+				? xSyntaxNodeBaseType.Properties.Property
+				: new Syntax.NodesLocalType.TypeLocalType.PropertiesLocalType.PropertyLocalType[0];
+
+		var xSyntaxNodeProperties = xSyntaxNodeType.Properties != null && xSyntaxNodeType.Properties.Property != null 
+			? xSyntaxNodeType.Properties.Property
+			: new Syntax.NodesLocalType.TypeLocalType.PropertiesLocalType.PropertyLocalType[0];
+
+	if(xSyntaxNodeType != null && !isAbstract)
+	{
+		if(xSyntaxNodeType.name == "ConstructorInitializerSyntax")
+		{
+#>
+			case SyntaxKind.BaseConstructorInitializer:
+			case SyntaxKind.ThisConstructorInitializer: return this.<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>ServiceProvider;
+<#
+		} 
+		else if(xSyntaxNodeType.name == "AccessorDeclarationSyntax")
+		{
+#>
+			case SyntaxKind.AddAccessorDeclaration:
+			case SyntaxKind.RemoveAccessorDeclaration:
+			case SyntaxKind.GetAccessorDeclaration:
+			case SyntaxKind.SetAccessorDeclaration: return this.<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>ServiceProvider;
+<#
+		}
+		else if(xSyntaxNodeType.name == "OrderingSyntax")
+		{
+#>
+			case SyntaxKind.AscendingOrdering:
+			case SyntaxKind.DescendingOrdering: return this.<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>ServiceProvider;
+<#
+		}
+		else if(xSyntaxNodeType.name == "ClassOrStructConstraintSyntax")
+		{
+#>
+			case SyntaxKind.ClassConstraint:
+			case SyntaxKind.StructConstraint: return this.<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>ServiceProvider;
+<#
+		}
+		else if(xSyntaxNodeType.name == "DocumentationCommentTriviaSyntax")
+		{
+#>
+			case SyntaxKind.SingleLineDocumentationCommentTrivia:
+			case SyntaxKind.MultiLineDocumentationCommentTrivia:  return this.<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>ServiceProvider;
+<#
+		}
+		else if(xSyntaxNodeType.name == "PrefixUnaryExpressionSyntax")
+		{
+#>
+			case SyntaxKind.UnaryPlusExpression:
+            case SyntaxKind.UnaryMinusExpression:
+            case SyntaxKind.BitwiseNotExpression:
+            case SyntaxKind.LogicalNotExpression:
+            case SyntaxKind.PreIncrementExpression:
+            case SyntaxKind.PreDecrementExpression:
+            case SyntaxKind.AddressOfExpression:
+            case SyntaxKind.PointerIndirectionExpression: return this.<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>ServiceProvider;
+<#
+		}
+		else if(xSyntaxNodeType.name == "PostfixUnaryExpressionSyntax")
+		{
+#>
+			case SyntaxKind.PostIncrementExpression:
+            case SyntaxKind.PostDecrementExpression: return this.<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>ServiceProvider;
+<#
+		}
+		else if(xSyntaxNodeType.name == "MemberAccessExpressionSyntax")
+		{
+#>
+			case SyntaxKind.SimpleMemberAccessExpression:
+            case SyntaxKind.PointerMemberAccessExpression: return this.<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>ServiceProvider;
+<#
+		}
+		else if(xSyntaxNodeType.name == "BinaryExpressionSyntax")
+		{
+#>
+			case SyntaxKind.AddExpression:
+            case SyntaxKind.SubtractExpression:
+            case SyntaxKind.MultiplyExpression:
+            case SyntaxKind.DivideExpression:
+            case SyntaxKind.ModuloExpression:
+            case SyntaxKind.LeftShiftExpression:
+            case SyntaxKind.RightShiftExpression:
+            case SyntaxKind.LogicalOrExpression:
+            case SyntaxKind.LogicalAndExpression:
+            case SyntaxKind.BitwiseOrExpression:
+            case SyntaxKind.BitwiseAndExpression:
+            case SyntaxKind.ExclusiveOrExpression:
+            case SyntaxKind.EqualsExpression:
+            case SyntaxKind.NotEqualsExpression:
+            case SyntaxKind.LessThanExpression:
+            case SyntaxKind.LessThanOrEqualExpression:
+            case SyntaxKind.GreaterThanExpression:
+            case SyntaxKind.GreaterThanOrEqualExpression:
+            case SyntaxKind.IsExpression:
+            case SyntaxKind.AsExpression:
+            case SyntaxKind.CoalesceExpression: return this.<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>ServiceProvider;
+<#
+		}
+		else if(xSyntaxNodeType.name == "AssignmentExpressionSyntax")
+		{
+#>
+			case SyntaxKind.SimpleAssignmentExpression:
+            case SyntaxKind.AddAssignmentExpression:
+            case SyntaxKind.SubtractAssignmentExpression:
+            case SyntaxKind.MultiplyAssignmentExpression:
+            case SyntaxKind.DivideAssignmentExpression:
+            case SyntaxKind.ModuloAssignmentExpression:
+            case SyntaxKind.AndAssignmentExpression:
+            case SyntaxKind.ExclusiveOrAssignmentExpression:
+            case SyntaxKind.OrAssignmentExpression:
+            case SyntaxKind.LeftShiftAssignmentExpression:
+            case SyntaxKind.RightShiftAssignmentExpression: return this.<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>ServiceProvider;
+<#
+		}
+		else if(xSyntaxNodeType.name == "LiteralExpressionSyntax")
+		{
+#>
+			case SyntaxKind.ArgListExpression:
+            case SyntaxKind.NumericLiteralExpression:
+            case SyntaxKind.StringLiteralExpression:
+            case SyntaxKind.CharacterLiteralExpression:
+            case SyntaxKind.TrueLiteralExpression:
+            case SyntaxKind.FalseLiteralExpression:
+            case SyntaxKind.NullLiteralExpression: return this.<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>ServiceProvider;
+<#
+		}
+		else if(xSyntaxNodeType.name == "InitializerExpressionSyntax")
+		{
+#>
+			case SyntaxKind.ObjectInitializerExpression:
+            case SyntaxKind.CollectionInitializerExpression:
+            case SyntaxKind.ArrayInitializerExpression:
+            case SyntaxKind.ComplexElementInitializerExpression: return this.<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>ServiceProvider;
+<#
+		}
+		else if(xSyntaxNodeType.name == "YieldStatementSyntax")
+		{
+#>
+			case SyntaxKind.YieldReturnStatement:
+            case SyntaxKind.YieldBreakStatement: return this.<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>ServiceProvider;
+<#
+		}
+		else
+		{
+#>
+			case SyntaxKind.<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>: return this.<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>ServiceProvider;
+<#
+		}
 	}
  }
 }
@@ -186,12 +386,12 @@ foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
 	/// <summary>
     /// Provides language-specific information about the "<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>" type.
     /// </summary>
-	public virtual <#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>FormatInfo <#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>FormatInfo
+	public virtual <#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>ServiceProvider <#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>ServiceProvider
 	{
-		get => <#= code.FieldName(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>FormatInfo ?? (<#= code.FieldName(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>FormatInfo = new <#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>FormatInfo());
-		set => <#= code.FieldName(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>FormatInfo = value;
+		get => <#= code.FieldName(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>ServiceProvider ?? (<#= code.FieldName(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>ServiceProvider = new <#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>ServiceProvider(this));
+		set => <#= code.FieldName(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>ServiceProvider = value;
 	}
-	private <#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>FormatInfo <#= code.FieldName(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>FormatInfo;
+	private <#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>ServiceProvider <#= code.FieldName(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>ServiceProvider;
 
 <#
 	}

@@ -8,25 +8,25 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Jawilliam.CDF.Approach.DetectionResult">
-    <Position X="3.25" Y="2.75" Width="3.75" />
+    <Position X="3.25" Y="5" Width="4.5" />
     <Compartments>
       <Compartment Name="Fields" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>ABAAAAAAIAAACQAAAAAAAAAgAAAABAAACAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Approach\DetectionResult.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Jawilliam.CDF.Approach.MatchDescriptor">
-    <Position X="0.5" Y="2.75" Width="2.5" />
+    <Position X="0.5" Y="2.25" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AAAAgAAAAAAAAAAEAAAAAAACAABAAABAAAAAgAAAAAA=</HashCode>
       <FileName>Approach\RevisionDescriptor.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" />
+    <Lollipop Position="0.1" />
   </Class>
   <Class Name="Jawilliam.CDF.ElementTree">
-    <Position X="7.5" Y="0.5" Width="4" />
+    <Position X="10.25" Y="0.5" Width="4" />
     <Compartments>
       <Compartment Name="Fields" Collapsed="true" />
     </Compartments>
@@ -37,14 +37,14 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Jawilliam.CDF.ElementVersion">
-    <Position X="5.25" Y="0.5" Width="2" />
+    <Position X="8" Y="0.5" Width="2" />
     <TypeIdentifier>
       <HashCode>AAACAAAAEAAAAAAEAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
       <FileName>ElementVersion.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Jawilliam.CDF.Approach.MatchingInfo&lt;T&gt;">
-    <Position X="9.75" Y="5.5" Width="4" />
+    <Position X="13" Y="6.75" Width="4" />
     <Compartments>
       <Compartment Name="Fields" Collapsed="true" />
     </Compartments>
@@ -53,74 +53,90 @@
       <FileName>Approach\MatchingInfo.cs</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="Jawilliam.CDF.Approach.DetectionResult&lt;TRevision&gt;">
+    <Position X="3.25" Y="2.25" Width="4.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAIAAACQAAAAAAAAAgAAAABAAACAAAAAAAAAA=</HashCode>
+      <FileName>Approach\DetectionResult.cs</FileName>
+    </TypeIdentifier>
+  </Class>
   <Interface Name="Jawilliam.CDF.Approach.IProcedure&lt;TArgs, TResult&gt;">
-    <Position X="0.5" Y="5.5" Width="2.5" />
+    <Position X="0.5" Y="6.75" Width="3.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAABAAAAAAAAQAAAAAAAAAAAAAAAAEAAA=</HashCode>
       <FileName>Approach\IProcedure.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="Jawilliam.CDF.Approach.IApproach&lt;TArgs&gt;">
-    <Position X="0.5" Y="7.5" Width="2.5" />
+  <Interface Name="Jawilliam.CDF.Approach.IApproach&lt;TElement, TRevision&gt;">
+    <Position X="0.5" Y="8.75" Width="4.5" />
+    <InheritanceLine Type="Jawilliam.CDF.Approach.IProcedure&lt;TArgs, TResult&gt;" FixedToPoint="true">
+      <Path>
+        <Point X="2.125" Y="8.497" />
+        <Point X="2.125" Y="8.75" />
+      </Path>
+    </InheritanceLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Approach\IApproach.cs</FileName>
-    </TypeIdentifier>
-  </Interface>
-  <Interface Name="Jawilliam.CDF.Approach.IFrameworkApproach&lt;T&gt;">
-    <Position X="0.5" Y="8.75" Width="2.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAABAABAAAAAAAAAAAAAAAIAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAABAABACAAAAAAAAAAAAAIAAAAAAAAEA=</HashCode>
       <FileName>Approach\IApproach.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="Jawilliam.CDF.Approach.IMatchingCriterion&lt;T, K&gt;">
-    <Position X="4.75" Y="11" Width="4" />
+    <Position X="6.5" Y="11.75" Width="5" />
     <TypeIdentifier>
       <HashCode>AAAAAgAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Approach\IMatchingCriterion.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="Jawilliam.CDF.Approach.IChoice&lt;T&gt;">
-    <Position X="4.25" Y="5.5" Width="2.75" />
+  <Interface Name="Jawilliam.CDF.Approach.IChoice&lt;TElement, TRevision&gt;">
+    <Position X="6.5" Y="6.75" Width="4.75" />
     <TypeIdentifier>
       <HashCode>AAAAABAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Approach\IChoice.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="Jawilliam.CDF.Approach.IChoiceWithBeginDetection&lt;T&gt;">
-    <Position X="3.25" Y="7.5" Width="2.25" />
+  <Interface Name="Jawilliam.CDF.Approach.IChoiceWithBeginDetection&lt;TElement, TRevision&gt;">
+    <Position X="5.25" Y="8.75" Width="3.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAA=</HashCode>
       <FileName>Approach\IChoice.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="Jawilliam.CDF.Approach.IChoiceWithEndDetection&lt;T&gt;">
-    <Position X="5.75" Y="9" Width="2" />
+  <Interface Name="Jawilliam.CDF.Approach.IChoiceWithEndDetection&lt;TElement, TRevision&gt;">
+    <Position X="9" Y="10.25" Width="3.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Approach\IChoice.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="Jawilliam.CDF.Approach.IChoiceWithBeginStep&lt;T&gt;">
-    <Position X="3.25" Y="9" Width="2.25" />
+  <Interface Name="Jawilliam.CDF.Approach.IChoiceWithBeginStep&lt;TElement, TRevision&gt;">
+    <Position X="5.25" Y="10.25" Width="3.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Approach\IChoice.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="Jawilliam.CDF.Approach.IChoiceWithEndStep&lt;T&gt;">
-    <Position X="5.75" Y="7.5" Width="2" />
+  <Interface Name="Jawilliam.CDF.Approach.IChoiceWithEndStep&lt;TElement, TRevision&gt;">
+    <Position X="9" Y="8.75" Width="3.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Approach\IChoice.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Delegate Name="Jawilliam.CDF.Approach.ConvertDelegate&lt;T, K&gt;">
-    <Position X="7.25" Y="5.5" Width="2.25" />
+    <Position X="12" Y="4" Width="2.25" />
     <TypeIdentifier>
       <HashCode>IAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Approach\ConvertDelegate.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Delegate Name="Jawilliam.CDF.Approach.LoadRevisionPairDelegate&lt;T&gt;">
+    <Position X="4" Y="6.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Approach\LoadRevisionPairDelegate.cs</FileName>
     </TypeIdentifier>
   </Delegate>
   <Font Name="Segoe UI" Size="9" />

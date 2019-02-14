@@ -153,10 +153,12 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Approach.Base\FrameworkApproachTests.cs" />
     <Compile Include="Approach\MatchingInfoTests.cs" />
     <Compile Include="Approach.GumTree\FileRevisionPairAnalyzerTests.cs" />
     <Compile Include="Approach.GumTree\GumTreeNativeApproachTests.cs" />
     <Compile Include="CSharp\MatchingProvider.cs" />
+    <Compile Include="CSharp\NameEqualityServicesTests.cs" />
     <Compile Include="CSharp\RoslynMLTests.CSharp7x.cs" />
     <Compile Include="CSharp\RoslynMLTests.ExpressionSyntaxes.CompilationUnit.cs" />
     <Compile Include="CSharp\RoslynMLTests.ExpressionSyntaxes.Trivia.cs" />

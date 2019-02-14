@@ -1,4 +1,4 @@
-﻿namespace Jawilliam.CDF.Approach
+﻿namespace Jawilliam.CDF.Approach.Base
 {
     /// <summary>
     /// Base class for the implementations of a procedure of change detection.

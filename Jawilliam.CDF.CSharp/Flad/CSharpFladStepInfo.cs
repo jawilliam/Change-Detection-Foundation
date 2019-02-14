@@ -1,12 +1,12 @@
 ﻿using System;
 
-namespace Jawilliam.CDF.Approach
+namespace Jawilliam.CDF.CSharp.Flad
 {
     /// <summary>
     /// Contains options to describe a step in change detection.
     /// </summary>
     [Flags]
-    public enum StepInfo : long
+    public enum CSharpFladStepInfo : long
     {
         None = 0,
 
