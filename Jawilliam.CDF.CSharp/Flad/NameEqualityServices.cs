@@ -40,8 +40,8 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if ((original.NameEquals != null && modified.NameEquals != null && this.LanguageServiceProvider.NameEqualsServiceProvider.NameExactlyEqual(original.NameEquals, modified.NameEquals)) ||
-                (original.NameColon != null && modified.NameColon != null && this.LanguageServiceProvider.NameColonServiceProvider.NameExactlyEqual(original.NameColon, modified.NameColon)))
+            if ((original.NameEquals != null && modified.NameEquals != null && this.LanguageServiceProvider.NameExactlyEqual(original.NameEquals, modified.NameEquals)) ||
+                (original.NameColon != null && modified.NameColon != null && this.LanguageServiceProvider.NameExactlyEqual(original.NameColon, modified.NameColon)))
     			return true;
     
     	    return false;
@@ -97,7 +97,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (this.LanguageServiceProvider.IdentifierNameServiceProvider.NameExactlyEqual(original.Name, modified.Name))
+            if (this.LanguageServiceProvider.NameExactlyEqual(original.Name, modified.Name))
     			return true;
     
     	    return false;
@@ -153,7 +153,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (!string.IsNullOrWhiteSpace(original.Identifier.ValueText) && !string.IsNullOrWhiteSpace(modified.Identifier.ValueText) && original.Identifier.ValueText == modified.Identifier.ValueText)
+            if (this.LanguageServiceProvider.NameExactlyEqual(original.Identifier, modified.Identifier))
     			return true;
     
     	    return false;
@@ -209,7 +209,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (this.LanguageServiceProvider.IdentifierNameServiceProvider.NameExactlyEqual(original.Name, modified.Name))
+            if (this.LanguageServiceProvider.NameExactlyEqual(original.Name, modified.Name))
     			return true;
     
     	    return false;
@@ -321,7 +321,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (!string.IsNullOrWhiteSpace(original.Identifier.ValueText) && !string.IsNullOrWhiteSpace(modified.Identifier.ValueText) && original.Identifier.ValueText == modified.Identifier.ValueText)
+            if (this.LanguageServiceProvider.NameExactlyEqual(original.Identifier, modified.Identifier))
     			return true;
     
     	    return false;
@@ -377,7 +377,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (this.LanguageServiceProvider.XmlNameServiceProvider.NameExactlyEqual(original.Name, modified.Name))
+            if (this.LanguageServiceProvider.NameExactlyEqual(original.Name, modified.Name))
     			return true;
     
     	    return false;
@@ -433,7 +433,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (this.LanguageServiceProvider.XmlNameServiceProvider.NameExactlyEqual(original.Name, modified.Name))
+            if (this.LanguageServiceProvider.NameExactlyEqual(original.Name, modified.Name))
     			return true;
     
     	    return false;
@@ -489,8 +489,8 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (((original.Prefix == null && modified.Prefix == null) || (original.Prefix != null && modified.Prefix != null && this.LanguageServiceProvider.XmlPrefixServiceProvider.NameExactlyEqual(original.Prefix, modified.Prefix))) &&
-                (!string.IsNullOrWhiteSpace(original.LocalName.ValueText) && !string.IsNullOrWhiteSpace(modified.LocalName.ValueText) && original.LocalName.ValueText == modified.LocalName.ValueText))
+            if (((original.Prefix == null && modified.Prefix == null) || (original.Prefix != null && modified.Prefix != null && this.LanguageServiceProvider.NameExactlyEqual(original.Prefix, modified.Prefix))) &&
+                (this.LanguageServiceProvider.NameExactlyEqual(original.LocalName, modified.LocalName)))
     			return true;
     
     	    return false;
@@ -546,7 +546,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (!string.IsNullOrWhiteSpace(original.Prefix.ValueText) && !string.IsNullOrWhiteSpace(modified.Prefix.ValueText) && original.Prefix.ValueText == modified.Prefix.ValueText)
+            if (this.LanguageServiceProvider.NameExactlyEqual(original.Prefix, modified.Prefix))
     			return true;
     
     	    return false;
@@ -559,6 +559,62 @@ namespace Jawilliam.CDF.CSharp.Flad
         /// <param name="modified">the modified version.</param>
         /// <returns>true if they are exactly equal, otherwise returns false.</returns>
         public bool NameExactlyEqual(XmlPrefixSyntax original, XmlPrefixSyntax modified)
+        {
+    		bool result = false, ignoreCore = false;
+    		NameExactlyEqualBefore(original, modified, ref result, ref ignoreCore);
+    		if(ignoreCore) 
+    			return result;
+    		
+    		result = this.NameExactlyEqualCore(original, modified);
+    		NameExactlyEqualAfter(original, modified, ref result);
+    		return result;
+        }
+    }
+    
+    public partial class TypeArgumentListServiceProvider : INameEqualityCondition<TypeArgumentListSyntax, TypeArgumentListSyntax>
+    {
+        /// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="NameExactlyEqualCore(TypeArgumentListSyntax, TypeArgumentListSyntax)"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="result">Mechanism to modify the result of <see cref="NameExactlyEqual(TypeArgumentListSyntax, TypeArgumentListSyntax)"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="NameExactlyEqualCore(TypeArgumentListSyntax, TypeArgumentListSyntax)"/> is not executed and <see cref="NameExactlyEqual(TypeArgumentListSyntax, TypeArgumentListSyntax)"/> returns the current value of <paramref name="result"/>.</param>
+        partial void NameExactlyEqualBefore(TypeArgumentListSyntax original, TypeArgumentListSyntax modified, ref bool result, ref bool ignoreCore);
+        
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="NameExactlyEqualCore(TypeArgumentListSyntax, TypeArgumentListSyntax)"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="result">Mechanism to modify the result of <see cref="NameExactlyEqual(TypeArgumentListSyntax, TypeArgumentListSyntax)"/>.</param>
+        partial void NameExactlyEqualAfter(TypeArgumentListSyntax original, TypeArgumentListSyntax modified, ref bool result);
+    
+        /// <summary>
+        /// Determines if two <see cref="TypeArgumentListSyntax"/> elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        /// <remarks>This is the default implementation for <see cref="NameExactlyEqual(TypeArgumentListSyntax, TypeArgumentListSyntax)"/>.</remarks>
+        protected virtual bool NameExactlyEqualCore(TypeArgumentListSyntax original, TypeArgumentListSyntax modified)
+        {
+    		if(original == null || modified == null) 
+    			return false;
+    
+            if (this.LanguageServiceProvider.NameExactlyEqual(original.Arguments, modified.Arguments))
+    			return true;
+    
+    	    return false;
+    	}
+    
+        /// <summary>
+        /// Determines if two <see cref="TypeArgumentListSyntax"/> elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        public bool NameExactlyEqual(TypeArgumentListSyntax original, TypeArgumentListSyntax modified)
         {
     		bool result = false, ignoreCore = false;
     		NameExactlyEqualBefore(original, modified, ref result, ref ignoreCore);
@@ -602,7 +658,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (original.Identifier != null && modified.Identifier != null && !string.IsNullOrWhiteSpace(original.Identifier.ValueText) && !string.IsNullOrWhiteSpace(modified.Identifier.ValueText) && original.Identifier.ValueText == modified.Identifier.ValueText)
+            if (original.Identifier != null && modified.Identifier != null && this.LanguageServiceProvider.NameExactlyEqual(original.Identifier, modified.Identifier))
     			return true;
     
     	    return false;
@@ -658,7 +714,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (original.NameColon != null && modified.NameColon != null && this.LanguageServiceProvider.NameColonServiceProvider.NameExactlyEqual(original.NameColon, modified.NameColon))
+            if (original.NameColon != null && modified.NameColon != null && this.LanguageServiceProvider.NameExactlyEqual(original.NameColon, modified.NameColon))
     			return true;
     
     	    return false;
@@ -714,7 +770,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (this.LanguageServiceProvider.IdentifierNameServiceProvider.NameExactlyEqual(original.Name, modified.Name))
+            if (this.LanguageServiceProvider.NameExactlyEqual(original.Name, modified.Name))
     			return true;
     
     	    return false;
@@ -770,7 +826,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (original.NameEquals != null && modified.NameEquals != null && this.LanguageServiceProvider.NameEqualsServiceProvider.NameExactlyEqual(original.NameEquals, modified.NameEquals))
+            if (original.NameEquals != null && modified.NameEquals != null && this.LanguageServiceProvider.NameExactlyEqual(original.NameEquals, modified.NameEquals))
     			return true;
     
     	    return false;
@@ -826,7 +882,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (original.Continuation != null && modified.Continuation != null && this.LanguageServiceProvider.QueryContinuationServiceProvider.NameExactlyEqual(original.Continuation, modified.Continuation))
+            if (original.Continuation != null && modified.Continuation != null && this.LanguageServiceProvider.NameExactlyEqual(original.Continuation, modified.Continuation))
     			return true;
     
     	    return false;
@@ -882,7 +938,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (!string.IsNullOrWhiteSpace(original.Identifier.ValueText) && !string.IsNullOrWhiteSpace(modified.Identifier.ValueText) && original.Identifier.ValueText == modified.Identifier.ValueText)
+            if (this.LanguageServiceProvider.NameExactlyEqual(original.Identifier, modified.Identifier))
     			return true;
     
     	    return false;
@@ -938,7 +994,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (!string.IsNullOrWhiteSpace(original.Identifier.ValueText) && !string.IsNullOrWhiteSpace(modified.Identifier.ValueText) && original.Identifier.ValueText == modified.Identifier.ValueText)
+            if (this.LanguageServiceProvider.NameExactlyEqual(original.Identifier, modified.Identifier))
     			return true;
     
     	    return false;
@@ -1050,7 +1106,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (!string.IsNullOrWhiteSpace(original.Identifier.ValueText) && !string.IsNullOrWhiteSpace(modified.Identifier.ValueText) && original.Identifier.ValueText == modified.Identifier.ValueText)
+            if (this.LanguageServiceProvider.NameExactlyEqual(original.Identifier, modified.Identifier))
     			return true;
     
     	    return false;
@@ -1106,7 +1162,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (original.Declaration != null && modified.Declaration != null && this.LanguageServiceProvider.CatchDeclarationServiceProvider.NameExactlyEqual(original.Declaration, modified.Declaration))
+            if (original.Declaration != null && modified.Declaration != null && this.LanguageServiceProvider.NameExactlyEqual(original.Declaration, modified.Declaration))
     			return true;
     
     	    return false;
@@ -1162,7 +1218,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (original.Identifier != null && modified.Identifier != null && !string.IsNullOrWhiteSpace(original.Identifier.ValueText) && !string.IsNullOrWhiteSpace(modified.Identifier.ValueText) && original.Identifier.ValueText == modified.Identifier.ValueText)
+            if (original.Identifier != null && modified.Identifier != null && this.LanguageServiceProvider.NameExactlyEqual(original.Identifier, modified.Identifier))
     			return true;
     
     	    return false;
@@ -1218,7 +1274,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (!string.IsNullOrWhiteSpace(original.Identifier.ValueText) && !string.IsNullOrWhiteSpace(modified.Identifier.ValueText) && original.Identifier.ValueText == modified.Identifier.ValueText)
+            if (this.LanguageServiceProvider.NameExactlyEqual(original.Identifier, modified.Identifier))
     			return true;
     
     	    return false;
@@ -1274,7 +1330,8 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (this.LanguageServiceProvider.NameExactlyEqual(original.Name, modified.Name))
+            if (((original.Alias == null && modified.Alias == null) || (original.Alias != null && modified.Alias != null && this.LanguageServiceProvider.NameExactlyEqual(original.Alias, modified.Alias))) &&
+                (this.LanguageServiceProvider.NameExactlyEqual(original.Name, modified.Name)))
     			return true;
     
     	    return false;
@@ -1330,7 +1387,8 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (original.Target != null && modified.Target != null && this.LanguageServiceProvider.AttributeTargetSpecifierServiceProvider.NameExactlyEqual(original.Target, modified.Target))
+            if (((original.Target == null && modified.Target == null) || (original.Target != null && modified.Target != null && this.LanguageServiceProvider.NameExactlyEqual(original.Target, modified.Target))) &&
+                (this.LanguageServiceProvider.NameExactlyEqual(original.Attributes, modified.Attributes)))
     			return true;
     
     	    return false;
@@ -1386,7 +1444,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (!string.IsNullOrWhiteSpace(original.Identifier.ValueText) && !string.IsNullOrWhiteSpace(modified.Identifier.ValueText) && original.Identifier.ValueText == modified.Identifier.ValueText)
+            if (this.LanguageServiceProvider.NameExactlyEqual(original.Identifier, modified.Identifier))
     			return true;
     
     	    return false;
@@ -1498,7 +1556,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (!string.IsNullOrWhiteSpace(original.Identifier.ValueText) && !string.IsNullOrWhiteSpace(modified.Identifier.ValueText) && original.Identifier.ValueText == modified.Identifier.ValueText)
+            if (this.LanguageServiceProvider.NameExactlyEqual(original.Identifier, modified.Identifier))
     			return true;
     
     	    return false;
@@ -1554,7 +1612,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (!string.IsNullOrWhiteSpace(original.Identifier.ValueText) && !string.IsNullOrWhiteSpace(modified.Identifier.ValueText) && original.Identifier.ValueText == modified.Identifier.ValueText)
+            if (this.LanguageServiceProvider.NameExactlyEqual(original.Identifier, modified.Identifier))
     			return true;
     
     	    return false;
@@ -1666,7 +1724,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (!string.IsNullOrWhiteSpace(original.Identifier.ValueText) && !string.IsNullOrWhiteSpace(modified.Identifier.ValueText) && original.Identifier.ValueText == modified.Identifier.ValueText)
+            if (this.LanguageServiceProvider.NameExactlyEqual(original.Identifier, modified.Identifier))
     			return true;
     
     	    return false;
@@ -1722,7 +1780,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (!string.IsNullOrWhiteSpace(original.Identifier.ValueText) && !string.IsNullOrWhiteSpace(modified.Identifier.ValueText) && original.Identifier.ValueText == modified.Identifier.ValueText)
+            if (this.LanguageServiceProvider.NameExactlyEqual(original.Identifier, modified.Identifier))
     			return true;
     
     	    return false;
@@ -1778,7 +1836,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (!string.IsNullOrWhiteSpace(original.Identifier.ValueText) && !string.IsNullOrWhiteSpace(modified.Identifier.ValueText) && original.Identifier.ValueText == modified.Identifier.ValueText)
+            if (this.LanguageServiceProvider.NameExactlyEqual(original.Identifier, modified.Identifier))
     			return true;
     
     	    return false;
@@ -1834,7 +1892,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (!string.IsNullOrWhiteSpace(original.Identifier.ValueText) && !string.IsNullOrWhiteSpace(modified.Identifier.ValueText) && original.Identifier.ValueText == modified.Identifier.ValueText)
+            if (this.LanguageServiceProvider.NameExactlyEqual(original.Identifier, modified.Identifier))
     			return true;
     
     	    return false;
@@ -1890,7 +1948,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (this.LanguageServiceProvider.VariableDeclarationServiceProvider.NameExactlyEqual(original.Declaration, modified.Declaration))
+            if (this.LanguageServiceProvider.NameExactlyEqual(original.Declaration, modified.Declaration))
     			return true;
     
     	    return false;
@@ -1946,7 +2004,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (this.LanguageServiceProvider.VariableDeclarationServiceProvider.NameExactlyEqual(original.Declaration, modified.Declaration))
+            if (this.LanguageServiceProvider.NameExactlyEqual(original.Declaration, modified.Declaration))
     			return true;
     
     	    return false;
@@ -2002,7 +2060,8 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (!string.IsNullOrWhiteSpace(original.Identifier.ValueText) && !string.IsNullOrWhiteSpace(modified.Identifier.ValueText) && original.Identifier.ValueText == modified.Identifier.ValueText)
+            if (((original.ExplicitInterfaceSpecifier == null && modified.ExplicitInterfaceSpecifier == null) || (original.ExplicitInterfaceSpecifier != null && modified.ExplicitInterfaceSpecifier != null && this.LanguageServiceProvider.NameExactlyEqual(original.ExplicitInterfaceSpecifier, modified.ExplicitInterfaceSpecifier))) &&
+                (this.LanguageServiceProvider.NameExactlyEqual(original.Identifier, modified.Identifier)))
     			return true;
     
     	    return false;
@@ -2058,7 +2117,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (!string.IsNullOrWhiteSpace(original.OperatorToken.ValueText) && !string.IsNullOrWhiteSpace(modified.OperatorToken.ValueText) && original.OperatorToken.ValueText == modified.OperatorToken.ValueText)
+            if (this.LanguageServiceProvider.NameExactlyEqual(original.OperatorToken, modified.OperatorToken))
     			return true;
     
     	    return false;
@@ -2114,7 +2173,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (!string.IsNullOrWhiteSpace(original.Identifier.ValueText) && !string.IsNullOrWhiteSpace(modified.Identifier.ValueText) && original.Identifier.ValueText == modified.Identifier.ValueText)
+            if (this.LanguageServiceProvider.NameExactlyEqual(original.Identifier, modified.Identifier))
     			return true;
     
     	    return false;
@@ -2170,7 +2229,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (!string.IsNullOrWhiteSpace(original.Identifier.ValueText) && !string.IsNullOrWhiteSpace(modified.Identifier.ValueText) && original.Identifier.ValueText == modified.Identifier.ValueText)
+            if (this.LanguageServiceProvider.NameExactlyEqual(original.Identifier, modified.Identifier))
     			return true;
     
     	    return false;
@@ -2226,7 +2285,8 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (!string.IsNullOrWhiteSpace(original.Identifier.ValueText) && !string.IsNullOrWhiteSpace(modified.Identifier.ValueText) && original.Identifier.ValueText == modified.Identifier.ValueText)
+            if (((original.ExplicitInterfaceSpecifier == null && modified.ExplicitInterfaceSpecifier == null) || (original.ExplicitInterfaceSpecifier != null && modified.ExplicitInterfaceSpecifier != null && this.LanguageServiceProvider.NameExactlyEqual(original.ExplicitInterfaceSpecifier, modified.ExplicitInterfaceSpecifier))) &&
+                (this.LanguageServiceProvider.NameExactlyEqual(original.Identifier, modified.Identifier)))
     			return true;
     
     	    return false;
@@ -2282,7 +2342,8 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (!string.IsNullOrWhiteSpace(original.Identifier.ValueText) && !string.IsNullOrWhiteSpace(modified.Identifier.ValueText) && original.Identifier.ValueText == modified.Identifier.ValueText)
+            if (((original.ExplicitInterfaceSpecifier == null && modified.ExplicitInterfaceSpecifier == null) || (original.ExplicitInterfaceSpecifier != null && modified.ExplicitInterfaceSpecifier != null && this.LanguageServiceProvider.NameExactlyEqual(original.ExplicitInterfaceSpecifier, modified.ExplicitInterfaceSpecifier))) &&
+                (this.LanguageServiceProvider.NameExactlyEqual(original.Identifier, modified.Identifier)))
     			return true;
     
     	    return false;
@@ -2338,7 +2399,8 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (!string.IsNullOrWhiteSpace(original.ThisKeyword.ValueText) && !string.IsNullOrWhiteSpace(modified.ThisKeyword.ValueText) && original.ThisKeyword.ValueText == modified.ThisKeyword.ValueText)
+            if (((original.ExplicitInterfaceSpecifier == null && modified.ExplicitInterfaceSpecifier == null) || (original.ExplicitInterfaceSpecifier != null && modified.ExplicitInterfaceSpecifier != null && this.LanguageServiceProvider.NameExactlyEqual(original.ExplicitInterfaceSpecifier, modified.ExplicitInterfaceSpecifier))) &&
+                (this.LanguageServiceProvider.NameExactlyEqual(original.ThisKeyword, modified.ThisKeyword)))
     			return true;
     
     	    return false;
@@ -2394,7 +2456,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (!string.IsNullOrWhiteSpace(original.Identifier.ValueText) && !string.IsNullOrWhiteSpace(modified.Identifier.ValueText) && original.Identifier.ValueText == modified.Identifier.ValueText)
+            if (this.LanguageServiceProvider.NameExactlyEqual(original.Identifier, modified.Identifier))
     			return true;
     
     	    return false;
@@ -2450,7 +2512,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (!string.IsNullOrWhiteSpace(original.Name.ValueText) && !string.IsNullOrWhiteSpace(modified.Name.ValueText) && original.Name.ValueText == modified.Name.ValueText)
+            if (this.LanguageServiceProvider.NameExactlyEqual(original.Name, modified.Name))
     			return true;
     
     	    return false;
@@ -2506,7 +2568,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (!string.IsNullOrWhiteSpace(original.Name.ValueText) && !string.IsNullOrWhiteSpace(modified.Name.ValueText) && original.Name.ValueText == modified.Name.ValueText)
+            if (this.LanguageServiceProvider.NameExactlyEqual(original.Name, modified.Name))
     			return true;
     
     	    return false;
@@ -2618,7 +2680,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (!string.IsNullOrWhiteSpace(original.ThisKeyword.ValueText) && !string.IsNullOrWhiteSpace(modified.ThisKeyword.ValueText) && original.ThisKeyword.ValueText == modified.ThisKeyword.ValueText)
+            if (this.LanguageServiceProvider.NameExactlyEqual(original.ThisKeyword, modified.ThisKeyword))
     			return true;
     
     	    return false;
@@ -2674,7 +2736,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (!string.IsNullOrWhiteSpace(original.OperatorToken.ValueText) && !string.IsNullOrWhiteSpace(modified.OperatorToken.ValueText) && original.OperatorToken.ValueText == modified.OperatorToken.ValueText)
+            if (this.LanguageServiceProvider.NameExactlyEqual(original.OperatorToken, modified.OperatorToken))
     			return true;
     
     	    return false;
@@ -2730,7 +2792,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (this.LanguageServiceProvider.XmlElementStartTagServiceProvider.NameExactlyEqual(original.StartTag, modified.StartTag))
+            if (this.LanguageServiceProvider.NameExactlyEqual(original.StartTag, modified.StartTag))
     			return true;
     
     	    return false;
@@ -2786,7 +2848,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (this.LanguageServiceProvider.XmlNameServiceProvider.NameExactlyEqual(original.Name, modified.Name))
+            if (this.LanguageServiceProvider.NameExactlyEqual(original.Name, modified.Name))
     			return true;
     
     	    return false;
@@ -2842,7 +2904,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (this.LanguageServiceProvider.XmlNameServiceProvider.NameExactlyEqual(original.Name, modified.Name))
+            if (this.LanguageServiceProvider.NameExactlyEqual(original.Name, modified.Name))
     			return true;
     
     	    return false;
@@ -2898,7 +2960,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (this.LanguageServiceProvider.XmlNameServiceProvider.NameExactlyEqual(original.Name, modified.Name))
+            if (this.LanguageServiceProvider.NameExactlyEqual(original.Name, modified.Name))
     			return true;
     
     	    return false;
@@ -3010,7 +3072,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (this.LanguageServiceProvider.IdentifierNameServiceProvider.NameExactlyEqual(original.Identifier, modified.Identifier))
+            if (this.LanguageServiceProvider.NameExactlyEqual(original.Identifier, modified.Identifier))
     			return true;
     
     	    return false;
@@ -3066,7 +3128,8 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (this.LanguageServiceProvider.NameExactlyEqual(original.Name, modified.Name))
+            if ((this.LanguageServiceProvider.NameExactlyEqual(original.Expression, modified.Expression)) &&
+                (this.LanguageServiceProvider.NameExactlyEqual(original.Name, modified.Name)))
     			return true;
     
     	    return false;
@@ -3178,7 +3241,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (this.LanguageServiceProvider.FromClauseServiceProvider.NameExactlyEqual(original.FromClause, modified.FromClause))
+            if (this.LanguageServiceProvider.NameExactlyEqual(original.FromClause, modified.FromClause))
     			return true;
     
     	    return false;
@@ -3234,7 +3297,8 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (this.LanguageServiceProvider.NameExactlyEqual(original.Name, modified.Name))
+            if ((this.LanguageServiceProvider.NameExactlyEqual(original.Alias, modified.Alias)) &&
+                (this.LanguageServiceProvider.NameExactlyEqual(original.Name, modified.Name)))
     			return true;
     
     	    return false;
@@ -3290,7 +3354,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (!string.IsNullOrWhiteSpace(original.Identifier.ValueText) && !string.IsNullOrWhiteSpace(modified.Identifier.ValueText) && original.Identifier.ValueText == modified.Identifier.ValueText)
+            if (this.LanguageServiceProvider.NameExactlyEqual(original.Identifier, modified.Identifier))
     			return true;
     
     	    return false;
@@ -3346,7 +3410,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (!string.IsNullOrWhiteSpace(original.Identifier.ValueText) && !string.IsNullOrWhiteSpace(modified.Identifier.ValueText) && original.Identifier.ValueText == modified.Identifier.ValueText)
+            if (this.LanguageServiceProvider.NameExactlyEqual(original.Identifier, modified.Identifier))
     			return true;
     
     	    return false;
@@ -3402,7 +3466,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (this.LanguageServiceProvider.ParameterServiceProvider.NameExactlyEqual(original.Parameter, modified.Parameter))
+            if (this.LanguageServiceProvider.NameExactlyEqual(original.Parameter, modified.Parameter))
     			return true;
     
     	    return false;
@@ -3458,7 +3522,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (!string.IsNullOrWhiteSpace(original.Identifier.ValueText) && !string.IsNullOrWhiteSpace(modified.Identifier.ValueText) && original.Identifier.ValueText == modified.Identifier.ValueText)
+            if (this.LanguageServiceProvider.NameExactlyEqual(original.Identifier, modified.Identifier))
     			return true;
     
     	    return false;
@@ -3514,7 +3578,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (!string.IsNullOrWhiteSpace(original.Identifier.ValueText) && !string.IsNullOrWhiteSpace(modified.Identifier.ValueText) && original.Identifier.ValueText == modified.Identifier.ValueText)
+            if (this.LanguageServiceProvider.NameExactlyEqual(original.Identifier, modified.Identifier))
     			return true;
     
     	    return false;
@@ -3570,7 +3634,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (!string.IsNullOrWhiteSpace(original.Identifier.ValueText) && !string.IsNullOrWhiteSpace(modified.Identifier.ValueText) && original.Identifier.ValueText == modified.Identifier.ValueText)
+            if (this.LanguageServiceProvider.NameExactlyEqual(original.Identifier, modified.Identifier))
     			return true;
     
     	    return false;
@@ -3626,7 +3690,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (!string.IsNullOrWhiteSpace(original.Identifier.ValueText) && !string.IsNullOrWhiteSpace(modified.Identifier.ValueText) && original.Identifier.ValueText == modified.Identifier.ValueText)
+            if (this.LanguageServiceProvider.NameExactlyEqual(original.Identifier, modified.Identifier))
     			return true;
     
     	    return false;
@@ -3682,7 +3746,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (this.LanguageServiceProvider.VariableDeclarationServiceProvider.NameExactlyEqual(original.Declaration, modified.Declaration))
+            if (this.LanguageServiceProvider.NameExactlyEqual(original.Declaration, modified.Declaration))
     			return true;
     
     	    return false;
@@ -3738,7 +3802,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (!string.IsNullOrWhiteSpace(original.Identifier.ValueText) && !string.IsNullOrWhiteSpace(modified.Identifier.ValueText) && original.Identifier.ValueText == modified.Identifier.ValueText)
+            if (this.LanguageServiceProvider.NameExactlyEqual(original.Identifier, modified.Identifier))
     			return true;
     
     	    return false;
@@ -3794,7 +3858,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (original.Declaration != null && modified.Declaration != null && this.LanguageServiceProvider.VariableDeclarationServiceProvider.NameExactlyEqual(original.Declaration, modified.Declaration))
+            if (original.Declaration != null && modified.Declaration != null && this.LanguageServiceProvider.NameExactlyEqual(original.Declaration, modified.Declaration))
     			return true;
     
     	    return false;
@@ -3850,7 +3914,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (original.Declaration != null && modified.Declaration != null && this.LanguageServiceProvider.VariableDeclarationServiceProvider.NameExactlyEqual(original.Declaration, modified.Declaration))
+            if (original.Declaration != null && modified.Declaration != null && this.LanguageServiceProvider.NameExactlyEqual(original.Declaration, modified.Declaration))
     			return true;
     
     	    return false;
@@ -3906,7 +3970,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (this.LanguageServiceProvider.VariableDeclarationServiceProvider.NameExactlyEqual(original.Declaration, modified.Declaration))
+            if (this.LanguageServiceProvider.NameExactlyEqual(original.Declaration, modified.Declaration))
     			return true;
     
     	    return false;
@@ -3962,7 +4026,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (!string.IsNullOrWhiteSpace(original.Identifier.ValueText) && !string.IsNullOrWhiteSpace(modified.Identifier.ValueText) && original.Identifier.ValueText == modified.Identifier.ValueText)
+            if (this.LanguageServiceProvider.NameExactlyEqual(original.Identifier, modified.Identifier))
     			return true;
     
     	    return false;
@@ -4018,7 +4082,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (!string.IsNullOrWhiteSpace(original.Identifier.ValueText) && !string.IsNullOrWhiteSpace(modified.Identifier.ValueText) && original.Identifier.ValueText == modified.Identifier.ValueText)
+            if (this.LanguageServiceProvider.NameExactlyEqual(original.Identifier, modified.Identifier))
     			return true;
     
     	    return false;

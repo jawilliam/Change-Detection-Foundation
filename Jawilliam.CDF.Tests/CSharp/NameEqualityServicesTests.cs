@@ -554,6 +554,24 @@ namespace Jawilliam.CDF.Tests.CSharp
             a = SyntaxFactory.ParseCompilationUnit("using static a;").Usings[0];
             b = SyntaxFactory.ParseCompilationUnit("using static a;").Usings[0];
             Assert.IsTrue(flad.LanguageServiceProvider.UsingDirectiveServiceProvider.NameExactlyEqual(a, b));
+
+            a = SyntaxFactory.ParseCompilationUnit("using static c = a;").Usings[0];
+            b = SyntaxFactory.ParseCompilationUnit("using static c1 = a;").Usings[0];
+            Assert.IsFalse(flad.LanguageServiceProvider.UsingDirectiveServiceProvider.NameExactlyEqual(null, b));
+            Assert.IsFalse(flad.LanguageServiceProvider.UsingDirectiveServiceProvider.NameExactlyEqual(a, (UsingDirectiveSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.UsingDirectiveServiceProvider.NameExactlyEqual(null, (UsingDirectiveSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.UsingDirectiveServiceProvider.NameExactlyEqual(a, b));
+
+            a = SyntaxFactory.ParseCompilationUnit("using static c = a;").Usings[0];
+            b = SyntaxFactory.ParseCompilationUnit("using static c1 = b;").Usings[0];
+            Assert.IsFalse(flad.LanguageServiceProvider.UsingDirectiveServiceProvider.NameExactlyEqual(null, b));
+            Assert.IsFalse(flad.LanguageServiceProvider.UsingDirectiveServiceProvider.NameExactlyEqual(a, (UsingDirectiveSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.UsingDirectiveServiceProvider.NameExactlyEqual(null, (UsingDirectiveSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.UsingDirectiveServiceProvider.NameExactlyEqual(a, b));
+
+            a = SyntaxFactory.ParseCompilationUnit("using static c = a;").Usings[0];
+            b = SyntaxFactory.ParseCompilationUnit("using static c = a;").Usings[0];
+            Assert.IsTrue(flad.LanguageServiceProvider.UsingDirectiveServiceProvider.NameExactlyEqual(a, b));
         }
 
         [TestMethod]
@@ -563,6 +581,13 @@ namespace Jawilliam.CDF.Tests.CSharp
 
             var a = ((ClassDeclarationSyntax)(SyntaxFactory.ParseCompilationUnit("[XAttribute(\"X\"), YAttribute(Y: 3), ZAttribute(Z= 4)]class A{};").Members[0])).AttributeLists[0];
             var b = ((ClassDeclarationSyntax)(SyntaxFactory.ParseCompilationUnit("[XAttribute(\"X\"), YAttribute(Y: 3), ZAttribute(Z= 4)]class A{};").Members[0])).AttributeLists[0];
+            Assert.IsFalse(flad.LanguageServiceProvider.AttributeListServiceProvider.NameExactlyEqual(null, b));
+            Assert.IsFalse(flad.LanguageServiceProvider.AttributeListServiceProvider.NameExactlyEqual(a, (AttributeListSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.AttributeListServiceProvider.NameExactlyEqual(null, (AttributeListSyntax)null));
+            Assert.IsTrue(flad.LanguageServiceProvider.AttributeListServiceProvider.NameExactlyEqual(a, b));
+
+            a = ((ClassDeclarationSyntax)(SyntaxFactory.ParseCompilationUnit("[[module: XAttribute(\"X\"), YAttribute(Y: 3), ZAttribute(Z= 4)]class A{};").Members[0])).AttributeLists[0];
+            b = ((ClassDeclarationSyntax)(SyntaxFactory.ParseCompilationUnit("[XAttribute(\"X\"), YAttribute(Y: 3), ZAttribute(Z= 4)]class A{};").Members[0])).AttributeLists[0];
             Assert.IsFalse(flad.LanguageServiceProvider.AttributeListServiceProvider.NameExactlyEqual(null, b));
             Assert.IsFalse(flad.LanguageServiceProvider.AttributeListServiceProvider.NameExactlyEqual(a, (AttributeListSyntax)null));
             Assert.IsFalse(flad.LanguageServiceProvider.AttributeListServiceProvider.NameExactlyEqual(null, (AttributeListSyntax)null));
@@ -779,8 +804,23 @@ namespace Jawilliam.CDF.Tests.CSharp
             Assert.IsFalse(flad.LanguageServiceProvider.MethodDeclarationServiceProvider.NameExactlyEqual(null, (MethodDeclarationSyntax)null));
             Assert.IsFalse(flad.LanguageServiceProvider.MethodDeclarationServiceProvider.NameExactlyEqual(a, b));
 
+            a = (MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string C1.M<T>(int a, A b)where T: class { return 5; };").Members[0];
+            b = (MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string C.M<T>(int a, A b)where T: class { return 5; };").Members[0];
+            Assert.IsFalse(flad.LanguageServiceProvider.MethodDeclarationServiceProvider.NameExactlyEqual(null, b));
+            Assert.IsFalse(flad.LanguageServiceProvider.MethodDeclarationServiceProvider.NameExactlyEqual(a, (MethodDeclarationSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.MethodDeclarationServiceProvider.NameExactlyEqual(null, (MethodDeclarationSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.MethodDeclarationServiceProvider.NameExactlyEqual(a, b));
+
             a = (MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string C.M<T>(int a, A b)where T: class { return 5; };").Members[0];
             b = (MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string C.M<T>(int a, A b)where T: class { return 5; };").Members[0];
+            Assert.IsTrue(flad.LanguageServiceProvider.MethodDeclarationServiceProvider.NameExactlyEqual(a, b));
+
+            a = (MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string M<T>(int a, A b)where T: class { return 5; };").Members[0];
+            b = (MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string M1<T>(int a, A b)where T: class { return 5; };").Members[0];
+            Assert.IsFalse(flad.LanguageServiceProvider.MethodDeclarationServiceProvider.NameExactlyEqual(a, b));
+
+            a = (MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string M<T>(int a, A b)where T: class { return 5; };").Members[0];
+            b = (MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string M<T>(int a, A b)where T: class { return 5; };").Members[0];
             Assert.IsTrue(flad.LanguageServiceProvider.MethodDeclarationServiceProvider.NameExactlyEqual(a, b));
         }
 
@@ -852,10 +892,21 @@ namespace Jawilliam.CDF.Tests.CSharp
             Assert.IsFalse(flad.LanguageServiceProvider.PropertyDeclarationServiceProvider.NameExactlyEqual(null, b));
             Assert.IsFalse(flad.LanguageServiceProvider.PropertyDeclarationServiceProvider.NameExactlyEqual(a, (PropertyDeclarationSyntax)null));
             Assert.IsFalse(flad.LanguageServiceProvider.PropertyDeclarationServiceProvider.NameExactlyEqual(null, (PropertyDeclarationSyntax)null));
-            Assert.IsTrue(flad.LanguageServiceProvider.PropertyDeclarationServiceProvider.NameExactlyEqual(a, b));
+            Assert.IsFalse(flad.LanguageServiceProvider.PropertyDeclarationServiceProvider.NameExactlyEqual(a, b));
 
             a = (PropertyDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string C.M { get{return 5;} set{this.a = 7} };").Members[0];
             b = (PropertyDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string C.M { get{return 5;} set{this.a = 7} };").Members[0];
+            Assert.IsTrue(flad.LanguageServiceProvider.PropertyDeclarationServiceProvider.NameExactlyEqual(a, b));
+
+            a = (PropertyDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string M { get{return 5;} set{this.a = 7} };").Members[0];
+            b = (PropertyDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string M1 { get{return 5;} set{this.a = 7} };").Members[0];
+            Assert.IsFalse(flad.LanguageServiceProvider.PropertyDeclarationServiceProvider.NameExactlyEqual(null, b));
+            Assert.IsFalse(flad.LanguageServiceProvider.PropertyDeclarationServiceProvider.NameExactlyEqual(a, (PropertyDeclarationSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.PropertyDeclarationServiceProvider.NameExactlyEqual(null, (PropertyDeclarationSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.PropertyDeclarationServiceProvider.NameExactlyEqual(a, b));
+
+            a = (PropertyDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string M { get{return 5;} set{this.a = 7} };").Members[0];
+            b = (PropertyDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string M { get{return 5;} set{this.a = 7} };").Members[0];
             Assert.IsTrue(flad.LanguageServiceProvider.PropertyDeclarationServiceProvider.NameExactlyEqual(a, b));
         }
 
@@ -876,10 +927,21 @@ namespace Jawilliam.CDF.Tests.CSharp
             Assert.IsFalse(flad.LanguageServiceProvider.EventDeclarationServiceProvider.NameExactlyEqual(null, b));
             Assert.IsFalse(flad.LanguageServiceProvider.EventDeclarationServiceProvider.NameExactlyEqual(a, (EventDeclarationSyntax)null));
             Assert.IsFalse(flad.LanguageServiceProvider.EventDeclarationServiceProvider.NameExactlyEqual(null, (EventDeclarationSyntax)null));
-            Assert.IsTrue(flad.LanguageServiceProvider.EventDeclarationServiceProvider.NameExactlyEqual(a, b));
+            Assert.IsFalse(flad.LanguageServiceProvider.EventDeclarationServiceProvider.NameExactlyEqual(a, b));
 
             a = (EventDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual event A C.M { add{this.M += value;} remove{this.M -= value} }").Members[0];
             b = (EventDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual event A C.M { add{this.M += value;} remove{this.M -= value} }").Members[0];
+            Assert.IsTrue(flad.LanguageServiceProvider.EventDeclarationServiceProvider.NameExactlyEqual(a, b));
+
+            a = (EventDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual event A M { add{this.M += value;} remove{this.M -= value} }").Members[0];
+            b = (EventDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual event A M1 { add{this.M += value;} remove{this.M -= value} }").Members[0];
+            Assert.IsFalse(flad.LanguageServiceProvider.EventDeclarationServiceProvider.NameExactlyEqual(null, b));
+            Assert.IsFalse(flad.LanguageServiceProvider.EventDeclarationServiceProvider.NameExactlyEqual(a, (EventDeclarationSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.EventDeclarationServiceProvider.NameExactlyEqual(null, (EventDeclarationSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.EventDeclarationServiceProvider.NameExactlyEqual(a, b));
+
+            a = (EventDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual event A M { add{this.M += value;} remove{this.M -= value} }").Members[0];
+            b = (EventDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual event A M { add{this.M += value;} remove{this.M -= value} }").Members[0];
             Assert.IsTrue(flad.LanguageServiceProvider.EventDeclarationServiceProvider.NameExactlyEqual(a, b));
         }
 
@@ -897,6 +959,10 @@ namespace Jawilliam.CDF.Tests.CSharp
 
             a = (IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual A C.this[string key] { get{return this.M[key];} set{this.M[key] = value;} } => 5;").Members[0];
             b = (IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual A C1.this[string key] { get{return this.M[key];} set{this.M[key] = value;} } => 5;").Members[0];
+            Assert.IsFalse(flad.LanguageServiceProvider.IndexerDeclarationServiceProvider.NameExactlyEqual(a, b));
+
+            a = (IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual A this[string key] { get{return this.M[key];} set{this.M[key] = value;} } => 5;").Members[0];
+            b = (IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual A this[string key] { get{return this.M[key];} set{this.M[key] = value;} } => 5;").Members[0];
             Assert.IsTrue(flad.LanguageServiceProvider.IndexerDeclarationServiceProvider.NameExactlyEqual(a, b));
         }
 
@@ -1156,6 +1222,415 @@ namespace Jawilliam.CDF.Tests.CSharp
             a = (XmlNameAttributeSyntax)((DocumentationCommentTriviaSyntax)SyntaxFactory.ParseSyntaxTree("///<param name=\"M\"/>").GetCompilationUnitRoot().EndOfFileToken.LeadingTrivia.Single().GetStructure()).Content.OfType<XmlEmptyElementSyntax>().Single().Attributes[0];
             b = (XmlNameAttributeSyntax)((DocumentationCommentTriviaSyntax)SyntaxFactory.ParseSyntaxTree("///<param name=\"M\"/>").GetCompilationUnitRoot().EndOfFileToken.LeadingTrivia.Single().GetStructure()).Content.OfType<XmlEmptyElementSyntax>().Single().Attributes[0];
             Assert.IsTrue(flad.LanguageServiceProvider.XmlNameAttributeServiceProvider.NameExactlyEqual(a, b));
+        }
+
+        [TestMethod]
+        public void MemberAccessExpressionServiceProvider_NameExactlyEqual_OK()
+        {
+            var flad = new CSharpFlad();
+
+            var a = (MemberAccessExpressionSyntax)SyntaxFactory.ParseExpression("x.r");
+            var b = (MemberAccessExpressionSyntax)SyntaxFactory.ParseExpression("x.R");
+            Assert.IsFalse(flad.LanguageServiceProvider.MemberAccessExpressionServiceProvider.NameExactlyEqual(null, b));
+            Assert.IsFalse(flad.LanguageServiceProvider.MemberAccessExpressionServiceProvider.NameExactlyEqual(a, (MemberAccessExpressionSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.MemberAccessExpressionServiceProvider.NameExactlyEqual(null, (MemberAccessExpressionSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.MemberAccessExpressionServiceProvider.NameExactlyEqual(a, b));
+
+            a = (MemberAccessExpressionSyntax)SyntaxFactory.ParseExpression("x.r");
+            b = (MemberAccessExpressionSyntax)SyntaxFactory.ParseExpression("x.r");
+            Assert.IsTrue(flad.LanguageServiceProvider.MemberAccessExpressionServiceProvider.NameExactlyEqual(a, b));
+
+            a = (MemberAccessExpressionSyntax)SyntaxFactory.ParseExpression("5.r");
+            b = (MemberAccessExpressionSyntax)SyntaxFactory.ParseExpression("6.r");
+            Assert.IsFalse(flad.LanguageServiceProvider.MemberAccessExpressionServiceProvider.NameExactlyEqual(a, b));
+
+            a = (MemberAccessExpressionSyntax)SyntaxFactory.ParseExpression("5.r");
+            b = (MemberAccessExpressionSyntax)SyntaxFactory.ParseExpression("5.r");
+            Assert.IsTrue(flad.LanguageServiceProvider.MemberAccessExpressionServiceProvider.NameExactlyEqual(a, b));
+        }
+
+        [TestMethod]
+        public void MemberBindingExpressionServiceProvider_NameExactlyEqual_OK()
+        {
+            var flad = new CSharpFlad();
+
+            var a = (MemberBindingExpressionSyntax)((ConditionalAccessExpressionSyntax)Microsoft.CodeAnalysis.CSharp.SyntaxFactory.ParseExpression("m?.r")).WhenNotNull;
+            var b = (MemberBindingExpressionSyntax)((ConditionalAccessExpressionSyntax)Microsoft.CodeAnalysis.CSharp.SyntaxFactory.ParseExpression("m?.R")).WhenNotNull;
+            Assert.IsFalse(flad.LanguageServiceProvider.MemberBindingExpressionServiceProvider.NameExactlyEqual(null, b));
+            Assert.IsFalse(flad.LanguageServiceProvider.MemberBindingExpressionServiceProvider.NameExactlyEqual(a, (MemberBindingExpressionSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.MemberBindingExpressionServiceProvider.NameExactlyEqual(null, (MemberBindingExpressionSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.MemberBindingExpressionServiceProvider.NameExactlyEqual(a, b));
+
+            a = (MemberBindingExpressionSyntax)((ConditionalAccessExpressionSyntax)Microsoft.CodeAnalysis.CSharp.SyntaxFactory.ParseExpression("m?.r")).WhenNotNull;
+            b = (MemberBindingExpressionSyntax)((ConditionalAccessExpressionSyntax)Microsoft.CodeAnalysis.CSharp.SyntaxFactory.ParseExpression("m?.r")).WhenNotNull;
+            Assert.IsTrue(flad.LanguageServiceProvider.MemberBindingExpressionServiceProvider.NameExactlyEqual(a, b));
+        }
+
+        [TestMethod]
+        public void QueryExpressionServiceProvider_NameExactlyEqual_OK()
+        {
+            var flad = new CSharpFlad();
+
+            var a = (QueryExpressionSyntax)SyntaxFactory.ParseExpression("from f in s where f.A select f.R");
+            var b = (QueryExpressionSyntax)SyntaxFactory.ParseExpression("from F in s where f.A select f.R");
+            Assert.IsFalse(flad.LanguageServiceProvider.QueryExpressionServiceProvider.NameExactlyEqual(null, b));
+            Assert.IsFalse(flad.LanguageServiceProvider.QueryExpressionServiceProvider.NameExactlyEqual(a, (QueryExpressionSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.QueryExpressionServiceProvider.NameExactlyEqual(null, (QueryExpressionSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.QueryExpressionServiceProvider.NameExactlyEqual(a, b));
+
+            a = (QueryExpressionSyntax)SyntaxFactory.ParseExpression("from f in s where f.A select f.R");
+            b = (QueryExpressionSyntax)SyntaxFactory.ParseExpression("from f in s where f.A select f.R");
+            Assert.IsTrue(flad.LanguageServiceProvider.QueryExpressionServiceProvider.NameExactlyEqual(a, b));
+        }
+
+        [TestMethod]
+        public void AliasQualifiedNameServiceProvider_NameExactlyEqual_OK()
+        {
+            var flad = new CSharpFlad();
+
+            var a = (AliasQualifiedNameSyntax)SyntaxFactory.ParseExpression("global::c");
+            var b = (AliasQualifiedNameSyntax)SyntaxFactory.ParseExpression("global::C");
+            Assert.IsFalse(flad.LanguageServiceProvider.AliasQualifiedNameServiceProvider.NameExactlyEqual(null, b));
+            Assert.IsFalse(flad.LanguageServiceProvider.AliasQualifiedNameServiceProvider.NameExactlyEqual(a, (AliasQualifiedNameSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.AliasQualifiedNameServiceProvider.NameExactlyEqual(null, (AliasQualifiedNameSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.AliasQualifiedNameServiceProvider.NameExactlyEqual(a, b));
+
+            a = (AliasQualifiedNameSyntax)SyntaxFactory.ParseExpression("global::C");
+            b = (AliasQualifiedNameSyntax)SyntaxFactory.ParseExpression("global::c");
+            Assert.IsFalse(flad.LanguageServiceProvider.AliasQualifiedNameServiceProvider.NameExactlyEqual(null, b));
+            Assert.IsFalse(flad.LanguageServiceProvider.AliasQualifiedNameServiceProvider.NameExactlyEqual(a, (AliasQualifiedNameSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.AliasQualifiedNameServiceProvider.NameExactlyEqual(null, (AliasQualifiedNameSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.AliasQualifiedNameServiceProvider.NameExactlyEqual(a, b));
+
+            a = (AliasQualifiedNameSyntax)SyntaxFactory.ParseExpression("globalx::c");
+            b = (AliasQualifiedNameSyntax)SyntaxFactory.ParseExpression("global::c");
+            Assert.IsFalse(flad.LanguageServiceProvider.AliasQualifiedNameServiceProvider.NameExactlyEqual(null, b));
+            Assert.IsFalse(flad.LanguageServiceProvider.AliasQualifiedNameServiceProvider.NameExactlyEqual(a, (AliasQualifiedNameSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.AliasQualifiedNameServiceProvider.NameExactlyEqual(null, (AliasQualifiedNameSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.AliasQualifiedNameServiceProvider.NameExactlyEqual(a, b));
+
+            a = (AliasQualifiedNameSyntax)SyntaxFactory.ParseExpression("global::c");
+            b = (AliasQualifiedNameSyntax)SyntaxFactory.ParseExpression("globalx::c");
+            Assert.IsFalse(flad.LanguageServiceProvider.AliasQualifiedNameServiceProvider.NameExactlyEqual(null, b));
+            Assert.IsFalse(flad.LanguageServiceProvider.AliasQualifiedNameServiceProvider.NameExactlyEqual(a, (AliasQualifiedNameSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.AliasQualifiedNameServiceProvider.NameExactlyEqual(null, (AliasQualifiedNameSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.AliasQualifiedNameServiceProvider.NameExactlyEqual(a, b));
+
+            a = (AliasQualifiedNameSyntax)SyntaxFactory.ParseExpression("global::c");
+            b = (AliasQualifiedNameSyntax)SyntaxFactory.ParseExpression("global::c");
+            Assert.IsTrue(flad.LanguageServiceProvider.AliasQualifiedNameServiceProvider.NameExactlyEqual(a, b));
+        }
+
+        [TestMethod]
+        public void IdentifierNameServiceProvider_NameExactlyEqual_OK()
+        {
+            var flad = new CSharpFlad();
+
+            var a = (IdentifierNameSyntax)SyntaxFactory.ParseName("varx");
+            var b = (IdentifierNameSyntax)SyntaxFactory.ParseName("var");
+            Assert.IsFalse(flad.LanguageServiceProvider.IdentifierNameServiceProvider.NameExactlyEqual(null, b));
+            Assert.IsFalse(flad.LanguageServiceProvider.IdentifierNameServiceProvider.NameExactlyEqual(a, (IdentifierNameSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.IdentifierNameServiceProvider.NameExactlyEqual(null, (IdentifierNameSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.IdentifierNameServiceProvider.NameExactlyEqual(a, b));
+
+            a = (IdentifierNameSyntax)SyntaxFactory.ParseName("var");
+            b = (IdentifierNameSyntax)SyntaxFactory.ParseName("var");
+            Assert.IsTrue(flad.LanguageServiceProvider.IdentifierNameServiceProvider.NameExactlyEqual(a, b));
+        }
+
+        [TestMethod]
+        public void GenericNameServiceProvider_NameExactlyEqual_OK()
+        {
+            var flad = new CSharpFlad();
+
+            var a = (GenericNameSyntax)SyntaxFactory.ParseName("a<,>");
+            var b = (GenericNameSyntax)SyntaxFactory.ParseName("a<T>");
+            Assert.IsFalse(flad.LanguageServiceProvider.GenericNameServiceProvider.NameExactlyEqual(null, b));
+            Assert.IsFalse(flad.LanguageServiceProvider.GenericNameServiceProvider.NameExactlyEqual(a, (GenericNameSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.GenericNameServiceProvider.NameExactlyEqual(null, (GenericNameSyntax)null));
+            Assert.IsTrue(flad.LanguageServiceProvider.GenericNameServiceProvider.NameExactlyEqual(a, b));
+
+            a = (GenericNameSyntax)SyntaxFactory.ParseName("a<T>");
+            b = (GenericNameSyntax)SyntaxFactory.ParseName("a<,>");
+            Assert.IsFalse(flad.LanguageServiceProvider.GenericNameServiceProvider.NameExactlyEqual(null, b));
+            Assert.IsFalse(flad.LanguageServiceProvider.GenericNameServiceProvider.NameExactlyEqual(a, (GenericNameSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.GenericNameServiceProvider.NameExactlyEqual(null, (GenericNameSyntax)null));
+            Assert.IsTrue(flad.LanguageServiceProvider.GenericNameServiceProvider.NameExactlyEqual(a, b));
+
+            a = (GenericNameSyntax)SyntaxFactory.ParseName("a<,>");
+            b = (GenericNameSyntax)SyntaxFactory.ParseName("a<,>");
+            Assert.IsFalse(flad.LanguageServiceProvider.GenericNameServiceProvider.NameExactlyEqual(null, b));
+            Assert.IsFalse(flad.LanguageServiceProvider.GenericNameServiceProvider.NameExactlyEqual(a, (GenericNameSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.GenericNameServiceProvider.NameExactlyEqual(null, (GenericNameSyntax)null));
+            Assert.IsTrue(flad.LanguageServiceProvider.GenericNameServiceProvider.NameExactlyEqual(a, b));
+
+            a = (GenericNameSyntax)SyntaxFactory.ParseName("a<T>");
+            b = (GenericNameSyntax)SyntaxFactory.ParseName("a<K>");
+            Assert.IsFalse(flad.LanguageServiceProvider.GenericNameServiceProvider.NameExactlyEqual(null, b));
+            Assert.IsFalse(flad.LanguageServiceProvider.GenericNameServiceProvider.NameExactlyEqual(a, (GenericNameSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.GenericNameServiceProvider.NameExactlyEqual(null, (GenericNameSyntax)null));
+            Assert.IsTrue(flad.LanguageServiceProvider.GenericNameServiceProvider.NameExactlyEqual(a, b));
+
+            a = (GenericNameSyntax)SyntaxFactory.ParseName("b<T>");
+            b = (GenericNameSyntax)SyntaxFactory.ParseName("a<T>");
+            Assert.IsFalse(flad.LanguageServiceProvider.GenericNameServiceProvider.NameExactlyEqual(a, b));
+
+            a = (GenericNameSyntax)SyntaxFactory.ParseName("a<T>");
+            b = (GenericNameSyntax)SyntaxFactory.ParseName("a<T>");
+            Assert.IsTrue(flad.LanguageServiceProvider.GenericNameServiceProvider.NameExactlyEqual(a, b));
+        }
+
+        [TestMethod]
+        public void SimpleLambdaExpressionServiceProvider_NameExactlyEqual_OK()
+        {
+            var flad = new CSharpFlad();
+
+            var a = (SimpleLambdaExpressionSyntax)SyntaxFactory.ParseExpression("e => 4 }");
+            var b = (SimpleLambdaExpressionSyntax)SyntaxFactory.ParseExpression("E => 4 }");
+            Assert.IsFalse(flad.LanguageServiceProvider.SimpleLambdaExpressionServiceProvider.NameExactlyEqual(null, b));
+            Assert.IsFalse(flad.LanguageServiceProvider.SimpleLambdaExpressionServiceProvider.NameExactlyEqual(a, (SimpleLambdaExpressionSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.SimpleLambdaExpressionServiceProvider.NameExactlyEqual(null, (SimpleLambdaExpressionSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.SimpleLambdaExpressionServiceProvider.NameExactlyEqual(a, b));
+
+            a = (SimpleLambdaExpressionSyntax)SyntaxFactory.ParseExpression("e => 4 }");
+            b = (SimpleLambdaExpressionSyntax)SyntaxFactory.ParseExpression("e => 4 }");
+            Assert.IsTrue(flad.LanguageServiceProvider.SimpleLambdaExpressionServiceProvider.NameExactlyEqual(a, b));
+        }
+
+        [TestMethod]
+        public void FromClauseServiceProvider_NameExactlyEqual_OK()
+        {
+            var flad = new CSharpFlad();
+
+            var a = ((QueryExpressionSyntax)SyntaxFactory.ParseExpression("from f in s where f.A select f.R")).FromClause;
+            var b = ((QueryExpressionSyntax)SyntaxFactory.ParseExpression("from F in s where f.A select f.R")).FromClause;
+            Assert.IsFalse(flad.LanguageServiceProvider.FromClauseServiceProvider.NameExactlyEqual(null, b));
+            Assert.IsFalse(flad.LanguageServiceProvider.FromClauseServiceProvider.NameExactlyEqual(a, (FromClauseSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.FromClauseServiceProvider.NameExactlyEqual(null, (FromClauseSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.FromClauseServiceProvider.NameExactlyEqual(a, b));
+
+            a = ((QueryExpressionSyntax)SyntaxFactory.ParseExpression("from f in s where f.A select f.R")).FromClause;
+            b = ((QueryExpressionSyntax)SyntaxFactory.ParseExpression("from f in s where f.A select f.R")).FromClause;
+            Assert.IsTrue(flad.LanguageServiceProvider.FromClauseServiceProvider.NameExactlyEqual(a, b));
+        }
+
+        [TestMethod]
+        public void LetClauseServiceProvider_NameExactlyEqual_OK()
+        {
+            var flad = new CSharpFlad();
+
+            var a = (LetClauseSyntax)((QueryExpressionSyntax)SyntaxFactory.ParseExpression("from A f in s let y = 5")).Body.Clauses[0];
+            var b = (LetClauseSyntax)((QueryExpressionSyntax)SyntaxFactory.ParseExpression("from A f in s let Y = 5")).Body.Clauses[0];
+            Assert.IsFalse(flad.LanguageServiceProvider.LetClauseServiceProvider.NameExactlyEqual(null, b));
+            Assert.IsFalse(flad.LanguageServiceProvider.LetClauseServiceProvider.NameExactlyEqual(a, (LetClauseSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.LetClauseServiceProvider.NameExactlyEqual(null, (LetClauseSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.LetClauseServiceProvider.NameExactlyEqual(a, b));
+
+            a = (LetClauseSyntax)((QueryExpressionSyntax)SyntaxFactory.ParseExpression("from A f in s let y = 5")).Body.Clauses[0];
+            b = (LetClauseSyntax)((QueryExpressionSyntax)SyntaxFactory.ParseExpression("from A f in s let y = 5")).Body.Clauses[0];
+            Assert.IsTrue(flad.LanguageServiceProvider.LetClauseServiceProvider.NameExactlyEqual(a, b));
+        }
+
+        [TestMethod]
+        public void JoinClauseServiceProvider_NameExactlyEqual_OK()
+        {
+            var flad = new CSharpFlad();
+
+            var a = (JoinClauseSyntax)((QueryExpressionSyntax)SyntaxFactory.ParseExpression("from f in s join T t in F on t.L equals s.R into y")).Body.Clauses[0];
+            var b = (JoinClauseSyntax)((QueryExpressionSyntax)SyntaxFactory.ParseExpression("from f in s join T s in F on t.L equals s.R into y")).Body.Clauses[0];
+            Assert.IsFalse(flad.LanguageServiceProvider.JoinClauseServiceProvider.NameExactlyEqual(null, b));
+            Assert.IsFalse(flad.LanguageServiceProvider.JoinClauseServiceProvider.NameExactlyEqual(a, (JoinClauseSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.JoinClauseServiceProvider.NameExactlyEqual(null, (JoinClauseSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.JoinClauseServiceProvider.NameExactlyEqual(a, b));
+
+            a = (JoinClauseSyntax)((QueryExpressionSyntax)SyntaxFactory.ParseExpression("from f in s join T t in F on t.L equals s.R into y")).Body.Clauses[0];
+            b = (JoinClauseSyntax)((QueryExpressionSyntax)SyntaxFactory.ParseExpression("from f in s join T t in F on t.L equals s.R into y")).Body.Clauses[0];
+            Assert.IsTrue(flad.LanguageServiceProvider.JoinClauseServiceProvider.NameExactlyEqual(a, b));
+        }
+
+        [TestMethod]
+        public void LocalFunctionStatementServiceProvider_NameExactlyEqual_OK()
+        {
+            var flad = new CSharpFlad();
+
+            var a = (LocalFunctionStatementSyntax)((MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit(@"
+            void m()
+            {
+                int Local() => 0;
+            }").Members[0]).Body.Statements[0];
+            var b = (LocalFunctionStatementSyntax)((MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit(@"
+            void m()
+            {
+                int local() => 0;
+            }").Members[0]).Body.Statements[0];
+            Assert.IsFalse(flad.LanguageServiceProvider.LocalFunctionStatementServiceProvider.NameExactlyEqual(null, b));
+            Assert.IsFalse(flad.LanguageServiceProvider.LocalFunctionStatementServiceProvider.NameExactlyEqual(a, (LocalFunctionStatementSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.LocalFunctionStatementServiceProvider.NameExactlyEqual(null, (LocalFunctionStatementSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.LocalFunctionStatementServiceProvider.NameExactlyEqual(a, b));
+
+            a = (LocalFunctionStatementSyntax)((MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit(@"
+            void m()
+            {
+                int local() => 0;
+            }").Members[0]).Body.Statements[0];
+            b = (LocalFunctionStatementSyntax)((MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit(@"
+            void m()
+            {
+                int local() => 0;
+            }").Members[0]).Body.Statements[0];
+            Assert.IsTrue(flad.LanguageServiceProvider.LocalFunctionStatementServiceProvider.NameExactlyEqual(a, b));
+        }
+
+        [TestMethod]
+        public void LocalDeclarationStatementServiceProvider_NameExactlyEqual_OK()
+        {
+            var flad = new CSharpFlad();
+
+            var a = (LocalDeclarationStatementSyntax)((MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("int a() { const int a; }").Members[0]).Body.Statements[0];
+            var b = (LocalDeclarationStatementSyntax)((MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("int a() { const int A; }").Members[0]).Body.Statements[0];
+            Assert.IsFalse(flad.LanguageServiceProvider.LocalDeclarationStatementServiceProvider.NameExactlyEqual(null, b));
+            Assert.IsFalse(flad.LanguageServiceProvider.LocalDeclarationStatementServiceProvider.NameExactlyEqual(a, (LocalDeclarationStatementSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.LocalDeclarationStatementServiceProvider.NameExactlyEqual(null, (LocalDeclarationStatementSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.LocalDeclarationStatementServiceProvider.NameExactlyEqual(a, b));
+
+            a = (LocalDeclarationStatementSyntax)((MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("int a() { const int a; }").Members[0]).Body.Statements[0];
+            b = (LocalDeclarationStatementSyntax)((MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("int a() { const int a; }").Members[0]).Body.Statements[0];
+            Assert.IsTrue(flad.LanguageServiceProvider.LocalDeclarationStatementServiceProvider.NameExactlyEqual(a, b));
+        }
+
+        [TestMethod]
+        public void LabeledStatementServiceProvider_NameExactlyEqual_OK()
+        {
+            var flad = new CSharpFlad();
+
+            var a = (LabeledStatementSyntax)SyntaxFactory.ParseStatement("l: 3");
+            var b = (LabeledStatementSyntax)SyntaxFactory.ParseStatement("L: 3");
+            Assert.IsFalse(flad.LanguageServiceProvider.LabeledStatementServiceProvider.NameExactlyEqual(null, b));
+            Assert.IsFalse(flad.LanguageServiceProvider.LabeledStatementServiceProvider.NameExactlyEqual(a, (LabeledStatementSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.LabeledStatementServiceProvider.NameExactlyEqual(null, (LabeledStatementSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.LabeledStatementServiceProvider.NameExactlyEqual(a, b));
+
+            a = (LabeledStatementSyntax)SyntaxFactory.ParseStatement("l: 3");
+            b = (LabeledStatementSyntax)SyntaxFactory.ParseStatement("l: 3");
+            Assert.IsTrue(flad.LanguageServiceProvider.LabeledStatementServiceProvider.NameExactlyEqual(a, b));
+        }
+
+        [TestMethod]
+        public void ForStatementServiceProvider_NameExactlyEqual_OK()
+        {
+            var flad = new CSharpFlad();
+
+            var a = (ForStatementSyntax)SyntaxFactory.ParseStatement("for(int A, b = 4; a < 0; a++, --b);");
+            var b = (ForStatementSyntax)SyntaxFactory.ParseStatement("for(int a, b = 4; a < 0; a++, --b);");
+            Assert.IsFalse(flad.LanguageServiceProvider.ForStatementServiceProvider.NameExactlyEqual(null, b));
+            Assert.IsFalse(flad.LanguageServiceProvider.ForStatementServiceProvider.NameExactlyEqual(a, (ForStatementSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.ForStatementServiceProvider.NameExactlyEqual(null, (ForStatementSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.ForStatementServiceProvider.NameExactlyEqual(a, b));
+
+            a = (ForStatementSyntax)SyntaxFactory.ParseStatement("for(int a = 4; a < 0; --b);");
+            b = (ForStatementSyntax)SyntaxFactory.ParseStatement("for(int b = 4; a < 0; --b);");
+            Assert.IsFalse(flad.LanguageServiceProvider.ForStatementServiceProvider.NameExactlyEqual(null, b));
+            Assert.IsFalse(flad.LanguageServiceProvider.ForStatementServiceProvider.NameExactlyEqual(a, (ForStatementSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.ForStatementServiceProvider.NameExactlyEqual(null, (ForStatementSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.ForStatementServiceProvider.NameExactlyEqual(a, b));
+
+            a = (ForStatementSyntax)SyntaxFactory.ParseStatement("for(int a, b = 4; a < 0; a++, --b);");
+            b = (ForStatementSyntax)SyntaxFactory.ParseStatement("for(int a, b = 4; a < 0; a++, --b);");
+            Assert.IsTrue(flad.LanguageServiceProvider.ForStatementServiceProvider.NameExactlyEqual(a, b));
+
+            a = (ForStatementSyntax)SyntaxFactory.ParseStatement("for(int a = 4; a < 0; --b);");
+            b = (ForStatementSyntax)SyntaxFactory.ParseStatement("for(int a = 4; a < 0; --b);");
+            Assert.IsTrue(flad.LanguageServiceProvider.ForStatementServiceProvider.NameExactlyEqual(a, b));
+        }
+
+        [TestMethod]
+        public void UsingStatementServiceProvider_NameExactlyEqual_OK()
+        {
+            var flad = new CSharpFlad();
+
+            var a = (UsingStatementSyntax)SyntaxFactory.ParseStatement("using(int A, b = 4);");
+            var b = (UsingStatementSyntax)SyntaxFactory.ParseStatement("using(int a, b = 4);");
+            Assert.IsFalse(flad.LanguageServiceProvider.UsingStatementServiceProvider.NameExactlyEqual(null, b));
+            Assert.IsFalse(flad.LanguageServiceProvider.UsingStatementServiceProvider.NameExactlyEqual(a, (UsingStatementSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.UsingStatementServiceProvider.NameExactlyEqual(null, (UsingStatementSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.UsingStatementServiceProvider.NameExactlyEqual(a, b));
+
+            a = (UsingStatementSyntax)SyntaxFactory.ParseStatement("using(int a = 4);");
+            b = (UsingStatementSyntax)SyntaxFactory.ParseStatement("using(int b = 4);");
+            Assert.IsFalse(flad.LanguageServiceProvider.UsingStatementServiceProvider.NameExactlyEqual(null, b));
+            Assert.IsFalse(flad.LanguageServiceProvider.UsingStatementServiceProvider.NameExactlyEqual(a, (UsingStatementSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.UsingStatementServiceProvider.NameExactlyEqual(null, (UsingStatementSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.UsingStatementServiceProvider.NameExactlyEqual(a, b));
+
+            a = (UsingStatementSyntax)SyntaxFactory.ParseStatement("using(int a, b = 4);");
+            b = (UsingStatementSyntax)SyntaxFactory.ParseStatement("using(int a, b = 4);");
+            Assert.IsTrue(flad.LanguageServiceProvider.UsingStatementServiceProvider.NameExactlyEqual(a, b));
+
+            a = (UsingStatementSyntax)SyntaxFactory.ParseStatement("using(int a = 4);");
+            b = (UsingStatementSyntax)SyntaxFactory.ParseStatement("using(int a = 4);");
+            Assert.IsTrue(flad.LanguageServiceProvider.UsingStatementServiceProvider.NameExactlyEqual(a, b));
+        }
+
+        [TestMethod]
+        public void FixedStatementServiceProvider_NameExactlyEqual_OK()
+        {
+            var flad = new CSharpFlad();
+
+            var a = (FixedStatementSyntax)SyntaxFactory.ParseStatement("fixed(int A, b = 4);");
+            var b = (FixedStatementSyntax)SyntaxFactory.ParseStatement("fixed(int a, b = 4);");
+            Assert.IsFalse(flad.LanguageServiceProvider.FixedStatementServiceProvider.NameExactlyEqual(null, b));
+            Assert.IsFalse(flad.LanguageServiceProvider.FixedStatementServiceProvider.NameExactlyEqual(a, (FixedStatementSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.FixedStatementServiceProvider.NameExactlyEqual(null, (FixedStatementSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.FixedStatementServiceProvider.NameExactlyEqual(a, b));
+
+            a = (FixedStatementSyntax)SyntaxFactory.ParseStatement("fixed(int a = 4);");
+            b = (FixedStatementSyntax)SyntaxFactory.ParseStatement("fixed(int b = 4);");
+            Assert.IsFalse(flad.LanguageServiceProvider.FixedStatementServiceProvider.NameExactlyEqual(null, b));
+            Assert.IsFalse(flad.LanguageServiceProvider.FixedStatementServiceProvider.NameExactlyEqual(a, (FixedStatementSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.FixedStatementServiceProvider.NameExactlyEqual(null, (FixedStatementSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.FixedStatementServiceProvider.NameExactlyEqual(a, b));
+
+            a = (FixedStatementSyntax)SyntaxFactory.ParseStatement("fixed(int a, b = 4);");
+            b = (FixedStatementSyntax)SyntaxFactory.ParseStatement("fixed(int a, b = 4);");
+            Assert.IsTrue(flad.LanguageServiceProvider.FixedStatementServiceProvider.NameExactlyEqual(a, b));
+
+            a = (FixedStatementSyntax)SyntaxFactory.ParseStatement("fixed(int a = 4);");
+            b = (FixedStatementSyntax)SyntaxFactory.ParseStatement("fixed(int a = 4);");
+            Assert.IsTrue(flad.LanguageServiceProvider.FixedStatementServiceProvider.NameExactlyEqual(a, b));
+        }
+
+        [TestMethod]
+        public void ForEachStatementServiceProvider_NameExactlyEqual_OK()
+        {
+            var flad = new CSharpFlad();
+
+            var a = (ForEachStatementSyntax)SyntaxFactory.ParseStatement("foreach(int b in ac);");
+            var b = (ForEachStatementSyntax)SyntaxFactory.ParseStatement("foreach(int a in ac);");
+            Assert.IsFalse(flad.LanguageServiceProvider.ForEachStatementServiceProvider.NameExactlyEqual(null, b));
+            Assert.IsFalse(flad.LanguageServiceProvider.ForEachStatementServiceProvider.NameExactlyEqual(a, (ForEachStatementSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.ForEachStatementServiceProvider.NameExactlyEqual(null, (ForEachStatementSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.ForEachStatementServiceProvider.NameExactlyEqual(a, b));
+
+            a = (ForEachStatementSyntax)SyntaxFactory.ParseStatement("foreach(int a in ac);");
+            b = (ForEachStatementSyntax)SyntaxFactory.ParseStatement("foreach(int a in ac);");
+            Assert.IsTrue(flad.LanguageServiceProvider.ForEachStatementServiceProvider.NameExactlyEqual(a, b));
+        }
+
+        [TestMethod]
+        public void SingleVariableDesignationServiceProvider_NameExactlyEqual_OK()
+        {
+            var flad = new CSharpFlad();
+
+            var a = (SingleVariableDesignationSyntax)SyntaxFactory.SingleVariableDesignation(SyntaxFactory.Identifier("a"));
+            var b = (SingleVariableDesignationSyntax)SyntaxFactory.SingleVariableDesignation(SyntaxFactory.Identifier("b"));
+            Assert.IsFalse(flad.LanguageServiceProvider.SingleVariableDesignationServiceProvider.NameExactlyEqual(null, b));
+            Assert.IsFalse(flad.LanguageServiceProvider.SingleVariableDesignationServiceProvider.NameExactlyEqual(a, (SingleVariableDesignationSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.SingleVariableDesignationServiceProvider.NameExactlyEqual(null, (SingleVariableDesignationSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.SingleVariableDesignationServiceProvider.NameExactlyEqual(a, b));
+
+            a = (SingleVariableDesignationSyntax)SyntaxFactory.SingleVariableDesignation(SyntaxFactory.Identifier("a"));
+            b = (SingleVariableDesignationSyntax)SyntaxFactory.SingleVariableDesignation(SyntaxFactory.Identifier("a"));
+            Assert.IsTrue(flad.LanguageServiceProvider.SingleVariableDesignationServiceProvider.NameExactlyEqual(a, b));
         }
     }
 }

@@ -586,7 +586,7 @@ namespace Jawilliam.CDF.Labs
             //    //System.IO.File.AppendAllText(@"E:\Phd\Analysis\UniquePairs\WarningsGhost.csv", analyzer.Warnings.ToString());
             //}           
 
-            //ExploringRDSL();
+            ExploringRDSL();
             //int fragments = 0, frps = 0; 
             //foreach (var project in Projects)
             //{
@@ -606,7 +606,7 @@ namespace Jawilliam.CDF.Labs
             //}
             //RedundancyComparisonGumTreeWithMultipleConfigurations();
             
-            DetectingInverseOfNativeGumTreeWithGumtreefiedRoslynMLOnMultipleConfigurations();
+            //--DetectingInverseOfNativeGumTreeWithGumtreefiedRoslynMLOnMultipleConfigurations();
             
             //ReviewRevisionPairs2(@"E:\Phd\Analysis\OriginalForReversibilityExample.cs", @"E:\Phd\Analysis\ModifiedForReversibilityExample.cs",
             //    ReviewKind.Ratio_LevenshteinGumTreeAdditions_LocalOutliers, ReviewRevisionPair/*,
@@ -629,6 +629,8 @@ namespace Jawilliam.CDF.Labs
             var x = Jawilliam.CDF.XObjects.RDSL.Syntax.Load(@"E:\MyRepositories\Change-Detection-Foundation\Jawilliam.CDF.CSharp\RDSL.xml");
             var nonAbstractTypes = x.Nodes.Type.Where(n => !n.@abstract).ToArray();
             var abstractTypes = x.Nodes.Type.Where(n => n.@abstract).ToArray();
+
+            var symbolicTypes = nonAbstractTypes.Where(t => t.Properties.Property.Count == 1).ToArray();
 
             var assembly = typeof(RoslynML).Assembly;
             var elementTypeInfos = x.Nodes.Type.Select((n, i) => new {
@@ -1054,10 +1056,13 @@ namespace Jawilliam.CDF.Labs
                         return roslynMLServices.AsGumtreefiedElementTree(xTree);
                     };
 
-                    recognizer.Warnings = new StringBuilder();
-                    recognizer.Recognize(skipThese, true);
-                    System.IO.File.AppendAllText($@"D:\ExperimentLogs\{configuration.Backward.Name}.txt",
-                        $"{Environment.NewLine}{Environment.NewLine}Reversibility comparison (recognition) completed {DateTime.Now.ToString("F", CultureInfo.InvariantCulture)} - {project.Name}");
+                    if (!(project.Name == "Dafny" && (int)configuration.Forward.Approach == 16))
+                    {
+                        recognizer.Warnings = new StringBuilder();
+                        recognizer.Recognize(skipThese, true);
+                        System.IO.File.AppendAllText($@"D:\ExperimentLogs\{configuration.Backward.Name}.txt",
+                            $"{Environment.NewLine}{Environment.NewLine}Reversibility comparison (recognition) completed {DateTime.Now.ToString("F", CultureInfo.InvariantCulture)} - {project.Name}");
+                    }
 
                     recognizer.Warnings = new StringBuilder();
                     recognizer.ConnectMatchSymptoms(skipThese, true);

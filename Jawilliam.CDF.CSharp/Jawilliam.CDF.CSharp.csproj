@@ -157,6 +157,7 @@
       <DependentUpon>LanguageServiceProvider.tt</DependentUpon>
     </Compile>
     <Compile Include="Flad\LanguageServiceProvider.Partial.cs" />
+    <Compile Include="Flad\MemberAccessExpressionServiceProvider.Partial.cs" />
     <Compile Include="Flad\NameColonServiceProvider.Partial.cs" />
     <Compile Include="Flad\NameEqualityServices.cs">
       <AutoGen>True</AutoGen>
@@ -165,6 +166,8 @@
     </Compile>
     <Compile Include="Flad\NameEqualsServiceProvider.Partial.cs" />
     <Compile Include="Flad\NameServiceProvider.Partial.cs" />
+    <Compile Include="Flad\OmittedTypeArgumentServiceProvider.Partial.cs" />
+    <Compile Include="Flad\SyntaxTokenServiceProvider.cs" />
     <Compile Include="MutableNodes.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

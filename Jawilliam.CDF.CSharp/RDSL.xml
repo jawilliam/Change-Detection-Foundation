@@ -76,6 +76,7 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+          <Key name="true"/>
         </Property>
         <Property name="OperatorToken" kind="Token" index="1" readOnly="true" optional="false" changepoint="true" multiplicity="Single">
           <Text value="false"/>
@@ -517,6 +518,7 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+          <Key signature="true"/>
         </Property>
         <Property name="Body" kind="Expression" index="3" optional="false" changepoint="true" inherited="true" multiplicity="Single">
           <Text value="false"/>
@@ -524,6 +526,7 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
+      <Key signature="true"/>
     </Type>
     <!--ExpressionSyntax$AnonymousFunctionExpressionSyntax$LambdaExpressionSyntax-->
     <Type name="LambdaExpressionSyntax" abstract="true" base="AnonymousFunctionExpressionSyntax">
@@ -546,7 +549,7 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Key name="true" signature="true"/>
         </Property>
         <Property name="ArrowToken" kind="Token" index="2" readOnly="true" optional="false" inherited="true" multiplicity="Single">
           <Text value="false"/>
@@ -559,7 +562,7 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Key name="true" signature="true"/>
     </Type>
     <Type name="ParenthesizedLambdaExpressionSyntax" base="LambdaExpressionSyntax">
       <Properties>
@@ -572,6 +575,7 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+          <Key signature="true"/>
         </Property>
         <Property name="ArrowToken" kind="Token" index="2" readOnly="true" optional="false" inherited="true" multiplicity="Single">
           <Text value="false"/>
@@ -584,6 +588,7 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
+      <Key signature="true"/>
     </Type>
     <!--ExpressionSyntax-->
     <Type name="InitializerExpressionSyntax" base="ExpressionSyntax">
@@ -1285,6 +1290,7 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+          <Key name="true"/>
         </Property>
         <Property name="ColonColonToken" kind="Token" index="1" readOnly="true" optional="true" multiplicity="Single">
           <Text value="false"/>
@@ -1351,6 +1357,7 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+          <Key name="true"/>
         </Property>
         <Property name="GreaterThanToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single">
           <Text value="false"/>
@@ -2265,17 +2272,19 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Key name="true" signature="true"/>
         </Property>
         <Property name="TypeParameterList" kind="Expression" index="5" optional="true" changepoint="true" multiplicity="Single">
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+          <Key signature="true"/>
         </Property>
         <Property name="ParameterList" kind="Expression" index="6" optional="false" changepoint="true" multiplicity="Single">
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+          <Key signature="true"/>
         </Property>
         <Property name="ConstraintClauses" kind="Expression" index="7" optional="false" changepoint="true" multiplicity="Collection" collectionType="TypeParameterConstraintClauseSyntax">
           <Text value="false"/>
@@ -2288,7 +2297,7 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Key name="true" signature="true"/>
     </Type>
     <!--Member Declarations$BaseTypeDeclarationSyntax-->
     <Type name="BaseTypeDeclarationSyntax" abstract="true" base="MemberDeclarationSyntax">
@@ -2395,6 +2404,7 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+          <Key signature="true"/>
         </Property>
         <Property name="ConstraintClauses" kind="Expression" index="2" optional="false" changepoint="true" multiplicity="Collection" collectionType="TypeParameterConstraintClauseSyntax">
           <Text value="false"/>
@@ -2407,6 +2417,7 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
+      <Key signature="true"/>
     </Type>
     <Type name="ClassDeclarationSyntax" base="TypeDeclarationSyntax">
       <Properties>
@@ -2435,6 +2446,7 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+          <Key signature="true"/>
         </Property>
         <Property name="BaseList" kind="Expression" index="5" optional="true" changepoint="true" inherited="true" multiplicity="Single">
           <Text value="false"/>
@@ -2467,7 +2479,7 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Key name="true" signature="true"/>
     </Type>
     <Type name="StructDeclarationSyntax" base="TypeDeclarationSyntax">
       <Properties>
@@ -2496,6 +2508,7 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+          <Key signature="true"/>
         </Property>
         <Property name="BaseList" kind="Expression" index="5" optional="true" changepoint="true" inherited="true" multiplicity="Single">
           <Text value="false"/>
@@ -2528,7 +2541,7 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Key name="true" signature="true"/>
     </Type>
     <Type name="InterfaceDeclarationSyntax" base="TypeDeclarationSyntax">
       <Properties>
@@ -2557,6 +2570,7 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+          <Key signature="true"/>
         </Property>
         <Property name="BaseList" kind="Expression" index="5" optional="true" changepoint="true" inherited="true" multiplicity="Single">
           <Text value="false"/>
@@ -2589,7 +2603,7 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Key name="true" signature="true"/>
     </Type>
     <!--And Related-->
     <Type name="EnumMemberDeclarationSyntax" base="MemberDeclarationSyntax">
@@ -2625,6 +2639,7 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+          <Key signature="true"/>
         </Property>
         <Property name="GreaterThanToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single">
           <Text value="false"/>
@@ -2846,7 +2861,7 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Key name="true" signature="true"/>
         </Property>
         <Property name="DotToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single">
           <Text value="false"/>
@@ -2854,7 +2869,7 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Key name="true" signature="true"/>
     </Type>
     <!--And Related$BaseMethodDeclarationSyntax-->
     <Type name="BaseMethodDeclarationSyntax" abstract="true" base="MemberDeclarationSyntax">
@@ -2873,6 +2888,7 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+          <Key signature="true"/>
         </Property>
         <Property name="Body" kind="Expression" index="3" optional="true" changepoint="true" multiplicity="Single">
           <Text value="false"/>
@@ -2885,6 +2901,7 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
+      <Key signature="true"/>
     </Type>
     <Type name="MethodDeclarationSyntax" base="BaseMethodDeclarationSyntax">
       <Properties>
@@ -2907,6 +2924,7 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+          <Key name="true" signature="true"/>
         </Property>
         <Property name="Identifier" kind="Token" index="4" optional="false" changepoint="true" multiplicity="Single">
           <Text value="false"/>
@@ -2918,11 +2936,13 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+          <Key signature="true"/>
         </Property>
         <Property name="ParameterList" kind="Expression" index="6" optional="false" changepoint="true" inherited="true" multiplicity="Single">
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+          <Key signature="true"/>
         </Property>
         <Property name="ConstraintClauses" kind="Expression" index="7" optional="false" changepoint="true" multiplicity="Collection" collectionType="TypeParameterConstraintClauseSyntax">
           <Text value="false"/>
@@ -2945,7 +2965,7 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Key name="true" signature="true"/>
     </Type>
     <Type name="OperatorDeclarationSyntax" base="BaseMethodDeclarationSyntax">
       <Properties>
@@ -2979,6 +2999,7 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+          <Key signature="true"/>
         </Property>
         <Property name="Body" kind="Expression" index="6" optional="true" changepoint="true" inherited="true" multiplicity="Single">
           <Text value="false"/>
@@ -2996,7 +3017,7 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Key name="true" signature="true"/>
     </Type>
     <Type name="ConversionOperatorDeclarationSyntax" base="BaseMethodDeclarationSyntax">
       <Properties>
@@ -3029,6 +3050,7 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+          <Key signature="true"/>
         </Property>
         <Property name="Body" kind="Expression" index="6" optional="true" changepoint="true" inherited="true" multiplicity="Single">
           <Text value="false"/>
@@ -3046,6 +3068,7 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
+      <Key signature="true"/>
     </Type>
     <Type name="ConstructorDeclarationSyntax" base="BaseMethodDeclarationSyntax">
       <Properties>
@@ -3069,6 +3092,7 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+          <Key signature="true"/>
         </Property>
         <Property name="Initializer" kind="Expression" index="4" optional="true" changepoint="true" multiplicity="Single">
           <Text value="false"/>
@@ -3086,7 +3110,7 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Key name="true" signature="true"/>
     </Type>
     <Type name="ConstructorInitializerSyntax">
       <Properties>
@@ -3173,6 +3197,7 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+          <Key name="true" signature="true"/>
         </Property>
         <Property name="AccessorList" kind="Expression" index="4" optional="false" changepoint="true" multiplicity="Single">
           <Text value="false"/>
@@ -3180,6 +3205,7 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
+      <Key name="true" signature="true"/>
     </Type>
     <Type name="PropertyDeclarationSyntax" base="BasePropertyDeclarationSyntax">
       <Properties>
@@ -3202,12 +3228,13 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+          <Key name="true" signature="true"/>
         </Property>
         <Property name="Identifier" kind="Token" index="4" optional="false" changepoint="true" multiplicity="Single">
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Key name="true" signature="true"/>
         </Property>
         <Property name="AccessorList" kind="Expression" index="5" optional="true" changepoint="true" inherited="true" multiplicity="Single">
           <Text value="false"/>
@@ -3230,7 +3257,7 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Key name="true" signature="true"/>
     </Type>
     <Type name="ArrowExpressionClauseSyntax">
       <Properties>
@@ -3272,6 +3299,7 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+          <Key name="true" signature="true"/>
         </Property>
         <Property name="Identifier" kind="Token" index="5" optional="false" changepoint="true" multiplicity="Single">
           <Text value="false"/>
@@ -3285,7 +3313,7 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Key name="true" signature="true"/>
     </Type>
     <Type name="IndexerDeclarationSyntax" base="BasePropertyDeclarationSyntax">
       <Properties>
@@ -3308,6 +3336,7 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+          <Key name="true" signature="true"/>
         </Property>
         <Property name="ThisKeyword" kind="Token" index="4" readOnly="true" optional="false" multiplicity="Single">
           <Text value="false"/>
@@ -3319,6 +3348,7 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+          <Key signature="true"/>
         </Property>
         <Property name="AccessorList" kind="Expression" index="6" optional="true" changepoint="true" inherited="true" multiplicity="Single">
           <Text value="false"/>
@@ -3336,7 +3366,7 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Key name="true" signature="true"/>
     </Type>
     <Type name="AccessorListSyntax">
       <Properties>
@@ -3396,8 +3426,10 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+          <Key signature="true"/>
         </Property>
       </Properties>
+      <Key signature="true"/>
     </Type>
     <Type name="ParameterListSyntax" base="BaseParameterListSyntax">
       <Properties>
@@ -3410,6 +3442,7 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+          <Key signature="true"/>
         </Property>
         <Property name="CloseParenToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single">
           <Text value="false"/>
@@ -3417,6 +3450,7 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
+      <Key signature="true"/>
     </Type>
     <Type name="BracketedParameterListSyntax" base="BaseParameterListSyntax">
       <Properties>
@@ -3429,6 +3463,7 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+          <Key signature="true"/>
         </Property>
         <Property name="CloseBracketToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single">
           <Text value="false"/>
@@ -3436,6 +3471,7 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
+      <Key signature="true"/>
     </Type>
     <Type name="ParameterSyntax">
       <Properties>
@@ -3453,6 +3489,7 @@
           <Text value="false" postfix=" "/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+          <Key signature="true"/>
         </Property>
         <Property name="Identifier" kind="Token" index="3" optional="false" changepoint="true" multiplicity="Single">
           <Text value="false"/>
@@ -3466,7 +3503,7 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Key name="true" signature="true"/>
     </Type>
     
     <!--StructuredTriviaSyntax-->
@@ -3974,9 +4011,10 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+          <Key signature="true"/>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Key name="true" signature="true"/>
     </Type>
     <Type name="IndexerMemberCrefSyntax" base="MemberCrefSyntax">
       <Properties>
@@ -3990,9 +4028,10 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+          <Key signature="true"/>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Key name="true" signature="true"/>
     </Type>
     <Type name="OperatorMemberCrefSyntax" base="MemberCrefSyntax">
       <Properties>
@@ -4011,9 +4050,10 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+          <Key signature="true"/>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Key name="true" signature="true"/>
     </Type>
     <Type name="ConversionOperatorMemberCrefSyntax" base="MemberCrefSyntax">
       <Properties>
@@ -4031,13 +4071,16 @@
           <Text value="false" prefix=" "/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+          <Key signature="true"/>
         </Property>
         <Property name="Parameters" kind="Expression" index="3" optional="true" changepoint="true" multiplicity="Single">
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+          <Key signature="true"/>
         </Property>
       </Properties>
+      <Key signature="true"/>
     </Type>
     <!--An Related$BaseCrefParameterListSyntax-->
     <Type name="BaseCrefParameterListSyntax" abstract="true">
@@ -4046,8 +4089,10 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+          <Key signature="true"/>
         </Property>
       </Properties>
+      <Key signature="true"/>
     </Type>
     <Type name="CrefParameterListSyntax" base="BaseCrefParameterListSyntax">
       <Properties>
@@ -4060,6 +4105,7 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+          <Key signature="true"/>
         </Property>
         <Property name="CloseParenToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single">
           <Text value="false"/>
@@ -4067,6 +4113,7 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
+      <Key signature="true"/>
     </Type>
     <Type name="CrefBracketedParameterListSyntax" base="BaseCrefParameterListSyntax">
       <Properties>
@@ -4079,6 +4126,7 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+          <Key signature="true"/>
         </Property>
         <Property name="CloseBracketToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single">
           <Text value="false"/>
@@ -4086,6 +4134,7 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
+      <Key signature="true"/>
     </Type>
     <Type name="CrefParameterSyntax">
       <Properties>
@@ -4098,6 +4147,7 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+          <Key signature="true"/>
         </Property>
       </Properties>
     </Type>
@@ -4496,6 +4546,7 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+          <Key name="true"/>
         </Property>
         <Property name="Name" kind="Expression" index="3" optional="false" changepoint="true" multiplicity="Single">
           <Text value="false"/>
@@ -4574,6 +4625,7 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+          <Key name="true"/>
         </Property>
         <Property name="CloseBracketToken" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single">
           <Text value="false"/>
@@ -4975,11 +5027,13 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+          <Key signature="true"/>
         </Property>
         <Property name="ParameterList" kind="Expression" index="4" optional="false" changepoint="true" multiplicity="Single">
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+          <Key signature="true"/>
         </Property>
         <Property name="ConstraintClauses" kind="Expression" index="5" optional="false" changepoint="true" multiplicity="Collection" collectionType="TypeParameterConstraintClauseSyntax">
           <Text value="false"/>
@@ -5002,7 +5056,7 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Key name="true" signature="true"/>
     </Type>
     <Type name="RefTypeSyntax" base="TypeSyntax">
       <Properties>

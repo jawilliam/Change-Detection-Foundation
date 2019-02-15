@@ -181,7 +181,7 @@ public <#= xSyntaxNodeType.@abstract ? "abstract " : "" #>partial class <#= code
 		              (keyProperties.Count > 1 ? ")" : "") + 
 		              (keyProperties.Count > 1 && i != (keyProperties.Count - 1) ? (currentPropertiesMetadata.Where(p => keyProperties.Any(kp => kp.name == p.Item2.name)).All(kp => kp.Item2.optional) ? " ||" : " &&") : "") + 
 					  (i == (keyProperties.Count - 1) ? ")" : "");
-		if(keyProperty.Item2.kind == "Token")
+		/*if(keyProperty.Item2.kind == "Token")
 		{
 			line += $"!string.IsNullOrWhiteSpace(original.{keyProperty.Item2.name}.ValueText) && !string.IsNullOrWhiteSpace(modified.{keyProperty.Item2.name}.ValueText) && original.{keyProperty.Item2.name}.ValueText == modified.{keyProperty.Item2.name}.ValueText";
 		}
@@ -192,7 +192,8 @@ public <#= xSyntaxNodeType.@abstract ? "abstract " : "" #>partial class <#= code
 		else
 		{
 		   line += $"this.LanguageServiceProvider.NameExactlyEqual(original.{keyProperty.Item2.name}, modified.{keyProperty.Item2.name})";
-		}
+		}*/
+		line += $"this.LanguageServiceProvider.NameExactlyEqual(original.{keyProperty.Item2.name}, modified.{keyProperty.Item2.name})";
 		 
 		line += postfix;
 #>

@@ -10,17 +10,17 @@ namespace Jawilliam.CDF.Approach.Flad
         /// <summary>
         /// Gets all the subexpressions of the current element type.
         /// </summary>
-        public abstract IEnumerable<string> SubExpressions { get; }
+        public virtual IEnumerable<string> SubExpressions { get { yield break; } } 
 
         /// <summary>
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public abstract IEnumerable<string> SyntacticalStopwords { get; }
+        public virtual IEnumerable<string> SyntacticalStopwords { get { yield break; } }
 
         /// <summary>
         /// Gets the key subexpression names in case it has any.
         /// </summary>
-        public virtual IEnumerable<string> Keys => null;
+        public virtual IEnumerable<string> Keys { get { yield break; } }
     }
 }
