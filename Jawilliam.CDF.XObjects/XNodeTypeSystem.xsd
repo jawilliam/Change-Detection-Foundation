@@ -82,9 +82,26 @@
                                 </xs:element>
                                 <xs:element name="Key" minOccurs="0">
                                   <xs:complexType>
-                                    <xs:attribute name="signature" type="xs:boolean" use="optional" default="false"/>
-                                    <xs:attribute name="name" type="xs:boolean" use="optional" default="false"/>
-                                    <xs:attribute name="head" type="xs:boolean" use="optional" default="false"/>
+                                    <xs:sequence>
+                                      <xs:element name="Signature" minOccurs="0">
+                                        <xs:complexType>
+                                          <xs:attribute name="equality" type="xs:boolean" use="optional" default="false"/>
+                                          <xs:attribute name="similarity" type="xs:boolean" use="optional" default="false"/>
+                                        </xs:complexType>
+                                      </xs:element>
+                                      <xs:element name="Name" minOccurs="0">
+                                        <xs:complexType>
+                                          <xs:attribute name="equality" type="xs:boolean" use="optional" default="false"/>
+                                          <xs:attribute name="similarity" type="xs:boolean" use="optional" default="false"/>
+                                        </xs:complexType>
+                                      </xs:element>
+                                      <xs:element name="Head" minOccurs="0">
+                                        <xs:complexType>
+                                          <xs:attribute name="equality" type="xs:boolean" use="optional" default="false"/>
+                                          <xs:attribute name="similarity" type="xs:boolean" use="optional" default="false"/>
+                                        </xs:complexType>
+                                      </xs:element>
+                                    </xs:sequence>
                                   </xs:complexType>
                                 </xs:element>
                               </xs:sequence>
@@ -156,9 +173,27 @@
                     </xs:element>
                     <xs:element name="Key" minOccurs="0">
                       <xs:complexType>
-                        <xs:attribute name="signature" type="xs:boolean" use="optional" default="false"/>
-                        <xs:attribute name="name" type="xs:boolean" use="optional" default="false"/>
-                        <xs:attribute name="head" type="xs:boolean" use="optional" default="false"/>
+                        <xs:sequence>
+                          <xs:element name="Signature" minOccurs="0">
+                            <xs:complexType>
+                              <xs:attribute name="equality" type="xs:boolean" use="optional" default="false"/>
+                              <xs:attribute name="similarity" type="xs:boolean" use="optional" default="false"/>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="Name" minOccurs="0">
+                            <xs:complexType>
+                              <xs:attribute name="equality" type="xs:boolean" use="optional" default="false"/>
+                              <xs:attribute name="similarity" type="xs:boolean" use="optional" default="false"/>
+                              <xs:attribute name="convention" type="xs:string" use="optional" default="false"/>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="Head" minOccurs="0">
+                            <xs:complexType>
+                              <xs:attribute name="equality" type="xs:boolean" use="optional" default="false"/>
+                              <xs:attribute name="similarity" type="xs:boolean" use="optional" default="false"/>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
                       </xs:complexType>
                     </xs:element>
                     <xs:element name="Annotations" minOccurs="0">
