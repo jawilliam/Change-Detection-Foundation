@@ -102,7 +102,6 @@
 																			<xs:element name="Head" type="mstns:PropertyEqualityOrSimilarityType" minOccurs="0"/>
 																			<xs:element name="Structure" type="mstns:PropertyEqualityOrSimilarityType" minOccurs="0"/>
 																		</xs:sequence>
-																		<xs:attribute name="subtree" type="xs:boolean" use="optional"/>
 																		<xs:attribute name="essential" type="xs:boolean" use="optional"/>
 																	</xs:complexType>
 																</xs:element>
@@ -173,26 +172,17 @@
 												</xs:choice>
 											</xs:complexType>
 										</xs:element>
-										<xs:element name="Key" minOccurs="0">
+										<xs:element name="Abstraction" minOccurs="0">
 											<xs:complexType>
 												<xs:sequence>
-													<xs:element name="Signature" minOccurs="0">
+													<xs:element name="Signature" type="mstns:PropertyEqualityOrSimilarityType" minOccurs="0"/>
+													<xs:element name="Name" type="mstns:PropertyEqualityOrSimilarityType" minOccurs="0"/>
+													<xs:element name="Head" type="mstns:PropertyEqualityOrSimilarityType" minOccurs="0"/>
+													<xs:element name="Structure" type="mstns:PropertyEqualityOrSimilarityType" minOccurs="0"/>
+													<xs:element name="Granularity" minOccurs="0">
 														<xs:complexType>
-															<xs:attribute name="equality" type="xs:boolean" use="optional" default="false"/>
-															<xs:attribute name="similarity" type="xs:boolean" use="optional" default="false"/>
-														</xs:complexType>
-													</xs:element>
-													<xs:element name="Name" minOccurs="0">
-														<xs:complexType>
-															<xs:attribute name="equality" type="xs:boolean" use="optional" default="false"/>
-															<xs:attribute name="similarity" type="xs:boolean" use="optional" default="false"/>
-															<xs:attribute name="convention" type="xs:string" use="optional" default="false"/>
-														</xs:complexType>
-													</xs:element>
-													<xs:element name="Head" minOccurs="0">
-														<xs:complexType>
-															<xs:attribute name="equality" type="xs:boolean" use="optional" default="false"/>
-															<xs:attribute name="similarity" type="xs:boolean" use="optional" default="false"/>
+															<xs:attribute name="fine" type="xs:boolean" use="optional"/>
+															<xs:attribute name="coarse" type="xs:boolean" use="required"/>
 														</xs:complexType>
 													</xs:element>
 												</xs:sequence>
