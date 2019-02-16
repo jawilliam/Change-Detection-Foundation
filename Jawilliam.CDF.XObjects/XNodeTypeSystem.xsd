@@ -5,10 +5,20 @@
     xmlns="http://tempuri.org/XNodeTypeSystem.xsd"
     xmlns:mstns="http://tempuri.org/XNodeTypeSystem.xsd"
     xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="EqualityOrSimilarityType">
+    <xs:attribute name="full" type="xs:boolean" use="optional"/>
+    <xs:attribute name="partial" type="xs:boolean" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="PropertyEqualityOrSimilarityType">
+    <xs:sequence>
+      <xs:element name="Equality" type="EqualityOrSimilarityType" minOccurs="0"></xs:element>
+      <xs:element name="Similarity" type="EqualityOrSimilarityType" minOccurs="0"></xs:element>
+    </xs:sequence>
+  </xs:complexType>
   <xs:element name="Syntax">
     <xs:annotation>
       <xs:documentation>A Change Detection Model Language for Abstract Syntax Trees</xs:documentation>
-    </xs:annotation>
+    </xs:annotation>   
     <xs:complexType>
       <xs:sequence>
         <xs:element name="Nodes">
@@ -80,28 +90,19 @@
                                     <xs:attribute name="move" type="xs:boolean" use="optional" default="false"/>
                                   </xs:complexType>
                                 </xs:element>
-                                <xs:element name="Key" minOccurs="0">
+                                <xs:element name="Abstraction" minOccurs="0">
                                   <xs:complexType>
                                     <xs:sequence>
-                                      <xs:element name="Signature" minOccurs="0">
+                                      <xs:element name="Signature" minOccurs="0" type="mstns:PropertyEqualityOrSimilarityType"/>
+                                      <xs:element name="Name" minOccurs="0" type="mstns:PropertyEqualityOrSimilarityType" base>
                                         <xs:complexType>
-                                          <xs:attribute name="equality" type="xs:boolean" use="optional" default="false"/>
-                                          <xs:attribute name="similarity" type="xs:boolean" use="optional" default="false"/>
+                                          <xs:attribute name="name" type="xs:string" use="optional"/>
                                         </xs:complexType>
                                       </xs:element>
-                                      <xs:element name="Name" minOccurs="0">
-                                        <xs:complexType>
-                                          <xs:attribute name="equality" type="xs:boolean" use="optional" default="false"/>
-                                          <xs:attribute name="similarity" type="xs:boolean" use="optional" default="false"/>
-                                        </xs:complexType>
-                                      </xs:element>
-                                      <xs:element name="Head" minOccurs="0">
-                                        <xs:complexType>
-                                          <xs:attribute name="equality" type="xs:boolean" use="optional" default="false"/>
-                                          <xs:attribute name="similarity" type="xs:boolean" use="optional" default="false"/>
-                                        </xs:complexType>
-                                      </xs:element>
+                                      <xs:element name="Head" minOccurs="0" type="mstns:PropertyEqualityOrSimilarityType"/>
                                     </xs:sequence>
+                                    <xs:attribute name="subtree" type="xs:boolean" use="optional"/>
+                                    <xs:attribute name="essential" type="xs:boolean" use="optional"/>
                                   </xs:complexType>
                                 </xs:element>
                               </xs:sequence>
