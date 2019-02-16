@@ -1,226 +1,227 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<xs:schema id="XNodeTypeSystem"
-    targetNamespace="http://tempuri.org/XNodeTypeSystem.xsd"
-    elementFormDefault="qualified"
-    xmlns="http://tempuri.org/XNodeTypeSystem.xsd"
-    xmlns:mstns="http://tempuri.org/XNodeTypeSystem.xsd"
-    xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:complexType name="EqualityOrSimilarityType">
-    <xs:attribute name="full" type="xs:boolean" use="optional"/>
-    <xs:attribute name="partial" type="xs:boolean" use="optional"/>
-  </xs:complexType>
-  <xs:complexType name="PropertyEqualityOrSimilarityType">
-    <xs:sequence>
-      <xs:element name="Equality" type="EqualityOrSimilarityType" minOccurs="0"></xs:element>
-      <xs:element name="Similarity" type="EqualityOrSimilarityType" minOccurs="0"></xs:element>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="Syntax">
-    <xs:annotation>
-      <xs:documentation>A Change Detection Model Language for Abstract Syntax Trees</xs:documentation>
-    </xs:annotation>   
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element name="Nodes">
-          <xs:complexType>
-            <xs:sequence>
-              <xs:element name="Type" minOccurs="0" maxOccurs="unbounded">
-                <xs:complexType>
-                  <xs:sequence>
-                    <xs:element name="Properties" minOccurs="0">
-                      <xs:complexType>
-                        <xs:sequence>
-                          <xs:element name="Property" maxOccurs="unbounded">
-                            <xs:complexType>
-                              <xs:sequence>
-                                <xs:element name="Text">
-                                  <xs:complexType>
-                                    <xs:attribute name="value" type="xs:boolean" use="optional" default="false"/>
-                                    <xs:attribute name="prefix" type="xs:string" use="optional"/>
-                                    <xs:attribute name="postfix" type="xs:string" use="optional"/>
-                                    <xs:attribute name="fixed" type="xs:string" use="optional"/>
-                                  </xs:complexType>
-                                </xs:element>
-                                <xs:element name="Children">
-                                  <xs:complexType>
-                                    <xs:attribute name="fine" type="xs:boolean" use="optional" default="false"/>
-                                    <xs:attribute name="coarse" type="xs:boolean" use="optional" default="false"/>
-                                  </xs:complexType>
-                                </xs:element>
-                                <xs:element name="Matching" minOccurs="0">
-                                  <xs:complexType>
-                                    <xs:attribute name="criterion" use="required">
-                                      <xs:simpleType>
-                                        <xs:restriction base="xs:string">
-                                          <xs:enumeration value="Leaf"/>
-                                          <xs:enumeration value="Inner"/>
-                                          <xs:enumeration value="Delegation"/>
-                                          <xs:enumeration value="Custom"/>
-                                        </xs:restriction>
-                                      </xs:simpleType>
-                                    </xs:attribute>
-                                    <xs:attribute name="changeDistillerCriterion" use="optional">
-                                      <xs:simpleType>
-                                        <xs:restriction base="xs:string">
-                                          <xs:enumeration value="Leaf"/>
-                                          <xs:enumeration value="Inner"/>
-                                          <xs:enumeration value="Delegation"/>
-                                          <xs:enumeration value="Custom"/>
-                                        </xs:restriction>
-                                      </xs:simpleType>
-                                    </xs:attribute>
-                                    <xs:attribute name="signature" type="xs:boolean" use="optional" default="false"/>
-                                    <xs:attribute name="signatureLevel" type="xs:int" use="optional"/>
-                                    <xs:attribute name="meaningful" type="xs:boolean" use="optional" default="false"/>
-                                    <xs:attribute name="jagged" type="xs:boolean" use="optional" default="false"/>
-                                    <xs:attribute name="value" type="xs:boolean" use="optional" default="false"/>
-                                    <xs:attribute name="prefix" type="xs:string" use="optional"/>
-                                    <xs:attribute name="postfix" type="xs:string" use="optional"/>
-                                  </xs:complexType>
-                                </xs:element>
-                                <xs:element name="EditScript">
-                                  <xs:complexType>
-                                    <xs:attribute name="insert" type="xs:boolean" use="optional" default="false"/>
-                                    <xs:attribute name="delete" type="xs:boolean" use="optional" default="false"/>
-                                    <xs:attribute name="update" type="xs:boolean" use="optional" default="false"/>
-                                    <xs:attribute name="update-modify" type="xs:boolean" use="optional" default="false"/>
-                                    <xs:attribute name="update-replace" type="xs:boolean" use="optional" default="false"/>
-                                    <xs:attribute name="align" type="xs:boolean" use="optional" default="false"/>
-                                    <xs:attribute name="align-swap" type="xs:boolean" use="optional" default="false"/>
-                                    <xs:attribute name="move" type="xs:boolean" use="optional" default="false"/>
-                                  </xs:complexType>
-                                </xs:element>
-                                <xs:element name="Abstraction" minOccurs="0">
-                                  <xs:complexType>
-                                    <xs:sequence>
-                                      <xs:element name="Signature" minOccurs="0" type="mstns:PropertyEqualityOrSimilarityType"/>
-                                      <xs:element name="Name" minOccurs="0" type="mstns:PropertyEqualityOrSimilarityType" base>
-                                        <xs:complexType>
-                                          <xs:attribute name="name" type="xs:string" use="optional"/>
-                                        </xs:complexType>
-                                      </xs:element>
-                                      <xs:element name="Head" minOccurs="0" type="mstns:PropertyEqualityOrSimilarityType"/>
-                                    </xs:sequence>
-                                    <xs:attribute name="subtree" type="xs:boolean" use="optional"/>
-                                    <xs:attribute name="essential" type="xs:boolean" use="optional"/>
-                                  </xs:complexType>
-                                </xs:element>
-                              </xs:sequence>
-                              <xs:attribute name="name" type="xs:string" use="required"/>
-                              <xs:attribute name="kind" use="required">
-                                <xs:simpleType>
-                                  <xs:restriction base="xs:string">
-                                    <xs:enumeration value="Expression"/>
-                                    <xs:enumeration value="Token"/>
-                                    <xs:enumeration value="Keyword"/>
-                                    <xs:enumeration value="Operator"/>
-                                    <xs:enumeration value="Puntuactor"/>
-                                  </xs:restriction>
-                                </xs:simpleType>
-                              </xs:attribute>
-                              <xs:attribute name="index" use="required">
-                                <xs:simpleType>
-                                  <xs:restriction base="xs:int"/>
-                                </xs:simpleType>
-                              </xs:attribute>
-                              <xs:attribute name="readOnly" type="xs:boolean" use="optional" default="false"/>
-                              <xs:attribute name="optional" type="xs:boolean" use="optional" default="false"/>
-                              <xs:attribute name="changepoint" type="xs:boolean" use="optional" default="false"/>
-                              <xs:attribute name="inherited" type="xs:boolean" use="optional" default="false"/>
-                              <xs:attribute name="multiplicity" use="optional" default="Single">
-                                <xs:simpleType>
-                                  <xs:restriction base="xs:string">
-                                    <xs:enumeration value="Single"/>
-                                    <xs:enumeration value="Collection"/>
-                                  </xs:restriction>
-                                </xs:simpleType>
-                              </xs:attribute>
-                              <xs:attribute name="collectionType" type="xs:string" use="optional"/>
-                              <xs:attribute name="collectionSeparator" type="xs:string" use="optional"/>
-                            </xs:complexType>
-                          </xs:element>
-                        </xs:sequence>
-                      </xs:complexType>
-                    </xs:element>
-                    <xs:element name="Rules" minOccurs="0">
-                      <xs:complexType>
-                        <xs:choice maxOccurs="unbounded">
-                          <xs:element name="IfNullThenNull">
-                            <xs:complexType>
-                              <xs:attribute name="principal" type="xs:string" use="required"/>
-                              <xs:attribute name="dependent" type="xs:string" use="required"/>
-                            </xs:complexType>
-                          </xs:element>
-                          <xs:element name="IfNullThenNotNull">
-                            <xs:complexType>
-                              <xs:attribute name="principal" type="xs:string" use="required"/>
-                              <xs:attribute name="dependent" type="xs:string" use="required"/>
-                            </xs:complexType>
-                          </xs:element>
-                          <xs:element name="IfNotNullThenNull">
-                            <xs:complexType>
-                              <xs:attribute name="principal" type="xs:string" use="required"/>
-                              <xs:attribute name="dependent" type="xs:string" use="required"/>
-                            </xs:complexType>
-                          </xs:element>
-                          <xs:element name="IfNotNullThenNotNull">
-                            <xs:complexType>
-                              <xs:attribute name="principal" type="xs:string" use="required"/>
-                              <xs:attribute name="dependent" type="xs:string" use="required"/>
-                            </xs:complexType>
-                          </xs:element>
-                        </xs:choice>
-                      </xs:complexType>
-                    </xs:element>
-                    <xs:element name="Key" minOccurs="0">
-                      <xs:complexType>
-                        <xs:sequence>
-                          <xs:element name="Signature" minOccurs="0">
-                            <xs:complexType>
-                              <xs:attribute name="equality" type="xs:boolean" use="optional" default="false"/>
-                              <xs:attribute name="similarity" type="xs:boolean" use="optional" default="false"/>
-                            </xs:complexType>
-                          </xs:element>
-                          <xs:element name="Name" minOccurs="0">
-                            <xs:complexType>
-                              <xs:attribute name="equality" type="xs:boolean" use="optional" default="false"/>
-                              <xs:attribute name="similarity" type="xs:boolean" use="optional" default="false"/>
-                              <xs:attribute name="convention" type="xs:string" use="optional" default="false"/>
-                            </xs:complexType>
-                          </xs:element>
-                          <xs:element name="Head" minOccurs="0">
-                            <xs:complexType>
-                              <xs:attribute name="equality" type="xs:boolean" use="optional" default="false"/>
-                              <xs:attribute name="similarity" type="xs:boolean" use="optional" default="false"/>
-                            </xs:complexType>
-                          </xs:element>
-                        </xs:sequence>
-                      </xs:complexType>
-                    </xs:element>
-                    <xs:element name="Annotations" minOccurs="0">
-                      <xs:complexType>
-                        <xs:sequence maxOccurs="unbounded">
-                          <xs:element name="Annotation">
-                            <xs:complexType>
-                              <xs:attribute name="context" type="xs:string" use="required"/>
-                              <xs:attribute name="role" type="xs:string" use="required"/>
-                            </xs:complexType>
-                          </xs:element>
-                        </xs:sequence>
-                      </xs:complexType>
-                    </xs:element>
-                  </xs:sequence>
-                  <xs:attribute name="name" type="xs:string" use="required"/>
-                  <xs:attribute name="abstract" type="xs:boolean" use="optional" default="false"/>
-                  <xs:attribute name="base" type="xs:string" use="optional"/>
-                  <xs:attribute name="token" type="xs:boolean" use="optional" default="false"/>
-                </xs:complexType>
-              </xs:element>
-            </xs:sequence>
-          </xs:complexType>
-        </xs:element>
-      </xs:sequence>
-      <xs:attribute name="language" type="xs:string" use="required" fixed="C#"/>
-    </xs:complexType>
-  </xs:element>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- edited with XMLSpy v2019 sp2 (x64) (http://www.altova.com) by Guillermo de la Torre (Phd Student) -->
+<xs:schema xmlns="http://tempuri.org/XNodeTypeSystem.xsd" xmlns:mstns="http://tempuri.org/XNodeTypeSystem.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://tempuri.org/XNodeTypeSystem.xsd" elementFormDefault="qualified" id="XNodeTypeSystem">
+	<xs:complexType name="EqualityOrSimilarityType">
+		<xs:attribute name="full" type="xs:boolean" use="optional"/>
+		<xs:attribute name="partial" type="xs:boolean" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="PropertyEqualityOrSimilarityType">
+		<xs:sequence>
+			<xs:element name="Equality" type="EqualityOrSimilarityType" minOccurs="0"/>
+			<xs:element name="Similarity" type="EqualityOrSimilarityType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="Syntax">
+		<xs:annotation>
+			<xs:documentation>A Change Detection Model Language for Abstract Syntax Trees</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Nodes">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Type" minOccurs="0" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Properties" minOccurs="0">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="Property" maxOccurs="unbounded">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="Text">
+																	<xs:complexType>
+																		<xs:attribute name="value" type="xs:boolean" use="optional" default="false"/>
+																		<xs:attribute name="prefix" type="xs:string" use="optional"/>
+																		<xs:attribute name="postfix" type="xs:string" use="optional"/>
+																		<xs:attribute name="fixed" type="xs:string" use="optional"/>
+																	</xs:complexType>
+																</xs:element>
+																<xs:element name="Children">
+																	<xs:complexType>
+																		<xs:attribute name="fine" type="xs:boolean" use="optional" default="false"/>
+																		<xs:attribute name="coarse" type="xs:boolean" use="optional" default="false"/>
+																	</xs:complexType>
+																</xs:element>
+																<xs:element name="Matching" minOccurs="0">
+																	<xs:complexType>
+																		<xs:attribute name="criterion" use="required">
+																			<xs:simpleType>
+																				<xs:restriction base="xs:string">
+																					<xs:enumeration value="Leaf"/>
+																					<xs:enumeration value="Inner"/>
+																					<xs:enumeration value="Delegation"/>
+																					<xs:enumeration value="Custom"/>
+																				</xs:restriction>
+																			</xs:simpleType>
+																		</xs:attribute>
+																		<xs:attribute name="changeDistillerCriterion" use="optional">
+																			<xs:simpleType>
+																				<xs:restriction base="xs:string">
+																					<xs:enumeration value="Leaf"/>
+																					<xs:enumeration value="Inner"/>
+																					<xs:enumeration value="Delegation"/>
+																					<xs:enumeration value="Custom"/>
+																				</xs:restriction>
+																			</xs:simpleType>
+																		</xs:attribute>
+																		<xs:attribute name="signature" type="xs:boolean" use="optional" default="false"/>
+																		<xs:attribute name="signatureLevel" type="xs:int" use="optional"/>
+																		<xs:attribute name="meaningful" type="xs:boolean" use="optional" default="false"/>
+																		<xs:attribute name="jagged" type="xs:boolean" use="optional" default="false"/>
+																		<xs:attribute name="value" type="xs:boolean" use="optional" default="false"/>
+																		<xs:attribute name="prefix" type="xs:string" use="optional"/>
+																		<xs:attribute name="postfix" type="xs:string" use="optional"/>
+																	</xs:complexType>
+																</xs:element>
+																<xs:element name="EditScript">
+																	<xs:complexType>
+																		<xs:attribute name="insert" type="xs:boolean" use="optional" default="false"/>
+																		<xs:attribute name="delete" type="xs:boolean" use="optional" default="false"/>
+																		<xs:attribute name="update" type="xs:boolean" use="optional" default="false"/>
+																		<xs:attribute name="update-modify" type="xs:boolean" use="optional" default="false"/>
+																		<xs:attribute name="update-replace" type="xs:boolean" use="optional" default="false"/>
+																		<xs:attribute name="align" type="xs:boolean" use="optional" default="false"/>
+																		<xs:attribute name="align-swap" type="xs:boolean" use="optional" default="false"/>
+																		<xs:attribute name="move" type="xs:boolean" use="optional" default="false"/>
+																	</xs:complexType>
+																</xs:element>
+																<xs:element name="Abstraction" minOccurs="0">
+																	<xs:complexType>
+																		<xs:sequence>
+																			<xs:element name="Signature" type="mstns:PropertyEqualityOrSimilarityType" minOccurs="0"/>
+																			<xs:element name="Name" minOccurs="0">
+																				<xs:complexType>
+																					<xs:complexContent>
+																						<xs:extension base="mstns:PropertyEqualityOrSimilarityType">
+																							<xs:attribute name="conventionPattern" type="xs:string" use="optional"/>
+																						</xs:extension>
+																					</xs:complexContent>
+																				</xs:complexType>
+																			</xs:element>
+																			<xs:element name="Head" type="mstns:PropertyEqualityOrSimilarityType" minOccurs="0"/>
+																			<xs:element name="Structure" type="mstns:PropertyEqualityOrSimilarityType" minOccurs="0"/>
+																		</xs:sequence>
+																		<xs:attribute name="subtree" type="xs:boolean" use="optional"/>
+																		<xs:attribute name="essential" type="xs:boolean" use="optional"/>
+																	</xs:complexType>
+																</xs:element>
+															</xs:sequence>
+															<xs:attribute name="name" type="xs:string" use="required"/>
+															<xs:attribute name="kind" use="required">
+																<xs:simpleType>
+																	<xs:restriction base="xs:string">
+																		<xs:enumeration value="Expression"/>
+																		<xs:enumeration value="Token"/>
+																		<xs:enumeration value="Keyword"/>
+																		<xs:enumeration value="Operator"/>
+																		<xs:enumeration value="Puntuactor"/>
+																	</xs:restriction>
+																</xs:simpleType>
+															</xs:attribute>
+															<xs:attribute name="index" use="required">
+																<xs:simpleType>
+																	<xs:restriction base="xs:int"/>
+																</xs:simpleType>
+															</xs:attribute>
+															<xs:attribute name="readOnly" type="xs:boolean" use="optional" default="false"/>
+															<xs:attribute name="optional" type="xs:boolean" use="optional" default="false"/>
+															<xs:attribute name="changepoint" type="xs:boolean" use="optional" default="false"/>
+															<xs:attribute name="inherited" type="xs:boolean" use="optional" default="false"/>
+															<xs:attribute name="multiplicity" use="optional" default="Single">
+																<xs:simpleType>
+																	<xs:restriction base="xs:string">
+																		<xs:enumeration value="Single"/>
+																		<xs:enumeration value="Collection"/>
+																	</xs:restriction>
+																</xs:simpleType>
+															</xs:attribute>
+															<xs:attribute name="collectionType" type="xs:string" use="optional"/>
+															<xs:attribute name="collectionSeparator" type="xs:string" use="optional"/>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="Rules" minOccurs="0">
+											<xs:complexType>
+												<xs:choice maxOccurs="unbounded">
+													<xs:element name="IfNullThenNull">
+														<xs:complexType>
+															<xs:attribute name="principal" type="xs:string" use="required"/>
+															<xs:attribute name="dependent" type="xs:string" use="required"/>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="IfNullThenNotNull">
+														<xs:complexType>
+															<xs:attribute name="principal" type="xs:string" use="required"/>
+															<xs:attribute name="dependent" type="xs:string" use="required"/>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="IfNotNullThenNull">
+														<xs:complexType>
+															<xs:attribute name="principal" type="xs:string" use="required"/>
+															<xs:attribute name="dependent" type="xs:string" use="required"/>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="IfNotNullThenNotNull">
+														<xs:complexType>
+															<xs:attribute name="principal" type="xs:string" use="required"/>
+															<xs:attribute name="dependent" type="xs:string" use="required"/>
+														</xs:complexType>
+													</xs:element>
+												</xs:choice>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="Key" minOccurs="0">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="Signature" minOccurs="0">
+														<xs:complexType>
+															<xs:attribute name="equality" type="xs:boolean" use="optional" default="false"/>
+															<xs:attribute name="similarity" type="xs:boolean" use="optional" default="false"/>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="Name" minOccurs="0">
+														<xs:complexType>
+															<xs:attribute name="equality" type="xs:boolean" use="optional" default="false"/>
+															<xs:attribute name="similarity" type="xs:boolean" use="optional" default="false"/>
+															<xs:attribute name="convention" type="xs:string" use="optional" default="false"/>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="Head" minOccurs="0">
+														<xs:complexType>
+															<xs:attribute name="equality" type="xs:boolean" use="optional" default="false"/>
+															<xs:attribute name="similarity" type="xs:boolean" use="optional" default="false"/>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="Annotations" minOccurs="0">
+											<xs:complexType>
+												<xs:sequence maxOccurs="unbounded">
+													<xs:element name="Annotation">
+														<xs:complexType>
+															<xs:attribute name="context" type="xs:string" use="required"/>
+															<xs:attribute name="role" type="xs:string" use="required"/>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+									<xs:attribute name="name" type="xs:string" use="required"/>
+									<xs:attribute name="abstract" type="xs:boolean" use="optional" default="false"/>
+									<xs:attribute name="base" type="xs:string" use="optional"/>
+									<xs:attribute name="token" type="xs:boolean" use="optional" default="false"/>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="language" type="xs:string" use="required" fixed="C#"/>
+		</xs:complexType>
+	</xs:element>
 </xs:schema>
