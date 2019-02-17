@@ -76,7 +76,11 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="OperatorToken" kind="Token" index="1" readOnly="true" optional="false" changepoint="true" multiplicity="Single">
           <Text value="false"/>
@@ -87,10 +91,18 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Abstraction>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
       <Annotations>
         <Annotation context="Suppress" role="Kind"/>
       </Annotations>
@@ -125,10 +137,18 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Abstraction>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>
     <Type name="ElementBindingExpressionSyntax" base="ExpressionSyntax">
       <Properties>
@@ -518,7 +538,11 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key signature="true"/>
+          <Abstraction>
+            <Signature>
+              <Equality full="true"/>
+            </Signature>
+          </Abstraction>
         </Property>
         <Property name="Body" kind="Expression" index="3" optional="false" changepoint="true" inherited="true" multiplicity="Single">
           <Text value="false"/>
@@ -526,7 +550,11 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
-      <Key signature="true"/>
+      <Abstraction>
+        <Signature>
+          <Equality full="true"/>
+        </Signature>
+      </Abstraction>
     </Type>
     <!--ExpressionSyntax$AnonymousFunctionExpressionSyntax$LambdaExpressionSyntax-->
     <Type name="LambdaExpressionSyntax" abstract="true" base="AnonymousFunctionExpressionSyntax">
@@ -548,8 +576,15 @@
         <Property name="Parameter" kind="Expression" index="1" optional="false" changepoint="true" multiplicity="Single">
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
-          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true" signature="true"/>
+          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>           
+          <Abstraction>
+            <Signature>
+              <Equality full="true"/>
+            </Signature>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="ArrowToken" kind="Token" index="2" readOnly="true" optional="false" inherited="true" multiplicity="Single">
           <Text value="false"/>
@@ -561,8 +596,15 @@
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
-      </Properties>
-      <Key name="true" signature="true"/>
+      </Properties>          
+      <Abstraction>
+        <Signature>
+          <Equality full="true"/>
+        </Signature>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>
     <Type name="ParenthesizedLambdaExpressionSyntax" base="LambdaExpressionSyntax">
       <Properties>
@@ -575,7 +617,11 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key signature="true"/>
+          <Abstraction>
+            <Signature>
+              <Equality full="true"/>
+            </Signature>
+          </Abstraction>
         </Property>
         <Property name="ArrowToken" kind="Token" index="2" readOnly="true" optional="false" inherited="true" multiplicity="Single">
           <Text value="false"/>
@@ -588,7 +634,11 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
-      <Key signature="true"/>
+      <Abstraction>
+        <Signature>
+          <Equality full="true"/>
+        </Signature>
+      </Abstraction>
     </Type>
     <!--ExpressionSyntax-->
     <Type name="InitializerExpressionSyntax" base="ExpressionSyntax">
@@ -729,7 +779,11 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="Body" kind="Expression" index="1" optional="false" changepoint="true" multiplicity="Single">
           <Text value="false"/>
@@ -737,7 +791,11 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Abstraction>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>
     <Type name="InterpolatedStringExpressionSyntax" base="ExpressionSyntax">
       <Properties>
@@ -881,7 +939,11 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="RefOrOutKeyword" kind="Token" index="1" optional="true" changepoint="true" multiplicity="Single">
           <Text value="false" postfix=" "/>
@@ -894,7 +956,11 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Abstraction>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>
     <Type name="NameColonSyntax" base="ExpressionSyntax">
       <Properties>
@@ -902,7 +968,11 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="ColonToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single">
           <Text value="false"/>
@@ -917,7 +987,11 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="EqualsToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single">
           <Text value="false"/>
@@ -932,7 +1006,11 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="Expression" kind="Expression" index="1" optional="false" changepoint="true" multiplicity="Single">
           <Text value="false"/>
@@ -940,7 +1018,11 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Abstraction>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>
     <Type name="QueryBodySyntax">
       <Properties>
@@ -958,10 +1040,18 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Abstraction>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>
     <!--And Related$QueryClauseSyntax-->
     <Type name="QueryClauseSyntax" abstract="true"/>
@@ -981,7 +1071,11 @@
           <Text value="false" postfix=" "/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="InKeyword" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single">
           <Text value="false"/>
@@ -994,7 +1088,11 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Abstraction>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>
     <Type name="LetClauseSyntax" base="QueryClauseSyntax">
       <Properties>
@@ -1007,7 +1105,11 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="EqualsToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single">
           <Text value="false"/>
@@ -1020,7 +1122,11 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Abstraction>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>
     <Type name="JoinClauseSyntax" base="QueryClauseSyntax">
       <Properties>
@@ -1038,7 +1144,11 @@
           <Text value="false" postfix=" "/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="InKeyword" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single">
           <Text value="false" postfix=" "/>
@@ -1076,7 +1186,11 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Abstraction>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>
     <Type name="JoinIntoClauseSyntax">
       <Properties>
@@ -1089,10 +1203,18 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Abstraction>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>
     <Type name="WhereClauseSyntax" base="QueryClauseSyntax">
       <Properties>
@@ -1190,7 +1312,11 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="Body" kind="Expression" index="2" optional="false" changepoint="true" multiplicity="Single">
           <Text value="false"/>
@@ -1198,7 +1324,11 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Abstraction>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>
     
     <!--ExpressionSyntax$TypeSyntax - Level 0-->
@@ -1290,7 +1420,11 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="ColonColonToken" kind="Token" index="1" readOnly="true" optional="true" multiplicity="Single">
           <Text value="false"/>
@@ -1301,10 +1435,18 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Abstraction>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>
     <!--ExpressionSyntax$TypeSyntax$NameSyntax$SimpleNameSyntax-->
     <Type name="SimpleNameSyntax" abstract="true" base="NameSyntax">
@@ -1313,10 +1455,18 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Abstraction>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>
     <Type name="IdentifierNameSyntax" base="SimpleNameSyntax">
       <Properties>
@@ -1324,10 +1474,18 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Abstraction>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>
     <Type name="GenericNameSyntax" base="SimpleNameSyntax">
       <Properties>
@@ -1335,7 +1493,11 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="TypeArgumentList" kind="Expression" index="1" optional="false" changepoint="true" multiplicity="Single">
           <Text value="false"/>
@@ -1343,7 +1505,11 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Abstraction>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>
     <!--And Related-->
     <Type name="TypeArgumentListSyntax">
@@ -1357,7 +1523,11 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="GreaterThanToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single">
           <Text value="false"/>
@@ -1427,7 +1597,11 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="SemicolonToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single">
           <Text value="false"/>
@@ -1435,7 +1609,11 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Abstraction>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>
     <Type name="ExpressionStatementSyntax" base="StatementSyntax">
       <Properties>
@@ -1466,7 +1644,11 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="ColonToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single">
           <Text value="false"/>
@@ -1479,7 +1661,11 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Abstraction>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>
     <Type name="GotoStatementSyntax" base="StatementSyntax">
       <Properties>
@@ -1685,7 +1871,11 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="Initializers" kind="Expression" index="3" optional="false" changepoint="true" multiplicity="Collection" collectionType="ExpressionSyntax" collectionSeparator=",">
           <Text value="false"/>
@@ -1723,7 +1913,11 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Abstraction>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>
     <Type name="ForEachStatementSyntax" base="StatementSyntax">
       <Properties>
@@ -1746,7 +1940,11 @@
           <Text value="false" postfix=" "/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="InKeyword" kind="Token" index="4" readOnly="true" optional="false" multiplicity="Single">
           <Text value="false"/>
@@ -1769,7 +1967,11 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Abstraction>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>
     <Type name="UsingStatementSyntax" base="StatementSyntax">
       <Properties>
@@ -1787,7 +1989,11 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="Expression" kind="Expression" index="3" optional="true" changepoint="true" multiplicity="Single">
           <Text value="false"/>
@@ -1805,7 +2011,11 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Abstraction>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>
     <Type name="FixedStatementSyntax" base="StatementSyntax">
       <Properties>
@@ -1823,7 +2033,11 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="CloseParenToken" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single">
           <Text value="false"/>
@@ -1836,7 +2050,11 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Abstraction>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>
     <Type name="CheckedStatementSyntax" base="StatementSyntax">
       <Properties>
@@ -2007,10 +2225,18 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Abstraction>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>
     <Type name="VariableDeclaratorSyntax">
       <Properties>
@@ -2018,7 +2244,11 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="ArgumentList" kind="Expression" index="1" optional="true" changepoint="true" multiplicity="Single">
           <Text value="false"/>
@@ -2031,7 +2261,11 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Abstraction>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>
     <Type name="EqualsValueClauseSyntax">
       <Properties>
@@ -2136,7 +2370,11 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="Filter" kind="Expression" index="2" optional="true" changepoint="true" multiplicity="Single">
           <Text value="false"/>
@@ -2149,7 +2387,11 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Abstraction>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>
     <Type name="CatchDeclarationSyntax">
       <Properties>
@@ -2167,7 +2409,11 @@
           <Text value="false" prefix=" "/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="CloseParenToken" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single">
           <Text value="false"/>
@@ -2175,7 +2421,11 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Abstraction>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>
     <Type name="CatchFilterClauseSyntax">
       <Properties>
@@ -2271,20 +2521,35 @@
         <Property name="Identifier" kind="Token" index="4" optional="false" changepoint="true" multiplicity="Single">
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
-          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true" signature="true"/>
+          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>          
+          <Abstraction>
+            <Signature>
+              <Equality full="true"/>
+            </Signature>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="TypeParameterList" kind="Expression" index="5" optional="true" changepoint="true" multiplicity="Single">
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key signature="true"/>
+          <Abstraction>
+            <Signature>
+              <Equality full="true"/>
+            </Signature>
+          </Abstraction>
         </Property>
         <Property name="ParameterList" kind="Expression" index="6" optional="false" changepoint="true" multiplicity="Single">
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key signature="true"/>
+          <Abstraction>
+            <Signature>
+              <Equality full="true"/>
+            </Signature>
+          </Abstraction>
         </Property>
         <Property name="ConstraintClauses" kind="Expression" index="7" optional="false" changepoint="true" multiplicity="Collection" collectionType="TypeParameterConstraintClauseSyntax">
           <Text value="false"/>
@@ -2296,8 +2561,15 @@
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
-      </Properties>
-      <Key name="true" signature="true"/>
+      </Properties>          
+      <Abstraction>
+        <Signature>
+          <Equality full="true"/>
+        </Signature>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>
     <!--Member Declarations$BaseTypeDeclarationSyntax-->
     <Type name="BaseTypeDeclarationSyntax" abstract="true" base="MemberDeclarationSyntax">
@@ -2316,7 +2588,11 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="BaseList" kind="Expression" index="3" optional="true" changepoint="true" multiplicity="Single">
           <Text value="false"/>
@@ -2339,7 +2615,11 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Abstraction>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>
     <Type name="EnumDeclarationSyntax" base="BaseTypeDeclarationSyntax">
       <Properties>
@@ -2362,7 +2642,11 @@
           <Text value="false" prefix=" "/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="BaseList" kind="Expression" index="4" optional="true" changepoint="true" inherited="true" multiplicity="Single">
           <Text value="false"/>
@@ -2390,7 +2674,11 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Abstraction>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>
     <!--Member Declarations$BaseTypeDeclarationSyntax$TypeDeclarationSyntax-->
     <Type name="TypeDeclarationSyntax" abstract="true" base="BaseTypeDeclarationSyntax">
@@ -2404,7 +2692,11 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key signature="true"/>
+          <Abstraction>
+            <Signature>
+              <Equality full="true"/>
+            </Signature>
+          </Abstraction>
         </Property>
         <Property name="ConstraintClauses" kind="Expression" index="2" optional="false" changepoint="true" multiplicity="Collection" collectionType="TypeParameterConstraintClauseSyntax">
           <Text value="false"/>
@@ -2417,7 +2709,11 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
-      <Key signature="true"/>
+      <Abstraction>
+        <Signature>
+          <Equality full="true"/>
+        </Signature>
+      </Abstraction>
     </Type>
     <Type name="ClassDeclarationSyntax" base="TypeDeclarationSyntax">
       <Properties>
@@ -2440,13 +2736,21 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="TypeParameterList" kind="Expression" index="4" optional="true" changepoint="true" inherited="true" multiplicity="Single">
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key signature="true"/>
+          <Abstraction>
+            <Signature>
+              <Equality full="true"/>
+            </Signature>
+          </Abstraction>
         </Property>
         <Property name="BaseList" kind="Expression" index="5" optional="true" changepoint="true" inherited="true" multiplicity="Single">
           <Text value="false"/>
@@ -2478,8 +2782,15 @@
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
-      </Properties>
-      <Key name="true" signature="true"/>
+      </Properties>          
+      <Abstraction>
+        <Signature>
+          <Equality full="true"/>
+        </Signature>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>
     <Type name="StructDeclarationSyntax" base="TypeDeclarationSyntax">
       <Properties>
@@ -2502,13 +2813,21 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="TypeParameterList" kind="Expression" index="4" optional="true" changepoint="true" inherited="true" multiplicity="Single">
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key signature="true"/>
+          <Abstraction>
+            <Signature>
+              <Equality full="true"/>
+            </Signature>
+          </Abstraction>
         </Property>
         <Property name="BaseList" kind="Expression" index="5" optional="true" changepoint="true" inherited="true" multiplicity="Single">
           <Text value="false"/>
@@ -2540,8 +2859,15 @@
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
-      </Properties>
-      <Key name="true" signature="true"/>
+      </Properties>          
+      <Abstraction>
+        <Signature>
+          <Equality full="true"/>
+        </Signature>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>
     <Type name="InterfaceDeclarationSyntax" base="TypeDeclarationSyntax">
       <Properties>
@@ -2564,13 +2890,21 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="TypeParameterList" kind="Expression" index="4" optional="true" changepoint="true" inherited="true" multiplicity="Single">
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key signature="true"/>
+          <Abstraction>
+            <Signature>
+              <Equality full="true"/>
+            </Signature>
+          </Abstraction>
         </Property>
         <Property name="BaseList" kind="Expression" index="5" optional="true" changepoint="true" inherited="true" multiplicity="Single">
           <Text value="false"/>
@@ -2602,8 +2936,15 @@
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
-      </Properties>
-      <Key name="true" signature="true"/>
+      </Properties>          
+      <Abstraction>
+        <Signature>
+          <Equality full="true"/>
+        </Signature>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>
     <!--And Related-->
     <Type name="EnumMemberDeclarationSyntax" base="MemberDeclarationSyntax">
@@ -2617,7 +2958,11 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="EqualsValue" kind="Expression" index="2" optional="true" changepoint="true" multiplicity="Single">
           <Text value="false"/>
@@ -2625,7 +2970,11 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Abstraction>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>
     <!--And Related$TypeParameterListSyntax-->
     <Type name="TypeParameterListSyntax">
@@ -2639,7 +2988,11 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key signature="true"/>
+          <Abstraction>
+            <Signature>
+              <Equality full="true"/>
+            </Signature>
+          </Abstraction>
         </Property>
         <Property name="GreaterThanToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single">
           <Text value="false"/>
@@ -2664,10 +3017,18 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Abstraction>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>
     <Type name="TypeParameterConstraintClauseSyntax">
       <Properties>
@@ -2680,7 +3041,11 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="ColonToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single">
           <Text value="false"/>
@@ -2693,7 +3058,11 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Abstraction>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>
     <!--And Related$TypeParameterConstraintSyntax-->
     <Type name="TypeParameterConstraintSyntax" abstract="true"/>
@@ -2787,7 +3156,11 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="SemicolonToken" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single">
           <Text value="false"/>
@@ -2795,7 +3168,11 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Abstraction>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>
     <Type name="FieldDeclarationSyntax" base="BaseFieldDeclarationSyntax">
       <Properties>
@@ -2813,7 +3190,11 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="SemicolonToken" kind="Token" index="3" readOnly="true" optional="false" inherited="true" multiplicity="Single">
           <Text value="false"/>
@@ -2821,7 +3202,11 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Abstraction>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>
     <Type name="EventFieldDeclarationSyntax" base="BaseFieldDeclarationSyntax">
       <Properties>
@@ -2844,7 +3229,11 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="SemicolonToken" kind="Token" index="4" readOnly="true" optional="false" inherited="true" multiplicity="Single">
           <Text value="false"/>
@@ -2852,7 +3241,11 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Abstraction>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>
     <!--And Related-->
     <Type name="ExplicitInterfaceSpecifierSyntax">
@@ -2860,16 +3253,30 @@
         <Property name="Name" kind="Expression" index="0" optional="false" changepoint="true" multiplicity="Single">
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
-          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true" signature="true"/>
+          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>          
+          <Abstraction>
+            <Signature>
+              <Equality full="true"/>
+            </Signature>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="DotToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single">
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
-      </Properties>
-      <Key name="true" signature="true"/>
+      </Properties>          
+      <Abstraction>
+        <Signature>
+          <Equality full="true"/>
+        </Signature>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>
     <!--And Related$BaseMethodDeclarationSyntax-->
     <Type name="BaseMethodDeclarationSyntax" abstract="true" base="MemberDeclarationSyntax">
@@ -2888,7 +3295,11 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key signature="true"/>
+          <Abstraction>
+            <Signature>
+              <Equality full="true"/>
+            </Signature>
+          </Abstraction>
         </Property>
         <Property name="Body" kind="Expression" index="3" optional="true" changepoint="true" multiplicity="Single">
           <Text value="false"/>
@@ -2901,7 +3312,11 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
-      <Key signature="true"/>
+      <Abstraction>
+        <Signature>
+          <Equality full="true"/>
+        </Signature>
+      </Abstraction>
     </Type>
     <Type name="MethodDeclarationSyntax" base="BaseMethodDeclarationSyntax">
       <Properties>
@@ -2923,26 +3338,45 @@
         <Property name="ExplicitInterfaceSpecifier" kind="Expression" index="3" optional="true" changepoint="true" multiplicity="Single">
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
-          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true" signature="true"/>
+          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>          
+          <Abstraction>
+            <Signature>
+              <Equality full="true"/>
+            </Signature>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="Identifier" kind="Token" index="4" optional="false" changepoint="true" multiplicity="Single">
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="TypeParameterList" kind="Expression" index="5" optional="true" changepoint="true" multiplicity="Single">
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key signature="true"/>
+          <Abstraction>
+            <Signature>
+              <Equality full="true"/>
+            </Signature>
+          </Abstraction>
         </Property>
         <Property name="ParameterList" kind="Expression" index="6" optional="false" changepoint="true" inherited="true" multiplicity="Single">
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key signature="true"/>
+          <Abstraction>
+            <Signature>
+              <Equality full="true"/>
+            </Signature>
+          </Abstraction>
         </Property>
         <Property name="ConstraintClauses" kind="Expression" index="7" optional="false" changepoint="true" multiplicity="Collection" collectionType="TypeParameterConstraintClauseSyntax">
           <Text value="false"/>
@@ -2964,8 +3398,15 @@
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
-      </Properties>
-      <Key name="true" signature="true"/>
+      </Properties>          
+      <Abstraction>
+        <Signature>
+          <Equality full="true"/>
+        </Signature>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>
     <Type name="OperatorDeclarationSyntax" base="BaseMethodDeclarationSyntax">
       <Properties>
@@ -2993,13 +3434,21 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="ParameterList" kind="Expression" index="5" optional="false" changepoint="true" inherited="true" multiplicity="Single">
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key signature="true"/>
+          <Abstraction>
+            <Signature>
+              <Equality full="true"/>
+            </Signature>
+          </Abstraction>
         </Property>
         <Property name="Body" kind="Expression" index="6" optional="true" changepoint="true" inherited="true" multiplicity="Single">
           <Text value="false"/>
@@ -3016,8 +3465,15 @@
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
-      </Properties>
-      <Key name="true" signature="true"/>
+      </Properties>          
+      <Abstraction>
+        <Signature>
+          <Equality full="true"/>
+        </Signature>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>
     <Type name="ConversionOperatorDeclarationSyntax" base="BaseMethodDeclarationSyntax">
       <Properties>
@@ -3050,7 +3506,11 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key signature="true"/>
+          <Abstraction>
+            <Signature>
+              <Equality full="true"/>
+            </Signature>
+          </Abstraction>
         </Property>
         <Property name="Body" kind="Expression" index="6" optional="true" changepoint="true" inherited="true" multiplicity="Single">
           <Text value="false"/>
@@ -3068,7 +3528,11 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
-      <Key signature="true"/>
+      <Abstraction>
+        <Signature>
+          <Equality full="true"/>
+        </Signature>
+      </Abstraction>
     </Type>
     <Type name="ConstructorDeclarationSyntax" base="BaseMethodDeclarationSyntax">
       <Properties>
@@ -3086,13 +3550,21 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="ParameterList" kind="Expression" index="3" optional="false" changepoint="true" inherited="true" multiplicity="Single">
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key signature="true"/>
+          <Abstraction>
+            <Signature>
+              <Equality full="true"/>
+            </Signature>
+          </Abstraction>
         </Property>
         <Property name="Initializer" kind="Expression" index="4" optional="true" changepoint="true" multiplicity="Single">
           <Text value="false"/>
@@ -3109,8 +3581,15 @@
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
-      </Properties>
-      <Key name="true" signature="true"/>
+      </Properties>          
+      <Abstraction>
+        <Signature>
+          <Equality full="true"/>
+        </Signature>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>
     <Type name="ConstructorInitializerSyntax">
       <Properties>
@@ -3155,7 +3634,11 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="ParameterList" kind="Expression" index="4" readOnly="true" optional="false" inherited="true" multiplicity="Single">
           <Text value="false"/>
@@ -3173,7 +3656,11 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Abstraction>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>
     <!--And Related$BasePropertyDeclarationSyntax-->
     <Type name="BasePropertyDeclarationSyntax" abstract="true" base="MemberDeclarationSyntax">
@@ -3196,16 +3683,30 @@
         <Property name="ExplicitInterfaceSpecifier" kind="Expression" index="3" optional="true" changepoint="true" multiplicity="Single">
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
-          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true" signature="true"/>
+          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>          
+          <Abstraction>
+            <Signature>
+              <Equality full="true"/>
+            </Signature>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="AccessorList" kind="Expression" index="4" optional="false" changepoint="true" multiplicity="Single">
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
-      </Properties>
-      <Key name="true" signature="true"/>
+      </Properties>          
+      <Abstraction>
+        <Signature>
+          <Equality full="true"/>
+        </Signature>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>
     <Type name="PropertyDeclarationSyntax" base="BasePropertyDeclarationSyntax">
       <Properties>
@@ -3227,14 +3728,28 @@
         <Property name="ExplicitInterfaceSpecifier" kind="Expression" index="3" optional="true" changepoint="true" inherited="true" multiplicity="Single">
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
-          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true" signature="true"/>
+          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>          
+          <Abstraction>
+            <Signature>
+              <Equality full="true"/>
+            </Signature>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="Identifier" kind="Token" index="4" optional="false" changepoint="true" multiplicity="Single">
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
-          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true" signature="true"/>
+          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>          
+          <Abstraction>
+            <Signature>
+              <Equality full="true"/>
+            </Signature>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="AccessorList" kind="Expression" index="5" optional="true" changepoint="true" inherited="true" multiplicity="Single">
           <Text value="false"/>
@@ -3256,8 +3771,15 @@
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
-      </Properties>
-      <Key name="true" signature="true"/>
+      </Properties>          
+      <Abstraction>
+        <Signature>
+          <Equality full="true"/>
+        </Signature>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>
     <Type name="ArrowExpressionClauseSyntax">
       <Properties>
@@ -3298,22 +3820,40 @@
         <Property name="ExplicitInterfaceSpecifier" kind="Expression" index="4" optional="true" changepoint="true" inherited="true" multiplicity="Single">
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
-          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true" signature="true"/>
+          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>          
+          <Abstraction>
+            <Signature>
+              <Equality full="true"/>
+            </Signature>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="Identifier" kind="Token" index="5" optional="false" changepoint="true" multiplicity="Single">
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="AccessorList" kind="Expression" index="6" optional="false" changepoint="true" inherited="true" multiplicity="Single">
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
-      </Properties>
-      <Key name="true" signature="true"/>
+      </Properties>          
+      <Abstraction>
+        <Signature>
+          <Equality full="true"/>
+        </Signature>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>
     <Type name="IndexerDeclarationSyntax" base="BasePropertyDeclarationSyntax">
       <Properties>
@@ -3335,20 +3875,35 @@
         <Property name="ExplicitInterfaceSpecifier" kind="Expression" index="3" optional="true" changepoint="true" inherited="true" multiplicity="Single">
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
-          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true" signature="true"/>
+          <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>          
+          <Abstraction>
+            <Signature>
+              <Equality full="true"/>
+            </Signature>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="ThisKeyword" kind="Token" index="4" readOnly="true" optional="false" multiplicity="Single">
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="ParameterList" kind="Expression" index="5" optional="false" changepoint="true" multiplicity="Single">
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key signature="true"/>
+          <Abstraction>
+            <Signature>
+              <Equality full="true"/>
+            </Signature>
+          </Abstraction>
         </Property>
         <Property name="AccessorList" kind="Expression" index="6" optional="true" changepoint="true" inherited="true" multiplicity="Single">
           <Text value="false"/>
@@ -3365,8 +3920,15 @@
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
-      </Properties>
-      <Key name="true" signature="true"/>
+      </Properties>          
+      <Abstraction>
+        <Signature>
+          <Equality full="true"/>
+        </Signature>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>
     <Type name="AccessorListSyntax">
       <Properties>
@@ -3426,10 +3988,18 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key signature="true"/>
+          <Abstraction>
+            <Signature>
+              <Equality full="true"/>
+            </Signature>
+          </Abstraction>
         </Property>
       </Properties>
-      <Key signature="true"/>
+      <Abstraction>
+        <Signature>
+          <Equality full="true"/>
+        </Signature>
+      </Abstraction>
     </Type>
     <Type name="ParameterListSyntax" base="BaseParameterListSyntax">
       <Properties>
@@ -3442,7 +4012,11 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key signature="true"/>
+          <Abstraction>
+            <Signature>
+              <Equality full="true"/>
+            </Signature>
+          </Abstraction>
         </Property>
         <Property name="CloseParenToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single">
           <Text value="false"/>
@@ -3450,7 +4024,11 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
-      <Key signature="true"/>
+      <Abstraction>
+        <Signature>
+          <Equality full="true"/>
+        </Signature>
+      </Abstraction>
     </Type>
     <Type name="BracketedParameterListSyntax" base="BaseParameterListSyntax">
       <Properties>
@@ -3463,7 +4041,11 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key signature="true"/>
+          <Abstraction>
+            <Signature>
+              <Equality full="true"/>
+            </Signature>
+          </Abstraction>
         </Property>
         <Property name="CloseBracketToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single">
           <Text value="false"/>
@@ -3471,7 +4053,11 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
-      <Key signature="true"/>
+      <Abstraction>
+        <Signature>
+          <Equality full="true"/>
+        </Signature>
+      </Abstraction>
     </Type>
     <Type name="ParameterSyntax">
       <Properties>
@@ -3489,21 +4075,36 @@
           <Text value="false" postfix=" "/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key signature="true"/>
+          <Abstraction>
+            <Signature>
+              <Equality full="true"/>
+            </Signature>
+          </Abstraction>
         </Property>
         <Property name="Identifier" kind="Token" index="3" optional="false" changepoint="true" multiplicity="Single">
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="Default" kind="Expression" index="4" optional="true" changepoint="true" multiplicity="Single">
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
-      </Properties>
-      <Key name="true" signature="true"/>
+      </Properties>          
+      <Abstraction>
+        <Signature>
+          <Equality full="true"/>
+        </Signature>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>
     
     <!--StructuredTriviaSyntax-->
@@ -3655,7 +4256,11 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="EndOfDirectiveToken" kind="Token" index="2" readOnly="true" optional="false" inherited="true" multiplicity="Single">
           <Text value="false"/>
@@ -3663,7 +4268,11 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Abstraction>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>
     <Type name="DefineDirectiveTriviaSyntax" base="DirectiveTriviaSyntax">
       <Properties>
@@ -3681,7 +4290,11 @@
           <Text value="false" prefix=" "/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="EndOfDirectiveToken" kind="Token" index="3" readOnly="true" optional="false" inherited="true" multiplicity="Single">
           <Text value="false"/>
@@ -3689,7 +4302,11 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Abstraction>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>
     <Type name="UndefDirectiveTriviaSyntax" base="DirectiveTriviaSyntax">
       <Properties>
@@ -3707,7 +4324,11 @@
           <Text value="false" prefix=" "/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="EndOfDirectiveToken" kind="Token" index="3" readOnly="true" optional="false" inherited="true" multiplicity="Single">
           <Text value="false"/>
@@ -3715,7 +4336,11 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Abstraction>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>
     <Type name="LineDirectiveTriviaSyntax" base="DirectiveTriviaSyntax">
       <Properties>
@@ -4005,16 +4630,31 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="Parameters" kind="Expression" index="1" optional="true" changepoint="true" multiplicity="Single">
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key signature="true"/>
+          <Abstraction>
+            <Signature>
+              <Equality full="true"/>
+            </Signature>
+          </Abstraction>
         </Property>
-      </Properties>
-      <Key name="true" signature="true"/>
+      </Properties>          
+      <Abstraction>
+        <Signature>
+          <Equality full="true"/>
+        </Signature>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>
     <Type name="IndexerMemberCrefSyntax" base="MemberCrefSyntax">
       <Properties>
@@ -4022,16 +4662,31 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="Parameters" kind="Expression" index="1" optional="true" changepoint="true" multiplicity="Single">
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key signature="true"/>
+          <Abstraction>
+            <Signature>
+              <Equality full="true"/>
+            </Signature>
+          </Abstraction>
         </Property>
-      </Properties>
-      <Key name="true" signature="true"/>
+      </Properties>          
+      <Abstraction>
+        <Signature>
+          <Equality full="true"/>
+        </Signature>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>
     <Type name="OperatorMemberCrefSyntax" base="MemberCrefSyntax">
       <Properties>
@@ -4044,16 +4699,31 @@
           <Text value="false" prefix=" "/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="Parameters" kind="Expression" index="2" optional="true" changepoint="true" multiplicity="Single">
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key signature="true"/>
+          <Abstraction>
+            <Signature>
+              <Equality full="true"/>
+            </Signature>
+          </Abstraction>
         </Property>
-      </Properties>
-      <Key name="true" signature="true"/>
+      </Properties>          
+      <Abstraction>
+        <Signature>
+          <Equality full="true"/>
+        </Signature>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>
     <Type name="ConversionOperatorMemberCrefSyntax" base="MemberCrefSyntax">
       <Properties>
@@ -4071,16 +4741,28 @@
           <Text value="false" prefix=" "/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key signature="true"/>
+          <Abstraction>
+            <Signature>
+              <Equality full="true"/>
+            </Signature>
+          </Abstraction>
         </Property>
         <Property name="Parameters" kind="Expression" index="3" optional="true" changepoint="true" multiplicity="Single">
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key signature="true"/>
+          <Abstraction>
+            <Signature>
+              <Equality full="true"/>
+            </Signature>
+          </Abstraction>
         </Property>
       </Properties>
-      <Key signature="true"/>
+      <Abstraction>
+        <Signature>
+          <Equality full="true"/>
+        </Signature>
+      </Abstraction>
     </Type>
     <!--An Related$BaseCrefParameterListSyntax-->
     <Type name="BaseCrefParameterListSyntax" abstract="true">
@@ -4089,10 +4771,18 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key signature="true"/>
+          <Abstraction>
+            <Signature>
+              <Equality full="true"/>
+            </Signature>
+          </Abstraction>
         </Property>
       </Properties>
-      <Key signature="true"/>
+      <Abstraction>
+        <Signature>
+          <Equality full="true"/>
+        </Signature>
+      </Abstraction>
     </Type>
     <Type name="CrefParameterListSyntax" base="BaseCrefParameterListSyntax">
       <Properties>
@@ -4105,7 +4795,11 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key signature="true"/>
+          <Abstraction>
+            <Signature>
+              <Equality full="true"/>
+            </Signature>
+          </Abstraction>
         </Property>
         <Property name="CloseParenToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single">
           <Text value="false"/>
@@ -4113,7 +4807,11 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
-      <Key signature="true"/>
+      <Abstraction>
+        <Signature>
+          <Equality full="true"/>
+        </Signature>
+      </Abstraction>
     </Type>
     <Type name="CrefBracketedParameterListSyntax" base="BaseCrefParameterListSyntax">
       <Properties>
@@ -4126,7 +4824,11 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key signature="true"/>
+          <Abstraction>
+            <Signature>
+              <Equality full="true"/>
+            </Signature>
+          </Abstraction>
         </Property>
         <Property name="CloseBracketToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single">
           <Text value="false"/>
@@ -4134,7 +4836,11 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
-      <Key signature="true"/>
+      <Abstraction>
+        <Signature>
+          <Equality full="true"/>
+        </Signature>
+      </Abstraction>
     </Type>
     <Type name="CrefParameterSyntax">
       <Properties>
@@ -4147,7 +4853,11 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key signature="true"/>
+          <Abstraction>
+            <Signature>
+              <Equality full="true"/>
+            </Signature>
+          </Abstraction>
         </Property>
       </Properties>
     </Type>
@@ -4159,7 +4869,11 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="Content" kind="Expression" index="1" optional="false" changepoint="true" multiplicity="Collection" collectionType="XmlNodeSyntax">
           <Text value="false"/>
@@ -4172,7 +4886,11 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Abstraction>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>
     <Type name="XmlElementStartTagSyntax">
       <Properties>
@@ -4185,7 +4903,11 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="Attributes" kind="Expression" index="2" optional="false" changepoint="true" multiplicity="Collection" collectionType="XmlAttributeSyntax">
           <Text value="false"/>
@@ -4198,7 +4920,11 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Abstraction>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>
     <Type name="XmlElementEndTagSyntax">
       <Properties>
@@ -4211,7 +4937,11 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="GreaterThanToken" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single">
           <Text value="false"/>
@@ -4219,7 +4949,11 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Abstraction>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>
     <Type name="XmlEmptyElementSyntax" base="XmlNodeSyntax">
       <Properties>
@@ -4232,7 +4966,11 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="Attributes" kind="Expression" index="2" optional="false" changepoint="true" multiplicity="Collection" collectionType="XmlAttributeSyntax">
           <Text value="false"/>
@@ -4245,7 +4983,11 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Abstraction>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>
     <Type name="XmlNameSyntax">
       <Properties>
@@ -4253,16 +4995,28 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="LocalName" kind="Token" index="1" optional="false" changepoint="true" multiplicity="Single">
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Abstraction>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>
     <Type name="XmlPrefixSyntax">
       <Properties>
@@ -4270,7 +5024,11 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="ColonToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single">
           <Text value="false"/>
@@ -4278,7 +5036,11 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Abstraction>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>
     <!--An Related$XmlAttributeSyntax-->
     <Type name="XmlAttributeSyntax" abstract="true">
@@ -4287,7 +5049,11 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="EqualsToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single">
           <Text value="false"/>
@@ -4305,7 +5071,11 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Abstraction>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>
     <Type name="XmlTextAttributeSyntax" base="XmlAttributeSyntax">
       <Properties>
@@ -4313,7 +5083,11 @@
           <Text value="false" prefix=" "/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="EqualsToken" kind="Token" index="1" readOnly="true" optional="false" inherited="true" multiplicity="Single">
           <Text value="false"/>
@@ -4336,7 +5110,11 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Abstraction>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>
     <Type name="XmlCrefAttributeSyntax" base="XmlAttributeSyntax">
       <Properties>
@@ -4359,7 +5137,11 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="EndQuoteToken" kind="Token" index="4" readOnly="true" optional="false" inherited="true" multiplicity="Single">
           <Text value="false"/>
@@ -4367,7 +5149,11 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Abstraction>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>
     <Type name="XmlNameAttributeSyntax" base="XmlAttributeSyntax">
       <Properties>
@@ -4390,7 +5176,11 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="EndQuoteToken" kind="Token" index="4" readOnly="true" optional="false" inherited="true" multiplicity="Single">
           <Text value="false"/>
@@ -4398,7 +5188,11 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Abstraction>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>
     <Type name="XmlTextSyntax" base="XmlNodeSyntax">
       <Properties>
@@ -4439,7 +5233,11 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="TextTokens" kind="Expression" index="2" optional="false" changepoint="true" multiplicity="Collection">
           <Text value="false"/>
@@ -4452,7 +5250,11 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Abstraction>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>
     <Type name="XmlCommentSyntax" base="XmlNodeSyntax">
       <Properties>
@@ -4520,7 +5322,11 @@
           <Text value="false" prefix=" "/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="SemicolonToken" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single">
           <Text value="false"/>
@@ -4528,7 +5334,11 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Abstraction>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>
     <Type name="UsingDirectiveSyntax">
       <Properties>
@@ -4546,13 +5356,21 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="Name" kind="Expression" index="3" optional="false" changepoint="true" multiplicity="Single">
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="SemicolonToken" kind="Token" index="4" readOnly="true" optional="false" multiplicity="Single">
           <Text value="false"/>
@@ -4560,7 +5378,11 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Abstraction>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>
     <Type name="NamespaceDeclarationSyntax" base="MemberDeclarationSyntax">
       <Properties>
@@ -4573,7 +5395,11 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="OpenBraceToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single">
           <Text value="false"/>
@@ -4606,7 +5432,11 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Abstraction>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>
     <Type name="AttributeListSyntax">
       <Properties>
@@ -4619,13 +5449,21 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="Attributes" kind="Expression" index="2" optional="false" changepoint="true" multiplicity="Collection" collectionType="AttributeSyntax" collectionSeparator=",">
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="CloseBracketToken" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single">
           <Text value="false"/>
@@ -4633,7 +5471,11 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Abstraction>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>
     <Type name="AttributeTargetSpecifierSyntax">
       <Properties>
@@ -4641,7 +5483,11 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="ColonToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single">
           <Text value="false"/>
@@ -4649,7 +5495,11 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Abstraction>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>
     <Type name="AttributeSyntax">
       <Properties>
@@ -4657,7 +5507,11 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="ArgumentList" kind="Expression" index="1" optional="true" changepoint="true" multiplicity="Single">
           <Text value="false"/>
@@ -4665,7 +5519,11 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Abstraction>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>
     <Type name="AttributeArgumentListSyntax">
       <Properties>
@@ -4692,13 +5550,21 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="NameColon" kind="Expression" index="1" optional="true" changepoint="true" multiplicity="Single">
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="Expression" kind="Expression" index="2" optional="false" changepoint="true" multiplicity="Single">
           <Text value="false"/>
@@ -4706,7 +5572,11 @@
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Abstraction>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>
     
     <!--New ones for C# 7.x-->
@@ -4773,10 +5643,18 @@
           <Text value="false" postfix=" "/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Abstraction>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>    
     <Type name="ThrowExpressionSyntax" base="ExpressionSyntax">
       <Properties>
@@ -4800,10 +5678,18 @@
           <Text value="false" postfix=" "/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
       </Properties>
-      <Key name="true"/>
+      <Abstraction>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>
     <Type name="DiscardDesignationSyntax" base="VariableDesignationSyntax">
       <Properties>
@@ -5021,19 +5907,31 @@
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key name="true"/>
+          <Abstraction>
+            <Name>
+              <Equality full="true"/>
+            </Name>
+          </Abstraction>
         </Property>
         <Property name="TypeParameterList" kind="Expression" index="3" optional="true" changepoint="true" multiplicity="Single">
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key signature="true"/>
+          <Abstraction>
+            <Signature>
+              <Equality full="true"/>
+            </Signature>
+          </Abstraction>
         </Property>
         <Property name="ParameterList" kind="Expression" index="4" optional="false" changepoint="true" multiplicity="Single">
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
-          <Key signature="true"/>
+          <Abstraction>
+            <Signature>
+              <Equality full="true"/>
+            </Signature>
+          </Abstraction>
         </Property>
         <Property name="ConstraintClauses" kind="Expression" index="5" optional="false" changepoint="true" multiplicity="Collection" collectionType="TypeParameterConstraintClauseSyntax">
           <Text value="false"/>
@@ -5055,8 +5953,15 @@
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
-      </Properties>
-      <Key name="true" signature="true"/>
+      </Properties>          
+      <Abstraction>
+        <Signature>
+          <Equality full="true"/>
+        </Signature>
+        <Name>
+          <Equality full="true"/>
+        </Name>
+      </Abstraction>
     </Type>
     <Type name="RefTypeSyntax" base="TypeSyntax">
       <Properties>

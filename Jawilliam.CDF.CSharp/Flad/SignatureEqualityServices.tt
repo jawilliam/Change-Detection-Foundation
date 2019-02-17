@@ -85,7 +85,7 @@ using System.Xml.Linq;
 <#
 BeginNamespace(namespaceName, code);
 
-var nameProviders = xSyntaxTypeSystem.Nodes.Type.Where(t => !t.@abstract && t.Properties.Property.Any(p => p.Abstraction?.Name?.Equality?.full ?? false)).ToList();
+var nameProviders = xSyntaxTypeSystem.Nodes.Type.Where(t => !t.@abstract && t.Properties.Property.Any(p => p.Abstraction?.Signature?.Equality?.full ?? false)).ToList();
 
 foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
 .Where(n => !object.Equals(n.Root.Label, "SyntaxNode") && 
@@ -98,7 +98,7 @@ foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
 
 	//!xSyntaxNodeType.Key.name
 	if(!nameProviders.Any(t => t == xSyntaxNodeType)) continue;
-	var keyProperties = xSyntaxNodeType.Properties.Property.Where(p => p.Abstraction?.Name?.Equality?.full ?? false).ToList();
+	var keyProperties = xSyntaxNodeType.Properties.Property.Where(p => p.Abstraction?.Signature?.Equality?.full ?? false).ToList();
 	if(!keyProperties.Any()) continue;
 
 	var xSyntaxNodeBaseType = xSyntaxNodeType != null && xSyntaxNodeType.@base != null ?
@@ -136,33 +136,33 @@ foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
 	{
 		var baseDeclarationText = xSyntaxNodeBaseType == null ? "Jawilliam.CDF.Domain.ElementTypeServiceProvider" : code.Escape(xSyntaxNodeBaseType.name.ToString()).Replace("Syntax", "") + "ServiceProvider";
 #>
-public <#= xSyntaxNodeType.@abstract ? "abstract " : "" #>partial class <#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>ServiceProvider : INameEqualityCondition<<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>>
+public <#= xSyntaxNodeType.@abstract ? "abstract " : "" #>partial class <#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>ServiceProvider : ISignatureEqualityCondition<<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>>
 {
     /// <summary>
-    /// Method hook for implementing logic to execute before the <see cref="NameExactlyEqualCore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>)"/>.
+    /// Method hook for implementing logic to execute before the <see cref="SignatureExactlyEqualCore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>)"/>.
     /// </summary>
     /// <param name="original">the original version.</param>
     /// <param name="modified">the modified version.</param>
-    /// <param name="result">Mechanism to modify the result of <see cref="NameExactlyEqual(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>)"/>.</param>
-    /// <param name="ignoreCore">If true, the <see cref="NameExactlyEqualCore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>)"/> is not executed and <see cref="NameExactlyEqual(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>)"/> returns the current value of <paramref name="result"/>.</param>
-    partial void NameExactlyEqualBefore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= code.Escape(syntaxNode.Root.Label.ToString()) #> modified, ref bool result, ref bool ignoreCore);
+    /// <param name="result">Mechanism to modify the result of <see cref="SignatureExactlyEqual(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>)"/>.</param>
+    /// <param name="ignoreCore">If true, the <see cref="SignatureExactlyEqualCore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>)"/> is not executed and <see cref="SignatureExactlyEqual(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>)"/> returns the current value of <paramref name="result"/>.</param>
+    partial void SignatureExactlyEqualBefore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= code.Escape(syntaxNode.Root.Label.ToString()) #> modified, ref bool result, ref bool ignoreCore);
     
     /// <summary>
-    /// Method hook for implementing logic to execute after the <see cref="NameExactlyEqualCore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>)"/>.
+    /// Method hook for implementing logic to execute after the <see cref="SignatureExactlyEqualCore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>)"/>.
     /// </summary>
     /// <param name="original">the original version.</param>
     /// <param name="modified">the modified version.</param>
-    /// <param name="result">Mechanism to modify the result of <see cref="NameExactlyEqual(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>)"/>.</param>
-    partial void NameExactlyEqualAfter(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= code.Escape(syntaxNode.Root.Label.ToString()) #> modified, ref bool result);
+    /// <param name="result">Mechanism to modify the result of <see cref="SignatureExactlyEqual(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>)"/>.</param>
+    partial void SignatureExactlyEqualAfter(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= code.Escape(syntaxNode.Root.Label.ToString()) #> modified, ref bool result);
 
     /// <summary>
-    /// Determines if two <see cref="<#= code.Escape(syntaxNode.Root.Label.ToString()) #>"/> elements are name-based exactly equal.
+    /// Determines if two <see cref="<#= code.Escape(syntaxNode.Root.Label.ToString()) #>"/> elements are signature-based exactly equal.
     /// </summary>
     /// <param name="original">the original version.</param>
     /// <param name="modified">the modified version.</param>
     /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-    /// <remarks>This is the default implementation for <see cref="NameExactlyEqual(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>)"/>.</remarks>
-    protected virtual bool NameExactlyEqualCore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= code.Escape(syntaxNode.Root.Label.ToString()) #> modified)
+    /// <remarks>This is the default implementation for <see cref="SignatureExactlyEqual(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>)"/>.</remarks>
+    protected virtual bool SignatureExactlyEqualCore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= code.Escape(syntaxNode.Root.Label.ToString()) #> modified)
     {
 		if(original == null || modified == null) 
 			return false;
@@ -181,7 +181,7 @@ public <#= xSyntaxNodeType.@abstract ? "abstract " : "" #>partial class <#= code
 		              (keyProperties.Count > 1 ? ")" : "") + 
 		              (keyProperties.Count > 1 && i != (keyProperties.Count - 1) ? (currentPropertiesMetadata.Where(p => keyProperties.Any(kp => kp.name == p.Item2.name)).All(kp => kp.Item2.optional) ? " ||" : " &&") : "") + 
 					  (i == (keyProperties.Count - 1) ? ")" : "");
-		line += $"this.LanguageServiceProvider.NameExactlyEqual(original.{keyProperty.Item2.name}, modified.{keyProperty.Item2.name})";
+		line += $"this.LanguageServiceProvider.SignatureExactlyEqual(original.{keyProperty.Item2.name}, modified.{keyProperty.Item2.name})";
 		 
 		line += postfix;
 #>
@@ -195,20 +195,20 @@ public <#= xSyntaxNodeType.@abstract ? "abstract " : "" #>partial class <#= code
 	}
 
     /// <summary>
-    /// Determines if two <see cref="<#= code.Escape(syntaxNode.Root.Label.ToString()) #>"/> elements are name-based exactly equal.
+    /// Determines if two <see cref="<#= code.Escape(syntaxNode.Root.Label.ToString()) #>"/> elements are signature-based exactly equal.
     /// </summary>
     /// <param name="original">the original version.</param>
     /// <param name="modified">the modified version.</param>
     /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-    public bool NameExactlyEqual(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= code.Escape(syntaxNode.Root.Label.ToString()) #> modified)
+    public bool SignatureExactlyEqual(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= code.Escape(syntaxNode.Root.Label.ToString()) #> modified)
     {
 		bool result = false, ignoreCore = false;
-		NameExactlyEqualBefore(original, modified, ref result, ref ignoreCore);
+		SignatureExactlyEqualBefore(original, modified, ref result, ref ignoreCore);
 		if(ignoreCore) 
 			return result;
 		
-		result = this.NameExactlyEqualCore(original, modified);
-		NameExactlyEqualAfter(original, modified, ref result);
+		result = this.SignatureExactlyEqualCore(original, modified);
+		SignatureExactlyEqualAfter(original, modified, ref result);
 		return result;
     }
 }

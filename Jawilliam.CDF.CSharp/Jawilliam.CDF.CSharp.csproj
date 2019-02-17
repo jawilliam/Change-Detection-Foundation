@@ -159,6 +159,11 @@
     <Compile Include="Flad\LanguageServiceProvider.Partial.cs" />
     <Compile Include="Flad\MemberAccessExpressionServiceProvider.Partial.cs" />
     <Compile Include="Flad\NameColonServiceProvider.Partial.cs" />
+    <Compile Include="Flad\SignatureEqualityServices.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SignatureEqualityServices.tt</DependentUpon>
+    </Compile>
     <Compile Include="Flad\NameEqualityServices.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -198,6 +203,10 @@
     <None Include="RDSL.xml">
       <SubType>Designer</SubType>
     </None>
+    <Content Include="Flad\SignatureEqualityServices.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>SignatureEqualityServices.cs</LastGenOutput>
+    </Content>
     <Content Include="Flad\NameEqualityServices.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>NameEqualityServices.cs</LastGenOutput>
