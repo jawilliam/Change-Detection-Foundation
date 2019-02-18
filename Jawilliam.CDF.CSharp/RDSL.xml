@@ -4118,9 +4118,6 @@
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
           <Abstraction>
-            <Signature>
-              <Equality full="true"/>
-            </Signature>
             <Name>
               <Equality full="true"/>
             </Name>

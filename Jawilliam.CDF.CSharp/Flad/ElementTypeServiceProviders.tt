@@ -248,7 +248,7 @@ foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
 	//manager.StartNewFile(syntaxNode.Root.Label + ".cs");
 
 	var xSyntaxNodeType = xSyntaxTypeSystem.Nodes.Type.SingleOrDefault(n => n.name == syntaxNode.Root.Label.ToString());
-	if(xSyntaxNodeType == null) continue;
+	if(xSyntaxNodeType == null || xSyntaxNodeType.@abstract) continue;
 	var xSyntaxNodeBaseType = xSyntaxNodeType != null && xSyntaxNodeType.@base != null ?
 	 xSyntaxTypeSystem.Nodes.Type.SingleOrDefault(n => n.name == xSyntaxNodeType.@base) 
 	 : null;
@@ -290,7 +290,7 @@ foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
 /// <summary>
 /// Provides language-aware services regarding <see cref="<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>"/>.
 /// </summary>
-public <#= isAbstract ? "abstract " : "" #>partial class <#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>ServiceProvider : <#= baseDeclarationText #>
+public <#= isAbstract ? "abstract " : "" #>partial class <#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>ServiceProvider : ElementTypeServiceProvider //<#= baseDeclarationText #>
 {
     /// <summary>
     /// Initializes the instance.

@@ -151,6 +151,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ElementTypeServiceProviders.tt</DependentUpon>
     </Compile>
+    <Compile Include="Flad\QualifiedNameServiceProvider.Partial.cs" />
+    <Compile Include="Flad\IdentifierNameServiceProvider.Partial.cs" />
     <Compile Include="Flad\LanguageServiceProvider.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

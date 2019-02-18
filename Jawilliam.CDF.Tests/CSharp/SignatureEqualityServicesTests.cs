@@ -11,78 +11,6 @@ namespace Jawilliam.CDF.Tests.CSharp
     [TestClass]
     public class SignatureEqualityServicesTests
     {
-        //[TestMethod]
-        //public void NameEqualsServiceProvider_SignatureExactlyEqual_OK()
-        //{
-        //    var flad = new CSharpFlad();
-
-        //    var a = SyntaxFactory.ParseCompilationUnit("[module: XAttribute(\"X\")]").AttributeLists[0].Attributes[0].ArgumentList.Arguments[0].NameEquals;
-        //    var b = SyntaxFactory.ParseCompilationUnit("[module: YAttribute(\"Y\")]").AttributeLists[0].Attributes[0].ArgumentList.Arguments[0].NameEquals;
-        //    Assert.IsFalse(flad.LanguageServiceProvider.NameEqualsServiceProvider.SignatureExactlyEqual(null, b));
-        //    Assert.IsFalse(flad.LanguageServiceProvider.NameEqualsServiceProvider.SignatureExactlyEqual(a, (NameEqualsSyntax)null));
-        //    Assert.IsFalse(flad.LanguageServiceProvider.NameEqualsServiceProvider.SignatureExactlyEqual(null, (NameEqualsSyntax)null));
-        //    Assert.IsFalse(flad.LanguageServiceProvider.NameEqualsServiceProvider.SignatureExactlyEqual(a, b));
-
-        //    a = SyntaxFactory.ParseCompilationUnit("[module: XAttribute(x = \"X\")]").AttributeLists[0].Attributes[0].ArgumentList.Arguments[0].NameEquals;
-        //    b = SyntaxFactory.ParseCompilationUnit("[module: YAttribute(y = \"Y\")]").AttributeLists[0].Attributes[0].ArgumentList.Arguments[0].NameEquals;
-        //    Assert.IsFalse(flad.LanguageServiceProvider.NameEqualsServiceProvider.SignatureExactlyEqual(a, b));
-
-        //    a = SyntaxFactory.ParseCompilationUnit("[module: XAttribute(x = \"X\")]").AttributeLists[0].Attributes[0].ArgumentList.Arguments[0].NameEquals;
-        //    b = SyntaxFactory.ParseCompilationUnit("[module: YAttribute(x = \"Y\")]").AttributeLists[0].Attributes[0].ArgumentList.Arguments[0].NameEquals;
-        //    Assert.IsTrue(flad.LanguageServiceProvider.NameEqualsServiceProvider.SignatureExactlyEqual(a, b));
-        //}
-
-        //[TestMethod]
-        //public void TypeParameterServiceProvider_SignatureExactlyEqual_OK()
-        //{
-        //    var flad = new CSharpFlad();
-
-        //    var a = ((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a<B> {}").Members[0]).TypeParameterList.Parameters[0];
-        //    var b = ((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a<C> {}").Members[0]).TypeParameterList.Parameters[0];
-        //    Assert.IsFalse(flad.LanguageServiceProvider.TypeParameterServiceProvider.SignatureExactlyEqual(null, b));
-        //    Assert.IsFalse(flad.LanguageServiceProvider.TypeParameterServiceProvider.SignatureExactlyEqual(a, null));
-        //    Assert.IsFalse(flad.LanguageServiceProvider.TypeParameterServiceProvider.SignatureExactlyEqual(null, null));
-        //    Assert.IsFalse(flad.LanguageServiceProvider.TypeParameterServiceProvider.SignatureExactlyEqual(a, b));
-
-        //    a = ((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a<B> {}").Members[0]).TypeParameterList.Parameters[0];
-        //    b = ((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class b<B> {}").Members[0]).TypeParameterList.Parameters[0];
-        //    Assert.IsTrue(flad.LanguageServiceProvider.TypeParameterServiceProvider.SignatureExactlyEqual(a, b));
-        //}
-
-        //[TestMethod]
-        //public void TypeParameterConstraintClauseServiceProvider_SignatureExactlyEqual_OK()
-        //{
-        //    var flad = new CSharpFlad();
-
-        //    var a = ((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a<T> : byte where T : new(), class, struct, A{};").Members[0]).ConstraintClauses[0];
-        //    var b = ((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a<T> : byte where K : new(), class, struct, A{};").Members[0]).ConstraintClauses[0];
-        //    Assert.IsFalse(flad.LanguageServiceProvider.TypeParameterConstraintClauseServiceProvider.SignatureExactlyEqual(null, b));
-        //    Assert.IsFalse(flad.LanguageServiceProvider.TypeParameterConstraintClauseServiceProvider.SignatureExactlyEqual(a, null));
-        //    Assert.IsFalse(flad.LanguageServiceProvider.TypeParameterConstraintClauseServiceProvider.SignatureExactlyEqual(null, null));
-        //    Assert.IsFalse(flad.LanguageServiceProvider.TypeParameterConstraintClauseServiceProvider.SignatureExactlyEqual(a, b));
-
-        //    a = ((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a<T> : byte where T : new(), class, struct, A{};").Members[0]).ConstraintClauses[0];
-        //    b = ((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a<T> : byte where T : new(), class, struct, A{};").Members[0]).ConstraintClauses[0];
-        //    Assert.IsTrue(flad.LanguageServiceProvider.TypeParameterConstraintClauseServiceProvider.SignatureExactlyEqual(a, b));
-        //}
-
-        //[TestMethod]
-        //public void ExplicitInterfaceSpecifierServiceProvider_SignatureExactlyEqual_OK()
-        //{
-        //    var flad = new CSharpFlad();
-
-        //    var a = ((EventDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a {event B IA.a1{add; remove;}}").Members[0]).Members[0]).ExplicitInterfaceSpecifier;
-        //    var b = ((EventDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a {event B IB.a1{add; remove;}}").Members[0]).Members[0]).ExplicitInterfaceSpecifier;
-        //    Assert.IsFalse(flad.LanguageServiceProvider.ExplicitInterfaceSpecifierServiceProvider.SignatureExactlyEqual(null, b));
-        //    Assert.IsFalse(flad.LanguageServiceProvider.ExplicitInterfaceSpecifierServiceProvider.SignatureExactlyEqual(a, null));
-        //    Assert.IsFalse(flad.LanguageServiceProvider.ExplicitInterfaceSpecifierServiceProvider.SignatureExactlyEqual(null, null));
-        //    Assert.IsFalse(flad.LanguageServiceProvider.ExplicitInterfaceSpecifierServiceProvider.SignatureExactlyEqual(a, b));
-
-        //    a = ((EventDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a {event B IA.a1{add; remove;}}").Members[0]).Members[0]).ExplicitInterfaceSpecifier;
-        //    b = ((EventDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a {event B IA.a1{add; remove;}}").Members[0]).Members[0]).ExplicitInterfaceSpecifier;
-        //    Assert.IsTrue(flad.LanguageServiceProvider.ExplicitInterfaceSpecifierServiceProvider.SignatureExactlyEqual(a, b));
-        //}
-
         [TestMethod]
         public void TypeParameterListServiceProvider_SignatureExactlyEqual_OK()
         {
@@ -94,6 +22,17 @@ namespace Jawilliam.CDF.Tests.CSharp
             Assert.IsFalse(flad.LanguageServiceProvider.TypeParameterListServiceProvider.SignatureExactlyEqual(a, (TypeParameterListSyntax)null));
             Assert.IsFalse(flad.LanguageServiceProvider.TypeParameterListServiceProvider.SignatureExactlyEqual(null, (TypeParameterListSyntax)null));
             Assert.IsFalse(flad.LanguageServiceProvider.TypeParameterListServiceProvider.SignatureExactlyEqual(a, b));
+
+            a = ((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a<B, out D, [Serializable]E, [Serializable] in F> {B a1; internal static A b2 = 3; [Serializable]A c3 = 3; [Serializable]public int df = 34;}").Members[0]).TypeParameterList;
+            b = ((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a<B, in C, out D, [Serializable]E, [Serializable] in F> {B a1; internal static A b2 = 3; [Serializable]A c3 = 3; [Serializable]public int df = 34;}").Members[0]).TypeParameterList;
+            Assert.IsFalse(flad.LanguageServiceProvider.TypeParameterListServiceProvider.SignatureExactlyEqual(null, b));
+            Assert.IsFalse(flad.LanguageServiceProvider.TypeParameterListServiceProvider.SignatureExactlyEqual(a, (TypeParameterListSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.TypeParameterListServiceProvider.SignatureExactlyEqual(null, (TypeParameterListSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.TypeParameterListServiceProvider.SignatureExactlyEqual(a, b));
+
+            a = ((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a<B, in C, out D, [Serializable]E, [Serializable] in F> {B a1; internal static A b2 = 3; [Serializable]A c3 = 3; [Serializable]public int df = 34;}").Members[0]).TypeParameterList;
+            b = ((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class b<B, in C, out D, [Serializable]E, [Serializable] in F> {B a1; internal static A b2 = 3; [Serializable]A c3 = 3; [Serializable]public int df = 34;}").Members[0]).TypeParameterList;
+            Assert.IsTrue(flad.LanguageServiceProvider.TypeParameterListServiceProvider.SignatureExactlyEqual(a, b));
 
             a = ((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a<B, in C, out D, [Serializable]E, [Serializable] in F> {B a1; internal static A b2 = 3; [Serializable]A c3 = 3; [Serializable]public int df = 34;}").Members[0]).TypeParameterList;
             b = ((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a<B, in C, out D, [Serializable]E, [Serializable] in F> {B a1; internal static A b2 = 3; [Serializable]A c3 = 3; [Serializable]public int df = 34;}").Members[0]).TypeParameterList;
@@ -112,6 +51,17 @@ namespace Jawilliam.CDF.Tests.CSharp
             Assert.IsFalse(flad.LanguageServiceProvider.TypeParameterServiceProvider.SignatureExactlyEqual(null, (TypeParameterSyntax)null));
             Assert.IsFalse(flad.LanguageServiceProvider.TypeParameterServiceProvider.SignatureExactlyEqual(a, b));
 
+            a = ((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a<B, in C1, out D, [Serializable]E, [Serializable] in F> {B a1; internal static A b2 = 3; [Serializable]A c3 = 3; [Serializable]public int df = 34;}").Members[0]).TypeParameterList.Parameters[1];
+            b = ((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a<B, in C, out D, [Serializable]E, [Serializable] in F> {B a1; internal static A b2 = 3; [Serializable]A c3 = 3; [Serializable]public int df = 34;}").Members[0]).TypeParameterList.Parameters[1];
+            Assert.IsFalse(flad.LanguageServiceProvider.TypeParameterServiceProvider.SignatureExactlyEqual(null, b));
+            Assert.IsFalse(flad.LanguageServiceProvider.TypeParameterServiceProvider.SignatureExactlyEqual(a, (TypeParameterSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.TypeParameterServiceProvider.SignatureExactlyEqual(null, (TypeParameterSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.TypeParameterServiceProvider.SignatureExactlyEqual(a, b));
+
+            a = ((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a<B, in C, out D, [Serializable]E, [Serializable] in F> {B a1; internal static A b2 = 3; [Serializable]A c3 = 3; [Serializable]public int df = 34;}").Members[0]).TypeParameterList.Parameters[1];
+            b = ((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class b<B, in C, out D, [Serializable]E, [Serializable] in F> {B a1; internal static A b2 = 3; [Serializable]A c3 = 3; [Serializable]public int df = 34;}").Members[0]).TypeParameterList.Parameters[1];
+            Assert.IsTrue(flad.LanguageServiceProvider.TypeParameterServiceProvider.SignatureExactlyEqual(a, b));
+
             a = ((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a<B, in C, out D, [Serializable]E, [Serializable] in F> {B a1; internal static A b2 = 3; [Serializable]A c3 = 3; [Serializable]public int df = 34;}").Members[0]).TypeParameterList.Parameters[1];
             b = ((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a<B, in C, out D, [Serializable]E, [Serializable] in F> {B a1; internal static A b2 = 3; [Serializable]A c3 = 3; [Serializable]public int df = 34;}").Members[0]).TypeParameterList.Parameters[1];
             Assert.IsTrue(flad.LanguageServiceProvider.TypeParameterServiceProvider.SignatureExactlyEqual(a, b));
@@ -122,96 +72,111 @@ namespace Jawilliam.CDF.Tests.CSharp
         {
             var flad = new CSharpFlad();
 
-            var a = ((MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("int M([Serializable] ref int a = 0, A b){}").Members[0]).ParameterList.Parameters[0];
+            var a = ((MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("int M([Serializable] ref int1 a = 0, A b){}").Members[0]).ParameterList.Parameters[0];
             var b = ((MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("int M([Serializable] ref int b = 0, A b){}").Members[0]).ParameterList.Parameters[0];
             Assert.IsFalse(flad.LanguageServiceProvider.ParameterServiceProvider.SignatureExactlyEqual(null, b));
             Assert.IsFalse(flad.LanguageServiceProvider.ParameterServiceProvider.SignatureExactlyEqual(a, null));
             Assert.IsFalse(flad.LanguageServiceProvider.ParameterServiceProvider.SignatureExactlyEqual(null, null));
             Assert.IsFalse(flad.LanguageServiceProvider.ParameterServiceProvider.SignatureExactlyEqual(a, b));
 
+            a = ((MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("int M([Serializable] ref int1 a = 0, A b){}").Members[0]).ParameterList.Parameters[0];
+            b = ((MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("int M([Serializable] ref int a = 0, A b){}").Members[0]).ParameterList.Parameters[0];
+            Assert.IsFalse(flad.LanguageServiceProvider.ParameterServiceProvider.SignatureExactlyEqual(null, b));
+            Assert.IsFalse(flad.LanguageServiceProvider.ParameterServiceProvider.SignatureExactlyEqual(a, null));
+            Assert.IsFalse(flad.LanguageServiceProvider.ParameterServiceProvider.SignatureExactlyEqual(null, null));
+            Assert.IsFalse(flad.LanguageServiceProvider.ParameterServiceProvider.SignatureExactlyEqual(a, b));
+
+            a = ((MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("int M([Serializable] ref int a1 = 0, A b){}").Members[0]).ParameterList.Parameters[0];
+            b = ((MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("int M([Serializable] ref int b = 0, A b){}").Members[0]).ParameterList.Parameters[0];
+            Assert.IsFalse(flad.LanguageServiceProvider.ParameterServiceProvider.SignatureExactlyEqual(null, b));
+            Assert.IsFalse(flad.LanguageServiceProvider.ParameterServiceProvider.SignatureExactlyEqual(a, null));
+            Assert.IsFalse(flad.LanguageServiceProvider.ParameterServiceProvider.SignatureExactlyEqual(null, null));
+            Assert.IsTrue(flad.LanguageServiceProvider.ParameterServiceProvider.SignatureExactlyEqual(a, b));
+
             a = ((MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("int M([Serializable] ref int a = 0, A b){}").Members[0]).ParameterList.Parameters[0];
-            b = ((MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("int M([Serializable] ref int a = 0, A c){}").Members[0]).ParameterList.Parameters[0];
+            b = ((MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("int M([Serializable] ref int a = 0, A b){}").Members[0]).ParameterList.Parameters[0];
+            Assert.IsFalse(flad.LanguageServiceProvider.ParameterServiceProvider.SignatureExactlyEqual(null, b));
+            Assert.IsFalse(flad.LanguageServiceProvider.ParameterServiceProvider.SignatureExactlyEqual(a, null));
+            Assert.IsFalse(flad.LanguageServiceProvider.ParameterServiceProvider.SignatureExactlyEqual(null, null));
+            Assert.IsTrue(flad.LanguageServiceProvider.ParameterServiceProvider.SignatureExactlyEqual(a, b));
+
+            a = ((MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("int M([Serializable] int1 a = 0, A b){}").Members[0]).ParameterList.Parameters[0];
+            b = ((MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("int M([Serializable] int b = 0, A b){}").Members[0]).ParameterList.Parameters[0];
+            Assert.IsFalse(flad.LanguageServiceProvider.ParameterServiceProvider.SignatureExactlyEqual(null, b));
+            Assert.IsFalse(flad.LanguageServiceProvider.ParameterServiceProvider.SignatureExactlyEqual(a, null));
+            Assert.IsFalse(flad.LanguageServiceProvider.ParameterServiceProvider.SignatureExactlyEqual(null, null));
+            Assert.IsFalse(flad.LanguageServiceProvider.ParameterServiceProvider.SignatureExactlyEqual(a, b));
+
+            a = ((MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("int M([Serializable] int1 a = 0, A b){}").Members[0]).ParameterList.Parameters[0];
+            b = ((MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("int M([Serializable] int a = 0, A b){}").Members[0]).ParameterList.Parameters[0];
+            Assert.IsFalse(flad.LanguageServiceProvider.ParameterServiceProvider.SignatureExactlyEqual(null, b));
+            Assert.IsFalse(flad.LanguageServiceProvider.ParameterServiceProvider.SignatureExactlyEqual(a, null));
+            Assert.IsFalse(flad.LanguageServiceProvider.ParameterServiceProvider.SignatureExactlyEqual(null, null));
+            Assert.IsFalse(flad.LanguageServiceProvider.ParameterServiceProvider.SignatureExactlyEqual(a, b));
+
+            a = ((MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("int M([Serializable] int a1 = 0, A b){}").Members[0]).ParameterList.Parameters[0];
+            b = ((MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("int M([Serializable] int b = 0, A b){}").Members[0]).ParameterList.Parameters[0];
+            Assert.IsFalse(flad.LanguageServiceProvider.ParameterServiceProvider.SignatureExactlyEqual(null, b));
+            Assert.IsFalse(flad.LanguageServiceProvider.ParameterServiceProvider.SignatureExactlyEqual(a, null));
+            Assert.IsFalse(flad.LanguageServiceProvider.ParameterServiceProvider.SignatureExactlyEqual(null, null));
+            Assert.IsTrue(flad.LanguageServiceProvider.ParameterServiceProvider.SignatureExactlyEqual(a, b));
+
+            a = ((MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("int M([Serializable] int a = 0, A b){}").Members[0]).ParameterList.Parameters[0];
+            b = ((MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("int M([Serializable] int a = 0, A b){}").Members[0]).ParameterList.Parameters[0];
+            Assert.IsFalse(flad.LanguageServiceProvider.ParameterServiceProvider.SignatureExactlyEqual(null, b));
+            Assert.IsFalse(flad.LanguageServiceProvider.ParameterServiceProvider.SignatureExactlyEqual(a, null));
+            Assert.IsFalse(flad.LanguageServiceProvider.ParameterServiceProvider.SignatureExactlyEqual(null, null));
             Assert.IsTrue(flad.LanguageServiceProvider.ParameterServiceProvider.SignatureExactlyEqual(a, b));
         }
 
-        //[TestMethod]
-        //public void TupleElementServiceProvider_SignatureExactlyEqual_OK()
-        //{
-        //    var flad = new CSharpFlad();
+        [TestMethod]
+        public void CrefParameterServiceProvider_SignatureExactlyEqual_OK()
+        {
+            var flad = new CSharpFlad();
 
-        //    var a = SyntaxFactory.TupleElement(SyntaxFactory.ParseTypeName("(string, int)"), SyntaxFactory.Identifier("a"));
-        //    var b = SyntaxFactory.TupleElement(SyntaxFactory.ParseTypeName("(string, int)"), SyntaxFactory.Identifier("b"));
-        //    Assert.IsFalse(flad.LanguageServiceProvider.TupleElementServiceProvider.SignatureExactlyEqual(null, b));
-        //    Assert.IsFalse(flad.LanguageServiceProvider.TupleElementServiceProvider.SignatureExactlyEqual(a, null));
-        //    Assert.IsFalse(flad.LanguageServiceProvider.TupleElementServiceProvider.SignatureExactlyEqual(null, null));
-        //    Assert.IsFalse(flad.LanguageServiceProvider.TupleElementServiceProvider.SignatureExactlyEqual(a, b));
+            var a = (CrefParameterSyntax)SyntaxFactory.ParseCompilationUnit("namespace N { " + Environment.NewLine +
+                       "    /// <summary> <see cref=\"operator +(ref string1, out int)\"/> </summary>" + Environment.NewLine +
+                       "    class A { } }").DescendantNodes(descendIntoTrivia: true).OfType<OperatorMemberCrefSyntax>().Single().Parameters.Parameters[0];
+            var b = (CrefParameterSyntax)SyntaxFactory.ParseCompilationUnit("namespace N { " + Environment.NewLine +
+                       "    /// <summary> <see cref=\"operator +(ref string, out string)\"/> </summary>" + Environment.NewLine +
+                       "    class A { } }").DescendantNodes(descendIntoTrivia: true).OfType<OperatorMemberCrefSyntax>().Single().Parameters.Parameters[0];
+            Assert.IsFalse(flad.LanguageServiceProvider.CrefParameterServiceProvider.SignatureExactlyEqual(null, b));
+            Assert.IsFalse(flad.LanguageServiceProvider.CrefParameterServiceProvider.SignatureExactlyEqual(a, null));
+            Assert.IsFalse(flad.LanguageServiceProvider.CrefParameterServiceProvider.SignatureExactlyEqual(null, null));
+            Assert.IsFalse(flad.LanguageServiceProvider.CrefParameterServiceProvider.SignatureExactlyEqual(a, b));
 
-        //    a = SyntaxFactory.TupleElement(SyntaxFactory.ParseTypeName("(string, int)"));
-        //    b = SyntaxFactory.TupleElement(SyntaxFactory.ParseTypeName("(string, int)"));
-        //    Assert.IsFalse(flad.LanguageServiceProvider.TupleElementServiceProvider.SignatureExactlyEqual(null, b));
-        //    Assert.IsFalse(flad.LanguageServiceProvider.TupleElementServiceProvider.SignatureExactlyEqual(a, null));
-        //    Assert.IsFalse(flad.LanguageServiceProvider.TupleElementServiceProvider.SignatureExactlyEqual(null, null));
-        //    Assert.IsFalse(flad.LanguageServiceProvider.TupleElementServiceProvider.SignatureExactlyEqual(a, b));
+            a = (CrefParameterSyntax)SyntaxFactory.ParseCompilationUnit("namespace N { " + Environment.NewLine +
+                       "    /// <summary> <see cref=\"operator +(ref string, out int)\"/> </summary>" + Environment.NewLine +
+                       "    class A { } }").DescendantNodes(descendIntoTrivia: true).OfType<OperatorMemberCrefSyntax>().Single().Parameters.Parameters[0];
+            b = (CrefParameterSyntax)SyntaxFactory.ParseCompilationUnit("namespace N { " + Environment.NewLine +
+                       "    /// <summary> <see cref=\"operator +(ref string, out int)\"/> </summary>" + Environment.NewLine +
+                       "    class A { } }").DescendantNodes(descendIntoTrivia: true).OfType<OperatorMemberCrefSyntax>().Single().Parameters.Parameters[0];
+            Assert.IsTrue(flad.LanguageServiceProvider.CrefParameterServiceProvider.SignatureExactlyEqual(a, b));
 
-        //    a = SyntaxFactory.TupleElement(SyntaxFactory.ParseTypeName("(string, int)"), SyntaxFactory.Identifier("a"));
-        //    b = SyntaxFactory.TupleElement(SyntaxFactory.ParseTypeName("(string, int)"), SyntaxFactory.Identifier("a"));
-        //    Assert.IsTrue(flad.LanguageServiceProvider.TupleElementServiceProvider.SignatureExactlyEqual(a, b));
-        //}
+            a = (CrefParameterSyntax)SyntaxFactory.ParseCompilationUnit("namespace N { " + Environment.NewLine +
+                       "    /// <summary> <see cref=\"operator +(ref string, out int)\"/> </summary>" + Environment.NewLine +
+                       "    class A { } }").DescendantNodes(descendIntoTrivia: true).OfType<OperatorMemberCrefSyntax>().Single().Parameters.Parameters[0];
+            b = (CrefParameterSyntax)SyntaxFactory.ParseCompilationUnit("namespace N { " + Environment.NewLine +
+                       "    /// <summary> <see cref=\"operator +(ref String, out int)\"/> </summary>" + Environment.NewLine +
+                       "    class A { } }").DescendantNodes(descendIntoTrivia: true).OfType<OperatorMemberCrefSyntax>().Single().Parameters.Parameters[0];
+            Assert.IsTrue(flad.LanguageServiceProvider.CrefParameterServiceProvider.SignatureExactlyEqual(a, b));
 
-        //[TestMethod]
-        //public void NameColonServiceProvider_SignatureExactlyEqual_OK()
-        //{
-        //    var flad = new CSharpFlad();
+            a = (CrefParameterSyntax)SyntaxFactory.ParseCompilationUnit("namespace N { " + Environment.NewLine +
+                       "    /// <summary> <see cref=\"operator +(ref string, out int)\"/> </summary>" + Environment.NewLine +
+                       "    class A { } }").DescendantNodes(descendIntoTrivia: true).OfType<OperatorMemberCrefSyntax>().Single().Parameters.Parameters[0];
+            b = (CrefParameterSyntax)SyntaxFactory.ParseCompilationUnit("namespace N { " + Environment.NewLine +
+                       "    /// <summary> <see cref=\"operator +(ref System.String, int)\"/> </summary>" + Environment.NewLine +
+                       "    class A { } }").DescendantNodes(descendIntoTrivia: true).OfType<OperatorMemberCrefSyntax>().Single().Parameters.Parameters[0];
+            Assert.IsTrue(flad.LanguageServiceProvider.CrefParameterServiceProvider.SignatureExactlyEqual(a, b));
 
-        //    var a = SyntaxFactory.ParseCompilationUnit("[module: XAttribute(\"X\")]").AttributeLists[0].Attributes[0].ArgumentList.Arguments[0].NameColon;
-        //    var b = SyntaxFactory.ParseCompilationUnit("[module: YAttribute(\"Y\")]").AttributeLists[0].Attributes[0].ArgumentList.Arguments[0].NameColon;
-        //    Assert.IsFalse(flad.LanguageServiceProvider.NameColonServiceProvider.SignatureExactlyEqual(null, b));
-        //    Assert.IsFalse(flad.LanguageServiceProvider.NameColonServiceProvider.SignatureExactlyEqual(a, (NameColonSyntax)null));
-        //    Assert.IsFalse(flad.LanguageServiceProvider.NameColonServiceProvider.SignatureExactlyEqual(null, (NameColonSyntax)null));
-        //    Assert.IsFalse(flad.LanguageServiceProvider.NameColonServiceProvider.SignatureExactlyEqual(a, b));
-
-        //    a = SyntaxFactory.ParseCompilationUnit("[module: XAttribute(x : \"X\")]").AttributeLists[0].Attributes[0].ArgumentList.Arguments[0].NameColon;
-        //    b = SyntaxFactory.ParseCompilationUnit("[module: YAttribute(y : \"Y\")]").AttributeLists[0].Attributes[0].ArgumentList.Arguments[0].NameColon;
-        //    Assert.IsFalse(flad.LanguageServiceProvider.NameColonServiceProvider.SignatureExactlyEqual(a, b));
-
-        //    a = SyntaxFactory.ParseCompilationUnit("[module: XAttribute(x : \"X\")]").AttributeLists[0].Attributes[0].ArgumentList.Arguments[0].NameColon;
-        //    b = SyntaxFactory.ParseCompilationUnit("[module: YAttribute(x : \"Y\")]").AttributeLists[0].Attributes[0].ArgumentList.Arguments[0].NameColon;
-        //    Assert.IsTrue(flad.LanguageServiceProvider.NameColonServiceProvider.SignatureExactlyEqual(a, b));
-        //}
-
-        //[TestMethod]
-        //public void VariableDeclarationServiceProvider_SignatureExactlyEqual_OK()
-        //{
-        //    var flad = new CSharpFlad();
-
-        //    var a = ((LocalDeclarationStatementSyntax)((MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("int v() { const int a = 4, b = 3; }").Members[0]).Body.Statements[0]).Declaration;
-        //    var b = ((LocalDeclarationStatementSyntax)((MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("int v() { const int b = 4, b = 3; }").Members[0]).Body.Statements[0]).Declaration;
-        //    Assert.IsFalse(flad.LanguageServiceProvider.VariableDeclarationServiceProvider.SignatureExactlyEqual(null, b));
-        //    Assert.IsFalse(flad.LanguageServiceProvider.VariableDeclarationServiceProvider.SignatureExactlyEqual(a, (VariableDeclarationSyntax)null));
-        //    Assert.IsFalse(flad.LanguageServiceProvider.VariableDeclarationServiceProvider.SignatureExactlyEqual(null, (VariableDeclarationSyntax)null));
-        //    Assert.IsFalse(flad.LanguageServiceProvider.VariableDeclarationServiceProvider.SignatureExactlyEqual(a, b));
-
-        //    a = ((LocalDeclarationStatementSyntax)((MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("int v() { const int a = 4, b = 3; }").Members[0]).Body.Statements[0]).Declaration;
-        //    b = ((LocalDeclarationStatementSyntax)((MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("int v() { const int a = 4, b = 3; }").Members[0]).Body.Statements[0]).Declaration;
-        //    Assert.IsTrue(flad.LanguageServiceProvider.VariableDeclarationServiceProvider.SignatureExactlyEqual(a, b));
-        //}
-
-        //[TestMethod]
-        //public void VariableDeclaratorServiceProvider_SignatureExactlyEqual_OK()
-        //{
-        //    var flad = new CSharpFlad();
-
-        //    var a = ((LocalDeclarationStatementSyntax)((MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("int v() { const int a = 4, b = 3; }").Members[0]).Body.Statements[0]).Declaration.Variables[0];
-        //    var b = ((LocalDeclarationStatementSyntax)((MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("int v() { const int b = 4, b = 3; }").Members[0]).Body.Statements[0]).Declaration.Variables[0];
-        //    Assert.IsFalse(flad.LanguageServiceProvider.VariableDeclaratorServiceProvider.SignatureExactlyEqual(null, b));
-        //    Assert.IsFalse(flad.LanguageServiceProvider.VariableDeclaratorServiceProvider.SignatureExactlyEqual(a, (VariableDeclaratorSyntax)null));
-        //    Assert.IsFalse(flad.LanguageServiceProvider.VariableDeclaratorServiceProvider.SignatureExactlyEqual(null, (VariableDeclaratorSyntax)null));
-        //    Assert.IsFalse(flad.LanguageServiceProvider.VariableDeclaratorServiceProvider.SignatureExactlyEqual(a, b));
-
-        //    a = ((LocalDeclarationStatementSyntax)((MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("int v() { const int a = 4, b = 3; }").Members[0]).Body.Statements[0]).Declaration.Variables[0];
-        //    b = ((LocalDeclarationStatementSyntax)((MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("int v() { const int a = 4, b = 3; }").Members[0]).Body.Statements[0]).Declaration.Variables[0];
-        //    Assert.IsTrue(flad.LanguageServiceProvider.VariableDeclaratorServiceProvider.SignatureExactlyEqual(a, b));
-        //}
+            a = (CrefParameterSyntax)SyntaxFactory.ParseCompilationUnit("namespace N { " + Environment.NewLine +
+                       "    /// <summary> <see cref=\"operator +(ref String, out int)\"/> </summary>" + Environment.NewLine +
+                       "    class A { } }").DescendantNodes(descendIntoTrivia: true).OfType<OperatorMemberCrefSyntax>().Single().Parameters.Parameters[0];
+            b = (CrefParameterSyntax)SyntaxFactory.ParseCompilationUnit("namespace N { " + Environment.NewLine +
+                       "    /// <summary> <see cref=\"operator +(ref System.String, out int)\"/> </summary>" + Environment.NewLine +
+                       "    class A { } }").DescendantNodes(descendIntoTrivia: true).OfType<OperatorMemberCrefSyntax>().Single().Parameters.Parameters[0];
+            Assert.IsTrue(flad.LanguageServiceProvider.CrefParameterServiceProvider.SignatureExactlyEqual(a, b));
+        }
 
         [TestMethod]
         public void DelegateDeclarationServiceProvider_SignatureExactlyEqual_OK()
@@ -220,6 +185,13 @@ namespace Jawilliam.CDF.Tests.CSharp
 
             var a = (DelegateDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] delegate void Del<T>(string str);").Members[0];
             var b = (DelegateDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] delegate void iDel<T>(string str);").Members[0];
+            Assert.IsFalse(flad.LanguageServiceProvider.DelegateDeclarationServiceProvider.SignatureExactlyEqual(null, b));
+            Assert.IsFalse(flad.LanguageServiceProvider.DelegateDeclarationServiceProvider.SignatureExactlyEqual(a, (DelegateDeclarationSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.DelegateDeclarationServiceProvider.SignatureExactlyEqual(null, (DelegateDeclarationSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.DelegateDeclarationServiceProvider.SignatureExactlyEqual(a, b));
+
+            a = (DelegateDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] delegate void Del<T>(string str);").Members[0];
+            b = (DelegateDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] delegate void Del<T>(string str);").Members[0];
             Assert.IsFalse(flad.LanguageServiceProvider.DelegateDeclarationServiceProvider.SignatureExactlyEqual(null, b));
             Assert.IsFalse(flad.LanguageServiceProvider.DelegateDeclarationServiceProvider.SignatureExactlyEqual(a, (DelegateDeclarationSyntax)null));
             Assert.IsFalse(flad.LanguageServiceProvider.DelegateDeclarationServiceProvider.SignatureExactlyEqual(null, (DelegateDeclarationSyntax)null));
@@ -532,48 +504,6 @@ namespace Jawilliam.CDF.Tests.CSharp
                        "    class A { } }").Members[0].DescendantNodes(descendIntoTrivia: true).OfType<OperatorMemberCrefSyntax>().Single();
             Assert.IsTrue(flad.LanguageServiceProvider.OperatorMemberCrefServiceProvider.SignatureExactlyEqual(a, b));
         }
-
-        //[TestMethod]
-        //public void MemberAccessExpressionServiceProvider_SignatureExactlyEqual_OK()
-        //{
-        //    var flad = new CSharpFlad();
-
-        //    var a = (MemberAccessExpressionSyntax)SyntaxFactory.ParseExpression("x.r");
-        //    var b = (MemberAccessExpressionSyntax)SyntaxFactory.ParseExpression("x.R");
-        //    Assert.IsFalse(flad.LanguageServiceProvider.MemberAccessExpressionServiceProvider.SignatureExactlyEqual(null, b));
-        //    Assert.IsFalse(flad.LanguageServiceProvider.MemberAccessExpressionServiceProvider.SignatureExactlyEqual(a, (MemberAccessExpressionSyntax)null));
-        //    Assert.IsFalse(flad.LanguageServiceProvider.MemberAccessExpressionServiceProvider.SignatureExactlyEqual(null, (MemberAccessExpressionSyntax)null));
-        //    Assert.IsFalse(flad.LanguageServiceProvider.MemberAccessExpressionServiceProvider.SignatureExactlyEqual(a, b));
-
-        //    a = (MemberAccessExpressionSyntax)SyntaxFactory.ParseExpression("x.r");
-        //    b = (MemberAccessExpressionSyntax)SyntaxFactory.ParseExpression("x.r");
-        //    Assert.IsTrue(flad.LanguageServiceProvider.MemberAccessExpressionServiceProvider.SignatureExactlyEqual(a, b));
-
-        //    a = (MemberAccessExpressionSyntax)SyntaxFactory.ParseExpression("5.r");
-        //    b = (MemberAccessExpressionSyntax)SyntaxFactory.ParseExpression("6.r");
-        //    Assert.IsFalse(flad.LanguageServiceProvider.MemberAccessExpressionServiceProvider.SignatureExactlyEqual(a, b));
-
-        //    a = (MemberAccessExpressionSyntax)SyntaxFactory.ParseExpression("5.r");
-        //    b = (MemberAccessExpressionSyntax)SyntaxFactory.ParseExpression("5.r");
-        //    Assert.IsTrue(flad.LanguageServiceProvider.MemberAccessExpressionServiceProvider.SignatureExactlyEqual(a, b));
-        //}
-
-        //[TestMethod]
-        //public void MemberBindingExpressionServiceProvider_SignatureExactlyEqual_OK()
-        //{
-        //    var flad = new CSharpFlad();
-
-        //    var a = (MemberBindingExpressionSyntax)((ConditionalAccessExpressionSyntax)Microsoft.CodeAnalysis.CSharp.SyntaxFactory.ParseExpression("m?.r")).WhenNotNull;
-        //    var b = (MemberBindingExpressionSyntax)((ConditionalAccessExpressionSyntax)Microsoft.CodeAnalysis.CSharp.SyntaxFactory.ParseExpression("m?.R")).WhenNotNull;
-        //    Assert.IsFalse(flad.LanguageServiceProvider.MemberBindingExpressionServiceProvider.SignatureExactlyEqual(null, b));
-        //    Assert.IsFalse(flad.LanguageServiceProvider.MemberBindingExpressionServiceProvider.SignatureExactlyEqual(a, (MemberBindingExpressionSyntax)null));
-        //    Assert.IsFalse(flad.LanguageServiceProvider.MemberBindingExpressionServiceProvider.SignatureExactlyEqual(null, (MemberBindingExpressionSyntax)null));
-        //    Assert.IsFalse(flad.LanguageServiceProvider.MemberBindingExpressionServiceProvider.SignatureExactlyEqual(a, b));
-
-        //    a = (MemberBindingExpressionSyntax)((ConditionalAccessExpressionSyntax)Microsoft.CodeAnalysis.CSharp.SyntaxFactory.ParseExpression("m?.r")).WhenNotNull;
-        //    b = (MemberBindingExpressionSyntax)((ConditionalAccessExpressionSyntax)Microsoft.CodeAnalysis.CSharp.SyntaxFactory.ParseExpression("m?.r")).WhenNotNull;
-        //    Assert.IsTrue(flad.LanguageServiceProvider.MemberBindingExpressionServiceProvider.SignatureExactlyEqual(a, b));
-        //}
 
         [TestMethod]
         public void SimpleLambdaExpressionServiceProvider_SignatureExactlyEqual_OK()

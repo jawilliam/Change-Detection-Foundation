@@ -165,7 +165,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="AttributeArgument"/>.
     /// </summary>
-    public partial class AttributeArgumentServiceProvider : ElementTypeServiceProvider
+    public partial class AttributeArgumentServiceProvider : ElementTypeServiceProvider //ElementTypeServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -252,7 +252,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="NameEquals"/>.
     /// </summary>
-    public partial class NameEqualsServiceProvider : ExpressionServiceProvider
+    public partial class NameEqualsServiceProvider : ElementTypeServiceProvider //ExpressionServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -345,7 +345,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="TypeParameterList"/>.
     /// </summary>
-    public partial class TypeParameterListServiceProvider : ElementTypeServiceProvider
+    public partial class TypeParameterListServiceProvider : ElementTypeServiceProvider //ElementTypeServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -433,7 +433,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="TypeParameter"/>.
     /// </summary>
-    public partial class TypeParameterServiceProvider : ElementTypeServiceProvider
+    public partial class TypeParameterServiceProvider : ElementTypeServiceProvider //ElementTypeServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -528,7 +528,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="BaseList"/>.
     /// </summary>
-    public partial class BaseListServiceProvider : ElementTypeServiceProvider
+    public partial class BaseListServiceProvider : ElementTypeServiceProvider //ElementTypeServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -613,7 +613,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="TypeParameterConstraintClause"/>.
     /// </summary>
-    public partial class TypeParameterConstraintClauseServiceProvider : ElementTypeServiceProvider
+    public partial class TypeParameterConstraintClauseServiceProvider : ElementTypeServiceProvider //ElementTypeServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -711,7 +711,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="ExplicitInterfaceSpecifier"/>.
     /// </summary>
-    public partial class ExplicitInterfaceSpecifierServiceProvider : ElementTypeServiceProvider
+    public partial class ExplicitInterfaceSpecifierServiceProvider : ElementTypeServiceProvider //ElementTypeServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -804,7 +804,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="ConstructorInitializer"/>.
     /// </summary>
-    public partial class ConstructorInitializerServiceProvider : ElementTypeServiceProvider
+    public partial class ConstructorInitializerServiceProvider : ElementTypeServiceProvider //ElementTypeServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -891,7 +891,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="ArrowExpressionClause"/>.
     /// </summary>
-    public partial class ArrowExpressionClauseServiceProvider : ElementTypeServiceProvider
+    public partial class ArrowExpressionClauseServiceProvider : ElementTypeServiceProvider //ElementTypeServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -976,7 +976,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="AccessorList"/>.
     /// </summary>
-    public partial class AccessorListServiceProvider : ElementTypeServiceProvider
+    public partial class AccessorListServiceProvider : ElementTypeServiceProvider //ElementTypeServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -1064,7 +1064,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="AccessorDeclaration"/>.
     /// </summary>
-    public partial class AccessorDeclarationServiceProvider : ElementTypeServiceProvider
+    public partial class AccessorDeclarationServiceProvider : ElementTypeServiceProvider //ElementTypeServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -1155,7 +1155,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="Parameter"/>.
     /// </summary>
-    public partial class ParameterServiceProvider : ElementTypeServiceProvider
+    public partial class ParameterServiceProvider : ElementTypeServiceProvider //ElementTypeServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -1254,7 +1254,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="CrefParameter"/>.
     /// </summary>
-    public partial class CrefParameterServiceProvider : ElementTypeServiceProvider
+    public partial class CrefParameterServiceProvider : ElementTypeServiceProvider //ElementTypeServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -1339,7 +1339,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="XmlElementStartTag"/>.
     /// </summary>
-    public partial class XmlElementStartTagServiceProvider : ElementTypeServiceProvider
+    public partial class XmlElementStartTagServiceProvider : ElementTypeServiceProvider //ElementTypeServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -1437,7 +1437,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="XmlElementEndTag"/>.
     /// </summary>
-    public partial class XmlElementEndTagServiceProvider : ElementTypeServiceProvider
+    public partial class XmlElementEndTagServiceProvider : ElementTypeServiceProvider //ElementTypeServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -1533,7 +1533,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="XmlName"/>.
     /// </summary>
-    public partial class XmlNameServiceProvider : ElementTypeServiceProvider
+    public partial class XmlNameServiceProvider : ElementTypeServiceProvider //ElementTypeServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -1618,7 +1618,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="XmlPrefix"/>.
     /// </summary>
-    public partial class XmlPrefixServiceProvider : ElementTypeServiceProvider
+    public partial class XmlPrefixServiceProvider : ElementTypeServiceProvider //ElementTypeServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -1703,7 +1703,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="TypeArgumentList"/>.
     /// </summary>
-    public partial class TypeArgumentListServiceProvider : ElementTypeServiceProvider
+    public partial class TypeArgumentListServiceProvider : ElementTypeServiceProvider //ElementTypeServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -1791,7 +1791,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="ArrayRankSpecifier"/>.
     /// </summary>
-    public partial class ArrayRankSpecifierServiceProvider : ElementTypeServiceProvider
+    public partial class ArrayRankSpecifierServiceProvider : ElementTypeServiceProvider //ElementTypeServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -1879,7 +1879,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="TupleElement"/>.
     /// </summary>
-    public partial class TupleElementServiceProvider : ElementTypeServiceProvider
+    public partial class TupleElementServiceProvider : ElementTypeServiceProvider //ElementTypeServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -1972,7 +1972,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="Argument"/>.
     /// </summary>
-    public partial class ArgumentServiceProvider : ExpressionServiceProvider
+    public partial class ArgumentServiceProvider : ElementTypeServiceProvider //ExpressionServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -2059,7 +2059,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="NameColon"/>.
     /// </summary>
-    public partial class NameColonServiceProvider : ExpressionServiceProvider
+    public partial class NameColonServiceProvider : ElementTypeServiceProvider //ExpressionServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -2152,7 +2152,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="AnonymousObjectMemberDeclarator"/>.
     /// </summary>
-    public partial class AnonymousObjectMemberDeclaratorServiceProvider : ElementTypeServiceProvider
+    public partial class AnonymousObjectMemberDeclaratorServiceProvider : ElementTypeServiceProvider //ElementTypeServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -2237,7 +2237,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="QueryBody"/>.
     /// </summary>
-    public partial class QueryBodyServiceProvider : ElementTypeServiceProvider
+    public partial class QueryBodyServiceProvider : ElementTypeServiceProvider //ElementTypeServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -2324,7 +2324,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="JoinIntoClause"/>.
     /// </summary>
-    public partial class JoinIntoClauseServiceProvider : ElementTypeServiceProvider
+    public partial class JoinIntoClauseServiceProvider : ElementTypeServiceProvider //ElementTypeServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -2417,7 +2417,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="Ordering"/>.
     /// </summary>
-    public partial class OrderingServiceProvider : ElementTypeServiceProvider
+    public partial class OrderingServiceProvider : ElementTypeServiceProvider //ElementTypeServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -2502,7 +2502,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="QueryContinuation"/>.
     /// </summary>
-    public partial class QueryContinuationServiceProvider : ElementTypeServiceProvider
+    public partial class QueryContinuationServiceProvider : ElementTypeServiceProvider //ElementTypeServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -2597,7 +2597,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="WhenClause"/>.
     /// </summary>
-    public partial class WhenClauseServiceProvider : ElementTypeServiceProvider
+    public partial class WhenClauseServiceProvider : ElementTypeServiceProvider //ElementTypeServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -2682,7 +2682,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="InterpolationAlignmentClause"/>.
     /// </summary>
-    public partial class InterpolationAlignmentClauseServiceProvider : ElementTypeServiceProvider
+    public partial class InterpolationAlignmentClauseServiceProvider : ElementTypeServiceProvider //ElementTypeServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -2767,7 +2767,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="InterpolationFormatClause"/>.
     /// </summary>
-    public partial class InterpolationFormatClauseServiceProvider : ElementTypeServiceProvider
+    public partial class InterpolationFormatClauseServiceProvider : ElementTypeServiceProvider //ElementTypeServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -2852,7 +2852,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="VariableDeclaration"/>.
     /// </summary>
-    public partial class VariableDeclarationServiceProvider : ElementTypeServiceProvider
+    public partial class VariableDeclarationServiceProvider : ElementTypeServiceProvider //ElementTypeServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -2937,7 +2937,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="VariableDeclarator"/>.
     /// </summary>
-    public partial class VariableDeclaratorServiceProvider : ElementTypeServiceProvider
+    public partial class VariableDeclaratorServiceProvider : ElementTypeServiceProvider //ElementTypeServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -3032,7 +3032,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="EqualsValueClause"/>.
     /// </summary>
-    public partial class EqualsValueClauseServiceProvider : ElementTypeServiceProvider
+    public partial class EqualsValueClauseServiceProvider : ElementTypeServiceProvider //ElementTypeServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -3117,7 +3117,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="ElseClause"/>.
     /// </summary>
-    public partial class ElseClauseServiceProvider : ElementTypeServiceProvider
+    public partial class ElseClauseServiceProvider : ElementTypeServiceProvider //ElementTypeServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -3202,7 +3202,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="SwitchSection"/>.
     /// </summary>
-    public partial class SwitchSectionServiceProvider : ElementTypeServiceProvider
+    public partial class SwitchSectionServiceProvider : ElementTypeServiceProvider //ElementTypeServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -3287,7 +3287,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="CatchClause"/>.
     /// </summary>
-    public partial class CatchClauseServiceProvider : ElementTypeServiceProvider
+    public partial class CatchClauseServiceProvider : ElementTypeServiceProvider //ElementTypeServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -3376,7 +3376,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="CatchDeclaration"/>.
     /// </summary>
-    public partial class CatchDeclarationServiceProvider : ElementTypeServiceProvider
+    public partial class CatchDeclarationServiceProvider : ElementTypeServiceProvider //ElementTypeServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -3474,7 +3474,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="CatchFilterClause"/>.
     /// </summary>
-    public partial class CatchFilterClauseServiceProvider : ElementTypeServiceProvider
+    public partial class CatchFilterClauseServiceProvider : ElementTypeServiceProvider //ElementTypeServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -3565,7 +3565,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="FinallyClause"/>.
     /// </summary>
-    public partial class FinallyClauseServiceProvider : ElementTypeServiceProvider
+    public partial class FinallyClauseServiceProvider : ElementTypeServiceProvider //ElementTypeServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -3650,7 +3650,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="CompilationUnit"/>.
     /// </summary>
-    public partial class CompilationUnitServiceProvider : ElementTypeServiceProvider
+    public partial class CompilationUnitServiceProvider : ElementTypeServiceProvider //ElementTypeServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -3741,7 +3741,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="ExternAliasDirective"/>.
     /// </summary>
-    public partial class ExternAliasDirectiveServiceProvider : ElementTypeServiceProvider
+    public partial class ExternAliasDirectiveServiceProvider : ElementTypeServiceProvider //ElementTypeServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -3840,7 +3840,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="UsingDirective"/>.
     /// </summary>
-    public partial class UsingDirectiveServiceProvider : ElementTypeServiceProvider
+    public partial class UsingDirectiveServiceProvider : ElementTypeServiceProvider //ElementTypeServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -3940,7 +3940,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="AttributeList"/>.
     /// </summary>
-    public partial class AttributeListServiceProvider : ElementTypeServiceProvider
+    public partial class AttributeListServiceProvider : ElementTypeServiceProvider //ElementTypeServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -4030,7 +4030,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="AttributeTargetSpecifier"/>.
     /// </summary>
-    public partial class AttributeTargetSpecifierServiceProvider : ElementTypeServiceProvider
+    public partial class AttributeTargetSpecifierServiceProvider : ElementTypeServiceProvider //ElementTypeServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -4123,7 +4123,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="Attribute"/>.
     /// </summary>
-    public partial class AttributeServiceProvider : ElementTypeServiceProvider
+    public partial class AttributeServiceProvider : ElementTypeServiceProvider //ElementTypeServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -4216,7 +4216,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="AttributeArgumentList"/>.
     /// </summary>
-    public partial class AttributeArgumentListServiceProvider : ElementTypeServiceProvider
+    public partial class AttributeArgumentListServiceProvider : ElementTypeServiceProvider //ElementTypeServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -4304,7 +4304,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="DelegateDeclaration"/>.
     /// </summary>
-    public partial class DelegateDeclarationServiceProvider : MemberDeclarationServiceProvider
+    public partial class DelegateDeclarationServiceProvider : ElementTypeServiceProvider //MemberDeclarationServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -4412,7 +4412,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="EnumMemberDeclaration"/>.
     /// </summary>
-    public partial class EnumMemberDeclarationServiceProvider : MemberDeclarationServiceProvider
+    public partial class EnumMemberDeclarationServiceProvider : ElementTypeServiceProvider //MemberDeclarationServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -4507,7 +4507,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="IncompleteMember"/>.
     /// </summary>
-    public partial class IncompleteMemberServiceProvider : MemberDeclarationServiceProvider
+    public partial class IncompleteMemberServiceProvider : ElementTypeServiceProvider //MemberDeclarationServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -4594,7 +4594,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="GlobalStatement"/>.
     /// </summary>
-    public partial class GlobalStatementServiceProvider : MemberDeclarationServiceProvider
+    public partial class GlobalStatementServiceProvider : ElementTypeServiceProvider //MemberDeclarationServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -4677,7 +4677,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="NamespaceDeclaration"/>.
     /// </summary>
-    public partial class NamespaceDeclarationServiceProvider : MemberDeclarationServiceProvider
+    public partial class NamespaceDeclarationServiceProvider : ElementTypeServiceProvider //MemberDeclarationServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -4784,7 +4784,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="EnumDeclaration"/>.
     /// </summary>
-    public partial class EnumDeclarationServiceProvider : BaseTypeDeclarationServiceProvider
+    public partial class EnumDeclarationServiceProvider : ElementTypeServiceProvider //BaseTypeDeclarationServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -4893,7 +4893,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="ClassDeclaration"/>.
     /// </summary>
-    public partial class ClassDeclarationServiceProvider : TypeDeclarationServiceProvider
+    public partial class ClassDeclarationServiceProvider : ElementTypeServiceProvider //TypeDeclarationServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -5006,7 +5006,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="StructDeclaration"/>.
     /// </summary>
-    public partial class StructDeclarationServiceProvider : TypeDeclarationServiceProvider
+    public partial class StructDeclarationServiceProvider : ElementTypeServiceProvider //TypeDeclarationServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -5119,7 +5119,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="InterfaceDeclaration"/>.
     /// </summary>
-    public partial class InterfaceDeclarationServiceProvider : TypeDeclarationServiceProvider
+    public partial class InterfaceDeclarationServiceProvider : ElementTypeServiceProvider //TypeDeclarationServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -5230,202 +5230,9 @@ namespace Jawilliam.CDF.CSharp.Flad
     }
     
     /// <summary>
-    /// Provides language-aware services regarding <see cref="TypeDeclaration"/>.
-    /// </summary>
-    public abstract partial class TypeDeclarationServiceProvider : BaseTypeDeclarationServiceProvider
-    {
-        /// <summary>
-        /// Initializes the instance.
-        /// </summary>
-        /// <param name="languageServiceProvider">the container <see cref="LanguageServiceProvider"/>.</param>
-        public TypeDeclarationServiceProvider(LanguageServiceProvider languageServiceProvider) : base(languageServiceProvider) {}
-    
-    	/// <inheritdoc />
-        public override IEnumerable<string> SubExpressions 
-    	{
-    		get
-    		{
-    			yield return "Keyword";
-    			yield return "TypeParameterList";
-    			yield return "ConstraintClauses";
-    			yield return "Members";
-    		}
-    	}
-    
-    	/// <inheritdoc />
-        public override IEnumerable<string> SyntacticalStopwords
-    	{
-    		get
-    		{
-    			yield return "Keyword";
-    		}
-    	}
-    
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="ExactlyEqualCore(TypeDeclarationSyntax, TypeDeclarationSyntax)"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="ExactlyEqual(TypeDeclarationSyntax, TypeDeclarationSyntax)"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="ExactlyEqualCore(TypeDeclarationSyntax, TypeDeclarationSyntax)"/> is not executed and <see cref="ExactlyEqual(TypeDeclarationSyntax, TypeDeclarationSyntax)"/> returns the current value of <paramref name="result"/>.</param>
-        partial void ExactlyEqualBefore(TypeDeclarationSyntax original, TypeDeclarationSyntax modified, ref bool result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="ExactlyEqualCore(TypeDeclarationSyntax, TypeDeclarationSyntax)"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="ExactlyEqual(TypeDeclarationSyntax, TypeDeclarationSyntax)"/>.</param>
-        partial void ExactlyEqualAfter(TypeDeclarationSyntax original, TypeDeclarationSyntax modified, ref bool result);
-    
-        /// <summary>
-        /// Determines if two <see cref="TypeDeclarationSyntax"/> elements are exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="ExactlyEqual(TypeDeclarationSyntax, TypeDeclarationSyntax)"/>.</remarks>
-        protected virtual bool ExactlyEqualCore(TypeDeclarationSyntax original, TypeDeclarationSyntax modified)
-    	{
-    		if(original == null || modified == null) 
-    			return false;
-    
-            if ((this.LanguageServiceProvider.ExactlyEqual(original.Keyword, modified.Keyword)) &&
-                ((original.TypeParameterList == null && modified.TypeParameterList == null) || (original.TypeParameterList != null && modified.TypeParameterList != null && this.LanguageServiceProvider.ExactlyEqual(original.TypeParameterList, modified.TypeParameterList))) &&
-                (this.LanguageServiceProvider.ExactlyEqual(original.ConstraintClauses, modified.ConstraintClauses)) &&
-                (this.LanguageServiceProvider.ExactlyEqual(original.Members, modified.Members)))
-    			return true;
-    
-    	    return false;
-    	}	
-    
-    	/// <summary>
-        /// Determines if two <see cref="TypeDeclarationSyntax"/> elements are exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        public virtual bool ExactlyEqual(TypeDeclarationSyntax original, TypeDeclarationSyntax modified)
-    	{
-        	bool result = false, ignoreCore = false;
-        	ExactlyEqualBefore(original, modified, ref result, ref ignoreCore);
-        	if(ignoreCore) 
-        		return result;
-        	
-        	result = this.ExactlyEqualCore(original, modified);
-        	ExactlyEqualAfter(original, modified, ref result);
-        	return result;
-         }
-    }
-    
-    /// <summary>
-    /// Provides language-aware services regarding <see cref="BaseTypeDeclaration"/>.
-    /// </summary>
-    public abstract partial class BaseTypeDeclarationServiceProvider : MemberDeclarationServiceProvider
-    {
-        /// <summary>
-        /// Initializes the instance.
-        /// </summary>
-        /// <param name="languageServiceProvider">the container <see cref="LanguageServiceProvider"/>.</param>
-        public BaseTypeDeclarationServiceProvider(LanguageServiceProvider languageServiceProvider) : base(languageServiceProvider) {}
-    
-    	/// <inheritdoc />
-        public override IEnumerable<string> SubExpressions 
-    	{
-    		get
-    		{
-    			yield return "AttributeLists";
-    			yield return "Modifiers";
-    			yield return "Identifier";
-    			yield return "BaseList";
-    			yield return "OpenBraceToken";
-    			yield return "CloseBraceToken";
-    			yield return "SemicolonToken";
-    		}
-    	}
-    
-    	/// <inheritdoc />
-        public override IEnumerable<string> SyntacticalStopwords
-    	{
-    		get
-    		{
-    			yield return "OpenBraceToken";
-    			yield return "CloseBraceToken";
-    		}
-    	}
-    
-    	/// <inheritdoc />
-        public override IEnumerable<string> Keys
-    	{
-    		get
-    		{
-    			yield return "Identifier";
-    		}
-    	}
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="ExactlyEqualCore(BaseTypeDeclarationSyntax, BaseTypeDeclarationSyntax)"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="ExactlyEqual(BaseTypeDeclarationSyntax, BaseTypeDeclarationSyntax)"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="ExactlyEqualCore(BaseTypeDeclarationSyntax, BaseTypeDeclarationSyntax)"/> is not executed and <see cref="ExactlyEqual(BaseTypeDeclarationSyntax, BaseTypeDeclarationSyntax)"/> returns the current value of <paramref name="result"/>.</param>
-        partial void ExactlyEqualBefore(BaseTypeDeclarationSyntax original, BaseTypeDeclarationSyntax modified, ref bool result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="ExactlyEqualCore(BaseTypeDeclarationSyntax, BaseTypeDeclarationSyntax)"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="ExactlyEqual(BaseTypeDeclarationSyntax, BaseTypeDeclarationSyntax)"/>.</param>
-        partial void ExactlyEqualAfter(BaseTypeDeclarationSyntax original, BaseTypeDeclarationSyntax modified, ref bool result);
-    
-        /// <summary>
-        /// Determines if two <see cref="BaseTypeDeclarationSyntax"/> elements are exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="ExactlyEqual(BaseTypeDeclarationSyntax, BaseTypeDeclarationSyntax)"/>.</remarks>
-        protected virtual bool ExactlyEqualCore(BaseTypeDeclarationSyntax original, BaseTypeDeclarationSyntax modified)
-    	{
-    		if(original == null || modified == null) 
-    			return false;
-    
-            if ((this.LanguageServiceProvider.ExactlyEqual(original.AttributeLists, modified.AttributeLists)) &&
-                (this.LanguageServiceProvider.ExactlyEqual(original.Modifiers, modified.Modifiers)) &&
-                (this.LanguageServiceProvider.ExactlyEqual(original.Identifier, modified.Identifier)) &&
-                ((original.BaseList == null && modified.BaseList == null) || (original.BaseList != null && modified.BaseList != null && this.LanguageServiceProvider.ExactlyEqual(original.BaseList, modified.BaseList))) &&
-                (this.LanguageServiceProvider.ExactlyEqual(original.OpenBraceToken, modified.OpenBraceToken)) &&
-                (this.LanguageServiceProvider.ExactlyEqual(original.CloseBraceToken, modified.CloseBraceToken)) &&
-                ((original.SemicolonToken == null && modified.SemicolonToken == null) || (original.SemicolonToken != null && modified.SemicolonToken != null && this.LanguageServiceProvider.ExactlyEqual(original.SemicolonToken, modified.SemicolonToken))))
-    			return true;
-    
-    	    return false;
-    	}	
-    
-    	/// <summary>
-        /// Determines if two <see cref="BaseTypeDeclarationSyntax"/> elements are exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        public virtual bool ExactlyEqual(BaseTypeDeclarationSyntax original, BaseTypeDeclarationSyntax modified)
-    	{
-        	bool result = false, ignoreCore = false;
-        	ExactlyEqualBefore(original, modified, ref result, ref ignoreCore);
-        	if(ignoreCore) 
-        		return result;
-        	
-        	result = this.ExactlyEqualCore(original, modified);
-        	ExactlyEqualAfter(original, modified, ref result);
-        	return result;
-         }
-    }
-    
-    /// <summary>
     /// Provides language-aware services regarding <see cref="FieldDeclaration"/>.
     /// </summary>
-    public partial class FieldDeclarationServiceProvider : BaseFieldDeclarationServiceProvider
+    public partial class FieldDeclarationServiceProvider : ElementTypeServiceProvider //BaseFieldDeclarationServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -5514,7 +5321,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="EventFieldDeclaration"/>.
     /// </summary>
-    public partial class EventFieldDeclarationServiceProvider : BaseFieldDeclarationServiceProvider
+    public partial class EventFieldDeclarationServiceProvider : ElementTypeServiceProvider //BaseFieldDeclarationServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -5604,98 +5411,9 @@ namespace Jawilliam.CDF.CSharp.Flad
     }
     
     /// <summary>
-    /// Provides language-aware services regarding <see cref="BaseFieldDeclaration"/>.
-    /// </summary>
-    public abstract partial class BaseFieldDeclarationServiceProvider : MemberDeclarationServiceProvider
-    {
-        /// <summary>
-        /// Initializes the instance.
-        /// </summary>
-        /// <param name="languageServiceProvider">the container <see cref="LanguageServiceProvider"/>.</param>
-        public BaseFieldDeclarationServiceProvider(LanguageServiceProvider languageServiceProvider) : base(languageServiceProvider) {}
-    
-    	/// <inheritdoc />
-        public override IEnumerable<string> SubExpressions 
-    	{
-    		get
-    		{
-    			yield return "AttributeLists";
-    			yield return "Modifiers";
-    			yield return "Declaration";
-    			yield return "SemicolonToken";
-    		}
-    	}
-    
-    	/// <inheritdoc />
-        public override IEnumerable<string> SyntacticalStopwords
-    	{
-    		get
-    		{
-    			yield return "SemicolonToken";
-    		}
-    	}
-    
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="ExactlyEqualCore(BaseFieldDeclarationSyntax, BaseFieldDeclarationSyntax)"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="ExactlyEqual(BaseFieldDeclarationSyntax, BaseFieldDeclarationSyntax)"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="ExactlyEqualCore(BaseFieldDeclarationSyntax, BaseFieldDeclarationSyntax)"/> is not executed and <see cref="ExactlyEqual(BaseFieldDeclarationSyntax, BaseFieldDeclarationSyntax)"/> returns the current value of <paramref name="result"/>.</param>
-        partial void ExactlyEqualBefore(BaseFieldDeclarationSyntax original, BaseFieldDeclarationSyntax modified, ref bool result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="ExactlyEqualCore(BaseFieldDeclarationSyntax, BaseFieldDeclarationSyntax)"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="ExactlyEqual(BaseFieldDeclarationSyntax, BaseFieldDeclarationSyntax)"/>.</param>
-        partial void ExactlyEqualAfter(BaseFieldDeclarationSyntax original, BaseFieldDeclarationSyntax modified, ref bool result);
-    
-        /// <summary>
-        /// Determines if two <see cref="BaseFieldDeclarationSyntax"/> elements are exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="ExactlyEqual(BaseFieldDeclarationSyntax, BaseFieldDeclarationSyntax)"/>.</remarks>
-        protected virtual bool ExactlyEqualCore(BaseFieldDeclarationSyntax original, BaseFieldDeclarationSyntax modified)
-    	{
-    		if(original == null || modified == null) 
-    			return false;
-    
-            if ((this.LanguageServiceProvider.ExactlyEqual(original.AttributeLists, modified.AttributeLists)) &&
-                (this.LanguageServiceProvider.ExactlyEqual(original.Modifiers, modified.Modifiers)) &&
-                (this.LanguageServiceProvider.ExactlyEqual(original.Declaration, modified.Declaration)) &&
-                (this.LanguageServiceProvider.ExactlyEqual(original.SemicolonToken, modified.SemicolonToken)))
-    			return true;
-    
-    	    return false;
-    	}	
-    
-    	/// <summary>
-        /// Determines if two <see cref="BaseFieldDeclarationSyntax"/> elements are exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        public virtual bool ExactlyEqual(BaseFieldDeclarationSyntax original, BaseFieldDeclarationSyntax modified)
-    	{
-        	bool result = false, ignoreCore = false;
-        	ExactlyEqualBefore(original, modified, ref result, ref ignoreCore);
-        	if(ignoreCore) 
-        		return result;
-        	
-        	result = this.ExactlyEqualCore(original, modified);
-        	ExactlyEqualAfter(original, modified, ref result);
-        	return result;
-         }
-    }
-    
-    /// <summary>
     /// Provides language-aware services regarding <see cref="MethodDeclaration"/>.
     /// </summary>
-    public partial class MethodDeclarationServiceProvider : BaseMethodDeclarationServiceProvider
+    public partial class MethodDeclarationServiceProvider : ElementTypeServiceProvider //BaseMethodDeclarationServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -5806,7 +5524,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="OperatorDeclaration"/>.
     /// </summary>
-    public partial class OperatorDeclarationServiceProvider : BaseMethodDeclarationServiceProvider
+    public partial class OperatorDeclarationServiceProvider : ElementTypeServiceProvider //BaseMethodDeclarationServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -5905,7 +5623,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="ConversionOperatorDeclaration"/>.
     /// </summary>
-    public partial class ConversionOperatorDeclarationServiceProvider : BaseMethodDeclarationServiceProvider
+    public partial class ConversionOperatorDeclarationServiceProvider : ElementTypeServiceProvider //BaseMethodDeclarationServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -6004,7 +5722,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="ConstructorDeclaration"/>.
     /// </summary>
-    public partial class ConstructorDeclarationServiceProvider : BaseMethodDeclarationServiceProvider
+    public partial class ConstructorDeclarationServiceProvider : ElementTypeServiceProvider //BaseMethodDeclarationServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -6107,7 +5825,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="DestructorDeclaration"/>.
     /// </summary>
-    public partial class DestructorDeclarationServiceProvider : BaseMethodDeclarationServiceProvider
+    public partial class DestructorDeclarationServiceProvider : ElementTypeServiceProvider //BaseMethodDeclarationServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -6210,100 +5928,9 @@ namespace Jawilliam.CDF.CSharp.Flad
     }
     
     /// <summary>
-    /// Provides language-aware services regarding <see cref="BaseMethodDeclaration"/>.
-    /// </summary>
-    public abstract partial class BaseMethodDeclarationServiceProvider : MemberDeclarationServiceProvider
-    {
-        /// <summary>
-        /// Initializes the instance.
-        /// </summary>
-        /// <param name="languageServiceProvider">the container <see cref="LanguageServiceProvider"/>.</param>
-        public BaseMethodDeclarationServiceProvider(LanguageServiceProvider languageServiceProvider) : base(languageServiceProvider) {}
-    
-    	/// <inheritdoc />
-        public override IEnumerable<string> SubExpressions 
-    	{
-    		get
-    		{
-    			yield return "AttributeLists";
-    			yield return "Modifiers";
-    			yield return "ParameterList";
-    			yield return "Body";
-    			yield return "SemicolonToken";
-    		}
-    	}
-    
-    	/// <inheritdoc />
-        public override IEnumerable<string> SyntacticalStopwords
-    	{
-    		get
-    		{
-    			yield break;
-    		}
-    	}
-    
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="ExactlyEqualCore(BaseMethodDeclarationSyntax, BaseMethodDeclarationSyntax)"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="ExactlyEqual(BaseMethodDeclarationSyntax, BaseMethodDeclarationSyntax)"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="ExactlyEqualCore(BaseMethodDeclarationSyntax, BaseMethodDeclarationSyntax)"/> is not executed and <see cref="ExactlyEqual(BaseMethodDeclarationSyntax, BaseMethodDeclarationSyntax)"/> returns the current value of <paramref name="result"/>.</param>
-        partial void ExactlyEqualBefore(BaseMethodDeclarationSyntax original, BaseMethodDeclarationSyntax modified, ref bool result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="ExactlyEqualCore(BaseMethodDeclarationSyntax, BaseMethodDeclarationSyntax)"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="ExactlyEqual(BaseMethodDeclarationSyntax, BaseMethodDeclarationSyntax)"/>.</param>
-        partial void ExactlyEqualAfter(BaseMethodDeclarationSyntax original, BaseMethodDeclarationSyntax modified, ref bool result);
-    
-        /// <summary>
-        /// Determines if two <see cref="BaseMethodDeclarationSyntax"/> elements are exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="ExactlyEqual(BaseMethodDeclarationSyntax, BaseMethodDeclarationSyntax)"/>.</remarks>
-        protected virtual bool ExactlyEqualCore(BaseMethodDeclarationSyntax original, BaseMethodDeclarationSyntax modified)
-    	{
-    		if(original == null || modified == null) 
-    			return false;
-    
-            if ((this.LanguageServiceProvider.ExactlyEqual(original.AttributeLists, modified.AttributeLists)) &&
-                (this.LanguageServiceProvider.ExactlyEqual(original.Modifiers, modified.Modifiers)) &&
-                (this.LanguageServiceProvider.ExactlyEqual(original.ParameterList, modified.ParameterList)) &&
-                ((original.Body == null && modified.Body == null) || (original.Body != null && modified.Body != null && this.LanguageServiceProvider.ExactlyEqual(original.Body, modified.Body))) &&
-                ((original.SemicolonToken == null && modified.SemicolonToken == null) || (original.SemicolonToken != null && modified.SemicolonToken != null && this.LanguageServiceProvider.ExactlyEqual(original.SemicolonToken, modified.SemicolonToken))))
-    			return true;
-    
-    	    return false;
-    	}	
-    
-    	/// <summary>
-        /// Determines if two <see cref="BaseMethodDeclarationSyntax"/> elements are exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        public virtual bool ExactlyEqual(BaseMethodDeclarationSyntax original, BaseMethodDeclarationSyntax modified)
-    	{
-        	bool result = false, ignoreCore = false;
-        	ExactlyEqualBefore(original, modified, ref result, ref ignoreCore);
-        	if(ignoreCore) 
-        		return result;
-        	
-        	result = this.ExactlyEqualCore(original, modified);
-        	ExactlyEqualAfter(original, modified, ref result);
-        	return result;
-         }
-    }
-    
-    /// <summary>
     /// Provides language-aware services regarding <see cref="PropertyDeclaration"/>.
     /// </summary>
-    public partial class PropertyDeclarationServiceProvider : BasePropertyDeclarationServiceProvider
+    public partial class PropertyDeclarationServiceProvider : ElementTypeServiceProvider //BasePropertyDeclarationServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -6410,7 +6037,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="EventDeclaration"/>.
     /// </summary>
-    public partial class EventDeclarationServiceProvider : BasePropertyDeclarationServiceProvider
+    public partial class EventDeclarationServiceProvider : ElementTypeServiceProvider //BasePropertyDeclarationServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -6513,7 +6140,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="IndexerDeclaration"/>.
     /// </summary>
-    public partial class IndexerDeclarationServiceProvider : BasePropertyDeclarationServiceProvider
+    public partial class IndexerDeclarationServiceProvider : ElementTypeServiceProvider //BasePropertyDeclarationServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -6610,182 +6237,9 @@ namespace Jawilliam.CDF.CSharp.Flad
     }
     
     /// <summary>
-    /// Provides language-aware services regarding <see cref="BasePropertyDeclaration"/>.
-    /// </summary>
-    public abstract partial class BasePropertyDeclarationServiceProvider : MemberDeclarationServiceProvider
-    {
-        /// <summary>
-        /// Initializes the instance.
-        /// </summary>
-        /// <param name="languageServiceProvider">the container <see cref="LanguageServiceProvider"/>.</param>
-        public BasePropertyDeclarationServiceProvider(LanguageServiceProvider languageServiceProvider) : base(languageServiceProvider) {}
-    
-    	/// <inheritdoc />
-        public override IEnumerable<string> SubExpressions 
-    	{
-    		get
-    		{
-    			yield return "AttributeLists";
-    			yield return "Modifiers";
-    			yield return "Type";
-    			yield return "ExplicitInterfaceSpecifier";
-    			yield return "AccessorList";
-    		}
-    	}
-    
-    	/// <inheritdoc />
-        public override IEnumerable<string> SyntacticalStopwords
-    	{
-    		get
-    		{
-    			yield break;
-    		}
-    	}
-    
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="ExactlyEqualCore(BasePropertyDeclarationSyntax, BasePropertyDeclarationSyntax)"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="ExactlyEqual(BasePropertyDeclarationSyntax, BasePropertyDeclarationSyntax)"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="ExactlyEqualCore(BasePropertyDeclarationSyntax, BasePropertyDeclarationSyntax)"/> is not executed and <see cref="ExactlyEqual(BasePropertyDeclarationSyntax, BasePropertyDeclarationSyntax)"/> returns the current value of <paramref name="result"/>.</param>
-        partial void ExactlyEqualBefore(BasePropertyDeclarationSyntax original, BasePropertyDeclarationSyntax modified, ref bool result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="ExactlyEqualCore(BasePropertyDeclarationSyntax, BasePropertyDeclarationSyntax)"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="ExactlyEqual(BasePropertyDeclarationSyntax, BasePropertyDeclarationSyntax)"/>.</param>
-        partial void ExactlyEqualAfter(BasePropertyDeclarationSyntax original, BasePropertyDeclarationSyntax modified, ref bool result);
-    
-        /// <summary>
-        /// Determines if two <see cref="BasePropertyDeclarationSyntax"/> elements are exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="ExactlyEqual(BasePropertyDeclarationSyntax, BasePropertyDeclarationSyntax)"/>.</remarks>
-        protected virtual bool ExactlyEqualCore(BasePropertyDeclarationSyntax original, BasePropertyDeclarationSyntax modified)
-    	{
-    		if(original == null || modified == null) 
-    			return false;
-    
-            if ((this.LanguageServiceProvider.ExactlyEqual(original.AttributeLists, modified.AttributeLists)) &&
-                (this.LanguageServiceProvider.ExactlyEqual(original.Modifiers, modified.Modifiers)) &&
-                (this.LanguageServiceProvider.ExactlyEqual(original.Type, modified.Type)) &&
-                ((original.ExplicitInterfaceSpecifier == null && modified.ExplicitInterfaceSpecifier == null) || (original.ExplicitInterfaceSpecifier != null && modified.ExplicitInterfaceSpecifier != null && this.LanguageServiceProvider.ExactlyEqual(original.ExplicitInterfaceSpecifier, modified.ExplicitInterfaceSpecifier))) &&
-                (this.LanguageServiceProvider.ExactlyEqual(original.AccessorList, modified.AccessorList)))
-    			return true;
-    
-    	    return false;
-    	}	
-    
-    	/// <summary>
-        /// Determines if two <see cref="BasePropertyDeclarationSyntax"/> elements are exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        public virtual bool ExactlyEqual(BasePropertyDeclarationSyntax original, BasePropertyDeclarationSyntax modified)
-    	{
-        	bool result = false, ignoreCore = false;
-        	ExactlyEqualBefore(original, modified, ref result, ref ignoreCore);
-        	if(ignoreCore) 
-        		return result;
-        	
-        	result = this.ExactlyEqualCore(original, modified);
-        	ExactlyEqualAfter(original, modified, ref result);
-        	return result;
-         }
-    }
-    
-    /// <summary>
-    /// Provides language-aware services regarding <see cref="MemberDeclaration"/>.
-    /// </summary>
-    public abstract partial class MemberDeclarationServiceProvider : ElementTypeServiceProvider
-    {
-        /// <summary>
-        /// Initializes the instance.
-        /// </summary>
-        /// <param name="languageServiceProvider">the container <see cref="LanguageServiceProvider"/>.</param>
-        public MemberDeclarationServiceProvider(LanguageServiceProvider languageServiceProvider) : base(languageServiceProvider) {}
-    
-    	/// <inheritdoc />
-        public override IEnumerable<string> SubExpressions 
-    	{
-    		get
-    		{
-    			yield break;
-    		}
-    	}
-    
-    	/// <inheritdoc />
-        public override IEnumerable<string> SyntacticalStopwords
-    	{
-    		get
-    		{
-    			yield break;
-    		}
-    	}
-    
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="ExactlyEqualCore(MemberDeclarationSyntax, MemberDeclarationSyntax)"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="ExactlyEqual(MemberDeclarationSyntax, MemberDeclarationSyntax)"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="ExactlyEqualCore(MemberDeclarationSyntax, MemberDeclarationSyntax)"/> is not executed and <see cref="ExactlyEqual(MemberDeclarationSyntax, MemberDeclarationSyntax)"/> returns the current value of <paramref name="result"/>.</param>
-        partial void ExactlyEqualBefore(MemberDeclarationSyntax original, MemberDeclarationSyntax modified, ref bool result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="ExactlyEqualCore(MemberDeclarationSyntax, MemberDeclarationSyntax)"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="ExactlyEqual(MemberDeclarationSyntax, MemberDeclarationSyntax)"/>.</param>
-        partial void ExactlyEqualAfter(MemberDeclarationSyntax original, MemberDeclarationSyntax modified, ref bool result);
-    
-        /// <summary>
-        /// Determines if two <see cref="MemberDeclarationSyntax"/> elements are exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="ExactlyEqual(MemberDeclarationSyntax, MemberDeclarationSyntax)"/>.</remarks>
-        protected virtual bool ExactlyEqualCore(MemberDeclarationSyntax original, MemberDeclarationSyntax modified)
-    	{
-    		if(original == null || modified == null) 
-    			return false;
-    
-    			return true;
-    
-    	    return false;
-    	}	
-    
-    	/// <summary>
-        /// Determines if two <see cref="MemberDeclarationSyntax"/> elements are exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        public virtual bool ExactlyEqual(MemberDeclarationSyntax original, MemberDeclarationSyntax modified)
-    	{
-        	bool result = false, ignoreCore = false;
-        	ExactlyEqualBefore(original, modified, ref result, ref ignoreCore);
-        	if(ignoreCore) 
-        		return result;
-        	
-        	result = this.ExactlyEqualCore(original, modified);
-        	ExactlyEqualAfter(original, modified, ref result);
-        	return result;
-         }
-    }
-    
-    /// <summary>
     /// Provides language-aware services regarding <see cref="SimpleBaseType"/>.
     /// </summary>
-    public partial class SimpleBaseTypeServiceProvider : BaseTypeServiceProvider
+    public partial class SimpleBaseTypeServiceProvider : ElementTypeServiceProvider //BaseTypeServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -6866,92 +6320,9 @@ namespace Jawilliam.CDF.CSharp.Flad
     }
     
     /// <summary>
-    /// Provides language-aware services regarding <see cref="BaseType"/>.
-    /// </summary>
-    public abstract partial class BaseTypeServiceProvider : ElementTypeServiceProvider
-    {
-        /// <summary>
-        /// Initializes the instance.
-        /// </summary>
-        /// <param name="languageServiceProvider">the container <see cref="LanguageServiceProvider"/>.</param>
-        public BaseTypeServiceProvider(LanguageServiceProvider languageServiceProvider) : base(languageServiceProvider) {}
-    
-    	/// <inheritdoc />
-        public override IEnumerable<string> SubExpressions 
-    	{
-    		get
-    		{
-    			yield return "Type";
-    		}
-    	}
-    
-    	/// <inheritdoc />
-        public override IEnumerable<string> SyntacticalStopwords
-    	{
-    		get
-    		{
-    			yield break;
-    		}
-    	}
-    
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="ExactlyEqualCore(BaseTypeSyntax, BaseTypeSyntax)"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="ExactlyEqual(BaseTypeSyntax, BaseTypeSyntax)"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="ExactlyEqualCore(BaseTypeSyntax, BaseTypeSyntax)"/> is not executed and <see cref="ExactlyEqual(BaseTypeSyntax, BaseTypeSyntax)"/> returns the current value of <paramref name="result"/>.</param>
-        partial void ExactlyEqualBefore(BaseTypeSyntax original, BaseTypeSyntax modified, ref bool result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="ExactlyEqualCore(BaseTypeSyntax, BaseTypeSyntax)"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="ExactlyEqual(BaseTypeSyntax, BaseTypeSyntax)"/>.</param>
-        partial void ExactlyEqualAfter(BaseTypeSyntax original, BaseTypeSyntax modified, ref bool result);
-    
-        /// <summary>
-        /// Determines if two <see cref="BaseTypeSyntax"/> elements are exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="ExactlyEqual(BaseTypeSyntax, BaseTypeSyntax)"/>.</remarks>
-        protected virtual bool ExactlyEqualCore(BaseTypeSyntax original, BaseTypeSyntax modified)
-    	{
-    		if(original == null || modified == null) 
-    			return false;
-    
-            if (this.LanguageServiceProvider.ExactlyEqual(original.Type, modified.Type))
-    			return true;
-    
-    	    return false;
-    	}	
-    
-    	/// <summary>
-        /// Determines if two <see cref="BaseTypeSyntax"/> elements are exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        public virtual bool ExactlyEqual(BaseTypeSyntax original, BaseTypeSyntax modified)
-    	{
-        	bool result = false, ignoreCore = false;
-        	ExactlyEqualBefore(original, modified, ref result, ref ignoreCore);
-        	if(ignoreCore) 
-        		return result;
-        	
-        	result = this.ExactlyEqualCore(original, modified);
-        	ExactlyEqualAfter(original, modified, ref result);
-        	return result;
-         }
-    }
-    
-    /// <summary>
     /// Provides language-aware services regarding <see cref="ConstructorConstraint"/>.
     /// </summary>
-    public partial class ConstructorConstraintServiceProvider : TypeParameterConstraintServiceProvider
+    public partial class ConstructorConstraintServiceProvider : ElementTypeServiceProvider //TypeParameterConstraintServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -7040,7 +6411,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="ClassOrStructConstraint"/>.
     /// </summary>
-    public partial class ClassOrStructConstraintServiceProvider : TypeParameterConstraintServiceProvider
+    public partial class ClassOrStructConstraintServiceProvider : ElementTypeServiceProvider //TypeParameterConstraintServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -7123,7 +6494,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="TypeConstraint"/>.
     /// </summary>
-    public partial class TypeConstraintServiceProvider : TypeParameterConstraintServiceProvider
+    public partial class TypeConstraintServiceProvider : ElementTypeServiceProvider //TypeParameterConstraintServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -7204,91 +6575,9 @@ namespace Jawilliam.CDF.CSharp.Flad
     }
     
     /// <summary>
-    /// Provides language-aware services regarding <see cref="TypeParameterConstraint"/>.
-    /// </summary>
-    public abstract partial class TypeParameterConstraintServiceProvider : ElementTypeServiceProvider
-    {
-        /// <summary>
-        /// Initializes the instance.
-        /// </summary>
-        /// <param name="languageServiceProvider">the container <see cref="LanguageServiceProvider"/>.</param>
-        public TypeParameterConstraintServiceProvider(LanguageServiceProvider languageServiceProvider) : base(languageServiceProvider) {}
-    
-    	/// <inheritdoc />
-        public override IEnumerable<string> SubExpressions 
-    	{
-    		get
-    		{
-    			yield break;
-    		}
-    	}
-    
-    	/// <inheritdoc />
-        public override IEnumerable<string> SyntacticalStopwords
-    	{
-    		get
-    		{
-    			yield break;
-    		}
-    	}
-    
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="ExactlyEqualCore(TypeParameterConstraintSyntax, TypeParameterConstraintSyntax)"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="ExactlyEqual(TypeParameterConstraintSyntax, TypeParameterConstraintSyntax)"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="ExactlyEqualCore(TypeParameterConstraintSyntax, TypeParameterConstraintSyntax)"/> is not executed and <see cref="ExactlyEqual(TypeParameterConstraintSyntax, TypeParameterConstraintSyntax)"/> returns the current value of <paramref name="result"/>.</param>
-        partial void ExactlyEqualBefore(TypeParameterConstraintSyntax original, TypeParameterConstraintSyntax modified, ref bool result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="ExactlyEqualCore(TypeParameterConstraintSyntax, TypeParameterConstraintSyntax)"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="ExactlyEqual(TypeParameterConstraintSyntax, TypeParameterConstraintSyntax)"/>.</param>
-        partial void ExactlyEqualAfter(TypeParameterConstraintSyntax original, TypeParameterConstraintSyntax modified, ref bool result);
-    
-        /// <summary>
-        /// Determines if two <see cref="TypeParameterConstraintSyntax"/> elements are exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="ExactlyEqual(TypeParameterConstraintSyntax, TypeParameterConstraintSyntax)"/>.</remarks>
-        protected virtual bool ExactlyEqualCore(TypeParameterConstraintSyntax original, TypeParameterConstraintSyntax modified)
-    	{
-    		if(original == null || modified == null) 
-    			return false;
-    
-    			return true;
-    
-    	    return false;
-    	}	
-    
-    	/// <summary>
-        /// Determines if two <see cref="TypeParameterConstraintSyntax"/> elements are exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        public virtual bool ExactlyEqual(TypeParameterConstraintSyntax original, TypeParameterConstraintSyntax modified)
-    	{
-        	bool result = false, ignoreCore = false;
-        	ExactlyEqualBefore(original, modified, ref result, ref ignoreCore);
-        	if(ignoreCore) 
-        		return result;
-        	
-        	result = this.ExactlyEqualCore(original, modified);
-        	ExactlyEqualAfter(original, modified, ref result);
-        	return result;
-         }
-    }
-    
-    /// <summary>
     /// Provides language-aware services regarding <see cref="ParameterList"/>.
     /// </summary>
-    public partial class ParameterListServiceProvider : BaseParameterListServiceProvider
+    public partial class ParameterListServiceProvider : ElementTypeServiceProvider //BaseParameterListServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -7376,7 +6665,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="BracketedParameterList"/>.
     /// </summary>
-    public partial class BracketedParameterListServiceProvider : BaseParameterListServiceProvider
+    public partial class BracketedParameterListServiceProvider : ElementTypeServiceProvider //BaseParameterListServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -7462,92 +6751,9 @@ namespace Jawilliam.CDF.CSharp.Flad
     }
     
     /// <summary>
-    /// Provides language-aware services regarding <see cref="BaseParameterList"/>.
-    /// </summary>
-    public abstract partial class BaseParameterListServiceProvider : ElementTypeServiceProvider
-    {
-        /// <summary>
-        /// Initializes the instance.
-        /// </summary>
-        /// <param name="languageServiceProvider">the container <see cref="LanguageServiceProvider"/>.</param>
-        public BaseParameterListServiceProvider(LanguageServiceProvider languageServiceProvider) : base(languageServiceProvider) {}
-    
-    	/// <inheritdoc />
-        public override IEnumerable<string> SubExpressions 
-    	{
-    		get
-    		{
-    			yield return "Parameters";
-    		}
-    	}
-    
-    	/// <inheritdoc />
-        public override IEnumerable<string> SyntacticalStopwords
-    	{
-    		get
-    		{
-    			yield break;
-    		}
-    	}
-    
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="ExactlyEqualCore(BaseParameterListSyntax, BaseParameterListSyntax)"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="ExactlyEqual(BaseParameterListSyntax, BaseParameterListSyntax)"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="ExactlyEqualCore(BaseParameterListSyntax, BaseParameterListSyntax)"/> is not executed and <see cref="ExactlyEqual(BaseParameterListSyntax, BaseParameterListSyntax)"/> returns the current value of <paramref name="result"/>.</param>
-        partial void ExactlyEqualBefore(BaseParameterListSyntax original, BaseParameterListSyntax modified, ref bool result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="ExactlyEqualCore(BaseParameterListSyntax, BaseParameterListSyntax)"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="ExactlyEqual(BaseParameterListSyntax, BaseParameterListSyntax)"/>.</param>
-        partial void ExactlyEqualAfter(BaseParameterListSyntax original, BaseParameterListSyntax modified, ref bool result);
-    
-        /// <summary>
-        /// Determines if two <see cref="BaseParameterListSyntax"/> elements are exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="ExactlyEqual(BaseParameterListSyntax, BaseParameterListSyntax)"/>.</remarks>
-        protected virtual bool ExactlyEqualCore(BaseParameterListSyntax original, BaseParameterListSyntax modified)
-    	{
-    		if(original == null || modified == null) 
-    			return false;
-    
-            if (this.LanguageServiceProvider.ExactlyEqual(original.Parameters, modified.Parameters))
-    			return true;
-    
-    	    return false;
-    	}	
-    
-    	/// <summary>
-        /// Determines if two <see cref="BaseParameterListSyntax"/> elements are exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        public virtual bool ExactlyEqual(BaseParameterListSyntax original, BaseParameterListSyntax modified)
-    	{
-        	bool result = false, ignoreCore = false;
-        	ExactlyEqualBefore(original, modified, ref result, ref ignoreCore);
-        	if(ignoreCore) 
-        		return result;
-        	
-        	result = this.ExactlyEqualCore(original, modified);
-        	ExactlyEqualAfter(original, modified, ref result);
-        	return result;
-         }
-    }
-    
-    /// <summary>
     /// Provides language-aware services regarding <see cref="SkippedTokensTrivia"/>.
     /// </summary>
-    public partial class SkippedTokensTriviaServiceProvider : StructuredTriviaServiceProvider
+    public partial class SkippedTokensTriviaServiceProvider : ElementTypeServiceProvider //StructuredTriviaServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -7630,7 +6836,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="DocumentationCommentTrivia"/>.
     /// </summary>
-    public partial class DocumentationCommentTriviaServiceProvider : StructuredTriviaServiceProvider
+    public partial class DocumentationCommentTriviaServiceProvider : ElementTypeServiceProvider //StructuredTriviaServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -7715,7 +6921,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="EndIfDirectiveTrivia"/>.
     /// </summary>
-    public partial class EndIfDirectiveTriviaServiceProvider : DirectiveTriviaServiceProvider
+    public partial class EndIfDirectiveTriviaServiceProvider : ElementTypeServiceProvider //DirectiveTriviaServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -7804,7 +7010,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="RegionDirectiveTrivia"/>.
     /// </summary>
-    public partial class RegionDirectiveTriviaServiceProvider : DirectiveTriviaServiceProvider
+    public partial class RegionDirectiveTriviaServiceProvider : ElementTypeServiceProvider //DirectiveTriviaServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -7893,7 +7099,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="EndRegionDirectiveTrivia"/>.
     /// </summary>
-    public partial class EndRegionDirectiveTriviaServiceProvider : DirectiveTriviaServiceProvider
+    public partial class EndRegionDirectiveTriviaServiceProvider : ElementTypeServiceProvider //DirectiveTriviaServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -7982,7 +7188,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="ErrorDirectiveTrivia"/>.
     /// </summary>
-    public partial class ErrorDirectiveTriviaServiceProvider : DirectiveTriviaServiceProvider
+    public partial class ErrorDirectiveTriviaServiceProvider : ElementTypeServiceProvider //DirectiveTriviaServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -8071,7 +7277,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="WarningDirectiveTrivia"/>.
     /// </summary>
-    public partial class WarningDirectiveTriviaServiceProvider : DirectiveTriviaServiceProvider
+    public partial class WarningDirectiveTriviaServiceProvider : ElementTypeServiceProvider //DirectiveTriviaServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -8160,7 +7366,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="BadDirectiveTrivia"/>.
     /// </summary>
-    public partial class BadDirectiveTriviaServiceProvider : DirectiveTriviaServiceProvider
+    public partial class BadDirectiveTriviaServiceProvider : ElementTypeServiceProvider //DirectiveTriviaServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -8256,7 +7462,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="DefineDirectiveTrivia"/>.
     /// </summary>
-    public partial class DefineDirectiveTriviaServiceProvider : DirectiveTriviaServiceProvider
+    public partial class DefineDirectiveTriviaServiceProvider : ElementTypeServiceProvider //DirectiveTriviaServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -8355,7 +7561,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="UndefDirectiveTrivia"/>.
     /// </summary>
-    public partial class UndefDirectiveTriviaServiceProvider : DirectiveTriviaServiceProvider
+    public partial class UndefDirectiveTriviaServiceProvider : ElementTypeServiceProvider //DirectiveTriviaServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -8454,7 +7660,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="LineDirectiveTrivia"/>.
     /// </summary>
-    public partial class LineDirectiveTriviaServiceProvider : DirectiveTriviaServiceProvider
+    public partial class LineDirectiveTriviaServiceProvider : ElementTypeServiceProvider //DirectiveTriviaServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -8547,7 +7753,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="PragmaWarningDirectiveTrivia"/>.
     /// </summary>
-    public partial class PragmaWarningDirectiveTriviaServiceProvider : DirectiveTriviaServiceProvider
+    public partial class PragmaWarningDirectiveTriviaServiceProvider : ElementTypeServiceProvider //DirectiveTriviaServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -8643,7 +7849,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="PragmaChecksumDirectiveTrivia"/>.
     /// </summary>
-    public partial class PragmaChecksumDirectiveTriviaServiceProvider : DirectiveTriviaServiceProvider
+    public partial class PragmaChecksumDirectiveTriviaServiceProvider : ElementTypeServiceProvider //DirectiveTriviaServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -8741,7 +7947,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="ReferenceDirectiveTrivia"/>.
     /// </summary>
-    public partial class ReferenceDirectiveTriviaServiceProvider : DirectiveTriviaServiceProvider
+    public partial class ReferenceDirectiveTriviaServiceProvider : ElementTypeServiceProvider //DirectiveTriviaServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -8832,7 +8038,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="LoadDirectiveTrivia"/>.
     /// </summary>
-    public partial class LoadDirectiveTriviaServiceProvider : DirectiveTriviaServiceProvider
+    public partial class LoadDirectiveTriviaServiceProvider : ElementTypeServiceProvider //DirectiveTriviaServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -8923,7 +8129,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="ShebangDirectiveTrivia"/>.
     /// </summary>
-    public partial class ShebangDirectiveTriviaServiceProvider : DirectiveTriviaServiceProvider
+    public partial class ShebangDirectiveTriviaServiceProvider : ElementTypeServiceProvider //DirectiveTriviaServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -9012,7 +8218,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="ElseDirectiveTrivia"/>.
     /// </summary>
-    public partial class ElseDirectiveTriviaServiceProvider : BranchingDirectiveTriviaServiceProvider
+    public partial class ElseDirectiveTriviaServiceProvider : ElementTypeServiceProvider //BranchingDirectiveTriviaServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -9101,7 +8307,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="IfDirectiveTrivia"/>.
     /// </summary>
-    public partial class IfDirectiveTriviaServiceProvider : ConditionalDirectiveTriviaServiceProvider
+    public partial class IfDirectiveTriviaServiceProvider : ElementTypeServiceProvider //ConditionalDirectiveTriviaServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -9192,7 +8398,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="ElifDirectiveTrivia"/>.
     /// </summary>
-    public partial class ElifDirectiveTriviaServiceProvider : ConditionalDirectiveTriviaServiceProvider
+    public partial class ElifDirectiveTriviaServiceProvider : ElementTypeServiceProvider //ConditionalDirectiveTriviaServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -9281,342 +8487,9 @@ namespace Jawilliam.CDF.CSharp.Flad
     }
     
     /// <summary>
-    /// Provides language-aware services regarding <see cref="ConditionalDirectiveTrivia"/>.
-    /// </summary>
-    public abstract partial class ConditionalDirectiveTriviaServiceProvider : BranchingDirectiveTriviaServiceProvider
-    {
-        /// <summary>
-        /// Initializes the instance.
-        /// </summary>
-        /// <param name="languageServiceProvider">the container <see cref="LanguageServiceProvider"/>.</param>
-        public ConditionalDirectiveTriviaServiceProvider(LanguageServiceProvider languageServiceProvider) : base(languageServiceProvider) {}
-    
-    	/// <inheritdoc />
-        public override IEnumerable<string> SubExpressions 
-    	{
-    		get
-    		{
-    			yield return "Condition";
-    		}
-    	}
-    
-    	/// <inheritdoc />
-        public override IEnumerable<string> SyntacticalStopwords
-    	{
-    		get
-    		{
-    			yield break;
-    		}
-    	}
-    
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="ExactlyEqualCore(ConditionalDirectiveTriviaSyntax, ConditionalDirectiveTriviaSyntax)"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="ExactlyEqual(ConditionalDirectiveTriviaSyntax, ConditionalDirectiveTriviaSyntax)"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="ExactlyEqualCore(ConditionalDirectiveTriviaSyntax, ConditionalDirectiveTriviaSyntax)"/> is not executed and <see cref="ExactlyEqual(ConditionalDirectiveTriviaSyntax, ConditionalDirectiveTriviaSyntax)"/> returns the current value of <paramref name="result"/>.</param>
-        partial void ExactlyEqualBefore(ConditionalDirectiveTriviaSyntax original, ConditionalDirectiveTriviaSyntax modified, ref bool result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="ExactlyEqualCore(ConditionalDirectiveTriviaSyntax, ConditionalDirectiveTriviaSyntax)"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="ExactlyEqual(ConditionalDirectiveTriviaSyntax, ConditionalDirectiveTriviaSyntax)"/>.</param>
-        partial void ExactlyEqualAfter(ConditionalDirectiveTriviaSyntax original, ConditionalDirectiveTriviaSyntax modified, ref bool result);
-    
-        /// <summary>
-        /// Determines if two <see cref="ConditionalDirectiveTriviaSyntax"/> elements are exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="ExactlyEqual(ConditionalDirectiveTriviaSyntax, ConditionalDirectiveTriviaSyntax)"/>.</remarks>
-        protected virtual bool ExactlyEqualCore(ConditionalDirectiveTriviaSyntax original, ConditionalDirectiveTriviaSyntax modified)
-    	{
-    		if(original == null || modified == null) 
-    			return false;
-    
-            if (this.LanguageServiceProvider.ExactlyEqual(original.Condition, modified.Condition))
-    			return true;
-    
-    	    return false;
-    	}	
-    
-    	/// <summary>
-        /// Determines if two <see cref="ConditionalDirectiveTriviaSyntax"/> elements are exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        public virtual bool ExactlyEqual(ConditionalDirectiveTriviaSyntax original, ConditionalDirectiveTriviaSyntax modified)
-    	{
-        	bool result = false, ignoreCore = false;
-        	ExactlyEqualBefore(original, modified, ref result, ref ignoreCore);
-        	if(ignoreCore) 
-        		return result;
-        	
-        	result = this.ExactlyEqualCore(original, modified);
-        	ExactlyEqualAfter(original, modified, ref result);
-        	return result;
-         }
-    }
-    
-    /// <summary>
-    /// Provides language-aware services regarding <see cref="BranchingDirectiveTrivia"/>.
-    /// </summary>
-    public abstract partial class BranchingDirectiveTriviaServiceProvider : DirectiveTriviaServiceProvider
-    {
-        /// <summary>
-        /// Initializes the instance.
-        /// </summary>
-        /// <param name="languageServiceProvider">the container <see cref="LanguageServiceProvider"/>.</param>
-        public BranchingDirectiveTriviaServiceProvider(LanguageServiceProvider languageServiceProvider) : base(languageServiceProvider) {}
-    
-    	/// <inheritdoc />
-        public override IEnumerable<string> SubExpressions 
-    	{
-    		get
-    		{
-    			yield break;
-    		}
-    	}
-    
-    	/// <inheritdoc />
-        public override IEnumerable<string> SyntacticalStopwords
-    	{
-    		get
-    		{
-    			yield break;
-    		}
-    	}
-    
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="ExactlyEqualCore(BranchingDirectiveTriviaSyntax, BranchingDirectiveTriviaSyntax)"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="ExactlyEqual(BranchingDirectiveTriviaSyntax, BranchingDirectiveTriviaSyntax)"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="ExactlyEqualCore(BranchingDirectiveTriviaSyntax, BranchingDirectiveTriviaSyntax)"/> is not executed and <see cref="ExactlyEqual(BranchingDirectiveTriviaSyntax, BranchingDirectiveTriviaSyntax)"/> returns the current value of <paramref name="result"/>.</param>
-        partial void ExactlyEqualBefore(BranchingDirectiveTriviaSyntax original, BranchingDirectiveTriviaSyntax modified, ref bool result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="ExactlyEqualCore(BranchingDirectiveTriviaSyntax, BranchingDirectiveTriviaSyntax)"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="ExactlyEqual(BranchingDirectiveTriviaSyntax, BranchingDirectiveTriviaSyntax)"/>.</param>
-        partial void ExactlyEqualAfter(BranchingDirectiveTriviaSyntax original, BranchingDirectiveTriviaSyntax modified, ref bool result);
-    
-        /// <summary>
-        /// Determines if two <see cref="BranchingDirectiveTriviaSyntax"/> elements are exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="ExactlyEqual(BranchingDirectiveTriviaSyntax, BranchingDirectiveTriviaSyntax)"/>.</remarks>
-        protected virtual bool ExactlyEqualCore(BranchingDirectiveTriviaSyntax original, BranchingDirectiveTriviaSyntax modified)
-    	{
-    		if(original == null || modified == null) 
-    			return false;
-    
-    			return true;
-    
-    	    return false;
-    	}	
-    
-    	/// <summary>
-        /// Determines if two <see cref="BranchingDirectiveTriviaSyntax"/> elements are exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        public virtual bool ExactlyEqual(BranchingDirectiveTriviaSyntax original, BranchingDirectiveTriviaSyntax modified)
-    	{
-        	bool result = false, ignoreCore = false;
-        	ExactlyEqualBefore(original, modified, ref result, ref ignoreCore);
-        	if(ignoreCore) 
-        		return result;
-        	
-        	result = this.ExactlyEqualCore(original, modified);
-        	ExactlyEqualAfter(original, modified, ref result);
-        	return result;
-         }
-    }
-    
-    /// <summary>
-    /// Provides language-aware services regarding <see cref="DirectiveTrivia"/>.
-    /// </summary>
-    public abstract partial class DirectiveTriviaServiceProvider : StructuredTriviaServiceProvider
-    {
-        /// <summary>
-        /// Initializes the instance.
-        /// </summary>
-        /// <param name="languageServiceProvider">the container <see cref="LanguageServiceProvider"/>.</param>
-        public DirectiveTriviaServiceProvider(LanguageServiceProvider languageServiceProvider) : base(languageServiceProvider) {}
-    
-    	/// <inheritdoc />
-        public override IEnumerable<string> SubExpressions 
-    	{
-    		get
-    		{
-    			yield return "HashToken";
-    			yield return "EndOfDirectiveToken";
-    		}
-    	}
-    
-    	/// <inheritdoc />
-        public override IEnumerable<string> SyntacticalStopwords
-    	{
-    		get
-    		{
-    			yield return "HashToken";
-    			yield return "EndOfDirectiveToken";
-    		}
-    	}
-    
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="ExactlyEqualCore(DirectiveTriviaSyntax, DirectiveTriviaSyntax)"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="ExactlyEqual(DirectiveTriviaSyntax, DirectiveTriviaSyntax)"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="ExactlyEqualCore(DirectiveTriviaSyntax, DirectiveTriviaSyntax)"/> is not executed and <see cref="ExactlyEqual(DirectiveTriviaSyntax, DirectiveTriviaSyntax)"/> returns the current value of <paramref name="result"/>.</param>
-        partial void ExactlyEqualBefore(DirectiveTriviaSyntax original, DirectiveTriviaSyntax modified, ref bool result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="ExactlyEqualCore(DirectiveTriviaSyntax, DirectiveTriviaSyntax)"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="ExactlyEqual(DirectiveTriviaSyntax, DirectiveTriviaSyntax)"/>.</param>
-        partial void ExactlyEqualAfter(DirectiveTriviaSyntax original, DirectiveTriviaSyntax modified, ref bool result);
-    
-        /// <summary>
-        /// Determines if two <see cref="DirectiveTriviaSyntax"/> elements are exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="ExactlyEqual(DirectiveTriviaSyntax, DirectiveTriviaSyntax)"/>.</remarks>
-        protected virtual bool ExactlyEqualCore(DirectiveTriviaSyntax original, DirectiveTriviaSyntax modified)
-    	{
-    		if(original == null || modified == null) 
-    			return false;
-    
-            if ((this.LanguageServiceProvider.ExactlyEqual(original.HashToken, modified.HashToken)) &&
-                (this.LanguageServiceProvider.ExactlyEqual(original.EndOfDirectiveToken, modified.EndOfDirectiveToken)))
-    			return true;
-    
-    	    return false;
-    	}	
-    
-    	/// <summary>
-        /// Determines if two <see cref="DirectiveTriviaSyntax"/> elements are exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        public virtual bool ExactlyEqual(DirectiveTriviaSyntax original, DirectiveTriviaSyntax modified)
-    	{
-        	bool result = false, ignoreCore = false;
-        	ExactlyEqualBefore(original, modified, ref result, ref ignoreCore);
-        	if(ignoreCore) 
-        		return result;
-        	
-        	result = this.ExactlyEqualCore(original, modified);
-        	ExactlyEqualAfter(original, modified, ref result);
-        	return result;
-         }
-    }
-    
-    /// <summary>
-    /// Provides language-aware services regarding <see cref="StructuredTrivia"/>.
-    /// </summary>
-    public abstract partial class StructuredTriviaServiceProvider : ElementTypeServiceProvider
-    {
-        /// <summary>
-        /// Initializes the instance.
-        /// </summary>
-        /// <param name="languageServiceProvider">the container <see cref="LanguageServiceProvider"/>.</param>
-        public StructuredTriviaServiceProvider(LanguageServiceProvider languageServiceProvider) : base(languageServiceProvider) {}
-    
-    	/// <inheritdoc />
-        public override IEnumerable<string> SubExpressions 
-    	{
-    		get
-    		{
-    			yield break;
-    		}
-    	}
-    
-    	/// <inheritdoc />
-        public override IEnumerable<string> SyntacticalStopwords
-    	{
-    		get
-    		{
-    			yield break;
-    		}
-    	}
-    
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="ExactlyEqualCore(StructuredTriviaSyntax, StructuredTriviaSyntax)"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="ExactlyEqual(StructuredTriviaSyntax, StructuredTriviaSyntax)"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="ExactlyEqualCore(StructuredTriviaSyntax, StructuredTriviaSyntax)"/> is not executed and <see cref="ExactlyEqual(StructuredTriviaSyntax, StructuredTriviaSyntax)"/> returns the current value of <paramref name="result"/>.</param>
-        partial void ExactlyEqualBefore(StructuredTriviaSyntax original, StructuredTriviaSyntax modified, ref bool result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="ExactlyEqualCore(StructuredTriviaSyntax, StructuredTriviaSyntax)"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="ExactlyEqual(StructuredTriviaSyntax, StructuredTriviaSyntax)"/>.</param>
-        partial void ExactlyEqualAfter(StructuredTriviaSyntax original, StructuredTriviaSyntax modified, ref bool result);
-    
-        /// <summary>
-        /// Determines if two <see cref="StructuredTriviaSyntax"/> elements are exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="ExactlyEqual(StructuredTriviaSyntax, StructuredTriviaSyntax)"/>.</remarks>
-        protected virtual bool ExactlyEqualCore(StructuredTriviaSyntax original, StructuredTriviaSyntax modified)
-    	{
-    		if(original == null || modified == null) 
-    			return false;
-    
-    			return true;
-    
-    	    return false;
-    	}	
-    
-    	/// <summary>
-        /// Determines if two <see cref="StructuredTriviaSyntax"/> elements are exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        public virtual bool ExactlyEqual(StructuredTriviaSyntax original, StructuredTriviaSyntax modified)
-    	{
-        	bool result = false, ignoreCore = false;
-        	ExactlyEqualBefore(original, modified, ref result, ref ignoreCore);
-        	if(ignoreCore) 
-        		return result;
-        	
-        	result = this.ExactlyEqualCore(original, modified);
-        	ExactlyEqualAfter(original, modified, ref result);
-        	return result;
-         }
-    }
-    
-    /// <summary>
     /// Provides language-aware services regarding <see cref="TypeCref"/>.
     /// </summary>
-    public partial class TypeCrefServiceProvider : CrefServiceProvider
+    public partial class TypeCrefServiceProvider : ElementTypeServiceProvider //CrefServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -9699,7 +8572,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="QualifiedCref"/>.
     /// </summary>
-    public partial class QualifiedCrefServiceProvider : CrefServiceProvider
+    public partial class QualifiedCrefServiceProvider : ElementTypeServiceProvider //CrefServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -9786,7 +8659,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="NameMemberCref"/>.
     /// </summary>
-    public partial class NameMemberCrefServiceProvider : MemberCrefServiceProvider
+    public partial class NameMemberCrefServiceProvider : ElementTypeServiceProvider //MemberCrefServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -9879,7 +8752,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="IndexerMemberCref"/>.
     /// </summary>
-    public partial class IndexerMemberCrefServiceProvider : MemberCrefServiceProvider
+    public partial class IndexerMemberCrefServiceProvider : ElementTypeServiceProvider //MemberCrefServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -9964,7 +8837,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="OperatorMemberCref"/>.
     /// </summary>
-    public partial class OperatorMemberCrefServiceProvider : MemberCrefServiceProvider
+    public partial class OperatorMemberCrefServiceProvider : ElementTypeServiceProvider //MemberCrefServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -10051,7 +8924,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="ConversionOperatorMemberCref"/>.
     /// </summary>
-    public partial class ConversionOperatorMemberCrefServiceProvider : MemberCrefServiceProvider
+    public partial class ConversionOperatorMemberCrefServiceProvider : ElementTypeServiceProvider //MemberCrefServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -10138,173 +9011,9 @@ namespace Jawilliam.CDF.CSharp.Flad
     }
     
     /// <summary>
-    /// Provides language-aware services regarding <see cref="MemberCref"/>.
-    /// </summary>
-    public abstract partial class MemberCrefServiceProvider : CrefServiceProvider
-    {
-        /// <summary>
-        /// Initializes the instance.
-        /// </summary>
-        /// <param name="languageServiceProvider">the container <see cref="LanguageServiceProvider"/>.</param>
-        public MemberCrefServiceProvider(LanguageServiceProvider languageServiceProvider) : base(languageServiceProvider) {}
-    
-    	/// <inheritdoc />
-        public override IEnumerable<string> SubExpressions 
-    	{
-    		get
-    		{
-    			yield break;
-    		}
-    	}
-    
-    	/// <inheritdoc />
-        public override IEnumerable<string> SyntacticalStopwords
-    	{
-    		get
-    		{
-    			yield break;
-    		}
-    	}
-    
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="ExactlyEqualCore(MemberCrefSyntax, MemberCrefSyntax)"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="ExactlyEqual(MemberCrefSyntax, MemberCrefSyntax)"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="ExactlyEqualCore(MemberCrefSyntax, MemberCrefSyntax)"/> is not executed and <see cref="ExactlyEqual(MemberCrefSyntax, MemberCrefSyntax)"/> returns the current value of <paramref name="result"/>.</param>
-        partial void ExactlyEqualBefore(MemberCrefSyntax original, MemberCrefSyntax modified, ref bool result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="ExactlyEqualCore(MemberCrefSyntax, MemberCrefSyntax)"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="ExactlyEqual(MemberCrefSyntax, MemberCrefSyntax)"/>.</param>
-        partial void ExactlyEqualAfter(MemberCrefSyntax original, MemberCrefSyntax modified, ref bool result);
-    
-        /// <summary>
-        /// Determines if two <see cref="MemberCrefSyntax"/> elements are exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="ExactlyEqual(MemberCrefSyntax, MemberCrefSyntax)"/>.</remarks>
-        protected virtual bool ExactlyEqualCore(MemberCrefSyntax original, MemberCrefSyntax modified)
-    	{
-    		if(original == null || modified == null) 
-    			return false;
-    
-    			return true;
-    
-    	    return false;
-    	}	
-    
-    	/// <summary>
-        /// Determines if two <see cref="MemberCrefSyntax"/> elements are exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        public virtual bool ExactlyEqual(MemberCrefSyntax original, MemberCrefSyntax modified)
-    	{
-        	bool result = false, ignoreCore = false;
-        	ExactlyEqualBefore(original, modified, ref result, ref ignoreCore);
-        	if(ignoreCore) 
-        		return result;
-        	
-        	result = this.ExactlyEqualCore(original, modified);
-        	ExactlyEqualAfter(original, modified, ref result);
-        	return result;
-         }
-    }
-    
-    /// <summary>
-    /// Provides language-aware services regarding <see cref="Cref"/>.
-    /// </summary>
-    public abstract partial class CrefServiceProvider : ElementTypeServiceProvider
-    {
-        /// <summary>
-        /// Initializes the instance.
-        /// </summary>
-        /// <param name="languageServiceProvider">the container <see cref="LanguageServiceProvider"/>.</param>
-        public CrefServiceProvider(LanguageServiceProvider languageServiceProvider) : base(languageServiceProvider) {}
-    
-    	/// <inheritdoc />
-        public override IEnumerable<string> SubExpressions 
-    	{
-    		get
-    		{
-    			yield break;
-    		}
-    	}
-    
-    	/// <inheritdoc />
-        public override IEnumerable<string> SyntacticalStopwords
-    	{
-    		get
-    		{
-    			yield break;
-    		}
-    	}
-    
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="ExactlyEqualCore(CrefSyntax, CrefSyntax)"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="ExactlyEqual(CrefSyntax, CrefSyntax)"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="ExactlyEqualCore(CrefSyntax, CrefSyntax)"/> is not executed and <see cref="ExactlyEqual(CrefSyntax, CrefSyntax)"/> returns the current value of <paramref name="result"/>.</param>
-        partial void ExactlyEqualBefore(CrefSyntax original, CrefSyntax modified, ref bool result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="ExactlyEqualCore(CrefSyntax, CrefSyntax)"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="ExactlyEqual(CrefSyntax, CrefSyntax)"/>.</param>
-        partial void ExactlyEqualAfter(CrefSyntax original, CrefSyntax modified, ref bool result);
-    
-        /// <summary>
-        /// Determines if two <see cref="CrefSyntax"/> elements are exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="ExactlyEqual(CrefSyntax, CrefSyntax)"/>.</remarks>
-        protected virtual bool ExactlyEqualCore(CrefSyntax original, CrefSyntax modified)
-    	{
-    		if(original == null || modified == null) 
-    			return false;
-    
-    			return true;
-    
-    	    return false;
-    	}	
-    
-    	/// <summary>
-        /// Determines if two <see cref="CrefSyntax"/> elements are exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        public virtual bool ExactlyEqual(CrefSyntax original, CrefSyntax modified)
-    	{
-        	bool result = false, ignoreCore = false;
-        	ExactlyEqualBefore(original, modified, ref result, ref ignoreCore);
-        	if(ignoreCore) 
-        		return result;
-        	
-        	result = this.ExactlyEqualCore(original, modified);
-        	ExactlyEqualAfter(original, modified, ref result);
-        	return result;
-         }
-    }
-    
-    /// <summary>
     /// Provides language-aware services regarding <see cref="CrefParameterList"/>.
     /// </summary>
-    public partial class CrefParameterListServiceProvider : BaseCrefParameterListServiceProvider
+    public partial class CrefParameterListServiceProvider : ElementTypeServiceProvider //BaseCrefParameterListServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -10392,7 +9101,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="CrefBracketedParameterList"/>.
     /// </summary>
-    public partial class CrefBracketedParameterListServiceProvider : BaseCrefParameterListServiceProvider
+    public partial class CrefBracketedParameterListServiceProvider : ElementTypeServiceProvider //BaseCrefParameterListServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -10478,92 +9187,9 @@ namespace Jawilliam.CDF.CSharp.Flad
     }
     
     /// <summary>
-    /// Provides language-aware services regarding <see cref="BaseCrefParameterList"/>.
-    /// </summary>
-    public abstract partial class BaseCrefParameterListServiceProvider : ElementTypeServiceProvider
-    {
-        /// <summary>
-        /// Initializes the instance.
-        /// </summary>
-        /// <param name="languageServiceProvider">the container <see cref="LanguageServiceProvider"/>.</param>
-        public BaseCrefParameterListServiceProvider(LanguageServiceProvider languageServiceProvider) : base(languageServiceProvider) {}
-    
-    	/// <inheritdoc />
-        public override IEnumerable<string> SubExpressions 
-    	{
-    		get
-    		{
-    			yield return "Parameters";
-    		}
-    	}
-    
-    	/// <inheritdoc />
-        public override IEnumerable<string> SyntacticalStopwords
-    	{
-    		get
-    		{
-    			yield break;
-    		}
-    	}
-    
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="ExactlyEqualCore(BaseCrefParameterListSyntax, BaseCrefParameterListSyntax)"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="ExactlyEqual(BaseCrefParameterListSyntax, BaseCrefParameterListSyntax)"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="ExactlyEqualCore(BaseCrefParameterListSyntax, BaseCrefParameterListSyntax)"/> is not executed and <see cref="ExactlyEqual(BaseCrefParameterListSyntax, BaseCrefParameterListSyntax)"/> returns the current value of <paramref name="result"/>.</param>
-        partial void ExactlyEqualBefore(BaseCrefParameterListSyntax original, BaseCrefParameterListSyntax modified, ref bool result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="ExactlyEqualCore(BaseCrefParameterListSyntax, BaseCrefParameterListSyntax)"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="ExactlyEqual(BaseCrefParameterListSyntax, BaseCrefParameterListSyntax)"/>.</param>
-        partial void ExactlyEqualAfter(BaseCrefParameterListSyntax original, BaseCrefParameterListSyntax modified, ref bool result);
-    
-        /// <summary>
-        /// Determines if two <see cref="BaseCrefParameterListSyntax"/> elements are exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="ExactlyEqual(BaseCrefParameterListSyntax, BaseCrefParameterListSyntax)"/>.</remarks>
-        protected virtual bool ExactlyEqualCore(BaseCrefParameterListSyntax original, BaseCrefParameterListSyntax modified)
-    	{
-    		if(original == null || modified == null) 
-    			return false;
-    
-            if (this.LanguageServiceProvider.ExactlyEqual(original.Parameters, modified.Parameters))
-    			return true;
-    
-    	    return false;
-    	}	
-    
-    	/// <summary>
-        /// Determines if two <see cref="BaseCrefParameterListSyntax"/> elements are exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        public virtual bool ExactlyEqual(BaseCrefParameterListSyntax original, BaseCrefParameterListSyntax modified)
-    	{
-        	bool result = false, ignoreCore = false;
-        	ExactlyEqualBefore(original, modified, ref result, ref ignoreCore);
-        	if(ignoreCore) 
-        		return result;
-        	
-        	result = this.ExactlyEqualCore(original, modified);
-        	ExactlyEqualAfter(original, modified, ref result);
-        	return result;
-         }
-    }
-    
-    /// <summary>
     /// Provides language-aware services regarding <see cref="XmlElement"/>.
     /// </summary>
-    public partial class XmlElementServiceProvider : XmlNodeServiceProvider
+    public partial class XmlElementServiceProvider : ElementTypeServiceProvider //XmlNodeServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -10650,7 +9276,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="XmlEmptyElement"/>.
     /// </summary>
-    public partial class XmlEmptyElementServiceProvider : XmlNodeServiceProvider
+    public partial class XmlEmptyElementServiceProvider : ElementTypeServiceProvider //XmlNodeServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -10748,7 +9374,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="XmlText"/>.
     /// </summary>
-    public partial class XmlTextServiceProvider : XmlNodeServiceProvider
+    public partial class XmlTextServiceProvider : ElementTypeServiceProvider //XmlNodeServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -10831,7 +9457,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="XmlCDataSection"/>.
     /// </summary>
-    public partial class XmlCDataSectionServiceProvider : XmlNodeServiceProvider
+    public partial class XmlCDataSectionServiceProvider : ElementTypeServiceProvider //XmlNodeServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -10919,7 +9545,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="XmlProcessingInstruction"/>.
     /// </summary>
-    public partial class XmlProcessingInstructionServiceProvider : XmlNodeServiceProvider
+    public partial class XmlProcessingInstructionServiceProvider : ElementTypeServiceProvider //XmlNodeServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -11017,7 +9643,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="XmlComment"/>.
     /// </summary>
-    public partial class XmlCommentServiceProvider : XmlNodeServiceProvider
+    public partial class XmlCommentServiceProvider : ElementTypeServiceProvider //XmlNodeServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -11103,91 +9729,9 @@ namespace Jawilliam.CDF.CSharp.Flad
     }
     
     /// <summary>
-    /// Provides language-aware services regarding <see cref="XmlNode"/>.
-    /// </summary>
-    public abstract partial class XmlNodeServiceProvider : ElementTypeServiceProvider
-    {
-        /// <summary>
-        /// Initializes the instance.
-        /// </summary>
-        /// <param name="languageServiceProvider">the container <see cref="LanguageServiceProvider"/>.</param>
-        public XmlNodeServiceProvider(LanguageServiceProvider languageServiceProvider) : base(languageServiceProvider) {}
-    
-    	/// <inheritdoc />
-        public override IEnumerable<string> SubExpressions 
-    	{
-    		get
-    		{
-    			yield break;
-    		}
-    	}
-    
-    	/// <inheritdoc />
-        public override IEnumerable<string> SyntacticalStopwords
-    	{
-    		get
-    		{
-    			yield break;
-    		}
-    	}
-    
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="ExactlyEqualCore(XmlNodeSyntax, XmlNodeSyntax)"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="ExactlyEqual(XmlNodeSyntax, XmlNodeSyntax)"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="ExactlyEqualCore(XmlNodeSyntax, XmlNodeSyntax)"/> is not executed and <see cref="ExactlyEqual(XmlNodeSyntax, XmlNodeSyntax)"/> returns the current value of <paramref name="result"/>.</param>
-        partial void ExactlyEqualBefore(XmlNodeSyntax original, XmlNodeSyntax modified, ref bool result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="ExactlyEqualCore(XmlNodeSyntax, XmlNodeSyntax)"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="ExactlyEqual(XmlNodeSyntax, XmlNodeSyntax)"/>.</param>
-        partial void ExactlyEqualAfter(XmlNodeSyntax original, XmlNodeSyntax modified, ref bool result);
-    
-        /// <summary>
-        /// Determines if two <see cref="XmlNodeSyntax"/> elements are exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="ExactlyEqual(XmlNodeSyntax, XmlNodeSyntax)"/>.</remarks>
-        protected virtual bool ExactlyEqualCore(XmlNodeSyntax original, XmlNodeSyntax modified)
-    	{
-    		if(original == null || modified == null) 
-    			return false;
-    
-    			return true;
-    
-    	    return false;
-    	}	
-    
-    	/// <summary>
-        /// Determines if two <see cref="XmlNodeSyntax"/> elements are exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        public virtual bool ExactlyEqual(XmlNodeSyntax original, XmlNodeSyntax modified)
-    	{
-        	bool result = false, ignoreCore = false;
-        	ExactlyEqualBefore(original, modified, ref result, ref ignoreCore);
-        	if(ignoreCore) 
-        		return result;
-        	
-        	result = this.ExactlyEqualCore(original, modified);
-        	ExactlyEqualAfter(original, modified, ref result);
-        	return result;
-         }
-    }
-    
-    /// <summary>
     /// Provides language-aware services regarding <see cref="XmlTextAttribute"/>.
     /// </summary>
-    public partial class XmlTextAttributeServiceProvider : XmlAttributeServiceProvider
+    public partial class XmlTextAttributeServiceProvider : ElementTypeServiceProvider //XmlAttributeServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -11288,7 +9832,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="XmlCrefAttribute"/>.
     /// </summary>
-    public partial class XmlCrefAttributeServiceProvider : XmlAttributeServiceProvider
+    public partial class XmlCrefAttributeServiceProvider : ElementTypeServiceProvider //XmlAttributeServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -11390,7 +9934,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="XmlNameAttribute"/>.
     /// </summary>
-    public partial class XmlNameAttributeServiceProvider : XmlAttributeServiceProvider
+    public partial class XmlNameAttributeServiceProvider : ElementTypeServiceProvider //XmlAttributeServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -11491,108 +10035,9 @@ namespace Jawilliam.CDF.CSharp.Flad
     }
     
     /// <summary>
-    /// Provides language-aware services regarding <see cref="XmlAttribute"/>.
-    /// </summary>
-    public abstract partial class XmlAttributeServiceProvider : ElementTypeServiceProvider
-    {
-        /// <summary>
-        /// Initializes the instance.
-        /// </summary>
-        /// <param name="languageServiceProvider">the container <see cref="LanguageServiceProvider"/>.</param>
-        public XmlAttributeServiceProvider(LanguageServiceProvider languageServiceProvider) : base(languageServiceProvider) {}
-    
-    	/// <inheritdoc />
-        public override IEnumerable<string> SubExpressions 
-    	{
-    		get
-    		{
-    			yield return "Name";
-    			yield return "EqualsToken";
-    			yield return "StartQuoteToken";
-    			yield return "EndQuoteToken";
-    		}
-    	}
-    
-    	/// <inheritdoc />
-        public override IEnumerable<string> SyntacticalStopwords
-    	{
-    		get
-    		{
-    			yield return "EqualsToken";
-    			yield return "StartQuoteToken";
-    			yield return "EndQuoteToken";
-    		}
-    	}
-    
-    	/// <inheritdoc />
-        public override IEnumerable<string> Keys
-    	{
-    		get
-    		{
-    			yield return "Name";
-    		}
-    	}
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="ExactlyEqualCore(XmlAttributeSyntax, XmlAttributeSyntax)"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="ExactlyEqual(XmlAttributeSyntax, XmlAttributeSyntax)"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="ExactlyEqualCore(XmlAttributeSyntax, XmlAttributeSyntax)"/> is not executed and <see cref="ExactlyEqual(XmlAttributeSyntax, XmlAttributeSyntax)"/> returns the current value of <paramref name="result"/>.</param>
-        partial void ExactlyEqualBefore(XmlAttributeSyntax original, XmlAttributeSyntax modified, ref bool result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="ExactlyEqualCore(XmlAttributeSyntax, XmlAttributeSyntax)"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="ExactlyEqual(XmlAttributeSyntax, XmlAttributeSyntax)"/>.</param>
-        partial void ExactlyEqualAfter(XmlAttributeSyntax original, XmlAttributeSyntax modified, ref bool result);
-    
-        /// <summary>
-        /// Determines if two <see cref="XmlAttributeSyntax"/> elements are exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="ExactlyEqual(XmlAttributeSyntax, XmlAttributeSyntax)"/>.</remarks>
-        protected virtual bool ExactlyEqualCore(XmlAttributeSyntax original, XmlAttributeSyntax modified)
-    	{
-    		if(original == null || modified == null) 
-    			return false;
-    
-            if ((this.LanguageServiceProvider.ExactlyEqual(original.Name, modified.Name)) &&
-                (this.LanguageServiceProvider.ExactlyEqual(original.EqualsToken, modified.EqualsToken)) &&
-                (this.LanguageServiceProvider.ExactlyEqual(original.StartQuoteToken, modified.StartQuoteToken)) &&
-                (this.LanguageServiceProvider.ExactlyEqual(original.EndQuoteToken, modified.EndQuoteToken)))
-    			return true;
-    
-    	    return false;
-    	}	
-    
-    	/// <summary>
-        /// Determines if two <see cref="XmlAttributeSyntax"/> elements are exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        public virtual bool ExactlyEqual(XmlAttributeSyntax original, XmlAttributeSyntax modified)
-    	{
-        	bool result = false, ignoreCore = false;
-        	ExactlyEqualBefore(original, modified, ref result, ref ignoreCore);
-        	if(ignoreCore) 
-        		return result;
-        	
-        	result = this.ExactlyEqualCore(original, modified);
-        	ExactlyEqualAfter(original, modified, ref result);
-        	return result;
-         }
-    }
-    
-    /// <summary>
     /// Provides language-aware services regarding <see cref="ParenthesizedExpression"/>.
     /// </summary>
-    public partial class ParenthesizedExpressionServiceProvider : ExpressionServiceProvider
+    public partial class ParenthesizedExpressionServiceProvider : ElementTypeServiceProvider //ExpressionServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -11680,7 +10125,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="TupleExpression"/>.
     /// </summary>
-    public partial class TupleExpressionServiceProvider : ExpressionServiceProvider
+    public partial class TupleExpressionServiceProvider : ElementTypeServiceProvider //ExpressionServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -11768,7 +10213,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="PrefixUnaryExpression"/>.
     /// </summary>
-    public partial class PrefixUnaryExpressionServiceProvider : ExpressionServiceProvider
+    public partial class PrefixUnaryExpressionServiceProvider : ElementTypeServiceProvider //ExpressionServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -11853,7 +10298,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="AwaitExpression"/>.
     /// </summary>
-    public partial class AwaitExpressionServiceProvider : ExpressionServiceProvider
+    public partial class AwaitExpressionServiceProvider : ElementTypeServiceProvider //ExpressionServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -11938,7 +10383,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="PostfixUnaryExpression"/>.
     /// </summary>
-    public partial class PostfixUnaryExpressionServiceProvider : ExpressionServiceProvider
+    public partial class PostfixUnaryExpressionServiceProvider : ElementTypeServiceProvider //ExpressionServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -12023,7 +10468,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="MemberAccessExpression"/>.
     /// </summary>
-    public partial class MemberAccessExpressionServiceProvider : ExpressionServiceProvider
+    public partial class MemberAccessExpressionServiceProvider : ElementTypeServiceProvider //ExpressionServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -12118,7 +10563,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="ConditionalAccessExpression"/>.
     /// </summary>
-    public partial class ConditionalAccessExpressionServiceProvider : ExpressionServiceProvider
+    public partial class ConditionalAccessExpressionServiceProvider : ElementTypeServiceProvider //ExpressionServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -12205,7 +10650,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="MemberBindingExpression"/>.
     /// </summary>
-    public partial class MemberBindingExpressionServiceProvider : ExpressionServiceProvider
+    public partial class MemberBindingExpressionServiceProvider : ElementTypeServiceProvider //ExpressionServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -12298,7 +10743,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="ElementBindingExpression"/>.
     /// </summary>
-    public partial class ElementBindingExpressionServiceProvider : ExpressionServiceProvider
+    public partial class ElementBindingExpressionServiceProvider : ElementTypeServiceProvider //ExpressionServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -12381,7 +10826,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="ImplicitElementAccess"/>.
     /// </summary>
-    public partial class ImplicitElementAccessServiceProvider : ExpressionServiceProvider
+    public partial class ImplicitElementAccessServiceProvider : ElementTypeServiceProvider //ExpressionServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -12464,7 +10909,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="BinaryExpression"/>.
     /// </summary>
-    public partial class BinaryExpressionServiceProvider : ExpressionServiceProvider
+    public partial class BinaryExpressionServiceProvider : ElementTypeServiceProvider //ExpressionServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -12551,7 +10996,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="AssignmentExpression"/>.
     /// </summary>
-    public partial class AssignmentExpressionServiceProvider : ExpressionServiceProvider
+    public partial class AssignmentExpressionServiceProvider : ElementTypeServiceProvider //ExpressionServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -12638,7 +11083,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="ConditionalExpression"/>.
     /// </summary>
-    public partial class ConditionalExpressionServiceProvider : ExpressionServiceProvider
+    public partial class ConditionalExpressionServiceProvider : ElementTypeServiceProvider //ExpressionServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -12730,7 +11175,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="LiteralExpression"/>.
     /// </summary>
-    public partial class LiteralExpressionServiceProvider : ExpressionServiceProvider
+    public partial class LiteralExpressionServiceProvider : ElementTypeServiceProvider //ExpressionServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -12813,7 +11258,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="MakeRefExpression"/>.
     /// </summary>
-    public partial class MakeRefExpressionServiceProvider : ExpressionServiceProvider
+    public partial class MakeRefExpressionServiceProvider : ElementTypeServiceProvider //ExpressionServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -12904,7 +11349,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="RefTypeExpression"/>.
     /// </summary>
-    public partial class RefTypeExpressionServiceProvider : ExpressionServiceProvider
+    public partial class RefTypeExpressionServiceProvider : ElementTypeServiceProvider //ExpressionServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -12995,7 +11440,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="RefValueExpression"/>.
     /// </summary>
-    public partial class RefValueExpressionServiceProvider : ExpressionServiceProvider
+    public partial class RefValueExpressionServiceProvider : ElementTypeServiceProvider //ExpressionServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -13091,7 +11536,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="CheckedExpression"/>.
     /// </summary>
-    public partial class CheckedExpressionServiceProvider : ExpressionServiceProvider
+    public partial class CheckedExpressionServiceProvider : ElementTypeServiceProvider //ExpressionServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -13181,7 +11626,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="DefaultExpression"/>.
     /// </summary>
-    public partial class DefaultExpressionServiceProvider : ExpressionServiceProvider
+    public partial class DefaultExpressionServiceProvider : ElementTypeServiceProvider //ExpressionServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -13272,7 +11717,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="TypeOfExpression"/>.
     /// </summary>
-    public partial class TypeOfExpressionServiceProvider : ExpressionServiceProvider
+    public partial class TypeOfExpressionServiceProvider : ElementTypeServiceProvider //ExpressionServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -13363,7 +11808,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="SizeOfExpression"/>.
     /// </summary>
-    public partial class SizeOfExpressionServiceProvider : ExpressionServiceProvider
+    public partial class SizeOfExpressionServiceProvider : ElementTypeServiceProvider //ExpressionServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -13454,7 +11899,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="InvocationExpression"/>.
     /// </summary>
-    public partial class InvocationExpressionServiceProvider : ExpressionServiceProvider
+    public partial class InvocationExpressionServiceProvider : ElementTypeServiceProvider //ExpressionServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -13539,7 +11984,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="ElementAccessExpression"/>.
     /// </summary>
-    public partial class ElementAccessExpressionServiceProvider : ExpressionServiceProvider
+    public partial class ElementAccessExpressionServiceProvider : ElementTypeServiceProvider //ExpressionServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -13624,7 +12069,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="DeclarationExpression"/>.
     /// </summary>
-    public partial class DeclarationExpressionServiceProvider : ExpressionServiceProvider
+    public partial class DeclarationExpressionServiceProvider : ElementTypeServiceProvider //ExpressionServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -13709,7 +12154,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="CastExpression"/>.
     /// </summary>
-    public partial class CastExpressionServiceProvider : ExpressionServiceProvider
+    public partial class CastExpressionServiceProvider : ElementTypeServiceProvider //ExpressionServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -13799,7 +12244,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="RefExpression"/>.
     /// </summary>
-    public partial class RefExpressionServiceProvider : ExpressionServiceProvider
+    public partial class RefExpressionServiceProvider : ElementTypeServiceProvider //ExpressionServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -13884,7 +12329,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="InitializerExpression"/>.
     /// </summary>
-    public partial class InitializerExpressionServiceProvider : ExpressionServiceProvider
+    public partial class InitializerExpressionServiceProvider : ElementTypeServiceProvider //ExpressionServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -13972,7 +12417,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="ObjectCreationExpression"/>.
     /// </summary>
-    public partial class ObjectCreationExpressionServiceProvider : ExpressionServiceProvider
+    public partial class ObjectCreationExpressionServiceProvider : ElementTypeServiceProvider //ExpressionServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -14061,7 +12506,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="AnonymousObjectCreationExpression"/>.
     /// </summary>
-    public partial class AnonymousObjectCreationExpressionServiceProvider : ExpressionServiceProvider
+    public partial class AnonymousObjectCreationExpressionServiceProvider : ElementTypeServiceProvider //ExpressionServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -14152,7 +12597,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="ArrayCreationExpression"/>.
     /// </summary>
-    public partial class ArrayCreationExpressionServiceProvider : ExpressionServiceProvider
+    public partial class ArrayCreationExpressionServiceProvider : ElementTypeServiceProvider //ExpressionServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -14239,7 +12684,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="ImplicitArrayCreationExpression"/>.
     /// </summary>
-    public partial class ImplicitArrayCreationExpressionServiceProvider : ExpressionServiceProvider
+    public partial class ImplicitArrayCreationExpressionServiceProvider : ElementTypeServiceProvider //ExpressionServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -14332,7 +12777,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="StackAllocArrayCreationExpression"/>.
     /// </summary>
-    public partial class StackAllocArrayCreationExpressionServiceProvider : ExpressionServiceProvider
+    public partial class StackAllocArrayCreationExpressionServiceProvider : ElementTypeServiceProvider //ExpressionServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -14417,7 +12862,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="QueryExpression"/>.
     /// </summary>
-    public partial class QueryExpressionServiceProvider : ExpressionServiceProvider
+    public partial class QueryExpressionServiceProvider : ElementTypeServiceProvider //ExpressionServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -14502,7 +12947,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="OmittedArraySizeExpression"/>.
     /// </summary>
-    public partial class OmittedArraySizeExpressionServiceProvider : ExpressionServiceProvider
+    public partial class OmittedArraySizeExpressionServiceProvider : ElementTypeServiceProvider //ExpressionServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -14585,7 +13030,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="InterpolatedStringExpression"/>.
     /// </summary>
-    public partial class InterpolatedStringExpressionServiceProvider : ExpressionServiceProvider
+    public partial class InterpolatedStringExpressionServiceProvider : ElementTypeServiceProvider //ExpressionServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -14673,7 +13118,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="IsPatternExpression"/>.
     /// </summary>
-    public partial class IsPatternExpressionServiceProvider : ExpressionServiceProvider
+    public partial class IsPatternExpressionServiceProvider : ElementTypeServiceProvider //ExpressionServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -14760,7 +13205,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="ThrowExpression"/>.
     /// </summary>
-    public partial class ThrowExpressionServiceProvider : ExpressionServiceProvider
+    public partial class ThrowExpressionServiceProvider : ElementTypeServiceProvider //ExpressionServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -14845,7 +13290,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="PredefinedType"/>.
     /// </summary>
-    public partial class PredefinedTypeServiceProvider : TypeServiceProvider
+    public partial class PredefinedTypeServiceProvider : ElementTypeServiceProvider //TypeServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -14928,7 +13373,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="ArrayType"/>.
     /// </summary>
-    public partial class ArrayTypeServiceProvider : TypeServiceProvider
+    public partial class ArrayTypeServiceProvider : ElementTypeServiceProvider //TypeServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -15013,7 +13458,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="PointerType"/>.
     /// </summary>
-    public partial class PointerTypeServiceProvider : TypeServiceProvider
+    public partial class PointerTypeServiceProvider : ElementTypeServiceProvider //TypeServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -15098,7 +13543,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="NullableType"/>.
     /// </summary>
-    public partial class NullableTypeServiceProvider : TypeServiceProvider
+    public partial class NullableTypeServiceProvider : ElementTypeServiceProvider //TypeServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -15183,7 +13628,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="TupleType"/>.
     /// </summary>
-    public partial class TupleTypeServiceProvider : TypeServiceProvider
+    public partial class TupleTypeServiceProvider : ElementTypeServiceProvider //TypeServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -15271,7 +13716,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="OmittedTypeArgument"/>.
     /// </summary>
-    public partial class OmittedTypeArgumentServiceProvider : TypeServiceProvider
+    public partial class OmittedTypeArgumentServiceProvider : ElementTypeServiceProvider //TypeServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -15354,7 +13799,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="RefType"/>.
     /// </summary>
-    public partial class RefTypeServiceProvider : TypeServiceProvider
+    public partial class RefTypeServiceProvider : ElementTypeServiceProvider //TypeServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -15442,7 +13887,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="QualifiedName"/>.
     /// </summary>
-    public partial class QualifiedNameServiceProvider : NameServiceProvider
+    public partial class QualifiedNameServiceProvider : ElementTypeServiceProvider //NameServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -15529,7 +13974,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="AliasQualifiedName"/>.
     /// </summary>
-    public partial class AliasQualifiedNameServiceProvider : NameServiceProvider
+    public partial class AliasQualifiedNameServiceProvider : ElementTypeServiceProvider //NameServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -15624,7 +14069,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="IdentifierName"/>.
     /// </summary>
-    public partial class IdentifierNameServiceProvider : SimpleNameServiceProvider
+    public partial class IdentifierNameServiceProvider : ElementTypeServiceProvider //SimpleNameServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -15715,7 +14160,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="GenericName"/>.
     /// </summary>
-    public partial class GenericNameServiceProvider : SimpleNameServiceProvider
+    public partial class GenericNameServiceProvider : ElementTypeServiceProvider //SimpleNameServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -15806,264 +14251,9 @@ namespace Jawilliam.CDF.CSharp.Flad
     }
     
     /// <summary>
-    /// Provides language-aware services regarding <see cref="SimpleName"/>.
-    /// </summary>
-    public abstract partial class SimpleNameServiceProvider : NameServiceProvider
-    {
-        /// <summary>
-        /// Initializes the instance.
-        /// </summary>
-        /// <param name="languageServiceProvider">the container <see cref="LanguageServiceProvider"/>.</param>
-        public SimpleNameServiceProvider(LanguageServiceProvider languageServiceProvider) : base(languageServiceProvider) {}
-    
-    	/// <inheritdoc />
-        public override IEnumerable<string> SubExpressions 
-    	{
-    		get
-    		{
-    			yield return "Identifier";
-    		}
-    	}
-    
-    	/// <inheritdoc />
-        public override IEnumerable<string> SyntacticalStopwords
-    	{
-    		get
-    		{
-    			yield break;
-    		}
-    	}
-    
-    	/// <inheritdoc />
-        public override IEnumerable<string> Keys
-    	{
-    		get
-    		{
-    			yield return "Identifier";
-    		}
-    	}
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="ExactlyEqualCore(SimpleNameSyntax, SimpleNameSyntax)"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="ExactlyEqual(SimpleNameSyntax, SimpleNameSyntax)"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="ExactlyEqualCore(SimpleNameSyntax, SimpleNameSyntax)"/> is not executed and <see cref="ExactlyEqual(SimpleNameSyntax, SimpleNameSyntax)"/> returns the current value of <paramref name="result"/>.</param>
-        partial void ExactlyEqualBefore(SimpleNameSyntax original, SimpleNameSyntax modified, ref bool result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="ExactlyEqualCore(SimpleNameSyntax, SimpleNameSyntax)"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="ExactlyEqual(SimpleNameSyntax, SimpleNameSyntax)"/>.</param>
-        partial void ExactlyEqualAfter(SimpleNameSyntax original, SimpleNameSyntax modified, ref bool result);
-    
-        /// <summary>
-        /// Determines if two <see cref="SimpleNameSyntax"/> elements are exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="ExactlyEqual(SimpleNameSyntax, SimpleNameSyntax)"/>.</remarks>
-        protected virtual bool ExactlyEqualCore(SimpleNameSyntax original, SimpleNameSyntax modified)
-    	{
-    		if(original == null || modified == null) 
-    			return false;
-    
-            if (original.Identifier != null && modified.Identifier != null && this.LanguageServiceProvider.ExactlyEqual(original.Identifier, modified.Identifier))
-    			return true;
-    
-    	    return false;
-    	}	
-    
-    	/// <summary>
-        /// Determines if two <see cref="SimpleNameSyntax"/> elements are exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        public virtual bool ExactlyEqual(SimpleNameSyntax original, SimpleNameSyntax modified)
-    	{
-        	bool result = false, ignoreCore = false;
-        	ExactlyEqualBefore(original, modified, ref result, ref ignoreCore);
-        	if(ignoreCore) 
-        		return result;
-        	
-        	result = this.ExactlyEqualCore(original, modified);
-        	ExactlyEqualAfter(original, modified, ref result);
-        	return result;
-         }
-    }
-    
-    /// <summary>
-    /// Provides language-aware services regarding <see cref="Name"/>.
-    /// </summary>
-    public abstract partial class NameServiceProvider : TypeServiceProvider
-    {
-        /// <summary>
-        /// Initializes the instance.
-        /// </summary>
-        /// <param name="languageServiceProvider">the container <see cref="LanguageServiceProvider"/>.</param>
-        public NameServiceProvider(LanguageServiceProvider languageServiceProvider) : base(languageServiceProvider) {}
-    
-    	/// <inheritdoc />
-        public override IEnumerable<string> SubExpressions 
-    	{
-    		get
-    		{
-    			yield break;
-    		}
-    	}
-    
-    	/// <inheritdoc />
-        public override IEnumerable<string> SyntacticalStopwords
-    	{
-    		get
-    		{
-    			yield break;
-    		}
-    	}
-    
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="ExactlyEqualCore(NameSyntax, NameSyntax)"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="ExactlyEqual(NameSyntax, NameSyntax)"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="ExactlyEqualCore(NameSyntax, NameSyntax)"/> is not executed and <see cref="ExactlyEqual(NameSyntax, NameSyntax)"/> returns the current value of <paramref name="result"/>.</param>
-        partial void ExactlyEqualBefore(NameSyntax original, NameSyntax modified, ref bool result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="ExactlyEqualCore(NameSyntax, NameSyntax)"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="ExactlyEqual(NameSyntax, NameSyntax)"/>.</param>
-        partial void ExactlyEqualAfter(NameSyntax original, NameSyntax modified, ref bool result);
-    
-        /// <summary>
-        /// Determines if two <see cref="NameSyntax"/> elements are exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="ExactlyEqual(NameSyntax, NameSyntax)"/>.</remarks>
-        protected virtual bool ExactlyEqualCore(NameSyntax original, NameSyntax modified)
-    	{
-    		if(original == null || modified == null) 
-    			return false;
-    
-    			return true;
-    
-    	    return false;
-    	}	
-    
-    	/// <summary>
-        /// Determines if two <see cref="NameSyntax"/> elements are exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        public virtual bool ExactlyEqual(NameSyntax original, NameSyntax modified)
-    	{
-        	bool result = false, ignoreCore = false;
-        	ExactlyEqualBefore(original, modified, ref result, ref ignoreCore);
-        	if(ignoreCore) 
-        		return result;
-        	
-        	result = this.ExactlyEqualCore(original, modified);
-        	ExactlyEqualAfter(original, modified, ref result);
-        	return result;
-         }
-    }
-    
-    /// <summary>
-    /// Provides language-aware services regarding <see cref="Type"/>.
-    /// </summary>
-    public abstract partial class TypeServiceProvider : ExpressionServiceProvider
-    {
-        /// <summary>
-        /// Initializes the instance.
-        /// </summary>
-        /// <param name="languageServiceProvider">the container <see cref="LanguageServiceProvider"/>.</param>
-        public TypeServiceProvider(LanguageServiceProvider languageServiceProvider) : base(languageServiceProvider) {}
-    
-    	/// <inheritdoc />
-        public override IEnumerable<string> SubExpressions 
-    	{
-    		get
-    		{
-    			yield break;
-    		}
-    	}
-    
-    	/// <inheritdoc />
-        public override IEnumerable<string> SyntacticalStopwords
-    	{
-    		get
-    		{
-    			yield break;
-    		}
-    	}
-    
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="ExactlyEqualCore(TypeSyntax, TypeSyntax)"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="ExactlyEqual(TypeSyntax, TypeSyntax)"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="ExactlyEqualCore(TypeSyntax, TypeSyntax)"/> is not executed and <see cref="ExactlyEqual(TypeSyntax, TypeSyntax)"/> returns the current value of <paramref name="result"/>.</param>
-        partial void ExactlyEqualBefore(TypeSyntax original, TypeSyntax modified, ref bool result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="ExactlyEqualCore(TypeSyntax, TypeSyntax)"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="ExactlyEqual(TypeSyntax, TypeSyntax)"/>.</param>
-        partial void ExactlyEqualAfter(TypeSyntax original, TypeSyntax modified, ref bool result);
-    
-        /// <summary>
-        /// Determines if two <see cref="TypeSyntax"/> elements are exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="ExactlyEqual(TypeSyntax, TypeSyntax)"/>.</remarks>
-        protected virtual bool ExactlyEqualCore(TypeSyntax original, TypeSyntax modified)
-    	{
-    		if(original == null || modified == null) 
-    			return false;
-    
-    			return true;
-    
-    	    return false;
-    	}	
-    
-    	/// <summary>
-        /// Determines if two <see cref="TypeSyntax"/> elements are exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        public virtual bool ExactlyEqual(TypeSyntax original, TypeSyntax modified)
-    	{
-        	bool result = false, ignoreCore = false;
-        	ExactlyEqualBefore(original, modified, ref result, ref ignoreCore);
-        	if(ignoreCore) 
-        		return result;
-        	
-        	result = this.ExactlyEqualCore(original, modified);
-        	ExactlyEqualAfter(original, modified, ref result);
-        	return result;
-         }
-    }
-    
-    /// <summary>
     /// Provides language-aware services regarding <see cref="ThisExpression"/>.
     /// </summary>
-    public partial class ThisExpressionServiceProvider : InstanceExpressionServiceProvider
+    public partial class ThisExpressionServiceProvider : ElementTypeServiceProvider //InstanceExpressionServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -16146,7 +14336,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="BaseExpression"/>.
     /// </summary>
-    public partial class BaseExpressionServiceProvider : InstanceExpressionServiceProvider
+    public partial class BaseExpressionServiceProvider : ElementTypeServiceProvider //InstanceExpressionServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -16227,91 +14417,9 @@ namespace Jawilliam.CDF.CSharp.Flad
     }
     
     /// <summary>
-    /// Provides language-aware services regarding <see cref="InstanceExpression"/>.
-    /// </summary>
-    public abstract partial class InstanceExpressionServiceProvider : ExpressionServiceProvider
-    {
-        /// <summary>
-        /// Initializes the instance.
-        /// </summary>
-        /// <param name="languageServiceProvider">the container <see cref="LanguageServiceProvider"/>.</param>
-        public InstanceExpressionServiceProvider(LanguageServiceProvider languageServiceProvider) : base(languageServiceProvider) {}
-    
-    	/// <inheritdoc />
-        public override IEnumerable<string> SubExpressions 
-    	{
-    		get
-    		{
-    			yield break;
-    		}
-    	}
-    
-    	/// <inheritdoc />
-        public override IEnumerable<string> SyntacticalStopwords
-    	{
-    		get
-    		{
-    			yield break;
-    		}
-    	}
-    
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="ExactlyEqualCore(InstanceExpressionSyntax, InstanceExpressionSyntax)"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="ExactlyEqual(InstanceExpressionSyntax, InstanceExpressionSyntax)"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="ExactlyEqualCore(InstanceExpressionSyntax, InstanceExpressionSyntax)"/> is not executed and <see cref="ExactlyEqual(InstanceExpressionSyntax, InstanceExpressionSyntax)"/> returns the current value of <paramref name="result"/>.</param>
-        partial void ExactlyEqualBefore(InstanceExpressionSyntax original, InstanceExpressionSyntax modified, ref bool result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="ExactlyEqualCore(InstanceExpressionSyntax, InstanceExpressionSyntax)"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="ExactlyEqual(InstanceExpressionSyntax, InstanceExpressionSyntax)"/>.</param>
-        partial void ExactlyEqualAfter(InstanceExpressionSyntax original, InstanceExpressionSyntax modified, ref bool result);
-    
-        /// <summary>
-        /// Determines if two <see cref="InstanceExpressionSyntax"/> elements are exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="ExactlyEqual(InstanceExpressionSyntax, InstanceExpressionSyntax)"/>.</remarks>
-        protected virtual bool ExactlyEqualCore(InstanceExpressionSyntax original, InstanceExpressionSyntax modified)
-    	{
-    		if(original == null || modified == null) 
-    			return false;
-    
-    			return true;
-    
-    	    return false;
-    	}	
-    
-    	/// <summary>
-        /// Determines if two <see cref="InstanceExpressionSyntax"/> elements are exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        public virtual bool ExactlyEqual(InstanceExpressionSyntax original, InstanceExpressionSyntax modified)
-    	{
-        	bool result = false, ignoreCore = false;
-        	ExactlyEqualBefore(original, modified, ref result, ref ignoreCore);
-        	if(ignoreCore) 
-        		return result;
-        	
-        	result = this.ExactlyEqualCore(original, modified);
-        	ExactlyEqualAfter(original, modified, ref result);
-        	return result;
-         }
-    }
-    
-    /// <summary>
     /// Provides language-aware services regarding <see cref="AnonymousMethodExpression"/>.
     /// </summary>
-    public partial class AnonymousMethodExpressionServiceProvider : AnonymousFunctionExpressionServiceProvider
+    public partial class AnonymousMethodExpressionServiceProvider : ElementTypeServiceProvider //AnonymousFunctionExpressionServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -16400,7 +14508,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="SimpleLambdaExpression"/>.
     /// </summary>
-    public partial class SimpleLambdaExpressionServiceProvider : LambdaExpressionServiceProvider
+    public partial class SimpleLambdaExpressionServiceProvider : ElementTypeServiceProvider //LambdaExpressionServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -16489,7 +14597,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="ParenthesizedLambdaExpression"/>.
     /// </summary>
-    public partial class ParenthesizedLambdaExpressionServiceProvider : LambdaExpressionServiceProvider
+    public partial class ParenthesizedLambdaExpressionServiceProvider : ElementTypeServiceProvider //LambdaExpressionServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -16576,259 +14684,9 @@ namespace Jawilliam.CDF.CSharp.Flad
     }
     
     /// <summary>
-    /// Provides language-aware services regarding <see cref="LambdaExpression"/>.
-    /// </summary>
-    public abstract partial class LambdaExpressionServiceProvider : AnonymousFunctionExpressionServiceProvider
-    {
-        /// <summary>
-        /// Initializes the instance.
-        /// </summary>
-        /// <param name="languageServiceProvider">the container <see cref="LanguageServiceProvider"/>.</param>
-        public LambdaExpressionServiceProvider(LanguageServiceProvider languageServiceProvider) : base(languageServiceProvider) {}
-    
-    	/// <inheritdoc />
-        public override IEnumerable<string> SubExpressions 
-    	{
-    		get
-    		{
-    			yield return "ArrowToken";
-    		}
-    	}
-    
-    	/// <inheritdoc />
-        public override IEnumerable<string> SyntacticalStopwords
-    	{
-    		get
-    		{
-    			yield return "ArrowToken";
-    		}
-    	}
-    
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="ExactlyEqualCore(LambdaExpressionSyntax, LambdaExpressionSyntax)"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="ExactlyEqual(LambdaExpressionSyntax, LambdaExpressionSyntax)"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="ExactlyEqualCore(LambdaExpressionSyntax, LambdaExpressionSyntax)"/> is not executed and <see cref="ExactlyEqual(LambdaExpressionSyntax, LambdaExpressionSyntax)"/> returns the current value of <paramref name="result"/>.</param>
-        partial void ExactlyEqualBefore(LambdaExpressionSyntax original, LambdaExpressionSyntax modified, ref bool result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="ExactlyEqualCore(LambdaExpressionSyntax, LambdaExpressionSyntax)"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="ExactlyEqual(LambdaExpressionSyntax, LambdaExpressionSyntax)"/>.</param>
-        partial void ExactlyEqualAfter(LambdaExpressionSyntax original, LambdaExpressionSyntax modified, ref bool result);
-    
-        /// <summary>
-        /// Determines if two <see cref="LambdaExpressionSyntax"/> elements are exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="ExactlyEqual(LambdaExpressionSyntax, LambdaExpressionSyntax)"/>.</remarks>
-        protected virtual bool ExactlyEqualCore(LambdaExpressionSyntax original, LambdaExpressionSyntax modified)
-    	{
-    		if(original == null || modified == null) 
-    			return false;
-    
-            if (this.LanguageServiceProvider.ExactlyEqual(original.ArrowToken, modified.ArrowToken))
-    			return true;
-    
-    	    return false;
-    	}	
-    
-    	/// <summary>
-        /// Determines if two <see cref="LambdaExpressionSyntax"/> elements are exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        public virtual bool ExactlyEqual(LambdaExpressionSyntax original, LambdaExpressionSyntax modified)
-    	{
-        	bool result = false, ignoreCore = false;
-        	ExactlyEqualBefore(original, modified, ref result, ref ignoreCore);
-        	if(ignoreCore) 
-        		return result;
-        	
-        	result = this.ExactlyEqualCore(original, modified);
-        	ExactlyEqualAfter(original, modified, ref result);
-        	return result;
-         }
-    }
-    
-    /// <summary>
-    /// Provides language-aware services regarding <see cref="AnonymousFunctionExpression"/>.
-    /// </summary>
-    public abstract partial class AnonymousFunctionExpressionServiceProvider : ExpressionServiceProvider
-    {
-        /// <summary>
-        /// Initializes the instance.
-        /// </summary>
-        /// <param name="languageServiceProvider">the container <see cref="LanguageServiceProvider"/>.</param>
-        public AnonymousFunctionExpressionServiceProvider(LanguageServiceProvider languageServiceProvider) : base(languageServiceProvider) {}
-    
-    	/// <inheritdoc />
-        public override IEnumerable<string> SubExpressions 
-    	{
-    		get
-    		{
-    			yield return "AsyncKeyword";
-    			yield return "Body";
-    		}
-    	}
-    
-    	/// <inheritdoc />
-        public override IEnumerable<string> SyntacticalStopwords
-    	{
-    		get
-    		{
-    			yield break;
-    		}
-    	}
-    
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="ExactlyEqualCore(AnonymousFunctionExpressionSyntax, AnonymousFunctionExpressionSyntax)"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="ExactlyEqual(AnonymousFunctionExpressionSyntax, AnonymousFunctionExpressionSyntax)"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="ExactlyEqualCore(AnonymousFunctionExpressionSyntax, AnonymousFunctionExpressionSyntax)"/> is not executed and <see cref="ExactlyEqual(AnonymousFunctionExpressionSyntax, AnonymousFunctionExpressionSyntax)"/> returns the current value of <paramref name="result"/>.</param>
-        partial void ExactlyEqualBefore(AnonymousFunctionExpressionSyntax original, AnonymousFunctionExpressionSyntax modified, ref bool result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="ExactlyEqualCore(AnonymousFunctionExpressionSyntax, AnonymousFunctionExpressionSyntax)"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="ExactlyEqual(AnonymousFunctionExpressionSyntax, AnonymousFunctionExpressionSyntax)"/>.</param>
-        partial void ExactlyEqualAfter(AnonymousFunctionExpressionSyntax original, AnonymousFunctionExpressionSyntax modified, ref bool result);
-    
-        /// <summary>
-        /// Determines if two <see cref="AnonymousFunctionExpressionSyntax"/> elements are exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="ExactlyEqual(AnonymousFunctionExpressionSyntax, AnonymousFunctionExpressionSyntax)"/>.</remarks>
-        protected virtual bool ExactlyEqualCore(AnonymousFunctionExpressionSyntax original, AnonymousFunctionExpressionSyntax modified)
-    	{
-    		if(original == null || modified == null) 
-    			return false;
-    
-            if ((this.LanguageServiceProvider.ExactlyEqual(original.AsyncKeyword, modified.AsyncKeyword)) &&
-                (this.LanguageServiceProvider.ExactlyEqual(original.Body, modified.Body)))
-    			return true;
-    
-    	    return false;
-    	}	
-    
-    	/// <summary>
-        /// Determines if two <see cref="AnonymousFunctionExpressionSyntax"/> elements are exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        public virtual bool ExactlyEqual(AnonymousFunctionExpressionSyntax original, AnonymousFunctionExpressionSyntax modified)
-    	{
-        	bool result = false, ignoreCore = false;
-        	ExactlyEqualBefore(original, modified, ref result, ref ignoreCore);
-        	if(ignoreCore) 
-        		return result;
-        	
-        	result = this.ExactlyEqualCore(original, modified);
-        	ExactlyEqualAfter(original, modified, ref result);
-        	return result;
-         }
-    }
-    
-    /// <summary>
-    /// Provides language-aware services regarding <see cref="Expression"/>.
-    /// </summary>
-    public abstract partial class ExpressionServiceProvider : ElementTypeServiceProvider
-    {
-        /// <summary>
-        /// Initializes the instance.
-        /// </summary>
-        /// <param name="languageServiceProvider">the container <see cref="LanguageServiceProvider"/>.</param>
-        public ExpressionServiceProvider(LanguageServiceProvider languageServiceProvider) : base(languageServiceProvider) {}
-    
-    	/// <inheritdoc />
-        public override IEnumerable<string> SubExpressions 
-    	{
-    		get
-    		{
-    			yield break;
-    		}
-    	}
-    
-    	/// <inheritdoc />
-        public override IEnumerable<string> SyntacticalStopwords
-    	{
-    		get
-    		{
-    			yield break;
-    		}
-    	}
-    
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="ExactlyEqualCore(ExpressionSyntax, ExpressionSyntax)"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="ExactlyEqual(ExpressionSyntax, ExpressionSyntax)"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="ExactlyEqualCore(ExpressionSyntax, ExpressionSyntax)"/> is not executed and <see cref="ExactlyEqual(ExpressionSyntax, ExpressionSyntax)"/> returns the current value of <paramref name="result"/>.</param>
-        partial void ExactlyEqualBefore(ExpressionSyntax original, ExpressionSyntax modified, ref bool result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="ExactlyEqualCore(ExpressionSyntax, ExpressionSyntax)"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="ExactlyEqual(ExpressionSyntax, ExpressionSyntax)"/>.</param>
-        partial void ExactlyEqualAfter(ExpressionSyntax original, ExpressionSyntax modified, ref bool result);
-    
-        /// <summary>
-        /// Determines if two <see cref="ExpressionSyntax"/> elements are exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="ExactlyEqual(ExpressionSyntax, ExpressionSyntax)"/>.</remarks>
-        protected virtual bool ExactlyEqualCore(ExpressionSyntax original, ExpressionSyntax modified)
-    	{
-    		if(original == null || modified == null) 
-    			return false;
-    
-    			return true;
-    
-    	    return false;
-    	}	
-    
-    	/// <summary>
-        /// Determines if two <see cref="ExpressionSyntax"/> elements are exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        public virtual bool ExactlyEqual(ExpressionSyntax original, ExpressionSyntax modified)
-    	{
-        	bool result = false, ignoreCore = false;
-        	ExactlyEqualBefore(original, modified, ref result, ref ignoreCore);
-        	if(ignoreCore) 
-        		return result;
-        	
-        	result = this.ExactlyEqualCore(original, modified);
-        	ExactlyEqualAfter(original, modified, ref result);
-        	return result;
-         }
-    }
-    
-    /// <summary>
     /// Provides language-aware services regarding <see cref="ArgumentList"/>.
     /// </summary>
-    public partial class ArgumentListServiceProvider : BaseArgumentListServiceProvider
+    public partial class ArgumentListServiceProvider : ElementTypeServiceProvider //BaseArgumentListServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -16916,7 +14774,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="BracketedArgumentList"/>.
     /// </summary>
-    public partial class BracketedArgumentListServiceProvider : BaseArgumentListServiceProvider
+    public partial class BracketedArgumentListServiceProvider : ElementTypeServiceProvider //BaseArgumentListServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -17002,92 +14860,9 @@ namespace Jawilliam.CDF.CSharp.Flad
     }
     
     /// <summary>
-    /// Provides language-aware services regarding <see cref="BaseArgumentList"/>.
-    /// </summary>
-    public abstract partial class BaseArgumentListServiceProvider : ElementTypeServiceProvider
-    {
-        /// <summary>
-        /// Initializes the instance.
-        /// </summary>
-        /// <param name="languageServiceProvider">the container <see cref="LanguageServiceProvider"/>.</param>
-        public BaseArgumentListServiceProvider(LanguageServiceProvider languageServiceProvider) : base(languageServiceProvider) {}
-    
-    	/// <inheritdoc />
-        public override IEnumerable<string> SubExpressions 
-    	{
-    		get
-    		{
-    			yield return "Arguments";
-    		}
-    	}
-    
-    	/// <inheritdoc />
-        public override IEnumerable<string> SyntacticalStopwords
-    	{
-    		get
-    		{
-    			yield break;
-    		}
-    	}
-    
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="ExactlyEqualCore(BaseArgumentListSyntax, BaseArgumentListSyntax)"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="ExactlyEqual(BaseArgumentListSyntax, BaseArgumentListSyntax)"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="ExactlyEqualCore(BaseArgumentListSyntax, BaseArgumentListSyntax)"/> is not executed and <see cref="ExactlyEqual(BaseArgumentListSyntax, BaseArgumentListSyntax)"/> returns the current value of <paramref name="result"/>.</param>
-        partial void ExactlyEqualBefore(BaseArgumentListSyntax original, BaseArgumentListSyntax modified, ref bool result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="ExactlyEqualCore(BaseArgumentListSyntax, BaseArgumentListSyntax)"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="ExactlyEqual(BaseArgumentListSyntax, BaseArgumentListSyntax)"/>.</param>
-        partial void ExactlyEqualAfter(BaseArgumentListSyntax original, BaseArgumentListSyntax modified, ref bool result);
-    
-        /// <summary>
-        /// Determines if two <see cref="BaseArgumentListSyntax"/> elements are exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="ExactlyEqual(BaseArgumentListSyntax, BaseArgumentListSyntax)"/>.</remarks>
-        protected virtual bool ExactlyEqualCore(BaseArgumentListSyntax original, BaseArgumentListSyntax modified)
-    	{
-    		if(original == null || modified == null) 
-    			return false;
-    
-            if (this.LanguageServiceProvider.ExactlyEqual(original.Arguments, modified.Arguments))
-    			return true;
-    
-    	    return false;
-    	}	
-    
-    	/// <summary>
-        /// Determines if two <see cref="BaseArgumentListSyntax"/> elements are exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        public virtual bool ExactlyEqual(BaseArgumentListSyntax original, BaseArgumentListSyntax modified)
-    	{
-        	bool result = false, ignoreCore = false;
-        	ExactlyEqualBefore(original, modified, ref result, ref ignoreCore);
-        	if(ignoreCore) 
-        		return result;
-        	
-        	result = this.ExactlyEqualCore(original, modified);
-        	ExactlyEqualAfter(original, modified, ref result);
-        	return result;
-         }
-    }
-    
-    /// <summary>
     /// Provides language-aware services regarding <see cref="FromClause"/>.
     /// </summary>
-    public partial class FromClauseServiceProvider : QueryClauseServiceProvider
+    public partial class FromClauseServiceProvider : ElementTypeServiceProvider //QueryClauseServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -17187,7 +14962,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="LetClause"/>.
     /// </summary>
-    public partial class LetClauseServiceProvider : QueryClauseServiceProvider
+    public partial class LetClauseServiceProvider : ElementTypeServiceProvider //QueryClauseServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -17285,7 +15060,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="JoinClause"/>.
     /// </summary>
-    public partial class JoinClauseServiceProvider : QueryClauseServiceProvider
+    public partial class JoinClauseServiceProvider : ElementTypeServiceProvider //QueryClauseServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -17397,7 +15172,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="WhereClause"/>.
     /// </summary>
-    public partial class WhereClauseServiceProvider : QueryClauseServiceProvider
+    public partial class WhereClauseServiceProvider : ElementTypeServiceProvider //QueryClauseServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -17482,7 +15257,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="OrderByClause"/>.
     /// </summary>
-    public partial class OrderByClauseServiceProvider : QueryClauseServiceProvider
+    public partial class OrderByClauseServiceProvider : ElementTypeServiceProvider //QueryClauseServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -17565,91 +15340,9 @@ namespace Jawilliam.CDF.CSharp.Flad
     }
     
     /// <summary>
-    /// Provides language-aware services regarding <see cref="QueryClause"/>.
-    /// </summary>
-    public abstract partial class QueryClauseServiceProvider : ElementTypeServiceProvider
-    {
-        /// <summary>
-        /// Initializes the instance.
-        /// </summary>
-        /// <param name="languageServiceProvider">the container <see cref="LanguageServiceProvider"/>.</param>
-        public QueryClauseServiceProvider(LanguageServiceProvider languageServiceProvider) : base(languageServiceProvider) {}
-    
-    	/// <inheritdoc />
-        public override IEnumerable<string> SubExpressions 
-    	{
-    		get
-    		{
-    			yield break;
-    		}
-    	}
-    
-    	/// <inheritdoc />
-        public override IEnumerable<string> SyntacticalStopwords
-    	{
-    		get
-    		{
-    			yield break;
-    		}
-    	}
-    
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="ExactlyEqualCore(QueryClauseSyntax, QueryClauseSyntax)"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="ExactlyEqual(QueryClauseSyntax, QueryClauseSyntax)"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="ExactlyEqualCore(QueryClauseSyntax, QueryClauseSyntax)"/> is not executed and <see cref="ExactlyEqual(QueryClauseSyntax, QueryClauseSyntax)"/> returns the current value of <paramref name="result"/>.</param>
-        partial void ExactlyEqualBefore(QueryClauseSyntax original, QueryClauseSyntax modified, ref bool result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="ExactlyEqualCore(QueryClauseSyntax, QueryClauseSyntax)"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="ExactlyEqual(QueryClauseSyntax, QueryClauseSyntax)"/>.</param>
-        partial void ExactlyEqualAfter(QueryClauseSyntax original, QueryClauseSyntax modified, ref bool result);
-    
-        /// <summary>
-        /// Determines if two <see cref="QueryClauseSyntax"/> elements are exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="ExactlyEqual(QueryClauseSyntax, QueryClauseSyntax)"/>.</remarks>
-        protected virtual bool ExactlyEqualCore(QueryClauseSyntax original, QueryClauseSyntax modified)
-    	{
-    		if(original == null || modified == null) 
-    			return false;
-    
-    			return true;
-    
-    	    return false;
-    	}	
-    
-    	/// <summary>
-        /// Determines if two <see cref="QueryClauseSyntax"/> elements are exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        public virtual bool ExactlyEqual(QueryClauseSyntax original, QueryClauseSyntax modified)
-    	{
-        	bool result = false, ignoreCore = false;
-        	ExactlyEqualBefore(original, modified, ref result, ref ignoreCore);
-        	if(ignoreCore) 
-        		return result;
-        	
-        	result = this.ExactlyEqualCore(original, modified);
-        	ExactlyEqualAfter(original, modified, ref result);
-        	return result;
-         }
-    }
-    
-    /// <summary>
     /// Provides language-aware services regarding <see cref="SelectClause"/>.
     /// </summary>
-    public partial class SelectClauseServiceProvider : SelectOrGroupClauseServiceProvider
+    public partial class SelectClauseServiceProvider : ElementTypeServiceProvider //SelectOrGroupClauseServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -17734,7 +15427,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="GroupClause"/>.
     /// </summary>
-    public partial class GroupClauseServiceProvider : SelectOrGroupClauseServiceProvider
+    public partial class GroupClauseServiceProvider : ElementTypeServiceProvider //SelectOrGroupClauseServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -17822,91 +15515,9 @@ namespace Jawilliam.CDF.CSharp.Flad
     }
     
     /// <summary>
-    /// Provides language-aware services regarding <see cref="SelectOrGroupClause"/>.
-    /// </summary>
-    public abstract partial class SelectOrGroupClauseServiceProvider : ElementTypeServiceProvider
-    {
-        /// <summary>
-        /// Initializes the instance.
-        /// </summary>
-        /// <param name="languageServiceProvider">the container <see cref="LanguageServiceProvider"/>.</param>
-        public SelectOrGroupClauseServiceProvider(LanguageServiceProvider languageServiceProvider) : base(languageServiceProvider) {}
-    
-    	/// <inheritdoc />
-        public override IEnumerable<string> SubExpressions 
-    	{
-    		get
-    		{
-    			yield break;
-    		}
-    	}
-    
-    	/// <inheritdoc />
-        public override IEnumerable<string> SyntacticalStopwords
-    	{
-    		get
-    		{
-    			yield break;
-    		}
-    	}
-    
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="ExactlyEqualCore(SelectOrGroupClauseSyntax, SelectOrGroupClauseSyntax)"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="ExactlyEqual(SelectOrGroupClauseSyntax, SelectOrGroupClauseSyntax)"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="ExactlyEqualCore(SelectOrGroupClauseSyntax, SelectOrGroupClauseSyntax)"/> is not executed and <see cref="ExactlyEqual(SelectOrGroupClauseSyntax, SelectOrGroupClauseSyntax)"/> returns the current value of <paramref name="result"/>.</param>
-        partial void ExactlyEqualBefore(SelectOrGroupClauseSyntax original, SelectOrGroupClauseSyntax modified, ref bool result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="ExactlyEqualCore(SelectOrGroupClauseSyntax, SelectOrGroupClauseSyntax)"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="ExactlyEqual(SelectOrGroupClauseSyntax, SelectOrGroupClauseSyntax)"/>.</param>
-        partial void ExactlyEqualAfter(SelectOrGroupClauseSyntax original, SelectOrGroupClauseSyntax modified, ref bool result);
-    
-        /// <summary>
-        /// Determines if two <see cref="SelectOrGroupClauseSyntax"/> elements are exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="ExactlyEqual(SelectOrGroupClauseSyntax, SelectOrGroupClauseSyntax)"/>.</remarks>
-        protected virtual bool ExactlyEqualCore(SelectOrGroupClauseSyntax original, SelectOrGroupClauseSyntax modified)
-    	{
-    		if(original == null || modified == null) 
-    			return false;
-    
-    			return true;
-    
-    	    return false;
-    	}	
-    
-    	/// <summary>
-        /// Determines if two <see cref="SelectOrGroupClauseSyntax"/> elements are exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        public virtual bool ExactlyEqual(SelectOrGroupClauseSyntax original, SelectOrGroupClauseSyntax modified)
-    	{
-        	bool result = false, ignoreCore = false;
-        	ExactlyEqualBefore(original, modified, ref result, ref ignoreCore);
-        	if(ignoreCore) 
-        		return result;
-        	
-        	result = this.ExactlyEqualCore(original, modified);
-        	ExactlyEqualAfter(original, modified, ref result);
-        	return result;
-         }
-    }
-    
-    /// <summary>
     /// Provides language-aware services regarding <see cref="DeclarationPattern"/>.
     /// </summary>
-    public partial class DeclarationPatternServiceProvider : PatternServiceProvider
+    public partial class DeclarationPatternServiceProvider : ElementTypeServiceProvider //PatternServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -17991,7 +15602,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="ConstantPattern"/>.
     /// </summary>
-    public partial class ConstantPatternServiceProvider : PatternServiceProvider
+    public partial class ConstantPatternServiceProvider : ElementTypeServiceProvider //PatternServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -18072,91 +15683,9 @@ namespace Jawilliam.CDF.CSharp.Flad
     }
     
     /// <summary>
-    /// Provides language-aware services regarding <see cref="Pattern"/>.
-    /// </summary>
-    public abstract partial class PatternServiceProvider : ElementTypeServiceProvider
-    {
-        /// <summary>
-        /// Initializes the instance.
-        /// </summary>
-        /// <param name="languageServiceProvider">the container <see cref="LanguageServiceProvider"/>.</param>
-        public PatternServiceProvider(LanguageServiceProvider languageServiceProvider) : base(languageServiceProvider) {}
-    
-    	/// <inheritdoc />
-        public override IEnumerable<string> SubExpressions 
-    	{
-    		get
-    		{
-    			yield break;
-    		}
-    	}
-    
-    	/// <inheritdoc />
-        public override IEnumerable<string> SyntacticalStopwords
-    	{
-    		get
-    		{
-    			yield break;
-    		}
-    	}
-    
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="ExactlyEqualCore(PatternSyntax, PatternSyntax)"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="ExactlyEqual(PatternSyntax, PatternSyntax)"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="ExactlyEqualCore(PatternSyntax, PatternSyntax)"/> is not executed and <see cref="ExactlyEqual(PatternSyntax, PatternSyntax)"/> returns the current value of <paramref name="result"/>.</param>
-        partial void ExactlyEqualBefore(PatternSyntax original, PatternSyntax modified, ref bool result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="ExactlyEqualCore(PatternSyntax, PatternSyntax)"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="ExactlyEqual(PatternSyntax, PatternSyntax)"/>.</param>
-        partial void ExactlyEqualAfter(PatternSyntax original, PatternSyntax modified, ref bool result);
-    
-        /// <summary>
-        /// Determines if two <see cref="PatternSyntax"/> elements are exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="ExactlyEqual(PatternSyntax, PatternSyntax)"/>.</remarks>
-        protected virtual bool ExactlyEqualCore(PatternSyntax original, PatternSyntax modified)
-    	{
-    		if(original == null || modified == null) 
-    			return false;
-    
-    			return true;
-    
-    	    return false;
-    	}	
-    
-    	/// <summary>
-        /// Determines if two <see cref="PatternSyntax"/> elements are exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        public virtual bool ExactlyEqual(PatternSyntax original, PatternSyntax modified)
-    	{
-        	bool result = false, ignoreCore = false;
-        	ExactlyEqualBefore(original, modified, ref result, ref ignoreCore);
-        	if(ignoreCore) 
-        		return result;
-        	
-        	result = this.ExactlyEqualCore(original, modified);
-        	ExactlyEqualAfter(original, modified, ref result);
-        	return result;
-         }
-    }
-    
-    /// <summary>
     /// Provides language-aware services regarding <see cref="InterpolatedStringText"/>.
     /// </summary>
-    public partial class InterpolatedStringTextServiceProvider : InterpolatedStringContentServiceProvider
+    public partial class InterpolatedStringTextServiceProvider : ElementTypeServiceProvider //InterpolatedStringContentServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -18239,7 +15768,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="Interpolation"/>.
     /// </summary>
-    public partial class InterpolationServiceProvider : InterpolatedStringContentServiceProvider
+    public partial class InterpolationServiceProvider : ElementTypeServiceProvider //InterpolatedStringContentServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -18329,91 +15858,9 @@ namespace Jawilliam.CDF.CSharp.Flad
     }
     
     /// <summary>
-    /// Provides language-aware services regarding <see cref="InterpolatedStringContent"/>.
-    /// </summary>
-    public abstract partial class InterpolatedStringContentServiceProvider : ElementTypeServiceProvider
-    {
-        /// <summary>
-        /// Initializes the instance.
-        /// </summary>
-        /// <param name="languageServiceProvider">the container <see cref="LanguageServiceProvider"/>.</param>
-        public InterpolatedStringContentServiceProvider(LanguageServiceProvider languageServiceProvider) : base(languageServiceProvider) {}
-    
-    	/// <inheritdoc />
-        public override IEnumerable<string> SubExpressions 
-    	{
-    		get
-    		{
-    			yield break;
-    		}
-    	}
-    
-    	/// <inheritdoc />
-        public override IEnumerable<string> SyntacticalStopwords
-    	{
-    		get
-    		{
-    			yield break;
-    		}
-    	}
-    
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="ExactlyEqualCore(InterpolatedStringContentSyntax, InterpolatedStringContentSyntax)"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="ExactlyEqual(InterpolatedStringContentSyntax, InterpolatedStringContentSyntax)"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="ExactlyEqualCore(InterpolatedStringContentSyntax, InterpolatedStringContentSyntax)"/> is not executed and <see cref="ExactlyEqual(InterpolatedStringContentSyntax, InterpolatedStringContentSyntax)"/> returns the current value of <paramref name="result"/>.</param>
-        partial void ExactlyEqualBefore(InterpolatedStringContentSyntax original, InterpolatedStringContentSyntax modified, ref bool result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="ExactlyEqualCore(InterpolatedStringContentSyntax, InterpolatedStringContentSyntax)"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="ExactlyEqual(InterpolatedStringContentSyntax, InterpolatedStringContentSyntax)"/>.</param>
-        partial void ExactlyEqualAfter(InterpolatedStringContentSyntax original, InterpolatedStringContentSyntax modified, ref bool result);
-    
-        /// <summary>
-        /// Determines if two <see cref="InterpolatedStringContentSyntax"/> elements are exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="ExactlyEqual(InterpolatedStringContentSyntax, InterpolatedStringContentSyntax)"/>.</remarks>
-        protected virtual bool ExactlyEqualCore(InterpolatedStringContentSyntax original, InterpolatedStringContentSyntax modified)
-    	{
-    		if(original == null || modified == null) 
-    			return false;
-    
-    			return true;
-    
-    	    return false;
-    	}	
-    
-    	/// <summary>
-        /// Determines if two <see cref="InterpolatedStringContentSyntax"/> elements are exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        public virtual bool ExactlyEqual(InterpolatedStringContentSyntax original, InterpolatedStringContentSyntax modified)
-    	{
-        	bool result = false, ignoreCore = false;
-        	ExactlyEqualBefore(original, modified, ref result, ref ignoreCore);
-        	if(ignoreCore) 
-        		return result;
-        	
-        	result = this.ExactlyEqualCore(original, modified);
-        	ExactlyEqualAfter(original, modified, ref result);
-        	return result;
-         }
-    }
-    
-    /// <summary>
     /// Provides language-aware services regarding <see cref="Block"/>.
     /// </summary>
-    public partial class BlockServiceProvider : StatementServiceProvider
+    public partial class BlockServiceProvider : ElementTypeServiceProvider //StatementServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -18501,7 +15948,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="LocalFunctionStatement"/>.
     /// </summary>
-    public partial class LocalFunctionStatementServiceProvider : StatementServiceProvider
+    public partial class LocalFunctionStatementServiceProvider : ElementTypeServiceProvider //StatementServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -18608,7 +16055,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="LocalDeclarationStatement"/>.
     /// </summary>
-    public partial class LocalDeclarationStatementServiceProvider : StatementServiceProvider
+    public partial class LocalDeclarationStatementServiceProvider : ElementTypeServiceProvider //StatementServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -18695,7 +16142,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="ExpressionStatement"/>.
     /// </summary>
-    public partial class ExpressionStatementServiceProvider : StatementServiceProvider
+    public partial class ExpressionStatementServiceProvider : ElementTypeServiceProvider //StatementServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -18780,7 +16227,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="EmptyStatement"/>.
     /// </summary>
-    public partial class EmptyStatementServiceProvider : StatementServiceProvider
+    public partial class EmptyStatementServiceProvider : ElementTypeServiceProvider //StatementServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -18863,7 +16310,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="LabeledStatement"/>.
     /// </summary>
-    public partial class LabeledStatementServiceProvider : StatementServiceProvider
+    public partial class LabeledStatementServiceProvider : ElementTypeServiceProvider //StatementServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -18958,7 +16405,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="GotoStatement"/>.
     /// </summary>
-    public partial class GotoStatementServiceProvider : StatementServiceProvider
+    public partial class GotoStatementServiceProvider : ElementTypeServiceProvider //StatementServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -19048,7 +16495,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="BreakStatement"/>.
     /// </summary>
-    public partial class BreakStatementServiceProvider : StatementServiceProvider
+    public partial class BreakStatementServiceProvider : ElementTypeServiceProvider //StatementServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -19134,7 +16581,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="ContinueStatement"/>.
     /// </summary>
-    public partial class ContinueStatementServiceProvider : StatementServiceProvider
+    public partial class ContinueStatementServiceProvider : ElementTypeServiceProvider //StatementServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -19220,7 +16667,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="ReturnStatement"/>.
     /// </summary>
-    public partial class ReturnStatementServiceProvider : StatementServiceProvider
+    public partial class ReturnStatementServiceProvider : ElementTypeServiceProvider //StatementServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -19308,7 +16755,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="ThrowStatement"/>.
     /// </summary>
-    public partial class ThrowStatementServiceProvider : StatementServiceProvider
+    public partial class ThrowStatementServiceProvider : ElementTypeServiceProvider //StatementServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -19396,7 +16843,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="YieldStatement"/>.
     /// </summary>
-    public partial class YieldStatementServiceProvider : StatementServiceProvider
+    public partial class YieldStatementServiceProvider : ElementTypeServiceProvider //StatementServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -19486,7 +16933,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="WhileStatement"/>.
     /// </summary>
-    public partial class WhileStatementServiceProvider : StatementServiceProvider
+    public partial class WhileStatementServiceProvider : ElementTypeServiceProvider //StatementServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -19579,7 +17026,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="DoStatement"/>.
     /// </summary>
-    public partial class DoStatementServiceProvider : StatementServiceProvider
+    public partial class DoStatementServiceProvider : ElementTypeServiceProvider //StatementServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -19678,7 +17125,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="ForStatement"/>.
     /// </summary>
-    public partial class ForStatementServiceProvider : StatementServiceProvider
+    public partial class ForStatementServiceProvider : ElementTypeServiceProvider //StatementServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -19783,7 +17230,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="UsingStatement"/>.
     /// </summary>
-    public partial class UsingStatementServiceProvider : StatementServiceProvider
+    public partial class UsingStatementServiceProvider : ElementTypeServiceProvider //StatementServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -19878,7 +17325,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="FixedStatement"/>.
     /// </summary>
-    public partial class FixedStatementServiceProvider : StatementServiceProvider
+    public partial class FixedStatementServiceProvider : ElementTypeServiceProvider //StatementServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -19971,7 +17418,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="CheckedStatement"/>.
     /// </summary>
-    public partial class CheckedStatementServiceProvider : StatementServiceProvider
+    public partial class CheckedStatementServiceProvider : ElementTypeServiceProvider //StatementServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -20056,7 +17503,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="UnsafeStatement"/>.
     /// </summary>
-    public partial class UnsafeStatementServiceProvider : StatementServiceProvider
+    public partial class UnsafeStatementServiceProvider : ElementTypeServiceProvider //StatementServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -20141,7 +17588,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="LockStatement"/>.
     /// </summary>
-    public partial class LockStatementServiceProvider : StatementServiceProvider
+    public partial class LockStatementServiceProvider : ElementTypeServiceProvider //StatementServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -20234,7 +17681,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="IfStatement"/>.
     /// </summary>
-    public partial class IfStatementServiceProvider : StatementServiceProvider
+    public partial class IfStatementServiceProvider : ElementTypeServiceProvider //StatementServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -20329,7 +17776,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="SwitchStatement"/>.
     /// </summary>
-    public partial class SwitchStatementServiceProvider : StatementServiceProvider
+    public partial class SwitchStatementServiceProvider : ElementTypeServiceProvider //StatementServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -20428,7 +17875,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="TryStatement"/>.
     /// </summary>
-    public partial class TryStatementServiceProvider : StatementServiceProvider
+    public partial class TryStatementServiceProvider : ElementTypeServiceProvider //StatementServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -20517,7 +17964,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="ForEachStatement"/>.
     /// </summary>
-    public partial class ForEachStatementServiceProvider : StatementServiceProvider
+    public partial class ForEachStatementServiceProvider : ElementTypeServiceProvider //StatementServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -20625,7 +18072,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="ForEachVariableStatement"/>.
     /// </summary>
-    public partial class ForEachVariableStatementServiceProvider : CommonForEachStatementServiceProvider
+    public partial class ForEachVariableStatementServiceProvider : ElementTypeServiceProvider //CommonForEachStatementServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -20721,187 +18168,9 @@ namespace Jawilliam.CDF.CSharp.Flad
     }
     
     /// <summary>
-    /// Provides language-aware services regarding <see cref="CommonForEachStatement"/>.
-    /// </summary>
-    public abstract partial class CommonForEachStatementServiceProvider : StatementServiceProvider
-    {
-        /// <summary>
-        /// Initializes the instance.
-        /// </summary>
-        /// <param name="languageServiceProvider">the container <see cref="LanguageServiceProvider"/>.</param>
-        public CommonForEachStatementServiceProvider(LanguageServiceProvider languageServiceProvider) : base(languageServiceProvider) {}
-    
-    	/// <inheritdoc />
-        public override IEnumerable<string> SubExpressions 
-    	{
-    		get
-    		{
-    			yield return "ForEachKeyword";
-    			yield return "OpenParenToken";
-    			yield return "InKeyword";
-    			yield return "Expression";
-    			yield return "CloseParenToken";
-    			yield return "Statement";
-    		}
-    	}
-    
-    	/// <inheritdoc />
-        public override IEnumerable<string> SyntacticalStopwords
-    	{
-    		get
-    		{
-    			yield return "ForEachKeyword";
-    			yield return "OpenParenToken";
-    			yield return "InKeyword";
-    			yield return "CloseParenToken";
-    		}
-    	}
-    
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="ExactlyEqualCore(CommonForEachStatementSyntax, CommonForEachStatementSyntax)"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="ExactlyEqual(CommonForEachStatementSyntax, CommonForEachStatementSyntax)"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="ExactlyEqualCore(CommonForEachStatementSyntax, CommonForEachStatementSyntax)"/> is not executed and <see cref="ExactlyEqual(CommonForEachStatementSyntax, CommonForEachStatementSyntax)"/> returns the current value of <paramref name="result"/>.</param>
-        partial void ExactlyEqualBefore(CommonForEachStatementSyntax original, CommonForEachStatementSyntax modified, ref bool result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="ExactlyEqualCore(CommonForEachStatementSyntax, CommonForEachStatementSyntax)"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="ExactlyEqual(CommonForEachStatementSyntax, CommonForEachStatementSyntax)"/>.</param>
-        partial void ExactlyEqualAfter(CommonForEachStatementSyntax original, CommonForEachStatementSyntax modified, ref bool result);
-    
-        /// <summary>
-        /// Determines if two <see cref="CommonForEachStatementSyntax"/> elements are exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="ExactlyEqual(CommonForEachStatementSyntax, CommonForEachStatementSyntax)"/>.</remarks>
-        protected virtual bool ExactlyEqualCore(CommonForEachStatementSyntax original, CommonForEachStatementSyntax modified)
-    	{
-    		if(original == null || modified == null) 
-    			return false;
-    
-            if ((this.LanguageServiceProvider.ExactlyEqual(original.ForEachKeyword, modified.ForEachKeyword)) &&
-                (this.LanguageServiceProvider.ExactlyEqual(original.OpenParenToken, modified.OpenParenToken)) &&
-                (this.LanguageServiceProvider.ExactlyEqual(original.InKeyword, modified.InKeyword)) &&
-                (this.LanguageServiceProvider.ExactlyEqual(original.Expression, modified.Expression)) &&
-                (this.LanguageServiceProvider.ExactlyEqual(original.CloseParenToken, modified.CloseParenToken)) &&
-                (this.LanguageServiceProvider.ExactlyEqual(original.Statement, modified.Statement)))
-    			return true;
-    
-    	    return false;
-    	}	
-    
-    	/// <summary>
-        /// Determines if two <see cref="CommonForEachStatementSyntax"/> elements are exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        public virtual bool ExactlyEqual(CommonForEachStatementSyntax original, CommonForEachStatementSyntax modified)
-    	{
-        	bool result = false, ignoreCore = false;
-        	ExactlyEqualBefore(original, modified, ref result, ref ignoreCore);
-        	if(ignoreCore) 
-        		return result;
-        	
-        	result = this.ExactlyEqualCore(original, modified);
-        	ExactlyEqualAfter(original, modified, ref result);
-        	return result;
-         }
-    }
-    
-    /// <summary>
-    /// Provides language-aware services regarding <see cref="Statement"/>.
-    /// </summary>
-    public abstract partial class StatementServiceProvider : ElementTypeServiceProvider
-    {
-        /// <summary>
-        /// Initializes the instance.
-        /// </summary>
-        /// <param name="languageServiceProvider">the container <see cref="LanguageServiceProvider"/>.</param>
-        public StatementServiceProvider(LanguageServiceProvider languageServiceProvider) : base(languageServiceProvider) {}
-    
-    	/// <inheritdoc />
-        public override IEnumerable<string> SubExpressions 
-    	{
-    		get
-    		{
-    			yield break;
-    		}
-    	}
-    
-    	/// <inheritdoc />
-        public override IEnumerable<string> SyntacticalStopwords
-    	{
-    		get
-    		{
-    			yield break;
-    		}
-    	}
-    
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="ExactlyEqualCore(StatementSyntax, StatementSyntax)"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="ExactlyEqual(StatementSyntax, StatementSyntax)"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="ExactlyEqualCore(StatementSyntax, StatementSyntax)"/> is not executed and <see cref="ExactlyEqual(StatementSyntax, StatementSyntax)"/> returns the current value of <paramref name="result"/>.</param>
-        partial void ExactlyEqualBefore(StatementSyntax original, StatementSyntax modified, ref bool result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="ExactlyEqualCore(StatementSyntax, StatementSyntax)"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="ExactlyEqual(StatementSyntax, StatementSyntax)"/>.</param>
-        partial void ExactlyEqualAfter(StatementSyntax original, StatementSyntax modified, ref bool result);
-    
-        /// <summary>
-        /// Determines if two <see cref="StatementSyntax"/> elements are exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="ExactlyEqual(StatementSyntax, StatementSyntax)"/>.</remarks>
-        protected virtual bool ExactlyEqualCore(StatementSyntax original, StatementSyntax modified)
-    	{
-    		if(original == null || modified == null) 
-    			return false;
-    
-    			return true;
-    
-    	    return false;
-    	}	
-    
-    	/// <summary>
-        /// Determines if two <see cref="StatementSyntax"/> elements are exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        public virtual bool ExactlyEqual(StatementSyntax original, StatementSyntax modified)
-    	{
-        	bool result = false, ignoreCore = false;
-        	ExactlyEqualBefore(original, modified, ref result, ref ignoreCore);
-        	if(ignoreCore) 
-        		return result;
-        	
-        	result = this.ExactlyEqualCore(original, modified);
-        	ExactlyEqualAfter(original, modified, ref result);
-        	return result;
-         }
-    }
-    
-    /// <summary>
     /// Provides language-aware services regarding <see cref="SingleVariableDesignation"/>.
     /// </summary>
-    public partial class SingleVariableDesignationServiceProvider : VariableDesignationServiceProvider
+    public partial class SingleVariableDesignationServiceProvider : ElementTypeServiceProvider //VariableDesignationServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -20992,7 +18261,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="DiscardDesignation"/>.
     /// </summary>
-    public partial class DiscardDesignationServiceProvider : VariableDesignationServiceProvider
+    public partial class DiscardDesignationServiceProvider : ElementTypeServiceProvider //VariableDesignationServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -21075,7 +18344,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="ParenthesizedVariableDesignation"/>.
     /// </summary>
-    public partial class ParenthesizedVariableDesignationServiceProvider : VariableDesignationServiceProvider
+    public partial class ParenthesizedVariableDesignationServiceProvider : ElementTypeServiceProvider //VariableDesignationServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -21161,91 +18430,9 @@ namespace Jawilliam.CDF.CSharp.Flad
     }
     
     /// <summary>
-    /// Provides language-aware services regarding <see cref="VariableDesignation"/>.
-    /// </summary>
-    public abstract partial class VariableDesignationServiceProvider : ElementTypeServiceProvider
-    {
-        /// <summary>
-        /// Initializes the instance.
-        /// </summary>
-        /// <param name="languageServiceProvider">the container <see cref="LanguageServiceProvider"/>.</param>
-        public VariableDesignationServiceProvider(LanguageServiceProvider languageServiceProvider) : base(languageServiceProvider) {}
-    
-    	/// <inheritdoc />
-        public override IEnumerable<string> SubExpressions 
-    	{
-    		get
-    		{
-    			yield break;
-    		}
-    	}
-    
-    	/// <inheritdoc />
-        public override IEnumerable<string> SyntacticalStopwords
-    	{
-    		get
-    		{
-    			yield break;
-    		}
-    	}
-    
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="ExactlyEqualCore(VariableDesignationSyntax, VariableDesignationSyntax)"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="ExactlyEqual(VariableDesignationSyntax, VariableDesignationSyntax)"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="ExactlyEqualCore(VariableDesignationSyntax, VariableDesignationSyntax)"/> is not executed and <see cref="ExactlyEqual(VariableDesignationSyntax, VariableDesignationSyntax)"/> returns the current value of <paramref name="result"/>.</param>
-        partial void ExactlyEqualBefore(VariableDesignationSyntax original, VariableDesignationSyntax modified, ref bool result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="ExactlyEqualCore(VariableDesignationSyntax, VariableDesignationSyntax)"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="ExactlyEqual(VariableDesignationSyntax, VariableDesignationSyntax)"/>.</param>
-        partial void ExactlyEqualAfter(VariableDesignationSyntax original, VariableDesignationSyntax modified, ref bool result);
-    
-        /// <summary>
-        /// Determines if two <see cref="VariableDesignationSyntax"/> elements are exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="ExactlyEqual(VariableDesignationSyntax, VariableDesignationSyntax)"/>.</remarks>
-        protected virtual bool ExactlyEqualCore(VariableDesignationSyntax original, VariableDesignationSyntax modified)
-    	{
-    		if(original == null || modified == null) 
-    			return false;
-    
-    			return true;
-    
-    	    return false;
-    	}	
-    
-    	/// <summary>
-        /// Determines if two <see cref="VariableDesignationSyntax"/> elements are exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        public virtual bool ExactlyEqual(VariableDesignationSyntax original, VariableDesignationSyntax modified)
-    	{
-        	bool result = false, ignoreCore = false;
-        	ExactlyEqualBefore(original, modified, ref result, ref ignoreCore);
-        	if(ignoreCore) 
-        		return result;
-        	
-        	result = this.ExactlyEqualCore(original, modified);
-        	ExactlyEqualAfter(original, modified, ref result);
-        	return result;
-         }
-    }
-    
-    /// <summary>
     /// Provides language-aware services regarding <see cref="CasePatternSwitchLabel"/>.
     /// </summary>
-    public partial class CasePatternSwitchLabelServiceProvider : SwitchLabelServiceProvider
+    public partial class CasePatternSwitchLabelServiceProvider : ElementTypeServiceProvider //SwitchLabelServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -21335,7 +18522,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="CaseSwitchLabel"/>.
     /// </summary>
-    public partial class CaseSwitchLabelServiceProvider : SwitchLabelServiceProvider
+    public partial class CaseSwitchLabelServiceProvider : ElementTypeServiceProvider //SwitchLabelServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -21423,7 +18610,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Provides language-aware services regarding <see cref="DefaultSwitchLabel"/>.
     /// </summary>
-    public partial class DefaultSwitchLabelServiceProvider : SwitchLabelServiceProvider
+    public partial class DefaultSwitchLabelServiceProvider : ElementTypeServiceProvider //SwitchLabelServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -21494,92 +18681,6 @@ namespace Jawilliam.CDF.CSharp.Flad
         /// <param name="modified">the modified version.</param>
         /// <returns>true if they are exactly equal, otherwise returns false.</returns>
         public virtual bool ExactlyEqual(DefaultSwitchLabelSyntax original, DefaultSwitchLabelSyntax modified)
-    	{
-        	bool result = false, ignoreCore = false;
-        	ExactlyEqualBefore(original, modified, ref result, ref ignoreCore);
-        	if(ignoreCore) 
-        		return result;
-        	
-        	result = this.ExactlyEqualCore(original, modified);
-        	ExactlyEqualAfter(original, modified, ref result);
-        	return result;
-         }
-    }
-    
-    /// <summary>
-    /// Provides language-aware services regarding <see cref="SwitchLabel"/>.
-    /// </summary>
-    public abstract partial class SwitchLabelServiceProvider : ElementTypeServiceProvider
-    {
-        /// <summary>
-        /// Initializes the instance.
-        /// </summary>
-        /// <param name="languageServiceProvider">the container <see cref="LanguageServiceProvider"/>.</param>
-        public SwitchLabelServiceProvider(LanguageServiceProvider languageServiceProvider) : base(languageServiceProvider) {}
-    
-    	/// <inheritdoc />
-        public override IEnumerable<string> SubExpressions 
-    	{
-    		get
-    		{
-    			yield return "Keyword";
-    			yield return "ColonToken";
-    		}
-    	}
-    
-    	/// <inheritdoc />
-        public override IEnumerable<string> SyntacticalStopwords
-    	{
-    		get
-    		{
-    			yield return "Keyword";
-    			yield return "ColonToken";
-    		}
-    	}
-    
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="ExactlyEqualCore(SwitchLabelSyntax, SwitchLabelSyntax)"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="ExactlyEqual(SwitchLabelSyntax, SwitchLabelSyntax)"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="ExactlyEqualCore(SwitchLabelSyntax, SwitchLabelSyntax)"/> is not executed and <see cref="ExactlyEqual(SwitchLabelSyntax, SwitchLabelSyntax)"/> returns the current value of <paramref name="result"/>.</param>
-        partial void ExactlyEqualBefore(SwitchLabelSyntax original, SwitchLabelSyntax modified, ref bool result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="ExactlyEqualCore(SwitchLabelSyntax, SwitchLabelSyntax)"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="ExactlyEqual(SwitchLabelSyntax, SwitchLabelSyntax)"/>.</param>
-        partial void ExactlyEqualAfter(SwitchLabelSyntax original, SwitchLabelSyntax modified, ref bool result);
-    
-        /// <summary>
-        /// Determines if two <see cref="SwitchLabelSyntax"/> elements are exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="ExactlyEqual(SwitchLabelSyntax, SwitchLabelSyntax)"/>.</remarks>
-        protected virtual bool ExactlyEqualCore(SwitchLabelSyntax original, SwitchLabelSyntax modified)
-    	{
-    		if(original == null || modified == null) 
-    			return false;
-    
-            if ((this.LanguageServiceProvider.ExactlyEqual(original.Keyword, modified.Keyword)) &&
-                (this.LanguageServiceProvider.ExactlyEqual(original.ColonToken, modified.ColonToken)))
-    			return true;
-    
-    	    return false;
-    	}	
-    
-    	/// <summary>
-        /// Determines if two <see cref="SwitchLabelSyntax"/> elements are exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        public virtual bool ExactlyEqual(SwitchLabelSyntax original, SwitchLabelSyntax modified)
     	{
         	bool result = false, ignoreCore = false;
         	ExactlyEqualBefore(original, modified, ref result, ref ignoreCore);
