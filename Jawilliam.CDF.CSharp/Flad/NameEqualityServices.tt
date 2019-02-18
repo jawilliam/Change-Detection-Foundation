@@ -75,6 +75,7 @@ var manager = TemplateFileManager.Create(this);
 var xSyntaxTypeSystem = Jawilliam.CDF.XObjects.RDSL.Syntax.Load(@"E:\MyRepositories\Change-Detection-Foundation\Jawilliam.CDF.CSharp\RDSL.xml");
 #>
 using Jawilliam.CDF.Approach.Flad;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
@@ -84,6 +85,71 @@ using System.Xml.Linq;
 
 <#
 BeginNamespace(namespaceName, code);
+
+#>
+partial class SyntaxTokenServiceProvider : INameEqualityCondition<SyntaxToken, SyntaxToken>
+{
+    /// <summary>
+    /// Determines if two <see cref="SyntaxToken"/> elements are name-based exactly equal.
+    /// </summary>
+    /// <param name="original">the original version.</param>
+    /// <param name="modified">the modified version.</param>
+    /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+    public virtual bool NameExactlyEqual(SyntaxToken original, SyntaxToken modified)
+    {
+        if (original == null || modified == null)
+            return false;
+
+        if (!string.IsNullOrWhiteSpace(original.ValueText) && !string.IsNullOrWhiteSpace(modified.ValueText) && original.ValueText == modified.ValueText)
+            return true;
+
+        return false;
+    }
+}
+
+partial class LanguageServiceProvider
+{
+	/// <summary>
+    /// Determines if two typed elements are name-based exactly equal.
+    /// </summary>
+    /// <param name="original">the original version.</param>
+    /// <param name="modified">the modified version.</param>
+    /// <typeparam name="TOriginal">Type of the original version.</typeparam>
+    /// <typeparam name="TModified">Type of the original version.</typeparam>
+    /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+    public virtual bool NameExactlyEqual<TOriginal, TModified>(TOriginal original, TModified modified) where TOriginal : SyntaxNode where TModified : SyntaxNode
+    {
+        if (this.TryToRun<TOriginal, TModified>(original, modified, typeof(INameEqualityCondition<,>), "NameExactlyEqual", out object result))
+            return (bool)result;
+
+        var serviceProvider = this.GetElementTypeServiceProvider(typeof(TOriginal).Name.ToString().Replace("Syntax", "")) as INameEqualityCondition<TOriginal, TModified>;
+        return serviceProvider?.NameExactlyEqual(original, modified) ?? false;
+    }
+
+    /// <summary>
+    /// Determines if two <see cref="SeparatedSyntaxList{TNode}"/> elements are name-based exactly equal.
+    /// </summary>
+    /// <param name="original">the original version.</param>
+    /// <param name="modified">the modified version.</param>
+    /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+    public virtual bool NameExactlyEqual<T>(SeparatedSyntaxList<T> original, SeparatedSyntaxList<T> modified) where T : SyntaxNode
+    {
+        return this.ExactlyEqual(original, modified, this.NameExactlyEqual);
+    }
+
+    /// <summary>
+    /// Determines if two <see cref="SyntaxToken"/> elements are name-based exactly equal.
+    /// </summary>
+    /// <param name="original">the original version.</param>
+    /// <param name="modified">the modified version.</param>
+    /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+    public virtual bool NameExactlyEqual(SyntaxToken original, SyntaxToken modified)
+    {
+        return this.SyntaxTokenServiceProvider.NameExactlyEqual(original, modified);
+    }
+}
+
+<#
 
 var nameProviders = xSyntaxTypeSystem.Nodes.Type.Where(t => !t.@abstract && t.Properties.Property.Any(p => p.Abstraction?.Name?.Equality?.full ?? false)).ToList();
 

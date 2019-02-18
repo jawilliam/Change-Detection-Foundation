@@ -159,6 +159,7 @@
     <Compile Include="Flad\LanguageServiceProvider.Partial.cs" />
     <Compile Include="Flad\MemberAccessExpressionServiceProvider.Partial.cs" />
     <Compile Include="Flad\NameColonServiceProvider.Partial.cs" />
+    <Compile Include="Flad\PredefinedTypeServiceProvider.Partial.cs" />
     <Compile Include="Flad\SignatureEqualityServices.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

@@ -75,6 +75,7 @@ var manager = TemplateFileManager.Create(this);
 var xSyntaxTypeSystem = Jawilliam.CDF.XObjects.RDSL.Syntax.Load(@"E:\MyRepositories\Change-Detection-Foundation\Jawilliam.CDF.CSharp\RDSL.xml");
 #>
 using Jawilliam.CDF.Approach.Flad;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
@@ -84,8 +85,97 @@ using System.Xml.Linq;
 
 <#
 BeginNamespace(namespaceName, code);
+#>
 
-var nameProviders = xSyntaxTypeSystem.Nodes.Type.Where(t => !t.@abstract && t.Properties.Property.Any(p => p.Abstraction?.Signature?.Equality?.full ?? false)).ToList();
+partial class SyntaxTokenServiceProvider : ISignatureEqualityCondition<SyntaxToken, SyntaxToken>
+{
+    /// <summary>
+    /// Determines if two <see cref="SyntaxToken"/> elements are signature-based exactly equal.
+    /// </summary>
+    /// <param name="original">the original version.</param>
+    /// <param name="modified">the modified version.</param>
+    /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+    public virtual bool SignatureExactlyEqual(SyntaxToken original, SyntaxToken modified)
+    {
+        if (original == null || modified == null)
+            return false;
+
+        if (!string.IsNullOrWhiteSpace(original.ValueText) && !string.IsNullOrWhiteSpace(modified.ValueText) && original.ValueText == modified.ValueText)
+            return true;
+
+        return false;
+    }
+}
+
+partial class LanguageServiceProvider
+{
+	/// <summary>
+    /// Determines if two typed elements are signature-based exactly equal.
+    /// </summary>
+    /// <param name="original">the original version.</param>
+    /// <param name="modified">the modified version.</param>
+    /// <typeparam name="TOriginal">Type of the original version.</typeparam>
+    /// <typeparam name="TModified">Type of the original version.</typeparam>
+    /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+    public virtual bool SignatureExactlyEqual<TOriginal, TModified>(TOriginal original, TModified modified) where TOriginal : SyntaxNode where TModified : SyntaxNode
+    {
+        if (this.TryToRun<TOriginal, TModified>(original, modified, typeof(INameEqualityCondition<,>), "SignatureExactlyEqual", out object result))
+            return (bool)result;
+
+        var serviceProvider = this.GetElementTypeServiceProvider(typeof(TOriginal).Name.ToString().Replace("Syntax", "")) as ISignatureEqualityCondition<TOriginal, TModified>;
+        return serviceProvider?.SignatureExactlyEqual(original, modified) ?? false;
+    }
+
+    /// <summary>
+    /// Determines if two <see cref="SeparatedSyntaxList{TNode}"/> elements are signature-based exactly equal.
+    /// </summary>
+    /// <param name="original">the original version.</param>
+    /// <param name="modified">the modified version.</param>
+    /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+    public virtual bool SignatureExactlyEqual<T>(SeparatedSyntaxList<T> original, SeparatedSyntaxList<T> modified) where T : SyntaxNode
+    {
+        return this.ExactlyEqual(original, modified, this.SignatureExactlyEqual);
+    }
+
+    /// <summary>
+    /// Determines if two <see cref="SyntaxToken"/> elements are signature-based exactly equal.
+    /// </summary>
+    /// <param name="original">the original version.</param>
+    /// <param name="modified">the modified version.</param>
+    /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+    public virtual bool SignatureExactlyEqual(SyntaxToken original, SyntaxToken modified)
+    {
+        return this.SyntaxTokenServiceProvider.NameExactlyEqual(original, modified);
+    }
+
+    ///// <summary>
+    ///// Determines if two <see cref="TypeSyntax"/> elements are signature-based exactly equal.
+    ///// </summary>
+    ///// <param name="original">the original version.</param>
+    ///// <param name="modified">the modified version.</param>
+    ///// <returns>true if they are exactly equal, otherwise returns false.</returns>
+    //public virtual bool SignatureExactlyEqual(TypeSyntax original, TypeSyntax modified)
+    //{
+    //    return this.NameExactlyEqual(original, modified);
+    //}
+}
+
+partial class PredefinedTypeServiceProvider : IEqualityCondition<PredefinedTypeSyntax, PredefinedTypeSyntax>
+{
+    /// <summary>
+    /// Determines if two <see cref="PredefinedTypeSyntax"/> elements are signature-based exactly equal.
+    /// </summary>
+    /// <param name="original">the original version.</param>
+    /// <param name="modified">the modified version.</param>
+    /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+    public virtual bool SignatureExactlyEqual(PredefinedTypeSyntax original, PredefinedTypeSyntax modified)
+    {
+        return this.LanguageServiceProvider.ExactlyEqual(original, modified);
+    }
+}
+
+<#
+var signatureProviders = xSyntaxTypeSystem.Nodes.Type.Where(t => !t.@abstract && t.Properties.Property.Any(p => p.Abstraction?.Signature?.Equality?.full ?? false)).ToList();
 
 foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
 .Where(n => !object.Equals(n.Root.Label, "SyntaxNode") && 
@@ -97,7 +187,7 @@ foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
 	if(xSyntaxNodeType == null) continue;
 
 	//!xSyntaxNodeType.Key.name
-	if(!nameProviders.Any(t => t == xSyntaxNodeType)) continue;
+	if(!signatureProviders.Any(t => t == xSyntaxNodeType)) continue;
 	var keyProperties = xSyntaxNodeType.Properties.Property.Where(p => p.Abstraction?.Signature?.Equality?.full ?? false).ToList();
 	if(!keyProperties.Any()) continue;
 

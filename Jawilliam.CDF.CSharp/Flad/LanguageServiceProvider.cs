@@ -1,4 +1,6 @@
 
+using Jawilliam.CDF.Approach.Flad;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using System;
 using System.Collections.Generic;
@@ -517,6 +519,44 @@ namespace Jawilliam.CDF.CSharp.Flad
     			default: throw new ArgumentException(nameof(type));
     		}
     	}
+    
+        /// <summary>
+        /// Determines if two typed elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <typeparam name="TOriginal">Type of the original version.</typeparam>
+        /// <typeparam name="TModified">Type of the original version.</typeparam>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        private bool TryToRun<TOriginal, TModified>(TOriginal original, TModified modified, Type serviceProviderType, string functionalityName, out object result) where TOriginal : SyntaxNode where TModified : SyntaxNode
+        {
+            result = null;
+            if (original != null && modified != null)
+            {
+                var serviceProvider = this.GetElementTypeServiceProvider((SyntaxKind)original.RawKind);
+                if (serviceProvider != null)
+                {
+                    var functionality = serviceProvider.GetType().GetMethod(functionalityName, new[] { original.GetType(), modified.GetType() });
+                    if (functionality != null)
+                    {
+                        result = (bool)functionality.Invoke(serviceProvider, new object[] { original, modified });
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+    
+        /// <summary>
+        /// Provides language-specific information about the "SyntaxToken" type.
+        /// </summary>
+        public virtual SyntaxTokenServiceProvider SyntaxTokenServiceProvider
+        {
+            get => _syntaxTokenServiceProvider ?? (_syntaxTokenServiceProvider = new SyntaxTokenServiceProvider(this));
+            set => _syntaxTokenServiceProvider = value;
+        }
+        private SyntaxTokenServiceProvider _syntaxTokenServiceProvider;
+    
     	/// <summary>
         /// Provides language-specific information about the "AttributeArgument" type.
         /// </summary>

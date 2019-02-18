@@ -628,7 +628,7 @@ namespace Jawilliam.CDF.Tests.CSharp
             var flad = new CSharpFlad();
 
             var a = SyntaxFactory.ParseCompilationUnit("[module: XAttribute(\"X\"), YAttribute(Y: 3), ZAttribute(Z= 4)]").AttributeLists[0].Attributes[0];
-            var b = SyntaxFactory.ParseCompilationUnit("[assembly: YAttribute(\"X\"), YAttribute(Y: 3), ZAttribute(Z= 4)]").AttributeLists[0].Attributes[0];
+            var b = SyntaxFactory.ParseCompilationUnit("[assembly: Y1Attribute(\"X\"), YAttribute(Y: 3), ZAttribute(Z= 4)]").AttributeLists[0].Attributes[0];
             Assert.IsFalse(flad.LanguageServiceProvider.AttributeServiceProvider.NameExactlyEqual(null, b));
             Assert.IsFalse(flad.LanguageServiceProvider.AttributeServiceProvider.NameExactlyEqual(a, (AttributeSyntax)null));
             Assert.IsFalse(flad.LanguageServiceProvider.AttributeServiceProvider.NameExactlyEqual(null, (AttributeSyntax)null));
@@ -827,6 +827,26 @@ namespace Jawilliam.CDF.Tests.CSharp
         [TestMethod]
         public void OperatorDeclarationServiceProvider_NameExactlyEqual_OK()
         {
+            var flad = new CSharpFlad();
+
+            var a = (OperatorDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string operator +(int a, A b) { return 5; };").Members[0];
+            var b = (OperatorDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string operator -(int a, A b) { return 5; };").Members[0];
+            Assert.IsFalse(flad.LanguageServiceProvider.OperatorDeclarationServiceProvider.NameExactlyEqual(null, b));
+            Assert.IsFalse(flad.LanguageServiceProvider.OperatorDeclarationServiceProvider.NameExactlyEqual(a, (OperatorDeclarationSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.OperatorDeclarationServiceProvider.NameExactlyEqual(null, (OperatorDeclarationSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.OperatorDeclarationServiceProvider.NameExactlyEqual(a, b));
+
+            a = (OperatorDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string operator +(int a, A b) { return 5; };").Members[0];
+            b = (OperatorDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string operator +(int a, A b) { return 5; };").Members[0];
+            Assert.IsTrue(flad.LanguageServiceProvider.OperatorDeclarationServiceProvider.NameExactlyEqual(a, b));
+        }
+
+
+
+        [TestMethod]
+        public void ConversionOperatorDeclarationServiceProvider_NameExactlyEqual_OK()
+        {
+            Assert.IsFalse(true);
             var flad = new CSharpFlad();
 
             var a = (OperatorDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string operator +(int a, A b) { return 5; };").Members[0];
@@ -1231,6 +1251,13 @@ namespace Jawilliam.CDF.Tests.CSharp
 
             var a = (MemberAccessExpressionSyntax)SyntaxFactory.ParseExpression("x.r");
             var b = (MemberAccessExpressionSyntax)SyntaxFactory.ParseExpression("x.R");
+            Assert.IsFalse(flad.LanguageServiceProvider.MemberAccessExpressionServiceProvider.NameExactlyEqual(null, b));
+            Assert.IsFalse(flad.LanguageServiceProvider.MemberAccessExpressionServiceProvider.NameExactlyEqual(a, (MemberAccessExpressionSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.MemberAccessExpressionServiceProvider.NameExactlyEqual(null, (MemberAccessExpressionSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.MemberAccessExpressionServiceProvider.NameExactlyEqual(a, b));
+
+            a = (MemberAccessExpressionSyntax)SyntaxFactory.ParseExpression("x.r");
+            b = (MemberAccessExpressionSyntax)SyntaxFactory.ParseExpression("y.r");
             Assert.IsFalse(flad.LanguageServiceProvider.MemberAccessExpressionServiceProvider.NameExactlyEqual(null, b));
             Assert.IsFalse(flad.LanguageServiceProvider.MemberAccessExpressionServiceProvider.NameExactlyEqual(a, (MemberAccessExpressionSyntax)null));
             Assert.IsFalse(flad.LanguageServiceProvider.MemberAccessExpressionServiceProvider.NameExactlyEqual(null, (MemberAccessExpressionSyntax)null));

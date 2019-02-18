@@ -1,5 +1,6 @@
 
 using Jawilliam.CDF.Approach.Flad;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
@@ -9,6 +10,94 @@ using System.Xml.Linq;
 
 namespace Jawilliam.CDF.CSharp.Flad
 {
+    
+    partial class SyntaxTokenServiceProvider : ISignatureEqualityCondition<SyntaxToken, SyntaxToken>
+    {
+        /// <summary>
+        /// Determines if two <see cref="SyntaxToken"/> elements are signature-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        public virtual bool SignatureExactlyEqual(SyntaxToken original, SyntaxToken modified)
+        {
+            if (original == null || modified == null)
+                return false;
+    
+            if (!string.IsNullOrWhiteSpace(original.ValueText) && !string.IsNullOrWhiteSpace(modified.ValueText) && original.ValueText == modified.ValueText)
+                return true;
+    
+            return false;
+        }
+    }
+    
+    partial class LanguageServiceProvider
+    {
+    	/// <summary>
+        /// Determines if two typed elements are signature-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <typeparam name="TOriginal">Type of the original version.</typeparam>
+        /// <typeparam name="TModified">Type of the original version.</typeparam>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        public virtual bool SignatureExactlyEqual<TOriginal, TModified>(TOriginal original, TModified modified) where TOriginal : SyntaxNode where TModified : SyntaxNode
+        {
+            if (this.TryToRun<TOriginal, TModified>(original, modified, typeof(INameEqualityCondition<,>), "SignatureExactlyEqual", out object result))
+                return (bool)result;
+    
+            var serviceProvider = this.GetElementTypeServiceProvider(typeof(TOriginal).Name.ToString().Replace("Syntax", "")) as ISignatureEqualityCondition<TOriginal, TModified>;
+            return serviceProvider?.SignatureExactlyEqual(original, modified) ?? false;
+        }
+    
+        /// <summary>
+        /// Determines if two <see cref="SeparatedSyntaxList{TNode}"/> elements are signature-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        public virtual bool SignatureExactlyEqual<T>(SeparatedSyntaxList<T> original, SeparatedSyntaxList<T> modified) where T : SyntaxNode
+        {
+            return this.ExactlyEqual(original, modified, this.SignatureExactlyEqual);
+        }
+    
+        /// <summary>
+        /// Determines if two <see cref="SyntaxToken"/> elements are signature-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        public virtual bool SignatureExactlyEqual(SyntaxToken original, SyntaxToken modified)
+        {
+            return this.SyntaxTokenServiceProvider.NameExactlyEqual(original, modified);
+        }
+    
+        ///// <summary>
+        ///// Determines if two <see cref="TypeSyntax"/> elements are signature-based exactly equal.
+        ///// </summary>
+        ///// <param name="original">the original version.</param>
+        ///// <param name="modified">the modified version.</param>
+        ///// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        //public virtual bool SignatureExactlyEqual(TypeSyntax original, TypeSyntax modified)
+        //{
+        //    return this.NameExactlyEqual(original, modified);
+        //}
+    }
+    
+    partial class PredefinedTypeServiceProvider : IEqualityCondition<PredefinedTypeSyntax, PredefinedTypeSyntax>
+    {
+        /// <summary>
+        /// Determines if two <see cref="PredefinedTypeSyntax"/> elements are signature-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        public virtual bool SignatureExactlyEqual(PredefinedTypeSyntax original, PredefinedTypeSyntax modified)
+        {
+            return this.LanguageServiceProvider.ExactlyEqual(original, modified);
+        }
+    }
+    
     public partial class TypeParameterListServiceProvider : ISignatureEqualityCondition<TypeParameterListSyntax, TypeParameterListSyntax>
     {
         /// <summary>
@@ -65,50 +154,50 @@ namespace Jawilliam.CDF.CSharp.Flad
         }
     }
     
-    public partial class ExplicitInterfaceSpecifierServiceProvider : ISignatureEqualityCondition<ExplicitInterfaceSpecifierSyntax, ExplicitInterfaceSpecifierSyntax>
+    public partial class TypeParameterServiceProvider : ISignatureEqualityCondition<TypeParameterSyntax, TypeParameterSyntax>
     {
         /// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="SignatureExactlyEqualCore(ExplicitInterfaceSpecifierSyntax, ExplicitInterfaceSpecifierSyntax)"/>.
+        /// Method hook for implementing logic to execute before the <see cref="SignatureExactlyEqualCore(TypeParameterSyntax, TypeParameterSyntax)"/>.
         /// </summary>
         /// <param name="original">the original version.</param>
         /// <param name="modified">the modified version.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="SignatureExactlyEqual(ExplicitInterfaceSpecifierSyntax, ExplicitInterfaceSpecifierSyntax)"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="SignatureExactlyEqualCore(ExplicitInterfaceSpecifierSyntax, ExplicitInterfaceSpecifierSyntax)"/> is not executed and <see cref="SignatureExactlyEqual(ExplicitInterfaceSpecifierSyntax, ExplicitInterfaceSpecifierSyntax)"/> returns the current value of <paramref name="result"/>.</param>
-        partial void SignatureExactlyEqualBefore(ExplicitInterfaceSpecifierSyntax original, ExplicitInterfaceSpecifierSyntax modified, ref bool result, ref bool ignoreCore);
+        /// <param name="result">Mechanism to modify the result of <see cref="SignatureExactlyEqual(TypeParameterSyntax, TypeParameterSyntax)"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="SignatureExactlyEqualCore(TypeParameterSyntax, TypeParameterSyntax)"/> is not executed and <see cref="SignatureExactlyEqual(TypeParameterSyntax, TypeParameterSyntax)"/> returns the current value of <paramref name="result"/>.</param>
+        partial void SignatureExactlyEqualBefore(TypeParameterSyntax original, TypeParameterSyntax modified, ref bool result, ref bool ignoreCore);
         
         /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="SignatureExactlyEqualCore(ExplicitInterfaceSpecifierSyntax, ExplicitInterfaceSpecifierSyntax)"/>.
+        /// Method hook for implementing logic to execute after the <see cref="SignatureExactlyEqualCore(TypeParameterSyntax, TypeParameterSyntax)"/>.
         /// </summary>
         /// <param name="original">the original version.</param>
         /// <param name="modified">the modified version.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="SignatureExactlyEqual(ExplicitInterfaceSpecifierSyntax, ExplicitInterfaceSpecifierSyntax)"/>.</param>
-        partial void SignatureExactlyEqualAfter(ExplicitInterfaceSpecifierSyntax original, ExplicitInterfaceSpecifierSyntax modified, ref bool result);
+        /// <param name="result">Mechanism to modify the result of <see cref="SignatureExactlyEqual(TypeParameterSyntax, TypeParameterSyntax)"/>.</param>
+        partial void SignatureExactlyEqualAfter(TypeParameterSyntax original, TypeParameterSyntax modified, ref bool result);
     
         /// <summary>
-        /// Determines if two <see cref="ExplicitInterfaceSpecifierSyntax"/> elements are signature-based exactly equal.
+        /// Determines if two <see cref="TypeParameterSyntax"/> elements are signature-based exactly equal.
         /// </summary>
         /// <param name="original">the original version.</param>
         /// <param name="modified">the modified version.</param>
         /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="SignatureExactlyEqual(ExplicitInterfaceSpecifierSyntax, ExplicitInterfaceSpecifierSyntax)"/>.</remarks>
-        protected virtual bool SignatureExactlyEqualCore(ExplicitInterfaceSpecifierSyntax original, ExplicitInterfaceSpecifierSyntax modified)
+        /// <remarks>This is the default implementation for <see cref="SignatureExactlyEqual(TypeParameterSyntax, TypeParameterSyntax)"/>.</remarks>
+        protected virtual bool SignatureExactlyEqualCore(TypeParameterSyntax original, TypeParameterSyntax modified)
         {
     		if(original == null || modified == null) 
     			return false;
     
-            if (this.LanguageServiceProvider.SignatureExactlyEqual(original.Name, modified.Name))
+            if (this.LanguageServiceProvider.SignatureExactlyEqual(original.Identifier, modified.Identifier))
     			return true;
     
     	    return false;
     	}
     
         /// <summary>
-        /// Determines if two <see cref="ExplicitInterfaceSpecifierSyntax"/> elements are signature-based exactly equal.
+        /// Determines if two <see cref="TypeParameterSyntax"/> elements are signature-based exactly equal.
         /// </summary>
         /// <param name="original">the original version.</param>
         /// <param name="modified">the modified version.</param>
         /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        public bool SignatureExactlyEqual(ExplicitInterfaceSpecifierSyntax original, ExplicitInterfaceSpecifierSyntax modified)
+        public bool SignatureExactlyEqual(TypeParameterSyntax original, TypeParameterSyntax modified)
         {
     		bool result = false, ignoreCore = false;
     		SignatureExactlyEqualBefore(original, modified, ref result, ref ignoreCore);
@@ -152,7 +241,8 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (original.Type != null && modified.Type != null && this.LanguageServiceProvider.SignatureExactlyEqual(original.Type, modified.Type))
+            if (((original.Type == null && modified.Type == null) || (original.Type != null && modified.Type != null && this.LanguageServiceProvider.SignatureExactlyEqual(original.Type, modified.Type))) &&
+                (this.LanguageServiceProvider.SignatureExactlyEqual(original.Identifier, modified.Identifier)))
     			return true;
     
     	    return false;
@@ -322,7 +412,8 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (original.TypeParameterList != null && modified.TypeParameterList != null && this.LanguageServiceProvider.SignatureExactlyEqual(original.TypeParameterList, modified.TypeParameterList))
+            if ((this.LanguageServiceProvider.SignatureExactlyEqual(original.Identifier, modified.Identifier)) &&
+                ((original.TypeParameterList == null && modified.TypeParameterList == null) || (original.TypeParameterList != null && modified.TypeParameterList != null && this.LanguageServiceProvider.SignatureExactlyEqual(original.TypeParameterList, modified.TypeParameterList))))
     			return true;
     
     	    return false;
@@ -378,7 +469,8 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (original.TypeParameterList != null && modified.TypeParameterList != null && this.LanguageServiceProvider.SignatureExactlyEqual(original.TypeParameterList, modified.TypeParameterList))
+            if ((this.LanguageServiceProvider.SignatureExactlyEqual(original.Identifier, modified.Identifier)) &&
+                ((original.TypeParameterList == null && modified.TypeParameterList == null) || (original.TypeParameterList != null && modified.TypeParameterList != null && this.LanguageServiceProvider.SignatureExactlyEqual(original.TypeParameterList, modified.TypeParameterList))))
     			return true;
     
     	    return false;
@@ -434,7 +526,8 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (original.TypeParameterList != null && modified.TypeParameterList != null && this.LanguageServiceProvider.SignatureExactlyEqual(original.TypeParameterList, modified.TypeParameterList))
+            if ((this.LanguageServiceProvider.SignatureExactlyEqual(original.Identifier, modified.Identifier)) &&
+                ((original.TypeParameterList == null && modified.TypeParameterList == null) || (original.TypeParameterList != null && modified.TypeParameterList != null && this.LanguageServiceProvider.SignatureExactlyEqual(original.TypeParameterList, modified.TypeParameterList))))
     			return true;
     
     	    return false;
@@ -491,6 +584,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     			return false;
     
             if (((original.ExplicitInterfaceSpecifier == null && modified.ExplicitInterfaceSpecifier == null) || (original.ExplicitInterfaceSpecifier != null && modified.ExplicitInterfaceSpecifier != null && this.LanguageServiceProvider.SignatureExactlyEqual(original.ExplicitInterfaceSpecifier, modified.ExplicitInterfaceSpecifier))) &&
+                (this.LanguageServiceProvider.SignatureExactlyEqual(original.Identifier, modified.Identifier)) &&
                 ((original.TypeParameterList == null && modified.TypeParameterList == null) || (original.TypeParameterList != null && modified.TypeParameterList != null && this.LanguageServiceProvider.SignatureExactlyEqual(original.TypeParameterList, modified.TypeParameterList))) &&
                 (this.LanguageServiceProvider.SignatureExactlyEqual(original.ParameterList, modified.ParameterList)))
     			return true;
@@ -548,7 +642,8 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (this.LanguageServiceProvider.SignatureExactlyEqual(original.ParameterList, modified.ParameterList))
+            if ((this.LanguageServiceProvider.SignatureExactlyEqual(original.OperatorToken, modified.OperatorToken)) &&
+                (this.LanguageServiceProvider.SignatureExactlyEqual(original.ParameterList, modified.ParameterList)))
     			return true;
     
     	    return false;
@@ -604,7 +699,8 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (this.LanguageServiceProvider.SignatureExactlyEqual(original.ParameterList, modified.ParameterList))
+            if ((this.LanguageServiceProvider.SignatureExactlyEqual(original.Type, modified.Type)) &&
+                (this.LanguageServiceProvider.SignatureExactlyEqual(original.ParameterList, modified.ParameterList)))
     			return true;
     
     	    return false;
@@ -660,7 +756,8 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (this.LanguageServiceProvider.SignatureExactlyEqual(original.ParameterList, modified.ParameterList))
+            if ((this.LanguageServiceProvider.SignatureExactlyEqual(original.Identifier, modified.Identifier)) &&
+                (this.LanguageServiceProvider.SignatureExactlyEqual(original.ParameterList, modified.ParameterList)))
     			return true;
     
     	    return false;
@@ -773,7 +870,8 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (original.ExplicitInterfaceSpecifier != null && modified.ExplicitInterfaceSpecifier != null && this.LanguageServiceProvider.SignatureExactlyEqual(original.ExplicitInterfaceSpecifier, modified.ExplicitInterfaceSpecifier))
+            if (((original.ExplicitInterfaceSpecifier == null && modified.ExplicitInterfaceSpecifier == null) || (original.ExplicitInterfaceSpecifier != null && modified.ExplicitInterfaceSpecifier != null && this.LanguageServiceProvider.SignatureExactlyEqual(original.ExplicitInterfaceSpecifier, modified.ExplicitInterfaceSpecifier))) &&
+                (this.LanguageServiceProvider.SignatureExactlyEqual(original.Identifier, modified.Identifier)))
     			return true;
     
     	    return false;
@@ -830,6 +928,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     			return false;
     
             if (((original.ExplicitInterfaceSpecifier == null && modified.ExplicitInterfaceSpecifier == null) || (original.ExplicitInterfaceSpecifier != null && modified.ExplicitInterfaceSpecifier != null && this.LanguageServiceProvider.SignatureExactlyEqual(original.ExplicitInterfaceSpecifier, modified.ExplicitInterfaceSpecifier))) &&
+                (this.LanguageServiceProvider.SignatureExactlyEqual(original.ThisKeyword, modified.ThisKeyword)) &&
                 (this.LanguageServiceProvider.SignatureExactlyEqual(original.ParameterList, modified.ParameterList)))
     			return true;
     
@@ -1054,7 +1153,8 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (original.Parameters != null && modified.Parameters != null && this.LanguageServiceProvider.SignatureExactlyEqual(original.Parameters, modified.Parameters))
+            if ((this.LanguageServiceProvider.SignatureExactlyEqual(original.ThisKeyword, modified.ThisKeyword)) &&
+                ((original.Parameters == null && modified.Parameters == null) || (original.Parameters != null && modified.Parameters != null && this.LanguageServiceProvider.SignatureExactlyEqual(original.Parameters, modified.Parameters))))
     			return true;
     
     	    return false;
@@ -1110,7 +1210,8 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (original.Parameters != null && modified.Parameters != null && this.LanguageServiceProvider.SignatureExactlyEqual(original.Parameters, modified.Parameters))
+            if ((this.LanguageServiceProvider.SignatureExactlyEqual(original.OperatorToken, modified.OperatorToken)) &&
+                ((original.Parameters == null && modified.Parameters == null) || (original.Parameters != null && modified.Parameters != null && this.LanguageServiceProvider.SignatureExactlyEqual(original.Parameters, modified.Parameters))))
     			return true;
     
     	    return false;
@@ -1503,7 +1604,8 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if (((original.TypeParameterList == null && modified.TypeParameterList == null) || (original.TypeParameterList != null && modified.TypeParameterList != null && this.LanguageServiceProvider.SignatureExactlyEqual(original.TypeParameterList, modified.TypeParameterList))) &&
+            if ((this.LanguageServiceProvider.SignatureExactlyEqual(original.Identifier, modified.Identifier)) &&
+                ((original.TypeParameterList == null && modified.TypeParameterList == null) || (original.TypeParameterList != null && modified.TypeParameterList != null && this.LanguageServiceProvider.SignatureExactlyEqual(original.TypeParameterList, modified.TypeParameterList))) &&
                 (this.LanguageServiceProvider.SignatureExactlyEqual(original.ParameterList, modified.ParameterList)))
     			return true;
     

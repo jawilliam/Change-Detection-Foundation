@@ -53,8 +53,9 @@
     <Compile Include="Actions\UpdateOperationDescriptor.cs" />
     <Compile Include="Approach.Flad\ElementTypeServiceProvider.cs" />
     <Compile Include="Approach.Flad\FladApproach.cs" />
-    <Compile Include="Approach.Flad\ISignatureEqualityCondition.cs" />
     <Compile Include="Approach.Flad\INameEqualityCondition.cs" />
+    <Compile Include="Approach.Flad\ISignatureEqualityCondition.cs" />
+    <Compile Include="Approach.Flad\IEqualityCondition.cs" />
     <Compile Include="Approach.GumTree\GumTreeNativeApproach.cs" />
     <Compile Include="Actions\ActionDescriptor.cs" />
     <Compile Include="Actions\ActionKind.cs" />

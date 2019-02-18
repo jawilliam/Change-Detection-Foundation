@@ -2737,6 +2737,9 @@
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
           <Abstraction>
+            <Signature>
+              <Equality full="true"/>
+            </Signature>
             <Name>
               <Equality full="true"/>
             </Name>
@@ -2814,6 +2817,9 @@
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
           <Abstraction>
+            <Signature>
+              <Equality full="true"/>
+            </Signature>
             <Name>
               <Equality full="true"/>
             </Name>
@@ -2891,6 +2897,9 @@
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
           <Abstraction>
+            <Signature>
+              <Equality full="true"/>
+            </Signature>
             <Name>
               <Equality full="true"/>
             </Name>
@@ -2992,6 +3001,9 @@
             <Signature>
               <Equality full="true"/>
             </Signature>
+            <Name>
+              <Equality full="true"/>
+            </Name>
           </Abstraction>
         </Property>
         <Property name="GreaterThanToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single">
@@ -3018,6 +3030,9 @@
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
           <Abstraction>
+            <Signature>
+              <Equality full="true"/>
+            </Signature>
             <Name>
               <Equality full="true"/>
             </Name>
@@ -3255,9 +3270,6 @@
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>          
           <Abstraction>
-            <Signature>
-              <Equality full="true"/>
-            </Signature>
             <Name>
               <Equality full="true"/>
             </Name>
@@ -3270,9 +3282,6 @@
         </Property>
       </Properties>          
       <Abstraction>
-        <Signature>
-          <Equality full="true"/>
-        </Signature>
         <Name>
           <Equality full="true"/>
         </Name>
@@ -3353,6 +3362,9 @@
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
           <Abstraction>
+            <Signature>
+              <Equality full="true"/>
+            </Signature>
             <Name>
               <Equality full="true"/>
             </Name>
@@ -3435,6 +3447,9 @@
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
           <Abstraction>
+            <Signature>
+              <Equality full="true"/>
+            </Signature>
             <Name>
               <Equality full="true"/>
             </Name>
@@ -3501,6 +3516,14 @@
           <Text value="false" prefix=" "/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
+          <Abstraction>
+            <Signature>
+              <Equality full="true"/>
+            </Signature>
+            <Name>
+              <Equality full="true"/>
+            </Name>            
+          </Abstraction>
         </Property>
         <Property name="ParameterList" kind="Expression" index="5" optional="false" changepoint="true" inherited="true" multiplicity="Single">
           <Text value="false"/>
@@ -3551,6 +3574,9 @@
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
           <Abstraction>
+            <Signature>
+              <Equality full="true"/>
+            </Signature>
             <Name>
               <Equality full="true"/>
             </Name>
@@ -3835,6 +3861,9 @@
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
           <Abstraction>
+            <Signature>
+              <Equality full="true"/>
+            </Signature>
             <Name>
               <Equality full="true"/>
             </Name>
@@ -3890,6 +3919,9 @@
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
           <Abstraction>
+            <Signature>
+              <Equality full="true"/>
+            </Signature>
             <Name>
               <Equality full="true"/>
             </Name>
@@ -4086,6 +4118,9 @@
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
           <Abstraction>
+            <Signature>
+              <Equality full="true"/>
+            </Signature>
             <Name>
               <Equality full="true"/>
             </Name>
@@ -4663,6 +4698,9 @@
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
           <Abstraction>
+            <Signature>
+              <Equality full="true"/>
+            </Signature>
             <Name>
               <Equality full="true"/>
             </Name>
@@ -4700,6 +4738,9 @@
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
           <Abstraction>
+            <Signature>
+              <Equality full="true"/>
+            </Signature>
             <Name>
               <Equality full="true"/>
             </Name>
@@ -5908,6 +5949,9 @@
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
           <Abstraction>
+            <Signature>
+              <Equality full="true"/>
+            </Signature>
             <Name>
               <Equality full="true"/>
             </Name>

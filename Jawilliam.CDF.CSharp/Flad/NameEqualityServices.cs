@@ -1,5 +1,6 @@
 
 using Jawilliam.CDF.Approach.Flad;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
@@ -9,6 +10,68 @@ using System.Xml.Linq;
 
 namespace Jawilliam.CDF.CSharp.Flad
 {
+    partial class SyntaxTokenServiceProvider : INameEqualityCondition<SyntaxToken, SyntaxToken>
+    {
+        /// <summary>
+        /// Determines if two <see cref="SyntaxToken"/> elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        public virtual bool NameExactlyEqual(SyntaxToken original, SyntaxToken modified)
+        {
+            if (original == null || modified == null)
+                return false;
+    
+            if (!string.IsNullOrWhiteSpace(original.ValueText) && !string.IsNullOrWhiteSpace(modified.ValueText) && original.ValueText == modified.ValueText)
+                return true;
+    
+            return false;
+        }
+    }
+    
+    partial class LanguageServiceProvider
+    {
+    	/// <summary>
+        /// Determines if two typed elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <typeparam name="TOriginal">Type of the original version.</typeparam>
+        /// <typeparam name="TModified">Type of the original version.</typeparam>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        public virtual bool NameExactlyEqual<TOriginal, TModified>(TOriginal original, TModified modified) where TOriginal : SyntaxNode where TModified : SyntaxNode
+        {
+            if (this.TryToRun<TOriginal, TModified>(original, modified, typeof(INameEqualityCondition<,>), "NameExactlyEqual", out object result))
+                return (bool)result;
+    
+            var serviceProvider = this.GetElementTypeServiceProvider(typeof(TOriginal).Name.ToString().Replace("Syntax", "")) as INameEqualityCondition<TOriginal, TModified>;
+            return serviceProvider?.NameExactlyEqual(original, modified) ?? false;
+        }
+    
+        /// <summary>
+        /// Determines if two <see cref="SeparatedSyntaxList{TNode}"/> elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        public virtual bool NameExactlyEqual<T>(SeparatedSyntaxList<T> original, SeparatedSyntaxList<T> modified) where T : SyntaxNode
+        {
+            return this.ExactlyEqual(original, modified, this.NameExactlyEqual);
+        }
+    
+        /// <summary>
+        /// Determines if two <see cref="SyntaxToken"/> elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        public virtual bool NameExactlyEqual(SyntaxToken original, SyntaxToken modified)
+        {
+            return this.SyntaxTokenServiceProvider.NameExactlyEqual(original, modified);
+        }
+    }
+    
     public partial class AttributeArgumentServiceProvider : INameEqualityCondition<AttributeArgumentSyntax, AttributeArgumentSyntax>
     {
         /// <summary>
@@ -110,6 +173,62 @@ namespace Jawilliam.CDF.CSharp.Flad
         /// <param name="modified">the modified version.</param>
         /// <returns>true if they are exactly equal, otherwise returns false.</returns>
         public bool NameExactlyEqual(NameEqualsSyntax original, NameEqualsSyntax modified)
+        {
+    		bool result = false, ignoreCore = false;
+    		NameExactlyEqualBefore(original, modified, ref result, ref ignoreCore);
+    		if(ignoreCore) 
+    			return result;
+    		
+    		result = this.NameExactlyEqualCore(original, modified);
+    		NameExactlyEqualAfter(original, modified, ref result);
+    		return result;
+        }
+    }
+    
+    public partial class TypeParameterListServiceProvider : INameEqualityCondition<TypeParameterListSyntax, TypeParameterListSyntax>
+    {
+        /// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="NameExactlyEqualCore(TypeParameterListSyntax, TypeParameterListSyntax)"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="result">Mechanism to modify the result of <see cref="NameExactlyEqual(TypeParameterListSyntax, TypeParameterListSyntax)"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="NameExactlyEqualCore(TypeParameterListSyntax, TypeParameterListSyntax)"/> is not executed and <see cref="NameExactlyEqual(TypeParameterListSyntax, TypeParameterListSyntax)"/> returns the current value of <paramref name="result"/>.</param>
+        partial void NameExactlyEqualBefore(TypeParameterListSyntax original, TypeParameterListSyntax modified, ref bool result, ref bool ignoreCore);
+        
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="NameExactlyEqualCore(TypeParameterListSyntax, TypeParameterListSyntax)"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="result">Mechanism to modify the result of <see cref="NameExactlyEqual(TypeParameterListSyntax, TypeParameterListSyntax)"/>.</param>
+        partial void NameExactlyEqualAfter(TypeParameterListSyntax original, TypeParameterListSyntax modified, ref bool result);
+    
+        /// <summary>
+        /// Determines if two <see cref="TypeParameterListSyntax"/> elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        /// <remarks>This is the default implementation for <see cref="NameExactlyEqual(TypeParameterListSyntax, TypeParameterListSyntax)"/>.</remarks>
+        protected virtual bool NameExactlyEqualCore(TypeParameterListSyntax original, TypeParameterListSyntax modified)
+        {
+    		if(original == null || modified == null) 
+    			return false;
+    
+            if (this.LanguageServiceProvider.NameExactlyEqual(original.Parameters, modified.Parameters))
+    			return true;
+    
+    	    return false;
+    	}
+    
+        /// <summary>
+        /// Determines if two <see cref="TypeParameterListSyntax"/> elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        public bool NameExactlyEqual(TypeParameterListSyntax original, TypeParameterListSyntax modified)
         {
     		bool result = false, ignoreCore = false;
     		NameExactlyEqualBefore(original, modified, ref result, ref ignoreCore);
@@ -2130,6 +2249,62 @@ namespace Jawilliam.CDF.CSharp.Flad
         /// <param name="modified">the modified version.</param>
         /// <returns>true if they are exactly equal, otherwise returns false.</returns>
         public bool NameExactlyEqual(OperatorDeclarationSyntax original, OperatorDeclarationSyntax modified)
+        {
+    		bool result = false, ignoreCore = false;
+    		NameExactlyEqualBefore(original, modified, ref result, ref ignoreCore);
+    		if(ignoreCore) 
+    			return result;
+    		
+    		result = this.NameExactlyEqualCore(original, modified);
+    		NameExactlyEqualAfter(original, modified, ref result);
+    		return result;
+        }
+    }
+    
+    public partial class ConversionOperatorDeclarationServiceProvider : INameEqualityCondition<ConversionOperatorDeclarationSyntax, ConversionOperatorDeclarationSyntax>
+    {
+        /// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="NameExactlyEqualCore(ConversionOperatorDeclarationSyntax, ConversionOperatorDeclarationSyntax)"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="result">Mechanism to modify the result of <see cref="NameExactlyEqual(ConversionOperatorDeclarationSyntax, ConversionOperatorDeclarationSyntax)"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="NameExactlyEqualCore(ConversionOperatorDeclarationSyntax, ConversionOperatorDeclarationSyntax)"/> is not executed and <see cref="NameExactlyEqual(ConversionOperatorDeclarationSyntax, ConversionOperatorDeclarationSyntax)"/> returns the current value of <paramref name="result"/>.</param>
+        partial void NameExactlyEqualBefore(ConversionOperatorDeclarationSyntax original, ConversionOperatorDeclarationSyntax modified, ref bool result, ref bool ignoreCore);
+        
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="NameExactlyEqualCore(ConversionOperatorDeclarationSyntax, ConversionOperatorDeclarationSyntax)"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="result">Mechanism to modify the result of <see cref="NameExactlyEqual(ConversionOperatorDeclarationSyntax, ConversionOperatorDeclarationSyntax)"/>.</param>
+        partial void NameExactlyEqualAfter(ConversionOperatorDeclarationSyntax original, ConversionOperatorDeclarationSyntax modified, ref bool result);
+    
+        /// <summary>
+        /// Determines if two <see cref="ConversionOperatorDeclarationSyntax"/> elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        /// <remarks>This is the default implementation for <see cref="NameExactlyEqual(ConversionOperatorDeclarationSyntax, ConversionOperatorDeclarationSyntax)"/>.</remarks>
+        protected virtual bool NameExactlyEqualCore(ConversionOperatorDeclarationSyntax original, ConversionOperatorDeclarationSyntax modified)
+        {
+    		if(original == null || modified == null) 
+    			return false;
+    
+            if (this.LanguageServiceProvider.NameExactlyEqual(original.Type, modified.Type))
+    			return true;
+    
+    	    return false;
+    	}
+    
+        /// <summary>
+        /// Determines if two <see cref="ConversionOperatorDeclarationSyntax"/> elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        public bool NameExactlyEqual(ConversionOperatorDeclarationSyntax original, ConversionOperatorDeclarationSyntax modified)
         {
     		bool result = false, ignoreCore = false;
     		NameExactlyEqualBefore(original, modified, ref result, ref ignoreCore);
