@@ -144,7 +144,7 @@
     <Compile Include="Flad\CSharpFlad.cs" />
     <Compile Include="Flad\CSharpNameEqualityChoice.cs" />
     <Compile Include="Flad\CSharpSignatureEqualityChoice.cs" />
-    <Compile Include="Flad\CSharpFladStepInfo.cs" />
+    <Compile Include="CSharpFladStepInfo.cs" />
     <Compile Include="Approach.Matching.CSharp\MatchingProvider.cs" />
     <Compile Include="Approach.Matching.CSharp\MethodDeclarationMatchingOptions.cs" />
     <Compile Include="CSharpSyntaxNode.cs" />
@@ -185,6 +185,7 @@
     <Compile Include="Flad\NameServiceProvider.Partial.cs" />
     <Compile Include="Flad\OmittedTypeArgumentServiceProvider.Partial.cs" />
     <Compile Include="Flad\SyntaxTokenServiceProvider.cs" />
+    <Compile Include="GumTree\PriorityTreeList.cs" />
     <Compile Include="MutableNodes.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -199,6 +200,7 @@
     <Compile Include="RoslynML\RoslynML.Custom.cs" />
     <Compile Include="SeparatedSyntaxList.cs" />
     <Compile Include="SyntaxList.cs" />
+    <Compile Include="SyntaxNodeExtensions.cs" />
     <Compile Include="SyntaxToken.cs" />
     <Compile Include="SyntaxTokenList.cs" />
   </ItemGroup>

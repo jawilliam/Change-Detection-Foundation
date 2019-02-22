@@ -99,5 +99,17 @@ namespace Jawilliam.CDF
                 current = parent(current);
             }
         }
+
+        /// <summary>
+        /// Computes the height of the current subtree.
+        /// </summary>
+        /// <param name="source">element for which returning the ancestors.</param>
+        /// <param name="children">Supports the access to the children of a node.</param>
+        /// <returns>the height of the current subtree (0 is source is a leaf).</returns>
+        public static int Height<T>(this T source, Func<T, IEnumerable<T>> children, Func<T, int> getHeight)
+        {
+            var cChildren = children(source).ToList();
+            return cChildren.Any() ? cChildren.Max(c => getHeight(c)) + 1 : 0;
+        }
     }
 }

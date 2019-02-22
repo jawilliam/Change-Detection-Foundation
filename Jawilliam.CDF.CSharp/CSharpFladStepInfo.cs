@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Jawilliam.CDF.CSharp.Flad
+namespace Jawilliam.CDF.CSharp
 {
     /// <summary>
     /// Contains options to describe a step in change detection.
@@ -40,5 +40,7 @@ namespace Jawilliam.CDF.CSharp.Flad
         Name = 64,
 
         Head = 128,
+
+        Subtree = 256
     }
 }

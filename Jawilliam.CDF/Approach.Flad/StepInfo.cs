@@ -40,5 +40,7 @@ namespace Jawilliam.CDF.Approach
         Name = 64,
 
         Head = 128,
+
+        Subtree = 256
     }
 }

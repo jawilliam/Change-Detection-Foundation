@@ -14,7 +14,7 @@ namespace Jawilliam.CDF.Tests
         [TestMethod]
         public void TestMethod1()
         {
-            var v = typeof (Microsoft.CodeAnalysis.CSharp.CSharpSyntaxNode);
+            var v = typeof(Microsoft.CodeAnalysis.CSharp.CSharpSyntaxNode);
             var x = new XElement("das");
             x.Add(new XText("sd"));
             x.Add(new XElement("g"));
@@ -65,6 +65,27 @@ namespace Jawilliam.CDF.Tests
             Assert.IsTrue(detectionResult.Matches[3].Similarity == 5.67);
 
             string s = detectionResult.WriteXmlColumn();
+        }
+
+        public class T
+        {
+            public string Id { get; set; }
+            public int Height { get; set; }
+            public T[] Children { get; set; }
+        };
+
+        [TestMethod]
+        public void Treeable_Height_OK()
+        {
+            var r0a = new T { Id = "0a", Height = 0, Children = new T[0] };
+            var r0b = new T { Id = "0b", Height = 0, Children = new T[0] };
+            var r1 = new T { Id = "1", Height = 1, Children = new T[] { r0a } };
+            var r2 = new T { Id = "2", Height = 2, Children = new T[] { r1, r0b } };
+
+            Assert.AreEqual(r0a.Height, r0a.Height(t => t.Children, t => t.Height));
+            Assert.AreEqual(r0b.Height, r0b.Height(t => t.Children, t => t.Height));
+            Assert.AreEqual(r1.Height, r1.Height(t => t.Children, t => t.Height));
+            Assert.AreEqual(r2.Height, r2.Height(t => t.Children, t => t.Height));
         }
     }
 }
