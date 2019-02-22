@@ -8,11 +8,11 @@
     public interface IEqualityCondition<TOriginal, TModified>
     {
         /// <summary>
-        /// Determines if two typed elements areexactly equal.
+        /// Determines if two typed elements are equal.
         /// </summary>
         /// <param name="original">the original version.</param>
         /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        bool ExactlyEqual(TOriginal original, TModified modified);
+        /// <returns>true if they are equal, otherwise returns false.</returns>
+        bool Equal(TOriginal original, TModified modified);
     }
 }

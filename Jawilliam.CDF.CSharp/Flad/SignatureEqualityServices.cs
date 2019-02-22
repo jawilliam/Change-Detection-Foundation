@@ -20,7 +20,7 @@ namespace Jawilliam.CDF.CSharp.Flad
         /// <returns>true if they are exactly equal, otherwise returns false.</returns>
         public virtual bool TypeExactlyEqual(SyntaxToken original, SyntaxToken modified)
         {
-            return this.LanguageServiceProvider.ExactlyEqual(original, modified);
+            return this.LanguageServiceProvider.Equal(original, modified);
         }
     
     	/// <summary>
@@ -31,7 +31,7 @@ namespace Jawilliam.CDF.CSharp.Flad
         /// <returns>true if they are exactly equal, otherwise returns false.</returns>
         public virtual bool SignatureExactlyEqual(SyntaxToken original, SyntaxToken modified)
         {
-            return this.LanguageServiceProvider.ExactlyEqual(original, modified);
+            return this.LanguageServiceProvider.Equal(original, modified);
         }
     }
     
@@ -62,7 +62,7 @@ namespace Jawilliam.CDF.CSharp.Flad
         /// <returns>true if they are exactly equal, otherwise returns false.</returns>
         public virtual bool SignatureExactlyEqual<T>(SeparatedSyntaxList<T> original, SeparatedSyntaxList<T> modified) where T : SyntaxNode
         {
-            return this.ExactlyEqual(original, modified, this.SignatureExactlyEqual);
+            return this.Equal(original, modified, this.SignatureExactlyEqual);
         }
     
         /// <summary>
@@ -101,7 +101,7 @@ namespace Jawilliam.CDF.CSharp.Flad
         /// <returns>true if they are exactly equal, otherwise returns false.</returns>
         public virtual bool TypeExactlyEqual<T>(SeparatedSyntaxList<T> original, SeparatedSyntaxList<T> modified) where T : SyntaxNode
         {
-            return this.ExactlyEqual(original, modified, this.TypeExactlyEqual);
+            return this.Equal(original, modified, this.TypeExactlyEqual);
         }
     
         /// <summary>
@@ -115,19 +115,30 @@ namespace Jawilliam.CDF.CSharp.Flad
             return this.SyntaxTokenServiceProvider.NameExactlyEqual(original, modified);
         }
     
-        ///// <summary>
-        ///// Determines if two <see cref="TypeSyntax"/> elements are signature-based exactly equal.
-        ///// </summary>
-        ///// <param name="original">the original version.</param>
-        ///// <param name="modified">the modified version.</param>
-        ///// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        //public virtual bool SignatureExactlyEqual(TypeSyntax original, TypeSyntax modified)
-        //{
-        //    return this.NameExactlyEqual(original, modified);
-        //}
+        /// <summary>
+        /// Determines if two <see cref="TypeSyntax"/> elements are type-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        public virtual bool TypeExactlyEqual(TypeSyntax original, TypeSyntax modified)
+        {
+            return this.Equal(original, modified);
+        }
+        
+        /// <summary>
+        /// Determines if two <see cref="TypeSyntax"/> elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        public virtual bool NameExactlyEqual(TypeSyntax original, TypeSyntax modified)
+        {
+            return this.Equal(original, modified);
+        }
     }
     
-    partial class PredefinedTypeServiceProvider : IEqualityCondition<PredefinedTypeSyntax, PredefinedTypeSyntax>
+    partial class PredefinedTypeServiceProvider : ITypeEqualityCondition<PredefinedTypeSyntax, PredefinedTypeSyntax>
     {
     	/// <summary>
         /// Determines if two <see cref="PredefinedTypeSyntax"/> elements are type-based exactly equal.
@@ -137,7 +148,7 @@ namespace Jawilliam.CDF.CSharp.Flad
         /// <returns>true if they are exactly equal, otherwise returns false.</returns>
         public virtual bool TypeExactlyEqual(PredefinedTypeSyntax original, PredefinedTypeSyntax modified)
         {
-            return this.LanguageServiceProvider.ExactlyEqual(original, modified);
+            return this.LanguageServiceProvider.Equal(original, modified);
         }
     
         /// <summary>
@@ -148,7 +159,21 @@ namespace Jawilliam.CDF.CSharp.Flad
         /// <returns>true if they are exactly equal, otherwise returns false.</returns>
         public virtual bool SignatureExactlyEqual(PredefinedTypeSyntax original, PredefinedTypeSyntax modified)
         {
-            return this.LanguageServiceProvider.ExactlyEqual(original, modified);
+            return this.LanguageServiceProvider.Equal(original, modified);
+        }
+    }
+    
+    partial class TypeParameterListServiceProvider : ITypeEqualityCondition<TypeParameterListSyntax, TypeParameterListSyntax>
+    {
+    	/// <summary>
+        /// Determines if two <see cref="TypeParameterListSyntax"/> elements are type-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        public virtual bool TypeExactlyEqual(TypeParameterListSyntax original, TypeParameterListSyntax modified)
+        {
+            return original.Parameters.Count() == modified.Parameters.Count();
         }
     }
     
@@ -1356,62 +1381,6 @@ namespace Jawilliam.CDF.CSharp.Flad
         }
     }
     
-    public partial class PropertyDeclarationServiceProvider : ISignatureEqualityCondition<PropertyDeclarationSyntax, PropertyDeclarationSyntax>
-    {
-        /// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="SignatureExactlyEqualCore(PropertyDeclarationSyntax, PropertyDeclarationSyntax)"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="SignatureExactlyEqual(PropertyDeclarationSyntax, PropertyDeclarationSyntax)"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="SignatureExactlyEqualCore(PropertyDeclarationSyntax, PropertyDeclarationSyntax)"/> is not executed and <see cref="SignatureExactlyEqual(PropertyDeclarationSyntax, PropertyDeclarationSyntax)"/> returns the current value of <paramref name="result"/>.</param>
-        partial void SignatureExactlyEqualBefore(PropertyDeclarationSyntax original, PropertyDeclarationSyntax modified, ref bool result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="SignatureExactlyEqualCore(PropertyDeclarationSyntax, PropertyDeclarationSyntax)"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="SignatureExactlyEqual(PropertyDeclarationSyntax, PropertyDeclarationSyntax)"/>.</param>
-        partial void SignatureExactlyEqualAfter(PropertyDeclarationSyntax original, PropertyDeclarationSyntax modified, ref bool result);
-    
-        /// <summary>
-        /// Determines if two <see cref="PropertyDeclarationSyntax"/> elements are signature-based exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="SignatureExactlyEqual(PropertyDeclarationSyntax, PropertyDeclarationSyntax)"/>.</remarks>
-        protected virtual bool SignatureExactlyEqualCore(PropertyDeclarationSyntax original, PropertyDeclarationSyntax modified)
-        {
-    		if(original == null || modified == null) 
-    			return false;
-    
-            if(this.LanguageServiceProvider.NameExactlyEqual(original, modified))
-    			return true;
-    
-    	    return false;
-    	}
-    
-        /// <summary>
-        /// Determines if two <see cref="PropertyDeclarationSyntax"/> elements are signature-based exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        public bool SignatureExactlyEqual(PropertyDeclarationSyntax original, PropertyDeclarationSyntax modified)
-        {
-    		bool result = false, ignoreCore = false;
-    		SignatureExactlyEqualBefore(original, modified, ref result, ref ignoreCore);
-    		if(ignoreCore) 
-    			return result;
-    		
-    		result = this.SignatureExactlyEqualCore(original, modified);
-    		SignatureExactlyEqualAfter(original, modified, ref result);
-    		return result;
-        }
-    }
-    
     public partial class EventDeclarationServiceProvider : ISignatureEqualityCondition<EventDeclarationSyntax, EventDeclarationSyntax>
     {
         /// <summary>
@@ -1879,7 +1848,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     		if(original == null || modified == null) 
     			return false;
     
-            if(this.LanguageServiceProvider.TypeExactlyEqual(original, modified))
+            if(this.LanguageServiceProvider.NameExactlyEqual(original, modified) && this.LanguageServiceProvider.TypeExactlyEqual(original, modified))
     			return true;
     
     	    return false;

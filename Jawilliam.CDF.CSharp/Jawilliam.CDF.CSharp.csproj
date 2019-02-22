@@ -137,6 +137,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Flad\AttributeArgumentServiceProvider.Partial.cs" />
+    <Compile Include="Flad\AnonymousMethodExpressionServiceProvider.Partial.cs" />
+    <Compile Include="Flad\InterfaceDeclarationServiceProvider.Partial.cs" />
+    <Compile Include="Flad\StructDeclarationServiceProvider.Partial.cs" />
+    <Compile Include="Flad\ClassDeclarationServiceProvider.Partial.cs" />
     <Compile Include="Flad\CSharpFlad.cs" />
     <Compile Include="Flad\CSharpNameEqualityChoice.cs" />
     <Compile Include="Flad\CSharpSignatureEqualityChoice.cs" />
@@ -150,6 +154,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ElementTypeServiceProviders.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Flad\EqualityServices.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EqualityServices.tt</DependentUpon>
     </Compile>
     <Compile Include="Flad\QualifiedNameServiceProvider.Partial.cs" />
     <Compile Include="Flad\IdentifierNameServiceProvider.Partial.cs" />
@@ -206,6 +215,10 @@
     <None Include="RDSL.xml">
       <SubType>Designer</SubType>
     </None>
+    <Content Include="Flad\EqualityServices.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>EqualityServices.cs</LastGenOutput>
+    </Content>
     <Content Include="Flad\SignatureEqualityServices.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>SignatureEqualityServices.cs</LastGenOutput>

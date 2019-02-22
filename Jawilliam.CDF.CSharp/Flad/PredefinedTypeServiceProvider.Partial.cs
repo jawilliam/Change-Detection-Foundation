@@ -36,13 +36,13 @@ namespace Jawilliam.CDF.CSharp.Flad
         }
 
         /// <summary>
-        /// Determines if two elements are exactly equal.
+        /// Determines if two elements are equal.
         /// </summary>
         /// <param name="original">the original version.</param>
         /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="ExactlyEqual(PredefinedTypeSyntax, IdentifierNameSyntax)"/>.</remarks>
-        public virtual bool ExactlyEqual(PredefinedTypeSyntax original, IdentifierNameSyntax modified)
+        /// <returns>true if they are equal, otherwise returns false.</returns>
+        /// <remarks>This is the default implementation for <see cref="Equal(PredefinedTypeSyntax, IdentifierNameSyntax)"/>.</remarks>
+        public virtual bool Equal(PredefinedTypeSyntax original, IdentifierNameSyntax modified)
         {
             if (original == null || modified == null)
                 return false;
@@ -55,13 +55,13 @@ namespace Jawilliam.CDF.CSharp.Flad
         }
 
         /// <summary>
-        /// Determines if two elements are exactly equal.
+        /// Determines if two elements are equal.
         /// </summary>
         /// <param name="original">the original version.</param>
         /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="ExactlyEqual(PredefinedTypeSyntax, QualifiedNameSyntax)"/>.</remarks>
-        public virtual bool ExactlyEqual(PredefinedTypeSyntax original, QualifiedNameSyntax modified)
+        /// <returns>true if they are equal, otherwise returns false.</returns>
+        /// <remarks>This is the default implementation for <see cref="Equal(PredefinedTypeSyntax, QualifiedNameSyntax)"/>.</remarks>
+        public virtual bool Equal(PredefinedTypeSyntax original, QualifiedNameSyntax modified)
         {
             if (original == null || modified == null)
                 return false;
@@ -84,7 +84,7 @@ namespace Jawilliam.CDF.CSharp.Flad
         /// <returns>true if they are exactly equal, otherwise returns false.</returns>
         public virtual bool TypeExactlyEqual(PredefinedTypeSyntax original, IdentifierNameSyntax modified)
         {
-            return this.LanguageServiceProvider.ExactlyEqual(original, modified);
+            return this.LanguageServiceProvider.Equal(original, modified);
         }
 
         /// <summary>
@@ -95,7 +95,7 @@ namespace Jawilliam.CDF.CSharp.Flad
         /// <returns>true if they are exactly equal, otherwise returns false.</returns>
         public virtual bool TypeExactlyEqual(PredefinedTypeSyntax original, QualifiedNameSyntax modified)
         {
-            return this.LanguageServiceProvider.ExactlyEqual(original, modified);
+            return this.LanguageServiceProvider.Equal(original, modified);
         }
     }
 }

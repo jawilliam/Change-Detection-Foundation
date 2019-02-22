@@ -75,6 +75,7 @@ var manager = TemplateFileManager.Create(this);
 var xSyntaxTypeSystem = Jawilliam.CDF.XObjects.RDSL.Syntax.Load(@"E:\MyRepositories\Change-Detection-Foundation\Jawilliam.CDF.CSharp\RDSL.xml");
 #>
 using Jawilliam.CDF.Approach.Flad;
+using Jawilliam.CDF.Domain;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -85,176 +86,154 @@ using System.Xml.Linq;
 
 <#
 BeginNamespace(namespaceName, code);
-#>
-partial class SyntaxTokenServiceProvider : ISignatureEqualityCondition<SyntaxToken, SyntaxToken>
-{
-    /// <summary>
-    /// Determines if two <see cref="SyntaxToken"/> elements are type-based exactly equal.
-    /// </summary>
-    /// <param name="original">the original version.</param>
-    /// <param name="modified">the modified version.</param>
-    /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-    public virtual bool TypeExactlyEqual(SyntaxToken original, SyntaxToken modified)
-    {
-        return this.LanguageServiceProvider.Equal(original, modified);
-    }
 
+#>
+/// <summary>
+/// Provides language-aware services regarding <see cref="SyntaxToken"/>.
+/// </summary>
+partial class SyntaxTokenServiceProvider
+{
 	/// <summary>
-    /// Determines if two <see cref="SyntaxToken"/> elements are signature-based exactly equal.
+    /// Determines if two <see cref="SyntaxToken"/> elements are equal.
     /// </summary>
     /// <param name="original">the original version.</param>
     /// <param name="modified">the modified version.</param>
-    /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-    public virtual bool SignatureExactlyEqual(SyntaxToken original, SyntaxToken modified)
+    /// <returns>true if they are equal, otherwise returns false.</returns>
+    public virtual bool Equal(SyntaxToken original, SyntaxToken modified)
     {
-        return this.LanguageServiceProvider.Equal(original, modified);
+        if (original == null || modified == null)
+            return false;
+    
+        if (!string.IsNullOrWhiteSpace(original.ValueText) && !string.IsNullOrWhiteSpace(modified.ValueText) && original.ValueText == modified.ValueText)
+            return true;
+    
+        return false;
     }
 }
 
 partial class LanguageServiceProvider
 {
 	/// <summary>
-    /// Determines if two typed elements are signature-based exactly equal.
+    /// Determines if two typed elements are equal.
     /// </summary>
     /// <param name="original">the original version.</param>
     /// <param name="modified">the modified version.</param>
     /// <typeparam name="TOriginal">Type of the original version.</typeparam>
     /// <typeparam name="TModified">Type of the original version.</typeparam>
-    /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-    public virtual bool SignatureExactlyEqual<TOriginal, TModified>(TOriginal original, TModified modified) where TOriginal : SyntaxNode where TModified : SyntaxNode
+    /// <returns>true if they are equal, otherwise returns false.</returns>
+    public virtual bool Equal<TOriginal, TModified>(TOriginal original, TModified modified) where TOriginal : SyntaxNode where TModified : SyntaxNode
     {
-        if (this.TryToRun<TOriginal, TModified>(original, modified, typeof(INameEqualityCondition<,>), "SignatureExactlyEqual", out object result))
+        if (this.TryToRun<TOriginal, TModified>(original, modified, typeof(IEqualityCondition<,>), "Equal", out object result))
             return (bool)result;
-
-        var serviceProvider = this.GetElementTypeServiceProvider(typeof(TOriginal).Name.ToString().Replace("Syntax", "")) as ISignatureEqualityCondition<TOriginal, TModified>;
-        return serviceProvider?.SignatureExactlyEqual(original, modified) ?? false;
-    }
-
-    /// <summary>
-    /// Determines if two <see cref="SeparatedSyntaxList{TNode}"/> elements are signature-based exactly equal.
-    /// </summary>
-    /// <param name="original">the original version.</param>
-    /// <param name="modified">the modified version.</param>
-    /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-    public virtual bool SignatureExactlyEqual<T>(SeparatedSyntaxList<T> original, SeparatedSyntaxList<T> modified) where T : SyntaxNode
-    {
-        return this.Equal(original, modified, this.SignatureExactlyEqual);
-    }
-
-    /// <summary>
-    /// Determines if two <see cref="SyntaxToken"/> elements are signature-based exactly equal.
-    /// </summary>
-    /// <param name="original">the original version.</param>
-    /// <param name="modified">the modified version.</param>
-    /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-    public virtual bool SignatureExactlyEqual(SyntaxToken original, SyntaxToken modified)
-    {
-        return this.SyntaxTokenServiceProvider.NameExactlyEqual(original, modified);
-    }
-
-	/// <summary>
-    /// Determines if two typed elements are type-based exactly equal.
-    /// </summary>
-    /// <param name="original">the original version.</param>
-    /// <param name="modified">the modified version.</param>
-    /// <typeparam name="TOriginal">Type of the original version.</typeparam>
-    /// <typeparam name="TModified">Type of the original version.</typeparam>
-    /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-    public virtual bool TypeExactlyEqual<TOriginal, TModified>(TOriginal original, TModified modified) where TOriginal : SyntaxNode where TModified : SyntaxNode
-    {
-        if (this.TryToRun<TOriginal, TModified>(original, modified, typeof(INameEqualityCondition<,>), "TypeExactlyEqual", out object result))
-            return (bool)result;
-
-        var serviceProvider = this.GetElementTypeServiceProvider(typeof(TOriginal).Name.ToString().Replace("Syntax", "")) as ITypeEqualityCondition<TOriginal, TModified>;
-        return serviceProvider?.TypeExactlyEqual(original, modified) ?? false;
-    }
-
-    /// <summary>
-    /// Determines if two <see cref="SeparatedSyntaxList{TNode}"/> elements are type-based exactly equal.
-    /// </summary>
-    /// <param name="original">the original version.</param>
-    /// <param name="modified">the modified version.</param>
-    /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-    public virtual bool TypeExactlyEqual<T>(SeparatedSyntaxList<T> original, SeparatedSyntaxList<T> modified) where T : SyntaxNode
-    {
-        return this.Equal(original, modified, this.TypeExactlyEqual);
-    }
-
-    /// <summary>
-    /// Determines if two <see cref="SyntaxToken"/> elements are type-based exactly equal.
-    /// </summary>
-    /// <param name="original">the original version.</param>
-    /// <param name="modified">the modified version.</param>
-    /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-    public virtual bool TypeExactlyEqual(SyntaxToken original, SyntaxToken modified)
-    {
-        return this.SyntaxTokenServiceProvider.NameExactlyEqual(original, modified);
-    }
-
-    /// <summary>
-    /// Determines if two <see cref="TypeSyntax"/> elements are type-based exactly equal.
-    /// </summary>
-    /// <param name="original">the original version.</param>
-    /// <param name="modified">the modified version.</param>
-    /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-    public virtual bool TypeExactlyEqual(TypeSyntax original, TypeSyntax modified)
-    {
-        return this.Equal(original, modified);
-    }
     
-    /// <summary>
-    /// Determines if two <see cref="TypeSyntax"/> elements are name-based exactly equal.
-    /// </summary>
-    /// <param name="original">the original version.</param>
-    /// <param name="modified">the modified version.</param>
-    /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-    public virtual bool NameExactlyEqual(TypeSyntax original, TypeSyntax modified)
-    {
-        return this.Equal(original, modified);
-    }
-}
-
-partial class PredefinedTypeServiceProvider : ITypeEqualityCondition<PredefinedTypeSyntax, PredefinedTypeSyntax>
-{
-	/// <summary>
-    /// Determines if two <see cref="PredefinedTypeSyntax"/> elements are type-based exactly equal.
-    /// </summary>
-    /// <param name="original">the original version.</param>
-    /// <param name="modified">the modified version.</param>
-    /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-    public virtual bool TypeExactlyEqual(PredefinedTypeSyntax original, PredefinedTypeSyntax modified)
-    {
-        return this.LanguageServiceProvider.Equal(original, modified);
+        var serviceProvider = this.GetElementTypeServiceProvider(typeof(TOriginal).Name.ToString().Replace("Syntax", "")) as IEqualityCondition<TOriginal, TModified>;
+        return serviceProvider?.Equal(original, modified) ?? false;
     }
 
     /// <summary>
-    /// Determines if two <see cref="PredefinedTypeSyntax"/> elements are signature-based exactly equal.
+    /// Determines if two <see cref="SeparatedSyntaxList{TNode}"/> elements are equal.
     /// </summary>
     /// <param name="original">the original version.</param>
     /// <param name="modified">the modified version.</param>
-    /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-    public virtual bool SignatureExactlyEqual(PredefinedTypeSyntax original, PredefinedTypeSyntax modified)
+    /// <param name="equal">logic of equality.</param>
+    /// <returns>true if they are equal, otherwise returns false.</returns>
+    protected virtual bool Equal<T>(SeparatedSyntaxList<T> original, SeparatedSyntaxList<T> modified, Func<T, T, bool> equal) where T : SyntaxNode
     {
-        return this.LanguageServiceProvider.Equal(original, modified);
-    }
-}
+        if (original == null || modified == null)
+            return false;
 
-partial class TypeParameterListServiceProvider : ITypeEqualityCondition<TypeParameterListSyntax, TypeParameterListSyntax>
-{
-	/// <summary>
-    /// Determines if two <see cref="TypeParameterListSyntax"/> elements are type-based exactly equal.
+        if (original.Count != modified.Count)
+            return false;
+
+        for (int i = 0; i < original.Count; i++)
+        {
+            if (!equal(original[i], modified[i]))
+                return false;
+        }
+        return true;
+    }	
+
+    /// <summary>
+    /// Determines if two <see cref="SeparatedSyntaxList{TNode}"/> elements are equal.
     /// </summary>
     /// <param name="original">the original version.</param>
     /// <param name="modified">the modified version.</param>
-    /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-    public virtual bool TypeExactlyEqual(TypeParameterListSyntax original, TypeParameterListSyntax modified)
+    /// <returns>true if they are equal, otherwise returns false.</returns>
+    public virtual bool Equal<T>(SeparatedSyntaxList<T> original, SeparatedSyntaxList<T> modified) where T : SyntaxNode
     {
-        return original.Parameters.Count() == modified.Parameters.Count();
+        return this.Equal(original, modified, this.Equal);
+    }
+
+    /// <summary>
+    /// Determines if two <see cref="SyntaxList{TNode}"/> elements are equal.
+    /// </summary>
+    /// <param name="original">the original version.</param>
+    /// <param name="modified">the modified version.</param>
+    /// <param name="equal">logic of equality.</param>
+    /// <returns>true if they are equal, otherwise returns false.</returns>
+    protected virtual bool Equal<T>(SyntaxList<T> original, SyntaxList<T> modified, Func<T, T, bool> equal) where T : SyntaxNode
+    {
+        if (original == null || modified == null)
+            return false;
+
+        if (original.Count != modified.Count)
+            return false;
+
+        for (int i = 0; i < original.Count; i++)
+        {
+            if (!equal(original[i], modified[i]))
+                return false;
+        }
+        return true;
+    }	
+
+    /// <summary>
+    /// Determines if two <see cref="SyntaxList{TNode}"/> elements are equal.
+    /// </summary>
+    /// <param name="original">the original version.</param>
+    /// <param name="modified">the modified version.</param>
+    /// <returns>true if they are equal, otherwise returns false.</returns>
+    public virtual bool Equal<T>(SyntaxList<T> original, SyntaxList<T> modified) where T : SyntaxNode
+    {
+        return this.Equal(original, modified, this.Equal);
+    }
+
+    /// <summary>
+    /// Determines if two <see cref="SyntaxTokenList"/> elements are equal.
+    /// </summary>
+    /// <param name="original">the original version.</param>
+    /// <param name="modified">the modified version.</param>
+    /// <param name="equal">logic of equality.</param>
+    /// <returns>true if they are equal, otherwise returns false.</returns>
+    public virtual bool Equal(SyntaxTokenList original, SyntaxTokenList modified)
+    {
+        if (original == null || modified == null)
+            return false;
+
+        if (original.Count != modified.Count)
+            return false;
+
+        for (int i = 0; i < original.Count; i++)
+        {
+            if (!this.Equal(original[i], modified[i]))
+                return false;
+        }
+        return true;
+    }
+
+	/// <summary>
+    /// Determines if two <see cref="SyntaxToken"/> elements are equal.
+    /// </summary>
+    /// <param name="original">the original version.</param>
+    /// <param name="modified">the modified version.</param>
+    /// <returns>true if they are equal, otherwise returns false.</returns>
+    public virtual bool Equal(SyntaxToken original, SyntaxToken modified)
+    {
+        return this.SyntaxTokenServiceProvider.Equal(original, modified);
     }
 }
 
 <#
-var signatureProviders = xSyntaxTypeSystem.Nodes.Type.Where(t => !t.@abstract && t.Properties.Property.Any(p => p.Abstraction?.Signature?.Equality?.full ?? false)).ToList();
 
 foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
 .Where(n => !object.Equals(n.Root.Label, "SyntaxNode") && 
@@ -263,19 +242,12 @@ foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
 	//manager.StartNewFile(syntaxNode.Root.Label + ".cs");
 
 	var xSyntaxNodeType = xSyntaxTypeSystem.Nodes.Type.SingleOrDefault(n => n.name == syntaxNode.Root.Label.ToString());
-	if(xSyntaxNodeType == null) continue;
-
-	//!xSyntaxNodeType.Key.name
-	if(!signatureProviders.Any(t => t == xSyntaxNodeType)) continue;
-	var keyProperties = xSyntaxNodeType.Properties.Property.Where(p => p.Abstraction?.Signature?.Equality?.full ?? false).ToList();
-	if(!keyProperties.Any()) continue;
-	
-	var typeProperties = keyProperties.Where(p => !(p.Abstraction?.Name?.Equality?.full ?? false)).ToList();
-	var nameProperties = xSyntaxNodeType.Properties.Property.Where(p => p.Abstraction?.Name?.Equality?.full ?? false).ToList();
-
+	if(xSyntaxNodeType == null || xSyntaxNodeType.@abstract) continue;
 	var xSyntaxNodeBaseType = xSyntaxNodeType != null && xSyntaxNodeType.@base != null ?
 	 xSyntaxTypeSystem.Nodes.Type.SingleOrDefault(n => n.name == xSyntaxNodeType.@base) 
 	 : null;
+
+	var isAbstract = xSyntaxNodeType.@abstract;
 	
 	var isUpdatable = false;
 	if(xSyntaxNodeType != null && xSyntaxNodeType.Properties != null && xSyntaxNodeType.Properties.Property != null)
@@ -283,7 +255,8 @@ foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
 
 	if(xSyntaxNodeType != null)
     {
-		var xSyntaxNodeBaseTypeProperties = xSyntaxNodeBaseType != null && xSyntaxNodeBaseType.Properties != null && xSyntaxNodeBaseType.Properties.Property != null 
+		var xSyntaxNodeBaseTypeProperties = xSyntaxNodeBaseType != null && xSyntaxNodeBaseType.Properties != null 
+											&& xSyntaxNodeBaseType.Properties.Property != null 
 				? xSyntaxNodeBaseType.Properties.Property
 				: new Syntax.NodesLocalType.TypeLocalType.PropertiesLocalType.PropertyLocalType[0];
 
@@ -306,185 +279,86 @@ foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
 
 	if(xSyntaxNodeType != null)
 	{
-		var baseDeclarationText = xSyntaxNodeBaseType == null ? "Jawilliam.CDF.Domain.ElementTypeServiceProvider" : code.Escape(xSyntaxNodeBaseType.name.ToString()).Replace("Syntax", "") + "ServiceProvider";
+		var baseDeclarationText = xSyntaxNodeBaseType == null ? "ElementTypeServiceProvider" : code.Escape(xSyntaxNodeBaseType.name.ToString()).Replace("Syntax", "") + "ServiceProvider";
 #>
-public <#= xSyntaxNodeType.@abstract ? "abstract " : "" #>partial class <#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>ServiceProvider : ISignatureEqualityCondition<<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>>
+/// <summary>
+/// Provides language-aware services regarding <see cref="<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>"/>.
+/// </summary>
+partial class <#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>ServiceProvider : IEqualityCondition<<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>>
 {
-<#
-		if(typeProperties.Any())
-		{
-#>
 	/// <summary>
-    /// Method hook for implementing logic to execute before the <see cref="TypeExactlyEqualCore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>)"/>.
+    /// Method hook for implementing logic to execute before the <see cref="EqualCore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>)"/>.
     /// </summary>
     /// <param name="original">the original version.</param>
     /// <param name="modified">the modified version.</param>
-    /// <param name="result">Mechanism to modify the result of <see cref="TypeExactlyEqual(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>)"/>.</param>
-    /// <param name="ignoreCore">If true, the <see cref="TypeExactlyEqualCore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>)"/> is not executed and <see cref="TypeExactlyEqual(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>)"/> returns the current value of <paramref name="result"/>.</param>
-    partial void TypeExactlyEqualBefore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= code.Escape(syntaxNode.Root.Label.ToString()) #> modified, ref bool result, ref bool ignoreCore);
+    /// <param name="result">Mechanism to modify the result of <see cref="Equal(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>)"/>.</param>
+    /// <param name="ignoreCore">If true, the <see cref="EqualCore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>)"/> is not executed and <see cref="Equal(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>)"/> returns the current value of <paramref name="result"/>.</param>
+    partial void EqualBefore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= code.Escape(syntaxNode.Root.Label.ToString()) #> modified, ref bool result, ref bool ignoreCore);
     
     /// <summary>
-    /// Method hook for implementing logic to execute after the <see cref="TypeExactlyEqualCore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>)"/>.
+    /// Method hook for implementing logic to execute after the <see cref="EqualCore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>)"/>.
     /// </summary>
     /// <param name="original">the original version.</param>
     /// <param name="modified">the modified version.</param>
-    /// <param name="result">Mechanism to modify the result of <see cref="TypeExactlyEqual(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>)"/>.</param>
-    partial void TypeExactlyEqualAfter(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= code.Escape(syntaxNode.Root.Label.ToString()) #> modified, ref bool result);
+    /// <param name="result">Mechanism to modify the result of <see cref="Equal(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>)"/>.</param>
+    partial void EqualAfter(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= code.Escape(syntaxNode.Root.Label.ToString()) #> modified, ref bool result);
 
     /// <summary>
-    /// Determines if two <see cref="<#= code.Escape(syntaxNode.Root.Label.ToString()) #>"/> elements are type-based exactly equal.
+    /// Determines if two <see cref="<#= code.Escape(syntaxNode.Root.Label.ToString()) #>"/> elements are equal.
     /// </summary>
     /// <param name="original">the original version.</param>
     /// <param name="modified">the modified version.</param>
-    /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-    /// <remarks>This is the default implementation for <see cref="TypeExactlyEqual(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>)"/>.</remarks>
-    protected virtual bool TypeExactlyEqualCore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= code.Escape(syntaxNode.Root.Label.ToString()) #> modified)
-    {
+    /// <returns>true if they are equal, otherwise returns false.</returns>
+    /// <remarks>This is the default implementation for <see cref="Equal(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>)"/>.</remarks>
+    protected virtual bool EqualCore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= code.Escape(syntaxNode.Root.Label.ToString()) #> modified)
+	{
 		if(original == null || modified == null) 
 			return false;
 
 <#
-	for (int i = 0; i < typeProperties.Count; i++)
-	{
-		var keyProperty = currentPropertiesMetadata.Single(p => typeProperties[i].name == p.Item2.name);
-		var prefix = i == 0 ? "if (" : "    ";
-		var line = prefix + (typeProperties.Count > 1 ? "(" : "") + 
-		           (keyProperty.Item2.optional 
-					? ((currentPropertiesMetadata.Where(p => typeProperties.Any(kp => kp.name == p.Item2.name)).Any(kp => !kp.Item2.optional) ? $"(original.{keyProperty.Item2.name} == null && modified.{keyProperty.Item2.name} == null) || (" : "") + 
-					  $"original.{keyProperty.Item2.name} != null && modified.{keyProperty.Item2.name} != null && ") 
-					: "");
-		var postfix = (keyProperty.Item2.optional && currentPropertiesMetadata.Where(p => typeProperties.Any(kp => kp.name == p.Item2.name)).Any(kp => !kp.Item2.optional) ? ")" : "") +
-		              (typeProperties.Count > 1 ? ")" : "") + 
-		              (typeProperties.Count > 1 && i != (typeProperties.Count - 1) ? (currentPropertiesMetadata.Where(p => typeProperties.Any(kp => kp.name == p.Item2.name)).All(kp => kp.Item2.optional) ? " ||" : " &&") : "") + 
-					  (i == (typeProperties.Count - 1) ? ")" : "");
-		line += $"this.LanguageServiceProvider.TypeExactlyEqual(original.{keyProperty.Item2.name}, modified.{keyProperty.Item2.name})";
-		 
-		line += postfix;
-#>
-        <#= line #>
-<# 
-	}
-#>
-			return true;
-
-	    return false;
-	}
-	
-    /// <summary>
-    /// Determines if two <see cref="<#= code.Escape(syntaxNode.Root.Label.ToString()) #>"/> elements are type-based exactly equal.
-    /// </summary>
-    /// <param name="original">the original version.</param>
-    /// <param name="modified">the modified version.</param>
-    /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-    public bool TypeExactlyEqual(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= code.Escape(syntaxNode.Root.Label.ToString()) #> modified)
-    {
-		bool result = false, ignoreCore = false;
-		TypeExactlyEqualBefore(original, modified, ref result, ref ignoreCore);
-		if(ignoreCore) 
-			return result;
-		
-		result = this.TypeExactlyEqualCore(original, modified);
-		TypeExactlyEqualAfter(original, modified, ref result);
-		return result;
-    }
-
-<#
-		}
-#>
-    /// <summary>
-    /// Method hook for implementing logic to execute before the <see cref="SignatureExactlyEqualCore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>)"/>.
-    /// </summary>
-    /// <param name="original">the original version.</param>
-    /// <param name="modified">the modified version.</param>
-    /// <param name="result">Mechanism to modify the result of <see cref="SignatureExactlyEqual(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>)"/>.</param>
-    /// <param name="ignoreCore">If true, the <see cref="SignatureExactlyEqualCore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>)"/> is not executed and <see cref="SignatureExactlyEqual(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>)"/> returns the current value of <paramref name="result"/>.</param>
-    partial void SignatureExactlyEqualBefore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= code.Escape(syntaxNode.Root.Label.ToString()) #> modified, ref bool result, ref bool ignoreCore);
-    
-    /// <summary>
-    /// Method hook for implementing logic to execute after the <see cref="SignatureExactlyEqualCore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>)"/>.
-    /// </summary>
-    /// <param name="original">the original version.</param>
-    /// <param name="modified">the modified version.</param>
-    /// <param name="result">Mechanism to modify the result of <see cref="SignatureExactlyEqual(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>)"/>.</param>
-    partial void SignatureExactlyEqualAfter(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= code.Escape(syntaxNode.Root.Label.ToString()) #> modified, ref bool result);
-
-    /// <summary>
-    /// Determines if two <see cref="<#= code.Escape(syntaxNode.Root.Label.ToString()) #>"/> elements are signature-based exactly equal.
-    /// </summary>
-    /// <param name="original">the original version.</param>
-    /// <param name="modified">the modified version.</param>
-    /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-    /// <remarks>This is the default implementation for <see cref="SignatureExactlyEqual(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>)"/>.</remarks>
-    protected virtual bool SignatureExactlyEqualCore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= code.Escape(syntaxNode.Root.Label.ToString()) #> modified)
-    {
-		if(original == null || modified == null) 
-			return false;
-
-<#
-	if(nameProperties.Any() && nameProperties.All(p => p.Abstraction?.Signature?.Equality?.full ?? false) && typeProperties.Any())
-	{
-#>
-        if(this.LanguageServiceProvider.NameExactlyEqual(original, modified) && this.LanguageServiceProvider.TypeExactlyEqual(original, modified))
-<# 
-	}
-	else if(nameProperties.Any() && nameProperties.All(p => p.Abstraction?.Signature?.Equality?.full ?? false) && !typeProperties.Any())
-	{
-#>
-        if(this.LanguageServiceProvider.NameExactlyEqual(original, modified))
-<# 
-	}
-	else if(!nameProperties.Any(p => p.Abstraction?.Signature?.Equality?.full ?? false))
-	{
-#>
-        if(this.LanguageServiceProvider.TypeExactlyEqual(original, modified))
-<# 
-	}
-	else
-	{
-		for (int i = 0; i < keyProperties.Count; i++)
+		for (int i = 0; i < currentPropertiesMetadata.Count(); i++)
 		{
-			var keyProperty = currentPropertiesMetadata.Single(p => keyProperties[i].name == p.Item2.name);
+			var currentProperty = currentPropertiesMetadata[i];
 			var prefix = i == 0 ? "if (" : "    ";
-			var line = prefix + (keyProperties.Count > 1 ? "(" : "") + 
-			           (keyProperty.Item2.optional 
-						? ((currentPropertiesMetadata.Where(p => keyProperties.Any(kp => kp.name == p.Item2.name)).Any(kp => !kp.Item2.optional) ? $"(original.{keyProperty.Item2.name} == null && modified.{keyProperty.Item2.name} == null) || (" : "") + 
-						  $"original.{keyProperty.Item2.name} != null && modified.{keyProperty.Item2.name} != null && ") 
+			var line = prefix + (currentPropertiesMetadata.Count() > 1 ? "(" : "") + 
+			           (currentProperty.Item2.optional 
+						? ((currentPropertiesMetadata.Any(kp => !kp.Item2.optional) ? $"(original.{currentProperty.Item2.name} == null && modified.{currentProperty.Item2.name} == null) || (" : "") + 
+						  $"original.{currentProperty.Item2.name} != null && modified.{currentProperty.Item2.name} != null && ") 
 						: "");
-			var postfix = (keyProperty.Item2.optional && currentPropertiesMetadata.Where(p => keyProperties.Any(kp => kp.name == p.Item2.name)).Any(kp => !kp.Item2.optional) ? ")" : "") +
-			              (keyProperties.Count > 1 ? ")" : "") + 
-			              (keyProperties.Count > 1 && i != (keyProperties.Count - 1) ? (currentPropertiesMetadata.Where(p => keyProperties.Any(kp => kp.name == p.Item2.name)).All(kp => kp.Item2.optional) ? " ||" : " &&") : "") + 
-						  (i == (keyProperties.Count - 1) ? ")" : "");
-			line += $"this.LanguageServiceProvider.SignatureExactlyEqual(original.{keyProperty.Item2.name}, modified.{keyProperty.Item2.name})";
+			var postfix = (currentProperty.Item2.optional && currentPropertiesMetadata.Any(kp => !kp.Item2.optional) ? ")" : "") +
+			              (currentPropertiesMetadata.Count() > 1 ? ")" : "") + 
+			              (currentPropertiesMetadata.Count() > 1 && i != (currentPropertiesMetadata.Count() - 1) ? (currentPropertiesMetadata.All(kp => kp.Item2.optional) ? " ||" : " &&") : "") + 
+						  (i == (currentPropertiesMetadata.Count() - 1) ? ")" : "");
+			line += $"this.LanguageServiceProvider.Equal(original.{currentProperty.Item2.name}, modified.{currentProperty.Item2.name})";
 			 
 			line += postfix;
 #>
         <#= line #>
 <# 
 		}
-	}
 #>
 			return true;
 
 	    return false;
-	}
+	}	
 
-    /// <summary>
-    /// Determines if two <see cref="<#= code.Escape(syntaxNode.Root.Label.ToString()) #>"/> elements are signature-based exactly equal.
+	/// <summary>
+    /// Determines if two <see cref="<#= code.Escape(syntaxNode.Root.Label.ToString()) #>"/> elements are equal.
     /// </summary>
     /// <param name="original">the original version.</param>
     /// <param name="modified">the modified version.</param>
-    /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-    public bool SignatureExactlyEqual(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= code.Escape(syntaxNode.Root.Label.ToString()) #> modified)
-    {
-		bool result = false, ignoreCore = false;
-		SignatureExactlyEqualBefore(original, modified, ref result, ref ignoreCore);
-		if(ignoreCore) 
-			return result;
-		
-		result = this.SignatureExactlyEqualCore(original, modified);
-		SignatureExactlyEqualAfter(original, modified, ref result);
-		return result;
-    }
+    /// <returns>true if they are equal, otherwise returns false.</returns>
+    public virtual bool Equal(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= code.Escape(syntaxNode.Root.Label.ToString()) #> modified)
+	{
+    	bool result = false, ignoreCore = false;
+    	EqualBefore(original, modified, ref result, ref ignoreCore);
+    	if(ignoreCore) 
+    		return result;
+    	
+    	result = this.EqualCore(original, modified);
+    	EqualAfter(original, modified, ref result);
+    	return result;
+     }
 }
 
 <#

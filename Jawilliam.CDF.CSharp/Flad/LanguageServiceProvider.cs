@@ -546,7 +546,7 @@ namespace Jawilliam.CDF.CSharp.Flad
             }
             return false;
         }
-    
+
         /// <summary>
         /// Provides language-specific information about the "SyntaxToken" type.
         /// </summary>

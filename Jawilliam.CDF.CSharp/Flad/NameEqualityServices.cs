@@ -57,7 +57,7 @@ namespace Jawilliam.CDF.CSharp.Flad
         /// <returns>true if they are exactly equal, otherwise returns false.</returns>
         public virtual bool NameExactlyEqual<T>(SeparatedSyntaxList<T> original, SeparatedSyntaxList<T> modified) where T : SyntaxNode
         {
-            return this.ExactlyEqual(original, modified, this.NameExactlyEqual);
+            return this.Equal(original, modified, this.NameExactlyEqual);
         }
     
         /// <summary>

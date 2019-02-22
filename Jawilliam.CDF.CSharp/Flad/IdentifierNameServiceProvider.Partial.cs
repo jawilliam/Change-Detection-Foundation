@@ -10,25 +10,25 @@ namespace Jawilliam.CDF.CSharp.Flad
     partial class IdentifierNameServiceProvider
     {
         /// <summary>
-        /// Determines if two elements are exactly equal.
+        /// Determines if two elements are equal.
         /// </summary>
         /// <param name="original">the original version.</param>
         /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="ExactlyEqual(IdentifierNameSyntax, PredefinedTypeSyntax)"/>.</remarks>
-        public virtual bool ExactlyEqual(IdentifierNameSyntax original, PredefinedTypeSyntax modified)
+        /// <returns>true if they are equal, otherwise returns false.</returns>
+        /// <remarks>This is the default implementation for <see cref="Equal(IdentifierNameSyntax, PredefinedTypeSyntax)"/>.</remarks>
+        public virtual bool Equal(IdentifierNameSyntax original, PredefinedTypeSyntax modified)
         {
-            return this.LanguageServiceProvider.ExactlyEqual(modified, original);
+            return this.LanguageServiceProvider.Equal(modified, original);
         }
 
         /// <summary>
-        /// Determines if two elements are exactly equal.
+        /// Determines if two elements are equal.
         /// </summary>
         /// <param name="original">the original version.</param>
         /// <param name="modified">the modified version.</param>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="ExactlyEqual(IdentifierNameSyntax, QualifiedNameSyntax)"/>.</remarks>
-        public virtual bool ExactlyEqual(IdentifierNameSyntax original, QualifiedNameSyntax modified)
+        /// <returns>true if they are equal, otherwise returns false.</returns>
+        /// <remarks>This is the default implementation for <see cref="Equal(IdentifierNameSyntax, QualifiedNameSyntax)"/>.</remarks>
+        public virtual bool Equal(IdentifierNameSyntax original, QualifiedNameSyntax modified)
         {
             if (original == null || modified == null)
                 return false;
@@ -37,7 +37,7 @@ namespace Jawilliam.CDF.CSharp.Flad
             var qualifiedName = modified.Right as IdentifierNameSyntax;
 
             if (original.Identifier != null && systemQualifier?.Identifier.ValueText == "System" && qualifiedName?.Identifier != null &&
-                this.LanguageServiceProvider.PredefinedTypeServiceProvider.Aliases.Any(alias => alias.CSharpType == original.Identifier.ValueText && alias.NetType == qualifiedName.Identifier.ValueText))
+                this.LanguageServiceProvider.PredefinedTypeServiceProvider.Aliases.Any(alias => alias.NetType == original.Identifier.ValueText && alias.NetType == qualifiedName.Identifier.ValueText))
                 return true;
 
             return false;
@@ -51,7 +51,7 @@ namespace Jawilliam.CDF.CSharp.Flad
         /// <returns>true if they are exactly equal, otherwise returns false.</returns>
         public virtual bool TypeExactlyEqual(IdentifierNameSyntax original, PredefinedTypeSyntax modified)
         {
-            return this.LanguageServiceProvider.ExactlyEqual(original, modified);
+            return this.LanguageServiceProvider.Equal(original, modified);
         }
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace Jawilliam.CDF.CSharp.Flad
         /// <returns>true if they are exactly equal, otherwise returns false.</returns>
         public virtual bool TypeExactlyEqual(IdentifierNameSyntax original, QualifiedNameSyntax modified)
         {
-            return this.LanguageServiceProvider.ExactlyEqual(original, modified);
+            return this.LanguageServiceProvider.Equal(original, modified);
         }
     }
 }

@@ -842,23 +842,31 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
 
-
         [TestMethod]
         public void ConversionOperatorDeclarationServiceProvider_NameExactlyEqual_OK()
         {
-            Assert.IsFalse(true);
             var flad = new CSharpFlad();
 
-            var a = (OperatorDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string operator +(int a, A b) { return 5; };").Members[0];
-            var b = (OperatorDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string operator -(int a, A b) { return 5; };").Members[0];
-            Assert.IsFalse(flad.LanguageServiceProvider.OperatorDeclarationServiceProvider.NameExactlyEqual(null, b));
-            Assert.IsFalse(flad.LanguageServiceProvider.OperatorDeclarationServiceProvider.NameExactlyEqual(a, (OperatorDeclarationSyntax)null));
-            Assert.IsFalse(flad.LanguageServiceProvider.OperatorDeclarationServiceProvider.NameExactlyEqual(null, (OperatorDeclarationSyntax)null));
-            Assert.IsFalse(flad.LanguageServiceProvider.OperatorDeclarationServiceProvider.NameExactlyEqual(a, b));
+            var a = (ConversionOperatorDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public operator A1(B b) { return 5; };").Members[0];
+            var b = (ConversionOperatorDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public operator A(B b) { return 5; };").Members[0];
+            Assert.IsFalse(flad.LanguageServiceProvider.ConversionOperatorDeclarationServiceProvider.NameExactlyEqual(null, b));
+            Assert.IsFalse(flad.LanguageServiceProvider.ConversionOperatorDeclarationServiceProvider.NameExactlyEqual(a, (ConversionOperatorDeclarationSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.ConversionOperatorDeclarationServiceProvider.NameExactlyEqual(null, (ConversionOperatorDeclarationSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.ConversionOperatorDeclarationServiceProvider.NameExactlyEqual(a, b));
 
-            a = (OperatorDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string operator +(int a, A b) { return 5; };").Members[0];
-            b = (OperatorDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string operator +(int a, A b) { return 5; };").Members[0];
-            Assert.IsTrue(flad.LanguageServiceProvider.OperatorDeclarationServiceProvider.NameExactlyEqual(a, b));
+            a = (ConversionOperatorDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public operator A(B b) { return 5; };").Members[0];
+            b = (ConversionOperatorDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public operator A(B1 b) { return 5; };").Members[0];
+            Assert.IsFalse(flad.LanguageServiceProvider.ConversionOperatorDeclarationServiceProvider.NameExactlyEqual(null, b));
+            Assert.IsFalse(flad.LanguageServiceProvider.ConversionOperatorDeclarationServiceProvider.NameExactlyEqual(a, (ConversionOperatorDeclarationSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.ConversionOperatorDeclarationServiceProvider.NameExactlyEqual(null, (ConversionOperatorDeclarationSyntax)null));
+            Assert.IsTrue(flad.LanguageServiceProvider.ConversionOperatorDeclarationServiceProvider.NameExactlyEqual(a, b));
+
+            a = (ConversionOperatorDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public operator A(B b) { return 5; };").Members[0];
+            b = (ConversionOperatorDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public operator A(B b) { return 5; };").Members[0];
+            Assert.IsFalse(flad.LanguageServiceProvider.ConversionOperatorDeclarationServiceProvider.NameExactlyEqual(null, b));
+            Assert.IsFalse(flad.LanguageServiceProvider.ConversionOperatorDeclarationServiceProvider.NameExactlyEqual(a, (ConversionOperatorDeclarationSyntax)null));
+            Assert.IsFalse(flad.LanguageServiceProvider.ConversionOperatorDeclarationServiceProvider.NameExactlyEqual(null, (ConversionOperatorDeclarationSyntax)null));
+            Assert.IsTrue(flad.LanguageServiceProvider.ConversionOperatorDeclarationServiceProvider.NameExactlyEqual(a, b));
         }
 
         [TestMethod]
