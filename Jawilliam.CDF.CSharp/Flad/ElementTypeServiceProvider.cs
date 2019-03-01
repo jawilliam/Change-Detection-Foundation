@@ -5,7 +5,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Base class for implementations of <see cref="IElementTypeServiceProvider"/>. 
     /// </summary>
-    public abstract class ElementTypeServiceProvider : Jawilliam.CDF.Approach.Flad.ElementTypeServiceProvider
+    public abstract class ElementTypeServiceProvider : Jawilliam.CDF.Approach.Services.Impl.ElementTypeServiceProvider
     {
         /// <summary>
         /// Initializes the instance.

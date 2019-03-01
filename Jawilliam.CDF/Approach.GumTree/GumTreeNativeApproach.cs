@@ -12,7 +12,7 @@ using System.Text.RegularExpressions;
 using System.Xml;
 using System.Xml.Linq;
 using Jawilliam.CDF.Actions;
-using Jawilliam.CDF.Approach.Base;
+using Jawilliam.CDF.Approach.Impl;
 
 namespace Jawilliam.CDF.Approach.GumTree
 {

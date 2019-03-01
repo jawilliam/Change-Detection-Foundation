@@ -32,6 +32,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
@@ -51,28 +52,59 @@
     <Compile Include="Actions\MoveOperationDescriptor.cs" />
     <Compile Include="Actions\OperationDescriptor.cs" />
     <Compile Include="Actions\UpdateOperationDescriptor.cs" />
-    <Compile Include="Approach.Flad\ElementTypeServiceProvider.cs" />
-    <Compile Include="Approach.Flad\FladApproach.cs" />
+    <Compile Include="Approach.Annotations\Extensions.cs" />
+    <Compile Include="Approach.Annotations\IHashingAnnotation.cs" />
+    <Compile Include="Approach.Annotations\IHierarchicalAbstractionAnnotation.cs" />
+    <Compile Include="Approach.Criterions.Impl\EssentialContentFingerprintMatcher.cs" />
+    <Compile Include="Approach.Criterions.Impl\FullContentFingerprintMatcher.cs" />
+    <Compile Include="Approach.Services.Impl\HashingService.cs" />
+    <Compile Include="Approach.Services\Extensions.cs" />
+    <Compile Include="Approach.Services\ITextualAbstractionService.cs" />
+    <Compile Include="Approach.Services.Impl\Md5HashingService.cs" />
+    <Compile Include="Approach.Annotations\IAnnotationSetService.cs" />
+    <Compile Include="Approach.Services\IHashingService.cs" />
+    <Compile Include="Approach.Services\IMatchingSetService.cs" />
+    <Compile Include="Approach.Services\MatchInfoId.cs" />
+    <Compile Include="Approach.Services.Impl\ServiceWithDependencies.cs" />
+    <Compile Include="Approach.Services.Impl\MatchingSetService.cs" />
+    <Compile Include="Approach.Services.Impl\ElementTypeServiceProvider.cs" />
+    <Compile Include="Approach.Criterions.Impl\FingerprintMatcher.cs" />
+    <Compile Include="Approach.Impl\FladApproach.cs" />
+    <Compile Include="Approach.Services\IHierarchicalAbstractionService.cs" />
+    <Compile Include="Approach.Criterions\IMatcher.cs" />
     <Compile Include="Approach.Flad\INameEqualityCondition.cs" />
     <Compile Include="Approach.Flad\ITypeEqualityCondition.cs" />
     <Compile Include="Approach.Flad\ISignatureEqualityCondition.cs" />
     <Compile Include="Approach.Flad\IEqualityCondition.cs" />
+    <Compile Include="Approach.Services\MatchInfo.cs" />
+    <Compile Include="Approach.Services\ServiceId.cs" />
+    <Compile Include="Approach.Criterions.Impl\MatchingCriterionIds.cs" />
     <Compile Include="Approach.GumTree\GumTreeNativeApproach.cs" />
     <Compile Include="Actions\ActionDescriptor.cs" />
     <Compile Include="Actions\ActionKind.cs" />
     <Compile Include="Approach.GumTree\InteropArgs.cs" />
-    <Compile Include="Approach.Base\Choice.cs" />
+    <Compile Include="Approach.Impl\Choice.cs" />
+    <Compile Include="Approach.Annotations.Impl\Annotation.cs" />
     <Compile Include="Approach\DetectionResult.cs" />
-    <Compile Include="Approach.Base\Approach.cs" />
+    <Compile Include="Approach.Impl\Approach.cs" />
+    <Compile Include="Approach\IBeginDetection.cs" />
+    <Compile Include="Approach\IBeginStep.cs" />
+    <Compile Include="Approach.Annotations\IElementAnnotation.cs" />
+    <Compile Include="Approach\IEndDetection.cs" />
+    <Compile Include="Approach\IEndStep.cs" />
+    <Compile Include="Approach.Annotations\IMatchingAnnotation.cs" />
+    <Compile Include="Approach\IService.cs" />
+    <Compile Include="Approach\IServiceLocator.cs" />
     <Compile Include="Approach\LoadRevisionPairDelegate.cs" />
     <Compile Include="Approach\IChoice.cs" />
     <Compile Include="Approach.Flad\StepInfo.cs" />
-    <Compile Include="Approach\MatchingInfo.cs" />
+    <Compile Include="Approach.Services.Impl\Service.cs" />
+    <Compile Include="Approach.Annotations.Impl\AnnotationSetService.cs" />
     <Compile Include="DomainExtensions.cs" />
     <Compile Include="Domain\IDifferentiable.cs" />
     <Compile Include="Domain\IElementType.cs" />
-    <Compile Include="Approach.Flad\IElementTypeServiceProvider.cs" />
-    <Compile Include="Approach.Flad\ILanguageServiceProvider.cs" />
+    <Compile Include="Approach.Services\IElementTypeServiceProvider.cs" />
+    <Compile Include="Approach.Services\ILanguageServiceProvider.cs" />
     <Compile Include="Domain\IMatchable.cs" />
     <Compile Include="Domain\IReportable.cs" />
     <Compile Include="ElementVersion.cs" />
@@ -80,7 +112,7 @@
     <Compile Include="Approach\IMatchingCriterion.cs" />
     <Compile Include="Approach\IProcedure.cs" />
     <Compile Include="Approach\ConvertDelegate.cs" />
-    <Compile Include="Approach.Base\MatchingCriterion.cs" />
+    <Compile Include="Approach.Criterions.Impl\Matcher.cs" />
     <Compile Include="ElementTree.cs" />
     <Compile Include="Evaluation\MatchingSetRedundancyFinder.cs" />
     <Compile Include="Evaluation\RedundancyPattern.cs" />
@@ -91,7 +123,7 @@
     <Compile Include="GTED\Tree.cs" />
     <Compile Include="KruskalAlgorithm.cs" />
     <Compile Include="Evaluation\RedundancyFinder.cs" />
-    <Compile Include="MTDiff\IdenticalSubtreeChoice.cs" />
+    <Compile Include="Approach.Impl\MatchingDiscoveryChoice.cs" />
     <Compile Include="UniDM\AtomicElement.cs" />
     <Compile Include="UniDM\IDelta.cs" />
     <Compile Include="Metrics.Quality\EditDistance.cs" />
@@ -99,7 +131,7 @@
     <Compile Include="Metrics\RelativeThreshold.cs" />
     <Compile Include="MissingValueException.cs" />
     <Compile Include="Approach\RevisionDescriptor.cs" />
-    <Compile Include="Approach.Base\Procedure.cs" />
+    <Compile Include="Approach.Impl\Procedure.cs" />
     <Compile Include="Approach\RevisionPair.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Metrics.Similarity\AbstractAffineGapCost.cs" />
@@ -175,13 +207,14 @@
     <Compile Include="XmlHelper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Approach.Base\Type System.cd" />
+    <None Include="Approach.Impl\Type System.cd" />
     <None Include="Approach\Type System.cd" />
     <None Include="packages.config" />
     <None Include="UniDM\Type System.cd" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Approach.Matching\" />
+    <Folder Include="MTDiff\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

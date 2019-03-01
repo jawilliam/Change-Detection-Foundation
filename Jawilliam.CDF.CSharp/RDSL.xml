@@ -1919,14 +1919,14 @@
         </Name>
       </Abstraction>
     </Type>
-    <Type name="ForEachStatementSyntax" base="StatementSyntax">
+    <Type name="ForEachStatementSyntax" base="CommonForEachStatementSyntax">
       <Properties>
-        <Property name="ForEachKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single">
+        <Property name="ForEachKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" inherited="true">
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
-        <Property name="OpenParenToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single">
+        <Property name="OpenParenToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" inherited="true">
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
@@ -1946,22 +1946,22 @@
             </Name>
           </Abstraction>
         </Property>
-        <Property name="InKeyword" kind="Token" index="4" readOnly="true" optional="false" multiplicity="Single">
+        <Property name="InKeyword" kind="Token" index="4" readOnly="true" optional="false" multiplicity="Single" inherited="true">
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
-        <Property name="Expression" kind="Expression" index="5" optional="false" changepoint="true" multiplicity="Single">
+        <Property name="Expression" kind="Expression" index="5" optional="false" changepoint="true" multiplicity="Single" inherited="true">
           <Text value="false" prefix=" "/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
-        <Property name="CloseParenToken" kind="Token" index="6" readOnly="true" optional="false" multiplicity="Single">
+        <Property name="CloseParenToken" kind="Token" index="6" readOnly="true" optional="false" multiplicity="Single" inherited="true">
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>
         </Property>
-        <Property name="Statement" kind="Expression" index="7" optional="false" changepoint="true" multiplicity="Single">
+        <Property name="Statement" kind="Expression" index="7" optional="false" changepoint="true" multiplicity="Single" inherited="true">
           <Text value="false"/>
           <Children fine="false" coarse="false"/>
           <EditScript insert="false" delete="false" update="false" update-modify="false" update-replace="false" align="false" move="false"/>

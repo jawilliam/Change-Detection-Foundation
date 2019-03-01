@@ -1,22 +1,28 @@
-﻿using Jawilliam.CDF.Approach.Base;
+﻿using Jawilliam.CDF.Approach;
+using Jawilliam.CDF.Approach.Impl;
 using Microsoft.CodeAnalysis;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Jawilliam.CDF.CSharp.Flad
 {
     /// <summary>
     /// Implements a same name-based choice for source code change detection.
     /// </summary>
-    public class CSharpNameEqualityChoice : Choice<SyntaxNode, SyntaxNode>
+    public class CSharpNameEqualityChoice : Choice<SyntaxNode>
     {
+        /// <summary>
+        /// Initializes the instance.
+        /// </summary>
+        /// <param name="approach">the solution wherein the current choice will be called</param>
+        public CSharpNameEqualityChoice(IApproach<SyntaxNode> approach) : base(approach)
+        {
+        }
+
         /// <summary>
         /// Gets the steps wherein the current choice will be actively executed.
         /// </summary>
-        public override IList<long> SupportedSteps => new List<long>
+        protected override IList<long> SupportedSteps => new List<long>
         {
             (long)(CSharpFladStepInfo.Equality | CSharpFladStepInfo.Name)
         };
@@ -24,7 +30,7 @@ namespace Jawilliam.CDF.CSharp.Flad
         /// <summary>
         /// Core implementation of <see cref="OnStep"/>.
         /// </summary>
-        public override void CoreOnStep()
+        protected override void CoreOnStep()
         {
             throw new NotImplementedException();
         }

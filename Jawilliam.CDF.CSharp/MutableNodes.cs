@@ -1267,14 +1267,8 @@ namespace Jawilliam.CDF.CSharp
     }
     public partial class ForEachStatementSyntax<TAnnotation> : CommonForEachStatementSyntax<TAnnotation>
     {
-    	public virtual SyntaxToken<TAnnotation> ForEachKeyword { get; private set; } 
-    	public virtual SyntaxToken<TAnnotation> OpenParenToken { get; private set; } 
     	public virtual TypeSyntax<TAnnotation> Type { get; set; } 
     	public virtual SyntaxToken<TAnnotation> Identifier { get; set; } 
-    	public virtual SyntaxToken<TAnnotation> InKeyword { get; private set; } 
-    	public virtual ExpressionSyntax<TAnnotation> Expression { get; set; } 
-    	public virtual SyntaxToken<TAnnotation> CloseParenToken { get; private set; } 
-    	public virtual StatementSyntax<TAnnotation> Statement { get; set; } 
     }
     public partial class ForEachVariableStatementSyntax<TAnnotation> : CommonForEachStatementSyntax<TAnnotation>
     {

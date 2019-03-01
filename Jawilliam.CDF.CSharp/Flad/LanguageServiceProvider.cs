@@ -3,16 +3,13 @@ using Jawilliam.CDF.Approach.Flad;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Xml.Linq;
 
 namespace Jawilliam.CDF.CSharp.Flad
 {
     /// <summary>
     /// Provides C#-specific information for source code change detection. 
     /// </summary>
-    public partial class LanguageServiceProvider : Jawilliam.CDF.Approach.Flad.ILanguageServiceProvider
+    public partial class LanguageServiceProvider :  Jawilliam.CDF.Approach.Services.ILanguageServiceProvider
     {
         /// <summary>
         /// Initializes the instance.
@@ -20,7 +17,7 @@ namespace Jawilliam.CDF.CSharp.Flad
         /// <param name="approach">the solution wherein the current procedure is being called.</param>
         public LanguageServiceProvider(CSharpFlad approach)
         {
-            this.Approach = approach == null ? throw new ArgumentNullException(nameof(approach)) : approach;
+            this.Approach = approach ?? throw new ArgumentNullException(nameof(approach));
         }
     
         /// <summary>
@@ -34,7 +31,7 @@ namespace Jawilliam.CDF.CSharp.Flad
         /// <param name="type">requested element type.</param>
         /// <param name="kind">optionally the element type can be refined to an specific subtype.</param>
         /// <returns><see cref="IElementTypeServiceProvider"/> implementation intended to provide information for the requested element type.</returns>
-        public virtual Jawilliam.CDF.Approach.Flad.IElementTypeServiceProvider GetElementTypeServiceProvider(string type, string subtype = null)
+        public virtual  Jawilliam.CDF.Approach.Services.IElementTypeServiceProvider GetElementTypeServiceProvider(string type, string subtype = null)
     	{
     		switch(type)
     		{
@@ -252,7 +249,7 @@ namespace Jawilliam.CDF.CSharp.Flad
         /// <param name="type">requested element type.</param>
         /// <param name="kind">optionally the element type can be refined to an specific subtype.</param>
         /// <returns><see cref="IElementTypeServiceProvider"/> implementation intended to provide information for the requested element type.</returns>
-        public virtual Jawilliam.CDF.Approach.Flad.IElementTypeServiceProvider GetElementTypeServiceProvider(SyntaxKind type, string subtype = null)
+        public virtual  Jawilliam.CDF.Approach.Services.IElementTypeServiceProvider GetElementTypeServiceProvider(SyntaxKind type, string subtype = null)
     	{
     		switch(type)
     		{
@@ -546,7 +543,7 @@ namespace Jawilliam.CDF.CSharp.Flad
             }
             return false;
         }
-
+    
         /// <summary>
         /// Provides language-specific information about the "SyntaxToken" type.
         /// </summary>

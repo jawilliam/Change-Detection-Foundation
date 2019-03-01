@@ -1,26 +1,26 @@
 ﻿using System.Collections.Generic;
 
-namespace Jawilliam.CDF.Approach.Flad
+namespace Jawilliam.CDF.Approach.Services
 {
     /// <summary>
-    /// Base class for implementations of <see cref="IElementTypeServiceProvider"/>. 
+    /// Provides language-aware services regarding certain element type.
     /// </summary>
-    public abstract class ElementTypeServiceProvider : IElementTypeServiceProvider
+    public interface IElementTypeServiceProvider
     {
         /// <summary>
         /// Gets all the subexpressions of the current element type.
         /// </summary>
-        public virtual IEnumerable<string> SubExpressions { get { yield break; } } 
+        IEnumerable<string> SubExpressions { get; }
 
         /// <summary>
         /// Gets the subexpressions considered stopwords according to structural concerns.
         /// </summary>
         /// <returns>string names of the resulting subexpressions.</returns>
-        public virtual IEnumerable<string> SyntacticalStopwords { get { yield break; } }
+        IEnumerable<string> SyntacticalStopwords { get; }
 
         /// <summary>
         /// Gets the key subexpression names in case it has any.
         /// </summary>
-        public virtual IEnumerable<string> Keys { get { yield break; } }
+        IEnumerable<string> Keys { get; }
     }
 }

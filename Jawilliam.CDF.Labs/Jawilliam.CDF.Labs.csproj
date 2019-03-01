@@ -412,10 +412,6 @@
       <Project>{A16A803D-E152-48EE-96A5-AC6085930DA2}</Project>
       <Name>Jawilliam.CDF.CSharp</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Jawilliam.CDF.Labs.Resources\Jawilliam.CDF.Labs.Resources.csproj">
-      <Project>{1843502c-d26f-432c-ac2e-cdf45f6b8991}</Project>
-      <Name>Jawilliam.CDF.Labs.Resources</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Jawilliam.CDF.XObjects\Jawilliam.CDF.XObjects.csproj">
       <Project>{111ff008-fabe-4d66-9a27-c7edcfde25f4}</Project>
       <Name>Jawilliam.CDF.XObjects</Name>

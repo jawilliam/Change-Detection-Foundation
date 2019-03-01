@@ -1,21 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
-namespace Jawilliam.CDF.Approach.Base
+namespace Jawilliam.CDF.Approach.Impl
 {
     /// <summary>
     /// Base class of an approach or algorithm of change detection.
     /// </summary>
     /// <typeparam name="TElement">Type of the supported elements.</typeparam>
-    /// <typeparam name="TRevision">Type of the comparing versions.</typeparam>
-    public abstract class Approach<TElement, TRevision> : Procedure<LoadRevisionPairDelegate<TRevision>, DetectionResult<TRevision>>, IApproach<TElement, TRevision>
+    public abstract class Approach<TElement> : Procedure<LoadRevisionPairDelegate<TElement>, DetectionResult<TElement>>, IApproach<TElement>
     {
         /// <summary>
         /// Gets the choices to iterate for detecting the changes of a revision pair.
         /// </summary>
-        public abstract IList<IChoice<TElement, TRevision>> Choices { get; }
+        public abstract IList<IChoice> Choices { get; }
 
         /// <summary>
         /// Gets the steps to take for detecting the changes of a revision pair.
@@ -30,7 +28,7 @@ namespace Jawilliam.CDF.Approach.Base
         /// <summary>
         /// Gets the heuristics to execute in the current step.
         /// </summary>
-        long IApproach<TElement, TRevision>.Step => this.CurrentStep;
+        long IApproach<TElement>.Step => this.CurrentStep;
 
         /// <summary>
         /// Notifies and iterates the choices.
@@ -55,17 +53,17 @@ namespace Jawilliam.CDF.Approach.Base
         /// <summary>
         /// Gets the output information.
         /// </summary>
-        public override DetectionResult<TRevision> Result { get => base.Result ?? (base.Result = new DetectionResult<TRevision>()); protected set => base.Result = value; }
+        public override DetectionResult<TElement> Result { get => base.Result ?? (base.Result = new DetectionResult<TElement>()); protected set => base.Result = value; }
 
         /// <summary>
         /// Initializes the solution for detecting changes in a new revision pair.
         /// </summary>
         protected virtual void BeginDetection()
         {
-            this.MatchingInfo = null;
+            ///TODO: //this.getsethis.AnnotationSet = null;
             this.Result = null;
 
-            TRevision original, modified;
+            TElement original, modified;
             if (this.Args == null)
                 throw new ApplicationException("Unspecified args.");
 
@@ -74,11 +72,8 @@ namespace Jawilliam.CDF.Approach.Base
             this.Result.Original = original;
             this.Result.Modified = modified;
 
-            this.Choices.OfType<IChoiceWithBeginDetection<TElement, TRevision>>().ForEach(delegate (IChoiceWithBeginDetection<TElement, TRevision> c) 
-            {
-                c.Approach = this;
-                c.BeginDetection();
-            });
+            this.Services.Values.OfType<IBeginDetection>().OrderBy(s => ((IService)s).Id).ForEach(c => c.BeginDetection());
+            this.Choices.OfType<IBeginDetection>().ForEach(c => c.BeginDetection());
         }
 
         /// <summary>
@@ -86,7 +81,8 @@ namespace Jawilliam.CDF.Approach.Base
         /// </summary>
         protected virtual void BeginStep()
         {
-            this.Choices.OfType<IChoiceWithBeginStep<TElement, TRevision>>().ForEach(delegate (IChoiceWithBeginStep<TElement, TRevision> c) { c.Approach = this; c.BeginStep(); });
+            this.Services.Values.OfType<IBeginStep>().OrderBy(s => ((IService)s).Id).ForEach(c => c.BeginStep());
+            this.Choices.OfType<IBeginStep>().ForEach(c => c.BeginStep());
         }
 
         /// <summary>
@@ -94,7 +90,7 @@ namespace Jawilliam.CDF.Approach.Base
         /// </summary>
         public virtual void OnStep()
         {            
-            this.Choices.ForEach(delegate (IChoice<TElement, TRevision> c) { c.Approach = this; c.OnStep(); });
+            this.Choices.ForEach(c => c.OnStep());
         }
 
         /// <summary>
@@ -102,7 +98,8 @@ namespace Jawilliam.CDF.Approach.Base
         /// </summary>
         protected virtual void EndStep()
         {
-            this.Choices.OfType<IChoiceWithEndStep<TElement, TRevision>>().ForEach(delegate (IChoiceWithEndStep<TElement, TRevision> c) { c.Approach = this; c.EndStep(); });
+            this.Choices.OfType<IEndStep>().ForEach(c => c.EndStep());
+            this.Services.Values.OfType<IEndStep>().OrderBy(s => ((IService)s).Id).ForEach(c => c.EndStep());
         }
 
         /// <summary>
@@ -110,41 +107,57 @@ namespace Jawilliam.CDF.Approach.Base
         /// </summary>
         protected virtual void EndDetection()
         {
-            this.Choices.OfType<IChoiceWithEndDetection<TElement, TRevision>>().ForEach(delegate (IChoiceWithEndDetection<TElement, TRevision> c) { c.Approach = this; c.EndDetection(); });
+            this.Choices.OfType<IEndDetection>().ForEach(c => c.EndDetection());
+            this.Services.Values.OfType<IEndDetection>().OrderBy(s => ((IService)s).Id).ForEach(c => c.EndDetection());
         }
 
         /// <summary>
-        /// Stores the value of <see cref="MatchingInfo"/>.
+        /// Stores the value of <see cref="Services"/>.
         /// </summary>
-        private MatchingInfo<TElement> _matchingInfo;
+        private Dictionary<int, IService> _services;
 
         /// <summary>
-        /// Gets the structure to store the matches.
+        /// Contains those services that have been explicitly registered. 
         /// </summary>
-        public virtual MatchingInfo<TElement> MatchingInfo
+        protected virtual Dictionary<int, IService> Services
         {
-            get { return this._matchingInfo ?? (this._matchingInfo = new MatchingInfo<TElement>()); }
-            private set { this._matchingInfo = value; }
+            get => this._services ?? (this._services = new Dictionary<int, IService>());
+            set => this._services = value;
         }
 
         /// <summary>
         /// Gets a typed service in case some one exists.
         /// </summary>
         /// <typeparam name="TService">the type of the requested service.</typeparam>
+        /// <param name="id">identifies the requested service.</param>
         /// <returns>a typed service in case some one exists, otherwise returns null</returns>
-        public abstract TService GetService<TService>();
+        public virtual TService GetService<TService>(int id) where TService : IService
+        {
+            return this.Services.ContainsKey(id) ? (TService)this.Services[id] : default(TService);
+        }
 
         /// <summary>
         /// Gets a typed service in case some one exists.
         /// </summary>
         /// <typeparam name="TService">the type of the requested service.</typeparam>
+        /// <param name="id">identifies the requested service.</param>
         /// <returns>a typed service in case some one exists, otherwise throws an exception.</returns>
-        public virtual TService GetServiceOrThrowsException<TService>()
+        public virtual TService GetServiceOrThrowsException<TService>(int id) where TService : IService
         {
-            var service = this.GetService<TService>();
-            return !object.Equals(service, typeof(TService))
+            var service = this.GetService<TService>(id);
+            return service != null
                 ? service
                 : throw new ApplicationException($"{typeof(TService).FullName} service not found.");
+        }
+
+        /// <summary>
+        /// Detects the changes occurred in a revision pair.
+        /// </summary>
+        /// <param name="args">a mechanism for loading the versions to compare.</param>
+        public virtual DetectionResult<TElement> GetChanges(LoadRevisionPairDelegate<TElement> args)
+        {
+            ((IProcedure<LoadRevisionPairDelegate<TElement>, DetectionResult<TElement>>)this).Proceed(args);
+            return this.Result;
         }
     }
 }

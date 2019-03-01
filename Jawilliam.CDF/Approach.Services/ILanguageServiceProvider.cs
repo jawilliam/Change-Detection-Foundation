@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Jawilliam.CDF.Approach.Flad
+namespace Jawilliam.CDF.Approach.Services
 {
     /// <summary>
     /// Provides language-specific information for the source code change detection.

@@ -2,26 +2,33 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Jawilliam.CDF.Approach.Base
+namespace Jawilliam.CDF.Approach.Impl
 {
     /// <summary>
     /// Base class to implement logic to execute under the context of a step in the detection of changes.
     /// </summary>
     /// <typeparam name="TElement">Type of the supported elements.</typeparam>
-    /// <typeparam name="TRevision">Type of the comparing versions.</typeparam>
-    public abstract class Choice<TElement, TRevision> : IChoice<TElement, TRevision>
+    public abstract class Choice<TElement> : IChoice 
     {
         /// <summary>
-        /// Gets or sets the solution wherein the current procedure is being called.
+        /// Initializes the instance.
         /// </summary>
-        public virtual IApproach<TElement, TRevision> Approach { get; set; }
+        /// <param name="approach">the solution wherein the current choice will be called</param>
+        public Choice(IApproach<TElement> approach)
+        {
+            this.Approach = approach != null ? approach : throw new ArgumentNullException(nameof(approach));
+        }
+
+        /// <summary>
+        /// Gets or sets the solution wherein the current choice will be called.
+        /// </summary>
+        public IApproach<TElement> Approach { get; private set; }
 
         /// <summary>
         /// Executes the current choice under the context of a step in the detection of changes.
         /// </summary>
-        void IChoice<TElement, TRevision>.OnStep()
+        void IChoice.OnStep()
         {
-            if (this.Approach == null) throw new NullReferenceException("Approach must be setted.");
             if (this.SupportedStep())
                 this.CoreOnStep();
         }
@@ -34,11 +41,11 @@ namespace Jawilliam.CDF.Approach.Base
         /// <summary>
         /// Gets the steps wherein the current choice will be actively executed.
         /// </summary>
-        public abstract IList<long> SupportedSteps { get; }
+        protected abstract IList<long> SupportedSteps { get; }
 
         /// <summary>
         /// Core implementation of <see cref="OnStep"/>.
         /// </summary>
-        public abstract void CoreOnStep();
+        protected abstract void CoreOnStep();
     }
 }

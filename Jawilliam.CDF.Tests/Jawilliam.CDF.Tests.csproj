@@ -157,6 +157,7 @@
     <Compile Include="Approach\MatchingInfoTests.cs" />
     <Compile Include="Approach.GumTree\FileRevisionPairAnalyzerTests.cs" />
     <Compile Include="Approach.GumTree\GumTreeNativeApproachTests.cs" />
+    <Compile Include="CSharp\CSharpFladTests.cs" />
     <Compile Include="CSharp\MatchingProvider.cs" />
     <Compile Include="CSharp\SignatureEqualityServicesTests.cs" />
     <Compile Include="CSharp\NameEqualityServicesTests.cs" />
