@@ -49,7 +49,7 @@ namespace Jawilliam.CDF.Approach.Annotations
         /// <returns>the annotations of the given original element.</returns>
         public static TAnnotation Original<TElement, TAnnotation>(this IServiceLocator serviceLocator, TElement original) where TAnnotation : new()
         {
-            Debug.Assert(original != null);
+            Debug.Assert(original != null && Originals<TElement, TAnnotation>(serviceLocator).Annotations.ContainsKey(original));
             return Originals<TElement, TAnnotation>(serviceLocator).Annotations[original];
         }
 
@@ -63,7 +63,7 @@ namespace Jawilliam.CDF.Approach.Annotations
         /// <returns>the annotations of the given modified element.</returns>
         public static TAnnotation Modified<TElement, TAnnotation>(this IServiceLocator serviceLocator, TElement modified) where TAnnotation : new()
         {
-            Debug.Assert(modified != null);
+            Debug.Assert(modified != null && Modifieds<TElement, TAnnotation>(serviceLocator).Annotations.ContainsKey(modified));
             return Modifieds<TElement, TAnnotation>(serviceLocator).Annotations[modified];
         }
 

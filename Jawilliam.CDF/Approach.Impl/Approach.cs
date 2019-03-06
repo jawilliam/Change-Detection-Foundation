@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Jawilliam.CDF.Approach.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -74,6 +75,10 @@ namespace Jawilliam.CDF.Approach.Impl
 
             this.Services.Values.OfType<IBeginDetection>().OrderBy(s => ((IService)s).Id).ForEach(c => c.BeginDetection());
             this.Choices.OfType<IBeginDetection>().ForEach(c => c.BeginDetection());
+
+            var matchingSet = this.MatchingSet(false);
+            if (matchingSet != null)
+                matchingSet.Partners(new MatchInfo<TElement>((int)MatchInfoId.RootsAlwaysMatch) { Original = this.Result.Original, Modified = this.Result.Modified } );
         }
 
         /// <summary>

@@ -2,6 +2,7 @@
 using Jawilliam.CDF.Approach.Services;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Jawilliam.CDF.Approach.Criterions.Impl
 {
@@ -10,7 +11,7 @@ namespace Jawilliam.CDF.Approach.Criterions.Impl
     /// </summary>
     /// <typeparam name="TElement">Type of the supported elements.</typeparam>
     /// <typeparam name="TAnnotation">Type of the information to store for each element.</typeparam>
-    public abstract class FingerprintMatcher<TElement, TAnnotation> : Matcher<TElement> where TAnnotation : IHashingAnnotation, new()
+    public abstract class FingerprintMatcher<TElement, TAnnotation> : Matcher<TElement>, IMatcher<TElement> where TAnnotation : IHashingAnnotation, new()
     {
         /// <summary>
         /// Initializes the instance.
@@ -58,9 +59,10 @@ namespace Jawilliam.CDF.Approach.Criterions.Impl
         public override IEnumerable<MatchInfo<TElement>> Matches(TElement original, TElement originalContext, TElement modifiedContext)
         {
             var hierarchicalAbstraction = this.ServiceLocator.HierarchicalAbstraction<TElement>();
+            var matchingSet = this.ServiceLocator.MatchingSet<TElement>();
 
             var oAnnotation = this.ServiceLocator.Original<TElement, TAnnotation>(original);
-            foreach (var m in modifiedContext.PostOrder(hierarchicalAbstraction.Children))
+            foreach (var m in modifiedContext.PostOrder(hierarchicalAbstraction.Children).Where(matchingSet.UnmatchedModified))
             {
                 var mAnnotation = this.ServiceLocator.Modified<TElement, TAnnotation>(m);
                 var oHash = this.GetHash(oAnnotation);

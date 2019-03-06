@@ -6,6 +6,8 @@ using Jawilliam.CDF.Approach.Impl;
 using Jawilliam.CDF.Approach.Annotations.Impl;
 using Jawilliam.CDF.Approach.Services;
 using Jawilliam.CDF.Approach.Services.Impl;
+using Jawilliam.CDF.Approach.Criterions.Impl;
+using Jawilliam.CDF.Approach.Choices;
 
 namespace Jawilliam.CDF.CSharp.Flad
 {
@@ -32,6 +34,8 @@ namespace Jawilliam.CDF.CSharp.Flad
             this.Services.Add((int)ServiceId.FullContentHasher, new Md5HashingService<SyntaxNode, Annotation<SyntaxNode>>(this, 
                 Approach.Annotations.Extensions.GetFullContentHash, 
                 Approach.Annotations.Extensions.SetFullContentHash) { Id = (int)ServiceId.FullContentHasher });
+
+            this.Services.Add((int)ServiceId.EditScript, new EditScriptService<SyntaxNode, Annotation<SyntaxNode>>(this) { Id = (int)ServiceId.EditScript });
         }
 
         /// <summary>
@@ -39,7 +43,10 @@ namespace Jawilliam.CDF.CSharp.Flad
         /// </summary>
         public override IList<long> Steps => new List<long>
         {
-            (long) (CSharpFladStepInfo.Equality | CSharpFladStepInfo.Signature)
+            (long) (CSharpFladStepInfo.Equality | CSharpFladStepInfo.Signature),
+            (long) (CSharpFladStepInfo.Equality | CSharpFladStepInfo.Subtree),
+            (long) (StepInfo.DifferencingPhase | StepInfo.Subtree),
+            (long) (StepInfo.ReportPhase)
         };
 
         /// <summary>
@@ -57,6 +64,9 @@ namespace Jawilliam.CDF.CSharp.Flad
                 return this._choices ?? (this._choices = new List<IChoice>
                                          {
                                              //new CSharpSignatureEqualityChoice(this)
+                                             new MatchingDiscoveryChoice<SyntaxNode>(this, new FullContentFingerprintMatcher<SyntaxNode, Annotation<SyntaxNode>>(this)),
+                                             new McesDifferencingChoice<SyntaxNode, Annotation<SyntaxNode>>(this),
+                                             new McesReportChoice<SyntaxNode, Annotation<SyntaxNode>>(this)
                                          }
                 );
             }

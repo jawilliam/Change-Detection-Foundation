@@ -88,25 +88,25 @@ namespace Jawilliam.CDF.Approach.Services.Impl
             return this.ServiceLocator.HierarchicalAbstraction().Children(node);
         }
 
-        /// <summary>
-        /// Access to the parent of a node.
-        /// </summary>
-        /// <param name="node">node of interest.</param>
-        /// <returns>the node's parent.</returns>
-        public virtual TElement Parent(TElement node)
-        {
-            return this.ServiceLocator.HierarchicalAbstraction().Parent(node);
-        }
+        ///// <summary>
+        ///// Access to the parent of a node.
+        ///// </summary>
+        ///// <param name="node">node of interest.</param>
+        ///// <returns>the node's parent.</returns>
+        //public virtual TElement Parent(TElement node)
+        //{
+        //    return this.ServiceLocator.HierarchicalAbstraction().Parent(node);
+        //}
 
-        /// <summary>
-        /// Access to the label of a node.
-        /// </summary>
-        /// <param name="node">node of interest.</param>
-        /// <returns>a numeric identifier of the node type.</returns>
-        public virtual int Label(TElement node)
-        {
-            return this.ServiceLocator.HierarchicalAbstraction().Label(node);
-        }
+        ///// <summary>
+        ///// Access to the label of a node.
+        ///// </summary>
+        ///// <param name="node">node of interest.</param>
+        ///// <returns>a numeric identifier of the node type.</returns>
+        //public virtual int Label(TElement node)
+        //{
+        //    return this.ServiceLocator.HierarchicalAbstraction().Label(node);
+        //}
 
         /// <summary>
         /// Informs if a node it is leaf. 

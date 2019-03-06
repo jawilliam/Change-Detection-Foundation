@@ -1,4 +1,5 @@
-﻿using Jawilliam.CDF.Approach.Services;
+﻿using Jawilliam.CDF.Actions;
+using Jawilliam.CDF.Approach.Services;
 using System.Collections.Generic;
 
 namespace Jawilliam.CDF.Approach.Annotations.Impl
@@ -7,12 +8,36 @@ namespace Jawilliam.CDF.Approach.Annotations.Impl
     /// Structures the information available for a element version.
     /// </summary>
     /// <typeparam name="TElement">Type of the annotable elements.</typeparam>
-    public class Annotation<TElement> : IElementAnnotation<TElement>, IMatchingAnnotation<TElement>, IHashingAnnotation, IHierarchicalAbstractionAnnotation
+    public class Annotation<TElement> : 
+        IElementAnnotation<TElement>,
+        IGumTreeElementAnnotation,
+        IMatchingAnnotation<TElement>, 
+        IHashingAnnotation, 
+        IHierarchicalAbstractionAnnotation,
+        IMcesAnnotation<TElement>
     {
+        #region IElementAnnotation<TElement>
+
         /// <summary>
         /// Gets or sets the extended element.
         /// </summary>
         public virtual TElement Element { get; set; }
+
+        /// <summary>
+        /// Gets or sets a numeric identifier for the extended element.
+        /// </summary>
+        public virtual int Id { get; set; }
+
+        #endregion
+
+        #region IGumTreeElementAnnotation
+
+        /// <summary>
+        /// Gets or sets a numeric identifier for the extended element.
+        /// </summary>
+        int IGumTreeElementAnnotation.Id { get; set; }
+
+        #endregion
 
         /// <summary>
         /// Stores the value of <see cref="Candidates"/>.
@@ -61,5 +86,47 @@ namespace Jawilliam.CDF.Approach.Annotations.Impl
         /// Gets or sets the size of the annotated subtree. 
         /// </summary>
         public virtual int Size { get; set; }
+
+        #region IMcesAnnotation
+
+        /// <summary>
+        /// Gets or sets whether or not the annotated node is "in order" or not.
+        /// </summary>
+        public virtual bool InOrder { get; set; }
+
+        /// <summary>
+        /// Stores the value of <see cref="Actions"/>.
+        /// </summary>
+        private IList<EditAction<TElement>> _actions;
+
+        /// <summary>
+        /// Gets the actions that affect the annotated element.
+        /// </summary>
+        public virtual IList<EditAction<TElement>> Actions
+        {
+            get => this._actions ?? (this._actions = new List<EditAction<TElement>>());
+            set => this._actions = value;
+        }
+
+        /// <summary>
+        /// Stores the value of <see cref="Children"/>.
+        /// </summary>
+        private IList<TElement> _children;
+
+        /// <summary>
+        /// Gets or sets the children of the annotated element.
+        /// </summary>
+        public virtual IList<TElement> Children
+        {
+            get => this._children ?? (this._children = new List<TElement>(10));
+            set => this._children = value;
+        }
+
+        /// <summary>
+        /// Gets or sets the parent of the annotated element.
+        /// </summary>
+        public virtual TElement Parent { get; set; }
+
+        #endregion
     }
 }

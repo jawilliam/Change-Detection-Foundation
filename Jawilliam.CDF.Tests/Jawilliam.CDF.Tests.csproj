@@ -154,6 +154,26 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Approach.Base\FrameworkApproachTests.cs" />
+    <Compile Include="Approach.Criterions.Simetric\BlockDistanceUnitTests.cs" />
+    <Compile Include="Approach.Criterions.Simetric\ChapmanLengthDeviationUnitTests.cs" />
+    <Compile Include="Approach.Criterions.Simetric\ChapmanMeanLengthUnitTests.cs" />
+    <Compile Include="Approach.Criterions.Simetric\CosineSimilarityUnitTests.cs" />
+    <Compile Include="Approach.Criterions.Simetric\CostFunctionsUnitTests.cs" />
+    <Compile Include="Approach.Criterions.Simetric\DiceSimilarityUnitTests.cs" />
+    <Compile Include="Approach.Criterions.Simetric\EuclideanDistanceUnitTests.cs" />
+    <Compile Include="Approach.Criterions.Simetric\JaccardSimilarityUnitTests.cs" />
+    <Compile Include="Approach.Criterions.Simetric\JaroAndJaroWinklerUnitTests.cs" />
+    <Compile Include="Approach.Criterions.Simetric\LevensteinUnitTests.cs" />
+    <Compile Include="Approach.Criterions.Simetric\MatchingCoefficientUnitTests.cs" />
+    <Compile Include="Approach.Criterions.Simetric\MathFuncsUnitTests.cs" />
+    <Compile Include="Approach.Criterions.Simetric\MongeElkanUnitTests.cs" />
+    <Compile Include="Approach.Criterions.Simetric\NeedlemanWunchUnitTests.cs" />
+    <Compile Include="Approach.Criterions.Simetric\OverlapCoefficientUnitTests.cs" />
+    <Compile Include="Approach.Criterions.Simetric\QGramsDistanceUnitTests.cs" />
+    <Compile Include="Approach.Criterions.Simetric\SimetricUnitTests.cs" />
+    <Compile Include="Approach.Criterions.Simetric\SmithWatermanUnitTests.cs" />
+    <Compile Include="Approach.Criterions.Simetric\TokenisersUnitTests.cs" />
+    <Compile Include="Approach.Impl\MyersLCSTests.cs" />
     <Compile Include="Approach\MatchingInfoTests.cs" />
     <Compile Include="Approach.GumTree\FileRevisionPairAnalyzerTests.cs" />
     <Compile Include="Approach.GumTree\GumTreeNativeApproachTests.cs" />
@@ -175,6 +195,11 @@
     <Compile Include="Miscellaneus.cs" />
     <Compile Include="NativeGumTreeResultParsing.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <Compile Include="XSkipTheseFileRevisionPairTests.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -194,6 +219,11 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.1.1.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll" />

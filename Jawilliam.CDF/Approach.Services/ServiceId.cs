@@ -39,5 +39,10 @@
         /// Supports the textual handling of the elements.
         /// </summary>
         TextualAbstraction = 1070,
+
+        /// <summary>
+        /// <see cref="IEditScriptService{TElement}"/>.
+        /// </summary>
+        EditScript = 1080,
     }
 }

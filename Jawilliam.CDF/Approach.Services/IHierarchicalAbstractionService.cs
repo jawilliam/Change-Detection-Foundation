@@ -30,6 +30,13 @@ namespace Jawilliam.CDF.Approach.Services
         int Label(TNode node);
 
         /// <summary>
+        /// Access to the value of a node.
+        /// </summary>
+        /// <param name="node">node of interest.</param>
+        /// <returns>the value of the given node.</returns>
+        object Value(TNode node);
+
+        /// <summary>
         /// Informs if a node it is leaf. 
         /// </summary>
         /// <param name="node">node of interest.</param>

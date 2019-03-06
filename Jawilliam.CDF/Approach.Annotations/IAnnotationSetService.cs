@@ -15,9 +15,9 @@ namespace Jawilliam.CDF.Approach.Annotations
         Dictionary<TElement, TAnnotation> Annotations { get; set; }
 
         /// <summary>
-        /// Initializes the structure with the set of elements to annotate.
+        /// Initializes a set of elements to annotate.
         /// </summary>
-        /// <param name="elements"></param>
+        /// <param name="elements">the set of elements to initialize.</param>
         void Init(IEnumerable<TElement> elements);
     }
 }

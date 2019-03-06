@@ -141,5 +141,33 @@ namespace Jawilliam.CDF.Approach.Services
         {
             return EssentialContentHasher<TElement, TAnnotation>((IServiceLocator)approach, getServiceOrThrowsException);
         }
+
+        /// <summary>
+        /// Exposes functionalities to manage edit scripts. 
+        /// </summary>
+        /// <typeparam name="TElement">Type of the supported elements.</typeparam>
+        /// <param name="serviceLocator">the context wherein dynamically loading any required service.</param>
+        /// <param name="getServiceOrThrowsException">if true and the requested service does not exist, it throws an exception.</param>
+        /// <returns>the service supporting functionalities to manage edit scripts.</returns>
+        public static IEditScriptService<TElement> EditScript<TElement>(this IServiceLocator serviceLocator, bool getServiceOrThrowsException = true)
+        {
+            Debug.Assert(serviceLocator != null);
+            return getServiceOrThrowsException
+                ? serviceLocator.GetServiceOrThrowsException<IEditScriptService<TElement>>((int)ServiceId.EditScript)
+                : serviceLocator.GetService<IEditScriptService<TElement>>((int)ServiceId.EditScript);
+        }
+
+        /// <summary>
+        /// Exposes functionalities to manage edit scripts. 
+        /// </summary>
+        /// <typeparam name="TElement">Type of the supported elements.</typeparam>
+        /// <param name="approach">the context wherein dynamically loading any required service.</param>
+        /// <param name="getServiceOrThrowsException">if true and the requested service does not exist, it throws an exception.</param>
+        /// <returns>the service supporting functionalities to manage edit scripts.</returns>
+        public static IEditScriptService<TElement> EditScript<TElement>(this IApproach<TElement> approach, bool getServiceOrThrowsException = true)
+        {
+            return EditScript<TElement>((IServiceLocator)approach, getServiceOrThrowsException);
+        }
+
     }
 }

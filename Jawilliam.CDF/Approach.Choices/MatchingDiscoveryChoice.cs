@@ -10,7 +10,7 @@ namespace Jawilliam.CDF.Approach.Impl
     /// Base class for implementing matching discovery choices based on a <see cref="IMatcher{TElement}"/>.
     /// </summary>
     /// <typeparam name="TElement">Type of the supported elements.</typeparam>
-    public abstract partial class MatchingDiscoveryChoice<TElement> : Choice<TElement>
+    public partial class MatchingDiscoveryChoice<TElement> : Choice<TElement>
     {
         /// <summary>
         /// Initializes the instance.
@@ -69,14 +69,17 @@ namespace Jawilliam.CDF.Approach.Impl
             while (!this.EmptyList(list))
             {
                 var o = this.ListHead(list);
-                var matches = matchingSet.UnmatchedOriginal(o) ? this.Criterion.Matches(originalRoot, originalRoot, modifiedRoot)?.ToList() : null;
+                var matches = matchingSet.UnmatchedOriginal(o) ? this.Criterion.Matches(o, originalRoot, modifiedRoot)?.ToList() : null;
                 if (matches?.Count > 0)
                 {
                     MatchInfo<TElement> bestMatch = matches.Count == 1 ? matches.Single() : this.Criterion.TieBreak(matches, originalRoot, modifiedRoot);
                     if (bestMatch != null) // if the match is unique (either originally discovered or otherwise resolved by tie break), notify it.
                     {
-                        matchingSet.Pair(bestMatch);
-                        this.Criterion.Partners(bestMatch.Original, bestMatch.Modified, originalRoot, modifiedRoot);
+                        matchingSet.Partners(bestMatch);
+                        foreach (var pairwiseMatch in this.Criterion.Partners(bestMatch.Original, bestMatch.Modified, originalRoot, modifiedRoot))
+                        {
+                            matchingSet.Partners(pairwiseMatch);
+                        }
                     }
                     else // notify all the discovered candidate matches.
                     {

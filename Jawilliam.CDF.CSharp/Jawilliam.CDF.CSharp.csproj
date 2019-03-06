@@ -139,8 +139,10 @@
     <Compile Include="Flad\AnnotationSetService.cs" />
     <Compile Include="Flad\AttributeArgumentServiceProvider.Partial.cs" />
     <Compile Include="Flad\AnonymousMethodExpressionServiceProvider.Partial.cs" />
-    <Compile Include="Flad\TextualSyntaxNodeService.cs" />
+    <Compile Include="Flad\Extensions.cs" />
     <Compile Include="Flad\HierarchicalSyntaxNodeService.cs" />
+    <Compile Include="Flad\McesHierarchicalSyntaxNodeService.cs" />
+    <Compile Include="Flad\TextualSyntaxNodeService.cs" />
     <Compile Include="Flad\InterfaceDeclarationServiceProvider.Partial.cs" />
     <Compile Include="Flad\StructDeclarationServiceProvider.Partial.cs" />
     <Compile Include="Flad\ClassDeclarationServiceProvider.Partial.cs" />

@@ -35,7 +35,7 @@ namespace Jawilliam.CDF.Approach.Impl
 
         internal bool SupportedStep()
         {
-            return this.SupportedSteps.Any(s => (this.Approach.Step & s) != 0);
+            return this.SupportedSteps.Any(s => (this.Approach.Step & s) == s);
         }
 
         /// <summary>

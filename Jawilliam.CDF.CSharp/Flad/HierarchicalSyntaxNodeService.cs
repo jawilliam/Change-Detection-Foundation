@@ -53,6 +53,16 @@ namespace Jawilliam.CDF.CSharp.Flad
         }
 
         /// <summary>
+        /// Access to the value of a node.
+        /// </summary>
+        /// <param name="node">node of interest.</param>
+        /// <returns>the value of the given node.</returns>
+        public virtual object Value(SyntaxNode node)
+        {
+            return this.IsLeaf(node) ? node.ToFullString() : null;
+        }
+
+        /// <summary>
         /// Informs if a node it is leaf. 
         /// </summary>
         /// <param name="node">node of interest.</param>
@@ -71,6 +81,17 @@ namespace Jawilliam.CDF.CSharp.Flad
             var modifieds = this.ServiceLocator.Modifieds<SyntaxNode, TAnnotation>();
 
             var hierarchicalAbstraction = this.ServiceLocator.HierarchicalAbstraction();
+
+            int i = 0;
+            foreach (var original in this.ServiceLocator.Result.Original.PostOrder(hierarchicalAbstraction.Children))
+            {
+                ((IElementAnnotation<SyntaxNode>)this.ServiceLocator.Original<SyntaxNode, TAnnotation>(original)).Id = i++;
+            }
+            foreach (var modified in this.ServiceLocator.Result.Modified.PostOrder(hierarchicalAbstraction.Children))
+            {
+                ((IElementAnnotation<SyntaxNode>)this.ServiceLocator.Modified<SyntaxNode, TAnnotation>(modified)).Id = i++;
+            }
+
             this.ComputeSize(this.ServiceLocator.Result.Original, originals, hierarchicalAbstraction);
             this.ComputeSize(this.ServiceLocator.Result.Modified, modifieds, hierarchicalAbstraction);
 

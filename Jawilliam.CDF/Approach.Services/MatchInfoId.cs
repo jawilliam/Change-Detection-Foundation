@@ -15,6 +15,16 @@
         /// <summary>
         /// The matched versions have identical essential content.
         /// </summary>
-        IdenticalEssentialHash = 2
+        IdenticalEssentialHash = 2,
+
+        /// <summary>
+        /// The matched versions are an original version copied from the modified version and the modified version. They were probably matched during the generation of a insert action (e.g., minimum conforming edit script). 
+        /// </summary>
+        Insert = 3,
+
+        /// <summary>
+        /// The matched versions are the root of the comparing file or fragments (it is required for "Minimun Conforming Edit Script"),
+        /// </summary>
+        RootsAlwaysMatch = 4,
     }
 }

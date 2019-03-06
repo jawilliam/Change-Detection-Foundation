@@ -26,9 +26,9 @@ namespace Jawilliam.CDF.Approach.Annotations.Impl
         }
 
         /// <summary>
-        /// Initializes the structure with the set of elements to annotate.
+        /// Initializes a set of elements to annotate.
         /// </summary>
-        /// <param name="elements"></param>
+        /// <param name="elements">the set of elements to initialize.</param>
         public virtual void Init(IEnumerable<TElement> elements)
         {
             foreach (var element in elements)

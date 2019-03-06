@@ -60,12 +60,16 @@ namespace Jawilliam.CDF.Approach.Criterions.Impl
             for (int i = 0; i < oChildren.Count() ; i++)
             {
                 var oChild = oChildren[i];
-                var mChild = mChildren[i];
 
-                yield return new MatchInfo<TElement>((int)MatchingCriterionIds.PairwiseIdenticalSubtree) { Original = oChild, Modified = mChild };
-                foreach (var pairwiseMatch in this.IdenticalSubtrees(hierarchicalAbstraction, oChild, mChild, originalContext, modifiedContext) ?? new MatchInfo<TElement>[0])
+                if (i < mChildren.Length)
                 {
-                    yield return pairwiseMatch;
+                    var mChild = mChildren[i];
+
+                    yield return new MatchInfo<TElement>((int)MatchingCriterionIds.PairwiseIdenticalSubtree) { Original = oChild, Modified = mChild };
+                    foreach (var pairwiseMatch in this.IdenticalSubtrees(hierarchicalAbstraction, oChild, mChild, originalContext, modifiedContext) ?? new MatchInfo<TElement>[0])
+                    {
+                        yield return pairwiseMatch;
+                    }
                 }
             }
         }
