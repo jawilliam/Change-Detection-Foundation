@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using Jawilliam.CDF.Approach;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Jawilliam.CDF.Approach.Impl;
+using Jawilliam.CDF.Approach.Choices;
 
 namespace Jawilliam.CDF.CSharp.Flad
 {

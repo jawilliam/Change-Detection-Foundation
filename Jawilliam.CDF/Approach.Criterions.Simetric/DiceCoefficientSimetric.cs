@@ -65,7 +65,7 @@ namespace Jawilliam.CDF.Approach.Criterions.Simetric
     /// Implements the dice based similarity.
     /// </summary>
     [Serializable]
-    public class DiceCoefficientSimetric<T> : VectorSimetric<T> where T : IEquatable<T>
+    public class DiceCoefficientSimetric<T> : VectorSimetric<T>
     {
         /// <summary>
         /// Compute the similarity value between two sequences.
@@ -80,8 +80,7 @@ namespace Jawilliam.CDF.Approach.Criterions.Simetric
             if (!firstSeq.Any() && !secondSeq.Any())
                 return 1;
 
-            double[] firstComponents, secondComponents;
-            var uniqueTokens = this.GetComponents(firstSeq, secondSeq, this.Comparer, out firstComponents, out secondComponents);
+            var uniqueTokens = this.GetComponents(firstSeq, secondSeq, this.Comparer, out double[] firstComponents, out double[] secondComponents);
             if (uniqueTokens.Any())
             {
                 var ab = firstComponents.Select((d, i) => d * secondComponents[i]).Sum();

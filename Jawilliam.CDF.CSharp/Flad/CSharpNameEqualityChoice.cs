@@ -1,5 +1,5 @@
 ﻿using Jawilliam.CDF.Approach;
-using Jawilliam.CDF.Approach.Impl;
+using Jawilliam.CDF.Approach.Choices;
 using Microsoft.CodeAnalysis;
 using System;
 using System.Collections.Generic;

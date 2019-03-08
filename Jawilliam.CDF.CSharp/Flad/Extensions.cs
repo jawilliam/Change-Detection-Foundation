@@ -23,10 +23,10 @@ namespace Jawilliam.CDF.CSharp.Flad
         /// </summary>
         /// <typeparam name="source">Result to translate.</typeparam>
         /// <returns>Translated result. </returns>
-        public static DetectionResult<SyntaxNode> Translate(this DetectionResult<SyntaxNode> source)
+        public static DetectionResult<SyntaxNodeOrToken?> Translate(this DetectionResult<SyntaxNodeOrToken?> source)
         {
             Debug.Assert(source != null);
-            return new DetectionResult<SyntaxNode>
+            return new DetectionResult<SyntaxNodeOrToken?>
             {
                 Original = source.Original,
                 Modified = source.Modified,

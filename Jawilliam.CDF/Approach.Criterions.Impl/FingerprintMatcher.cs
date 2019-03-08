@@ -11,21 +11,15 @@ namespace Jawilliam.CDF.Approach.Criterions.Impl
     /// </summary>
     /// <typeparam name="TElement">Type of the supported elements.</typeparam>
     /// <typeparam name="TAnnotation">Type of the information to store for each element.</typeparam>
-    public abstract class FingerprintMatcher<TElement, TAnnotation> : Matcher<TElement>, IMatcher<TElement> where TAnnotation : IHashingAnnotation, new()
+    public abstract class FingerprintMatcher<TElement, TAnnotation> : Matcher<TElement, IServiceLocator>, IMatcher<TElement> where TAnnotation : IHashingAnnotation, new()
     {
         /// <summary>
         /// Initializes the instance.
         /// </summary>
         /// <param name="serviceLocator">the service locator to internally use.</param>
-        public FingerprintMatcher(IServiceLocator serviceLocator)
+        public FingerprintMatcher(IServiceLocator serviceLocator) : base(serviceLocator)
         {
-            this.ServiceLocator = serviceLocator ?? throw new ArgumentNullException(nameof(serviceLocator));
         }
-
-        /// <summary>
-        /// Allows to dynamically load a typed service.
-        /// </summary>
-        public IServiceLocator ServiceLocator { get; private set; }
 
         /// <summary>
         /// Gets the hash of an element.
@@ -69,18 +63,6 @@ namespace Jawilliam.CDF.Approach.Criterions.Impl
                 if (this.Compatible(original, m) && oHash != null && object.Equals(oHash, this.GetHash(mAnnotation)))
                     yield return this.NewMatchInfo(original, m);
             }
-        }
-
-        /// <summary>
-        /// Determines if two comparing versions can match.
-        /// </summary>
-        /// <param name="original">original version.</param>
-        /// <param name="modified">modified version.</param>
-        /// <returns>true if they can match, false otherwise.</returns>
-        protected virtual bool Compatible(TElement original, TElement modified)
-        {
-            var hierarchicalAbstraction = this.ServiceLocator.HierarchicalAbstraction<TElement>();
-            return hierarchicalAbstraction.Label(original) == hierarchicalAbstraction.Label(modified);
         }
 
         /// <summary>

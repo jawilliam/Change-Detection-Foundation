@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Jawilliam.CDF.Approach.Impl
+namespace Jawilliam.CDF.Approach.Choices
 {
     /// <summary>
     /// Base class to implement logic to execute under the context of a step in the detection of changes.

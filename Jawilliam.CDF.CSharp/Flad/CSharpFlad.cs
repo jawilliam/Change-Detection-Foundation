@@ -14,7 +14,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Fully Language-Aware source code Deltas (for C#).
     /// </summary>
-    public class CSharpFlad : FladApproach<SyntaxNode, Annotation<SyntaxNode>>
+    public class CSharpFlad : FladApproach<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>
     {
         /// <summary>
         /// Initializes the instance.
@@ -23,19 +23,19 @@ namespace Jawilliam.CDF.CSharp.Flad
         public CSharpFlad()
         {
             this.Services.Remove((int)ServiceId.OriginalAnnotationSet);
-            this.Services.Add((int)ServiceId.OriginalAnnotationSet, new OriginalSetService<SyntaxNode, Annotation<SyntaxNode>>(this));
+            this.Services.Add((int)ServiceId.OriginalAnnotationSet, new OriginalSetService<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>(this));
 
             this.Services.Remove((int)ServiceId.ModifiedAnnotationSet);
-            this.Services.Add((int)ServiceId.ModifiedAnnotationSet, new ModifiedSetService<SyntaxNode, Annotation<SyntaxNode>>(this));
+            this.Services.Add((int)ServiceId.ModifiedAnnotationSet, new ModifiedSetService<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>(this));
 
-            this.Services.Add((int)ServiceId.HierarchicalAbstraction, new HierarchicalSyntaxNodeService<Annotation<SyntaxNode>>(this) { Id = (int)ServiceId.HierarchicalAbstraction });
+            this.Services.Add((int)ServiceId.HierarchicalAbstraction, new HierarchicalSyntaxNodeService<Annotation<SyntaxNodeOrToken?>>(this) { Id = (int)ServiceId.HierarchicalAbstraction });
             this.Services.Add((int)ServiceId.TextualAbstraction, new TextualSyntaxNodeService { Id = (int)ServiceId.TextualAbstraction });
 
-            this.Services.Add((int)ServiceId.FullContentHasher, new Md5HashingService<SyntaxNode, Annotation<SyntaxNode>>(this, 
+            this.Services.Add((int)ServiceId.FullContentHasher, new Md5HashingService<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>(this, 
                 Approach.Annotations.Extensions.GetFullContentHash, 
                 Approach.Annotations.Extensions.SetFullContentHash) { Id = (int)ServiceId.FullContentHasher });
 
-            this.Services.Add((int)ServiceId.EditScript, new EditScriptService<SyntaxNode, Annotation<SyntaxNode>>(this) { Id = (int)ServiceId.EditScript });
+            this.Services.Add((int)ServiceId.EditScript, new EditScriptService<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>(this) { Id = (int)ServiceId.EditScript });
         }
 
         /// <summary>
@@ -64,9 +64,10 @@ namespace Jawilliam.CDF.CSharp.Flad
                 return this._choices ?? (this._choices = new List<IChoice>
                                          {
                                              //new CSharpSignatureEqualityChoice(this)
-                                             new MatchingDiscoveryChoice<SyntaxNode>(this, new FullContentFingerprintMatcher<SyntaxNode, Annotation<SyntaxNode>>(this)),
-                                             new McesDifferencingChoice<SyntaxNode, Annotation<SyntaxNode>>(this),
-                                             new McesReportChoice<SyntaxNode, Annotation<SyntaxNode>>(this)
+                                             new MatchingDiscoveryChoice<SyntaxNodeOrToken?>(this, new FullContentFingerprintMatcher<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>(this)),
+                                             new MatchingDiscoveryChoice<SyntaxNodeOrToken?>(this, new TieBreakingMatcher<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>(this)),
+                                             new McesDifferencingChoice<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>(this),
+                                             new McesReportChoice<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>(this)
                                          }
                 );
             }
@@ -88,9 +89,9 @@ namespace Jawilliam.CDF.CSharp.Flad
         /// <param name="originalSourceCode">original source code.</param>
         /// <param name="modifiedSourceCode">modified source code.</param>
         /// <returns>returns the loaded versions.</returns>
-        public static RevisionPair<SyntaxNode> LoadRevisionPair(string originalSourceCode, string modifiedSourceCode)
+        public static RevisionPair<SyntaxNodeOrToken?> LoadRevisionPair(string originalSourceCode, string modifiedSourceCode)
         {
-            return new RevisionPair<SyntaxNode>
+            return new RevisionPair<SyntaxNodeOrToken?>
             {
                 Original = SyntaxFactory.ParseCompilationUnit(originalSourceCode).SyntaxTree.GetRoot(),
                 Modified = SyntaxFactory.ParseCompilationUnit(modifiedSourceCode).SyntaxTree.GetRoot()

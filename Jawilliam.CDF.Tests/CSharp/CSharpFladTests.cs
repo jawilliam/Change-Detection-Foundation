@@ -15,7 +15,7 @@ namespace Jawilliam.CDF.Tests.CSharp
             string modifiedSourceCode = @"namespace @Namespace{ public class @Class { private System.Boolean  _a; } }";
 
             var flad = new CSharpFlad();
-            var args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNode>(delegate (out SyntaxNode o, out SyntaxNode m)
+            var args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
             {
                 var pair = CSharpFlad.LoadRevisionPair(originalSourceCode, modifiedSourceCode);
                 o = pair.Original;
@@ -54,7 +54,7 @@ namespace Jawilliam.CDF.Tests.CSharp
                                           }";
 
             var flad = new CSharpFlad();
-            var args = new CDF.Approach.LoadRevisionPairDelegate<SyntaxNode>(delegate (out SyntaxNode o, out SyntaxNode m)
+            var args = new CDF.Approach.LoadRevisionPairDelegate<SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
             {
                 var pair = CSharpFlad.LoadRevisionPair(originalSourceCode, modifiedSourceCode);
                 o = pair.Original;

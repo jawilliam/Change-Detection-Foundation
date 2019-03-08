@@ -15,9 +15,9 @@ using Jawilliam.CDF.Actions;
 using Jawilliam.CDF.Approach;
 using Jawilliam.CDF.Approach.GumTree;
 using Jawilliam.CDF.Approach.Matching.CSharp;
-using Jawilliam.CDF.Metrics.Similarity;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Jawilliam.CDF.Labs.DBModel;
+using Jawilliam.CDF.Approach.Criterions.Simetric;
 
 namespace Jawilliam.CDF.Labs
 {
@@ -194,7 +194,7 @@ namespace Jawilliam.CDF.Labs
                 }
 
                 double? distance;
-                simetric.CancellationToken = token;
+                //simetric.CancellationToken = token;
                 xSimetric.Similarity = simetric.GetSimilarity(originalTokens, modifiedTokens, out distance);
                 Debug.Assert(distance != null, "distance != null");
                 xSimetric.Distance = distance.Value;

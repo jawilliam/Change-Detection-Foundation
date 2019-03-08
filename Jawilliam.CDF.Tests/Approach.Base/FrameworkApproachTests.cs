@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using Jawilliam.CDF.Approach;
+using Jawilliam.CDF.Approach.Annotations;
 using Jawilliam.CDF.Approach.Annotations.Impl;
+using Jawilliam.CDF.Approach.Choices;
 using Jawilliam.CDF.Approach.Impl;
+using Jawilliam.CDF.Approach.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Jawilliam.CDF.Tests.Approach.Base
@@ -41,6 +44,9 @@ namespace Jawilliam.CDF.Tests.Approach.Base
             ((MyApproach)myApproach).Choices.Add(new MyChoiceWithBeginStep(myApproach) { Name = "MyChoiceWithBeginStep" });
             ((MyApproach)myApproach).Choices.Add(new MyChoiceWithBeginDetection(myApproach) { Name = "MyChoiceWithBeginDetection" });
 
+            myApproach.GetServiceOrThrowsException<IAnnotationSetService<int, Annotation<int>>>((int)ServiceId.OriginalAnnotationSet).Init(new[] { 0 });
+            myApproach.GetServiceOrThrowsException<IAnnotationSetService<int, Annotation<int>>>((int)ServiceId.ModifiedAnnotationSet).Init(new[] { 0 });
+
             myApproach.Proceed(new LoadRevisionPairDelegate<int>(delegate (out int o, out int m)
             {
                 o = 0;
@@ -64,6 +70,9 @@ namespace Jawilliam.CDF.Tests.Approach.Base
             ((MyApproach)myApproach).Choices.Add(new MyChoiceWithBeginDetection(myApproach) { Name = "MyChoiceWithBeginDetection" });
             ((MyApproach)myApproach).Steps.Add((long)MySteps.D);
             ((MyApproach)myApproach).Steps.Add((long)(MySteps.D | MySteps.B | MySteps.C));
+
+            myApproach.GetServiceOrThrowsException<IAnnotationSetService<int, Annotation<int>>>((int)ServiceId.OriginalAnnotationSet).Init(new[] { 0 });
+            myApproach.GetServiceOrThrowsException<IAnnotationSetService<int, Annotation<int>>>((int)ServiceId.ModifiedAnnotationSet).Init(new[] { 0 });
 
             myApproach.Proceed(new LoadRevisionPairDelegate<int>(delegate (out int o, out int m)
             {

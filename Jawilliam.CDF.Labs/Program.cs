@@ -12,12 +12,12 @@ using Jawilliam.CDF.Actions;
 using Jawilliam.CDF.Approach;
 using Jawilliam.CDF.Approach.GumTree;
 using Jawilliam.CDF.Metrics.Quality;
-using Jawilliam.CDF.Metrics.Similarity;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Jawilliam.CDF.Labs.DBModel;
 using System.IO;
 using Jawilliam.CDF.CSharp.RoslynML;
+using Jawilliam.CDF.Approach.Criterions.Simetric;
 
 namespace Jawilliam.CDF.Labs
 {
@@ -1417,7 +1417,7 @@ namespace Jawilliam.CDF.Labs
         private static void DetectingLevenshteinDiff(string simetricName, Expression<Func<FileModifiedChange, bool>> onThese, Func<FileModifiedChange, bool> skipThese = null, SourceCodeCleaner cleaner = null)
         {
             var analyzer = new FileModifiedChangeAnalyzer { MillisecondsTimeout = 600000 };
-            var levenshteinSimetric = new LevenshteinSimetric<SyntaxToken> { Comparer = new SyntaxTokenEqualityComparer() };
+            var levenshteinSimetric = new LevenshteinSimetric<SyntaxToken> { AreEqual = new SyntaxTokenEqualityComparer().Equals };
             foreach (var project in Projects)
             {
                 analyzer.Warnings = new StringBuilder();
@@ -1742,7 +1742,7 @@ namespace Jawilliam.CDF.Labs
         {
             var analyzer = new FileModifiedChangeAnalyzer { MillisecondsTimeout = int.MaxValue };
             var gumTree = new GumTreeNativeApproach();
-            var levenshteinSimetric = new LevenshteinSimetric<SyntaxToken> { Comparer = new SyntaxTokenEqualityComparer() };
+            var levenshteinSimetric = new LevenshteinSimetric<SyntaxToken> { AreEqual = new SyntaxTokenEqualityComparer().Equals };
 
             var interopArgs = new InteropArgs()
             {

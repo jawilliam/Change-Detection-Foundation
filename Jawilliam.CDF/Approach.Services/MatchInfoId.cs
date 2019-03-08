@@ -26,5 +26,7 @@
         /// The matched versions are the root of the comparing file or fragments (it is required for "Minimun Conforming Edit Script"),
         /// </summary>
         RootsAlwaysMatch = 4,
+
+        Similarity = 5
     }
 }

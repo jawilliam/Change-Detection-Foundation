@@ -63,20 +63,20 @@ namespace Jawilliam.CDF.Approach.Criterions.Simetric
         /// <typeparam name="T">Concrete type of each term.</typeparam>
         /// <param name="firstSequence">First sequence where to compute the components over.</param>
         /// <param name="secondSequence">First sequence where to compute the components over.</param>
-        /// <param name="areEqual">the logic to support comparisons of objects for equality.</param>
+        /// <param name="comparer">the logic to support comparisons of objects for equality.</param>
         /// <param name="firstResult">Returns the computed components related to the first sequence.</param>
         /// <param name="secondResult">Returns the computed components related to the second sequence.</param>
         /// <param name="termSelector">Function to compute the terms.</param>
         /// <returns>The unique terms that the equalities was computed for.</returns>
-        public static IEnumerable<T> ByPositionEquality<T>(T[] firstSequence, T[] secondSequence, IEqualityComparer<T> areEqual, out double[] firstResult, out double[] secondResult, Func<IEnumerable<T>, IEnumerable<T>, IEqualityComparer<T>, IEnumerable<T>> termSelector = null)
+        public static IEnumerable<T> ByPositionEquality<T>(T[] firstSequence, T[] secondSequence, IEqualityComparer<T> comparer, out double[] firstResult, out double[] secondResult, Func<IEnumerable<T>, IEnumerable<T>, IEqualityComparer<T>, IEnumerable<T>> termSelector = null)
         {
             if (firstSequence == null) throw new ArgumentNullException(nameof(firstSequence));
             if (secondSequence == null) throw new ArgumentNullException(nameof(secondSequence));
 
-            var terms = termSelector?.Invoke(firstSequence, secondSequence, areEqual).ToArray() ?? (firstSequence.Length > secondSequence.Length ? firstSequence : secondSequence).ToArray();
+            var terms = termSelector?.Invoke(firstSequence, secondSequence, comparer).ToArray() ?? (firstSequence.Length > secondSequence.Length ? firstSequence : secondSequence).ToArray();
 
-            firstResult = terms.Select((t, i) => i < firstSequence.Length && areEqual.Equals(t, firstSequence[i]) ? 1d : 0d).ToArray();
-            secondResult = terms.Select((t, i) => i < secondSequence.Length && areEqual.Equals(t, secondSequence[i]) ? 1d : 0d).ToArray();
+            firstResult = terms.Select((t, i) => i < firstSequence.Length && comparer.Equals(t, firstSequence[i]) ? 1d : 0d).ToArray();
+            secondResult = terms.Select((t, i) => i < secondSequence.Length && comparer.Equals(t, secondSequence[i]) ? 1d : 0d).ToArray();
 
             return terms;
         }

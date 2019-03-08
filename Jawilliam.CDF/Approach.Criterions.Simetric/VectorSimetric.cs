@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Jawilliam.CDF.Approach.Criterions.Simetric
+﻿namespace Jawilliam.CDF.Approach.Criterions.Simetric
 {
     /// <summary>
     /// Preferred base class for the <see cref="ISimetric{T}"/> vector implementations.
