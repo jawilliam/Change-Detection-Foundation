@@ -62,13 +62,19 @@ namespace Jawilliam.CDF.CSharp.Flad
             get
             {
                 return this._choices ?? (this._choices = new List<IChoice>
-                                         {
-                                             //new CSharpSignatureEqualityChoice(this)
-                                             new MatchingDiscoveryChoice<SyntaxNodeOrToken?>(this, new FullContentFingerprintMatcher<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>(this)),
-                                             new MatchingDiscoveryChoice<SyntaxNodeOrToken?>(this, new TieBreakingMatcher<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>(this)),
-                                             new McesDifferencingChoice<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>(this),
-                                             new McesReportChoice<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>(this)
-                                         }
+                {
+                    //new CSharpSignatureEqualityChoice(this)
+                    new MatchingDiscoveryChoice<SyntaxNodeOrToken?>(this, 
+                        new FingerprintMatcher<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>
+                            (this, 
+                             a => a.FullHash, 
+                             (a, h) => a.FullHash = h, 
+                             (o, m) => new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.IdenticalFullHash) { Original = o, Modified = m })),
+                    new MatchingDiscoveryChoice<SyntaxNodeOrToken?>(this, new TieBreakingMatcher<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>(this)),
+                    new MatchingDiscoveryChoice<SyntaxNodeOrToken?>(this, new SimilarityMatcher<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>(this)),
+                    new McesDifferencingChoice<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>(this),
+                    new McesReportChoice<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>(this)
+                }
                 );
             }
         }

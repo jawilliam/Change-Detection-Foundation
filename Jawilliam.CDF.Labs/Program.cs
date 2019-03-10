@@ -586,7 +586,7 @@ namespace Jawilliam.CDF.Labs
             //    //System.IO.File.AppendAllText(@"E:\Phd\Analysis\UniquePairs\WarningsGhost.csv", analyzer.Warnings.ToString());
             //}           
 
-            ExploringRDSL();
+            //ExploringRDSL();
             //int fragments = 0, frps = 0; 
             //foreach (var project in Projects)
             //{
@@ -606,7 +606,7 @@ namespace Jawilliam.CDF.Labs
             //}
             //RedundancyComparisonGumTreeWithMultipleConfigurations();
             
-            //--DetectingInverseOfNativeGumTreeWithGumtreefiedRoslynMLOnMultipleConfigurations();
+                //--DetectingInverseOfNativeGumTreeWithGumtreefiedRoslynMLOnMultipleConfigurations();
             
             //ReviewRevisionPairs2(@"E:\Phd\Analysis\OriginalForReversibilityExample.cs", @"E:\Phd\Analysis\ModifiedForReversibilityExample.cs",
             //    ReviewKind.Ratio_LevenshteinGumTreeAdditions_LocalOutliers, ReviewRevisionPair/*,
@@ -1006,9 +1006,9 @@ namespace Jawilliam.CDF.Labs
                 MillisecondsTimeout = 600000
             };
 
-            foreach (var project in Projects.Skip(26))
+            foreach (var project in Projects.Skip(49))
             {
-                foreach (var configuration in configurations.Where(c => project.Name == "Dafny" ? (int)c.Forward.Approach >= 16 : true))
+                foreach (var configuration in configurations.Where(c => project.Name == "MahAppsMetro" ? (int)c.Forward.Approach >= 18 : true))
                 {
                     var dbRepository = new GitRepository(project.Name) { Name = project.Name };
                     ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 600;
@@ -1027,7 +1027,7 @@ namespace Jawilliam.CDF.Labs
 
                     interopArgs.GumTreePath = configuration.Path;
                     ///TODO: Hay que repetir el experimento para AzureSdkForNet
-                    if (!(project.Name == "Dafny" && (int)configuration.Forward.Approach == 16))
+                    if (!(project.Name == "MahAppsMetro" && (int)configuration.Forward.Approach == 18))
                     {
                         analyzer.InverseNativeGumTreeDiff(gumTree, interopArgs, configuration.Backward.Approach, null, null);
                         //analyzer.InverseNativeGumTreeDiff(gumTree, interopArgs, gumTreeApproach, skipThese, cleaner);
@@ -1056,13 +1056,10 @@ namespace Jawilliam.CDF.Labs
                         return roslynMLServices.AsGumtreefiedElementTree(xTree);
                     };
 
-                    if (!(project.Name == "Dafny" && (int)configuration.Forward.Approach == 16))
-                    {
-                        recognizer.Warnings = new StringBuilder();
-                        recognizer.Recognize(skipThese, true);
-                        System.IO.File.AppendAllText($@"D:\ExperimentLogs\{configuration.Backward.Name}.txt",
-                            $"{Environment.NewLine}{Environment.NewLine}Reversibility comparison (recognition) completed {DateTime.Now.ToString("F", CultureInfo.InvariantCulture)} - {project.Name}");
-                    }
+                    recognizer.Warnings = new StringBuilder();
+                    recognizer.Recognize(skipThese, true);
+                    System.IO.File.AppendAllText($@"D:\ExperimentLogs\{configuration.Backward.Name}.txt",
+                        $"{Environment.NewLine}{Environment.NewLine}Reversibility comparison (recognition) completed {DateTime.Now.ToString("F", CultureInfo.InvariantCulture)} - {project.Name}");
 
                     recognizer.Warnings = new StringBuilder();
                     recognizer.ConnectMatchSymptoms(skipThese, true);

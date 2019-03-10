@@ -11,37 +11,36 @@ namespace Jawilliam.CDF.Approach.Criterions.Impl
     /// </summary>
     /// <typeparam name="TElement">Type of the supported elements.</typeparam>
     /// <typeparam name="TAnnotation">Type of the information to store for each element.</typeparam>
-    public abstract class FingerprintMatcher<TElement, TAnnotation> : Matcher<TElement, IServiceLocator>, IMatcher<TElement> where TAnnotation : IHashingAnnotation, new()
+    public class FingerprintMatcher<TElement, TAnnotation> : Matcher<TElement, IServiceLocator>, IMatcher<TElement> where TAnnotation : IHashingAnnotation, new()
     {
         /// <summary>
         /// Initializes the instance.
         /// </summary>
         /// <param name="serviceLocator">the service locator to internally use.</param>
-        public FingerprintMatcher(IServiceLocator serviceLocator) : base(serviceLocator)
+        /// <param name="getHash">gets the logic to read the hash of an element.</param>
+        /// <param name="setHash">sets the logic to write the hash of an element.</param>
+        /// <param name="newMatchInfo">gets the logic to create and initialize the match associated to two element versions.</param>
+        public FingerprintMatcher(IServiceLocator serviceLocator, GetHashDelegate getHash, SetHashDelegate setHash, NewMatchInfoDelegate newMatchInfo) : base(serviceLocator)
         {
+            this.GetHash = getHash ?? throw new ArgumentNullException(nameof(getHash));
+            this.SetHash = setHash ?? throw new ArgumentNullException(nameof(setHash));
+            this.NewMatchInfo = newMatchInfo ?? throw new ArgumentNullException(nameof(newMatchInfo));
         }
 
         /// <summary>
-        /// Gets the hash of an element.
+        /// Gets the logic to read the hash of an element.
         /// </summary>
-        /// <param name="annotation">annotation of the element to get hash of.</param>
-        /// <returns>the hash stored as annotation of the given element.</returns>
-        protected abstract object GetHash(TAnnotation annotation);
+        public GetHashDelegate GetHash { get; set; }
 
         /// <summary>
-        /// Sets the hash from the annotation of an element.
+        /// Sets the logic to write the hash of an element.
         /// </summary>
-        /// <param name="annotation">annotation wherein to set the hash.</param>
-        /// <param name="hash">hash to set.</param>
-        protected abstract void SetHash(TAnnotation annotation, object hash);
+        public SetHashDelegate SetHash { get; set; }
 
         /// <summary>
-        /// Creates and initializes the match among two element versions.
+        /// Gets the logic to create and initialize the match associated to two element versions.
         /// </summary>
-        /// <param name="original">original version.</param>
-        /// <param name="modified">modified version.</param>
-        /// <returns> the <see cref="MatchInfo{TElement}"/> corresponding to the given element versions.</returns>
-        protected abstract MatchInfo<TElement> NewMatchInfo(TElement original, TElement modified);
+        public NewMatchInfoDelegate NewMatchInfo { get; set; }
 
         /// <summary>
         /// Discovers the candidate matches of a given node.
@@ -66,6 +65,33 @@ namespace Jawilliam.CDF.Approach.Criterions.Impl
         }
 
         /// <summary>
+        /// Tries to identify a best match among multiple candidate matches. 
+        /// </summary>
+        /// <param name="candidates">candidate matches.</param>
+        /// <param name="originalContext">the original context (e.g., the root of the original AST).</param>
+        /// <param name="modifiedContext">the modified context (e.g., the root of the modified AST).</param>
+        /// <returns>the best match if it was possible to identify some one, null otherwise.</returns>
+        public override MatchInfo<TElement> TieBreak(IEnumerable<MatchInfo<TElement>> candidates, TElement originalContext, TElement modifiedContext)
+        {
+            if (candidates?.Count() == 1)
+            {
+                var candidate = candidates.Single();
+                var hierarchicalAbstraction = this.ServiceLocator.HierarchicalAbstraction<TElement>();
+                var oAnnotation = this.ServiceLocator.Original<TElement, TAnnotation>(candidate.Original);
+                var mAnnotation = this.ServiceLocator.Modified<TElement, TAnnotation>(candidate.Modified);
+
+                if (!originalContext.PostOrder(hierarchicalAbstraction.Children)
+                        .Any(n => object.Equals(n, candidate.Original) &&
+                                  object.Equals(this.GetHash(this.ServiceLocator.Original<TElement, TAnnotation>(n)), this.GetHash(oAnnotation))) &&
+                    !modifiedContext.PostOrder(hierarchicalAbstraction.Children)
+                        .Any(n => object.Equals(n, candidate.Modified) &&
+                                  object.Equals(this.GetHash(this.ServiceLocator.Modified<TElement, TAnnotation>(n)), this.GetHash(mAnnotation))))
+                    return candidate;
+            }
+            return null;
+        }
+
+        /// <summary>
         /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
         /// </summary>
         /// <param name="original">the original version.</param>
@@ -75,8 +101,29 @@ namespace Jawilliam.CDF.Approach.Criterions.Impl
         /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
         public override IEnumerable<MatchInfo<TElement>> Partners(TElement original, TElement modified, TElement originalContext, TElement modifiedContext)
         {
-            var hierarchicalAbstraction = this.ServiceLocator.GetServiceOrThrowsException<IHierarchicalAbstractionService<TElement>>((int)ServiceId.HierarchicalAbstraction);
-            return this.IdenticalSubtrees(hierarchicalAbstraction, original, modified, originalContext, modifiedContext);
+            return this.IdenticalSubtreePartners(original, modified, originalContext, modifiedContext);
         }
+
+        /// <summary>
+        /// Gets the hash of an element.
+        /// </summary>
+        /// <param name="annotation">annotation of the element to get hash of.</param>
+        /// <returns>the hash stored as annotation of the given element.</returns>
+        public delegate object GetHashDelegate(TAnnotation annotation);
+
+        /// <summary>
+        /// Sets the hash from the annotation of an element.
+        /// </summary>
+        /// <param name="annotation">annotation wherein to set the hash.</param>
+        /// <param name="hash">hash to set.</param>
+        public delegate void SetHashDelegate(TAnnotation annotation, object hash);
+
+        /// <summary>
+        /// Creates and initializes the match among two element versions.
+        /// </summary>
+        /// <param name="original">original version.</param>
+        /// <param name="modified">modified version.</param>
+        /// <returns> the <see cref="MatchInfo{TElement}"/> corresponding to the given element versions.</returns>
+        public delegate MatchInfo<TElement> NewMatchInfoDelegate(TElement original, TElement modified);
     }
 }

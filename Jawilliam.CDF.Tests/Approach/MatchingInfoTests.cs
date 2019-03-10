@@ -44,7 +44,9 @@ namespace Jawilliam.CDF.Tests.Approach.Base
             modifiedAnnotations.Init(new[] { 5 });
 
             matchingSet.Pair(3, 5);
+            Assert.IsTrue(matchingSet.Paired(3, 5));
             matchingSet.Unpair(3, 5);
+            Assert.IsFalse(matchingSet.Paired(3, 5));
 
             Assert.IsNotNull(originalAnnotations);
             Assert.AreEqual(originalAnnotations.Annotations[3].Candidates.Count, 0);
@@ -65,7 +67,9 @@ namespace Jawilliam.CDF.Tests.Approach.Base
             modifiedAnnotations.Init(new[] { 5 });
 
             matchingSet.Pair(3, 5);
+            Assert.IsTrue(matchingSet.Paired(3, 5));
             matchingSet.Unpair(3, 5);
+            Assert.IsFalse(matchingSet.Paired(3, 5));
             originalAnnotations.EndDetection();
             modifiedAnnotations.EndDetection();
 
@@ -203,7 +207,9 @@ namespace Jawilliam.CDF.Tests.Approach.Base
             modifiedAnnotations.Init(new[] { 5, 6 });
 
             matchingSet.Pair(3, 5);
+            Assert.IsTrue(matchingSet.Paired(3, 5));
             matchingSet.Pair(3, 6);
+            Assert.IsTrue(matchingSet.Paired(3, 6));
             Assert.IsFalse(matchingSet.UnpairedOriginal(3));
             Assert.IsTrue(matchingSet.UnmatchedOriginal(3));
             Assert.IsFalse(matchingSet.UnpairedModified(5));
@@ -228,8 +234,13 @@ namespace Jawilliam.CDF.Tests.Approach.Base
             modifiedAnnotations.Init(new[] { 5, 6, 4 });
 
             matchingSet.Pair(3, 5);
+            Assert.IsTrue(matchingSet.Paired(3, 5));
             matchingSet.Pair(3, 6);
+            Assert.IsTrue(matchingSet.Paired(3, 6));
             matchingSet.Partners(3, 4);
+            Assert.IsTrue(matchingSet.Paired(3, 4));
+            Assert.IsFalse(matchingSet.Paired(3, 5));
+            Assert.IsFalse(matchingSet.Paired(3, 6));
 
             Assert.AreEqual(originalAnnotations.Annotations[3].Candidates.Count, 1);
             Assert.AreEqual(modifiedAnnotations.Annotations[5].Candidates.Count, 0);

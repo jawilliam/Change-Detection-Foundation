@@ -16,7 +16,7 @@ namespace Jawilliam.CDF.CSharp.Flad
         /// <returns>a textual representation</returns>
         public virtual string FullText(SyntaxNodeOrToken? element)
         {
-            return element != null && element.Value.IsToken ? element?.AsToken().ValueText : element?.AsNode().ToFullString();
+            return element != null && element.Value.IsToken ? element?.AsToken().ValueText : element?.AsNode().ToString();
         }
     }
 }

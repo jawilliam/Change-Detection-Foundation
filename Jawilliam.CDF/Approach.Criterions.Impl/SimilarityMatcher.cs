@@ -36,10 +36,10 @@ namespace Jawilliam.CDF.Approach.Criterions.Impl
         {
             get => this._criterion ?? (this._criterion = new DiceCoefficientSimetric<TElement>
             {
-                AreEqual = (o, m) =>  this.ServiceLocator.Original<TElement, TAnnotation>(o).Candidates?.Any(mi => object.Equals(mi.Modified, m)) ?? false,
-                GetComponents = VectorComponents.ByTermExistence
+                AreEqual = this._AreEqual<TAnnotation>,
+                GetComponents = this.ByTermExistence<TAnnotation>
             });
-            private set { this._criterion = value ?? throw new ArgumentNullException("criterion"); }
+            private set { this._criterion = value ?? throw new ArgumentNullException(nameof(value)); }
         }
 
         ///// <summary>
@@ -77,12 +77,14 @@ namespace Jawilliam.CDF.Approach.Criterions.Impl
         /// <returns>candidate matches for the given node.</returns>
         public override IEnumerable<MatchInfo<TElement>> Matches(TElement original, TElement originalContext, TElement modifiedContext)
         {
-            if (this.ServiceLocator.HierarchicalAbstraction().IsLeaf(original))
+            var matchingSet = this.ServiceLocator.MatchingSet();
+            if (!matchingSet.UnmatchedOriginal(original) /*|| this.ServiceLocator.HierarchicalAbstraction().IsLeaf(original)*/)
                 yield break;
 
             var hierarchicalAbstraction = this.ServiceLocator.HierarchicalAbstraction();
             var candidateSimilarities = from m in modifiedContext.PostOrder(hierarchicalAbstraction.Children)
-                                        where !hierarchicalAbstraction.IsLeaf(m) && this.Compatible(original, m)
+                                        where matchingSet.UnmatchedModified(m) && this.Compatible(original, m)
+                                        //where !hierarchicalAbstraction.IsLeaf(m) && this.Compatible(original, m)
                                         select new
                                         {
                                             Candidate = m,
@@ -92,7 +94,7 @@ namespace Jawilliam.CDF.Approach.Criterions.Impl
 
             foreach (var c in candidateSimilarities.Where(cs => cs.Similarity > 0.5))
             {
-                yield return new SimilarityMatchInfo<TElement>((int)MatchInfoId.Similarity)
+                yield return new SimilarityMatchInfo<TElement>((int)MatchInfoCriterions.Similarity)
                 {
                     Original = original,
                     Modified = c.Candidate,
@@ -117,13 +119,26 @@ namespace Jawilliam.CDF.Approach.Criterions.Impl
             var oAnnotation = this.ServiceLocator.Original<TElement, TAnnotation>(original);
 
             if (candidates.Count() > 1 && 
-                oAnnotation.Candidates.All(c => c.Criterion == (int)MatchInfoId.Similarity) &&
+                oAnnotation.Candidates.All(c => c.Criterion == (int)MatchInfoCriterions.Similarity) &&
                 candidates.All(c => object.Equals(c.Original, original)) &&
-                candidates.All(c => c.Criterion == (int)MatchInfoId.Similarity))
+                candidates.All(c => c.Criterion == (int)MatchInfoCriterions.Similarity))
             {
                 return candidates.Cast<SimilarityMatchInfo<TElement>>().OrderByDescending(c => c.Value).First();
             }
             else return base.TieBreak(candidates, originalContext, modifiedContext);
+        }
+
+        /// <summary>
+        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="originalContext">the original context (e.g., the root of the original AST).</param>
+        /// <param name="modifiedContext">the modified context (e.g., the root of the modified AST).</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        public override IEnumerable<MatchInfo<TElement>> Partners(TElement original, TElement modified, TElement originalContext, TElement modifiedContext)
+        {
+            return base.Partners(original, modified, originalContext, modifiedContext);
         }
     }
 }

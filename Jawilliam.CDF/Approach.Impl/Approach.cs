@@ -78,7 +78,7 @@ namespace Jawilliam.CDF.Approach.Impl
 
             var matchingSet = this.MatchingSet(false);
             if (matchingSet != null)
-                matchingSet.Partners(new MatchInfo<TElement>((int)MatchInfoId.RootsAlwaysMatch) { Original = this.Result.Original, Modified = this.Result.Modified } );
+                matchingSet.Partners(new MatchInfo<TElement>((int)MatchInfoCriterions.RootsAlwaysMatch) { Original = this.Result.Original, Modified = this.Result.Modified } );
         }
 
         /// <summary>

@@ -27,6 +27,14 @@
         void Unpair(TElement original, TElement modified);
 
         /// <summary>
+        /// Informs if there is a pair among two given versions.
+        /// </summary>
+        /// <param name="original">original version.</param>
+        /// <param name="modified">modified version.</param>
+        /// <returns>true if there is a pair among two given versions; otherwise, false.</returns>
+        bool Paired(TElement original, TElement modified);
+
+        /// <summary>
         /// Notifies that, the two given versions have been definitively matched, which will be stored both in the <see cref="Originals"/> and in the <see cref="Modifieds"/>.
         /// </summary>
         /// <param name="original">original element.</param>

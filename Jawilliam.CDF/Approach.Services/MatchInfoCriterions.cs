@@ -3,7 +3,7 @@
     /// <summary>
     /// Options for identifying, for example, the <see cref="MatchInfo{TElement}.Criterion"/>. 
     /// </summary>
-    public enum MatchInfoId : int
+    public enum MatchInfoCriterions : int
     {
         Unknown = 0,
         

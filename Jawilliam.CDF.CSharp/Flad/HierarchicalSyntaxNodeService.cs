@@ -63,7 +63,7 @@ namespace Jawilliam.CDF.CSharp.Flad
         /// <returns>the value of the given node.</returns>
         public virtual object Value(SyntaxNodeOrToken? node)
         {
-            return node != null && this.IsLeaf(node) ? node?.ToFullString() : null;
+            return node != null && this.IsLeaf(node) ? node?.ToString() : null;
         }
 
         /// <summary>

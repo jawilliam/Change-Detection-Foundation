@@ -76,7 +76,7 @@ namespace Jawilliam.CDF.Approach.Choices
                             Id = ((IElementAnnotation<TElement>)oAnnotation).Id.ToString(CultureInfo.InvariantCulture),
                             Label = hierarchicalAbstraction.Label(update.Element).ToString(CultureInfo.InvariantCulture),
                         },
-                        Value = hierarchicalAbstraction.Value(update.NewElement).ToString(),
+                        Value = hierarchicalAbstraction.Value(update.NewElement)?.ToString(),
                     });
                 }
 
@@ -126,6 +126,28 @@ namespace Jawilliam.CDF.Approach.Choices
                         {
                             Id = ((IElementAnnotation<TElement>)oAnnotation).Id.ToString(CultureInfo.InvariantCulture),
                             Label = hierarchicalAbstraction.Label(delete.Element).ToString(CultureInfo.InvariantCulture),
+                        }
+                    });
+                }
+            }
+
+            foreach (var original in this.Approach.Result.Original.PreOrder(hierarchicalAbstraction.Children))
+            {
+                var oAnnotation = this.Approach.Original<TElement, TAnnotation>(original);
+                if (oAnnotation.Partner != null)
+                {
+                    var mAnnotation = this.Approach.Modified<TElement, TAnnotation>(oAnnotation.Partner);
+                    this.Approach.Result.Matches.Add(new MatchDescriptor
+                    {
+                        Original = new ElementVersion
+                        {
+                            Id = ((IElementAnnotation<TElement>)oAnnotation).Id.ToString(CultureInfo.InvariantCulture),
+                            Label = hierarchicalAbstraction.Label(original).ToString(CultureInfo.InvariantCulture),
+                        },
+                        Modified = new ElementVersion
+                        {
+                            Id = ((IElementAnnotation<TElement>)mAnnotation).Id.ToString(CultureInfo.InvariantCulture),
+                            Label = hierarchicalAbstraction.Label(oAnnotation.Partner).ToString(CultureInfo.InvariantCulture),
                         }
                     });
                 }

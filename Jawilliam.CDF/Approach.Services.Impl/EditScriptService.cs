@@ -99,7 +99,7 @@ namespace Jawilliam.CDF.Approach.Services.Impl
             this.ServiceLocator.Originals<TElement, TAnnotation>().Init(new[] { modified });
             var oAnnotation = this.ServiceLocator.Original<TElement, TAnnotation>(modified);
 
-            this.ServiceLocator.MatchingSet().Partners(new MatchInfo<TElement>((int)MatchInfoId.Insert) { Original = modified, Modified = modified });
+            this.ServiceLocator.MatchingSet().Partners(new MatchInfo<TElement>((int)MatchInfoCriterions.Insert) { Original = modified, Modified = modified });
             pAnnotation.Children.Insert(position, modified);
             oAnnotation.Parent = parent;
 

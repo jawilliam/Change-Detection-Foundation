@@ -70,8 +70,6 @@
     <Compile Include="Approach.Criterions.Impl\SimilarityMatcher.cs" />
     <Compile Include="Approach.Criterions.Impl\SimilarityMatchInfo.cs" />
     <Compile Include="Approach.Criterions.Impl\TieBreakingMatcher.cs" />
-    <Compile Include="Approach.Criterions.Impl\EssentialContentFingerprintMatcher.cs" />
-    <Compile Include="Approach.Criterions.Impl\FullContentFingerprintMatcher.cs" />
     <Compile Include="Approach.Criterions.Simetric\AbstractAffineGapCost.cs" />
     <Compile Include="Approach.Criterions.Simetric\AffineGapRange1To0Multiplier1Over3.cs" />
     <Compile Include="Approach.Criterions.Simetric\AffineGapRange5To0Multiplier1.cs" />
@@ -130,7 +128,7 @@
     <Compile Include="Approach.Annotations\IAnnotationSetService.cs" />
     <Compile Include="Approach.Services\IHashingService.cs" />
     <Compile Include="Approach.Services\IMatchingSetService.cs" />
-    <Compile Include="Approach.Services\MatchInfoId.cs" />
+    <Compile Include="Approach.Services\MatchInfoCriterions.cs" />
     <Compile Include="Approach.Services.Impl\ServiceWithDependencies.cs" />
     <Compile Include="Approach.Services.Impl\MatchingSetService.cs" />
     <Compile Include="Approach.Services.Impl\ElementTypeServiceProvider.cs" />

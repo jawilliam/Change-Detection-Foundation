@@ -71,10 +71,13 @@ namespace Jawilliam.CDF.Approach.Criterions.Impl
         /// <param name="originalContext">the original context (e.g., the root of the original AST).</param>
         /// <param name="modifiedContext">the modified context (e.g., the root of the modified AST).</param>
         /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        protected virtual IEnumerable<MatchInfo<TElement>> IdenticalSubtrees(IHierarchicalAbstractionService<TElement> hierarchicalAbstraction, TElement original, TElement modified, TElement originalContext, TElement modifiedContext)
+        protected virtual IEnumerable<MatchInfo<TElement>> IdenticalSubtreePartners(TElement original, TElement modified, TElement originalContext, TElement modifiedContext)
         {
+            var hierarchicalAbstraction = this.ServiceLocator.HierarchicalAbstraction<TElement>();
             var oChildren = hierarchicalAbstraction.Children(original).ToArray();
             var mChildren = hierarchicalAbstraction.Children(modified).ToArray();
+            var matchingSet = this.ServiceLocator.MatchingSet<TElement>();
+
             for (int i = 0; i < oChildren.Count() ; i++)
             {
                 var oChild = oChildren[i];
@@ -82,9 +85,44 @@ namespace Jawilliam.CDF.Approach.Criterions.Impl
                 if (i < mChildren.Length)
                 {
                     var mChild = mChildren[i];
+                    if(matchingSet.UnmatchedOriginal(oChild) && matchingSet.UnmatchedModified(mChild) && !matchingSet.Paired(oChild, mChild))
+                        yield return new MatchInfo<TElement>((int)MatchingCriterionIds.PairwiseIdenticalSubtree) { Original = oChild, Modified = mChild };
 
-                    yield return new MatchInfo<TElement>((int)MatchingCriterionIds.PairwiseIdenticalSubtree) { Original = oChild, Modified = mChild };
-                    foreach (var pairwiseMatch in this.IdenticalSubtrees(hierarchicalAbstraction, oChild, mChild, originalContext, modifiedContext) ?? new MatchInfo<TElement>[0])
+                    foreach (var pairwiseMatch in this.Partners(oChild, mChild, originalContext, modifiedContext) ?? new MatchInfo<TElement>[0])
+                    {
+                        yield return pairwiseMatch;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Notifies that two similar versions have been finally identified as a match (i.e., they are matching partners).
+        /// </summary>
+        /// <param name="hierarchicalAbstraction">the hierarchical abstractions service.</param>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="originalContext">the original context (e.g., the root of the original AST).</param>
+        /// <param name="modifiedContext">the modified context (e.g., the root of the modified AST).</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        protected virtual IEnumerable<MatchInfo<TElement>> SimilarSubtreePartners(TElement original, TElement modified, TElement originalContext, TElement modifiedContext)
+        {
+            var hierarchicalAbstraction = this.ServiceLocator.HierarchicalAbstraction<TElement>();
+            var oChildren = hierarchicalAbstraction.Children(original).ToArray();
+            var mChildren = hierarchicalAbstraction.Children(modified).ToArray();
+            var matchingSet = this.ServiceLocator.MatchingSet<TElement>();
+
+            for (int i = 0; i < oChildren.Count(); i++)
+            {
+                var oChild = oChildren[i];
+
+                if (i < mChildren.Length)
+                {
+                    var mChild = mChildren[i];
+                    if (matchingSet.UnmatchedOriginal(oChild) && matchingSet.UnmatchedModified(mChild) && !matchingSet.Paired(oChild, mChild))
+                        yield return new MatchInfo<TElement>((int)MatchingCriterionIds.PairwiseIdenticalSubtree) { Original = oChild, Modified = mChild };
+
+                    foreach (var pairwiseMatch in this.Partners(oChild, mChild, originalContext, modifiedContext) ?? new MatchInfo<TElement>[0])
                     {
                         yield return pairwiseMatch;
                     }

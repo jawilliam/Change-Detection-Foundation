@@ -57,6 +57,17 @@ namespace Jawilliam.CDF.Approach.Services.Impl
         }
 
         /// <summary>
+        /// Informs if there is a pair among two given versions.
+        /// </summary>
+        /// <param name="original">original version.</param>
+        /// <param name="modified">modified version.</param>
+        /// <returns>true if there is a pair among two given versions; otherwise, false.</returns>
+        public virtual bool Paired(TElement original, TElement modified)
+        {
+            return this.ServiceLocator.Original<TElement, TAnnotation>(original).Candidates?.Any(c => object.Equals(c.Modified, modified)) ?? false;
+        }
+
+        /// <summary>
         /// Removes a (candidate) match both in the <see cref="Originals"/> and in the <see cref="Modifieds"/>.
         /// </summary>
         /// <param name="original">original element.</param>
