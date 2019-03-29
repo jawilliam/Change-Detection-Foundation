@@ -285,10 +285,11 @@ namespace Jawilliam.CDF.Tests
         [TestMethod]
         public void GumTreeNativeApproach_ExecuteDiffCommand_OK()
         {
-            var interopArgs = new InteropArgs();
+            var interopArgs = new InteropArgs() { GumTreePath = @"D:\GT_Runtimes\inverse_gumtree_Minh2Sim0d5Size1675", /*GumTreePath = @"D:\GT_Runtimes\gumtree_Minh2Sim0d5Size1000",*/ Original = @"D:\Reports\d_Original.cs", Modified = @"D:\Reports\d_Modified.cs" };
             var gumTree = new GumTreeNativeApproach();
-            var result = gumTree.ExecuteDiffCommand(interopArgs);
-            var lines = result.Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            gumTree.Run(interopArgs);
+            var result = gumTree.Result;
+            //var lines = result.Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
         }
     }
 }

@@ -55,7 +55,7 @@ namespace Jawilliam.CDF.Approach.Choices
         public Func<TElement, IEnumerable<TElement>> Traverse
         {
             get => this._traverse ?? (this._traverse = o => o.BreadthFirstOrder(this.Approach.HierarchicalAbstraction().Children));
-            private set { this._traverse = value ?? throw new ArgumentNullException(nameof(value)); }
+            set { this._traverse = value ?? throw new ArgumentNullException(nameof(value)); }
         }
 
         /// <summary>

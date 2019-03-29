@@ -5,6 +5,7 @@ namespace Jawilliam.CDF.Approach.Services.Impl
     /// <summary>
     /// Base class of the services which depends on other services.
     /// </summary>
+    /// <typeparam name="TServiceLocator">the mechanism for dynamically loading a typed service.</typeparam>
     public class ServiceWithDependencies<TServiceLocator> : Service where TServiceLocator : IServiceLocator
     {
         /// <summary>

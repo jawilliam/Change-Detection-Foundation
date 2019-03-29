@@ -42,6 +42,7 @@ namespace Jawilliam.CDF.Approach.Choices
         protected override void CoreOnStep()
         {
             var hierarchicalAbstraction = this.Approach.HierarchicalAbstraction();
+            var textualAbstraction = this.Approach.TextualAbstraction();
             foreach (var modified in this.Approach.Result.Modified.BreadthFirstOrder(hierarchicalAbstraction.Children))
             {
                 var original = this.Approach.Modified<TElement, TAnnotation>(modified).Partner;
@@ -56,12 +57,14 @@ namespace Jawilliam.CDF.Approach.Choices
                         {
                             Id = ((IElementAnnotation<TElement>)oAnnotation).Id.ToString(CultureInfo.InvariantCulture),
                             Label = hierarchicalAbstraction.Label(insert.Element).ToString(CultureInfo.InvariantCulture),
+                            Value = textualAbstraction.FullText(insert.Element)
                         },
                         Position = insert.Position,
                         Parent = new ElementVersion
                         {
                             Id = ((IElementAnnotation<TElement>)this.Approach.Original<TElement, TAnnotation>(insert.Parent)).Id.ToString(CultureInfo.InvariantCulture),
                             Label = hierarchicalAbstraction.Label(insert.Parent).ToString(CultureInfo.InvariantCulture),
+                            Value = textualAbstraction.FullText(insert.Parent)
                         }
                     });
                 }
@@ -75,6 +78,7 @@ namespace Jawilliam.CDF.Approach.Choices
                         {
                             Id = ((IElementAnnotation<TElement>)oAnnotation).Id.ToString(CultureInfo.InvariantCulture),
                             Label = hierarchicalAbstraction.Label(update.Element).ToString(CultureInfo.InvariantCulture),
+                            Value = textualAbstraction.FullText(update.Element)
                         },
                         Value = hierarchicalAbstraction.Value(update.NewElement)?.ToString(),
                     });
@@ -89,12 +93,14 @@ namespace Jawilliam.CDF.Approach.Choices
                         {
                             Id = ((IElementAnnotation<TElement>)oAnnotation).Id.ToString(CultureInfo.InvariantCulture),
                             Label = hierarchicalAbstraction.Label(move.Element).ToString(CultureInfo.InvariantCulture),
+                            Value = textualAbstraction.FullText(move.Element)
                         },
                         Position = move.Position,
                         Parent = new ElementVersion
                         {
                             Id = ((IElementAnnotation<TElement>)this.Approach.Original<TElement, TAnnotation>(move.Parent)).Id.ToString(),
                             Label = hierarchicalAbstraction.Label(move.Parent).ToString(CultureInfo.InvariantCulture),
+                            Value = textualAbstraction.FullText(move.Parent)
                         }
                     });
                 }
@@ -108,6 +114,7 @@ namespace Jawilliam.CDF.Approach.Choices
                         {
                             Id = ((IElementAnnotation<TElement>)oAnnotation).Id.ToString(CultureInfo.InvariantCulture),
                             Label = hierarchicalAbstraction.Label(align.Element).ToString(CultureInfo.InvariantCulture),
+                            Value = textualAbstraction.FullText(align.Element)
                         },
                         Position = align.Position
                     });
@@ -126,6 +133,7 @@ namespace Jawilliam.CDF.Approach.Choices
                         {
                             Id = ((IElementAnnotation<TElement>)oAnnotation).Id.ToString(CultureInfo.InvariantCulture),
                             Label = hierarchicalAbstraction.Label(delete.Element).ToString(CultureInfo.InvariantCulture),
+                            Value = textualAbstraction.FullText(delete.Element)
                         }
                     });
                 }
@@ -143,11 +151,13 @@ namespace Jawilliam.CDF.Approach.Choices
                         {
                             Id = ((IElementAnnotation<TElement>)oAnnotation).Id.ToString(CultureInfo.InvariantCulture),
                             Label = hierarchicalAbstraction.Label(original).ToString(CultureInfo.InvariantCulture),
+                            Value = textualAbstraction.FullText(original)
                         },
                         Modified = new ElementVersion
                         {
                             Id = ((IElementAnnotation<TElement>)mAnnotation).Id.ToString(CultureInfo.InvariantCulture),
                             Label = hierarchicalAbstraction.Label(oAnnotation.Partner).ToString(CultureInfo.InvariantCulture),
+                            Value = textualAbstraction.FullText(oAnnotation.Partner)
                         }
                     });
                 }

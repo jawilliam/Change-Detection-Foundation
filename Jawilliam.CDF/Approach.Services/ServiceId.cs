@@ -44,5 +44,10 @@
         /// <see cref="IEditScriptService{TElement}"/>.
         /// </summary>
         EditScript = 1080,
+
+        /// <summary>
+        /// Supports the semantic handling of the elements.
+        /// </summary>
+        SemanticAbstraction = 1090,
     }
 }

@@ -142,6 +142,7 @@
     <Compile Include="Flad\Extensions.cs" />
     <Compile Include="Flad\HierarchicalSyntaxNodeService.cs" />
     <Compile Include="Flad\McesHierarchicalSyntaxNodeService.cs" />
+    <Compile Include="Flad\SemanticAbstractionService.cs" />
     <Compile Include="Flad\TextualSyntaxNodeService.cs" />
     <Compile Include="Flad\InterfaceDeclarationServiceProvider.Partial.cs" />
     <Compile Include="Flad\StructDeclarationServiceProvider.Partial.cs" />

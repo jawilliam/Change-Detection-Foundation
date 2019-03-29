@@ -65,8 +65,10 @@
     <Compile Include="Approach.Annotations\IHierarchicalAbstractionAnnotation.cs" />
     <Compile Include="Approach.Annotations\IHierarchicalStructureAnnotation.cs" />
     <Compile Include="Approach.Annotations\IMcesAnnotation.cs" />
+    <Compile Include="Approach.Choices\MatchingTieBreakChoice.cs" />
     <Compile Include="Approach.Choices\TieBreakMatchingChoice.cs" />
     <Compile Include="Approach.Choices\McesDifferencingChoice.cs" />
+    <Compile Include="Approach.Criterions.Impl\MatchEqualityComparer.cs" />
     <Compile Include="Approach.Criterions.Impl\SimilarityMatcher.cs" />
     <Compile Include="Approach.Criterions.Impl\SimilarityMatchInfo.cs" />
     <Compile Include="Approach.Criterions.Impl\TieBreakingMatcher.cs" />
@@ -123,6 +125,7 @@
     <Compile Include="Approach.Choices\McesReportChoice.cs" />
     <Compile Include="Approach.Services\Extensions.cs" />
     <Compile Include="Approach.Services\IEditScriptService.cs" />
+    <Compile Include="Approach.Services\ISemanticAbstractionService.cs" />
     <Compile Include="Approach.Services\ITextualAbstractionService.cs" />
     <Compile Include="Approach.Services.Impl\Md5HashingService.cs" />
     <Compile Include="Approach.Annotations\IAnnotationSetService.cs" />

@@ -586,7 +586,7 @@ namespace Jawilliam.CDF.Labs
             //    //System.IO.File.AppendAllText(@"E:\Phd\Analysis\UniquePairs\WarningsGhost.csv", analyzer.Warnings.ToString());
             //}           
 
-            //ExploringRDSL();
+            ExploringRDSL();
             //int fragments = 0, frps = 0; 
             //foreach (var project in Projects)
             //{
@@ -626,21 +626,21 @@ namespace Jawilliam.CDF.Labs
         {
             var v = Enum.GetValues(typeof(Microsoft.CodeAnalysis.CSharp.SyntaxKind));
             //var x = Jawilliam.CDF.XObjects.RDSL.Syntax.Load(@"E:\Projects\Change-Detection-Foundation\Jawilliam.CDF.CSharp\RDSL.xml");
-            var x = Jawilliam.CDF.XObjects.RDSL.Syntax.Load(@"E:\MyRepositories\Change-Detection-Foundation\Jawilliam.CDF.CSharp\RDSL.xml");
-            var nonAbstractTypes = x.Nodes.Type.Where(n => !n.@abstract).ToArray();
-            var abstractTypes = x.Nodes.Type.Where(n => n.@abstract).ToArray();
+            var rdsl = Jawilliam.CDF.XObjects.RDSL.Syntax.Load(@"E:\MyRepositories\Change-Detection-Foundation\Jawilliam.CDF.CSharp\RDSL.xml");
+            var nonAbstractTypes = rdsl.Nodes.Type.Where(n => !n.@abstract).ToArray();
+            var abstractTypes = rdsl.Nodes.Type.Where(n => n.@abstract).ToArray();
 
             var symbolicTypes = nonAbstractTypes.Where(t => t.Properties.Property.Count == 1).ToArray();
 
             var assembly = typeof(RoslynML).Assembly;
-            var elementTypeInfos = x.Nodes.Type.Select((n, i) => new {
+            var elementTypeInfos = rdsl.Nodes.Type.Select((n, i) => new {
                 ElementType = n,
                 Id = i,
                 ClassType = assembly.GetType($"Jawilliam.CDF.CSharp.{n.name}`1")
             }).ToArray();
 
-            var members = x.Nodes.Type.Where(n => n.name.Contains("Member")).ToArray();
-            var declarations = x.Nodes.Type.Where(n => n.name.Contains("DeclarationSyntax")).ToArray();
+            var members = rdsl.Nodes.Type.Where(n => n.name.Contains("Member")).ToArray();
+            var declarations = rdsl.Nodes.Type.Where(n => n.name.Contains("DeclarationSyntax")).ToArray();
             var memberDeclarations = declarations.Where(n => n.name.Contains("Member")).ToArray();
             var abstractDeclarations = abstractTypes.Where(n => n.name.Contains("DeclarationSyntax") || n.name.Contains("DeclaratorSyntax")).ToArray();
             var nonAbstractDeclarations = nonAbstractTypes.Where(n => n.name.Contains("DeclarationSyntax") || n.name.Contains("DeclaratorSyntax")).ToArray();
@@ -655,21 +655,21 @@ namespace Jawilliam.CDF.Labs
             //var declarationTypes = x.Nodes.Type.Where(n => n.name.Contains("DeclarationSyntax")).ToArray();
             //var nonAbstractDeclarationElementTypes = declarationTypes.Where(n => !n.@abstract).ToArray();
 
-            var statements = x.Nodes.Type.Where(n => n.name.Contains("StatementSyntax")).ToArray();
+            var statements = rdsl.Nodes.Type.Where(n => n.name.Contains("StatementSyntax")).ToArray();
             var nonAbstractStatements = nonAbstractTypes.Where(n => n.name.Contains("StatementSyntax")).ToArray();
 
-            var expressionTypes = x.Nodes.Type.Where(n => n.name.Contains("ExpressionSyntax")).ToArray();
+            var expressionTypes = rdsl.Nodes.Type.Where(n => n.name.Contains("ExpressionSyntax")).ToArray();
             var nonAbstractExpressionTypes = nonAbstractTypes.Where(n => n.name.Contains("ExpressionSyntax")).ToArray();
 
-            var elementTypesWithOperator = x.Nodes.Type.Where(n => !n.@abstract && n.name.Contains("Operator")).ToArray();
+            var elementTypesWithOperator = rdsl.Nodes.Type.Where(n => !n.@abstract && n.name.Contains("Operator")).ToArray();
 
             //NameKey
-            var elementTypesWithIdentifier = x.Nodes.Type.Where(n => !n.@abstract && n.Properties != null && (n.Properties.Property.Any(p => p.name == "Identifier"))).ToArray();
-            var elementTypesWithAName = x.Nodes.Type.Where(n => !n.@abstract && n.Properties != null && (n.Properties.Property.Any(p => p.name == "Name"))).ToArray();
-            var comparisonOperatorsOrDocumentationRelatedElementTypes = x.Nodes.Type.Where(n => !n.@abstract && n.name.Contains("Operator") && !n.name.Contains("Conversion")).ToArray();
-            var indexerOrDocumentationRelatedElementTypes = x.Nodes.Type.Where(n => !n.@abstract && n.name.Contains("Indexer")).ToArray(); 
+            var elementTypesWithIdentifier = rdsl.Nodes.Type.Where(n => !n.@abstract && n.Properties != null && (n.Properties.Property.Any(p => p.name == "Identifier"))).ToArray();
+            var elementTypesWithAName = rdsl.Nodes.Type.Where(n => !n.@abstract && n.Properties != null && (n.Properties.Property.Any(p => p.name == "Name"))).ToArray();
+            var indexerOrDocumentationRelatedElementTypes = rdsl.Nodes.Type.Where(n => !n.@abstract && n.name.Contains("Indexer")).ToArray(); 
+            var comparisonOperatorsOrDocumentationRelatedElementTypes = rdsl.Nodes.Type.Where(n => !n.@abstract && n.name.Contains("Operator") && !n.name.Contains("Conversion")).ToArray();
             //var elementTypesWithDeclaration = x.Nodes.Type.Where(n => !n.@abstract && n.Properties != null && (n.Properties.Property.Any(p => p.name == "Declaration"))).ToArray();
-            var variableDeclarationElementType = x.Nodes.Type.Where(n => !n.@abstract && n.name == "VariableDeclarationSyntax").ToArray();
+            var variableDeclarationElementType = rdsl.Nodes.Type.Where(n => !n.@abstract && n.name == "VariableDeclarationSyntax").ToArray();
 
             // All
             var elementTypesSuitableForNameKeys = elementTypesWithIdentifier.Union(elementTypesWithAName)
@@ -687,25 +687,31 @@ namespace Jawilliam.CDF.Labs
             // 
             var totalElementTypesSuitableForNameKeys = elementTypesSuitableForNameKeys.Union(newElementTypesWithName).ToArray();
 
-            var elementTypesWithDeclarationProp = x.Nodes.Type.Where(n => !n.@abstract && n.Properties != null && (n.Properties.Property.Any(p => p.name == "Declaration"))).ToArray();
-            var elementTypesWithDeclarationProp2 = x.Nodes.Type.Where(n => !n.@abstract && n.Properties != null && (n.Properties.Property.Any(p => p.name == "Declaration"))).ToArray();
+            var elementTypesWithDeclarationProp = rdsl.Nodes.Type.Where(n => !n.@abstract && n.Properties != null && (n.Properties.Property.Any(p => p.name == "Declaration"))).ToArray();
+            var elementTypesWithDeclarationProp2 = rdsl.Nodes.Type.Where(n => !n.@abstract && n.Properties != null && (n.Properties.Property.Any(p => p.name == "Declaration"))).ToArray();
 
-            var elementTypesWithTypeProp = x.Nodes.Type.Where(n => !n.@abstract && n.Properties != null && (n.Properties.Property.Any(p => p.name == "Type"))).ToArray();
-            var elementTypesWithKeywordProp = x.Nodes.Type.Where(n => !n.@abstract && n.Properties != null && (n.Properties.Property.Any(p => p.name == "Keyword" && !p.readOnly))).ToArray();
-            var elementTypesWithFileProp = x.Nodes.Type.Where(n => !n.@abstract && n.Properties != null && (n.Properties.Property.Any(p => p.name == "File"))).ToArray();
-            var elementTypesWithLocalNameProp = x.Nodes.Type.Where(n => !n.@abstract && n.Properties != null && (n.Properties.Property.Any(p => p.name == "LocalName"))).ToArray();
-            var elementTypesWithPrefixProp = x.Nodes.Type.Where(n => !n.@abstract && n.Properties != null && (n.Properties.Property.Any(p => p.name == "Prefix"))).ToArray();
-            var elementTypesWithAliasProp = x.Nodes.Type.Where(n => !n.@abstract && n.Properties != null && (n.Properties.Property.Any(p => p.name == "Alias"))).ToArray();
-            var elementTypesWithNameEqualsProp = x.Nodes.Type.Where(n => !n.@abstract && n.Properties != null && (n.Properties.Property.Any(p => p.name == "NameEquals"))).ToArray();
-            var elementTypesWithNameColonProp = x.Nodes.Type.Where(n => !n.@abstract && n.Properties != null && (n.Properties.Property.Any(p => p.name == "NameColon"))).ToArray();
-            var elementTypesWithExpressionProp = x.Nodes.Type.Where(n => !n.@abstract && n.Properties != null && (n.Properties.Property.Any(p => p.name == "Expression"))).ToArray();
+            var elementTypesWithTypeProp = rdsl.Nodes.Type.Where(n => !n.@abstract && n.Properties != null && (n.Properties.Property.Any(p => p.name == "Type"))).ToArray();
+            var elementTypesWithKeywordProp = rdsl.Nodes.Type.Where(n => !n.@abstract && n.Properties != null && (n.Properties.Property.Any(p => p.name == "Keyword" && !p.readOnly))).ToArray();
+            var elementTypesWithFileProp = rdsl.Nodes.Type.Where(n => !n.@abstract && n.Properties != null && (n.Properties.Property.Any(p => p.name == "File"))).ToArray();
+            var elementTypesWithLocalNameProp = rdsl.Nodes.Type.Where(n => !n.@abstract && n.Properties != null && (n.Properties.Property.Any(p => p.name == "LocalName"))).ToArray();
+            var elementTypesWithPrefixProp = rdsl.Nodes.Type.Where(n => !n.@abstract && n.Properties != null && (n.Properties.Property.Any(p => p.name == "Prefix"))).ToArray();
+            var elementTypesWithAliasProp = rdsl.Nodes.Type.Where(n => !n.@abstract && n.Properties != null && (n.Properties.Property.Any(p => p.name == "Alias"))).ToArray();
+            var elementTypesWithNameEqualsProp = rdsl.Nodes.Type.Where(n => !n.@abstract && n.Properties != null && (n.Properties.Property.Any(p => p.name == "NameEquals"))).ToArray();
+            var elementTypesWithNameColonProp = rdsl.Nodes.Type.Where(n => !n.@abstract && n.Properties != null && (n.Properties.Property.Any(p => p.name == "NameColon"))).ToArray();
+            var elementTypesWithExpressionProp = rdsl.Nodes.Type.Where(n => !n.@abstract && n.Properties != null && (n.Properties.Property.Any(p => p.name == "Expression"))).ToArray();
 
-            var elementTypesWithOperatorKeyword = x.Nodes.Type.Where(n => !n.@abstract && n.Properties != null && (n.Properties.Property.Any(p => p.name == "OperatorKeyword"))).ToArray();
-            var elementTypesWithExplicitInterfaceSpecifier = x.Nodes.Type.Where(n => !n.@abstract && n.Properties != null && n.Properties.Property.Any(p => p.name == "ExplicitInterfaceSpecifier")).ToArray();
-            var elementTypesWithTypeParameterList = x.Nodes.Type.Where(n => !n.@abstract && n.Properties != null && n.Properties.Property.Any(p => p.name == "TypeParameterList")).ToArray();
-            var elementTypesWithParameterList = x.Nodes.Type.Where(n => !n.@abstract && n.Properties != null && n.Properties.Property.Any(p => p.name == "ParameterList")).ToArray();
+            var elementTypesWithOperatorKeyword = rdsl.Nodes.Type.Where(n => !n.@abstract && n.Properties != null && (n.Properties.Property.Any(p => p.name == "OperatorKeyword"))).ToArray();
+            var elementTypesWithExplicitInterfaceSpecifier = rdsl.Nodes.Type.Where(n => !n.@abstract && n.Properties != null && n.Properties.Property.Any(p => p.name == "ExplicitInterfaceSpecifier")).ToArray();
+            var elementTypesWithTypeParameterList = rdsl.Nodes.Type.Where(n => !n.@abstract && n.Properties != null && n.Properties.Property.Any(p => p.name == "TypeParameterList")).ToArray();
+            var elementTypesWithParameterList = rdsl.Nodes.Type.Where(n => !n.@abstract && n.Properties != null && n.Properties.Property.Any(p => p.name == "ParameterList")).ToArray();
 
             var elementTypesWithSignature = elementTypesWithExplicitInterfaceSpecifier.Union(elementTypesWithTypeParameterList).Union(elementTypesWithParameterList).ToArray();
+            // Navigable NameKeys
+            var elementTypesWithNavigableSignatureKeys = elementTypeInfos.Where(eti => !eti.ElementType.@abstract && eti.ClassType.GetProperties().Any(p => elementTypesWithSignature.Any(en => p.PropertyType.Name == en.name + "`1")/* ||
+                                                                                                                                                       elementTypesSuitableForNameKeys.Any(en => p.Name == en.name)*/))
+                                                                                                                                                       .Select(eti => eti.ElementType)
+                                                                                                                                                       .ToArray();
+
             var elementTypesWithKey = totalElementTypesSuitableForNameKeys.Union(elementTypesWithSignature).ToArray();
             var elementTypesWithNameTieBreaking = totalElementTypesSuitableForNameKeys.Intersect(elementTypesWithSignature).ToArray();
             
@@ -751,8 +757,14 @@ namespace Jawilliam.CDF.Labs
             {
                 Start = elementTypeInfos.Single(n => n.Id == edge.StartNode),
                 End = elementTypeInfos.Single(n => n.Id == edge.EndNode)
-            }).ToArray();
+        }).ToArray();
 
+            // Leaf elements.
+            var bLeafElements = nonAbstractTypes.Where(t => !t.Properties.Property.Any()); // doesn’t contain syntax properties
+            var cLeafElements = from t in nonAbstractTypes
+                                let p = t.Properties.Property.FirstOrDefault(p => (p.optional || !p.readOnly) && p.kind == "Token")
+                                where t.Properties.Property.All(p1 => p1 == p || (!p1.optional && p1.readOnly && p1.kind == "Token"))
+                                select t;
         }
 
         private static void ComparisonBetweenGumTreeAndCDGumTree()
@@ -1006,9 +1018,9 @@ namespace Jawilliam.CDF.Labs
                 MillisecondsTimeout = 600000
             };
 
-            foreach (var project in Projects.Skip(49))
+            foreach (var project in Projects.Skip(55))
             {
-                foreach (var configuration in configurations.Where(c => project.Name == "MahAppsMetro" ? (int)c.Forward.Approach >= 18 : true))
+                foreach (var configuration in configurations.Where(c => project.Name == "mono" ? (int)c.Forward.Approach >= 14 : true))
                 {
                     var dbRepository = new GitRepository(project.Name) { Name = project.Name };
                     ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 600;
@@ -1026,16 +1038,25 @@ namespace Jawilliam.CDF.Labs
                     };
 
                     interopArgs.GumTreePath = configuration.Path;
-                    ///TODO: Hay que repetir el experimento para AzureSdkForNet
-                    if (!(project.Name == "MahAppsMetro" && (int)configuration.Forward.Approach == 18))
+                    if (project.Name == "mono" && (int)configuration.Forward.Approach == 14)
                     {
-                        analyzer.InverseNativeGumTreeDiff(gumTree, interopArgs, configuration.Backward.Approach, null, null);
+                        analyzer.NativeGumTreeDiff(gumTree, interopArgs, configuration.Forward.Approach, null, null);
+                    //analyzer.InverseNativeGumTreeDiff(gumTree, interopArgs, gumTreeApproach, skipThese, cleaner);
+                    System.IO.File.AppendAllText($@"D:\ExperimentLogs\{configuration.Backward.Name}.txt",
+                        $"{Environment.NewLine}{Environment.NewLine}GumTreefied RoslynML (forward collection) completed {DateTime.Now.ToString("F", CultureInfo.InvariantCulture)} - {project.Name}");
+                        analyzer.Warnings = new StringBuilder();
+                    }
+
+                    ///TODO: Hay que repetir el experimento para AzureSdkForNet
+                    //if (!(project.Name == "MahAppsMetro" && (int)configuration.Forward.Approach == 18))
+                    //{
+                    analyzer.InverseNativeGumTreeDiff(gumTree, interopArgs, configuration.Backward.Approach, null, null);
                         //analyzer.InverseNativeGumTreeDiff(gumTree, interopArgs, gumTreeApproach, skipThese, cleaner);
                         System.IO.File.AppendAllText($@"D:\ExperimentLogs\{configuration.Backward.Name}.txt",
                             $"{Environment.NewLine}{Environment.NewLine}GumTreefied RoslynML (collection) completed {DateTime.Now.ToString("F", CultureInfo.InvariantCulture)} - {project.Name}");
-                    }
+                    //}
 
-                    recognizer.ConfigForwardVsBackward((configuration.Forward.Approach, configuration.Forward.Name), (configuration.Backward.Approach, configuration.Backward.Name));
+                recognizer.ConfigForwardVsBackward((configuration.Forward.Approach, configuration.Forward.Name), (configuration.Backward.Approach, configuration.Backward.Name));
                     recognizer.SqlRepository = dbRepository;
                     recognizer.Cancel = null;
                     //frp => dbRepository.Deltas.Any(d => d.RevisionPair.Id == frp.Id &&
@@ -1056,15 +1077,18 @@ namespace Jawilliam.CDF.Labs
                         return roslynMLServices.AsGumtreefiedElementTree(xTree);
                     };
 
-                    recognizer.Warnings = new StringBuilder();
-                    recognizer.Recognize(skipThese, true);
-                    System.IO.File.AppendAllText($@"D:\ExperimentLogs\{configuration.Backward.Name}.txt",
-                        $"{Environment.NewLine}{Environment.NewLine}Reversibility comparison (recognition) completed {DateTime.Now.ToString("F", CultureInfo.InvariantCulture)} - {project.Name}");
+                    //if (!(project.Name == "MahAppsMetro" && (int)configuration.Forward.Approach == 18))
+                    //{
+                        recognizer.Warnings = new StringBuilder();
+                        recognizer.Recognize(skipThese, true);
+                        System.IO.File.AppendAllText($@"D:\ExperimentLogs\{configuration.Backward.Name}.txt",
+                            $"{Environment.NewLine}{Environment.NewLine}Reversibility comparison (recognition) completed {DateTime.Now.ToString("F", CultureInfo.InvariantCulture)} - {project.Name}");
+                    //}
 
-                    recognizer.Warnings = new StringBuilder();
-                    recognizer.ConnectMatchSymptoms(skipThese, true);
-                    System.IO.File.AppendAllText($@"D:\ExperimentLogs\{configuration.Backward.Name}.txt",
-                        $"{Environment.NewLine}{Environment.NewLine}Reversibility comparison (structuring) completed {DateTime.Now.ToString("F", CultureInfo.InvariantCulture)} - {project.Name}");
+                    //recognizer.Warnings = new StringBuilder();
+                    //recognizer.ConnectMatchSymptoms(skipThese, true);
+                    //System.IO.File.AppendAllText($@"D:\ExperimentLogs\{configuration.Backward.Name}.txt",
+                    //    $"{Environment.NewLine}{Environment.NewLine}Reversibility comparison (structuring) completed {DateTime.Now.ToString("F", CultureInfo.InvariantCulture)} - {project.Name}");
                 }
             }
             Console.Out.WriteLine($"DONE!!!");

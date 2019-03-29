@@ -36,37 +36,11 @@ namespace Jawilliam.CDF.Approach.Criterions.Impl
         {
             get => this._criterion ?? (this._criterion = new DiceCoefficientSimetric<TElement>
             {
-                AreEqual = this._AreEqual<TAnnotation>,
-                GetComponents = this.ByTermExistence<TAnnotation>
+                AreEqual = this.ServiceLocator.MatchEquality<TElement, TAnnotation>,
+                GetComponents = this.ServiceLocator._ByTermExistence<TElement, TAnnotation>
             });
             private set { this._criterion = value ?? throw new ArgumentNullException(nameof(value)); }
         }
-
-        ///// <summary>
-        ///// Computes the existence of each unique term.
-        ///// </summary>
-        ///// <typeparam name="T">Concrete type of each term.</typeparam>
-        ///// <param name="firstSequence">First sequence where to compute the components over.</param>
-        ///// <param name="secondSequence">First sequence where to compute the components over.</param>
-        ///// <param name="comparer">the logic to support comparisons of objects for equality.</param>
-        ///// <param name="firstResult">Returns the computed components related to the first sequence.</param>
-        ///// <param name="secondResult">Returns the computed components related to the second sequence.</param>
-        ///// <param name="termSelector">Function to compute the terms.</param>
-        ///// <returns>The unique terms that the existences was computed for.</returns>
-        //public static IEnumerable<T> ByTermExistence<T>(T[] firstSequence, T[] secondSequence, IEqualityComparer<T> comparer, out double[] firstResult, out double[] secondResult, Func<IEnumerable<T>, IEnumerable<T>, IEqualityComparer<T>, IEnumerable<T>> termSelector = null)
-        //{
-        //    if (firstSequence == null) throw new ArgumentNullException(nameof(firstSequence));
-        //    if (secondSequence == null) throw new ArgumentNullException(nameof(secondSequence));
-
-        //    var terms = 
-
-        //    var terms = termSelector?.Invoke(firstSequence, secondSequence, comparer).ToArray() ?? firstSequence.Union(secondSequence, comparer).ToArray();
-
-        //    firstResult = terms.Select(t => firstSequence.Any(ts => comparer.Equals(ts, t)) ? 1d : 0d).ToArray();
-        //    secondResult = terms.Select(t => secondSequence.Any(ts => comparer.Equals(t, ts)) ? 1d : 0d).ToArray();
-
-        //    return terms;
-        //}
 
         /// <summary>
         /// Discovers the candidate matches of a given node.
@@ -77,19 +51,20 @@ namespace Jawilliam.CDF.Approach.Criterions.Impl
         /// <returns>candidate matches for the given node.</returns>
         public override IEnumerable<MatchInfo<TElement>> Matches(TElement original, TElement originalContext, TElement modifiedContext)
         {
+            var semanticAbstraction = this.ServiceLocator.SemanticAbstraction();
             var matchingSet = this.ServiceLocator.MatchingSet();
-            if (!matchingSet.UnmatchedOriginal(original) /*|| this.ServiceLocator.HierarchicalAbstraction().IsLeaf(original)*/)
+            if (!matchingSet.UnmatchedOriginal(original) || this.ServiceLocator.HierarchicalAbstraction().IsLeaf(original))
                 yield break;
 
             var hierarchicalAbstraction = this.ServiceLocator.HierarchicalAbstraction();
             var candidateSimilarities = from m in modifiedContext.PostOrder(hierarchicalAbstraction.Children)
-                                        where matchingSet.UnmatchedModified(m) && this.Compatible(original, m)
+                                        where matchingSet.UnmatchedModified(m) && this.Compatible(original, m) && !hierarchicalAbstraction.IsLeaf(m)
                                         //where !hierarchicalAbstraction.IsLeaf(m) && this.Compatible(original, m)
                                         select new
                                         {
                                             Candidate = m,
-                                            Similarity = this.Criterion.GetSimilarity(original.PostOrder(hierarchicalAbstraction.Children),
-                                                                                      m.PostOrder(hierarchicalAbstraction.Children))
+                                            Similarity = this.Criterion.GetSimilarity(original.Leaves(hierarchicalAbstraction.Children, hierarchicalAbstraction.IsLeaf).Where(semanticAbstraction.IsEssential),
+                                                                                      m.Leaves(hierarchicalAbstraction.Children, hierarchicalAbstraction.IsLeaf).Where(semanticAbstraction.IsEssential))
                                         };
 
             foreach (var c in candidateSimilarities.Where(cs => cs.Similarity > 0.5))
@@ -119,26 +94,13 @@ namespace Jawilliam.CDF.Approach.Criterions.Impl
             var oAnnotation = this.ServiceLocator.Original<TElement, TAnnotation>(original);
 
             if (candidates.Count() > 1 && 
-                oAnnotation.Candidates.All(c => c.Criterion == (int)MatchInfoCriterions.Similarity) &&
-                candidates.All(c => object.Equals(c.Original, original)) &&
-                candidates.All(c => c.Criterion == (int)MatchInfoCriterions.Similarity))
+                /*oAnnotation.Candidates.All(c => c.Criterion == (int)MatchInfoCriterions.Similarity) &&*/
+                candidates.All(c => object.Equals(c.Original, original)) /*&&
+                candidates.All(c => c.Criterion == (int)MatchInfoCriterions.Similarity)*/)
             {
                 return candidates.Cast<SimilarityMatchInfo<TElement>>().OrderByDescending(c => c.Value).First();
             }
             else return base.TieBreak(candidates, originalContext, modifiedContext);
-        }
-
-        /// <summary>
-        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="originalContext">the original context (e.g., the root of the original AST).</param>
-        /// <param name="modifiedContext">the modified context (e.g., the root of the modified AST).</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        public override IEnumerable<MatchInfo<TElement>> Partners(TElement original, TElement modified, TElement originalContext, TElement modifiedContext)
-        {
-            return base.Partners(original, modified, originalContext, modifiedContext);
         }
     }
 }

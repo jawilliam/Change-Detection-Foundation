@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Jawilliam.CDF.Approach.Annotations;
+using Jawilliam.CDF.Approach.Criterions.Impl;
+using Jawilliam.CDF.Approach.Criterions.Simetric;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -92,6 +95,33 @@ namespace Jawilliam.CDF.Approach.Services
         }
 
         /// <summary>
+        /// Exposes functionalities for handling the semantic nature of the supported elements. 
+        /// </summary>
+        /// <typeparam name="TElement">Type of the supported elements.</typeparam>
+        /// <param name="serviceLocator">the context wherein dynamically loading any required service.</param>
+        /// <param name="getServiceOrThrowsException">if true and the requested service does not exist, it throws an exception.</param>
+        /// <returns>the service supporting functionalities for handling the semantic nature of the supported elements. </returns>
+        public static ISemanticAbstractionService<TElement> SemanticAbstraction<TElement>(this IServiceLocator serviceLocator, bool getServiceOrThrowsException = true)
+        {
+            Debug.Assert(serviceLocator != null);
+            return getServiceOrThrowsException
+                ? serviceLocator.GetServiceOrThrowsException<ISemanticAbstractionService<TElement>>((int)ServiceId.SemanticAbstraction)
+                : serviceLocator.GetService<ISemanticAbstractionService<TElement>>((int)ServiceId.SemanticAbstraction);
+        }
+
+        /// <summary>
+        /// Exposes functionalities for handling the semantic nature of the supported elements. 
+        /// </summary>
+        /// <typeparam name="TElement">Type of the supported elements.</typeparam>
+        /// <param name="approach">the context wherein dynamically loading any required service.</param>
+        /// <param name="getServiceOrThrowsException">if true and the requested service does not exist, it throws an exception.</param>
+        /// <returns>the service supporting functionalities for handling the semantic nature of the supported elements. </returns>
+        public static ISemanticAbstractionService<TElement> SemanticAbstraction<TElement>(this IApproach<TElement> approach, bool getServiceOrThrowsException = true)
+        {
+            return SemanticAbstraction<TElement>((IServiceLocator)approach, getServiceOrThrowsException);
+        }
+
+        /// <summary>
         /// Exposes functionalities for computing full content hashes. 
         /// </summary>
         /// <typeparam name="TElement">Type of the supported elements.</typeparam>
@@ -170,6 +200,84 @@ namespace Jawilliam.CDF.Approach.Services
         public static IEditScriptService<TElement> EditScript<TElement>(this IApproach<TElement> approach, bool getServiceOrThrowsException = true)
         {
             return EditScript<TElement>((IServiceLocator)approach, getServiceOrThrowsException);
+        }
+
+        public static bool MatchEquality<TElement, TAnnotation>(this IServiceLocator approach, TElement first, TElement second) where TAnnotation : IMatchingAnnotation<TElement>, new()
+        {
+            Debug.Assert(first != null && second != null);
+            Debug.Assert(approach.Originals<TElement, TAnnotation>().Annotations.ContainsKey(first) || approach.Modifieds<TElement, TAnnotation>().Annotations.ContainsKey(first));
+            Debug.Assert(approach.Originals<TElement, TAnnotation>().Annotations.ContainsKey(second) || approach.Modifieds<TElement, TAnnotation>().Annotations.ContainsKey(second));
+
+            if (object.Equals(first, second))
+                return true;
+
+            if (approach.Originals<TElement, TAnnotation>().Annotations.ContainsKey(first))
+            {
+                return (approach.Original<TElement, TAnnotation>(first).Candidates?.Any(c => object.Equals(c.Modified, second)) ?? false);
+            }
+
+            if (approach.Modifieds<TElement, TAnnotation>().Annotations.ContainsKey(first))
+            {
+                return (approach.Modified<TElement, TAnnotation>(first).Candidates?.Any(c => object.Equals(c.Original, second)) ?? false);
+            }
+
+            return false;
+        }
+
+        public static IEnumerable<TElement> _TermSelector<TElement, TAnnotation>(this IServiceLocator serviceLocator, IEnumerable<TElement> originals, IEnumerable<TElement> modifieds, IEqualityComparer<TElement> comparer)
+            where TAnnotation : IMatchingAnnotation<TElement>, new()
+        {
+            Debug.Assert(originals != null && modifieds != null);
+
+            var matched = originals.Where(o =>
+            {
+                var oAnnotation = serviceLocator.Original<TElement, TAnnotation>(o);
+                return oAnnotation.Candidates.Any(c => modifieds.Any(ss => object.Equals(c.Modified, ss)));
+            });
+            foreach (var om in matched)
+            {
+                yield return om;
+            }
+
+            var unmatchedOriginals = originals.Where(o =>
+            {
+                var oAnnotation = serviceLocator.Original<TElement, TAnnotation>(o);
+                return !oAnnotation.Candidates.Any(c => modifieds.Any(ss => object.Equals(c.Modified, ss)));
+            });
+            foreach (var o in unmatchedOriginals)
+            {
+                yield return o;
+            }
+
+            var unmatchedModifieds = modifieds.Where(o =>
+            {
+                var mAnnotation = serviceLocator.Modified<TElement, TAnnotation>(o);
+                return !mAnnotation.Candidates.Any(c => originals.Any(ss => object.Equals(c.Original, ss)));
+            });
+            foreach (var m in unmatchedModifieds)
+            {
+                yield return m;
+            }
+        }
+
+        /// <summary>
+        /// Computes the existence of each unique term.
+        /// </summary>
+        /// <param name="firstSequence">First sequence where to compute the components over.</param>
+        /// <param name="secondSequence">First sequence where to compute the components over.</param>
+        /// <param name="comparer">the logic to support comparisons of objects for equality.</param>
+        /// <param name="firstResult">Returns the computed components related to the first sequence.</param>
+        /// <param name="secondResult">Returns the computed components related to the second sequence.</param>
+        /// <param name="termSelector">Function to compute the terms.</param>
+        /// <returns>The unique terms that the existences was computed for.</returns>
+        public static IEnumerable<TElement> _ByTermExistence<TElement, TAnnotation>(this IServiceLocator serviceLocator, TElement[] firstSequence, TElement[] secondSequence, 
+            IEqualityComparer<TElement> comparer, out double[] firstResult, out double[] secondResult, 
+            Func<IEnumerable<TElement>, IEnumerable<TElement>, IEqualityComparer<TElement>, IEnumerable<TElement>> termSelector = null)
+        where TAnnotation : IMatchingAnnotation<TElement>, new()
+        {
+            return VectorComponents.ByTermExistence(firstSequence, secondSequence, 
+                new MatchEqualityComparer<TElement, TAnnotation, IServiceLocator>(serviceLocator), 
+                out firstResult, out secondResult, serviceLocator._TermSelector<TElement, TAnnotation>);
         }
     }
 }

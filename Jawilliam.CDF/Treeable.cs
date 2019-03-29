@@ -72,6 +72,33 @@ namespace Jawilliam.CDF
         }
 
         /// <summary>
+        /// Iterates the tree's descendants in post order.
+        /// </summary>
+        /// <param name="source">The tree to iterate over.</param>
+        /// <param name="children">Supports the access to the children of a node.</param>
+        /// <typeparam name="T">The concrete type of the nodes.</typeparam>
+        /// <returns>The descendants of the tree enumerated in post order.</returns>
+        public static IEnumerable<T> Descendants<T>(this T source, Func<T, IEnumerable<T>> children)
+        {
+            Debug.Assert(children != null);
+            return source.PostOrder(children).Where(d => !object.Equals(d, source));
+        }
+
+        /// <summary>
+        /// Iterates the tree's leaves in post order.
+        /// </summary>
+        /// <param name="source">The tree to iterate over.</param>
+        /// <param name="children">Supports the access to the children of a node.</param>
+        /// <param name="isLeaf">Informs if a node is leaf (true) or not (false).</param>
+        /// <typeparam name="T">The concrete type of the nodes.</typeparam>
+        /// <returns>The leaves of the tree enumerated in post order.</returns>
+        public static IEnumerable<T> Leaves<T>(this T source, Func<T, IEnumerable<T>> children, Func<T, bool> isLeaf)
+        {
+            Debug.Assert(children != null);
+            return source.Descendants(children).Where(d => isLeaf(d));
+        }
+
+        /// <summary>
         /// Applies an action over each element.
         /// </summary>
         /// <typeparam name="T">type of the elements</typeparam>

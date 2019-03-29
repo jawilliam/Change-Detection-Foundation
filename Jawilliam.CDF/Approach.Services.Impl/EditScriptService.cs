@@ -9,7 +9,8 @@ namespace Jawilliam.CDF.Approach.Services.Impl
     /// </summary>
     /// <typeparam name="TElement">Type of the supported elements.</typeparam>
     /// <typeparam name="TAnnotation">Type of the information to store for each element.</typeparam>
-    public class EditScriptService<TElement, TAnnotation> : ServiceWithDependencies<IApproach<TElement>>, IEditScriptService<TElement> where TAnnotation : IMcesAnnotation<TElement>, new()
+    public class EditScriptService<TElement, TAnnotation> : ServiceWithDependencies<IApproach<TElement>>, IEditScriptService<TElement> 
+        where TAnnotation : IMcesAnnotation<TElement>, IElementAnnotation<TElement>, new()
     {
         /// <summary>
         /// Initializes the instance.
@@ -98,6 +99,7 @@ namespace Jawilliam.CDF.Approach.Services.Impl
 
             this.ServiceLocator.Originals<TElement, TAnnotation>().Init(new[] { modified });
             var oAnnotation = this.ServiceLocator.Original<TElement, TAnnotation>(modified);
+            oAnnotation.Id = mAnnotation.Id;
 
             this.ServiceLocator.MatchingSet().Partners(new MatchInfo<TElement>((int)MatchInfoCriterions.Insert) { Original = modified, Modified = modified });
             pAnnotation.Children.Insert(position, modified);
