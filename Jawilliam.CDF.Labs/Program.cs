@@ -639,6 +639,17 @@ namespace Jawilliam.CDF.Labs
                 ClassType = assembly.GetType($"Jawilliam.CDF.CSharp.{n.name}`1")
             }).ToArray();
 
+            var matchingPropagation = from t in nonAbstractTypes
+                                      from p in t.Properties.Property
+                                      where p.kind == "Token" /*&& p.readOnly*/
+                                      select new { Type = t, Property = p };
+            StringBuilder sb = new StringBuilder();
+            foreach (var mp in matchingPropagation)
+            {
+                sb.AppendLine($"{mp.Property.name} in {mp.Type.name}");
+            }
+            System.IO.File.WriteAllText(@"D:\Reports\Pairwise Matching Propagation Properties.txt", sb.ToString());
+
             var members = rdsl.Nodes.Type.Where(n => n.name.Contains("Member")).ToArray();
             var declarations = rdsl.Nodes.Type.Where(n => n.name.Contains("DeclarationSyntax")).ToArray();
             var memberDeclarations = declarations.Where(n => n.name.Contains("Member")).ToArray();
@@ -1020,7 +1031,7 @@ namespace Jawilliam.CDF.Labs
 
             foreach (var project in Projects.Skip(55))
             {
-                foreach (var configuration in configurations.Where(c => project.Name == "mono" ? (int)c.Forward.Approach >= 14 : true))
+                foreach (var configuration in configurations.Where(c => project.Name == "mono" ? (int)c.Forward.Approach >= 18 : true))
                 {
                     var dbRepository = new GitRepository(project.Name) { Name = project.Name };
                     ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 600;
@@ -1038,14 +1049,14 @@ namespace Jawilliam.CDF.Labs
                     };
 
                     interopArgs.GumTreePath = configuration.Path;
-                    if (project.Name == "mono" && (int)configuration.Forward.Approach == 14)
-                    {
-                        analyzer.NativeGumTreeDiff(gumTree, interopArgs, configuration.Forward.Approach, null, null);
-                    //analyzer.InverseNativeGumTreeDiff(gumTree, interopArgs, gumTreeApproach, skipThese, cleaner);
-                    System.IO.File.AppendAllText($@"D:\ExperimentLogs\{configuration.Backward.Name}.txt",
-                        $"{Environment.NewLine}{Environment.NewLine}GumTreefied RoslynML (forward collection) completed {DateTime.Now.ToString("F", CultureInfo.InvariantCulture)} - {project.Name}");
-                        analyzer.Warnings = new StringBuilder();
-                    }
+                    //if (project.Name == "mono" && (int)configuration.Forward.Approach == 14)
+                    //{
+                    //    analyzer.NativeGumTreeDiff(gumTree, interopArgs, configuration.Forward.Approach, null, null);
+                    ////analyzer.InverseNativeGumTreeDiff(gumTree, interopArgs, gumTreeApproach, skipThese, cleaner);
+                    //System.IO.File.AppendAllText($@"D:\ExperimentLogs\{configuration.Backward.Name}.txt",
+                    //    $"{Environment.NewLine}{Environment.NewLine}GumTreefied RoslynML (forward collection) completed {DateTime.Now.ToString("F", CultureInfo.InvariantCulture)} - {project.Name}");
+                    //    analyzer.Warnings = new StringBuilder();
+                    //}
 
                     ///TODO: Hay que repetir el experimento para AzureSdkForNet
                     //if (!(project.Name == "MahAppsMetro" && (int)configuration.Forward.Approach == 18))

@@ -565,7 +565,7 @@ namespace tempuri.org.XNodeTypeSystem.xsd {
                     
                     /// <summary>
                     /// <para>
-                    /// Regular expression: (Text, Children, Matching?, EditScript, Abstraction?)
+                    /// Regular expression: (Text, Children, Matching?, EditScript, Pairwise?, Abstraction?)
                     /// </para>
                     /// </summary>
                     public partial class PropertyLocalType : XTypedElement, IXMetaData {
@@ -595,12 +595,12 @@ namespace tempuri.org.XNodeTypeSystem.xsd {
                         
                         static PropertyLocalType() {
                             BuildElementDictionary();
-                            contentModel = new SequenceContentModelEntity(new NamedContentModelEntity(XName.Get("Text", "http://tempuri.org/XNodeTypeSystem.xsd")), new NamedContentModelEntity(XName.Get("Children", "http://tempuri.org/XNodeTypeSystem.xsd")), new NamedContentModelEntity(XName.Get("Matching", "http://tempuri.org/XNodeTypeSystem.xsd")), new NamedContentModelEntity(XName.Get("EditScript", "http://tempuri.org/XNodeTypeSystem.xsd")), new NamedContentModelEntity(XName.Get("Abstraction", "http://tempuri.org/XNodeTypeSystem.xsd")));
+                            contentModel = new SequenceContentModelEntity(new NamedContentModelEntity(XName.Get("Text", "http://tempuri.org/XNodeTypeSystem.xsd")), new NamedContentModelEntity(XName.Get("Children", "http://tempuri.org/XNodeTypeSystem.xsd")), new NamedContentModelEntity(XName.Get("Matching", "http://tempuri.org/XNodeTypeSystem.xsd")), new NamedContentModelEntity(XName.Get("EditScript", "http://tempuri.org/XNodeTypeSystem.xsd")), new NamedContentModelEntity(XName.Get("Pairwise", "http://tempuri.org/XNodeTypeSystem.xsd")), new NamedContentModelEntity(XName.Get("Abstraction", "http://tempuri.org/XNodeTypeSystem.xsd")));
                         }
                         
                         /// <summary>
                         /// <para>
-                        /// Regular expression: (Text, Children, Matching?, EditScript, Abstraction?)
+                        /// Regular expression: (Text, Children, Matching?, EditScript, Pairwise?, Abstraction?)
                         /// </para>
                         /// </summary>
                         public PropertyLocalType() {
@@ -611,7 +611,7 @@ namespace tempuri.org.XNodeTypeSystem.xsd {
                         /// Occurrence: required
                         /// </para>
                         /// <para>
-                        /// Regular expression: (Text, Children, Matching?, EditScript, Abstraction?)
+                        /// Regular expression: (Text, Children, Matching?, EditScript, Pairwise?, Abstraction?)
                         /// </para>
                         /// </summary>
                         public TextLocalType Text {
@@ -629,7 +629,7 @@ namespace tempuri.org.XNodeTypeSystem.xsd {
                         /// Occurrence: required
                         /// </para>
                         /// <para>
-                        /// Regular expression: (Text, Children, Matching?, EditScript, Abstraction?)
+                        /// Regular expression: (Text, Children, Matching?, EditScript, Pairwise?, Abstraction?)
                         /// </para>
                         /// </summary>
                         public ChildrenLocalType Children {
@@ -647,7 +647,7 @@ namespace tempuri.org.XNodeTypeSystem.xsd {
                         /// Occurrence: optional
                         /// </para>
                         /// <para>
-                        /// Regular expression: (Text, Children, Matching?, EditScript, Abstraction?)
+                        /// Regular expression: (Text, Children, Matching?, EditScript, Pairwise?, Abstraction?)
                         /// </para>
                         /// </summary>
                         public MatchingLocalType Matching {
@@ -665,7 +665,7 @@ namespace tempuri.org.XNodeTypeSystem.xsd {
                         /// Occurrence: required
                         /// </para>
                         /// <para>
-                        /// Regular expression: (Text, Children, Matching?, EditScript, Abstraction?)
+                        /// Regular expression: (Text, Children, Matching?, EditScript, Pairwise?, Abstraction?)
                         /// </para>
                         /// </summary>
                         public EditScriptLocalType EditScript {
@@ -683,7 +683,25 @@ namespace tempuri.org.XNodeTypeSystem.xsd {
                         /// Occurrence: optional
                         /// </para>
                         /// <para>
-                        /// Regular expression: (Text, Children, Matching?, EditScript, Abstraction?)
+                        /// Regular expression: (Text, Children, Matching?, EditScript, Pairwise?, Abstraction?)
+                        /// </para>
+                        /// </summary>
+                        public PairwiseLocalType Pairwise {
+                            get {
+                                XElement x = this.GetElement(XName.Get("Pairwise", "http://tempuri.org/XNodeTypeSystem.xsd"));
+                                return ((PairwiseLocalType)(x));
+                            }
+                            set {
+                                this.SetElement(XName.Get("Pairwise", "http://tempuri.org/XNodeTypeSystem.xsd"), value);
+                            }
+                        }
+                        
+                        /// <summary>
+                        /// <para>
+                        /// Occurrence: optional
+                        /// </para>
+                        /// <para>
+                        /// Regular expression: (Text, Children, Matching?, EditScript, Pairwise?, Abstraction?)
                         /// </para>
                         /// </summary>
                         public AbstractionLocalType Abstraction {
@@ -883,6 +901,7 @@ namespace tempuri.org.XNodeTypeSystem.xsd {
                             localElementDictionary.Add(XName.Get("Children", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(ChildrenLocalType));
                             localElementDictionary.Add(XName.Get("Matching", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(MatchingLocalType));
                             localElementDictionary.Add(XName.Get("EditScript", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(EditScriptLocalType));
+                            localElementDictionary.Add(XName.Get("Pairwise", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(PairwiseLocalType));
                             localElementDictionary.Add(XName.Get("Abstraction", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(AbstractionLocalType));
                         }
                         
@@ -1428,6 +1447,166 @@ namespace tempuri.org.XNodeTypeSystem.xsd {
                             
                             ContentModelEntity IXMetaData.GetContentModel() {
                                 return ContentModelEntity.Default;
+                            }
+                        }
+                        
+                        /// <summary>
+                        /// <para>
+                        /// Regular expression: (Matching?)
+                        /// </para>
+                        /// </summary>
+                        public partial class PairwiseLocalType : XTypedElement, IXMetaData {
+                            
+                            [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                            static Dictionary<XName, System.Type> localElementDictionary = new Dictionary<XName, System.Type>();
+                            
+                            [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                            private static ContentModelEntity contentModel;
+                            
+         public static explicit operator PairwiseLocalType(XElement xe) { return XTypedServices.ToXTypedElement<PairwiseLocalType>(xe,LinqToXsdTypeManager.Instance as ILinqToXsdTypeManager); }
+                            
+                            static PairwiseLocalType() {
+                                BuildElementDictionary();
+                                contentModel = new SequenceContentModelEntity(new NamedContentModelEntity(XName.Get("Matching", "http://tempuri.org/XNodeTypeSystem.xsd")));
+                            }
+                            
+                            /// <summary>
+                            /// <para>
+                            /// Regular expression: (Matching?)
+                            /// </para>
+                            /// </summary>
+                            public PairwiseLocalType() {
+                            }
+                            
+                            /// <summary>
+                            /// <para>
+                            /// Occurrence: optional
+                            /// </para>
+                            /// <para>
+                            /// Regular expression: (Matching?)
+                            /// </para>
+                            /// </summary>
+                            public MatchingLocalType Matching {
+                                get {
+                                    XElement x = this.GetElement(XName.Get("Matching", "http://tempuri.org/XNodeTypeSystem.xsd"));
+                                    return ((MatchingLocalType)(x));
+                                }
+                                set {
+                                    this.SetElement(XName.Get("Matching", "http://tempuri.org/XNodeTypeSystem.xsd"), value);
+                                }
+                            }
+                            
+                            [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                            Dictionary<XName, System.Type> IXMetaData.LocalElementsDictionary {
+                                get {
+                                    return localElementDictionary;
+                                }
+                            }
+                            
+                            [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                            XName IXMetaData.SchemaName {
+                                get {
+                                    return XName.Get("Pairwise", "http://tempuri.org/XNodeTypeSystem.xsd");
+                                }
+                            }
+                            
+                            [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                            SchemaOrigin IXMetaData.TypeOrigin {
+                                get {
+                                    return SchemaOrigin.Fragment;
+                                }
+                            }
+                            
+                            [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                            ILinqToXsdTypeManager IXMetaData.TypeManager {
+                                get {
+                                    return LinqToXsdTypeManager.Instance;
+                                }
+                            }
+                            
+                            public override XTypedElement Clone() {
+                                return XTypedServices.CloneXTypedElement<PairwiseLocalType>(this);
+                            }
+                            
+                            private static void BuildElementDictionary() {
+                                localElementDictionary.Add(XName.Get("Matching", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(MatchingLocalType));
+                            }
+                            
+                            ContentModelEntity IXMetaData.GetContentModel() {
+                                return contentModel;
+                            }
+                            
+                            public partial class MatchingLocalType : XTypedElement, IXMetaData {
+                                
+         public static explicit operator MatchingLocalType(XElement xe) { return XTypedServices.ToXTypedElement<MatchingLocalType>(xe,LinqToXsdTypeManager.Instance as ILinqToXsdTypeManager); }
+                                
+                                public MatchingLocalType() {
+                                }
+                                
+                                /// <summary>
+                                /// <para>
+                                /// Occurrence: optional
+                                /// </para>
+                                /// </summary>
+                                public System.Nullable<bool> bubbling {
+                                    get {
+                                        XAttribute x = this.Attribute(XName.Get("bubbling", ""));
+                                        if ((x == null)) {
+                                            return null;
+                                        }
+                                        return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
+                                    }
+                                    set {
+                                        this.SetAttribute(XName.Get("bubbling", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
+                                    }
+                                }
+                                
+                                /// <summary>
+                                /// <para>
+                                /// Occurrence: optional
+                                /// </para>
+                                /// </summary>
+                                public System.Nullable<bool> tunneling {
+                                    get {
+                                        XAttribute x = this.Attribute(XName.Get("tunneling", ""));
+                                        if ((x == null)) {
+                                            return null;
+                                        }
+                                        return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
+                                    }
+                                    set {
+                                        this.SetAttribute(XName.Get("tunneling", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
+                                    }
+                                }
+                                
+                                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                                XName IXMetaData.SchemaName {
+                                    get {
+                                        return XName.Get("Matching", "http://tempuri.org/XNodeTypeSystem.xsd");
+                                    }
+                                }
+                                
+                                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                                SchemaOrigin IXMetaData.TypeOrigin {
+                                    get {
+                                        return SchemaOrigin.Fragment;
+                                    }
+                                }
+                                
+                                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                                ILinqToXsdTypeManager IXMetaData.TypeManager {
+                                    get {
+                                        return LinqToXsdTypeManager.Instance;
+                                    }
+                                }
+                                
+                                public override XTypedElement Clone() {
+                                    return XTypedServices.CloneXTypedElement<MatchingLocalType>(this);
+                                }
+                                
+                                ContentModelEntity IXMetaData.GetContentModel() {
+                                    return ContentModelEntity.Default;
+                                }
                             }
                         }
                         

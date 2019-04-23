@@ -123,6 +123,7 @@
     <Compile Include="Approach.Services.Impl\HashingService.cs" />
     <Compile Include="Approach.Services.Impl\McesHierarchicalSyntaxNodeService.cs" />
     <Compile Include="Approach.Choices\McesReportChoice.cs" />
+    <Compile Include="Approach.Awareness\IPairwisable.cs" />
     <Compile Include="Approach.Services\Extensions.cs" />
     <Compile Include="Approach.Services\IEditScriptService.cs" />
     <Compile Include="Approach.Services\ISemanticAbstractionService.cs" />

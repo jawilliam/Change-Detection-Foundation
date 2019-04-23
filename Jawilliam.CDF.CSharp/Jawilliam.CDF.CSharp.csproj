@@ -142,6 +142,16 @@
     <Compile Include="Flad\Extensions.cs" />
     <Compile Include="Flad\HierarchicalSyntaxNodeService.cs" />
     <Compile Include="Flad\McesHierarchicalSyntaxNodeService.cs" />
+    <Compile Include="Flad\PairwiseChangeDetection.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PairwiseChangeDetection.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Flad\NameEqualityServices.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NameEqualityServices.tt</DependentUpon>
+    </Compile>
     <Compile Include="Flad\SemanticAbstractionService.cs" />
     <Compile Include="Flad\TextualSyntaxNodeService.cs" />
     <Compile Include="Flad\InterfaceDeclarationServiceProvider.Partial.cs" />
@@ -182,11 +192,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SignatureEqualityServices.tt</DependentUpon>
     </Compile>
-    <Compile Include="Flad\NameEqualityServices.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>NameEqualityServices.tt</DependentUpon>
-    </Compile>
     <Compile Include="Flad\NameEqualsServiceProvider.Partial.cs" />
     <Compile Include="Flad\NameServiceProvider.Partial.cs" />
     <Compile Include="Flad\OmittedTypeArgumentServiceProvider.Partial.cs" />
@@ -226,6 +231,10 @@
     <Content Include="Flad\EqualityServices.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>EqualityServices.cs</LastGenOutput>
+    </Content>
+    <Content Include="Flad\PairwiseChangeDetection.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>PairwiseChangeDetection.cs</LastGenOutput>
     </Content>
     <Content Include="Flad\SignatureEqualityServices.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
