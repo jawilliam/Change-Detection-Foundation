@@ -1,2 +1,2 @@
 # Change-Detection-Foundation
-A Framework for the Syntax-Aware Detection of Source Code Changes.
+A Framework to Implement and Research Language-Aware Source Code Change Detection Solutions.
