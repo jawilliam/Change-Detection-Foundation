@@ -94,16 +94,21 @@ namespace Jawilliam.CDF.Approach.Choices
         protected virtual void CoreOnStep(TElement originalRoot, TElement modifiedRoot)
         {
             var matchingSet = this.Approach.MatchingSet();
+
+            var context = new MatchingContext<TElement>(this.Approach);
+            context.LScope.Original = originalRoot;
+            context.LScope.Modified = modifiedRoot;
+
             foreach (var o in this.Traverse(originalRoot))
             {
-                var matches = matchingSet.UnmatchedOriginal(o) ? this.Criterion.Matches(o, originalRoot, modifiedRoot)?.ToList() : null;
+                var matches = matchingSet.Originals.Unmatched(o) ? this.Criterion.Matches(o, context)?.ToList() : null;
                 if (matches?.Count > 0)
                 {
-                    MatchInfo<TElement> bestMatch = matches.Count == 1 ? matches.Single() : this.Criterion.TieBreak(matches, originalRoot, modifiedRoot);
+                    MatchInfo<TElement> bestMatch = matches.Count == 1 ? matches.Single() : this.Criterion.TieBreak(matches, context);
                     if (bestMatch != null) // if the match is unique (either originally discovered or otherwise resolved by tie break), notify it.
                     {
                         matchingSet.Partners(bestMatch);
-                        foreach (var pairwiseMatch in this.Criterion.Partners(bestMatch.Original, bestMatch.Modified, originalRoot, modifiedRoot))
+                        foreach (var pairwiseMatch in this.Criterion.Partners(bestMatch.Original, bestMatch.Modified, context))
                         {
                             matchingSet.Partners(pairwiseMatch);
                         }

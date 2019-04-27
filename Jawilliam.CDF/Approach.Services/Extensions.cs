@@ -41,6 +41,24 @@ namespace Jawilliam.CDF.Approach.Services
         }
 
         /// <summary>
+        /// Sets the given pair (i.e., the original and modified <paramref name="matchInfo"/>'s versions) as <see cref="IMatchingSetService{TElement}.Partners(MatchInfo{TElement})"/> if these versions are currently unmatched.
+        /// </summary>
+        /// <typeparam name="TElement">Type of the supported elements.</typeparam>
+        /// <param name="matchingSet">Matching set service</param>
+        /// <param name="matchInfo">Info of the proposed matching.</param>
+        /// <returns>true in case the proposed matching was finally setted; otherwise false.</returns>
+        public static bool PartnersIfAvailable<TElement>(this IMatchingSetService<TElement> matchingSet, MatchInfo<TElement> matchInfo)
+        {
+            if (matchingSet.Originals.Unmatched(matchInfo.Original) && matchingSet.Modifieds.Unmatched(matchInfo.Modified))
+            {
+                matchingSet.Partners(matchInfo);
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// Exposes functionalities for handling the textual nature of the supported elements. 
         /// </summary>
         /// <typeparam name="TElement">Type of the supported elements.</typeparam>

@@ -85,7 +85,7 @@ namespace Jawilliam.CDF.Tests.Approach.Base
             var modifiedAnnotations = approach.Modifieds<int, Annotation<int>>();
             var matchingSet = approach.GetServiceOrThrowsException<IMatchingSetService<int>>((int)ServiceId.MatchingSet);
 
-            matchingSet.UnpairedOriginal(3);
+            matchingSet.Originals.Unpaired(3);
         }
 
         [TestMethod, ExpectedException(typeof(KeyNotFoundException))]
@@ -96,7 +96,7 @@ namespace Jawilliam.CDF.Tests.Approach.Base
             var modifiedAnnotations = approach.Modifieds<int, Annotation<int>>();
             var matchingSet = approach.GetServiceOrThrowsException<IMatchingSetService<int>>((int)ServiceId.MatchingSet);
 
-            matchingSet.UnmatchedOriginal(3);
+            matchingSet.Originals.Unmatched(3);
         }
 
         [TestMethod, ExpectedException(typeof(KeyNotFoundException))]
@@ -107,7 +107,7 @@ namespace Jawilliam.CDF.Tests.Approach.Base
             var modifiedAnnotations = approach.Modifieds<int, Annotation<int>>();
             var matchingSet = approach.GetServiceOrThrowsException<IMatchingSetService<int>>((int)ServiceId.MatchingSet);
 
-            matchingSet.UnpairedModified(5);
+            matchingSet.Modifieds.Unpaired(5);
         }
 
         [TestMethod, ExpectedException(typeof(KeyNotFoundException))]
@@ -118,7 +118,7 @@ namespace Jawilliam.CDF.Tests.Approach.Base
             var modifiedAnnotations = approach.Modifieds<int, Annotation<int>>();
             var matchingSet = approach.GetServiceOrThrowsException<IMatchingSetService<int>>((int)ServiceId.MatchingSet);
 
-            matchingSet.UnmatchedModified(5);
+            matchingSet.Modifieds.Unmatched(5);
         }
 
         [TestMethod, ExpectedException(typeof(KeyNotFoundException))]
@@ -130,7 +130,7 @@ namespace Jawilliam.CDF.Tests.Approach.Base
             var matchingSet = approach.GetServiceOrThrowsException<IMatchingSetService<int>>((int)ServiceId.MatchingSet);
 
             matchingSet.Pair(3, 5);
-            matchingSet.UnpairedOriginal(5);
+            matchingSet.Originals.Unpaired(5);
         }
 
         [TestMethod, ExpectedException(typeof(KeyNotFoundException))]
@@ -142,7 +142,7 @@ namespace Jawilliam.CDF.Tests.Approach.Base
             var matchingSet = approach.GetServiceOrThrowsException<IMatchingSetService<int>>((int)ServiceId.MatchingSet);
 
             matchingSet.Pair(3, 5);
-            matchingSet.UnmatchedOriginal(5);
+            matchingSet.Originals.Unmatched(5);
         }
 
         [TestMethod, ExpectedException(typeof(KeyNotFoundException))]
@@ -154,7 +154,7 @@ namespace Jawilliam.CDF.Tests.Approach.Base
             var matchingSet = approach.GetServiceOrThrowsException<IMatchingSetService<int>>((int)ServiceId.MatchingSet);
 
             matchingSet.Pair(3, 5);
-            matchingSet.UnpairedModified(3);
+            matchingSet.Modifieds.Unpaired(3);
         }
 
         [TestMethod, ExpectedException(typeof(KeyNotFoundException))]
@@ -166,7 +166,7 @@ namespace Jawilliam.CDF.Tests.Approach.Base
             var matchingSet = approach.GetServiceOrThrowsException<IMatchingSetService<int>>((int)ServiceId.MatchingSet);
 
             matchingSet.Pair(3, 5);
-            matchingSet.UnmatchedModified(3);
+            matchingSet.Modifieds.Unmatched(3);
         }
 
         [TestMethod]
@@ -181,15 +181,15 @@ namespace Jawilliam.CDF.Tests.Approach.Base
             modifiedAnnotations.Init(new[] { 5 });
 
             matchingSet.Pair(3, 5);
-            Assert.IsFalse(matchingSet.UnpairedOriginal(3));
-            Assert.IsTrue(matchingSet.UnmatchedOriginal(3));
-            Assert.IsFalse(matchingSet.UnpairedModified(5));
-            Assert.IsTrue(matchingSet.UnmatchedModified(5));
+            Assert.IsFalse(matchingSet.Originals.Unpaired(3));
+            Assert.IsTrue(matchingSet.Originals.Unmatched(3));
+            Assert.IsFalse(matchingSet.Modifieds.Unpaired(5));
+            Assert.IsTrue(matchingSet.Modifieds.Unmatched(5));
             matchingSet.Unpair(3, 5);
-            Assert.IsTrue(matchingSet.UnpairedOriginal(3));
-            Assert.IsTrue(matchingSet.UnmatchedOriginal(3));
-            Assert.IsTrue(matchingSet.UnpairedModified(5));
-            Assert.IsTrue(matchingSet.UnmatchedModified(5));
+            Assert.IsTrue(matchingSet.Originals.Unpaired(3));
+            Assert.IsTrue(matchingSet.Originals.Unmatched(3));
+            Assert.IsTrue(matchingSet.Modifieds.Unpaired(5));
+            Assert.IsTrue(matchingSet.Modifieds.Unmatched(5));
 
             Assert.AreEqual(originalAnnotations.Annotations[3].Candidates.Count, 0);
             Assert.AreEqual(modifiedAnnotations.Annotations[5].Candidates.Count, 0);
@@ -210,12 +210,12 @@ namespace Jawilliam.CDF.Tests.Approach.Base
             Assert.IsTrue(matchingSet.Paired(3, 5));
             matchingSet.Pair(3, 6);
             Assert.IsTrue(matchingSet.Paired(3, 6));
-            Assert.IsFalse(matchingSet.UnpairedOriginal(3));
-            Assert.IsTrue(matchingSet.UnmatchedOriginal(3));
-            Assert.IsFalse(matchingSet.UnpairedModified(5));
-            Assert.IsTrue(matchingSet.UnmatchedModified(5));
-            Assert.IsFalse(matchingSet.UnpairedModified(6));
-            Assert.IsTrue(matchingSet.UnmatchedModified(6));
+            Assert.IsFalse(matchingSet.Originals.Unpaired(3));
+            Assert.IsTrue(matchingSet.Originals.Unmatched(3));
+            Assert.IsFalse(matchingSet.Modifieds.Unpaired(5));
+            Assert.IsTrue(matchingSet.Modifieds.Unmatched(5));
+            Assert.IsFalse(matchingSet.Modifieds.Unpaired(6));
+            Assert.IsTrue(matchingSet.Modifieds.Unmatched(6));
 
             Assert.AreEqual(originalAnnotations.Annotations[3].Candidates.Count, 2);
             Assert.AreEqual(modifiedAnnotations.Annotations[5].Candidates.Count, 1);
@@ -247,19 +247,19 @@ namespace Jawilliam.CDF.Tests.Approach.Base
             Assert.AreEqual(modifiedAnnotations.Annotations[6].Candidates.Count, 0);
             Assert.AreEqual(modifiedAnnotations.Annotations[4].Candidates.Count, 1);
 
-            Assert.IsFalse(matchingSet.UnmatchedOriginal(3));
-            Assert.IsFalse(matchingSet.UnpairedOriginal(3));
-            Assert.IsFalse(matchingSet.UnmatchedModified(4));
-            Assert.IsFalse(matchingSet.UnpairedModified(4));
-            Assert.IsTrue(matchingSet.UnmatchedModified(5));
-            Assert.IsTrue(matchingSet.UnpairedModified(5));
-            Assert.IsTrue(matchingSet.UnmatchedModified(6));
-            Assert.IsTrue(matchingSet.UnpairedModified(6));
+            Assert.IsFalse(matchingSet.Originals.Unmatched(3));
+            Assert.IsFalse(matchingSet.Originals.Unpaired(3));
+            Assert.IsFalse(matchingSet.Modifieds.Unmatched(4));
+            Assert.IsFalse(matchingSet.Modifieds.Unpaired(4));
+            Assert.IsTrue(matchingSet.Modifieds.Unmatched(5));
+            Assert.IsTrue(matchingSet.Modifieds.Unpaired(5));
+            Assert.IsTrue(matchingSet.Modifieds.Unmatched(6));
+            Assert.IsTrue(matchingSet.Modifieds.Unpaired(6));
 
-            Assert.AreEqual(originalAnnotations.Annotations[3].Partner, 4);
-            Assert.AreEqual(modifiedAnnotations.Annotations[4].Partner, 3);
-            Assert.AreEqual(modifiedAnnotations.Annotations[5].Partner, 0);
-            Assert.AreEqual(modifiedAnnotations.Annotations[6].Partner, 0);
+            Assert.AreEqual(originalAnnotations.Annotations[3].Partner<int, Annotation<int>>(), 4);
+            Assert.AreEqual(modifiedAnnotations.Annotations[4].Partner<int, Annotation<int>>(), 3);
+            Assert.AreEqual(modifiedAnnotations.Annotations[5].Partner<int, Annotation<int>>(), 0);
+            Assert.AreEqual(modifiedAnnotations.Annotations[6].Partner<int, Annotation<int>>(), 0);
         }
 
         [TestMethod]
@@ -282,19 +282,19 @@ namespace Jawilliam.CDF.Tests.Approach.Base
             Assert.AreEqual(modifiedAnnotations.Annotations[6].Candidates.Count, 0);
             Assert.AreEqual(modifiedAnnotations.Annotations[4].Candidates.Count, 0);
 
-            Assert.IsFalse(matchingSet.UnmatchedOriginal(3));
-            Assert.IsFalse(matchingSet.UnpairedOriginal(3));
-            Assert.IsTrue(matchingSet.UnmatchedModified(4));
-            Assert.IsTrue(matchingSet.UnpairedModified(4));
-            Assert.IsFalse(matchingSet.UnmatchedModified(5));
-            Assert.IsFalse(matchingSet.UnpairedModified(5));
-            Assert.IsTrue(matchingSet.UnmatchedModified(6));
-            Assert.IsTrue(matchingSet.UnpairedModified(6));
+            Assert.IsFalse(matchingSet.Originals.Unmatched(3));
+            Assert.IsFalse(matchingSet.Originals.Unpaired(3));
+            Assert.IsTrue(matchingSet.Modifieds.Unmatched(4));
+            Assert.IsTrue(matchingSet.Modifieds.Unpaired(4));
+            Assert.IsFalse(matchingSet.Modifieds.Unmatched(5));
+            Assert.IsFalse(matchingSet.Modifieds.Unpaired(5));
+            Assert.IsTrue(matchingSet.Modifieds.Unmatched(6));
+            Assert.IsTrue(matchingSet.Modifieds.Unpaired(6));
 
-            Assert.AreEqual(originalAnnotations.Annotations[3].Partner, 5);
-            Assert.AreEqual(modifiedAnnotations.Annotations[4].Partner, 0);
-            Assert.AreEqual(modifiedAnnotations.Annotations[5].Partner, 3);
-            Assert.AreEqual(modifiedAnnotations.Annotations[6].Partner, 0);
+            Assert.AreEqual(originalAnnotations.Annotations[3].Partner<int, Annotation<int>>(), 5);
+            Assert.AreEqual(modifiedAnnotations.Annotations[4].Partner<int, Annotation<int>>(), 0);
+            Assert.AreEqual(modifiedAnnotations.Annotations[5].Partner<int, Annotation<int>>(), 3);
+            Assert.AreEqual(modifiedAnnotations.Annotations[6].Partner<int, Annotation<int>>(), 0);
         }
     }
 }

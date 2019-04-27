@@ -640,15 +640,26 @@ namespace Jawilliam.CDF.Labs
             }).ToArray();
 
             var matchingPropagation = from t in nonAbstractTypes
-                                      from p in t.Properties.Property
-                                      where p.kind == "Token" /*&& p.readOnly*/
-                                      select new { Type = t, Property = p };
+                                      let tProperties = from p1 in t.Properties.Property where p1.kind == "Token" select p1
+                                      let remainingProperties = t.Properties.Property.Except(tProperties)
+                                      where remainingProperties.Count() == 1 /*&& p.readOnly*/
+                                      select new { Type = t, Property = remainingProperties.Single() };
             StringBuilder sb = new StringBuilder();
             foreach (var mp in matchingPropagation)
             {
                 sb.AppendLine($"{mp.Property.name} in {mp.Type.name}");
             }
-            System.IO.File.WriteAllText(@"D:\Reports\Pairwise Matching Propagation Properties.txt", sb.ToString());
+            System.IO.File.WriteAllText(@"D:\Reports\Pairwise Matching Sufficient Properties.txt", sb.ToString());
+
+            var matchingPropagation1 = from t in nonAbstractTypes
+                                       from p in t.Properties.Property
+                                       where p.Pairwise?.Matching?.tunneling ?? false /*&& p.readOnly*/
+                                       select new { Type = t, Property = p };
+
+            var b2 = matchingPropagation.Except(matchingPropagation1).ToList();
+            var b3 = matchingPropagation1.Except(matchingPropagation).ToList();
+
+            //System.IO.File.WriteAllText(@"D:\Reports\Pairwise Matching Propagation Properties.txt", sb.ToString());
 
             var members = rdsl.Nodes.Type.Where(n => n.name.Contains("Member")).ToArray();
             var declarations = rdsl.Nodes.Type.Where(n => n.name.Contains("DeclarationSyntax")).ToArray();

@@ -98,7 +98,7 @@ namespace Jawilliam.CDF.Approach.Choices
             var list = parentSimilarities.OrderByDescending(c => c.MaxSize).ThenByDescending(c => c.Similarity).ThenByDescending(c => c.Ratio).ToList();
             foreach (var c in parentSimilarities.OrderByDescending(c => c.Similarity).ThenByDescending(c => c.Ratio).ToList())
             {
-                if(matchingSet.UnmatchedOriginal(c.Candidate.Original) && matchingSet.UnmatchedModified(c.Candidate.Modified))
+                if(matchingSet.Originals.Unmatched(c.Candidate.Original) && matchingSet.Modifieds.Unmatched(c.Candidate.Modified))
                     matchingSet.Partners(c.Candidate);
             }
         }

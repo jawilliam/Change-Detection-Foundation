@@ -18,15 +18,30 @@
         IdenticalEssentialHash = 2,
 
         /// <summary>
+        /// Pairwise matching on identical subtrees.
+        /// </summary>
+        PairwiseIdenticalSubtree = 3,
+
+        /// <summary>
+        /// Pairwise matching because their parents were previously matched.
+        /// </summary>
+        PairwiseTunneling = 4,
+
+        /// <summary>
+        /// Pairwise matching because some of their children were previously matched.
+        /// </summary>
+        PairwiseBubbling = 5,
+
+        /// <summary>
         /// The matched versions are an original version copied from the modified version and the modified version. They were probably matched during the generation of a insert action (e.g., minimum conforming edit script). 
         /// </summary>
-        Insert = 3,
+        Insert = 6,
 
         /// <summary>
         /// The matched versions are the root of the comparing file or fragments (it is required for "Minimun Conforming Edit Script"),
         /// </summary>
-        RootsAlwaysMatch = 4,
+        RootsAlwaysMatch = 7,
 
-        Similarity = 5
+        Similarity = 8
     }
 }

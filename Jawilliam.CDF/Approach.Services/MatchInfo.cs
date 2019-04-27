@@ -1,7 +1,7 @@
 ﻿namespace Jawilliam.CDF.Approach.Services
 {
     /// <summary>
-    /// Contains informations associated to a matching criterion.
+    /// Contains information associated to a matching criterion.
     /// </summary>
     /// <typeparam name="TElement">Type of the supported elements.</typeparam>
     public class MatchInfo<TElement> : RevisionPair<TElement>

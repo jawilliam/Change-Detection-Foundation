@@ -85,24 +85,18 @@ using Jawilliam.CDF.Approach.Flad;
 using Jawilliam.CDF.Approach.Awareness;
 using Jawilliam.CDF.Approach;
 using Jawilliam.CDF.Approach.Services;
+using Jawilliam.CDF.Approach.Criterions;
 
 <#
 BeginNamespace(namespaceName, code);
 
 #>
-partial class SyntaxTokenServiceProvider : INameEqualityCondition<SyntaxToken, SyntaxToken>
-{
-    
-}
-
-partial class LanguageServiceProvider
-{
-	
-}
+partial class SyntaxTokenServiceProvider : INameEqualityCondition<SyntaxToken, SyntaxToken> { }
+partial class LanguageServiceProvider { }
 
 <#
 
-var nameProviders = xSyntaxTypeSystem.Nodes.Type.Where(t => !t.@abstract && t.Properties.Property.Any(p => p.Abstraction?.Name?.Equality?.full ?? false)).ToList();
+var tunnelingProviders = xSyntaxTypeSystem.Nodes.Type.Where(t => !t.@abstract && t.Properties.Property.Any(p => p.Pairwise?.Matching?.tunneling ?? false)).ToList();
 
 foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
 .Where(n => !object.Equals(n.Root.Label, "SyntaxNode") && 
@@ -111,9 +105,12 @@ foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
 	//manager.StartNewFile(syntaxNode.Root.Label + ".cs");
 
 	var xSyntaxNodeType = xSyntaxTypeSystem.Nodes.Type.SingleOrDefault(n => n.name == syntaxNode.Root.Label.ToString());
-	if(xSyntaxNodeType == null) continue;
+	if(xSyntaxNodeType == null || !tunnelingProviders.Any(t => t == xSyntaxNodeType)) 
+		continue;
 
-	if(!xSyntaxNodeType.Properties?.Property?.Any() ?? true) continue;
+	var tunnelingProperties = xSyntaxNodeType.Properties.Property.Where(p => p.Pairwise?.Matching?.tunneling ?? false).ToList();
+	if(!tunnelingProperties.Any())
+		continue;
 
 	var xSyntaxNodeBaseType = xSyntaxNodeType != null && xSyntaxNodeType.@base != null ?
 	 xSyntaxTypeSystem.Nodes.Type.SingleOrDefault(n => n.name == xSyntaxNodeType.@base) 
@@ -145,69 +142,109 @@ foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
 	{
 		var baseDeclarationText = xSyntaxNodeBaseType == null ? "Jawilliam.CDF.Domain.ElementTypeServiceProvider" : code.Escape(xSyntaxNodeBaseType.name.ToString()).Replace("Syntax", "") + "ServiceProvider";
 #>
-partial class <#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>ServiceProvider : IPairwisable<SyntaxNodeOrToken?, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>>
+partial class <#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>ServiceProvider : IPartnership<SyntaxNodeOrToken?, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>>
 {
-    /// <summary>
-    /// Method hook for implementing logic to execute before the <see cref="Partners(IApproach{SyntaxNodeOrToken?}, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>)"/>.
+	/// <summary>
+    /// Method hook for implementing logic to execute before the <see cref="NameExactlyEqualCore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>)"/>.
     /// </summary>
-    /// <param name="original">original element.</param>
-    /// <param name="modified">modified element.</param>
-    /// <param name="approach">solution being executed.</param>
-    /// <param name="ignoreCore">If true, the <see cref="PartnersCore(IApproach{SyntaxNodeOrToken?}, ForEachVariableStatementSyntax, ForEachVariableStatementSyntax)"/> and <see cref="PartnersAfter(IApproach{TElement}, ForEachVariableStatementSyntax, ForEachVariableStatementSyntax)"/> are not executed.</param>
-    partial void PartnersBefore(IApproach<SyntaxNodeOrToken?> approach, <#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= code.Escape(syntaxNode.Root.Label.ToString()) #> modified, ref bool ignoreCore);
+    /// <param name="original">the original version.</param>
+    /// <param name="modified">the modified version.</param>
+    /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+    /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+    /// <param name="result">Mechanism to modify the result of <see cref="IPartnership{SyntaxNodeOrToken?, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>}.Partners(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+    /// <param name="ignoreCore">If true, the <see cref="PartnersCore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="IPartnership{SyntaxNodeOrToken?, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>}.Partners(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+    partial void PartnersBefore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= code.Escape(syntaxNode.Root.Label.ToString()) #> modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
     
     /// <summary>
-    /// Method hook for implementing logic to execute after the <see cref="Partners(IApproach{SyntaxNodeOrToken?}, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>)"/>.
+    /// Method hook for implementing logic to execute after the <see cref="NameExactlyEqualCore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>)"/>.
     /// </summary>
-    /// <param name="original">original element.</param>
-    /// <param name="modified">modified element.</param>
-    /// <param name="approach">solution being executed.</param>
-    partial void PartnersAfter(IApproach<SyntaxNodeOrToken?> approach, <#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= code.Escape(syntaxNode.Root.Label.ToString()) #> modified);
+    /// <param name="original">the original version.</param>
+    /// <param name="modified">the modified version.</param>
+    /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+    /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+    /// <param name="result">Mechanism to modify the result of <see cref="IPartnership{SyntaxNodeOrToken?, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>}.Partners(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+    partial void PartnersAfter(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= code.Escape(syntaxNode.Root.Label.ToString()) #> modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
 
     /// <summary>
-    /// Core logic of <see cref="Partners(IApproach{SyntaxNodeOrToken?}, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>)"/>.
+    /// Determines if two <see cref="<#= code.Escape(syntaxNode.Root.Label.ToString()) #>"/> elements are name-based exactly equal.
     /// </summary>
-    /// <param name="original">original element.</param>
-    /// <param name="modified">modified element.</param>
-    /// <param name="approach">solution being executed.</param>
-    protected virtual void PartnersCore(IApproach<SyntaxNodeOrToken?> approach, <#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= code.Escape(syntaxNode.Root.Label.ToString()) #> modified)
-    {
+    /// <param name="original">the original version.</param>
+    /// <param name="modified">the modified version.</param>
+    /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+    /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+    /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+    /// <remarks>This is the default implementation for <see cref="IPartnership{SyntaxNodeOrToken?, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>}.Partners(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
+    protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PartnersCore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= code.Escape(syntaxNode.Root.Label.ToString()) #> modified, MatchingContext<SyntaxNodeOrToken?> context)
+	{
 		if(original == null) 
 			throw new ArgumentNullException(nameof(original));
 
 		if(modified == null) 
 			throw new ArgumentNullException(nameof(modified));
 
-		var matchingSet = approach.MatchingSet();
+		var matchingSet = context.Approach.MatchingSet();
+		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
 <#
-	for (int i = 0; i < currentPropertiesMetadata.Count(); i++)
+	for (int i = 0; i < tunnelingProperties.Count(); i++)
 	{
-		var currentProperty = currentPropertiesMetadata[i];
-		if(currentProperty.Item2.kind == "Token" && currentProperty.Item2.readOnly)
+		var tunnelingProperty = currentPropertiesMetadata.Single(p => tunnelingProperties[i].name == p.Item2.name);
+		if(tunnelingProperty.Item2.optional)
 		{
 #>
-		matchingSet.Partners(original.<#= currentProperty.Item2.name #>, modified.<#= currentProperty.Item2.name #>);
+
+		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+		{
+		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+		    Original = original.<#= tunnelingProperty.Item2.name #>,
+		    Modified = modified.<#= tunnelingProperty.Item2.name #>
+		};
+		if(original.<#= tunnelingProperty.Item2.name #> != null && modified.<#= tunnelingProperty.Item2.name #> != null)
+		{
+    		if(matchingSet.PartnersIfAvailable(matchInfo))
+				yield return matchInfo;
+		}
+		else if(original.<#= tunnelingProperty.Item2.name #> != null)
+			matchingSet.Originals.DisableMatching(original.<#= tunnelingProperty.Item2.name #>);
+		else
+			matchingSet.Modifieds.DisableMatching(modified.<#= tunnelingProperty.Item2.name #>);
+<#
+		}
+		else
+		{
+#>
+
+		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+		{
+		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+		    Original = original.<#= tunnelingProperty.Item2.name #>,
+		    Modified = modified.<#= tunnelingProperty.Item2.name #>
+		};
+    	if(matchingSet.PartnersIfAvailable(matchInfo))
+				yield return matchInfo;
 <#
 		}
 	}
 #>
-	}
+	}    
 
 	/// <summary>
-    /// Notifies that two given versions have been definitively matched.
+    /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
     /// </summary>
-    /// <param name="original">original element.</param>
-    /// <param name="modified">modified element.</param>
-    /// <param name="approach">solution being executed.</param>
-    public void Partners(IApproach<SyntaxNodeOrToken?> approach, <#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= code.Escape(syntaxNode.Root.Label.ToString()) #> modified)
+    /// <param name="original">the original version.</param>
+    /// <param name="modified">the modified version.</param>
+    /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+    /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+    IEnumerable<MatchInfo<SyntaxNodeOrToken?>> IPartnership<SyntaxNodeOrToken?, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>>.Partners(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= code.Escape(syntaxNode.Root.Label.ToString()) #> modified, MatchingContext<SyntaxNodeOrToken?> context)
 	{
-		bool ignoreCore = false;
-		this.PartnersBefore(approach, original, modified, ref ignoreCore);
+		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
+		var ignoreCore = false;
+		PartnersBefore(original, modified, context, ref result, ref ignoreCore);
 		if(ignoreCore) 
-			return;
+			return result;
 		
-		this.PartnersCore(approach, original, modified);
-		this.PartnersAfter(approach, original, modified);
+		result = this.PartnersCore(original, modified, context);
+		PartnersAfter(original, modified, context, ref result);
+		return result;
 	}
 }
 

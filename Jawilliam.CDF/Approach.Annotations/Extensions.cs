@@ -104,5 +104,16 @@ namespace Jawilliam.CDF.Approach.Annotations
         {
             annotation.EssentialHash = hash;
         }
+
+        /// <summary>
+        /// Gets the matching partner of the extended element or null if it does not have anyone yet. 
+        /// </summary>
+        public static TElement Partner<TElement, TAnnotation>(this TAnnotation source) where TAnnotation : IMatchingAnnotation<TElement>, IElementAnnotation<TElement>
+        {
+            if (source.Match == null)
+                return default(TElement);
+
+            return object.Equals(source.Element, source.Match.Original) ? source.Match.Modified : source.Match.Original;
+        }
     }
 }

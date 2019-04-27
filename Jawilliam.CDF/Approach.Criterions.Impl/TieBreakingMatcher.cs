@@ -45,14 +45,13 @@ namespace Jawilliam.CDF.Approach.Criterions.Impl
         /// Discovers the candidate matches of a given node.
         /// </summary>
         /// <param name="original">the original version.</param>
-        /// <param name="originalContext">the original context (e.g., the root of the original AST).</param>
-        /// <param name="modifiedContext">the modified context (e.g., the root of the modified AST).</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>candidate matches for the given node.</returns>
-        public override IEnumerable<MatchInfo<TElement>> Matches(TElement original, TElement originalContext, TElement modifiedContext)
+        public override IEnumerable<MatchInfo<TElement>> Matches(TElement original, MatchingContext<TElement> context)
         {
             //if (this.ServiceLocator.HierarchicalAbstraction().IsLeaf(original))
             //    yield break;
-            if (object.Equals(original, originalContext))
+            if (object.Equals(original, context.LScope.Original))
             {
                 foreach (var o in original.BreadthFirstOrder(this.ServiceLocator.HierarchicalAbstraction().Children))
                 {
@@ -72,10 +71,9 @@ namespace Jawilliam.CDF.Approach.Criterions.Impl
         /// Tries to identify a best match among multiple candidate matches. 
         /// </summary>
         /// <param name="candidates">candidate matches.</param>
-        /// <param name="originalContext">the original context (e.g., the root of the original AST).</param>
-        /// <param name="modifiedContext">the modified context (e.g., the root of the modified AST).</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>the best match if it was possible to identify some one, null otherwise.</returns>
-        public override MatchInfo<TElement> TieBreak(IEnumerable<MatchInfo<TElement>> candidates, TElement originalContext, TElement modifiedContext)
+        public override MatchInfo<TElement> TieBreak(IEnumerable<MatchInfo<TElement>> candidates, MatchingContext<TElement> context)
         {
             if (candidates?.Count() == 1)
                 return candidates.Single();
@@ -97,6 +95,63 @@ namespace Jawilliam.CDF.Approach.Criterions.Impl
             return candidateSimilarities/*.Where(c => c.Similarity > 0.5)*/.OrderByDescending(c => c.Similarity).ThenByDescending(c => c.Size).FirstOrDefault()?.Candidate;
             //return new SimilarityMatchInfo<TElement>((int)MatchInfoId.Similarity) { Original = higherMatch.Candidate.Original, Modified = higherMatch.Candidate.Modified, Value = higherMatch.Similarity };
         }
+
+        ///// <summary>
+        ///// Discovers the candidate matches of a given node.
+        ///// </summary>
+        ///// <param name="original">the original version.</param>
+        ///// <param name="originalContext">the original context (e.g., the root of the original AST).</param>
+        ///// <param name="modifiedContext">the modified context (e.g., the root of the modified AST).</param>
+        ///// <returns>candidate matches for the given node.</returns>
+        //public override IEnumerable<MatchInfo<TElement>> Matches(TElement original, TElement originalContext, TElement modifiedContext)
+        //{
+        //    //if (this.ServiceLocator.HierarchicalAbstraction().IsLeaf(original))
+        //    //    yield break;
+        //    if (object.Equals(original, originalContext))
+        //    {
+        //        foreach (var o in original.BreadthFirstOrder(this.ServiceLocator.HierarchicalAbstraction().Children))
+        //        {
+        //            var oAnnotation = this.ServiceLocator.Original<TElement, TAnnotation>(o);
+        //            if (oAnnotation.Candidates?.Count > 1)
+        //            {
+        //                foreach (var c in oAnnotation.Candidates)
+        //                {
+        //                    yield return c;
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
+
+        ///// <summary>
+        ///// Tries to identify a best match among multiple candidate matches. 
+        ///// </summary>
+        ///// <param name="candidates">candidate matches.</param>
+        ///// <param name="originalContext">the original context (e.g., the root of the original AST).</param>
+        ///// <param name="modifiedContext">the modified context (e.g., the root of the modified AST).</param>
+        ///// <returns>the best match if it was possible to identify some one, null otherwise.</returns>
+        //public override MatchInfo<TElement> TieBreak(IEnumerable<MatchInfo<TElement>> candidates, TElement originalContext, TElement modifiedContext)
+        //{
+        //    if (candidates?.Count() == 1)
+        //        return candidates.Single();
+
+        //    var matchingSet = this.ServiceLocator.MatchingSet();
+        //    var hierarchicalAbstraction = this.ServiceLocator.HierarchicalAbstraction();
+
+        //    var candidateSimilarities = from c in candidates.Where(c => c.Criterion == (int)MatchInfoCriterions.IdenticalFullHash)
+        //                                let pOriginalAnnotation = this.ServiceLocator.Original<TElement, TAnnotation>(hierarchicalAbstraction.Parent(c.Original))
+        //                                let pModifiedAnnotation = this.ServiceLocator.Modified<TElement, TAnnotation>(hierarchicalAbstraction.Parent(c.Modified))
+        //                                select new
+        //                                {
+        //                                    Candidate = c,
+        //                                    Similarity = this.Criterion.GetSimilarity(pOriginalAnnotation.Element.Leaves(hierarchicalAbstraction.Children, hierarchicalAbstraction.IsLeaf),
+        //                                                                              pModifiedAnnotation.Element.Leaves(hierarchicalAbstraction.Children, hierarchicalAbstraction.IsLeaf)),
+        //                                    pModifiedAnnotation.Size
+        //                                };
+
+        //    return candidateSimilarities/*.Where(c => c.Similarity > 0.5)*/.OrderByDescending(c => c.Similarity).ThenByDescending(c => c.Size).FirstOrDefault()?.Candidate;
+        //    //return new SimilarityMatchInfo<TElement>((int)MatchInfoId.Similarity) { Original = higherMatch.Candidate.Original, Modified = higherMatch.Candidate.Modified, Value = higherMatch.Similarity };
+        //}
 
         ///// <summary>
         ///// Discovers the candidate matches of a given node.
@@ -150,18 +205,31 @@ namespace Jawilliam.CDF.Approach.Criterions.Impl
         //    //return new SimilarityMatchInfo<TElement>((int)MatchInfoId.Similarity) { Original = higherMatch.Candidate.Original, Modified = higherMatch.Candidate.Modified, Value = higherMatch.Similarity };
         //}
 
+        ///// <summary>
+        ///// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
+        ///// </summary>
+        ///// <param name="original">the original version.</param>
+        ///// <param name="modified">the modified version.</param>
+        ///// <param name="originalContext">the original context (e.g., the root of the original AST).</param>
+        ///// <param name="modifiedContext">the modified context (e.g., the root of the modified AST).</param>
+        ///// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        //public override IEnumerable<MatchInfo<TElement>> Partners(TElement original, TElement modified, TElement originalContext, TElement modifiedContext)
+        //{
+        //    var hierarchicalAbstraction = this.ServiceLocator.GetServiceOrThrowsException<IHierarchicalAbstractionService<TElement>>((int)ServiceId.HierarchicalAbstraction);
+        //    return this.IdenticalSubtreePartners(original, modified, originalContext, modifiedContext);
+        //}
+
         /// <summary>
         /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
         /// </summary>
         /// <param name="original">the original version.</param>
         /// <param name="modified">the modified version.</param>
-        /// <param name="originalContext">the original context (e.g., the root of the original AST).</param>
-        /// <param name="modifiedContext">the modified context (e.g., the root of the modified AST).</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        public override IEnumerable<MatchInfo<TElement>> Partners(TElement original, TElement modified, TElement originalContext, TElement modifiedContext)
+        public override IEnumerable<MatchInfo<TElement>> Partners(TElement original, TElement modified, MatchingContext<TElement> context)
         {
             var hierarchicalAbstraction = this.ServiceLocator.GetServiceOrThrowsException<IHierarchicalAbstractionService<TElement>>((int)ServiceId.HierarchicalAbstraction);
-            return this.IdenticalSubtreePartners(original, modified, originalContext, modifiedContext);
+            return this.IdenticalSubtreePartners(original, modified, context);
         }
     }
 }

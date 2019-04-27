@@ -34,7 +34,7 @@ namespace Jawilliam.CDF.Approach.Choices
 
         internal bool LCSEqual(TElement original, TElement modified)
         {
-            return object.Equals(this.Approach.Original<TElement, TAnnotation>(original).Partner, modified) && modified != null;
+            return object.Equals(this.Approach.Original<TElement, TAnnotation>(original).Partner<TElement, TAnnotation>(), modified) && modified != null;
         }
 
         /// <summary>
@@ -68,21 +68,21 @@ namespace Jawilliam.CDF.Approach.Choices
                 var matchingSet = this.Approach.MatchingSet();
 
                 this.PartialMatchingSet = this.Approach.Originals<TElement, TAnnotation>().Annotations.Values
-                    .Where(o => !matchingSet.UnmatchedOriginal(o.Element))
-                    .Select(o => (Original: o.Element, Modified: o.Partner))
+                    .Where(o => !matchingSet.Originals.Unmatched(o.Element))
+                    .Select(o => (Original: o.Element, Modified: o.Partner<TElement, TAnnotation>()))
                     .ToList();
 
                 foreach (var modified in this.Approach.Result.Modified.BreadthFirstOrder(editScript.ModifiedsHierarchicalAbstraction.Children))
                 {
                     var mAnnotation = this.Approach.Modified<TElement, TAnnotation>(modified);
-                    if (matchingSet.UnmatchedModified(modified)) // x has not partner in M
+                    if (matchingSet.Modifieds.Unmatched(modified)) // x has not partner in M
                     {
                         var kPosition = this.FindPosition(modified);
-                        var mParent = this.Approach.Modified<TElement, TAnnotation>(editScript.ModifiedsHierarchicalAbstraction.Parent(modified)).Partner;
+                        var mParent = this.Approach.Modified<TElement, TAnnotation>(editScript.ModifiedsHierarchicalAbstraction.Parent(modified)).Partner<TElement, TAnnotation>();
                         editScript.Insert(modified, kPosition, mParent);
 
-                        var oAnnotation = this.Approach.Original<TElement, TAnnotation>(mAnnotation.Partner);
-                        Debug.Assert(mAnnotation.Partner != null);
+                        var oAnnotation = this.Approach.Original<TElement, TAnnotation>(mAnnotation.Partner<TElement, TAnnotation>());
+                        Debug.Assert(mAnnotation.Partner<TElement, TAnnotation>() != null);
                         Debug.Assert(oAnnotation != null);
                         oAnnotation.InOrder = true;
                         mAnnotation.InOrder = true;
@@ -92,7 +92,7 @@ namespace Jawilliam.CDF.Approach.Choices
                         var modifiedParent = editScript.ModifiedsHierarchicalAbstraction.Parent(modified);
                         if (modifiedParent != null) // x is not the root
                         {
-                            var original = mAnnotation.Partner;
+                            var original = mAnnotation.Partner<TElement, TAnnotation>();
                             var originalValue = editScript.OriginalsHierarchicalAbstraction.Value(original);
                             var modifiedValue = editScript.ModifiedsHierarchicalAbstraction.Value(modified);
 
@@ -102,10 +102,10 @@ namespace Jawilliam.CDF.Approach.Choices
                                 editScript.Update(original, modified);
                             }
 
-                            if (!object.Equals(this.Approach.Original<TElement, TAnnotation>(editScript.OriginalsHierarchicalAbstraction.Parent(original)).Partner, modifiedParent)) // <p(x),p(y)> doesn't belong to M
+                            if (!object.Equals(this.Approach.Original<TElement, TAnnotation>(editScript.OriginalsHierarchicalAbstraction.Parent(original)).Partner<TElement, TAnnotation>(), modifiedParent)) // <p(x),p(y)> doesn't belong to M
                             {
                                 var kPosition = this.FindPosition(modified);
-                                editScript.Move(original, kPosition, this.Approach.Modified<TElement, TAnnotation>(modifiedParent).Partner);
+                                editScript.Move(original, kPosition, this.Approach.Modified<TElement, TAnnotation>(modifiedParent).Partner<TElement, TAnnotation>());
 
                                 var oAnnotation = this.Approach.Original<TElement, TAnnotation>(original);
                                 oAnnotation.InOrder = true;
@@ -113,10 +113,10 @@ namespace Jawilliam.CDF.Approach.Choices
                             }
                         }
                     }
-                    this.AlignChildren(mAnnotation.Partner, modified);
+                    this.AlignChildren(mAnnotation.Partner<TElement, TAnnotation>(), modified);
                 }
 
-                foreach (var original in this.Approach.Result.Original.PostOrder(editScript.OriginalsHierarchicalAbstraction.Children).Where(matchingSet.UnmatchedOriginal).ToList())
+                foreach (var original in this.Approach.Result.Original.PostOrder(editScript.OriginalsHierarchicalAbstraction.Children).Where(matchingSet.Originals.Unmatched).ToList())
                 {
                     editScript.Delete(original);
                 }
@@ -164,12 +164,12 @@ namespace Jawilliam.CDF.Approach.Choices
             // let S1 be the sequence of children of w whose partners are children of x.
             var s1 = (from oChild in originalChildren
                       let oChildAnnotation = this.Approach.Original<TElement, TAnnotation>(oChild)
-                      where oChildAnnotation.Partner != null && object.Equals(editScript.ModifiedsHierarchicalAbstraction.Parent(oChildAnnotation.Partner), modifiedParent)
+                      where oChildAnnotation.Partner<TElement, TAnnotation>() != null && object.Equals(editScript.ModifiedsHierarchicalAbstraction.Parent(oChildAnnotation.Partner<TElement, TAnnotation>()), modifiedParent)
                       select oChild).ToList();
             // let S2 be the sequence of children of x whose partners are children of w.
             var s2 = (from mChild in modifiedChildren
                       let mChildAnnotation = this.Approach.Modified<TElement, TAnnotation>(mChild)
-                      where mChildAnnotation.Partner != null && object.Equals(editScript.OriginalsHierarchicalAbstraction.Parent(mChildAnnotation.Partner), originalParent)
+                      where mChildAnnotation.Partner<TElement, TAnnotation>() != null && object.Equals(editScript.OriginalsHierarchicalAbstraction.Parent(mChildAnnotation.Partner<TElement, TAnnotation>()), originalParent)
                       select mChild).ToList();
             var s = (from match in this.LCS(s1, s2)
                      where match.Kind == MyersLCS<TElement>.CommandKind.Match
@@ -215,7 +215,7 @@ namespace Jawilliam.CDF.Approach.Choices
             if (rightMostInOrder == null)
                 return 0;
 
-            var partnerOfRightMostInOrder = this.Approach.Modified<TElement, TAnnotation>(rightMostInOrder).Partner;
+            var partnerOfRightMostInOrder = this.Approach.Modified<TElement, TAnnotation>(rightMostInOrder).Partner<TElement, TAnnotation>();
 
             // the ith child of the parent of u (from left to right) that is marked "in order".
             return editScript.OriginalsHierarchicalAbstraction.Children(editScript.OriginalsHierarchicalAbstraction.Parent(partnerOfRightMostInOrder))

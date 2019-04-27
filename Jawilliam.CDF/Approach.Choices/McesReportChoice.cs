@@ -45,7 +45,7 @@ namespace Jawilliam.CDF.Approach.Choices
             var textualAbstraction = this.Approach.TextualAbstraction();
             foreach (var modified in this.Approach.Result.Modified.BreadthFirstOrder(hierarchicalAbstraction.Children))
             {
-                var original = this.Approach.Modified<TElement, TAnnotation>(modified).Partner;
+                var original = this.Approach.Modified<TElement, TAnnotation>(modified).Partner<TElement, TAnnotation>();
                 var oAnnotation = this.Approach.Original<TElement, TAnnotation>(original);
 
                 // Inserts
@@ -142,9 +142,9 @@ namespace Jawilliam.CDF.Approach.Choices
             foreach (var original in this.Approach.Result.Original.PreOrder(hierarchicalAbstraction.Children))
             {
                 var oAnnotation = this.Approach.Original<TElement, TAnnotation>(original);
-                if (oAnnotation.Partner != null)
+                if (oAnnotation.Partner<TElement, TAnnotation>() != null)
                 {
-                    var mAnnotation = this.Approach.Modified<TElement, TAnnotation>(oAnnotation.Partner);
+                    var mAnnotation = this.Approach.Modified<TElement, TAnnotation>(oAnnotation.Partner<TElement, TAnnotation>());
                     this.Approach.Result.Matches.Add(new MatchDescriptor
                     {
                         Original = new ElementVersion
@@ -156,8 +156,8 @@ namespace Jawilliam.CDF.Approach.Choices
                         Modified = new ElementVersion
                         {
                             Id = ((IElementAnnotation<TElement>)mAnnotation).Id.ToString(CultureInfo.InvariantCulture),
-                            Label = hierarchicalAbstraction.Label(oAnnotation.Partner).ToString(CultureInfo.InvariantCulture),
-                            Value = textualAbstraction.FullText(oAnnotation.Partner)
+                            Label = hierarchicalAbstraction.Label(oAnnotation.Partner<TElement, TAnnotation>()).ToString(CultureInfo.InvariantCulture),
+                            Value = textualAbstraction.FullText(oAnnotation.Partner<TElement, TAnnotation>())
                         }
                     });
                 }

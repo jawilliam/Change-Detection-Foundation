@@ -65,6 +65,8 @@
     <Compile Include="Approach.Annotations\IHierarchicalAbstractionAnnotation.cs" />
     <Compile Include="Approach.Annotations\IHierarchicalStructureAnnotation.cs" />
     <Compile Include="Approach.Annotations\IMcesAnnotation.cs" />
+    <Compile Include="Approach.Awareness\IPartnership.cs" />
+    <Compile Include="Approach.Awareness\PairwiseMatchInfo.cs" />
     <Compile Include="Approach.Choices\MatchingTieBreakChoice.cs" />
     <Compile Include="Approach.Choices\TieBreakMatchingChoice.cs" />
     <Compile Include="Approach.Choices\McesDifferencingChoice.cs" />
@@ -118,6 +120,7 @@
     <Compile Include="Approach.Criterions.Simetric\SubCostRange5ToMinus3.cs" />
     <Compile Include="Approach.Criterions.Simetric\VectorComponents.cs" />
     <Compile Include="Approach.Criterions.Simetric\VectorSimetric.cs" />
+    <Compile Include="Approach.Criterions\MatchingContext.cs" />
     <Compile Include="Approach.Impl\MyersLCS.cs" />
     <Compile Include="Approach.Services.Impl\EditScriptService.cs" />
     <Compile Include="Approach.Services.Impl\HashingService.cs" />
@@ -146,7 +149,6 @@
     <Compile Include="Approach.Flad\IEqualityCondition.cs" />
     <Compile Include="Approach.Services\MatchInfo.cs" />
     <Compile Include="Approach.Services\ServiceId.cs" />
-    <Compile Include="Approach.Criterions.Impl\MatchingCriterionIds.cs" />
     <Compile Include="Approach.GumTree\GumTreeNativeApproach.cs" />
     <Compile Include="Actions\ActionDescriptor.cs" />
     <Compile Include="Actions\ActionKind.cs" />
@@ -168,6 +170,7 @@
     <Compile Include="Approach.Flad\StepInfo.cs" />
     <Compile Include="Approach.Services.Impl\Service.cs" />
     <Compile Include="Approach.Annotations.Impl\AnnotationSetService.cs" />
+    <Compile Include="Approach\RuntimeContext.cs" />
     <Compile Include="DomainExtensions.cs" />
     <Compile Include="Domain\IDifferentiable.cs" />
     <Compile Include="Domain\IElementType.cs" />

@@ -15,13 +15,19 @@ namespace Jawilliam.CDF.Approach.Annotations
         HashSet<MatchInfo<TElement>> Candidates { get; set; }
 
         /// <summary>
+        /// Gets or sets if, in case that the extended element has not matching partner yet, it can be matched.
+        /// </summary>
+        /// <remarks>Consider </remarks>
+        bool CanMatch { get; set; }
+
+        /// <summary>
         /// Gets or sets the discovered match for the extended element. 
         /// </summary>
         MatchInfo<TElement> Match { get; set; }
 
-        /// <summary>
-        /// Gets the matching partner of the extended element or null if it does not have anyone yet. 
-        /// </summary>
-        TElement Partner { get; }
+        ///// <summary>
+        ///// Gets the matching partner of the extended element or null if it does not have anyone yet. 
+        ///// </summary>
+        //TElement Partner { get; }
     }
 }

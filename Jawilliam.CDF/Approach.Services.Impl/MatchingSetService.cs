@@ -135,44 +135,137 @@ namespace Jawilliam.CDF.Approach.Services.Impl
             Debug.Assert(object.Equals(originals.Annotations[matchInfo.Original].Match.Modified, matchInfo.Modified));
         }
 
+        ///// <summary>
+        ///// Informs if an original version has not (candidate) matches.
+        ///// </summary>
+        ///// <param name="element">original version.</param>
+        ///// <returns>true if the original version has not matches, false otherwise.</returns>
+        //public virtual bool UnpairedOriginal(TElement element)
+        //{
+        //    return this.ServiceLocator.Original<TElement, TAnnotation>(element).Candidates.Count == 0;
+        //}
+
+        ///// <summary>
+        ///// Informs if an modified version has not (candidate) matches.
+        ///// </summary>
+        ///// <param name="element">modified version.</param>
+        ///// <returns>true if the modified version has not matches, false otherwise.</returns>
+        //public virtual bool UnpairedModified(TElement element)
+        //{
+        //    return this.ServiceLocator.Modified<TElement, TAnnotation>(element).Candidates.Count == 0;
+        //}
+
+        ///// <summary>
+        ///// Informs if an original version has not matching partner.
+        ///// </summary>
+        ///// <param name="element">original version.</param>
+        ///// <returns>true if the original version has not matching partner, false otherwise.</returns>
+        //public virtual bool UnmatchedOriginal(TElement element)
+        //{
+        //    return this.ServiceLocator.Original<TElement, TAnnotation>(element).Match == null;
+        //}
+
+        ///// <summary>
+        ///// Informs if an modified version has not matching partner.
+        ///// </summary>
+        ///// <param name="element">modified version.</param>
+        ///// <returns>true if the modified version has not matching partner, false otherwise.</returns>
+        //public virtual bool UnmatchedModified(TElement element)
+        //{
+        //    return this.ServiceLocator.Modified<TElement, TAnnotation>(element).Match == null;
+        //}
+
         /// <summary>
-        /// Informs if an original version has not (candidate) matches.
+        /// Stores the value of <see cref="Originals"/>.
         /// </summary>
-        /// <param name="element">original version.</param>
-        /// <returns>true if the original version has not matches, false otherwise.</returns>
-        public virtual bool UnpairedOriginal(TElement element)
+        private IMatchingVersionService<TElement> _originals;
+
+        /// <summary>
+        /// Exposes matching set functionalities related to the original elements.
+        /// </summary>
+        public virtual IMatchingVersionService<TElement> Originals
         {
-            return this.ServiceLocator.Original<TElement, TAnnotation>(element).Candidates.Count == 0;
+            get { return this._originals ?? (this._originals = new MatchingVersionService(this, (TElement element) => this.ServiceLocator.Original<TElement, TAnnotation>(element))); }
         }
 
         /// <summary>
-        /// Informs if an modified version has not (candidate) matches.
+        /// Stores the value of <see cref="Modifieds"/>.
         /// </summary>
-        /// <param name="element">modified version.</param>
-        /// <returns>true if the modified version has not matches, false otherwise.</returns>
-        public virtual bool UnpairedModified(TElement element)
+        private IMatchingVersionService<TElement> _modifieds;
+
+        /// <summary>
+        /// Exposes matching set functionalities related to the modified elements.
+        /// </summary>
+        public virtual IMatchingVersionService<TElement> Modifieds
         {
-            return this.ServiceLocator.Modified<TElement, TAnnotation>(element).Candidates.Count == 0;
+            get { return this._modifieds ?? (this._modifieds = new MatchingVersionService(this, (TElement element) => this.ServiceLocator.Modified<TElement, TAnnotation>(element))); }
         }
 
         /// <summary>
-        /// Informs if an original version has not matching partner.
+        /// Implements the logic of <see cref="IMatchingVersionService{TElement}"/> internally used by a <see cref="MatchingSetService{TElement, TAnnotation}"/>.
         /// </summary>
-        /// <param name="element">original version.</param>
-        /// <returns>true if the original version has not matching partner, false otherwise.</returns>
-        public virtual bool UnmatchedOriginal(TElement element)
+        protected class MatchingVersionService : IMatchingVersionService<TElement>
         {
-            return this.ServiceLocator.Original<TElement, TAnnotation>(element).Match == null;
-        }
+            /// <summary>
+            /// Initializes the instance.
+            /// </summary>
+            /// <param name="matchingSet">container matching set.</param>
+            /// <param name="getVersion">Logic to access the annotation corresponding to a given element.</param>
+            public MatchingVersionService(MatchingSetService<TElement, TAnnotation> matchingSet, Func<TElement, TAnnotation> getVersion)
+            {
+                this.MatchingSet = matchingSet ?? throw new ArgumentNullException(nameof(matchingSet));
+                this.GetVersion = getVersion ?? throw new ArgumentNullException(nameof(getVersion));
+            }
 
-        /// <summary>
-        /// Informs if an modified version has not matching partner.
-        /// </summary>
-        /// <param name="element">modified version.</param>
-        /// <returns>true if the modified version has not matching partner, false otherwise.</returns>
-        public virtual bool UnmatchedModified(TElement element)
-        {
-            return this.ServiceLocator.Modified<TElement, TAnnotation>(element).Match == null;
+            /// <summary>
+            /// Gets the container matching set.
+            /// </summary>
+            public MatchingSetService<TElement, TAnnotation> MatchingSet { get; private set; }
+
+            /// <summary>
+            /// Gets the annotation corresponding to a given element.
+            /// </summary>
+            public Func<TElement, TAnnotation> GetVersion { get; private set; }
+
+            /// <summary>
+            /// Informs if an element has not (candidate) matches.
+            /// </summary>
+            /// <param name="element">element of interest.</param>
+            /// <returns>true if the element has not matches, false otherwise.</returns>
+            public virtual bool Unpaired(TElement element)
+            {
+                return this.GetVersion(element).Candidates.Count == 0;
+            }
+
+            /// <summary>
+            /// Informs if an version has not matching partner.
+            /// </summary>
+            /// <param name="element">element of interest.</param>
+            /// <returns>true if the element has not matching partner, false otherwise.</returns>
+            public virtual bool Unmatched(TElement element)
+            {
+                return this.GetVersion(element).Match == null;
+            }
+
+            /// <summary>
+            /// Disables any possibility of matching the given element.
+            /// </summary>
+            /// <param name="element">element of interest.</param>
+            /// <remarks>this is the inverse of <see cref="EnableMatching(TElement)"/>.</remarks>
+            public virtual void DisableMatching(TElement element)
+            {
+                this.GetVersion(element).CanMatch = false;
+            }
+
+            /// <summary>
+            /// Enables the given element to be matched.
+            /// </summary>
+            /// <param name="element">element of interest.</param>
+            /// <remarks>this is the inverse of <see cref="DisableMatching(TElement)"/>.</remarks>
+            public virtual void EnableMatching(TElement element)
+            {
+                this.GetVersion(element).CanMatch = true;
+            }
         }
     }
 }

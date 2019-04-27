@@ -6,13 +6,22 @@
     /// <typeparam name="TElement">Base type of the elements supported by the solution.</typeparam>
     public interface IPairwisable<TElement>
     {
-        /// <summary>
-        /// Notifies that two given elements have been definitively matched.
-        /// </summary>
-        /// <param name="original">original element.</param>
-        /// <param name="modified">modified element.</param>
-        /// <param name="approach">solution being executed.</param>
-        void Partners(IApproach<TElement> approach, TElement original, TElement modified);
+        ///// <summary>
+        ///// Notifies that two given elements have been definitively matched.
+        ///// </summary>
+        ///// <param name="original">original element.</param>
+        ///// <param name="modified">modified element.</param>
+        ///// <param name="approach">solution being executed.</param>
+        //void Partners(IApproach<TElement> approach, TElement original, TElement modified);
+
+        ///// <summary>
+        ///// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
+        ///// </summary>
+        ///// <param name="original">the original version.</param>
+        ///// <param name="modified">the modified version.</param>
+        ///// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        ///// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        //IEnumerable<MatchInfo<TElement>> Partners(TElement original, TElement modified, MatchingContext<TElement> context);
     }
 
     /// <summary>

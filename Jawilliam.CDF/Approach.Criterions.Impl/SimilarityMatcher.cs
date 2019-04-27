@@ -46,19 +46,18 @@ namespace Jawilliam.CDF.Approach.Criterions.Impl
         /// Discovers the candidate matches of a given node.
         /// </summary>
         /// <param name="original">the original version.</param>
-        /// <param name="originalContext">the original context (e.g., the root of the original AST).</param>
-        /// <param name="modifiedContext">the modified context (e.g., the root of the modified AST).</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>candidate matches for the given node.</returns>
-        public override IEnumerable<MatchInfo<TElement>> Matches(TElement original, TElement originalContext, TElement modifiedContext)
+        public override IEnumerable<MatchInfo<TElement>> Matches(TElement original, MatchingContext<TElement> context)
         {
             var semanticAbstraction = this.ServiceLocator.SemanticAbstraction();
             var matchingSet = this.ServiceLocator.MatchingSet();
-            if (!matchingSet.UnmatchedOriginal(original) || this.ServiceLocator.HierarchicalAbstraction().IsLeaf(original))
+            if (!matchingSet.Originals.Unmatched(original) || this.ServiceLocator.HierarchicalAbstraction().IsLeaf(original))
                 yield break;
 
             var hierarchicalAbstraction = this.ServiceLocator.HierarchicalAbstraction();
-            var candidateSimilarities = from m in modifiedContext.PostOrder(hierarchicalAbstraction.Children)
-                                        where matchingSet.UnmatchedModified(m) && this.Compatible(original, m) && !hierarchicalAbstraction.IsLeaf(m)
+            var candidateSimilarities = from m in context.LScope.Modified.PostOrder(hierarchicalAbstraction.Children)
+                                        where matchingSet.Modifieds.Unmatched(m) && this.Compatible(original, m) && !hierarchicalAbstraction.IsLeaf(m)
                                         //where !hierarchicalAbstraction.IsLeaf(m) && this.Compatible(original, m)
                                         select new
                                         {
@@ -82,10 +81,9 @@ namespace Jawilliam.CDF.Approach.Criterions.Impl
         /// Tries to identify a best match among multiple candidate matches. 
         /// </summary>
         /// <param name="candidates">candidate matches.</param>
-        /// <param name="originalContext">the original context (e.g., the root of the original AST).</param>
-        /// <param name="modifiedContext">the modified context (e.g., the root of the modified AST).</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>the best match if it was possible to identify some one, null otherwise.</returns>
-        public override MatchInfo<TElement> TieBreak(IEnumerable<MatchInfo<TElement>> candidates, TElement originalContext, TElement modifiedContext)
+        public override MatchInfo<TElement> TieBreak(IEnumerable<MatchInfo<TElement>> candidates, MatchingContext<TElement> context)
         {
             var matchingSet = this.ServiceLocator.MatchingSet();
             var hierarchicalAbstraction = this.ServiceLocator.HierarchicalAbstraction();
@@ -93,14 +91,75 @@ namespace Jawilliam.CDF.Approach.Criterions.Impl
             var original = candidates.First().Original;
             var oAnnotation = this.ServiceLocator.Original<TElement, TAnnotation>(original);
 
-            if (candidates.Count() > 1 && 
+            if (candidates.Count() > 1 &&
                 /*oAnnotation.Candidates.All(c => c.Criterion == (int)MatchInfoCriterions.Similarity) &&*/
                 candidates.All(c => object.Equals(c.Original, original)) /*&&
                 candidates.All(c => c.Criterion == (int)MatchInfoCriterions.Similarity)*/)
             {
                 return candidates.Cast<SimilarityMatchInfo<TElement>>().OrderByDescending(c => c.Value).First();
             }
-            else return base.TieBreak(candidates, originalContext, modifiedContext);
+            else return base.TieBreak(candidates, context);
         }
+
+        ///// <summary>
+        ///// Discovers the candidate matches of a given node.
+        ///// </summary>
+        ///// <param name="original">the original version.</param>
+        ///// <param name="originalContext">the original context (e.g., the root of the original AST).</param>
+        ///// <param name="modifiedContext">the modified context (e.g., the root of the modified AST).</param>
+        ///// <returns>candidate matches for the given node.</returns>
+        //public override IEnumerable<MatchInfo<TElement>> Matches(TElement original, TElement originalContext, TElement modifiedContext)
+        //{
+        //    var semanticAbstraction = this.ServiceLocator.SemanticAbstraction();
+        //    var matchingSet = this.ServiceLocator.MatchingSet();
+        //    if (!matchingSet.Originals.Unmatched(original) || this.ServiceLocator.HierarchicalAbstraction().IsLeaf(original))
+        //        yield break;
+
+        //    var hierarchicalAbstraction = this.ServiceLocator.HierarchicalAbstraction();
+        //    var candidateSimilarities = from m in modifiedContext.PostOrder(hierarchicalAbstraction.Children)
+        //                                where matchingSet.Modifieds.Unmatched(m) && this.Compatible(original, m) && !hierarchicalAbstraction.IsLeaf(m)
+        //                                //where !hierarchicalAbstraction.IsLeaf(m) && this.Compatible(original, m)
+        //                                select new
+        //                                {
+        //                                    Candidate = m,
+        //                                    Similarity = this.Criterion.GetSimilarity(original.Leaves(hierarchicalAbstraction.Children, hierarchicalAbstraction.IsLeaf).Where(semanticAbstraction.IsEssential),
+        //                                                                              m.Leaves(hierarchicalAbstraction.Children, hierarchicalAbstraction.IsLeaf).Where(semanticAbstraction.IsEssential))
+        //                                };
+
+        //    foreach (var c in candidateSimilarities.Where(cs => cs.Similarity > 0.5))
+        //    {
+        //        yield return new SimilarityMatchInfo<TElement>((int)MatchInfoCriterions.Similarity)
+        //        {
+        //            Original = original,
+        //            Modified = c.Candidate,
+        //            Value = c.Similarity
+        //        };
+        //    }
+        //}
+
+        ///// <summary>
+        ///// Tries to identify a best match among multiple candidate matches. 
+        ///// </summary>
+        ///// <param name="candidates">candidate matches.</param>
+        ///// <param name="originalContext">the original context (e.g., the root of the original AST).</param>
+        ///// <param name="modifiedContext">the modified context (e.g., the root of the modified AST).</param>
+        ///// <returns>the best match if it was possible to identify some one, null otherwise.</returns>
+        //public override MatchInfo<TElement> TieBreak(IEnumerable<MatchInfo<TElement>> candidates, TElement originalContext, TElement modifiedContext)
+        //{
+        //    var matchingSet = this.ServiceLocator.MatchingSet();
+        //    var hierarchicalAbstraction = this.ServiceLocator.HierarchicalAbstraction();
+
+        //    var original = candidates.First().Original;
+        //    var oAnnotation = this.ServiceLocator.Original<TElement, TAnnotation>(original);
+
+        //    if (candidates.Count() > 1 && 
+        //        /*oAnnotation.Candidates.All(c => c.Criterion == (int)MatchInfoCriterions.Similarity) &&*/
+        //        candidates.All(c => object.Equals(c.Original, original)) /*&&
+        //        candidates.All(c => c.Criterion == (int)MatchInfoCriterions.Similarity)*/)
+        //    {
+        //        return candidates.Cast<SimilarityMatchInfo<TElement>>().OrderByDescending(c => c.Value).First();
+        //    }
+        //    else return base.TieBreak(candidates, originalContext, modifiedContext);
+        //}
     }
 }

@@ -54,23 +54,29 @@ namespace Jawilliam.CDF.Approach.Annotations.Impl
         }
 
         /// <summary>
+        /// Gets or sets if, in case that the extended element has not matching partner yet, it can be matched.
+        /// </summary>
+        /// <remarks>Consider </remarks>
+        public virtual bool CanMatch { get; set; }
+
+        /// <summary>
         /// Gets or sets the discovered match for the extended element. 
         /// </summary>
         public virtual MatchInfo<TElement> Match { get; set; }
 
-        /// <summary>
-        /// Gets the matching partner of the extended element or null if it does not have anyone yet. 
-        /// </summary>
-        public virtual TElement Partner
-        {
-            get
-            {
-                if (this.Match == null)
-                    return default(TElement);
+        ///// <summary>
+        ///// Gets the matching partner of the extended element or null if it does not have anyone yet. 
+        ///// </summary>
+        //public virtual TElement Partner
+        //{
+        //    get
+        //    {
+        //        if (this.Match == null)
+        //            return default(TElement);
 
-                return object.Equals(this.Element, this.Match.Original) ? this.Match.Modified : this.Match.Original;
-            }
-        }
+        //        return object.Equals(this.Element, this.Match.Original) ? this.Match.Modified : this.Match.Original;
+        //    }
+        //}
 
         /// <summary>
         /// Gets or sets the full content hash. 
