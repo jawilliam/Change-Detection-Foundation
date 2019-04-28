@@ -67,12 +67,18 @@
 																	<xs:restriction base="xs:string">
 																		<xs:enumeration value="Expression"/>
 																		<xs:enumeration value="Token"/>
-																		<xs:enumeration value="Keyword"/>
-																		<xs:enumeration value="Operator"/>
-																		<xs:enumeration value="Puntuactor"/>
 																	</xs:restriction>
 																</xs:simpleType>
 															</xs:attribute>
+                              <xs:attribute name="subkind" use="optional">
+                                <xs:simpleType>
+                                  <xs:restriction base="xs:string">
+                                    <xs:enumeration value="Keyword"/>
+                                    <xs:enumeration value="Operator"/>
+                                    <xs:enumeration value="Puntuaction"/>
+                                  </xs:restriction>
+                                </xs:simpleType>
+                              </xs:attribute>
 															<xs:attribute name="index" use="required">
 																<xs:simpleType>
 																	<xs:restriction base="xs:int"/>
