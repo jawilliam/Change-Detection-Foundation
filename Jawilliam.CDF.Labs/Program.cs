@@ -639,25 +639,51 @@ namespace Jawilliam.CDF.Labs
                 ClassType = assembly.GetType($"Jawilliam.CDF.CSharp.{n.name}`1")
             }).ToArray();
 
-            var matchingPropagation = from t in nonAbstractTypes
-                                      let tProperties = from p1 in t.Properties.Property where p1.kind == "Token" select p1
-                                      let remainingProperties = t.Properties.Property.Except(tProperties)
-                                      where remainingProperties.Count() == 1 /*&& p.readOnly*/
-                                      select new { Type = t, Property = remainingProperties.Single() };
+            //var matchingPropagation = from t in nonAbstractTypes
+            //                          let tProperties = from p1 in t.Properties.Property where p1.kind == "Token" select p1
+            //                          let remainingProperties = t.Properties.Property.Except(tProperties)
+            //                          where remainingProperties.Count() == 1 /*&& p.readOnly*/
+            //                          select new { Type = t, Property = remainingProperties.Single() };
+
+            var operatorProperties = from t in nonAbstractTypes
+                                        from p in t.Properties.Property
+                                        where p.name.Contains("Operator")
+                                        select new { Type = t, Property = p };
             StringBuilder sb = new StringBuilder();
-            foreach (var mp in matchingPropagation)
+            foreach (var mp in operatorProperties)
             {
                 sb.AppendLine($"{mp.Property.name} in {mp.Type.name}");
             }
-            System.IO.File.WriteAllText(@"D:\Reports\Pairwise Matching Sufficient Properties.txt", sb.ToString());
+            System.IO.File.WriteAllText(@"D:\Reports\Operator Properties.txt", sb.ToString());
+
+            var puntuactionProperties = from t in nonAbstractTypes
+                                        from p in t.Properties.Property
+                                        where p.kind == "Token" && (p.keyword ?? false) && p.Rules.Name == null && p.Rules.Signature == null
+                                        select new { Type = t, Property = p };
+            sb = new StringBuilder();
+            foreach (var mp in operatorProperties)
+            {
+                sb.AppendLine($"{mp.Property.name} in {mp.Type.name}");
+            }
+            System.IO.File.WriteAllText(@"D:\Reports\Punctuation Properties.txt", sb.ToString());
+
+            var testProperties = operatorProperties.Except(from t in nonAbstractTypes from p in t.Properties.Property where p.kind == "Token" select new { Type = t, Property = p });
+            var testProperties2 = (from t in nonAbstractTypes from p in t.Properties.Property where p.kind == "Token" && (p.keyword ?? false) select new { Type = t, Property = p }).Except(operatorProperties);
+
+            sb.Clear();
+            foreach (var mp in testProperties2)
+            {
+                sb.AppendLine($"{mp.Property.name} in {mp.Type.name}");
+            }
+            System.IO.File.WriteAllText(@"D:\Reports\Other Properties.txt", sb.ToString());
 
             var matchingPropagation1 = from t in nonAbstractTypes
                                        from p in t.Properties.Property
-                                       where p.Pairwise?.Matching?.tunneling ?? false /*&& p.readOnly*/
+                                       where p.Rules.Pairwise?.tunneling ?? false /*&& p.readOnly*/
                                        select new { Type = t, Property = p };
 
-            var b2 = matchingPropagation.Except(matchingPropagation1).ToList();
-            var b3 = matchingPropagation1.Except(matchingPropagation).ToList();
+            var b2 = operatorProperties.Except(matchingPropagation1).ToList();
+            var b3 = matchingPropagation1.Except(operatorProperties).ToList();
 
             //System.IO.File.WriteAllText(@"D:\Reports\Pairwise Matching Propagation Properties.txt", sb.ToString());
 

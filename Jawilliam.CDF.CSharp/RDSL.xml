@@ -6,7 +6,7 @@
         <Type name="ExpressionSyntax" abstract="true"/>
         <Type name="ParenthesizedExpressionSyntax" base="ExpressionSyntax">
             <Properties>
-                <Property name="OpenParenToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="OpenParenToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -16,16 +16,16 @@
                         <Pairwise tunneling="true" bubbling="true"/>
                     </Rules>
                 </Property>
-                <Property name="CloseParenToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="CloseParenToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
             </Properties>
         </Type>
-        <Type name="PrefixUnaryExpressionSyntax" base="ExpressionSyntax">
+        <Type name="PrefixUnaryExpressionSyntax" base="ExpressionSyntax" operator="true">
             <Properties>
-                <Property name="OperatorToken" kind="Token" index="0" optional="false" changepoint="true" multiplicity="Single">
+                <Property name="OperatorToken" kind="Token" index="0" optional="false" changepoint="true" multiplicity="Single" operator="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -40,9 +40,9 @@
                 <Annotation context="Suppress" role="Kind"/>
             </Annotations>
         </Type>
-        <Type name="AwaitExpressionSyntax" base="ExpressionSyntax">
+        <Type name="AwaitExpressionSyntax" base="ExpressionSyntax" operator="true">
             <Properties>
-                <Property name="AwaitKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="AwaitKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -54,9 +54,9 @@
                 </Property>
             </Properties>
         </Type>
-        <Type name="PostfixUnaryExpressionSyntax" base="ExpressionSyntax">
+        <Type name="PostfixUnaryExpressionSyntax" base="ExpressionSyntax" operator="true">
             <Properties>
-                <Property name="OperatorToken" kind="Token" index="1" optional="false" changepoint="true" multiplicity="Single">
+                <Property name="OperatorToken" kind="Token" index="1" optional="false" changepoint="true" multiplicity="Single" operator="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -71,7 +71,7 @@
                 <Annotation context="Suppress" role="Kind"/>
             </Annotations>
         </Type>
-        <Type name="MemberAccessExpressionSyntax" base="ExpressionSyntax">
+        <Type name="MemberAccessExpressionSyntax" base="ExpressionSyntax" operator="true">
             <Properties>
                 <Property name="Expression" kind="Expression" index="0" optional="false" changepoint="true" multiplicity="Single">
                     <Rules>
@@ -80,7 +80,7 @@
                         </Name>
                     </Rules>
                 </Property>
-                <Property name="OperatorToken" kind="Token" index="1" readOnly="true" optional="false" changepoint="true" multiplicity="Single">
+                <Property name="OperatorToken" kind="Token" index="1" readOnly="true" optional="false" changepoint="true" multiplicity="Single" operator="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -102,11 +102,11 @@
                 <Annotation context="Suppress" role="Kind"/>
             </Annotations>
         </Type>
-        <Type name="ConditionalAccessExpressionSyntax" base="ExpressionSyntax">
+        <Type name="ConditionalAccessExpressionSyntax" base="ExpressionSyntax" operator="true">
             <Properties>
                 <Property name="Expression" kind="Expression" index="0" optional="false" changepoint="true" multiplicity="Single">
                 </Property>
-                <Property name="OperatorToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="OperatorToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" operator="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -117,7 +117,7 @@
         </Type>
         <Type name="MemberBindingExpressionSyntax" base="ExpressionSyntax">
             <Properties>
-                <Property name="OperatorToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="OperatorToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" operator="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -155,11 +155,11 @@
                 </Property>
             </Properties>
         </Type>
-        <Type name="BinaryExpressionSyntax" base="ExpressionSyntax">
+        <Type name="BinaryExpressionSyntax" base="ExpressionSyntax" operator="true">
             <Properties>
                 <Property name="Left" kind="Expression" index="0" optional="false" changepoint="true" multiplicity="Single">
                 </Property>
-                <Property name="OperatorToken" kind="Token" index="1" optional="false" changepoint="true" multiplicity="Single">
+                <Property name="OperatorToken" kind="Token" index="1" optional="false" changepoint="true" multiplicity="Single" operator="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -171,11 +171,11 @@
                 <Annotation context="Suppress" role="Kind"/>
             </Annotations>
         </Type>
-        <Type name="AssignmentExpressionSyntax" base="ExpressionSyntax">
+        <Type name="AssignmentExpressionSyntax" base="ExpressionSyntax" operator="true">
             <Properties>
                 <Property name="Left" kind="Expression" index="0" optional="false" changepoint="true" multiplicity="Single">
                 </Property>
-                <Property name="OperatorToken" kind="Token" index="1" optional="false" changepoint="true" multiplicity="Single">
+                <Property name="OperatorToken" kind="Token" index="1" optional="false" changepoint="true" multiplicity="Single" operator="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -187,18 +187,18 @@
                 <Annotation context="Suppress" role="Kind"/>
             </Annotations>
         </Type>
-        <Type name="ConditionalExpressionSyntax" base="ExpressionSyntax">
+        <Type name="ConditionalExpressionSyntax" base="ExpressionSyntax" operator="true">
             <Properties>
                 <Property name="Condition" kind="Expression" index="0" optional="false" changepoint="true" multiplicity="Single">
                 </Property>
-                <Property name="QuestionToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="QuestionToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
                 <Property name="WhenTrue" kind="Expression" index="2" optional="false" changepoint="true" multiplicity="Single">
                 </Property>
-                <Property name="ColonToken" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="ColonToken" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -211,16 +211,16 @@
         <Type name="InstanceExpressionSyntax" abstract="true" base="ExpressionSyntax"/>
         <Type name="ThisExpressionSyntax" base="InstanceExpressionSyntax" token="true">
             <Properties>
-                <Property name="Token" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="Token" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
             </Properties>
         </Type>
-        <Type name="BaseExpressionSyntax" base="InstanceExpressionSyntax">
+        <Type name="BaseExpressionSyntax" base="InstanceExpressionSyntax" token="true">
             <Properties>
-                <Property name="Token" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="Token" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -242,12 +242,12 @@
         </Type>
         <Type name="MakeRefExpressionSyntax" base="ExpressionSyntax">
             <Properties>
-                <Property name="Keyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="Keyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="OpenParenToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="OpenParenToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -257,7 +257,7 @@
                         <Pairwise tunneling="true" bubbling="true"/>
                     </Rules>
                 </Property>
-                <Property name="CloseParenToken" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="CloseParenToken" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -266,12 +266,12 @@
         </Type>
         <Type name="RefTypeExpressionSyntax" base="ExpressionSyntax">
             <Properties>
-                <Property name="Keyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="Keyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="OpenParenToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="OpenParenToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -281,7 +281,7 @@
                         <Pairwise tunneling="true" bubbling="true"/>
                     </Rules>
                 </Property>
-                <Property name="CloseParenToken" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="CloseParenToken" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -290,40 +290,40 @@
         </Type>
         <Type name="RefValueExpressionSyntax" base="ExpressionSyntax">
             <Properties>
-                <Property name="Keyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="Keyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="OpenParenToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="OpenParenToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
                 <Property name="Expression" kind="Expression" index="2" optional="false" changepoint="true" multiplicity="Single">
                 </Property>
-                <Property name="Comma" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="Comma" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
                 <Property name="Type" kind="Expression" index="4" optional="false" changepoint="true" multiplicity="Single">
                 </Property>
-                <Property name="CloseParenToken" kind="Token" index="5" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="CloseParenToken" kind="Token" index="5" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
             </Properties>
         </Type>
-        <Type name="CheckedExpressionSyntax" base="ExpressionSyntax">
+        <Type name="CheckedExpressionSyntax" base="ExpressionSyntax" operator="true">
             <Properties>
-                <Property name="Keyword" kind="Token" index="0" readOnly="true" optional="false" changepoint="true" multiplicity="Single" subkind="Keyword">
+                <Property name="Keyword" kind="Token" index="0" readOnly="true" optional="false" changepoint="true" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="OpenParenToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="OpenParenToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -333,7 +333,7 @@
                         <Pairwise tunneling="true" bubbling="true"/>
                     </Rules>
                 </Property>
-                <Property name="CloseParenToken" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="CloseParenToken" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -343,14 +343,14 @@
                 <Annotation context="Suppress" role="Kind"/>
             </Annotations>
         </Type>
-        <Type name="DefaultExpressionSyntax" base="ExpressionSyntax">
+        <Type name="DefaultExpressionSyntax" base="ExpressionSyntax" operator="true">
             <Properties>
-                <Property name="Keyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="Keyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="OpenParenToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="OpenParenToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -360,21 +360,21 @@
                         <Pairwise tunneling="true" bubbling="true"/>
                     </Rules>
                 </Property>
-                <Property name="CloseParenToken" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="CloseParenToken" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
             </Properties>
         </Type>
-        <Type name="TypeOfExpressionSyntax" base="ExpressionSyntax">
+        <Type name="TypeOfExpressionSyntax" base="ExpressionSyntax" operator="true">
             <Properties>
-                <Property name="Keyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="Keyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="OpenParenToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="OpenParenToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -384,21 +384,21 @@
                         <Pairwise tunneling="true" bubbling="true"/>
                     </Rules>
                 </Property>
-                <Property name="CloseParenToken" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="CloseParenToken" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
             </Properties>
         </Type>
-        <Type name="SizeOfExpressionSyntax" base="ExpressionSyntax">
+        <Type name="SizeOfExpressionSyntax" base="ExpressionSyntax" operator="true">
             <Properties>
-                <Property name="Keyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="Keyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="OpenParenToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="OpenParenToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -408,14 +408,14 @@
                         <Pairwise tunneling="true" bubbling="true"/>
                     </Rules>
                 </Property>
-                <Property name="CloseParenToken" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="CloseParenToken" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
             </Properties>
         </Type>
-        <Type name="InvocationExpressionSyntax" base="ExpressionSyntax">
+        <Type name="InvocationExpressionSyntax" base="ExpressionSyntax" operator="true">
             <Properties>
                 <Property name="Expression" kind="Expression" index="0" optional="false" changepoint="true" multiplicity="Single">
                 </Property>
@@ -423,7 +423,7 @@
                 </Property>
             </Properties>
         </Type>
-        <Type name="ElementAccessExpressionSyntax" base="ExpressionSyntax">
+        <Type name="ElementAccessExpressionSyntax" base="ExpressionSyntax" operator="true">
             <Properties>
                 <Property name="Expression" kind="Expression" index="0" optional="false" changepoint="true" multiplicity="Single">
                 </Property>
@@ -431,16 +431,16 @@
                 </Property>
             </Properties>
         </Type>
-        <Type name="CastExpressionSyntax" base="ExpressionSyntax">
+        <Type name="CastExpressionSyntax" base="ExpressionSyntax" operator="true">
             <Properties>
-                <Property name="OpenParenToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="OpenParenToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
                 <Property name="Type" kind="Expression" index="1" optional="false" changepoint="true" multiplicity="Single">
                 </Property>
-                <Property name="CloseParenToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="CloseParenToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -452,20 +452,20 @@
         <!--ExpressionSyntax$AnonymousFunctionExpressionSyntax-->
         <Type name="AnonymousFunctionExpressionSyntax" abstract="true" base="ExpressionSyntax">
             <Properties>
-                <Property name="AsyncKeyword" kind="Token" index="0" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="AsyncKeyword" kind="Token" index="0" optional="false" multiplicity="Single" keyword="true">
                 </Property>
                 <Property name="Body" kind="Expression" index="1" optional="false" changepoint="true" multiplicity="Single">
                 </Property>
             </Properties>
         </Type>
-        <Type name="AnonymousMethodExpressionSyntax" base="AnonymousFunctionExpressionSyntax">
+        <Type name="AnonymousMethodExpressionSyntax" base="AnonymousFunctionExpressionSyntax" operator="true">
             <Properties>
-                <Property name="AsyncKeyword" kind="Token" index="0" optional="true" changepoint="true" inherited="true" multiplicity="Single" subkind="Keyword">
+                <Property name="AsyncKeyword" kind="Token" index="0" optional="true" changepoint="true" inherited="true" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="DelegateKeyword" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="DelegateKeyword" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -493,9 +493,9 @@
                 </Property>
             </Properties>
         </Type>
-        <Type name="SimpleLambdaExpressionSyntax" base="LambdaExpressionSyntax">
+        <Type name="SimpleLambdaExpressionSyntax" base="LambdaExpressionSyntax" operator="true">
             <Properties>
-                <Property name="AsyncKeyword" kind="Token" index="0" optional="true" changepoint="true" inherited="true" multiplicity="Single" subkind="Keyword">
+                <Property name="AsyncKeyword" kind="Token" index="0" optional="true" changepoint="true" inherited="true" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -510,7 +510,7 @@
                         </Name>
                     </Rules>
                 </Property>
-                <Property name="ArrowToken" kind="Token" index="2" readOnly="true" optional="false" inherited="true" multiplicity="Single">
+                <Property name="ArrowToken" kind="Token" index="2" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -527,9 +527,9 @@
                 </Name>
             </Rules>
         </Type>
-        <Type name="ParenthesizedLambdaExpressionSyntax" base="LambdaExpressionSyntax">
+        <Type name="ParenthesizedLambdaExpressionSyntax" base="LambdaExpressionSyntax" operator="true">
             <Properties>
-                <Property name="AsyncKeyword" kind="Token" index="0" optional="true" changepoint="true" inherited="true" multiplicity="Single" subkind="Keyword">
+                <Property name="AsyncKeyword" kind="Token" index="0" optional="true" changepoint="true" inherited="true" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -541,7 +541,7 @@
                         </Signature>
                     </Rules>
                 </Property>
-                <Property name="ArrowToken" kind="Token" index="2" readOnly="true" optional="false" inherited="true" multiplicity="Single">
+                <Property name="ArrowToken" kind="Token" index="2" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -558,7 +558,7 @@
         <!--ExpressionSyntax-->
         <Type name="InitializerExpressionSyntax" base="ExpressionSyntax">
             <Properties>
-                <Property name="OpenBraceToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="OpenBraceToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -568,7 +568,7 @@
                         <Pairwise tunneling="true" bubbling="true"/>
                     </Rules>
                 </Property>
-                <Property name="CloseBraceToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="CloseBraceToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -578,9 +578,9 @@
                 <Annotation context="Suppress" role="Kind"/>
             </Annotations>
         </Type>
-        <Type name="ObjectCreationExpressionSyntax" base="ExpressionSyntax">
+        <Type name="ObjectCreationExpressionSyntax" base="ExpressionSyntax" operator="true">
             <Properties>
-                <Property name="NewKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="NewKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -593,14 +593,14 @@
                 </Property>
             </Properties>
         </Type>
-        <Type name="AnonymousObjectCreationExpressionSyntax" base="ExpressionSyntax">
+        <Type name="AnonymousObjectCreationExpressionSyntax" base="ExpressionSyntax" operator="true">
             <Properties>
-                <Property name="NewKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="NewKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="OpenBraceToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="OpenBraceToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -610,16 +610,16 @@
                         <Pairwise tunneling="true" bubbling="true"/>
                     </Rules>
                 </Property>
-                <Property name="CloseBraceToken" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="CloseBraceToken" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
             </Properties>
         </Type>
-        <Type name="ArrayCreationExpressionSyntax" base="ExpressionSyntax">
+        <Type name="ArrayCreationExpressionSyntax" base="ExpressionSyntax" operator="true">
             <Properties>
-                <Property name="NewKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="NewKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -630,21 +630,22 @@
                 </Property>
             </Properties>
         </Type>
-        <Type name="ImplicitArrayCreationExpressionSyntax" base="ExpressionSyntax">
+        <Type name="ImplicitArrayCreationExpressionSyntax" base="ExpressionSyntax" operator="true">
             <Properties>
-                <Property name="NewKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="NewKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="OpenBracketToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="OpenBracketToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
                 <Property name="Commas" kind="Expression" index="2" optional="false" changepoint="true" multiplicity="Collection">
+                  <!-- puntuaction="true"? -->
                 </Property>
-                <Property name="CloseBracketToken" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="CloseBracketToken" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -655,7 +656,7 @@
         </Type>
         <Type name="StackAllocArrayCreationExpressionSyntax" base="ExpressionSyntax">
             <Properties>
-                <Property name="StackAllocKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="StackAllocKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -687,7 +688,7 @@
         </Type>
         <Type name="InterpolatedStringExpressionSyntax" base="ExpressionSyntax">
             <Properties>
-                <Property name="StringStartToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="StringStartToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -697,7 +698,7 @@
                         <Pairwise tunneling="true" bubbling="true"/>
                     </Rules>
                 </Property>
-                <Property name="StringEndToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="StringEndToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -717,7 +718,7 @@
         </Type>
         <Type name="InterpolationSyntax" base="InterpolatedStringContentSyntax">
             <Properties>
-                <Property name="OpenBraceToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="OpenBraceToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -728,7 +729,7 @@
                 </Property>
                 <Property name="FormatClause" kind="Expression" index="3" optional="true" changepoint="true" multiplicity="Single">
                 </Property>
-                <Property name="CloseBraceToken" kind="Token" index="4" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="CloseBraceToken" kind="Token" index="4" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -737,7 +738,7 @@
         </Type>
         <Type name="InterpolationAlignmentClauseSyntax">
             <Properties>
-                <Property name="CommaToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="CommaToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -751,12 +752,13 @@
         </Type>
         <Type name="InterpolationFormatClauseSyntax">
             <Properties>
-                <Property name="ColonToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="ColonToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
                 <Property name="FormatStringToken" kind="Token" index="0" readOnly="true" optional="false" changepoint="true" multiplicity="Single">
+                    <!-- puntuaction="true"?-->
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -772,7 +774,7 @@
         </Type>
         <Type name="ArgumentListSyntax" base="BaseArgumentListSyntax">
             <Properties>
-                <Property name="OpenParenToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="OpenParenToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -782,7 +784,7 @@
                         <Pairwise tunneling="true" bubbling="true"/>
                     </Rules>
                 </Property>
-                <Property name="CloseParenToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="CloseParenToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -791,7 +793,7 @@
         </Type>
         <Type name="BracketedArgumentListSyntax" base="BaseArgumentListSyntax">
             <Properties>
-                <Property name="OpenBracketToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="OpenBracketToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -801,7 +803,7 @@
                         <Pairwise tunneling="true" bubbling="true"/>
                     </Rules>
                 </Property>
-                <Property name="CloseBracketToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="CloseBracketToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -818,7 +820,7 @@
                         </Name>
                     </Rules>
                 </Property>
-                <Property name="RefOrOutKeyword" kind="Token" index="1" optional="true" changepoint="true" multiplicity="Single" subkind="Keyword">
+                <Property name="RefOrOutKeyword" kind="Token" index="1" optional="true" changepoint="true" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -842,7 +844,7 @@
                         <Pairwise tunneling="true" bubbling="true"/>
                     </Rules>
                 </Property>
-                <Property name="ColonToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="ColonToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -859,7 +861,7 @@
                         <Pairwise tunneling="true" bubbling="true"/>
                     </Rules>
                 </Property>
-                <Property name="EqualsToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="EqualsToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -908,7 +910,7 @@
         <Type name="QueryClauseSyntax" abstract="true"/>
         <Type name="FromClauseSyntax" base="QueryClauseSyntax">
             <Properties>
-                <Property name="FromKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="FromKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -923,7 +925,7 @@
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="InKeyword" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="InKeyword" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -939,7 +941,7 @@
         </Type>
         <Type name="LetClauseSyntax" base="QueryClauseSyntax">
             <Properties>
-                <Property name="LetKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="LetKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -952,7 +954,7 @@
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="EqualsToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="EqualsToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -971,7 +973,7 @@
         </Type>
         <Type name="JoinClauseSyntax" base="QueryClauseSyntax">
             <Properties>
-                <Property name="JoinKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="JoinKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -986,21 +988,21 @@
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="InKeyword" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="InKeyword" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
                 <Property name="InExpression" kind="Expression" index="4" optional="false" changepoint="true" multiplicity="Single">
                 </Property>
-                <Property name="OnKeyword" kind="Token" index="5" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="OnKeyword" kind="Token" index="5" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
                 <Property name="LeftExpression" kind="Expression" index="6" optional="false" changepoint="true" multiplicity="Single">
                 </Property>
-                <Property name="EqualsKeyword" kind="Token" index="7" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="EqualsKeyword" kind="Token" index="7" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -1018,7 +1020,7 @@
         </Type>
         <Type name="JoinIntoClauseSyntax">
             <Properties>
-                <Property name="IntoKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="IntoKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -1040,7 +1042,7 @@
         </Type>
         <Type name="WhereClauseSyntax" base="QueryClauseSyntax">
             <Properties>
-                <Property name="WhereKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="WhereKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -1054,7 +1056,7 @@
         </Type>
         <Type name="OrderByClauseSyntax" base="QueryClauseSyntax">
             <Properties>
-                <Property name="OrderByKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="OrderByKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -1073,7 +1075,7 @@
                         <Pairwise tunneling="true" bubbling="true"/>
                     </Rules>
                 </Property>
-                <Property name="AscendingOrDescendingKeyword" kind="Token" index="1" readOnly="true" optional="true" multiplicity="Single" subkind="Keyword">
+                <Property name="AscendingOrDescendingKeyword" kind="Token" index="1" readOnly="true" optional="true" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -1087,7 +1089,7 @@
         <Type name="SelectOrGroupClauseSyntax" abstract="true"/>
         <Type name="SelectClauseSyntax" base="SelectOrGroupClauseSyntax">
             <Properties>
-                <Property name="SelectKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="SelectKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -1101,14 +1103,14 @@
         </Type>
         <Type name="GroupClauseSyntax" base="SelectOrGroupClauseSyntax">
             <Properties>
-                <Property name="GroupKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="GroupKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
                 <Property name="GroupExpression" kind="Expression" index="1" optional="false" changepoint="true" multiplicity="Single">
                 </Property>
-                <Property name="ByKeyword" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="ByKeyword" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -1119,7 +1121,7 @@
         </Type>
         <Type name="QueryContinuationSyntax">
             <Properties>
-                <Property name="IntoKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="IntoKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -1149,7 +1151,7 @@
         <Type name="TypeSyntax" abstract="true" base="ExpressionSyntax"/>
         <Type name="PredefinedTypeSyntax" base="TypeSyntax">
             <Properties>
-                <Property name="Keyword" kind="Token" index="0" optional="false" changepoint="true" multiplicity="Single" subkind="Keyword">
+                <Property name="Keyword" kind="Token" index="0" optional="false" changepoint="true" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -1171,7 +1173,7 @@
                         <Pairwise tunneling="true" bubbling="true"/>
                     </Rules>
                 </Property>
-                <Property name="AsteriskToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="AsteriskToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -1185,7 +1187,7 @@
                         <Pairwise tunneling="true" bubbling="true"/>
                     </Rules>
                 </Property>
-                <Property name="QuestionToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="QuestionToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -1207,7 +1209,7 @@
             <Properties>
                 <Property name="Left" kind="Expression" index="0" optional="false" changepoint="true" multiplicity="Single">
                 </Property>
-                <Property name="DotToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="DotToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -1225,7 +1227,7 @@
                         </Name>
                     </Rules>
                 </Property>
-                <Property name="ColonColonToken" kind="Token" index="1" readOnly="true" optional="true" multiplicity="Single">
+                <Property name="ColonColonToken" kind="Token" index="1" readOnly="true" optional="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -1303,7 +1305,7 @@
         <!--And Related-->
         <Type name="TypeArgumentListSyntax">
             <Properties>
-                <Property name="LessThanToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="LessThanToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -1316,7 +1318,7 @@
                         <Pairwise tunneling="true" bubbling="true"/>
                     </Rules>
                 </Property>
-                <Property name="GreaterThanToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="GreaterThanToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -1325,7 +1327,7 @@
         </Type>
         <Type name="ArrayRankSpecifierSyntax">
             <Properties>
-                <Property name="OpenBracketToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="OpenBracketToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -1335,7 +1337,7 @@
                         <Pairwise tunneling="true" bubbling="true"/>
                     </Rules>
                 </Property>
-                <Property name="CloseBracketToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="CloseBracketToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -1356,7 +1358,7 @@
         <Type name="StatementSyntax" abstract="true"/>
         <Type name="BlockSyntax" base="StatementSyntax">
             <Properties>
-                <Property name="OpenBraceToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="OpenBraceToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -1366,7 +1368,7 @@
                         <Pairwise tunneling="true" bubbling="true"/>
                     </Rules>
                 </Property>
-                <Property name="CloseBraceToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="CloseBraceToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -1384,7 +1386,7 @@
                         </Name>
                     </Rules>
                 </Property>
-                <Property name="SemicolonToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="SemicolonToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -1403,7 +1405,7 @@
                         <Pairwise tunneling="true" bubbling="true"/>
                     </Rules>
                 </Property>
-                <Property name="SemicolonToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="SemicolonToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -1412,7 +1414,7 @@
         </Type>
         <Type name="EmptyStatementSyntax" base="StatementSyntax">
             <Properties>
-                <Property name="SemicolonToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="SemicolonToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -1429,7 +1431,7 @@
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="ColonToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="ColonToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -1448,12 +1450,12 @@
         </Type>
         <Type name="GotoStatementSyntax" base="StatementSyntax">
             <Properties>
-                <Property name="GotoKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="GotoKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="CaseOrDefaultKeyword" kind="Token" index="1" optional="true" changepoint="true" multiplicity="Single" subkind="Keyword">
+                <Property name="CaseOrDefaultKeyword" kind="Token" index="1" optional="true" changepoint="true" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -1463,7 +1465,7 @@
                         <Pairwise tunneling="true" bubbling="true"/>
                     </Rules>
                 </Property>
-                <Property name="SemicolonToken" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="SemicolonToken" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -1475,12 +1477,12 @@
         </Type>
         <Type name="BreakStatementSyntax" base="StatementSyntax">
             <Properties>
-                <Property name="BreakKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="BreakKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="SemicolonToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="SemicolonToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -1489,12 +1491,12 @@
         </Type>
         <Type name="ContinueStatementSyntax" base="StatementSyntax">
             <Properties>
-                <Property name="ContinueKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="ContinueKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="SemicolonToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="SemicolonToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -1503,7 +1505,7 @@
         </Type>
         <Type name="ReturnStatementSyntax" base="StatementSyntax">
             <Properties>
-                <Property name="ReturnKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="ReturnKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -1513,7 +1515,7 @@
                         <Pairwise tunneling="true" bubbling="true"/>
                     </Rules>
                 </Property>
-                <Property name="SemicolonToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="SemicolonToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -1522,7 +1524,7 @@
         </Type>
         <Type name="ThrowStatementSyntax" base="StatementSyntax">
             <Properties>
-                <Property name="ThrowKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="ThrowKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -1532,7 +1534,7 @@
                         <Pairwise tunneling="true" bubbling="true"/>
                     </Rules>
                 </Property>
-                <Property name="SemicolonToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="SemicolonToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -1541,12 +1543,12 @@
         </Type>
         <Type name="YieldStatementSyntax" base="StatementSyntax">
             <Properties>
-                <Property name="YieldKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="YieldKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="ReturnOrBreakKeyword" kind="Token" index="1" optional="false" changepoint="true" multiplicity="Single" subkind="Keyword">
+                <Property name="ReturnOrBreakKeyword" kind="Token" index="1" optional="false" changepoint="true" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -1556,7 +1558,7 @@
                         <Pairwise tunneling="true" bubbling="true"/>
                     </Rules>
                 </Property>
-                <Property name="SemicolonToken" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="SemicolonToken" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -1568,19 +1570,19 @@
         </Type>
         <Type name="WhileStatementSyntax" base="StatementSyntax">
             <Properties>
-                <Property name="WhileKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="WhileKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="OpenParenToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="OpenParenToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
                 <Property name="Condition" kind="Expression" index="2" optional="false" changepoint="true" multiplicity="Single">
                 </Property>
-                <Property name="CloseParenToken" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="CloseParenToken" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -1591,31 +1593,31 @@
         </Type>
         <Type name="DoStatementSyntax" base="StatementSyntax">
             <Properties>
-                <Property name="DoKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="DoKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
                 <Property name="Statement" kind="Expression" index="1" optional="false" changepoint="true" multiplicity="Single">
                 </Property>
-                <Property name="WhileKeyword" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="WhileKeyword" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="OpenParenToken" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="OpenParenToken" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
                 <Property name="Condition" kind="Expression" index="4" optional="false" changepoint="true" multiplicity="Single">
                 </Property>
-                <Property name="CloseParenToken" kind="Token" index="5" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="CloseParenToken" kind="Token" index="5" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="SemicolonToken" kind="Token" index="6" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="SemicolonToken" kind="Token" index="6" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -1624,12 +1626,12 @@
         </Type>
         <Type name="ForStatementSyntax" base="StatementSyntax">
             <Properties>
-                <Property name="ForKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="ForKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="OpenParenToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="OpenParenToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -1643,21 +1645,21 @@
                 </Property>
                 <Property name="Initializers" kind="Expression" index="3" optional="false" changepoint="true" multiplicity="Collection" collectionType="ExpressionSyntax" collectionSeparator=",">
                 </Property>
-                <Property name="FirstSemicolonToken" kind="Token" index="4" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="FirstSemicolonToken" kind="Token" index="4" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
                 <Property name="Condition" kind="Expression" index="5" optional="true" changepoint="true" multiplicity="Single">
                 </Property>
-                <Property name="SecondSemicolonToken" kind="Token" index="6" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="SecondSemicolonToken" kind="Token" index="6" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
                 <Property name="Incrementors" kind="Expression" index="7" optional="false" changepoint="true" multiplicity="Collection" collectionType="ExpressionSyntax" collectionSeparator=",">
                 </Property>
-                <Property name="CloseParenToken" kind="Token" index="8" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="CloseParenToken" kind="Token" index="8" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -1673,12 +1675,12 @@
         </Type>
         <Type name="ForEachStatementSyntax" base="CommonForEachStatementSyntax">
             <Properties>
-                <Property name="ForEachKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" inherited="true" subkind="Keyword">
+                <Property name="ForEachKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" inherited="true" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="OpenParenToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" inherited="true">
+                <Property name="OpenParenToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" inherited="true" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -1693,14 +1695,14 @@
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="InKeyword" kind="Token" index="4" readOnly="true" optional="false" multiplicity="Single" inherited="true" subkind="Keyword">
+                <Property name="InKeyword" kind="Token" index="4" readOnly="true" optional="false" multiplicity="Single" inherited="true" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
                 <Property name="Expression" kind="Expression" index="5" optional="false" changepoint="true" multiplicity="Single" inherited="true">
                 </Property>
-                <Property name="CloseParenToken" kind="Token" index="6" readOnly="true" optional="false" multiplicity="Single" inherited="true">
+                <Property name="CloseParenToken" kind="Token" index="6" readOnly="true" optional="false" multiplicity="Single" inherited="true" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -1716,12 +1718,12 @@
         </Type>
         <Type name="UsingStatementSyntax" base="StatementSyntax">
             <Properties>
-                <Property name="UsingKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="UsingKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="OpenParenToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="OpenParenToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -1735,7 +1737,7 @@
                 </Property>
                 <Property name="Expression" kind="Expression" index="3" optional="true" changepoint="true" multiplicity="Single">
                 </Property>
-                <Property name="CloseParenToken" kind="Token" index="4" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="CloseParenToken" kind="Token" index="4" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -1751,12 +1753,12 @@
         </Type>
         <Type name="FixedStatementSyntax" base="StatementSyntax">
             <Properties>
-                <Property name="FixedKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="FixedKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="OpenParenToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="OpenParenToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -1768,7 +1770,7 @@
                         </Name>
                     </Rules>
                 </Property>
-                <Property name="CloseParenToken" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="CloseParenToken" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -1782,9 +1784,9 @@
                 </Name>
             </Rules>
         </Type>
-        <Type name="CheckedStatementSyntax" base="StatementSyntax">
+        <Type name="CheckedStatementSyntax" base="StatementSyntax" operator="true">
             <Properties>
-                <Property name="Keyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="Keyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -1801,7 +1803,7 @@
         </Type>
         <Type name="UnsafeStatementSyntax" base="StatementSyntax">
             <Properties>
-                <Property name="UnsafeKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="UnsafeKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -1815,19 +1817,19 @@
         </Type>
         <Type name="LockStatementSyntax" base="StatementSyntax">
             <Properties>
-                <Property name="LockKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="LockKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="OpenParenToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="OpenParenToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
                 <Property name="Expression" kind="Expression" index="2" optional="false" changepoint="true" multiplicity="Single">
                 </Property>
-                <Property name="CloseParenToken" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="CloseParenToken" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -1838,19 +1840,19 @@
         </Type>
         <Type name="IfStatementSyntax" base="StatementSyntax">
             <Properties>
-                <Property name="IfKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="IfKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="OpenParenToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="OpenParenToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
                 <Property name="Condition" kind="Expression" index="2" optional="false" changepoint="true" multiplicity="Single">
                 </Property>
-                <Property name="CloseParenToken" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="CloseParenToken" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -1863,31 +1865,31 @@
         </Type>
         <Type name="SwitchStatementSyntax" base="StatementSyntax">
             <Properties>
-                <Property name="SwitchKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="SwitchKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="OpenParenToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="OpenParenToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
                 <Property name="Expression" kind="Expression" index="2" optional="false" changepoint="true" multiplicity="Single">
                 </Property>
-                <Property name="CloseParenToken" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="CloseParenToken" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="OpenBraceToken" kind="Token" index="4" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="OpenBraceToken" kind="Token" index="4" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
                 <Property name="Sections" kind="Expression" index="5" optional="false" changepoint="true" multiplicity="Collection" collectionType="SwitchSectionSyntax">
                 </Property>
-                <Property name="CloseBraceToken" kind="Token" index="6" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="CloseBraceToken" kind="Token" index="6" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -1896,7 +1898,7 @@
         </Type>
         <Type name="TryStatementSyntax" base="StatementSyntax">
             <Properties>
-                <Property name="TryKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="TryKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -1951,7 +1953,7 @@
         </Type>
         <Type name="EqualsValueClauseSyntax">
             <Properties>
-                <Property name="EqualsToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="EqualsToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -1966,7 +1968,7 @@
         <!--And If Related-->
         <Type name="ElseClauseSyntax">
             <Properties>
-                <Property name="ElseKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="ElseKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -1989,7 +1991,7 @@
         <!--And Switch Related$SwitchLabelSyntax-->
         <Type name="SwitchLabelSyntax" abstract="true">
             <Properties>
-                <Property name="Keyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="Keyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                 </Property>
                 <Property name="ColonToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single">
                 </Property>
@@ -1997,7 +1999,7 @@
         </Type>
         <Type name="CaseSwitchLabelSyntax" base="SwitchLabelSyntax">
             <Properties>
-                <Property name="Keyword" kind="Token" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single" subkind="Keyword">
+                <Property name="Keyword" kind="Token" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -2007,7 +2009,7 @@
                         <Pairwise tunneling="true" bubbling="true"/>
                     </Rules>
                 </Property>
-                <Property name="ColonToken" kind="Token" index="2" readOnly="true" optional="false" inherited="true" multiplicity="Single">
+                <Property name="ColonToken" kind="Token" index="2" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -2016,12 +2018,12 @@
         </Type>
         <Type name="DefaultSwitchLabelSyntax" base="SwitchLabelSyntax">
             <Properties>
-                <Property name="Keyword" kind="Token" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single" subkind="Keyword">
+                <Property name="Keyword" kind="Token" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="ColonToken" kind="Token" index="1" readOnly="true" optional="false" inherited="true" multiplicity="Single">
+                <Property name="ColonToken" kind="Token" index="1" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -2031,7 +2033,7 @@
         <!--And Try Related$-->
         <Type name="CatchClauseSyntax">
             <Properties>
-                <Property name="CatchKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="CatchKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -2056,7 +2058,7 @@
         </Type>
         <Type name="CatchDeclarationSyntax">
             <Properties>
-                <Property name="OpenParenToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="OpenParenToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -2074,7 +2076,7 @@
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="CloseParenToken" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="CloseParenToken" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -2088,12 +2090,12 @@
         </Type>
         <Type name="CatchFilterClauseSyntax">
             <Properties>
-                <Property name="WhenKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="WhenKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="OpenParenToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="OpenParenToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -2103,7 +2105,7 @@
                         <Pairwise tunneling="true" bubbling="true"/>
                     </Rules>
                 </Property>
-                <Property name="CloseParenToken" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="CloseParenToken" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -2112,7 +2114,7 @@
         </Type>
         <Type name="FinallyClauseSyntax">
             <Properties>
-                <Property name="FinallyKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="FinallyKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -2152,7 +2154,7 @@
                 </Property>
                 <Property name="Modifiers" kind="Expression" index="1" optional="false" changepoint="true" multiplicity="Collection">
                 </Property>
-                <Property name="DelegateKeyword" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="DelegateKeyword" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -2186,7 +2188,7 @@
                 </Property>
                 <Property name="ConstraintClauses" kind="Expression" index="7" optional="false" changepoint="true" multiplicity="Collection" collectionType="TypeParameterConstraintClauseSyntax">
                 </Property>
-                <Property name="SemicolonToken" kind="Token" index="8" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="SemicolonToken" kind="Token" index="8" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -2236,7 +2238,7 @@
                 </Property>
                 <Property name="Modifiers" kind="Expression" index="1" optional="false" changepoint="true" inherited="true" multiplicity="Collection">
                 </Property>
-                <Property name="EnumKeyword" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="EnumKeyword" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -2251,19 +2253,19 @@
                 </Property>
                 <Property name="BaseList" kind="Expression" index="4" optional="true" changepoint="true" inherited="true" multiplicity="Single">
                 </Property>
-                <Property name="OpenBraceToken" kind="Token" index="5" readOnly="true" optional="false" inherited="true" multiplicity="Single">
+                <Property name="OpenBraceToken" kind="Token" index="5" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
                 <Property name="Members" kind="Expression" index="6" optional="false" changepoint="true" multiplicity="Collection" collectionType="EnumMemberDeclarationSyntax" collectionSeparator=",">
                 </Property>
-                <Property name="CloseBraceToken" kind="Token" index="7" readOnly="true" optional="false" inherited="true" multiplicity="Single">
+                <Property name="CloseBraceToken" kind="Token" index="7" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="SemicolonToken" kind="Token" index="8" optional="true" changepoint="true" inherited="true" multiplicity="Single">
+                <Property name="SemicolonToken" kind="Token" index="8" optional="true" changepoint="true" inherited="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -2278,7 +2280,7 @@
         <!--Member Declarations$BaseTypeDeclarationSyntax$TypeDeclarationSyntax-->
         <Type name="TypeDeclarationSyntax" abstract="true" base="BaseTypeDeclarationSyntax">
             <Properties>
-                <Property name="Keyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="Keyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                 </Property>
                 <Property name="TypeParameterList" kind="Expression" index="1" optional="true" changepoint="true" multiplicity="Single">
                     <Rules>
@@ -2304,7 +2306,7 @@
                 </Property>
                 <Property name="Modifiers" kind="Expression" index="1" optional="false" changepoint="true" inherited="true" multiplicity="Collection">
                 </Property>
-                <Property name="Keyword" kind="Token" index="2" readOnly="true" optional="false" inherited="true" multiplicity="Single" subkind="Keyword">
+                <Property name="Keyword" kind="Token" index="2" readOnly="true" optional="false" inherited="true" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -2331,19 +2333,19 @@
                 </Property>
                 <Property name="ConstraintClauses" kind="Expression" index="6" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="TypeParameterConstraintClauseSyntax">
                 </Property>
-                <Property name="OpenBraceToken" kind="Token" index="7" readOnly="true" optional="false" inherited="true" multiplicity="Single">
+                <Property name="OpenBraceToken" kind="Token" index="7" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
                 <Property name="Members" kind="Expression" index="8" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="MemberDeclarationSyntax">
                 </Property>
-                <Property name="CloseBraceToken" kind="Token" index="9" readOnly="true" optional="false" inherited="true" multiplicity="Single">
+                <Property name="CloseBraceToken" kind="Token" index="9" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="SemicolonToken" kind="Token" index="10" optional="true" changepoint="true" inherited="true" multiplicity="Single">
+                <Property name="SemicolonToken" kind="Token" index="10" optional="true" changepoint="true" inherited="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -2364,7 +2366,7 @@
                 </Property>
                 <Property name="Modifiers" kind="Expression" index="1" optional="false" changepoint="true" inherited="true" multiplicity="Collection">
                 </Property>
-                <Property name="Keyword" kind="Token" index="2" readOnly="true" optional="false" inherited="true" multiplicity="Single" subkind="Keyword">
+                <Property name="Keyword" kind="Token" index="2" readOnly="true" optional="false" inherited="true" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -2391,19 +2393,19 @@
                 </Property>
                 <Property name="ConstraintClauses" kind="Expression" index="6" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="TypeParameterConstraintClauseSyntax">
                 </Property>
-                <Property name="OpenBraceToken" kind="Token" index="7" readOnly="true" optional="false" inherited="true" multiplicity="Single">
+                <Property name="OpenBraceToken" kind="Token" index="7" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
                 <Property name="Members" kind="Expression" index="8" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="MemberDeclarationSyntax">
                 </Property>
-                <Property name="CloseBraceToken" kind="Token" index="9" readOnly="true" optional="false" inherited="true" multiplicity="Single">
+                <Property name="CloseBraceToken" kind="Token" index="9" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="SemicolonToken" kind="Token" index="10" optional="true" changepoint="true" inherited="true" multiplicity="Single">
+                <Property name="SemicolonToken" kind="Token" index="10" optional="true" changepoint="true" inherited="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -2424,7 +2426,7 @@
                 </Property>
                 <Property name="Modifiers" kind="Expression" index="1" optional="false" changepoint="true" inherited="true" multiplicity="Collection">
                 </Property>
-                <Property name="Keyword" kind="Token" index="2" readOnly="true" optional="false" inherited="true" multiplicity="Single" subkind="Keyword">
+                <Property name="Keyword" kind="Token" index="2" readOnly="true" optional="false" inherited="true" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -2451,19 +2453,19 @@
                 </Property>
                 <Property name="ConstraintClauses" kind="Expression" index="6" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="TypeParameterConstraintClauseSyntax">
                 </Property>
-                <Property name="OpenBraceToken" kind="Token" index="7" readOnly="true" optional="false" inherited="true" multiplicity="Single">
+                <Property name="OpenBraceToken" kind="Token" index="7" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
                 <Property name="Members" kind="Expression" index="8" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="MemberDeclarationSyntax">
                 </Property>
-                <Property name="CloseBraceToken" kind="Token" index="9" readOnly="true" optional="false" inherited="true" multiplicity="Single">
+                <Property name="CloseBraceToken" kind="Token" index="9" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="SemicolonToken" kind="Token" index="10" optional="true" changepoint="true" inherited="true" multiplicity="Single">
+                <Property name="SemicolonToken" kind="Token" index="10" optional="true" changepoint="true" inherited="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -2503,7 +2505,7 @@
         <!--And Related$TypeParameterListSyntax-->
         <Type name="TypeParameterListSyntax">
             <Properties>
-                <Property name="LessThanToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="LessThanToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -2519,7 +2521,7 @@
                         <Pairwise tunneling="true" bubbling="true"/>
                     </Rules>
                 </Property>
-                <Property name="GreaterThanToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="GreaterThanToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -2533,7 +2535,7 @@
                         <Pairwise tunneling="true" bubbling="true"/>
                     </Rules>
                 </Property>
-                <Property name="VarianceKeyword" kind="Token" index="1" optional="true" changepoint="true" multiplicity="Single" subkind="Keyword">
+                <Property name="VarianceKeyword" kind="Token" index="1" optional="true" changepoint="true" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -2558,7 +2560,7 @@
         </Type>
         <Type name="TypeParameterConstraintClauseSyntax">
             <Properties>
-                <Property name="WhereKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="WhereKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -2570,7 +2572,7 @@
                         </Name>
                     </Rules>
                 </Property>
-                <Property name="ColonToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="ColonToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -2597,17 +2599,17 @@
         </Type>
         <Type name="ConstructorConstraintSyntax" base="TypeParameterConstraintSyntax">
             <Properties>
-                <Property name="NewKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="NewKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="OpenParenToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="OpenParenToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="CloseParenToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="CloseParenToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -2616,7 +2618,7 @@
         </Type>
         <Type name="ClassOrStructConstraintSyntax" base="TypeParameterConstraintSyntax">
             <Properties>
-                <Property name="ClassOrStructKeyword" kind="Token" index="0" optional="false" changepoint="true" multiplicity="Single" subkind="Keyword">
+                <Property name="ClassOrStructKeyword" kind="Token" index="0" optional="false" changepoint="true" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -2629,7 +2631,7 @@
         <!--And Related$BaseTypeSyntax-->
         <Type name="BaseListSyntax">
             <Properties>
-                <Property name="ColonToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="ColonToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -2692,7 +2694,7 @@
                         </Name>
                     </Rules>
                 </Property>
-                <Property name="SemicolonToken" kind="Token" index="3" readOnly="true" optional="false" inherited="true" multiplicity="Single">
+                <Property name="SemicolonToken" kind="Token" index="3" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -2710,7 +2712,7 @@
                 </Property>
                 <Property name="Modifiers" kind="Expression" index="1" optional="false" changepoint="true" inherited="true" multiplicity="Collection">
                 </Property>
-                <Property name="EventKeyword" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="EventKeyword" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -2722,7 +2724,7 @@
                         </Name>
                     </Rules>
                 </Property>
-                <Property name="SemicolonToken" kind="Token" index="4" readOnly="true" optional="false" inherited="true" multiplicity="Single">
+                <Property name="SemicolonToken" kind="Token" index="4" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -2745,7 +2747,7 @@
                         <Pairwise tunneling="true" bubbling="true"/>
                     </Rules>
                 </Property>
-                <Property name="DotToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="DotToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -2831,7 +2833,7 @@
                 </Property>
                 <Property name="ExpressionBody" kind="Expression" index="9" optional="true" changepoint="true" multiplicity="Single">
                 </Property>
-                <Property name="SemicolonToken" kind="Token" index="10" optional="true" changepoint="true" inherited="true" multiplicity="Single">
+                <Property name="SemicolonToken" kind="Token" index="10" optional="true" changepoint="true" inherited="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -2854,7 +2856,7 @@
                 </Property>
                 <Property name="ReturnType" kind="Expression" index="2" optional="false" changepoint="true" multiplicity="Single">
                 </Property>
-                <Property name="OperatorKeyword" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="OperatorKeyword" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -2881,7 +2883,7 @@
                 </Property>
                 <Property name="ExpressionBody" kind="Expression" index="7" optional="true" changepoint="true" multiplicity="Single">
                 </Property>
-                <Property name="SemicolonToken" kind="Token" index="8" optional="true" changepoint="true" inherited="true" multiplicity="Single">
+                <Property name="SemicolonToken" kind="Token" index="8" optional="true" changepoint="true" inherited="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -2902,12 +2904,12 @@
                 </Property>
                 <Property name="Modifiers" kind="Expression" index="1" optional="false" changepoint="true" inherited="true" multiplicity="Collection">
                 </Property>
-                <Property name="ImplicitOrExplicitKeyword" kind="Token" index="2" optional="false" changepoint="true" multiplicity="Single" subkind="Keyword">
+                <Property name="ImplicitOrExplicitKeyword" kind="Token" index="2" optional="false" changepoint="true" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="OperatorKeyword" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="OperatorKeyword" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -2933,7 +2935,7 @@
                 </Property>
                 <Property name="ExpressionBody" kind="Expression" index="7" optional="true" changepoint="true" multiplicity="Single">
                 </Property>
-                <Property name="SemicolonToken" kind="Token" index="8" optional="true" changepoint="true" inherited="true" multiplicity="Single">
+                <Property name="SemicolonToken" kind="Token" index="8" optional="true" changepoint="true" inherited="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -2973,7 +2975,7 @@
                 </Property>
                 <Property name="Body" kind="Expression" index="5" optional="true" changepoint="true" inherited="true" multiplicity="Single">
                 </Property>
-                <Property name="SemicolonToken" kind="Token" index="6" optional="true" changepoint="true" inherited="true" multiplicity="Single">
+                <Property name="SemicolonToken" kind="Token" index="6" optional="true" changepoint="true" inherited="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -2990,12 +2992,12 @@
         </Type>
         <Type name="ConstructorInitializerSyntax">
             <Properties>
-                <Property name="ColonToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="ColonToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="ThisOrBaseKeyword" kind="Token" index="1" optional="false" changepoint="true" multiplicity="Single" subkind="Keyword">
+                <Property name="ThisOrBaseKeyword" kind="Token" index="1" optional="false" changepoint="true" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -3016,7 +3018,7 @@
                 </Property>
                 <Property name="Modifiers" kind="Expression" index="1" readOnly="true" optional="false" inherited="true" multiplicity="Collection">
                 </Property>
-                <Property name="TildeToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="TildeToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -3033,7 +3035,7 @@
                 </Property>
                 <Property name="Body" kind="Expression" index="6" optional="true" changepoint="true" inherited="true" multiplicity="Single">
                 </Property>
-                <Property name="SemicolonToken" kind="Token" index="7" optional="true" changepoint="true" inherited="true" multiplicity="Single">
+                <Property name="SemicolonToken" kind="Token" index="7" optional="true" changepoint="true" inherited="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -3099,7 +3101,7 @@
                 </Property>
                 <Property name="Initializer" kind="Expression" index="7" optional="true" changepoint="true" multiplicity="Single">
                 </Property>
-                <Property name="SemicolonToken" kind="Token" index="8" optional="true" changepoint="true" multiplicity="Single">
+                <Property name="SemicolonToken" kind="Token" index="8" optional="true" changepoint="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -3113,7 +3115,7 @@
         </Type>
         <Type name="ArrowExpressionClauseSyntax">
             <Properties>
-                <Property name="ArrowToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="ArrowToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -3131,7 +3133,7 @@
                 </Property>
                 <Property name="Modifiers" kind="Expression" index="1" optional="false" changepoint="true" inherited="true" multiplicity="Collection">
                 </Property>
-                <Property name="EventKeyword" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="EventKeyword" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -3189,7 +3191,7 @@
                         </Name>
                     </Rules>
                 </Property>
-                <Property name="ThisKeyword" kind="Token" index="4" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="ThisKeyword" kind="Token" index="4" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Signature>
                             <Equality full="true"/>
@@ -3211,7 +3213,7 @@
                 </Property>
                 <Property name="ExpressionBody" kind="Expression" index="6" optional="true" changepoint="true" multiplicity="Single">
                 </Property>
-                <Property name="SemicolonToken" kind="Token" index="7" optional="true" changepoint="true" multiplicity="Single">
+                <Property name="SemicolonToken" kind="Token" index="7" optional="true" changepoint="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -3228,7 +3230,7 @@
         </Type>
         <Type name="AccessorListSyntax">
             <Properties>
-                <Property name="OpenBraceToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="OpenBraceToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -3238,7 +3240,7 @@
                         <Pairwise tunneling="true" bubbling="true"/>
                     </Rules>
                 </Property>
-                <Property name="CloseBraceToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="CloseBraceToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -3251,14 +3253,14 @@
                 </Property>
                 <Property name="Modifiers" kind="Expression" index="1" optional="false" changepoint="true" multiplicity="Collection">
                 </Property>
-                <Property name="Keyword" kind="Token" index="2" optional="false" changepoint="true" multiplicity="Single" subkind="Keyword">
+                <Property name="Keyword" kind="Token" index="2" optional="false" changepoint="true" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
                 <Property name="Body" kind="Expression" index="3" optional="true" changepoint="true" multiplicity="Single">
                 </Property>
-                <Property name="SemicolonToken" kind="Token" index="4" optional="true" changepoint="true" multiplicity="Single">
+                <Property name="SemicolonToken" kind="Token" index="4" optional="true" changepoint="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -3287,7 +3289,7 @@
         </Type>
         <Type name="ParameterListSyntax" base="BaseParameterListSyntax">
             <Properties>
-                <Property name="OpenParenToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="OpenParenToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -3300,7 +3302,7 @@
                         <Pairwise tunneling="true" bubbling="true"/>
                     </Rules>
                 </Property>
-                <Property name="CloseParenToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="CloseParenToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -3314,7 +3316,7 @@
         </Type>
         <Type name="BracketedParameterListSyntax" base="BaseParameterListSyntax">
             <Properties>
-                <Property name="OpenBracketToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="OpenBracketToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -3327,7 +3329,7 @@
                         <Pairwise tunneling="true" bubbling="true"/>
                     </Rules>
                 </Property>
-                <Property name="CloseBracketToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="CloseBracketToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -3391,7 +3393,7 @@
                         <Pairwise tunneling="true" bubbling="true"/>
                     </Rules>
                 </Property>
-                <Property name="EndOfComment" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="EndOfComment" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -3412,17 +3414,17 @@
         </Type>
         <Type name="EndIfDirectiveTriviaSyntax" base="DirectiveTriviaSyntax">
             <Properties>
-                <Property name="HashToken" kind="Token" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single">
+                <Property name="HashToken" kind="Token" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="EndIfKeyword" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="EndIfKeyword" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="EndOfDirectiveToken" kind="Token" index="2" readOnly="true" optional="false" inherited="true" multiplicity="Single">
+                <Property name="EndOfDirectiveToken" kind="Token" index="2" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -3431,17 +3433,17 @@
         </Type>
         <Type name="RegionDirectiveTriviaSyntax" base="DirectiveTriviaSyntax">
             <Properties>
-                <Property name="HashToken" kind="Token" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single">
+                <Property name="HashToken" kind="Token" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="RegionKeyword" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="RegionKeyword" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="EndOfDirectiveToken" kind="Token" index="2" readOnly="true" optional="false" inherited="true" multiplicity="Single">
+                <Property name="EndOfDirectiveToken" kind="Token" index="2" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -3450,17 +3452,17 @@
         </Type>
         <Type name="EndRegionDirectiveTriviaSyntax" base="DirectiveTriviaSyntax">
             <Properties>
-                <Property name="HashToken" kind="Token" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single">
+                <Property name="HashToken" kind="Token" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="EndRegionKeyword" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="EndRegionKeyword" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="EndOfDirectiveToken" kind="Token" index="2" readOnly="true" optional="false" inherited="true" multiplicity="Single">
+                <Property name="EndOfDirectiveToken" kind="Token" index="2" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -3469,17 +3471,17 @@
         </Type>
         <Type name="ErrorDirectiveTriviaSyntax" base="DirectiveTriviaSyntax">
             <Properties>
-                <Property name="HashToken" kind="Token" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single">
+                <Property name="HashToken" kind="Token" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="ErrorKeyword" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="ErrorKeyword" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="EndOfDirectiveToken" kind="Token" index="2" readOnly="true" optional="false" inherited="true" multiplicity="Single">
+                <Property name="EndOfDirectiveToken" kind="Token" index="2" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -3493,7 +3495,7 @@
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="WarningKeyword" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="WarningKeyword" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -3507,7 +3509,7 @@
         </Type>
         <Type name="BadDirectiveTriviaSyntax" base="DirectiveTriviaSyntax">
             <Properties>
-                <Property name="HashToken" kind="Token" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single">
+                <Property name="HashToken" kind="Token" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -3520,7 +3522,7 @@
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="EndOfDirectiveToken" kind="Token" index="2" readOnly="true" optional="false" inherited="true" multiplicity="Single">
+                <Property name="EndOfDirectiveToken" kind="Token" index="2" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -3534,12 +3536,12 @@
         </Type>
         <Type name="DefineDirectiveTriviaSyntax" base="DirectiveTriviaSyntax">
             <Properties>
-                <Property name="HashToken" kind="Token" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single">
+                <Property name="HashToken" kind="Token" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="DefineKeyword" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="DefineKeyword" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -3552,7 +3554,7 @@
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="EndOfDirectiveToken" kind="Token" index="3" readOnly="true" optional="false" inherited="true" multiplicity="Single">
+                <Property name="EndOfDirectiveToken" kind="Token" index="3" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -3566,12 +3568,12 @@
         </Type>
         <Type name="UndefDirectiveTriviaSyntax" base="DirectiveTriviaSyntax">
             <Properties>
-                <Property name="HashToken" kind="Token" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single">
+                <Property name="HashToken" kind="Token" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="UndefKeyword" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="UndefKeyword" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -3584,7 +3586,7 @@
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="EndOfDirectiveToken" kind="Token" index="3" readOnly="true" optional="false" inherited="true" multiplicity="Single">
+                <Property name="EndOfDirectiveToken" kind="Token" index="3" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -3598,12 +3600,12 @@
         </Type>
         <Type name="LineDirectiveTriviaSyntax" base="DirectiveTriviaSyntax">
             <Properties>
-                <Property name="HashToken" kind="Token" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single">
+                <Property name="HashToken" kind="Token" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="LineKeyword" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="LineKeyword" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -3618,7 +3620,7 @@
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="EndOfDirectiveToken" kind="Token" index="4" readOnly="true" optional="false" inherited="true" multiplicity="Single">
+                <Property name="EndOfDirectiveToken" kind="Token" index="4" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -3627,22 +3629,22 @@
         </Type>
         <Type name="PragmaWarningDirectiveTriviaSyntax" base="DirectiveTriviaSyntax">
             <Properties>
-                <Property name="HashToken" kind="Token" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single">
+                <Property name="HashToken" kind="Token" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="PragmaKeyword" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="PragmaKeyword" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="WarningKeyword" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="WarningKeyword" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="DisableOrRestoreKeyword" kind="Token" index="3" optional="false" changepoint="true" multiplicity="Single" subkind="Keyword">
+                <Property name="DisableOrRestoreKeyword" kind="Token" index="3" optional="false" changepoint="true" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -3652,7 +3654,7 @@
                         <Pairwise tunneling="true" bubbling="true"/>
                     </Rules>
                 </Property>
-                <Property name="EndOfDirectiveToken" kind="Token" index="5" readOnly="true" optional="false" inherited="true" multiplicity="Single">
+                <Property name="EndOfDirectiveToken" kind="Token" index="5" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -3661,17 +3663,17 @@
         </Type>
         <Type name="PragmaChecksumDirectiveTriviaSyntax" base="DirectiveTriviaSyntax">
             <Properties>
-                <Property name="HashToken" kind="Token" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single">
+                <Property name="HashToken" kind="Token" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="PragmaKeyword" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="PragmaKeyword" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="ChecksumKeyword" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="ChecksumKeyword" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -3691,7 +3693,7 @@
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="EndOfDirectiveToken" kind="Token" index="6" readOnly="true" optional="false" inherited="true" multiplicity="Single">
+                <Property name="EndOfDirectiveToken" kind="Token" index="6" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -3700,12 +3702,12 @@
         </Type>
         <Type name="ReferenceDirectiveTriviaSyntax" base="DirectiveTriviaSyntax">
             <Properties>
-                <Property name="HashToken" kind="Token" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single">
+                <Property name="HashToken" kind="Token" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="ReferenceKeyword" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="ReferenceKeyword" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -3715,7 +3717,7 @@
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="EndOfDirectiveToken" kind="Token" index="3" readOnly="true" optional="false" inherited="true" multiplicity="Single">
+                <Property name="EndOfDirectiveToken" kind="Token" index="3" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -3724,12 +3726,12 @@
         </Type>
         <Type name="LoadDirectiveTriviaSyntax" base="DirectiveTriviaSyntax">
             <Properties>
-                <Property name="HashToken" kind="Token" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single">
+                <Property name="HashToken" kind="Token" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="LoadKeyword" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="LoadKeyword" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -3739,7 +3741,7 @@
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="EndOfDirectiveToken" kind="Token" index="3" readOnly="true" optional="false" inherited="true" multiplicity="Single">
+                <Property name="EndOfDirectiveToken" kind="Token" index="3" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -3748,17 +3750,17 @@
         </Type>
         <Type name="ShebangDirectiveTriviaSyntax" base="DirectiveTriviaSyntax">
             <Properties>
-                <Property name="HashToken" kind="Token" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single">
+                <Property name="HashToken" kind="Token" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="ExclamationToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="ExclamationToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="EndOfDirectiveToken" kind="Token" index="2" readOnly="true" optional="false" inherited="true" multiplicity="Single">
+                <Property name="EndOfDirectiveToken" kind="Token" index="2" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -3769,17 +3771,17 @@
         <Type name="BranchingDirectiveTriviaSyntax" abstract="true" base="DirectiveTriviaSyntax"/>
         <Type name="ElseDirectiveTriviaSyntax" base="BranchingDirectiveTriviaSyntax">
             <Properties>
-                <Property name="HashToken" kind="Token" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single">
+                <Property name="HashToken" kind="Token" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="ElseKeyword" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="ElseKeyword" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="EndOfDirectiveToken" kind="Token" index="2" readOnly="true" optional="false" inherited="true" multiplicity="Single">
+                <Property name="EndOfDirectiveToken" kind="Token" index="2" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -3795,12 +3797,12 @@
         </Type>
         <Type name="IfDirectiveTriviaSyntax" base="ConditionalDirectiveTriviaSyntax">
             <Properties>
-                <Property name="HashToken" kind="Token" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single">
+                <Property name="HashToken" kind="Token" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="IfKeyword" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="IfKeyword" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -3810,7 +3812,7 @@
                         <Pairwise tunneling="true" bubbling="true"/>
                     </Rules>
                 </Property>
-                <Property name="EndOfDirectiveToken" kind="Token" index="3" readOnly="true" optional="false" inherited="true" multiplicity="Single">
+                <Property name="EndOfDirectiveToken" kind="Token" index="3" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -3819,12 +3821,12 @@
         </Type>
         <Type name="ElifDirectiveTriviaSyntax" base="ConditionalDirectiveTriviaSyntax">
             <Properties>
-                <Property name="HashToken" kind="Token" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single">
+                <Property name="HashToken" kind="Token" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="ElifKeyword" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="ElifKeyword" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -3834,7 +3836,7 @@
                         <Pairwise tunneling="true" bubbling="true"/>
                     </Rules>
                 </Property>
-                <Property name="EndOfDirectiveToken" kind="Token" index="3" readOnly="true" optional="false" inherited="true" multiplicity="Single">
+                <Property name="EndOfDirectiveToken" kind="Token" index="3" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -3859,7 +3861,7 @@
             <Properties>
                 <Property name="Container" kind="Expression" index="0" optional="false" changepoint="true" multiplicity="Single">
                 </Property>
-                <Property name="DotToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="DotToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -3900,7 +3902,7 @@
         </Type>
         <Type name="IndexerMemberCrefSyntax" base="MemberCrefSyntax">
             <Properties>
-                <Property name="ThisKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="ThisKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Signature>
                             <Equality full="true"/>
@@ -3931,7 +3933,7 @@
         </Type>
         <Type name="OperatorMemberCrefSyntax" base="MemberCrefSyntax">
             <Properties>
-                <Property name="OperatorKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="OperatorKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -3967,12 +3969,12 @@
         </Type>
         <Type name="ConversionOperatorMemberCrefSyntax" base="MemberCrefSyntax">
             <Properties>
-                <Property name="ImplicitOrExplicitKeyword" kind="Token" index="0" optional="false" changepoint="true" multiplicity="Single" subkind="Keyword">
+                <Property name="ImplicitOrExplicitKeyword" kind="Token" index="0" optional="false" changepoint="true" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="OperatorKeyword" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="OperatorKeyword" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -4017,7 +4019,7 @@
         </Type>
         <Type name="CrefParameterListSyntax" base="BaseCrefParameterListSyntax">
             <Properties>
-                <Property name="OpenParenToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="OpenParenToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -4030,7 +4032,7 @@
                         <Pairwise tunneling="true" bubbling="true"/>
                     </Rules>
                 </Property>
-                <Property name="CloseParenToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="CloseParenToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -4044,7 +4046,7 @@
         </Type>
         <Type name="CrefBracketedParameterListSyntax" base="BaseCrefParameterListSyntax">
             <Properties>
-                <Property name="OpenBracketToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="OpenBracketToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -4057,7 +4059,7 @@
                         <Pairwise tunneling="true" bubbling="true"/>
                     </Rules>
                 </Property>
-                <Property name="CloseBracketToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="CloseBracketToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -4071,7 +4073,7 @@
         </Type>
         <Type name="CrefParameterSyntax">
             <Properties>
-                <Property name="RefOrOutKeyword" kind="Token" index="0" optional="true" changepoint="true" multiplicity="Single" subkind="Keyword">
+                <Property name="RefOrOutKeyword" kind="Token" index="0" optional="true" changepoint="true" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -4110,7 +4112,7 @@
         </Type>
         <Type name="XmlElementStartTagSyntax">
             <Properties>
-                <Property name="LessThanToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="LessThanToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -4124,7 +4126,7 @@
                 </Property>
                 <Property name="Attributes" kind="Expression" index="2" optional="false" changepoint="true" multiplicity="Collection" collectionType="XmlAttributeSyntax">
                 </Property>
-                <Property name="GreaterThanToken" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="GreaterThanToken" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -4138,7 +4140,7 @@
         </Type>
         <Type name="XmlElementEndTagSyntax">
             <Properties>
-                <Property name="LessThanSlashToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="LessThanSlashToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -4151,7 +4153,7 @@
                         <Pairwise tunneling="true" bubbling="true"/>
                     </Rules>
                 </Property>
-                <Property name="GreaterThanToken" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="GreaterThanToken" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -4165,7 +4167,7 @@
         </Type>
         <Type name="XmlEmptyElementSyntax" base="XmlNodeSyntax">
             <Properties>
-                <Property name="LessThanToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="LessThanToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -4179,7 +4181,7 @@
                 </Property>
                 <Property name="Attributes" kind="Expression" index="2" optional="false" changepoint="true" multiplicity="Collection" collectionType="XmlAttributeSyntax">
                 </Property>
-                <Property name="SlashGreaterThanToken" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="SlashGreaterThanToken" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -4226,7 +4228,7 @@
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="ColonToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="ColonToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -4270,19 +4272,19 @@
                         </Name>
                     </Rules>
                 </Property>
-                <Property name="EqualsToken" kind="Token" index="1" readOnly="true" optional="false" inherited="true" multiplicity="Single">
+                <Property name="EqualsToken" kind="Token" index="1" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="StartQuoteToken" kind="Token" index="2" readOnly="true" optional="false" inherited="true" multiplicity="Single">
+                <Property name="StartQuoteToken" kind="Token" index="2" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
                 <Property name="TextTokens" kind="Expression" index="3" optional="false" changepoint="true" multiplicity="Collection">
                 </Property>
-                <Property name="EndQuoteToken" kind="Token" index="4" readOnly="true" optional="false" inherited="true" multiplicity="Single">
+                <Property name="EndQuoteToken" kind="Token" index="4" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -4298,12 +4300,12 @@
             <Properties>
                 <Property name="Name" kind="Expression" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single">
                 </Property>
-                <Property name="EqualsToken" kind="Token" index="1" readOnly="true" optional="false" inherited="true" multiplicity="Single">
+                <Property name="EqualsToken" kind="Token" index="1" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="StartQuoteToken" kind="Token" index="2" readOnly="true" optional="false" inherited="true" multiplicity="Single">
+                <Property name="StartQuoteToken" kind="Token" index="2" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -4315,7 +4317,7 @@
                         </Name>
                     </Rules>
                 </Property>
-                <Property name="EndQuoteToken" kind="Token" index="4" readOnly="true" optional="false" inherited="true" multiplicity="Single">
+                <Property name="EndQuoteToken" kind="Token" index="4" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -4331,12 +4333,12 @@
             <Properties>
                 <Property name="Name" kind="Expression" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single">
                 </Property>
-                <Property name="EqualsToken" kind="Token" index="1" readOnly="true" optional="false" inherited="true" multiplicity="Single">
+                <Property name="EqualsToken" kind="Token" index="1" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="StartQuoteToken" kind="Token" index="2" readOnly="true" optional="false" inherited="true" multiplicity="Single">
+                <Property name="StartQuoteToken" kind="Token" index="2" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -4348,7 +4350,7 @@
                         </Name>
                     </Rules>
                 </Property>
-                <Property name="EndQuoteToken" kind="Token" index="4" readOnly="true" optional="false" inherited="true" multiplicity="Single">
+                <Property name="EndQuoteToken" kind="Token" index="4" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -4371,7 +4373,7 @@
         </Type>
         <Type name="XmlCDataSectionSyntax" base="XmlNodeSyntax">
             <Properties>
-                <Property name="StartCDataToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="StartCDataToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -4381,7 +4383,7 @@
                         <Pairwise tunneling="true" bubbling="true"/>
                     </Rules>
                 </Property>
-                <Property name="EndCDataToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="EndCDataToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -4390,7 +4392,7 @@
         </Type>
         <Type name="XmlProcessingInstructionSyntax" base="XmlNodeSyntax">
             <Properties>
-                <Property name="StartProcessingInstructionToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="StartProcessingInstructionToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -4404,7 +4406,7 @@
                 </Property>
                 <Property name="TextTokens" kind="Expression" index="2" optional="false" changepoint="true" multiplicity="Collection">
                 </Property>
-                <Property name="EndProcessingInstructionToken" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="EndProcessingInstructionToken" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -4418,7 +4420,7 @@
         </Type>
         <Type name="XmlCommentSyntax" base="XmlNodeSyntax">
             <Properties>
-                <Property name="LessThanExclamationMinusMinusToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="LessThanExclamationMinusMinusToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -4428,7 +4430,7 @@
                         <Pairwise tunneling="true" bubbling="true"/>
                     </Rules>
                 </Property>
-                <Property name="MinusMinusGreaterThanToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="MinusMinusGreaterThanToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -4447,7 +4449,7 @@
                 </Property>
                 <Property name="Members" kind="Expression" index="3" optional="false" changepoint="true" multiplicity="Collection" collectionType="MemberDeclarationSyntax">
                 </Property>
-                <Property name="EndOfFileToken" kind="Token" index="4" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="EndOfFileToken" kind="Token" index="4" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -4456,12 +4458,12 @@
         </Type>
         <Type name="ExternAliasDirectiveSyntax">
             <Properties>
-                <Property name="ExternKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="ExternKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="AliasKeyword" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="AliasKeyword" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -4474,7 +4476,7 @@
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="SemicolonToken" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="SemicolonToken" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -4488,12 +4490,12 @@
         </Type>
         <Type name="UsingDirectiveSyntax">
             <Properties>
-                <Property name="UsingKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="UsingKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="StaticKeyword" kind="Token" index="1" optional="true" changepoint="true" multiplicity="Single" subkind="Keyword">
+                <Property name="StaticKeyword" kind="Token" index="1" optional="true" changepoint="true" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -4512,7 +4514,7 @@
                         </Name>
                     </Rules>
                 </Property>
-                <Property name="SemicolonToken" kind="Token" index="4" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="SemicolonToken" kind="Token" index="4" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -4526,7 +4528,7 @@
         </Type>
         <Type name="NamespaceDeclarationSyntax" base="MemberDeclarationSyntax">
             <Properties>
-                <Property name="NamespaceKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="NamespaceKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -4538,7 +4540,7 @@
                         </Name>
                     </Rules>
                 </Property>
-                <Property name="OpenBraceToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="OpenBraceToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -4549,12 +4551,12 @@
                 </Property>
                 <Property name="Members" kind="Expression" index="5" optional="false" changepoint="true" multiplicity="Collection" collectionType="MemberDeclarationSyntax">
                 </Property>
-                <Property name="CloseBraceToken" kind="Token" index="6" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="CloseBraceToken" kind="Token" index="6" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="SemicolonToken" kind="Token" index="7" optional="true" changepoint="true" multiplicity="Single">
+                <Property name="SemicolonToken" kind="Token" index="7" optional="true" changepoint="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -4568,7 +4570,7 @@
         </Type>
         <Type name="AttributeListSyntax">
             <Properties>
-                <Property name="OpenBracketToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="OpenBracketToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -4587,7 +4589,7 @@
                         </Name>
                     </Rules>
                 </Property>
-                <Property name="CloseBracketToken" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="CloseBracketToken" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -4609,7 +4611,7 @@
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="ColonToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="ColonToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -4641,7 +4643,7 @@
         </Type>
         <Type name="AttributeArgumentListSyntax">
             <Properties>
-                <Property name="OpenParenToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="OpenParenToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -4651,7 +4653,7 @@
                         <Pairwise tunneling="true" bubbling="true"/>
                     </Rules>
                 </Property>
-                <Property name="CloseParenToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="CloseParenToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -4687,7 +4689,7 @@
         <!--New ones for C# 7.x-->
         <Type name="WhenClauseSyntax" base="CSharpSyntaxNode">
             <Properties>
-                <Property name="WhenKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="WhenKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -4701,7 +4703,7 @@
         </Type>
         <Type name="TupleTypeSyntax" base="TypeSyntax">
             <Properties>
-                <Property name="OpenParenToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="OpenParenToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -4711,7 +4713,7 @@
                         <Pairwise tunneling="true" bubbling="true"/>
                     </Rules>
                 </Property>
-                <Property name="CloseParenToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="CloseParenToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -4720,7 +4722,7 @@
         </Type>
         <Type name="TupleExpressionSyntax" base="ExpressionSyntax">
             <Properties>
-                <Property name="OpenParenToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="OpenParenToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -4730,7 +4732,7 @@
                         <Pairwise tunneling="true" bubbling="true"/>
                     </Rules>
                 </Property>
-                <Property name="CloseParenToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="CloseParenToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -4761,7 +4763,7 @@
         </Type>
         <Type name="ThrowExpressionSyntax" base="ExpressionSyntax">
             <Properties>
-                <Property name="ThrowKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="ThrowKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -4803,7 +4805,7 @@
         </Type>
         <Type name="ParenthesizedVariableDesignationSyntax" base="VariableDesignationSyntax">
             <Properties>
-                <Property name="OpenParenToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="OpenParenToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -4813,7 +4815,7 @@
                         <Pairwise tunneling="true" bubbling="true"/>
                     </Rules>
                 </Property>
-                <Property name="CloseParenToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single">
+                <Property name="CloseParenToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -4823,7 +4825,7 @@
 
         <Type name="RefExpressionSyntax" base="ExpressionSyntax">
             <Properties>
-                <Property name="RefKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="RefKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -4838,7 +4840,7 @@
 
         <Type name="CasePatternSwitchLabelSyntax" base="SwitchLabelSyntax">
             <Properties>
-                <Property name="Keyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" inherited="true" subkind="Keyword">
+                <Property name="Keyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" inherited="true" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -4847,7 +4849,7 @@
                 </Property>
                 <Property name="WhenClause" kind="Expression" index="2" optional="true" changepoint="true" multiplicity="Single">
                 </Property>
-                <Property name="ColonToken" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single" inherited="true">
+                <Property name="ColonToken" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single" inherited="true" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -4858,7 +4860,7 @@
             <Properties>
                 <Property name="Expression" kind="Expression" index="0" optional="false" changepoint="true" multiplicity="Single">
                 </Property>
-                <Property name="IsKeyword" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" subkind="Keyword">
+                <Property name="IsKeyword" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -4877,11 +4879,11 @@
         </Type>
         <Type name="CommonForEachStatementSyntax" base="StatementSyntax" abstract="true">
             <Properties>
-                <Property name="ForEachKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" inherited="true" subkind="Keyword">
+                <Property name="ForEachKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" inherited="true" keyword="true">
                 </Property>
                 <Property name="OpenParenToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single">
                 </Property>
-                <Property name="InKeyword" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single" inherited="true" subkind="Keyword">
+                <Property name="InKeyword" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single" inherited="true" keyword="true">
                 </Property>
                 <Property name="Expression" kind="Expression" index="3" optional="false" changepoint="true" multiplicity="Single">
                 </Property>
@@ -4893,26 +4895,26 @@
         </Type>
         <Type name="ForEachVariableStatementSyntax" base="CommonForEachStatementSyntax">
             <Properties>
-                <Property name="ForEachKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" inherited="true" subkind="Keyword">
+                <Property name="ForEachKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" inherited="true" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="OpenParenToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" inherited="true">
+                <Property name="OpenParenToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" inherited="true" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
                 <Property name="Variable" kind="Expression" index="2" optional="false" changepoint="true" multiplicity="Single">
                 </Property>
-                <Property name="InKeyword" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single" inherited="true" subkind="Keyword">
+                <Property name="InKeyword" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single" inherited="true" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
                 <Property name="Expression" kind="Expression" index="4" optional="false" changepoint="true" multiplicity="Single" inherited="true">
                 </Property>
-                <Property name="CloseParenToken" kind="Token" index="5" readOnly="true" optional="false" multiplicity="Single" inherited="true">
+                <Property name="CloseParenToken" kind="Token" index="5" readOnly="true" optional="false" multiplicity="Single" inherited="true" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -4978,7 +4980,7 @@
                 </Property>
                 <Property name="ExpressionBody" kind="Expression" index="7" optional="true" changepoint="true" multiplicity="Single">
                 </Property>
-                <Property name="SemicolonToken" kind="Token" index="8" readOnly="true" optional="true" multiplicity="Single">
+                <Property name="SemicolonToken" kind="Token" index="8" readOnly="true" optional="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -4995,12 +4997,12 @@
         </Type>
         <Type name="RefTypeSyntax" base="TypeSyntax">
             <Properties>
-                <Property name="RefKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" inherited="true" subkind="Keyword">
+                <Property name="RefKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" inherited="true" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="ReadOnlyKeyword" kind="Token" index="1" readOnly="true" optional="true" multiplicity="Single" inherited="true" subkind="Keyword">
+                <Property name="ReadOnlyKeyword" kind="Token" index="1" readOnly="true" optional="true" multiplicity="Single" inherited="true" keyword="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
