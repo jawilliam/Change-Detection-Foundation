@@ -2223,7 +2223,7 @@
                 </Property>
                 <Property name="CloseBraceToken" kind="Token" index="5" readOnly="true" optional="false" multiplicity="Single">
                 </Property>
-                <Property name="SemicolonToken" kind="Token" index="6" optional="true" changepoint="true" multiplicity="Single">
+                <Property name="SemicolonToken" kind="Token" index="6" readOnly="true" optional="true" changepoint="true" multiplicity="Single">
                 </Property>
             </Properties>
             <Rules>
@@ -2265,7 +2265,7 @@
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="SemicolonToken" kind="Token" index="8" optional="true" changepoint="true" inherited="true" multiplicity="Single" puntuaction="true">
+                <Property name="SemicolonToken" kind="Token" index="8" readOnly="true" optional="true" changepoint="true" inherited="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -2345,7 +2345,7 @@
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="SemicolonToken" kind="Token" index="10" optional="true" changepoint="true" inherited="true" multiplicity="Single" puntuaction="true">
+                <Property name="SemicolonToken" kind="Token" index="10" readOnly="true" optional="true" changepoint="true" inherited="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -2405,7 +2405,7 @@
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="SemicolonToken" kind="Token" index="10" optional="true" changepoint="true" inherited="true" multiplicity="Single" puntuaction="true">
+                <Property name="SemicolonToken" kind="Token" index="10" readOnly="true" optional="true" changepoint="true" inherited="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -2465,7 +2465,7 @@
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="SemicolonToken" kind="Token" index="10" optional="true" changepoint="true" inherited="true" multiplicity="Single" puntuaction="true">
+                <Property name="SemicolonToken" kind="Token" index="10" readOnly="true" optional="true" changepoint="true" inherited="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -2833,7 +2833,7 @@
                 </Property>
                 <Property name="ExpressionBody" kind="Expression" index="9" optional="true" changepoint="true" multiplicity="Single">
                 </Property>
-                <Property name="SemicolonToken" kind="Token" index="10" optional="true" changepoint="true" inherited="true" multiplicity="Single" puntuaction="true">
+                <Property name="SemicolonToken" kind="Token" index="10" readOnly="true" optional="true" changepoint="true" inherited="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -2883,7 +2883,7 @@
                 </Property>
                 <Property name="ExpressionBody" kind="Expression" index="7" optional="true" changepoint="true" multiplicity="Single">
                 </Property>
-                <Property name="SemicolonToken" kind="Token" index="8" optional="true" changepoint="true" inherited="true" multiplicity="Single" puntuaction="true">
+                <Property name="SemicolonToken" kind="Token" index="8" readOnly="true" optional="true" changepoint="true" inherited="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -2935,7 +2935,7 @@
                 </Property>
                 <Property name="ExpressionBody" kind="Expression" index="7" optional="true" changepoint="true" multiplicity="Single">
                 </Property>
-                <Property name="SemicolonToken" kind="Token" index="8" optional="true" changepoint="true" inherited="true" multiplicity="Single" puntuaction="true">
+                <Property name="SemicolonToken" kind="Token" index="8" readOnly="true" optional="true" changepoint="true" inherited="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -2975,7 +2975,7 @@
                 </Property>
                 <Property name="Body" kind="Expression" index="5" optional="true" changepoint="true" inherited="true" multiplicity="Single">
                 </Property>
-                <Property name="SemicolonToken" kind="Token" index="6" optional="true" changepoint="true" inherited="true" multiplicity="Single" puntuaction="true">
+                <Property name="SemicolonToken" kind="Token" index="6" readOnly="true" optional="true" changepoint="true" inherited="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -3035,7 +3035,7 @@
                 </Property>
                 <Property name="Body" kind="Expression" index="6" optional="true" changepoint="true" inherited="true" multiplicity="Single">
                 </Property>
-                <Property name="SemicolonToken" kind="Token" index="7" optional="true" changepoint="true" inherited="true" multiplicity="Single" puntuaction="true">
+                <Property name="SemicolonToken" kind="Token" index="7" readOnly="true" optional="true" changepoint="true" inherited="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -3101,7 +3101,7 @@
                 </Property>
                 <Property name="Initializer" kind="Expression" index="7" optional="true" changepoint="true" multiplicity="Single">
                 </Property>
-                <Property name="SemicolonToken" kind="Token" index="8" optional="true" changepoint="true" multiplicity="Single" puntuaction="true">
+                <Property name="SemicolonToken" kind="Token" index="8" readOnly="true" optional="true" changepoint="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -3213,7 +3213,7 @@
                 </Property>
                 <Property name="ExpressionBody" kind="Expression" index="6" optional="true" changepoint="true" multiplicity="Single">
                 </Property>
-                <Property name="SemicolonToken" kind="Token" index="7" optional="true" changepoint="true" multiplicity="Single" puntuaction="true">
+                <Property name="SemicolonToken" kind="Token" index="7" readOnly="true" optional="true" changepoint="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -3260,7 +3260,7 @@
                 </Property>
                 <Property name="Body" kind="Expression" index="3" optional="true" changepoint="true" multiplicity="Single">
                 </Property>
-                <Property name="SemicolonToken" kind="Token" index="4" optional="true" changepoint="true" multiplicity="Single" puntuaction="true">
+                <Property name="SemicolonToken" kind="Token" index="4" readOnly="true" optional="true" changepoint="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>
@@ -4556,7 +4556,7 @@
                         <Pairwise tunneling="true"/>
                     </Rules>
                 </Property>
-                <Property name="SemicolonToken" kind="Token" index="7" optional="true" changepoint="true" multiplicity="Single" puntuaction="true">
+                <Property name="SemicolonToken" kind="Token" index="7" readOnly="true" optional="true" changepoint="true" multiplicity="Single" puntuaction="true">
                     <Rules>
                         <Pairwise tunneling="true"/>
                     </Rules>

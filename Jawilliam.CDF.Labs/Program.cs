@@ -645,16 +645,29 @@ namespace Jawilliam.CDF.Labs
             //                          where remainingProperties.Count() == 1 /*&& p.readOnly*/
             //                          select new { Type = t, Property = remainingProperties.Single() };
 
+            var punctuationProperties1 = (from t in nonAbstractTypes
+                                         from p in t.Properties.Property
+                                         where p.kind == "Token"//(p.keyword ?? false) || (p.@operator ?? false) || (p.puntuaction ?? false) || (p.kind == "Token" && p.Rules?.Name != null)
+                                          select new { Type = t, Property = p }).ToArray();
+
+            var punctuationProperties2 = (from t in nonAbstractTypes
+                                         from p in t.Properties.Property
+                                         where (p.Rules?.Pairwise?.tunneling ?? false) && !(p.Rules?.Pairwise?.bubbling ?? false)
+                                         select new { Type = t, Property = p }).ToArray();
+
+            var r1 = punctuationProperties1.Except(punctuationProperties2).ToArray();
+            var r2 = punctuationProperties2.Except(punctuationProperties1).ToArray();
+
             var operatorProperties = from t in nonAbstractTypes
                                         from p in t.Properties.Property
                                         where p.name.Contains("Operator")
                                         select new { Type = t, Property = p };
             StringBuilder sb = new StringBuilder();
-            foreach (var mp in operatorProperties)
-            {
-                sb.AppendLine($"{mp.Property.name} in {mp.Type.name}");
-            }
-            System.IO.File.WriteAllText(@"D:\Reports\Operator Properties.txt", sb.ToString());
+            //foreach (var mp in r3)
+            //{
+            //    sb.AppendLine($"{mp.Property.name} in {mp.Type.name}");
+            //}
+            //System.IO.File.WriteAllText(@"D:\Reports\Exception Operator Properties.txt", sb.ToString());
 
             var puntuactionProperties = from t in nonAbstractTypes
                                         from p in t.Properties.Property
