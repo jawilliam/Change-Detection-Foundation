@@ -21,6 +21,7 @@
   </xs:complexType>
   <xs:complexType name="TopologyRules">
     <xs:attribute name="relevant" type="xs:boolean" use="optional"/>
+    <xs:attribute name="relevancy" type="xs:unsignedByte" use="optional" default="0"/>
     <xs:attribute name="leaf" type="xs:boolean" use="optional"/>
   </xs:complexType>
 	<xs:element name="Syntax">
@@ -131,8 +132,11 @@
 									<xs:attribute name="name" type="xs:string" use="required"/>
 									<xs:attribute name="abstract" type="xs:boolean" use="optional" default="false"/>
 									<xs:attribute name="base" type="xs:string" use="optional"/>
-                  <xs:attribute name="token" type="xs:boolean" use="optional"/>
-                  <xs:attribute name="operator" type="xs:boolean" use="optional"/>
+                  <xs:attribute name="token" type="xs:boolean" use="optional" default="false"/>
+                  <xs:attribute name="operator" type="xs:boolean" use="optional" default="false"/>
+                  <xs:attribute name="readonly" type="xs:boolean" use="optional" default="false"/>
+                  <xs:attribute name="invisible" type="xs:boolean" use="optional" default="false"/>
+                  <xs:attribute name="symbolic" type="xs:boolean" use="optional" default="false"/>
 								</xs:complexType>
 							</xs:element>
 						</xs:sequence>

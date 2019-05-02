@@ -305,6 +305,21 @@ namespace Jawilliam.CDF.XObjects.RDSL
                 private static bool @abstractDefaultValue = System.Xml.XmlConvert.ToBoolean("false");
 
                 [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private static bool tokenDefaultValue = System.Xml.XmlConvert.ToBoolean("false");
+
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private static bool @operatorDefaultValue = System.Xml.XmlConvert.ToBoolean("false");
+
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private static bool @readonlyDefaultValue = System.Xml.XmlConvert.ToBoolean("false");
+
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private static bool invisibleDefaultValue = System.Xml.XmlConvert.ToBoolean("false");
+
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private static bool symbolicDefaultValue = System.Xml.XmlConvert.ToBoolean("false");
+
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
                 static Dictionary<XName, System.Type> localElementDictionary = new Dictionary<XName, System.Type>();
 
                 [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -449,16 +464,12 @@ namespace Jawilliam.CDF.XObjects.RDSL
                 /// Occurrence: optional
                 /// </para>
                 /// </summary>
-                public System.Nullable<bool> token
+                public bool token
                 {
                     get
                     {
                         XAttribute x = this.Attribute(XName.Get("token", ""));
-                        if ((x == null))
-                        {
-                            return null;
-                        }
-                        return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
+                        return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype, tokenDefaultValue);
                     }
                     set
                     {
@@ -471,20 +482,70 @@ namespace Jawilliam.CDF.XObjects.RDSL
                 /// Occurrence: optional
                 /// </para>
                 /// </summary>
-                public System.Nullable<bool> @operator
+                public bool @operator
                 {
                     get
                     {
                         XAttribute x = this.Attribute(XName.Get("operator", ""));
-                        if ((x == null))
-                        {
-                            return null;
-                        }
-                        return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
+                        return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype, @operatorDefaultValue);
                     }
                     set
                     {
                         this.SetAttribute(XName.Get("operator", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
+                    }
+                }
+
+                /// <summary>
+                /// <para>
+                /// Occurrence: optional
+                /// </para>
+                /// </summary>
+                public bool @readonly
+                {
+                    get
+                    {
+                        XAttribute x = this.Attribute(XName.Get("readonly", ""));
+                        return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype, @readonlyDefaultValue);
+                    }
+                    set
+                    {
+                        this.SetAttribute(XName.Get("readonly", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
+                    }
+                }
+
+                /// <summary>
+                /// <para>
+                /// Occurrence: optional
+                /// </para>
+                /// </summary>
+                public bool invisible
+                {
+                    get
+                    {
+                        XAttribute x = this.Attribute(XName.Get("invisible", ""));
+                        return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype, invisibleDefaultValue);
+                    }
+                    set
+                    {
+                        this.SetAttribute(XName.Get("invisible", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
+                    }
+                }
+
+                /// <summary>
+                /// <para>
+                /// Occurrence: optional
+                /// </para>
+                /// </summary>
+                public bool symbolic
+                {
+                    get
+                    {
+                        XAttribute x = this.Attribute(XName.Get("symbolic", ""));
+                        return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype, symbolicDefaultValue);
+                    }
+                    set
+                    {
+                        this.SetAttribute(XName.Get("symbolic", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
                     }
                 }
 
@@ -2255,6 +2316,9 @@ namespace Jawilliam.CDF.XObjects.RDSL
     public partial class TopologyRules : XTypedElement, IXMetaData
     {
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static byte relevancyDefaultValue = System.Xml.XmlConvert.ToByte("0");
+
         public static explicit operator TopologyRules(XElement xe) { return XTypedServices.ToXTypedElement<TopologyRules>(xe, LinqToXsdTypeManager.Instance as ILinqToXsdTypeManager); }
 
         public TopologyRules()
@@ -2280,6 +2344,24 @@ namespace Jawilliam.CDF.XObjects.RDSL
             set
             {
                 this.SetAttribute(XName.Get("relevant", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
+            }
+        }
+
+        /// <summary>
+        /// <para>
+        /// Occurrence: optional
+        /// </para>
+        /// </summary>
+        public byte relevancy
+        {
+            get
+            {
+                XAttribute x = this.Attribute(XName.Get("relevancy", ""));
+                return XTypedServices.ParseValue<byte>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.UnsignedByte).Datatype, relevancyDefaultValue);
+            }
+            set
+            {
+                this.SetAttribute(XName.Get("relevancy", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.UnsignedByte).Datatype);
             }
         }
 
