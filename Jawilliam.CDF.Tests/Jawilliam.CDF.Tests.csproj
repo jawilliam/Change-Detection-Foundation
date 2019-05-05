@@ -137,6 +137,7 @@
       <HintPath>..\packages\System.Xml.XPath.XDocument.4.3.0\lib\net46\System.Xml.XPath.XDocument.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Xml.Schema.Linq, Version=2.0.2.12, Culture=neutral, PublicKeyToken=47d0c84d0ebb13e5" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -179,6 +180,7 @@
     <Compile Include="Approach.GumTree\GumTreeNativeApproachTests.cs" />
     <Compile Include="CSharp\CSharpFladTests.cs" />
     <Compile Include="CSharp\MatchingProvider.cs" />
+    <Compile Include="CSharp\RDSLTests.cs" />
     <Compile Include="CSharp\SignatureEqualityServicesTests.cs" />
     <Compile Include="CSharp\NameEqualityServicesTests.cs" />
     <Compile Include="CSharp\RoslynMLTests.CSharp7x.cs" />
@@ -210,6 +212,10 @@
     <ProjectReference Include="..\Jawilliam.CDF.Labs\Jawilliam.CDF.Labs.csproj">
       <Project>{A3D8BB28-BE2B-4E8A-B5DB-FB81529EAA49}</Project>
       <Name>Jawilliam.CDF.Labs</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Jawilliam.CDF.XObjects\Jawilliam.CDF.XObjects.csproj">
+      <Project>{111ff008-fabe-4d66-9a27-c7edcfde25f4}</Project>
+      <Name>Jawilliam.CDF.XObjects</Name>
     </ProjectReference>
     <ProjectReference Include="..\Jawilliam.CDF\Jawilliam.CDF.csproj">
       <Project>{58D5A3A8-6A46-4930-81F3-ADF81CAB411F}</Project>

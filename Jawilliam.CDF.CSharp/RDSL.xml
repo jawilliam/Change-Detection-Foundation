@@ -959,6 +959,9 @@
           </Rules>
         </Property>
         <Property name="Expression" kind="Expression" index="2" optional="false" changepoint="true" multiplicity="Single">
+          <Rules>
+            <Topology relevant="true"/>
+          </Rules>
         </Property>
       </Properties>
       <Rules>
@@ -1588,7 +1591,7 @@
       <Properties>
         <Property name="Modifiers" kind="Expression" index="0" optional="false" changepoint="true" multiplicity="Collection">
           <Rules>
-            <!--<Topology relevant="true" relevancy="1"/>-->
+            <Topology relevant="true" relevancy="1"/>
           </Rules>
         </Property>
         <Property name="Declaration" kind="Expression" index="1" optional="false" changepoint="true" multiplicity="Single">
@@ -2295,8 +2298,14 @@
     <Type name="SwitchSectionSyntax">
       <Properties>
         <Property name="Labels" kind="Expression" index="0" optional="false" changepoint="true" multiplicity="Collection" collectionType="SwitchLabelSyntax">
+          <Rules>
+            <Topology relevant="true"/>
+          </Rules>
         </Property>
         <Property name="Statements" kind="Expression" index="1" optional="false" changepoint="true" multiplicity="Collection" collectionType="StatementSyntax">
+          <Rules>
+            <Topology relevant="true"/>
+          </Rules>
         </Property>
       </Properties>
     </Type>
@@ -3061,7 +3070,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="ClassOrStructConstraintSyntax" base="TypeParameterConstraintSyntax">
+    <Type name="ClassOrStructConstraintSyntax" base="TypeParameterConstraintSyntax" readonly="true">
       <Properties>
         <Property name="ClassOrStructKeyword" kind="Token" index="0" optional="false" changepoint="true" multiplicity="Single" keyword="true">
           <Rules>
@@ -3127,6 +3136,7 @@
             <Name>
               <Equality full="true"/>
             </Name>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="SemicolonToken" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single">
@@ -3141,14 +3151,21 @@
     <Type name="FieldDeclarationSyntax" base="BaseFieldDeclarationSyntax">
       <Properties>
         <Property name="AttributeLists" kind="Expression" index="0" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="AttributeListSyntax">
+          <Rules>
+            <Topology relevant="true" relevancy="1"/>
+          </Rules>
         </Property>
         <Property name="Modifiers" kind="Expression" index="1" optional="false" changepoint="true" inherited="true" multiplicity="Collection">
+          <Rules>
+            <Topology relevant="true" relevancy="2"/>
+          </Rules>
         </Property>
         <Property name="Declaration" kind="Expression" index="2" optional="false" changepoint="true" inherited="true" multiplicity="Single">
           <Rules>
             <Name>
               <Equality full="true"/>
             </Name>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="SemicolonToken" kind="Token" index="3" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
@@ -3166,8 +3183,14 @@
     <Type name="EventFieldDeclarationSyntax" base="BaseFieldDeclarationSyntax">
       <Properties>
         <Property name="AttributeLists" kind="Expression" index="0" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="AttributeListSyntax">
+          <Rules>
+            <Topology relevant="true" relevancy="1"/>
+          </Rules>
         </Property>
         <Property name="Modifiers" kind="Expression" index="1" optional="false" changepoint="true" inherited="true" multiplicity="Collection">
+          <Rules>
+            <Topology relevant="true" relevancy="2"/>
+          </Rules>
         </Property>
         <Property name="EventKeyword" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single" keyword="true">
           <Rules>
@@ -3179,6 +3202,7 @@
             <Name>
               <Equality full="true"/>
             </Name>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="SemicolonToken" kind="Token" index="4" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
@@ -3202,6 +3226,7 @@
               <Equality full="true"/>
             </Name>
             <Pairwise tunneling="true" bubbling="true"/>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="DotToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
@@ -3244,10 +3269,19 @@
     <Type name="MethodDeclarationSyntax" base="BaseMethodDeclarationSyntax">
       <Properties>
         <Property name="AttributeLists" kind="Expression" index="0" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="AttributeListSyntax">
+          <Rules>
+            <Topology relevant="true" relevancy="1"/>
+          </Rules>
         </Property>
         <Property name="Modifiers" kind="Expression" index="1" optional="false" changepoint="true" inherited="true" multiplicity="Collection">
+          <Rules>
+            <Topology relevant="true" relevancy="2"/>
+          </Rules>
         </Property>
         <Property name="ReturnType" kind="Expression" index="2" optional="false" changepoint="true" multiplicity="Single">
+          <Rules>
+            <Topology relevant="true"/>
+          </Rules>
         </Property>
         <Property name="ExplicitInterfaceSpecifier" kind="Expression" index="3" optional="true" changepoint="true" multiplicity="Single">
           <Rules>
@@ -3257,6 +3291,7 @@
             <Name>
               <Equality full="true"/>
             </Name>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="Identifier" kind="Token" index="4" optional="false" changepoint="true" multiplicity="Single">
@@ -3268,6 +3303,7 @@
               <Equality full="true"/>
             </Name>
             <Pairwise tunneling="true"/>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="TypeParameterList" kind="Expression" index="5" optional="true" changepoint="true" multiplicity="Single">
@@ -3275,6 +3311,7 @@
             <Signature>
               <Equality full="true"/>
             </Signature>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="ParameterList" kind="Expression" index="6" optional="false" changepoint="true" inherited="true" multiplicity="Single">
@@ -3282,13 +3319,23 @@
             <Signature>
               <Equality full="true"/>
             </Signature>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="ConstraintClauses" kind="Expression" index="7" optional="false" changepoint="true" multiplicity="Collection" collectionType="TypeParameterConstraintClauseSyntax">
+          <Rules>
+            <Topology relevant="true"/>
+          </Rules>
         </Property>
         <Property name="Body" kind="Expression" index="8" optional="true" changepoint="true" inherited="true" multiplicity="Single">
+          <Rules>
+            <Topology relevant="true"/>
+          </Rules>
         </Property>
         <Property name="ExpressionBody" kind="Expression" index="9" optional="true" changepoint="true" multiplicity="Single">
+          <Rules>
+            <Topology relevant="true"/>
+          </Rules>
         </Property>
         <Property name="SemicolonToken" kind="Token" index="10" readOnly="true" optional="true" changepoint="true" inherited="true" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -3308,10 +3355,19 @@
     <Type name="OperatorDeclarationSyntax" base="BaseMethodDeclarationSyntax">
       <Properties>
         <Property name="AttributeLists" kind="Expression" index="0" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="AttributeListSyntax">
+          <Rules>
+            <Topology relevant="true" relevancy="1"/>
+          </Rules>
         </Property>
         <Property name="Modifiers" kind="Expression" index="1" optional="false" changepoint="true" inherited="true" multiplicity="Collection">
+          <Rules>
+            <Topology relevant="true" relevancy="2"/>
+          </Rules>
         </Property>
         <Property name="ReturnType" kind="Expression" index="2" optional="false" changepoint="true" multiplicity="Single">
+          <Rules>
+            <Topology relevant="true"/>
+          </Rules>
         </Property>
         <Property name="OperatorKeyword" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single" keyword="true">
           <Rules>
@@ -3327,6 +3383,7 @@
               <Equality full="true"/>
             </Name>
             <Pairwise tunneling="true"/>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="ParameterList" kind="Expression" index="5" optional="false" changepoint="true" inherited="true" multiplicity="Single">
@@ -3334,11 +3391,18 @@
             <Signature>
               <Equality full="true"/>
             </Signature>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="Body" kind="Expression" index="6" optional="true" changepoint="true" inherited="true" multiplicity="Single">
+          <Rules>
+            <Topology relevant="true"/>
+          </Rules>
         </Property>
         <Property name="ExpressionBody" kind="Expression" index="7" optional="true" changepoint="true" multiplicity="Single">
+          <Rules>
+            <Topology relevant="true"/>
+          </Rules>
         </Property>
         <Property name="SemicolonToken" kind="Token" index="8" readOnly="true" optional="true" changepoint="true" inherited="true" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -3358,8 +3422,14 @@
     <Type name="ConversionOperatorDeclarationSyntax" base="BaseMethodDeclarationSyntax">
       <Properties>
         <Property name="AttributeLists" kind="Expression" index="0" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="AttributeListSyntax">
+          <Rules>
+            <Topology relevant="true" relevancy="1"/>
+          </Rules>
         </Property>
         <Property name="Modifiers" kind="Expression" index="1" optional="false" changepoint="true" inherited="true" multiplicity="Collection">
+          <Rules>
+            <Topology relevant="true" relevancy="2"/>
+          </Rules>
         </Property>
         <Property name="ImplicitOrExplicitKeyword" kind="Token" index="2" optional="false" changepoint="true" multiplicity="Single" keyword="true">
           <Rules>
@@ -3379,6 +3449,7 @@
             <Name>
               <Equality full="true"/>
             </Name>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="ParameterList" kind="Expression" index="5" optional="false" changepoint="true" inherited="true" multiplicity="Single">
@@ -3386,11 +3457,18 @@
             <Signature>
               <Equality full="true"/>
             </Signature>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="Body" kind="Expression" index="6" optional="true" changepoint="true" inherited="true" multiplicity="Single">
+          <Rules>
+            <Topology relevant="true"/>
+          </Rules>
         </Property>
         <Property name="ExpressionBody" kind="Expression" index="7" optional="true" changepoint="true" multiplicity="Single">
+          <Rules>
+            <Topology relevant="true"/>
+          </Rules>
         </Property>
         <Property name="SemicolonToken" kind="Token" index="8" readOnly="true" optional="true" changepoint="true" inherited="true" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -3407,8 +3485,14 @@
     <Type name="ConstructorDeclarationSyntax" base="BaseMethodDeclarationSyntax">
       <Properties>
         <Property name="AttributeLists" kind="Expression" index="0" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="AttributeListSyntax">
+          <Rules>
+            <Topology relevant="true" relevancy="1"/>
+          </Rules>
         </Property>
         <Property name="Modifiers" kind="Expression" index="1" optional="false" changepoint="true" inherited="true" multiplicity="Collection">
+          <Rules>
+            <Topology relevant="true" relevancy="2"/>
+          </Rules>
         </Property>
         <Property name="Identifier" kind="Token" index="2" optional="false" changepoint="true" multiplicity="Single">
           <Rules>
@@ -3419,6 +3503,7 @@
               <Equality full="true"/>
             </Name>
             <Pairwise tunneling="true"/>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="ParameterList" kind="Expression" index="3" optional="false" changepoint="true" inherited="true" multiplicity="Single">
@@ -3426,11 +3511,18 @@
             <Signature>
               <Equality full="true"/>
             </Signature>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="Initializer" kind="Expression" index="4" optional="true" changepoint="true" multiplicity="Single">
+          <Rules>
+            <Topology relevant="true"/>
+          </Rules>
         </Property>
         <Property name="Body" kind="Expression" index="5" optional="true" changepoint="true" inherited="true" multiplicity="Single">
+          <Rules>
+            <Topology relevant="true"/>
+          </Rules>
         </Property>
         <Property name="SemicolonToken" kind="Token" index="6" readOnly="true" optional="true" changepoint="true" inherited="true" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -3456,13 +3548,27 @@
         </Property>
         <Property name="ThisOrBaseKeyword" kind="Token" index="1" optional="false" changepoint="true" multiplicity="Single" keyword="true">
           <Rules>
+            <Signature>
+              <Equality full="true"/>
+            </Signature>
+            <Name>
+              <Equality full="true"/>
+            </Name>
             <Pairwise tunneling="true"/>
+            <Topology relevant="true"/>
             <!--should be this property a key or priorized pairwise change detection?-->
           </Rules>
         </Property>
         <Property name="ArgumentList" kind="Expression" index="2" optional="false" changepoint="true" multiplicity="Single">
           <Rules>
+            <Signature>
+              <Equality full="true"/>
+            </Signature>
+            <Name>
+              <Equality full="true"/>
+            </Name>
             <Pairwise tunneling="true" bubbling="true"/>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
       </Properties>
@@ -3473,8 +3579,14 @@
     <Type name="DestructorDeclarationSyntax" base="BaseMethodDeclarationSyntax">
       <Properties>
         <Property name="AttributeLists" kind="Expression" index="0" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="AttributeListSyntax">
+          <Rules>
+            <Topology relevant="true" relevancy="1"/>
+          </Rules>
         </Property>
         <Property name="Modifiers" kind="Expression" index="1" readOnly="true" optional="false" inherited="true" multiplicity="Collection">
+          <Rules>
+            <Topology relevant="true" relevancy="2"/>
+          </Rules>
         </Property>
         <Property name="TildeToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -3487,11 +3599,18 @@
               <Equality full="true"/>
             </Name>
             <Pairwise tunneling="true"/>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="ParameterList" kind="Expression" index="4" readOnly="true" optional="false" inherited="true" multiplicity="Single">
+          <Rules>
+            <Topology relevant="true"/>
+          </Rules>
         </Property>
         <Property name="Body" kind="Expression" index="6" optional="true" changepoint="true" inherited="true" multiplicity="Single">
+          <Rules>
+            <Topology relevant="true"/>
+          </Rules>
         </Property>
         <Property name="SemicolonToken" kind="Token" index="7" readOnly="true" optional="true" changepoint="true" inherited="true" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -3533,16 +3652,26 @@
     <Type name="PropertyDeclarationSyntax" base="BasePropertyDeclarationSyntax">
       <Properties>
         <Property name="AttributeLists" kind="Expression" index="0" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="AttributeListSyntax">
+          <Rules>
+            <Topology relevant="true" relevancy="1"/>
+          </Rules>
         </Property>
         <Property name="Modifiers" kind="Expression" index="1" optional="false" changepoint="true" inherited="true" multiplicity="Collection">
+          <Rules>
+            <Topology relevant="true" relevancy="2"/>
+          </Rules>
         </Property>
         <Property name="Type" kind="Expression" index="2" optional="false" changepoint="true" inherited="true" multiplicity="Single">
+          <Rules>
+            <Topology relevant="true"/>
+          </Rules>
         </Property>
         <Property name="ExplicitInterfaceSpecifier" kind="Expression" index="3" optional="true" changepoint="true" inherited="true" multiplicity="Single">
           <Rules>
             <Name>
               <Equality full="true"/>
             </Name>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="Identifier" kind="Token" index="4" optional="false" changepoint="true" multiplicity="Single">
@@ -3551,13 +3680,23 @@
               <Equality full="true"/>
             </Name>
             <Pairwise tunneling="true"/>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="AccessorList" kind="Expression" index="5" optional="true" changepoint="true" inherited="true" multiplicity="Single">
+          <Rules>
+            <Topology relevant="true"/>
+          </Rules>
         </Property>
         <Property name="ExpressionBody" kind="Expression" index="6" optional="true" changepoint="true" multiplicity="Single">
+          <Rules>
+            <Topology relevant="true"/>
+          </Rules>
         </Property>
         <Property name="Initializer" kind="Expression" index="7" optional="true" changepoint="true" multiplicity="Single">
+          <Rules>
+            <Topology relevant="true"/>
+          </Rules>
         </Property>
         <Property name="SemicolonToken" kind="Token" index="8" readOnly="true" optional="true" changepoint="true" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -3581,6 +3720,7 @@
         <Property name="Expression" kind="Expression" index="1" optional="false" changepoint="true" multiplicity="Single">
           <Rules>
             <Pairwise tunneling="true" bubbling="true"/>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
       </Properties>
@@ -3588,8 +3728,14 @@
     <Type name="EventDeclarationSyntax" base="BasePropertyDeclarationSyntax">
       <Properties>
         <Property name="AttributeLists" kind="Expression" index="0" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="AttributeListSyntax">
+          <Rules>
+            <Topology relevant="true" relevancy="1"/>
+          </Rules>
         </Property>
         <Property name="Modifiers" kind="Expression" index="1" optional="false" changepoint="true" inherited="true" multiplicity="Collection">
+          <Rules>
+            <Topology relevant="true" relevancy="2"/>
+          </Rules>
         </Property>
         <Property name="EventKeyword" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single" keyword="true">
           <Rules>
@@ -3597,6 +3743,9 @@
           </Rules>
         </Property>
         <Property name="Type" kind="Expression" index="3" optional="false" changepoint="true" inherited="true" multiplicity="Single">
+          <Rules>
+            <Topology relevant="true"/>
+          </Rules>
         </Property>
         <Property name="ExplicitInterfaceSpecifier" kind="Expression" index="4" optional="true" changepoint="true" inherited="true" multiplicity="Single">
           <Rules>
@@ -3606,6 +3755,7 @@
             <Name>
               <Equality full="true"/>
             </Name>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="Identifier" kind="Token" index="5" optional="false" changepoint="true" multiplicity="Single">
@@ -3617,9 +3767,13 @@
               <Equality full="true"/>
             </Name>
             <Pairwise tunneling="true"/>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="AccessorList" kind="Expression" index="6" optional="false" changepoint="true" inherited="true" multiplicity="Single">
+          <Rules>
+            <Topology relevant="true"/>
+          </Rules>
         </Property>
       </Properties>
       <Rules>
@@ -3634,10 +3788,19 @@
     <Type name="IndexerDeclarationSyntax" base="BasePropertyDeclarationSyntax">
       <Properties>
         <Property name="AttributeLists" kind="Expression" index="0" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="AttributeListSyntax">
+          <Rules>
+            <Topology relevant="true" relevancy="1"/>
+          </Rules>
         </Property>
         <Property name="Modifiers" kind="Expression" index="1" optional="false" changepoint="true" inherited="true" multiplicity="Collection">
+          <Rules>
+            <Topology relevant="true" relevancy="2"/>
+          </Rules>
         </Property>
         <Property name="Type" kind="Expression" index="2" optional="false" changepoint="true" inherited="true" multiplicity="Single">
+          <Rules>
+            <Topology relevant="true"/>
+          </Rules>
         </Property>
         <Property name="ExplicitInterfaceSpecifier" kind="Expression" index="3" optional="true" changepoint="true" inherited="true" multiplicity="Single">
           <Rules>
@@ -3647,6 +3810,7 @@
             <Name>
               <Equality full="true"/>
             </Name>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="ThisKeyword" kind="Token" index="4" readOnly="true" optional="false" multiplicity="Single" keyword="true">
@@ -3665,11 +3829,18 @@
             <Signature>
               <Equality full="true"/>
             </Signature>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="AccessorList" kind="Expression" index="6" optional="true" changepoint="true" inherited="true" multiplicity="Single">
+          <Rules>
+            <Topology relevant="true"/>
+          </Rules>
         </Property>
         <Property name="ExpressionBody" kind="Expression" index="6" optional="true" changepoint="true" multiplicity="Single">
+          <Rules>
+            <Topology relevant="true"/>
+          </Rules>
         </Property>
         <Property name="SemicolonToken" kind="Token" index="7" readOnly="true" optional="true" changepoint="true" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -3696,6 +3867,7 @@
         <Property name="Accessors" kind="Expression" index="1" optional="false" changepoint="true" multiplicity="Collection" collectionType="AccessorDeclarationSyntax">
           <Rules>
             <Pairwise tunneling="true" bubbling="true"/>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="CloseBraceToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
@@ -3708,8 +3880,14 @@
     <Type name="AccessorDeclarationSyntax">
       <Properties>
         <Property name="AttributeLists" kind="Expression" index="0" optional="false" changepoint="true" multiplicity="Collection" collectionType="AttributeListSyntax">
+          <Rules>
+            <Topology relevant="true" relevancy="1"/>
+          </Rules>
         </Property>
         <Property name="Modifiers" kind="Expression" index="1" optional="false" changepoint="true" multiplicity="Collection">
+          <Rules>
+            <Topology relevant="true" relevancy="2"/>
+          </Rules>
         </Property>
         <Property name="Keyword" kind="Token" index="2" optional="false" changepoint="true" multiplicity="Single" keyword="true">
           <Rules>
@@ -3717,6 +3895,9 @@
           </Rules>
         </Property>
         <Property name="Body" kind="Expression" index="3" optional="true" changepoint="true" multiplicity="Single">
+          <Rules>
+            <Topology relevant="true"/>
+          </Rules>
         </Property>
         <Property name="SemicolonToken" kind="Token" index="4" readOnly="true" optional="true" changepoint="true" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -3736,6 +3917,7 @@
             <Signature>
               <Equality full="true"/>
             </Signature>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
       </Properties>
@@ -3758,6 +3940,7 @@
               <Equality full="true"/>
             </Signature>
             <Pairwise tunneling="true" bubbling="true"/>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="CloseParenToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
@@ -3785,6 +3968,7 @@
               <Equality full="true"/>
             </Signature>
             <Pairwise tunneling="true" bubbling="true"/>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="CloseBracketToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
@@ -3802,14 +3986,21 @@
     <Type name="ParameterSyntax">
       <Properties>
         <Property name="AttributeLists" kind="Expression" index="0" optional="false" changepoint="true" multiplicity="Collection" collectionType="AttributeListSyntax">
+          <Rules>
+            <Topology relevant="true" relevancy="1"/>
+          </Rules>
         </Property>
         <Property name="Modifiers" kind="Expression" index="1" optional="false" changepoint="true" multiplicity="Collection">
+          <Rules>
+            <Topology relevant="true" relevancy="2"/>
+          </Rules>
         </Property>
         <Property name="Type" kind="Expression" index="2" optional="true" changepoint="true" multiplicity="Single">
           <Rules>
             <Signature>
               <Equality full="true"/>
             </Signature>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="Identifier" kind="Token" index="3" optional="false" changepoint="true" multiplicity="Single">
@@ -3818,9 +4009,13 @@
               <Equality full="true"/>
             </Name>
             <Pairwise tunneling="true"/>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="Default" kind="Expression" index="4" optional="true" changepoint="true" multiplicity="Single">
+          <Rules>
+            <Topology relevant="true"/>
+          </Rules>
         </Property>
       </Properties>
       <Rules>
@@ -3840,6 +4035,7 @@
         <Property name="Tokens" kind="Expression" index="0" optional="false" changepoint="true" multiplicity="Collection">
           <Rules>
             <Pairwise tunneling="true" bubbling="true"/>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
       </Properties>
@@ -3849,6 +4045,7 @@
         <Property name="Content" kind="Expression" index="0" optional="false" changepoint="true" multiplicity="Collection" collectionType="XmlNodeSyntax">
           <Rules>
             <Pairwise tunneling="true" bubbling="true"/>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="EndOfComment" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
@@ -3862,7 +4059,7 @@
       </Annotations>
     </Type>
     <!--StructuredTriviaSyntax$DirectiveTriviaSyntax-->
-    <Type name="DirectiveTriviaSyntax" abstract="true" base="StructuredTriviaSyntax">
+    <Type name="DirectiveTriviaSyntax" abstract="true" base="StructuredTriviaSyntax" readonly="true">
       <Properties>
         <Property name="HashToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single">
         </Property>
@@ -3870,7 +4067,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="EndIfDirectiveTriviaSyntax" base="DirectiveTriviaSyntax">
+    <Type name="EndIfDirectiveTriviaSyntax" base="DirectiveTriviaSyntax" readonly="true">
       <Properties>
         <Property name="HashToken" kind="Token" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -3889,7 +4086,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="RegionDirectiveTriviaSyntax" base="DirectiveTriviaSyntax">
+    <Type name="RegionDirectiveTriviaSyntax" base="DirectiveTriviaSyntax" readonly="true">
       <Properties>
         <Property name="HashToken" kind="Token" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -3908,7 +4105,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="EndRegionDirectiveTriviaSyntax" base="DirectiveTriviaSyntax">
+    <Type name="EndRegionDirectiveTriviaSyntax" base="DirectiveTriviaSyntax" readonly="true">
       <Properties>
         <Property name="HashToken" kind="Token" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -3927,7 +4124,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="ErrorDirectiveTriviaSyntax" base="DirectiveTriviaSyntax">
+    <Type name="ErrorDirectiveTriviaSyntax" base="DirectiveTriviaSyntax" readonly="true">
       <Properties>
         <Property name="HashToken" kind="Token" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -3946,7 +4143,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="WarningDirectiveTriviaSyntax" base="DirectiveTriviaSyntax">
+    <Type name="WarningDirectiveTriviaSyntax" base="DirectiveTriviaSyntax" readonly="true">
       <Properties>
         <Property name="HashToken" kind="Token" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single">
           <Rules>
@@ -3978,6 +4175,7 @@
               <Equality full="true"/>
             </Name>
             <Pairwise tunneling="true"/>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="EndOfDirectiveToken" kind="Token" index="2" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
@@ -4010,6 +4208,7 @@
               <Equality full="true"/>
             </Name>
             <Pairwise tunneling="true"/>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="EndOfDirectiveToken" kind="Token" index="3" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
@@ -4042,6 +4241,7 @@
               <Equality full="true"/>
             </Name>
             <Pairwise tunneling="true"/>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="EndOfDirectiveToken" kind="Token" index="3" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
@@ -4071,11 +4271,13 @@
         <Property name="Line" kind="Token" index="2" optional="false" changepoint="true" multiplicity="Single">
           <Rules>
             <Pairwise tunneling="true"/>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="File" kind="Token" index="3" optional="true" changepoint="true" multiplicity="Single">
           <Rules>
             <Pairwise tunneling="true"/>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="EndOfDirectiveToken" kind="Token" index="4" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
@@ -4105,11 +4307,13 @@
         <Property name="DisableOrRestoreKeyword" kind="Token" index="3" optional="false" changepoint="true" multiplicity="Single" keyword="true">
           <Rules>
             <Pairwise tunneling="true"/>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="ErrorCodes" kind="Expression" index="4" optional="false" changepoint="true" multiplicity="Collection" collectionType="ExpressionSyntax" collectionSeparator=",">
           <Rules>
             <Pairwise tunneling="true" bubbling="true"/>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="EndOfDirectiveToken" kind="Token" index="5" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
@@ -4139,16 +4343,19 @@
         <Property name="File" kind="Token" index="3" optional="false" changepoint="true" multiplicity="Single">
           <Rules>
             <Pairwise tunneling="true"/>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="Guid" kind="Token" index="4" optional="false" changepoint="true" multiplicity="Single">
           <Rules>
             <Pairwise tunneling="true"/>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="Bytes" kind="Token" index="5" optional="false" changepoint="true" multiplicity="Single">
           <Rules>
             <Pairwise tunneling="true"/>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="EndOfDirectiveToken" kind="Token" index="6" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
@@ -4173,6 +4380,7 @@
         <Property name="File" kind="Token" index="2" optional="false" changepoint="true" multiplicity="Single">
           <Rules>
             <Pairwise tunneling="true"/>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="EndOfDirectiveToken" kind="Token" index="3" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
@@ -4197,6 +4405,7 @@
         <Property name="File" kind="Token" index="2" optional="false" changepoint="true" multiplicity="Single">
           <Rules>
             <Pairwise tunneling="true"/>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="EndOfDirectiveToken" kind="Token" index="3" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
@@ -4206,7 +4415,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="ShebangDirectiveTriviaSyntax" base="DirectiveTriviaSyntax">
+    <Type name="ShebangDirectiveTriviaSyntax" base="DirectiveTriviaSyntax" readonly="true">
       <Properties>
         <Property name="HashToken" kind="Token" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -4227,7 +4436,7 @@
     </Type>
     <!--StructuredTriviaSyntax$DirectiveTriviaSyntax$BranchingDirectiveTriviaSyntax-->
     <Type name="BranchingDirectiveTriviaSyntax" abstract="true" base="DirectiveTriviaSyntax"/>
-    <Type name="ElseDirectiveTriviaSyntax" base="BranchingDirectiveTriviaSyntax">
+    <Type name="ElseDirectiveTriviaSyntax" base="BranchingDirectiveTriviaSyntax" readonly="true">
       <Properties>
         <Property name="HashToken" kind="Token" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -4250,6 +4459,9 @@
     <Type name="ConditionalDirectiveTriviaSyntax" abstract="true" base="BranchingDirectiveTriviaSyntax">
       <Properties>
         <Property name="Condition" kind="Expression" index="0" optional="false" changepoint="true" multiplicity="Single">
+          <Rules>
+            <Topology relevant="true"/>
+          </Rules>
         </Property>
       </Properties>
     </Type>
@@ -4268,6 +4480,7 @@
         <Property name="Condition" kind="Expression" index="2" optional="false" changepoint="true" inherited="true" multiplicity="Single">
           <Rules>
             <Pairwise tunneling="true" bubbling="true"/>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="EndOfDirectiveToken" kind="Token" index="3" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
@@ -4292,6 +4505,7 @@
         <Property name="Condition" kind="Expression" index="2" optional="false" changepoint="true" inherited="true" multiplicity="Single">
           <Rules>
             <Pairwise tunneling="true" bubbling="true"/>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="EndOfDirectiveToken" kind="Token" index="3" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
@@ -4311,6 +4525,7 @@
         <Property name="Type" kind="Expression" index="0" optional="false" changepoint="true" multiplicity="Single">
           <Rules>
             <Pairwise tunneling="true" bubbling="true"/>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
       </Properties>
@@ -4318,6 +4533,9 @@
     <Type name="QualifiedCrefSyntax" base="CrefSyntax">
       <Properties>
         <Property name="Container" kind="Expression" index="0" optional="false" changepoint="true" multiplicity="Single">
+          <Rules>
+            <Topology relevant="true"/>
+          </Rules>
         </Property>
         <Property name="DotToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -4325,6 +4543,9 @@
           </Rules>
         </Property>
         <Property name="Member" kind="Expression" index="2" optional="false" changepoint="true" multiplicity="Single">
+          <Rules>
+            <Topology relevant="true"/>
+          </Rules>
         </Property>
       </Properties>
     </Type>
@@ -4339,6 +4560,7 @@
             <Name>
               <Equality full="true"/>
             </Name>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="Parameters" kind="Expression" index="1" optional="true" changepoint="true" multiplicity="Single">
@@ -4346,6 +4568,7 @@
             <Signature>
               <Equality full="true"/>
             </Signature>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
       </Properties>
@@ -4377,6 +4600,7 @@
               <Equality full="true"/>
             </Signature>
             <Pairwise tunneling="true" bubbling="true"/>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
       </Properties>
@@ -4405,6 +4629,7 @@
               <Equality full="true"/>
             </Name>
             <Pairwise tunneling="true"/>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="Parameters" kind="Expression" index="2" optional="true" changepoint="true" multiplicity="Single">
@@ -4413,6 +4638,7 @@
               <Equality full="true"/>
             </Signature>
             <Pairwise tunneling="true" bubbling="true"/>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
       </Properties>
@@ -4442,6 +4668,7 @@
             <Signature>
               <Equality full="true"/>
             </Signature>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="Parameters" kind="Expression" index="3" optional="true" changepoint="true" multiplicity="Single">
@@ -4449,6 +4676,7 @@
             <Signature>
               <Equality full="true"/>
             </Signature>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
       </Properties>
@@ -4466,6 +4694,7 @@
             <Signature>
               <Equality full="true"/>
             </Signature>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
       </Properties>
@@ -4488,6 +4717,7 @@
               <Equality full="true"/>
             </Signature>
             <Pairwise tunneling="true" bubbling="true"/>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="CloseParenToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
@@ -4515,6 +4745,7 @@
               <Equality full="true"/>
             </Signature>
             <Pairwise tunneling="true" bubbling="true"/>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="CloseBracketToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
@@ -4542,6 +4773,7 @@
               <Equality full="true"/>
             </Signature>
             <Pairwise tunneling="true" bubbling="true"/>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
       </Properties>
@@ -4555,11 +4787,18 @@
             <Name>
               <Equality full="true"/>
             </Name>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="Content" kind="Expression" index="1" optional="false" changepoint="true" multiplicity="Collection" collectionType="XmlNodeSyntax">
+          <Rules>
+            <Topology relevant="true"/>
+          </Rules>
         </Property>
         <Property name="EndTag" kind="Expression" index="2" optional="false" changepoint="true" multiplicity="Single">
+          <Rules>
+            <Topology relevant="true"/>
+          </Rules>
         </Property>
       </Properties>
       <Rules>
@@ -4580,9 +4819,13 @@
             <Name>
               <Equality full="true"/>
             </Name>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="Attributes" kind="Expression" index="2" optional="false" changepoint="true" multiplicity="Collection" collectionType="XmlAttributeSyntax">
+          <Rules>
+            <Topology relevant="true"/>
+          </Rules>
         </Property>
         <Property name="GreaterThanToken" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -4609,6 +4852,7 @@
               <Equality full="true"/>
             </Name>
             <Pairwise tunneling="true" bubbling="true"/>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="GreaterThanToken" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
@@ -4635,9 +4879,13 @@
             <Name>
               <Equality full="true"/>
             </Name>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="Attributes" kind="Expression" index="2" optional="false" changepoint="true" multiplicity="Collection" collectionType="XmlAttributeSyntax">
+          <Rules>
+            <Topology relevant="true"/>
+          </Rules>
         </Property>
         <Property name="SlashGreaterThanToken" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -4658,6 +4906,7 @@
             <Name>
               <Equality full="true"/>
             </Name>
+            <Topology relevant="true"/>
             <!--<Pairwise tunneling="true" bubbling="true"/>?-->
           </Rules>
         </Property>
@@ -4667,6 +4916,7 @@
               <Equality full="true"/>
             </Name>
             <Pairwise tunneling="true"/>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
       </Properties>
@@ -4684,6 +4934,7 @@
               <Equality full="true"/>
             </Name>
             <Pairwise tunneling="true"/>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="ColonToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
@@ -4706,6 +4957,7 @@
             <Name>
               <Equality full="true"/>
             </Name>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="EqualsToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single">
@@ -4728,6 +4980,7 @@
             <Name>
               <Equality full="true"/>
             </Name>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="EqualsToken" kind="Token" index="1" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
@@ -4741,6 +4994,9 @@
           </Rules>
         </Property>
         <Property name="TextTokens" kind="Expression" index="3" optional="false" changepoint="true" multiplicity="Collection">
+          <Rules>
+            <Topology relevant="true"/>
+          </Rules>
         </Property>
         <Property name="EndQuoteToken" kind="Token" index="4" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -4757,6 +5013,9 @@
     <Type name="XmlCrefAttributeSyntax" base="XmlAttributeSyntax">
       <Properties>
         <Property name="Name" kind="Expression" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single">
+          <Rules>
+            <Topology relevant="true"/>
+          </Rules>
         </Property>
         <Property name="EqualsToken" kind="Token" index="1" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -4773,6 +5032,7 @@
             <Name>
               <Equality full="true"/>
             </Name>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="EndQuoteToken" kind="Token" index="4" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
@@ -4790,6 +5050,9 @@
     <Type name="XmlNameAttributeSyntax" base="XmlAttributeSyntax">
       <Properties>
         <Property name="Name" kind="Expression" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single">
+          <Rules>
+            <Topology relevant="true"/>
+          </Rules>
         </Property>
         <Property name="EqualsToken" kind="Token" index="1" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -4806,6 +5069,7 @@
             <Name>
               <Equality full="true"/>
             </Name>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="EndQuoteToken" kind="Token" index="4" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
@@ -4825,6 +5089,7 @@
         <Property name="TextTokens" kind="Expression" index="0" optional="false" changepoint="true" multiplicity="Collection">
           <Rules>
             <Pairwise tunneling="true" bubbling="true"/>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
       </Properties>
@@ -4839,6 +5104,7 @@
         <Property name="TextTokens" kind="Expression" index="1" optional="false" changepoint="true" multiplicity="Collection">
           <Rules>
             <Pairwise tunneling="true" bubbling="true"/>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="EndCDataToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
@@ -4860,9 +5126,13 @@
             <Name>
               <Equality full="true"/>
             </Name>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="TextTokens" kind="Expression" index="2" optional="false" changepoint="true" multiplicity="Collection">
+          <Rules>            
+            <Topology relevant="true"/>
+          </Rules>
         </Property>
         <Property name="EndProcessingInstructionToken" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -4886,6 +5156,7 @@
         <Property name="TextTokens" kind="Expression" index="1" optional="false" changepoint="true" multiplicity="Collection">
           <Rules>
             <Pairwise tunneling="true" bubbling="true"/>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="MinusMinusGreaterThanToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
@@ -4900,12 +5171,24 @@
     <Type name="CompilationUnitSyntax">
       <Properties>
         <Property name="Externs" kind="Expression" index="0" optional="false" changepoint="true" multiplicity="Collection" collectionType="ExternAliasDirectiveSyntax">
+          <Rules>
+            <Topology relevant="true"/>
+          </Rules>
         </Property>
         <Property name="Usings" kind="Expression" index="1" optional="false" changepoint="true" multiplicity="Collection" collectionType="UsingDirectiveSyntax">
+          <Rules>
+            <Topology relevant="true"/>
+          </Rules>
         </Property>
         <Property name="AttributeLists" kind="Expression" index="2" optional="false" changepoint="true" multiplicity="Collection" collectionType="AttributeListSyntax">
+          <Rules>
+            <Topology relevant="true"/>
+          </Rules>
         </Property>
         <Property name="Members" kind="Expression" index="3" optional="false" changepoint="true" multiplicity="Collection" collectionType="MemberDeclarationSyntax">
+          <Rules>
+            <Topology relevant="true"/>
+          </Rules>
         </Property>
         <Property name="EndOfFileToken" kind="Token" index="4" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -4932,6 +5215,7 @@
               <Equality full="true"/>
             </Name>
             <Pairwise tunneling="true"/>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="SemicolonToken" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
@@ -4963,6 +5247,7 @@
             <Name>
               <Equality full="true"/>
             </Name>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="Name" kind="Expression" index="3" optional="false" changepoint="true" multiplicity="Single">
@@ -4970,6 +5255,7 @@
             <Name>
               <Equality full="true"/>
             </Name>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="SemicolonToken" kind="Token" index="4" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
@@ -4996,6 +5282,7 @@
             <Name>
               <Equality full="true"/>
             </Name>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="OpenBraceToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
@@ -5004,10 +5291,19 @@
           </Rules>
         </Property>
         <Property name="Externs" kind="Expression" index="3" optional="false" changepoint="true" multiplicity="Collection" collectionType="ExternAliasDirectiveSyntax">
+          <Rules>
+            <Topology relevant="true"/>
+          </Rules>
         </Property>
         <Property name="Usings" kind="Expression" index="4" optional="false" changepoint="true" multiplicity="Collection" collectionType="UsingDirectiveSyntax">
+          <Rules>
+            <Topology relevant="true"/>
+          </Rules>
         </Property>
         <Property name="Members" kind="Expression" index="5" optional="false" changepoint="true" multiplicity="Collection" collectionType="MemberDeclarationSyntax">
+          <Rules>
+            <Topology relevant="true"/>
+          </Rules>
         </Property>
         <Property name="CloseBraceToken" kind="Token" index="6" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -5038,6 +5334,7 @@
             <Name>
               <Equality full="true"/>
             </Name>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="Attributes" kind="Expression" index="2" optional="false" changepoint="true" multiplicity="Collection" collectionType="AttributeSyntax" collectionSeparator=",">
@@ -5045,6 +5342,7 @@
             <Name>
               <Equality full="true"/>
             </Name>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="CloseBracketToken" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
@@ -5067,6 +5365,7 @@
               <Equality full="true"/>
             </Name>
             <Pairwise tunneling="true"/>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="ColonToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
@@ -5088,9 +5387,13 @@
             <Name>
               <Equality full="true"/>
             </Name>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="ArgumentList" kind="Expression" index="1" optional="true" changepoint="true" multiplicity="Single">
+          <Rules>
+            <Topology relevant="true"/>
+          </Rules>
         </Property>
       </Properties>
       <Rules>
@@ -5109,6 +5412,7 @@
         <Property name="Arguments" kind="Expression" index="1" optional="false" changepoint="true" multiplicity="Collection" collectionType="AttributeArgumentSyntax" collectionSeparator=",">
           <Rules>
             <Pairwise tunneling="true" bubbling="true"/>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="CloseParenToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
@@ -5125,6 +5429,7 @@
             <Name>
               <Equality full="true"/>
             </Name>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="NameColon" kind="Expression" index="1" optional="true" changepoint="true" multiplicity="Single">
@@ -5132,9 +5437,13 @@
             <Name>
               <Equality full="true"/>
             </Name>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="Expression" kind="Expression" index="2" optional="false" changepoint="true" multiplicity="Single">
+          <Rules>
+            <Topology relevant="true"/>
+          </Rules>
         </Property>
       </Properties>
       <Rules>
@@ -5155,6 +5464,7 @@
         <Property name="Condition" kind="Expression" index="1" optional="false" changepoint="true" multiplicity="Single">
           <Rules>
             <Pairwise tunneling="true" bubbling="true"/>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
       </Properties>
@@ -5169,6 +5479,7 @@
         <Property name="Elements" kind="Expression" index="1" optional="false" changepoint="true" multiplicity="Collection" collectionType="TupleElementSyntax" collectionSeparator=",">
           <Rules>
             <Pairwise tunneling="true" bubbling="true"/>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="CloseParenToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
@@ -5188,6 +5499,7 @@
         <Property name="Arguments" kind="Expression" index="1" optional="false" changepoint="true" multiplicity="Collection" collectionType="ArgumentSyntax" collectionSeparator=",">
           <Rules>
             <Pairwise tunneling="true" bubbling="true"/>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="CloseParenToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
@@ -5202,6 +5514,7 @@
         <Property name="Type" kind="Expression" index="0" optional="false" changepoint="true" multiplicity="Single">
           <Rules>
             <Pairwise tunneling="true" bubbling="true" priority="1"/>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="Identifier" kind="Token" index="1" optional="true" changepoint="true" multiplicity="Single">
@@ -5210,6 +5523,7 @@
               <Equality full="true"/>
             </Name>
             <Pairwise tunneling="true" priority="0"/>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
       </Properties>
@@ -5229,6 +5543,7 @@
         <Property name="Expression" kind="Expression" index="1" optional="false" changepoint="true" multiplicity="Single">
           <Rules>
             <Pairwise tunneling="true" bubbling="true"/>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
       </Properties>
@@ -5243,6 +5558,7 @@
               <Equality full="true"/>
             </Name>
             <Pairwise tunneling="true"/>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
       </Properties>
@@ -5252,7 +5568,7 @@
         </Name>
       </Rules>
     </Type>
-    <Type name="DiscardDesignationSyntax" base="VariableDesignationSyntax">
+    <Type name="DiscardDesignationSyntax" base="VariableDesignationSyntax" readonly="true">
       <Properties>
         <Property name="UnderscoreToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single">
           <Rules>
@@ -5271,6 +5587,7 @@
         <Property name="Variables" kind="Expression" index="1" optional="false" changepoint="true" multiplicity="Collection" collectionType="VariableDesignationSyntax" collectionSeparator=",">
           <Rules>
             <Pairwise tunneling="true" bubbling="true"/>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="CloseParenToken" kind="Token" index="2" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
@@ -5291,6 +5608,7 @@
         <Property name="Expression" kind="Expression" index="1" optional="false" changepoint="true" multiplicity="Single">
           <Rules>
             <Pairwise tunneling="true" bubbling="true"/>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
       </Properties>
@@ -5304,8 +5622,14 @@
           </Rules>
         </Property>
         <Property name="Pattern" kind="Expression" index="1" optional="false" changepoint="true" multiplicity="Single">
+          <Rules>
+            <Topology relevant="true"/>
+            </Rules>
         </Property>
         <Property name="WhenClause" kind="Expression" index="2" optional="true" changepoint="true" multiplicity="Single">
+          <Rules>
+            <Topology relevant="true"/>
+          </Rules>
         </Property>
         <Property name="ColonToken" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single" inherited="true" puntuaction="true">
           <Rules>
@@ -5317,6 +5641,9 @@
     <Type name="IsPatternExpressionSyntax" base="ExpressionSyntax">
       <Properties>
         <Property name="Expression" kind="Expression" index="0" optional="false" changepoint="true" multiplicity="Single">
+          <Rules>
+            <Topology relevant="true"/>
+          </Rules>
         </Property>
         <Property name="IsKeyword" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" keyword="true">
           <Rules>
@@ -5324,14 +5651,23 @@
           </Rules>
         </Property>
         <Property name="Pattern" kind="Expression" index="2" optional="false" changepoint="true" multiplicity="Single">
+          <Rules>
+            <Topology relevant="true"/>
+          </Rules>
         </Property>
       </Properties>
     </Type>
     <Type name="DeclarationExpressionSyntax" base="ExpressionSyntax">
       <Properties>
         <Property name="Type" kind="Expression" index="0" optional="false" changepoint="true" multiplicity="Single">
+          <Rules>
+            <Topology relevant="true"/>
+          </Rules>
         </Property>
         <Property name="Designation" kind="Expression" index="1" optional="false" changepoint="true" multiplicity="Single">
+          <Rules>
+            <Topology relevant="true"/>
+          </Rules>
         </Property>
       </Properties>
     </Type>
@@ -5364,6 +5700,9 @@
           </Rules>
         </Property>
         <Property name="Variable" kind="Expression" index="2" optional="false" changepoint="true" multiplicity="Single">
+          <Rules>
+            <Topology relevant="true"/>
+          </Rules>
         </Property>
         <Property name="InKeyword" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single" inherited="true" keyword="true">
           <Rules>
@@ -5371,6 +5710,9 @@
           </Rules>
         </Property>
         <Property name="Expression" kind="Expression" index="4" optional="false" changepoint="true" multiplicity="Single" inherited="true">
+          <Rules>
+            <Topology relevant="true"/>
+          </Rules>
         </Property>
         <Property name="CloseParenToken" kind="Token" index="5" readOnly="true" optional="false" multiplicity="Single" inherited="true" puntuaction="true">
           <Rules>
@@ -5378,6 +5720,9 @@
           </Rules>
         </Property>
         <Property name="Statement" kind="Expression" index="6" optional="false" changepoint="true" multiplicity="Single" inherited="true">
+          <Rules>
+            <Topology relevant="true"/>
+          </Rules>
         </Property>
       </Properties>
     </Type>
@@ -5386,8 +5731,14 @@
     <Type name="DeclarationPatternSyntax" base="PatternSyntax">
       <Properties>
         <Property name="Type" kind="Expression" index="0" optional="false" changepoint="true" multiplicity="Single">
+          <Rules>
+            <Topology relevant="true"/>
+          </Rules>
         </Property>
         <Property name="Designation" kind="Expression" index="1" optional="false" changepoint="true" multiplicity="Single">
+          <Rules>
+            <Topology relevant="true"/>
+          </Rules>
         </Property>
       </Properties>
     </Type>
@@ -5396,6 +5747,7 @@
         <Property name="Expression" kind="Expression" index="0" optional="false" changepoint="true" multiplicity="Single">
           <Rules>
             <Pairwise tunneling="true" bubbling="true"/>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
       </Properties>
@@ -5404,8 +5756,14 @@
     <Type name="LocalFunctionStatementSyntax" base="StatementSyntax">
       <Properties>
         <Property name="Modifiers" kind="Expression" index="0" optional="false" changepoint="true" multiplicity="Collection">
+          <Rules>
+            <Topology relevant="true" relevancy="1"/>
+          </Rules>
         </Property>
         <Property name="ReturnType" kind="Expression" index="1" optional="false" changepoint="true" multiplicity="Single">
+          <Rules>
+            <Topology relevant="true"/>
+          </Rules>
         </Property>
         <Property name="Identifier" kind="Token" index="2" optional="false" changepoint="true" multiplicity="Single">
           <Rules>
@@ -5416,6 +5774,7 @@
               <Equality full="true"/>
             </Name>
             <Pairwise tunneling="true"/>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="TypeParameterList" kind="Expression" index="3" optional="true" changepoint="true" multiplicity="Single">
@@ -5423,6 +5782,7 @@
             <Signature>
               <Equality full="true"/>
             </Signature>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="ParameterList" kind="Expression" index="4" optional="false" changepoint="true" multiplicity="Single">
@@ -5430,13 +5790,23 @@
             <Signature>
               <Equality full="true"/>
             </Signature>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="ConstraintClauses" kind="Expression" index="5" optional="false" changepoint="true" multiplicity="Collection" collectionType="TypeParameterConstraintClauseSyntax">
+          <Rules>
+            <Topology relevant="true"/>
+          </Rules>
         </Property>
         <Property name="Body" kind="Expression" index="6" optional="true" changepoint="true" inherited="true" multiplicity="Single">
+          <Rules>
+            <Topology relevant="true"/>
+          </Rules>
         </Property>
         <Property name="ExpressionBody" kind="Expression" index="7" optional="true" changepoint="true" multiplicity="Single">
+          <Rules>
+            <Topology relevant="true"/>
+          </Rules>
         </Property>
         <Property name="SemicolonToken" kind="Token" index="8" readOnly="true" optional="true" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -5468,6 +5838,7 @@
         <Property name="Type" kind="Expression" index="2" optional="false" changepoint="true" multiplicity="Single">
           <Rules>
             <Pairwise tunneling="true" bubbling="true"/>
+            <Topology relevant="true"/>
           </Rules>
         </Property>
       </Properties>
