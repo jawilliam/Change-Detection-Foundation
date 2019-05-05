@@ -252,7 +252,7 @@
     </Type>
     <!--ExpressionSyntax$InstanceExpressionSyntax-->
     <Type name="InstanceExpressionSyntax" abstract="true" base="ExpressionSyntax"/>
-    <Type name="ThisExpressionSyntax" base="InstanceExpressionSyntax" token="true">
+    <Type name="ThisExpressionSyntax" base="InstanceExpressionSyntax" token="true" readonly="true">
       <Properties>
         <Property name="Token" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
           <Rules>
@@ -261,7 +261,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="BaseExpressionSyntax" base="InstanceExpressionSyntax" token="true">
+    <Type name="BaseExpressionSyntax" base="InstanceExpressionSyntax" token="true" readonly="true">
       <Properties>
         <Property name="Token" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
           <Rules>
@@ -886,8 +886,8 @@
             <Pairwise tunneling="true"/>
           </Rules>
         </Property>
-        <Property name="FormatStringToken" kind="Token" index="0" readOnly="true" optional="false" changepoint="true" multiplicity="Single">
-          <!-- puntuaction="true"?-->
+        <Property name="FormatStringToken" kind="Token" index="0" optional="false" changepoint="true" multiplicity="Single">
+          <!-- puntuaction="true"? I think this property should not be readonly-->
           <Rules>
             <Pairwise tunneling="true"/>
             <Topology relevant="true"/>
@@ -3070,7 +3070,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="ClassOrStructConstraintSyntax" base="TypeParameterConstraintSyntax" readonly="true">
+    <Type name="ClassOrStructConstraintSyntax" base="TypeParameterConstraintSyntax">
       <Properties>
         <Property name="ClassOrStructKeyword" kind="Token" index="0" optional="false" changepoint="true" multiplicity="Single" keyword="true">
           <Rules>
@@ -4145,7 +4145,7 @@
     </Type>
     <Type name="WarningDirectiveTriviaSyntax" base="DirectiveTriviaSyntax" readonly="true">
       <Properties>
-        <Property name="HashToken" kind="Token" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single">
+        <Property name="HashToken" kind="Token" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
           <Rules>
             <Pairwise tunneling="true"/>
           </Rules>
@@ -4155,7 +4155,7 @@
             <Pairwise tunneling="true"/>
           </Rules>
         </Property>
-        <Property name="EndOfDirectiveToken" kind="Token" index="2" readOnly="true" optional="false" inherited="true" multiplicity="Single">
+        <Property name="EndOfDirectiveToken" kind="Token" index="2" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
           <Rules>
             <Pairwise tunneling="true"/>
           </Rules>
@@ -5570,7 +5570,7 @@
     </Type>
     <Type name="DiscardDesignationSyntax" base="VariableDesignationSyntax" readonly="true">
       <Properties>
-        <Property name="UnderscoreToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single">
+        <Property name="UnderscoreToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
           <Rules>
             <Pairwise tunneling="true"/>
           </Rules>
