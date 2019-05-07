@@ -314,9 +314,6 @@ namespace Jawilliam.CDF.XObjects.RDSL
                 private static bool @readonlyDefaultValue = System.Xml.XmlConvert.ToBoolean("false");
 
                 [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                private static bool invisibleDefaultValue = System.Xml.XmlConvert.ToBoolean("false");
-
-                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
                 private static bool symbolicDefaultValue = System.Xml.XmlConvert.ToBoolean("false");
 
                 [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -510,24 +507,6 @@ namespace Jawilliam.CDF.XObjects.RDSL
                     set
                     {
                         this.SetAttribute(XName.Get("readonly", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
-                    }
-                }
-
-                /// <summary>
-                /// <para>
-                /// Occurrence: optional
-                /// </para>
-                /// </summary>
-                public bool invisible
-                {
-                    get
-                    {
-                        XAttribute x = this.Attribute(XName.Get("invisible", ""));
-                        return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype, invisibleDefaultValue);
-                    }
-                    set
-                    {
-                        this.SetAttribute(XName.Get("invisible", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
                     }
                 }
 
@@ -747,6 +726,9 @@ namespace Jawilliam.CDF.XObjects.RDSL
 
                         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
                         private static string multiplicityDefaultValue = "Single";
+
+                        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                        private static bool invisibleDefaultValue = System.Xml.XmlConvert.ToBoolean("false");
 
                         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
                         static Dictionary<XName, System.Type> localElementDictionary = new Dictionary<XName, System.Type>();
@@ -1035,6 +1017,24 @@ namespace Jawilliam.CDF.XObjects.RDSL
                             set
                             {
                                 this.SetAttribute(XName.Get("puntuaction", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
+                            }
+                        }
+
+                        /// <summary>
+                        /// <para>
+                        /// Occurrence: optional
+                        /// </para>
+                        /// </summary>
+                        public bool invisible
+                        {
+                            get
+                            {
+                                XAttribute x = this.Attribute(XName.Get("invisible", ""));
+                                return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype, invisibleDefaultValue);
+                            }
+                            set
+                            {
+                                this.SetAttribute(XName.Get("invisible", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
                             }
                         }
 
@@ -1746,7 +1746,7 @@ namespace Jawilliam.CDF.XObjects.RDSL
                     /// Regular expression: (Annotation)+
                     /// </para>
                     /// </summary>
-                    public IList<Syntax.NodesLocalType.TypeLocalType.AnnotationsLocalType.AnnotationLocalType> Annotation
+                    public IList<Jawilliam.CDF.XObjects.RDSL.Syntax.NodesLocalType.TypeLocalType.AnnotationsLocalType.AnnotationLocalType> Annotation
                     {
                         get
                         {

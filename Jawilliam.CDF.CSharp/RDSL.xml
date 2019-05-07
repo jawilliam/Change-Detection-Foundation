@@ -27,6 +27,16 @@
     <Type name="PrefixUnaryExpressionSyntax" base="ExpressionSyntax" operator="true">
       <Properties>
         <Property name="OperatorToken" kind="Token" index="0" optional="false" changepoint="true" multiplicity="Single" operator="true">
+          <Options exclusive="true">            
+            <Kind name="PlusToken" type="UnaryPlusExpression" operator="true"/>
+            <Kind name="MinusToken" type="UnaryMinusExpression" operator="true"/>
+            <Kind name="TildeToken" type="BitwiseNotExpression" operator="true"/>
+            <Kind name="ExclamationToken" type="LogicalNotExpression" operator="true"/>
+            <Kind name="PlusPlusToken" type="PreIncrementExpression" operator="true"/>
+            <Kind name="MinusMinusToken" type="PreDecrementExpression" operator="true"/>
+            <Kind name="AmpersandToken" type="AddressOfExpression" operator="true"/>
+            <Kind name="AsteriskToken" type="PointerIndirectionExpression" operator="true"/>
+          </Options>
           <Rules>
             <Pairwise tunneling="true"/>
             <Topology relevant="true" relevancy="1"/>
@@ -61,6 +71,10 @@
     <Type name="PostfixUnaryExpressionSyntax" base="ExpressionSyntax" operator="true">
       <Properties>
         <Property name="OperatorToken" kind="Token" index="1" optional="false" changepoint="true" multiplicity="Single" operator="true">
+          <Options exclusive="true">
+            <Kind name="PlusPlusToken" type="PostIncrementExpression" operator="true"/>
+            <Kind name="MinusMinusToken" type="PostDecrementExpression" operator="true"/>
+          </Options>
           <Rules>
             <Pairwise tunneling="true"/>
             <Topology relevant="true" relevancy="1"/>
@@ -88,6 +102,10 @@
           </Rules>
         </Property>
         <Property name="OperatorToken" kind="Token" index="1" readOnly="true" optional="false" changepoint="true" multiplicity="Single" operator="true">
+          <Options exclusive="true">            
+            <Kind name="DotToken" type="SimpleMemberAccessExpression" operator="true"/>
+            <Kind name="MinusGreaterThanToken" type="PointerMemberAccessExpression" operator="true"/>
+          </Options>
           <Rules>
             <Pairwise tunneling="true"/>
             <Topology relevant="true" relevancy="1"/>
@@ -183,6 +201,29 @@
           </Rules>
         </Property>
         <Property name="OperatorToken" kind="Token" index="1" optional="false" changepoint="true" multiplicity="Single" operator="true">
+          <Options exclusive="true">
+            <Kind name="PlusToken" type="AddExpression" operator="true"/>
+            <Kind name="MinusToken" type="SubtractExpression" operator="true"/>
+            <Kind name="AsteriskToken" type="MultiplyExpression" operator="true"/>
+            <Kind name="SlashToken" type="DivideExpression" operator="true"/>
+            <Kind name="PercentToken" type="ModuloExpression" operator="true"/>
+            <Kind name="LessThanLessThanToken" type="LeftShiftExpression" operator="true"/>
+            <Kind name="GreaterThanGreaterThanToken" type="RightShiftExpression" operator="true"/>
+            <Kind name="BarBarToken" type="LogicalOrExpression" operator="true"/>
+            <Kind name="AmpersandAmpersandToken" type="LogicalAndExpression" operator="true"/>
+            <Kind name="BarToken" type="BitwiseOrExpression" operator="true"/>
+            <Kind name="AmpersandToken" type="BitwiseAndExpression" operator="true"/>
+            <Kind name="CaretToken" type="ExclusiveOrExpression" operator="true"/>
+            <Kind name="EqualsEqualsToken" type="EqualsExpression"/>
+            <Kind name="ExclamationEqualsToken" type="NotEqualsExpression" operator="true"/>
+            <Kind name="LessThanToken" type="LessThanExpression" operator="true"/>
+            <Kind name="LessThanEqualsToken" type="LessThanOrEqualExpression" operator="true"/>
+            <Kind name="GreaterThanToken" type="GreaterThanExpression" operator="true"/>
+            <Kind name="GreaterThanEqualsToken" type="GreaterThanOrEqualExpression" operator="true"/>
+            <Kind name="IsKeyword" type="IsExpression" operator="true" keyword="true"/>
+            <Kind name="AsKeyword" type="AsExpression" operator="true" keyword="true"/>
+            <Kind name="QuestionQuestionToken" type="CoalesceExpression" operator="true"/>
+          </Options>
           <Rules>
             <Pairwise tunneling="true"/>
             <Topology relevant="true" relevancy="1"/>
@@ -206,6 +247,19 @@
           </Rules>
         </Property>
         <Property name="OperatorToken" kind="Token" index="1" optional="false" changepoint="true" multiplicity="Single" operator="true">
+          <Options exclusive="true">
+            <Kind name="EqualsToken" type="SimpleAssignmentExpression" operator="true"/>
+            <Kind name="PlusEqualsToken" type="AddAssignmentExpression" operator="true"/>
+            <Kind name="MinusEqualsToken" type="SubtractAssignmentExpression" operator="true"/>
+            <Kind name="AsteriskEqualsToken" type="MultiplyAssignmentExpression" operator="true"/>
+            <Kind name="SlashEqualsToken" type="DivideAssignmentExpression" operator="true"/>
+            <Kind name="PercentEqualsToken" type="ModuloAssignmentExpression" operator="true"/>
+            <Kind name="AmpersandEqualsToken" type="AndAssignmentExpression" operator="true"/>
+            <Kind name="CaretEqualsToken" type="ExclusiveOrAssignmentExpression" operator="true"/>
+            <Kind name="BarEqualsToken" type="OrAssignmentExpression" operator="true"/>
+            <Kind name="LessThanLessThanEqualsToken" type="LeftShiftAssignmentExpression" operator="true"/>
+            <Kind name="GreaterThanGreaterThanEqualsToken" type="RightShiftAssignmentExpression" operator="true"/>
+          </Options>
           <Rules>
             <Pairwise tunneling="true"/>
             <Topology relevant="true" relevancy="1"/>
@@ -274,6 +328,16 @@
     <Type name="LiteralExpressionSyntax" base="ExpressionSyntax">
       <Properties>
         <Property name="Token" kind="Token" index="0" optional="false" changepoint="true" multiplicity="Single">
+          <Options exclusive="true">
+            <Kind name="ArgListKeyword" type="ArgListExpression" keyword="true"/>
+            <Kind name="NumericLiteralToken" type="NumericLiteralExpression" literal="true"/>
+            <Kind name="StringLiteralToken" type="StringLiteralExpression" literal="true"/>
+            <Kind name="CharacterLiteralToken" type="CharacterLiteralExpression" literal="true"/>
+            <Kind name="TrueKeyword" type="TrueLiteralExpression" keyword="true" operator="true"/>
+            <Kind name="FalseKeyword" type="FalseLiteralExpression" keyword="true" operator="true"/>
+            <Kind name="NullKeyword" type="NullLiteralExpression" keyword="true" operator="true"/>
+            <Kind name="DefaultKeyword" type="DefaultLiteralExpression" keyword="true" operator="true"/>
+          </Options>
           <Rules>
             <Pairwise tunneling="true"/>
             <Topology relevant="true"/>
@@ -371,6 +435,10 @@
     <Type name="CheckedExpressionSyntax" base="ExpressionSyntax" operator="true">
       <Properties>
         <Property name="Keyword" kind="Token" index="0" readOnly="true" optional="false" changepoint="true" multiplicity="Single" keyword="true">
+          <Options exclusive="true">            
+            <Kind name="CheckedKeyword" type="CheckedExpression" keyword="true"/>
+            <Kind name="UncheckedKeyword" type="UncheckedExpression" keyword="true"/>
+          </Options>
           <Rules>
             <Pairwise tunneling="true"/>
           </Rules>
@@ -537,7 +605,7 @@
     </Type>
     <Type name="AnonymousMethodExpressionSyntax" base="AnonymousFunctionExpressionSyntax" operator="true">
       <Properties>
-        <Property name="AsyncKeyword" kind="Token" index="0" optional="true" changepoint="true" inherited="true" multiplicity="Single" keyword="true">
+        <Property name="AsyncKeyword" kind="Token" index="0" readOnly="true" optional="true" changepoint="true" inherited="true" multiplicity="Single" keyword="true">
           <Rules>
             <Pairwise tunneling="true"/>
           </Rules>
@@ -576,7 +644,7 @@
     </Type>
     <Type name="SimpleLambdaExpressionSyntax" base="LambdaExpressionSyntax" operator="true">
       <Properties>
-        <Property name="AsyncKeyword" kind="Token" index="0" optional="true" changepoint="true" inherited="true" multiplicity="Single" keyword="true">
+        <Property name="AsyncKeyword" kind="Token" index="0" readOnly="true" optional="true" changepoint="true" inherited="true" multiplicity="Single" keyword="true">
           <Rules>
             <Pairwise tunneling="true"/>
           </Rules>
@@ -614,7 +682,7 @@
     </Type>
     <Type name="ParenthesizedLambdaExpressionSyntax" base="LambdaExpressionSyntax" operator="true">
       <Properties>
-        <Property name="AsyncKeyword" kind="Token" index="0" optional="true" changepoint="true" inherited="true" multiplicity="Single" keyword="true">
+        <Property name="AsyncKeyword" kind="Token" index="0" readOnly="true" optional="true" changepoint="true" inherited="true" multiplicity="Single" keyword="true">
           <Rules>
             <Pairwise tunneling="true"/>
           </Rules>
@@ -664,6 +732,12 @@
           </Rules>
         </Property>
       </Properties>
+      <Options exclusive="true">
+        <Type name="ObjectInitializerExpression"/>
+        <Type name="CollectionInitializerExpression"/>
+        <Type name="ArrayInitializerExpression"/>
+        <Type name="ComplexElementInitializerExpression"/>
+      </Options>
       <Annotations>
         <Annotation context="Suppress" role="Kind"/>
       </Annotations>
@@ -806,6 +880,10 @@
     <Type name="InterpolatedStringExpressionSyntax" base="ExpressionSyntax">
       <Properties>
         <Property name="StringStartToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
+          <Options exclusive="true">
+            <Kind name="InterpolatedStringStartToken" puntuaction="true"/>
+            <Kind name="InterpolatedVerbatimStringStartToken" puntuaction="true"/>
+          </Options>
           <Rules>
             <Pairwise tunneling="true"/>
           </Rules>
@@ -953,7 +1031,12 @@
             <Topology relevant="true"/>
           </Rules>
         </Property>
-        <Property name="RefOrOutKeyword" kind="Token" index="1" optional="true" changepoint="true" multiplicity="Single" keyword="true">
+        <Property name="RefKindKeyword" kind="Token" index="1" optional="true" changepoint="true" multiplicity="Single" keyword="true">
+          <Options exclusive="true">
+            <Kind name="RefKeyword" keyword="true"/>
+            <Kind name="OutKeyword" keyword="true"/>
+            <Kind name="InKeyword" keyword="true"/>
+          </Options>
           <Rules>
             <Pairwise tunneling="true"/>
           </Rules>
@@ -1254,6 +1337,10 @@
           </Rules>
         </Property>
         <Property name="AscendingOrDescendingKeyword" kind="Token" index="1" readOnly="true" optional="true" multiplicity="Single" keyword="true">
+          <Options exclusive="true">
+            <Kind name="AscendingKeyword" type="AscendingOrdering" keyword="true"/>
+            <Kind name="DescendingKeyword" type="DescendingOrdering" keyword="true"/>
+          </Options>
           <Rules>
             <Pairwise tunneling="true"/>
             <!--<Topology relevant="true"/>?-->
@@ -1340,6 +1427,24 @@
     <Type name="PredefinedTypeSyntax" base="TypeSyntax">
       <Properties>
         <Property name="Keyword" kind="Token" index="0" optional="false" changepoint="true" multiplicity="Single" keyword="true">
+          <Options exclusive="true">            
+            <Kind name="BoolKeyword" keyword="true"/>
+            <Kind name="ByteKeyword" keyword="true"/>
+            <Kind name="SByteKeyword" keyword="true"/>
+            <Kind name="IntKeyword" keyword="true"/>
+            <Kind name="UIntKeyword" keyword="true"/>
+            <Kind name="ShortKeyword" keyword="true"/>
+            <Kind name="UShortKeyword" keyword="true"/>
+            <Kind name="LongKeyword" keyword="true"/>
+            <Kind name="ULongKeyword" keyword="true"/>
+            <Kind name="FloatKeyword" keyword="true"/>
+            <Kind name="DoubleKeyword" keyword="true"/>
+            <Kind name="DecimalKeyword" keyword="true"/>
+            <Kind name="StringKeyword" keyword="true"/>
+            <Kind name="CharKeyword" keyword="true"/>
+            <Kind name="ObjectKeyword" keyword="true"/>
+            <Kind name="VoidKeyword" keyword="true"/>
+          </Options>
           <Rules>
             <Pairwise tunneling="true"/>
             <Topology relevant="true"/>
@@ -1391,9 +1496,9 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="OmittedTypeArgumentSyntax" base="TypeSyntax" readonly="true" invisible="true">
+    <Type name="OmittedTypeArgumentSyntax" base="TypeSyntax" readonly="true">
       <Properties>
-        <Property name="OmittedTypeArgumentToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single">
+        <Property name="OmittedTypeArgumentToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" invisible="true">
           <Rules>
             <Pairwise tunneling="true"/>
           </Rules>
@@ -1472,6 +1577,10 @@
     <Type name="IdentifierNameSyntax" base="SimpleNameSyntax">
       <Properties>
         <Property name="Identifier" kind="Token" index="0" optional="false" changepoint="true" inherited="true" multiplicity="Single">
+          <Options exclusive="true">
+             <Kind name="IdentifierToken" identifier="true"/>
+             <Kind name="GlobalKeyword" keyword="true"/>
+          </Options>
           <Rules>
             <Name>
               <Equality full="true"/>
@@ -1555,9 +1664,9 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="OmittedArraySizeExpressionSyntax" base="ExpressionSyntax" readonly="true" invisible="true">
+    <Type name="OmittedArraySizeExpressionSyntax" base="ExpressionSyntax" readonly="true">
       <Properties>
-        <Property name="OmittedArraySizeExpressionToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single">
+        <Property name="OmittedArraySizeExpressionToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" invisible="true">
           <Rules>
             <Pairwise tunneling="true"/>
           </Rules>
@@ -1675,6 +1784,11 @@
           </Rules>
         </Property>
         <Property name="CaseOrDefaultKeyword" kind="Token" index="1" optional="true" changepoint="true" multiplicity="Single" keyword="true">
+          <Options exclusive="true">
+            <Kind name="" type="GotoStatement"/>
+            <Kind name="CaseKeyword" type="GotoCaseStatement" keyword="true"/>
+            <Kind name="DefaultKeyword" type="GotoDefaultStatement" keyword="true"/>
+          </Options>
           <Rules>
             <Pairwise tunneling="true"/>
             <Topology relevant="true" relevancy="1"/>
@@ -1772,6 +1886,10 @@
           </Rules>
         </Property>
         <Property name="ReturnOrBreakKeyword" kind="Token" index="1" optional="false" changepoint="true" multiplicity="Single" keyword="true">
+          <Options exclusive="true">
+            <Kind name="ReturnKeyword" type="YieldReturnStatement" keyword="true"/>
+            <Kind name="BreakKeyword" type="YieldBreakStatement" keyword="true"/>
+          </Options>
           <Rules>
             <Pairwise tunneling="true"/>
           </Rules>
@@ -2057,6 +2175,10 @@
     <Type name="CheckedStatementSyntax" base="StatementSyntax" operator="true">
       <Properties>
         <Property name="Keyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
+          <Options exclusive="true">
+            <Kind name="CheckedKeyword" type="CheckedStatement" keyword="true"/>
+            <Kind name="UncheckedKeyword" type="UncheckedStatement" keyword="true"/>
+          </Options>
           <Rules>
             <Pairwise tunneling="true"/>
           </Rules>
@@ -2983,6 +3105,10 @@
           </Rules>
         </Property>
         <Property name="VarianceKeyword" kind="Token" index="1" optional="true" changepoint="true" multiplicity="Single" keyword="true">
+          <Options exclusive="true">
+            <Kind name="InKeyword" keyword="true"/>
+            <Kind name="OutKeyword" keyword="true"/>
+          </Options>
           <Rules>
             <Pairwise tunneling="true"/>
             <Topology relevant="true" relevancy="2"/>
@@ -3073,6 +3199,10 @@
     <Type name="ClassOrStructConstraintSyntax" base="TypeParameterConstraintSyntax">
       <Properties>
         <Property name="ClassOrStructKeyword" kind="Token" index="0" optional="false" changepoint="true" multiplicity="Single" keyword="true">
+          <Options exclusive="true">
+            <Kind name="ClassKeyword" type="ClassConstraint" keyword="true"/>
+            <Kind name="StructKeyword" type="StructConstraint" keyword="true"/>
+          </Options>
           <Rules>
             <Pairwise tunneling="true"/>
             <!--the kind implicitly plays the role of <Topology relevant="true"/>-->
@@ -3375,6 +3505,31 @@
           </Rules>
         </Property>
         <Property name="OperatorToken" kind="Token" index="4" optional="false" changepoint="true" multiplicity="Single">
+          <Options exclusive="true">
+            <Kind name="PlusToken" operator="true"/>
+            <Kind name="MinusToken" operator="true"/>
+            <Kind name="ExclamationToken" operator="true"/>
+            <Kind name="TildeToken" operator="true"/>
+            <Kind name="PlusPlusToken" operator="true"/>
+            <Kind name="MinusMinusToken" operator="true"/>
+            <Kind name="AsteriskToken" operator="true"/>
+            <Kind name="SlashToken" operator="true"/>
+            <Kind name="PercentToken" operator="true"/>
+            <Kind name="LessThanLessThanToken" operator="true"/>
+            <Kind name="GreaterThanGreaterThanToken" operator="true"/>
+            <Kind name="BarToken" operator="true"/>
+            <Kind name="AmpersandToken" operator="true"/>
+            <Kind name="CaretToken" operator="true"/>
+            <Kind name="EqualsEqualsToken" operator="true"/>
+            <Kind name="ExclamationEqualsToken" operator="true"/>
+            <Kind name="LessThanToken" operator="true"/>
+            <Kind name="LessThanEqualsToken" operator="true"/>
+            <Kind name="GreaterThanToken" operator="true"/>
+            <Kind name="GreaterThanEqualsToken" operator="true"/>
+            <Kind name="FalseKeyword" operator="true" keyword="true"/>
+            <Kind name="TrueKeyword" operator="true" keyword="true"/>
+            <Kind name="IsKeyword" operator="true" keyword="true"/>
+          </Options>
           <Rules>
             <Signature>
               <Equality full="true"/>
@@ -3432,6 +3587,10 @@
           </Rules>
         </Property>
         <Property name="ImplicitOrExplicitKeyword" kind="Token" index="2" optional="false" changepoint="true" multiplicity="Single" keyword="true">
+          <Options exclusive="true">
+            <Kind name="ImplicitKeyword" keyword="true"/>
+            <Kind name="ExplicitKeyword" keyword="true"/>
+          </Options>
           <Rules>
             <Pairwise tunneling="true"/>
           </Rules>
@@ -3547,6 +3706,10 @@
           </Rules>
         </Property>
         <Property name="ThisOrBaseKeyword" kind="Token" index="1" optional="false" changepoint="true" multiplicity="Single" keyword="true">
+          <Options exclusive="true">
+            <Kind name="BaseKeyword" type="BaseConstructorInitializer" keyword="true"/>
+            <Kind name="ThisKeyword" type="ThisConstructorInitializer" keyword="true"/>
+          </Options>
           <Rules>
             <Signature>
               <Equality full="true"/>
@@ -3889,7 +4052,14 @@
             <Topology relevant="true" relevancy="2"/>
           </Rules>
         </Property>
-        <Property name="Keyword" kind="Token" index="2" optional="false" changepoint="true" multiplicity="Single" keyword="true">
+        <Property name="Keyword" kind="Token" index="2" readOnly="true" optional="false" changepoint="true" multiplicity="Single" keyword="true">
+          <Options exclusive="true">
+            <Kind name="GetKeyword" type="GetAccessorDeclaration" keyword="true"/>
+            <Kind name="SetKeyword" type="SetAccessorDeclaration" keyword="true"/>
+            <Kind name="AddKeyword" type="AddAccessorDeclaration" keyword="true"/>
+            <Kind name="RemoveKeyword" type="RemoveAccessorDeclaration" keyword="true"/>
+            <Kind name="IdentifierToken" type="UnknownAccessorDeclaration" identifier="true"/>
+          </Options>
           <Rules>
             <Pairwise tunneling="true"/>
           </Rules>
@@ -4004,6 +4174,10 @@
           </Rules>
         </Property>
         <Property name="Identifier" kind="Token" index="3" optional="false" changepoint="true" multiplicity="Single">
+          <Options exclusive="true">
+            <Kind name="IdentifierToken" identifier="true"/>
+            <Kind name="ArgListKeyword" keyword="true"/>
+          </Options>
           <Rules>
             <Name>
               <Equality full="true"/>
@@ -4054,6 +4228,10 @@
           </Rules>
         </Property>
       </Properties>
+      <Options exclusive="true">
+        <Type name="SingleLineDocumentationCommentTrivia"/>
+        <Type name="MultiLineDocumentationCommentTrivia"/>
+      </Options>
       <Annotations>
         <Annotation context="Suppress" role="Kind"/>
       </Annotations>
@@ -4269,6 +4447,11 @@
           </Rules>
         </Property>
         <Property name="Line" kind="Token" index="2" optional="false" changepoint="true" multiplicity="Single">
+          <Options exclusive="true">
+            <Kind name="NumericLiteralToken" literal="true"/>
+            <Kind name="DefaultKeyword" keyword="true"/>
+            <Kind name="HiddenKeyword" keyword="true"/>
+          </Options>
           <Rules>
             <Pairwise tunneling="true"/>
             <Topology relevant="true"/>
@@ -4305,6 +4488,10 @@
           </Rules>
         </Property>
         <Property name="DisableOrRestoreKeyword" kind="Token" index="3" optional="false" changepoint="true" multiplicity="Single" keyword="true">
+          <Options exclusive="true">
+            <Kind name="DisableKeyword" keyword="true"/>
+            <Kind name="RestoreKeyword" keyword="true"/>
+          </Options>
           <Rules>
             <Pairwise tunneling="true"/>
             <Topology relevant="true"/>
@@ -4621,6 +4808,30 @@
           </Rules>
         </Property>
         <Property name="OperatorToken" kind="Token" index="1" optional="false" changepoint="true" multiplicity="Single">
+          <Options exclusive="true">
+            <Kind name="PlusToken" operator="true"/>
+            <Kind name="MinusToken" operator="true"/>
+            <Kind name="ExclamationToken" operator="true"/>
+            <Kind name="TildeToken" operator="true"/>
+            <Kind name="PlusPlusToken" operator="true"/>
+            <Kind name="MinusMinusToken" operator="true"/>
+            <Kind name="AsteriskToken" operator="true"/>
+            <Kind name="SlashToken" operator="true"/>
+            <Kind name="PercentToken" operator="true"/>
+            <Kind name="LessThanLessThanToken" operator="true"/>
+            <Kind name="GreaterThanGreaterThanToken" operator="true"/>
+            <Kind name="BarToken" operator="true"/>
+            <Kind name="AmpersandToken" operator="true"/>
+            <Kind name="CaretToken" operator="true"/>
+            <Kind name="EqualsEqualsToken" operator="true"/>
+            <Kind name="ExclamationEqualsToken" operator="true"/>
+            <Kind name="LessThanToken" operator="true"/>
+            <Kind name="LessThanEqualsToken" operator="true"/>
+            <Kind name="GreaterThanToken" operator="true"/>
+            <Kind name="GreaterThanEqualsToken" operator="true"/>
+            <Kind name="FalseKeyword" operator="true" keyword="true"/>
+            <Kind name="TrueKeyword" operator="true" keyword="true"/>
+          </Options>
           <Rules>
             <Signature>
               <Equality full="true"/>
@@ -4654,6 +4865,10 @@
     <Type name="ConversionOperatorMemberCrefSyntax" base="MemberCrefSyntax">
       <Properties>
         <Property name="ImplicitOrExplicitKeyword" kind="Token" index="0" optional="false" changepoint="true" multiplicity="Single" keyword="true">
+          <Options exclusive="true">
+            <Kind name="ImplicitKeyword" keyword="true"/>
+            <Kind name="ExplicitKeyword" keyword="true"/>
+          </Options>
           <Rules>
             <Pairwise tunneling="true"/>
           </Rules>
@@ -4762,7 +4977,12 @@
     </Type>
     <Type name="CrefParameterSyntax">
       <Properties>
-        <Property name="RefOrOutKeyword" kind="Token" index="0" optional="true" changepoint="true" multiplicity="Single" keyword="true">
+        <Property name="RefKindKeyword" kind="Token" index="0" optional="true" changepoint="true" multiplicity="Single" keyword="true">
+          <Options exclusive="true">
+            <Kind name="RefKeyword" keyword="true"/>
+            <Kind name="OutKeyword" keyword="true"/>
+            <Kind name="InKeyword" keyword="true"/>
+          </Options>
           <Rules>
             <Pairwise tunneling="true"/>
           </Rules>
@@ -4989,6 +5209,10 @@
           </Rules>
         </Property>
         <Property name="StartQuoteToken" kind="Token" index="2" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
+          <Options exclusive="true">
+            <Kind name="SingleQuoteToken" puntuaction="true"/>
+            <Kind name="DoubleQuoteToken" puntuaction="true"/>
+          </Options>
           <Rules>
             <Pairwise tunneling="true"/>
           </Rules>
@@ -4999,6 +5223,10 @@
           </Rules>
         </Property>
         <Property name="EndQuoteToken" kind="Token" index="4" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
+          <Options exclusive="true">
+            <Kind name="SingleQuoteToken" puntuaction="true"/>
+            <Kind name="DoubleQuoteToken" puntuaction="true"/>
+          </Options>
           <Rules>
             <Pairwise tunneling="true"/>
           </Rules>
@@ -5023,6 +5251,10 @@
           </Rules>
         </Property>
         <Property name="StartQuoteToken" kind="Token" index="2" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
+          <Options exclusive="true">
+            <Kind name="SingleQuoteToken" puntuaction="true"/>
+            <Kind name="DoubleQuoteToken" puntuaction="true"/>
+          </Options>
           <Rules>
             <Pairwise tunneling="true"/>
           </Rules>
@@ -5036,6 +5268,10 @@
           </Rules>
         </Property>
         <Property name="EndQuoteToken" kind="Token" index="4" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
+          <Options exclusive="true">
+            <Kind name="SingleQuoteToken" puntuaction="true"/>
+            <Kind name="DoubleQuoteToken" puntuaction="true"/>
+          </Options>
           <Rules>
             <Pairwise tunneling="true"/>
           </Rules>
@@ -5060,6 +5296,10 @@
           </Rules>
         </Property>
         <Property name="StartQuoteToken" kind="Token" index="2" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
+          <Options exclusive="true">
+            <Kind name="SingleQuoteToken" puntuaction="true"/>
+            <Kind name="DoubleQuoteToken" puntuaction="true"/>
+          </Options>
           <Rules>
             <Pairwise tunneling="true"/>
           </Rules>
@@ -5073,6 +5313,10 @@
           </Rules>
         </Property>
         <Property name="EndQuoteToken" kind="Token" index="4" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
+          <Options exclusive="true">
+            <Kind name="SingleQuoteToken" puntuaction="true"/>
+            <Kind name="DoubleQuoteToken" puntuaction="true"/>
+          </Options>
           <Rules>
             <Pairwise tunneling="true"/>
           </Rules>
@@ -5237,7 +5481,7 @@
             <Pairwise tunneling="true"/>
           </Rules>
         </Property>
-        <Property name="StaticKeyword" kind="Token" index="1" optional="true" changepoint="true" multiplicity="Single" keyword="true">
+        <Property name="StaticKeyword" kind="Token" index="1" readOnly="true" optional="true" changepoint="true" multiplicity="Single" keyword="true">
           <Rules>
             <Pairwise tunneling="true"/>
           </Rules>
@@ -5736,6 +5980,10 @@
           </Rules>
         </Property>
         <Property name="Designation" kind="Expression" index="1" optional="false" changepoint="true" multiplicity="Single">
+          <Options exclusive="true">
+            <Kind name="SingleVariableDesignation" expression="true"/>
+            <Kind name="DiscardDesignation" expression="true"/>
+          </Options>
           <Rules>
             <Topology relevant="true"/>
           </Rules>

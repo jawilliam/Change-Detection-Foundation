@@ -1,7 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- edited with XMLSpy v2019 sp2 (x64) (http://www.altova.com) by Guillermo de la Torre (Phd Student) -->
 <xs:schema xmlns="http://tempuri.org/XNodeTypeSystem.xsd" xmlns:mstns="http://tempuri.org/XNodeTypeSystem.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://tempuri.org/XNodeTypeSystem.xsd" elementFormDefault="qualified" id="XNodeTypeSystem">
-	<xs:complexType name="EqualityOrSimilarityRules">
+  <xs:complexType name="TypeLabelOption">
+    <xs:attribute name="name" type="xs:string"/>
+  </xs:complexType>
+  <xs:complexType name="PropertyLabelOption">
+    <xs:complexContent>
+      <xs:extension base="mstns:TypeLabelOption">
+        <xs:attribute name="type" type="xs:string" use="optional"/>
+        <xs:attribute name="keyword" type="xs:boolean" use="optional"/>
+        <xs:attribute name="operator" type="xs:boolean" use="optional"/>
+        <xs:attribute name="puntuaction" type="xs:boolean" use="optional"/>
+        <xs:attribute name="expression" type="xs:boolean" use="optional"/>
+        <xs:attribute name="literal" type="xs:boolean" use="optional"/>
+        <xs:attribute name="identifier" type="xs:boolean" use="optional"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="EqualityOrSimilarityRules">
 		<xs:attribute name="full" type="xs:boolean" use="optional"/>
 		<xs:attribute name="partial" type="xs:boolean" use="optional"/>
 	</xs:complexType>
@@ -42,6 +58,14 @@
 													<xs:element name="Property" maxOccurs="unbounded">
 														<xs:complexType>
 															<xs:sequence>
+                                <xs:element name="Options" minOccurs="0">
+                                  <xs:complexType>
+                                    <xs:sequence>
+                                      <xs:element name="Kind" type="mstns:PropertyLabelOption" minOccurs="0" maxOccurs="unbounded"/>
+                                    </xs:sequence>
+                                    <xs:attribute name="exclusive" type="xs:boolean" use="optional"/>
+                                  </xs:complexType>
+                                </xs:element>
 																<xs:element name="Rules" minOccurs="0">
 																	<xs:complexType>
 																		<xs:sequence>
@@ -94,11 +118,20 @@
                               <xs:attribute name="keyword" type="xs:boolean" use="optional"/>
                               <xs:attribute name="operator" type="xs:boolean" use="optional"/>
                               <xs:attribute name="puntuaction" type="xs:boolean" use="optional"/>
+                              <xs:attribute name="invisible" type="xs:boolean" use="optional" default="false"/>
 														</xs:complexType>
 													</xs:element>
 												</xs:sequence>
 											</xs:complexType>
 										</xs:element>
+                    <xs:element name="Options" minOccurs="0">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="Type" type="mstns:TypeLabelOption" minOccurs="0" maxOccurs="unbounded"/>
+                        </xs:sequence>
+                        <xs:attribute name="exclusive" type="xs:boolean" use="optional"/>
+                      </xs:complexType>
+                    </xs:element>
 										<xs:element name="Rules" minOccurs="0">
 											<xs:complexType>
 												<xs:sequence>
@@ -135,7 +168,6 @@
                   <xs:attribute name="token" type="xs:boolean" use="optional" default="false"/>
                   <xs:attribute name="operator" type="xs:boolean" use="optional" default="false"/>
                   <xs:attribute name="readonly" type="xs:boolean" use="optional" default="false"/>
-                  <xs:attribute name="invisible" type="xs:boolean" use="optional" default="false"/>
                   <xs:attribute name="symbolic" type="xs:boolean" use="optional" default="false"/>
 								</xs:complexType>
 							</xs:element>

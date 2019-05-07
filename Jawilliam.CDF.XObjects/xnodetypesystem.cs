@@ -273,9 +273,6 @@ namespace tempuri.org.XNodeTypeSystem.xsd {
                 private static bool @readonlyDefaultValue = System.Xml.XmlConvert.ToBoolean("false");
                 
                 [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                private static bool invisibleDefaultValue = System.Xml.XmlConvert.ToBoolean("false");
-                
-                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
                 private static bool symbolicDefaultValue = System.Xml.XmlConvert.ToBoolean("false");
                 
                 [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -440,21 +437,6 @@ namespace tempuri.org.XNodeTypeSystem.xsd {
                     }
                     set {
                         this.SetAttribute(XName.Get("readonly", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
-                    }
-                }
-                
-                /// <summary>
-                /// <para>
-                /// Occurrence: optional
-                /// </para>
-                /// </summary>
-                public bool invisible {
-                    get {
-                        XAttribute x = this.Attribute(XName.Get("invisible", ""));
-                        return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype, invisibleDefaultValue);
-                    }
-                    set {
-                        this.SetAttribute(XName.Get("invisible", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
                     }
                 }
                 
@@ -637,6 +619,9 @@ namespace tempuri.org.XNodeTypeSystem.xsd {
                         
                         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
                         private static string multiplicityDefaultValue = "Single";
+                        
+                        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                        private static bool invisibleDefaultValue = System.Xml.XmlConvert.ToBoolean("false");
                         
                         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
                         static Dictionary<XName, System.Type> localElementDictionary = new Dictionary<XName, System.Type>();
@@ -878,6 +863,21 @@ namespace tempuri.org.XNodeTypeSystem.xsd {
                             }
                             set {
                                 this.SetAttribute(XName.Get("puntuaction", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
+                            }
+                        }
+                        
+                        /// <summary>
+                        /// <para>
+                        /// Occurrence: optional
+                        /// </para>
+                        /// </summary>
+                        public bool invisible {
+                            get {
+                                XAttribute x = this.Attribute(XName.Get("invisible", ""));
+                                return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype, invisibleDefaultValue);
+                            }
+                            set {
+                                this.SetAttribute(XName.Get("invisible", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
                             }
                         }
                         

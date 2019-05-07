@@ -156,5 +156,29 @@ namespace Jawilliam.CDF.CSharp.Flad
         {
             return Enum.GetName(typeof(SyntaxKind), int.Parse(source, CultureInfo.InvariantCulture)).ToString(CultureInfo.InvariantCulture);
         }
+
+        ///// <summary>
+        ///// Gets all the non-abstract properties (i.e., all property belonging to some non-abstract element type).
+        ///// </summary>
+        ///// <param name="rdsl">The Xml root of the RDSL.</param>
+        ///// <returns>all the non-abstract properties</returns>
+        //public static IEnumerable<(XObjects.RDSL.Syntax.NodesLocalType.TypeLocalType Type, XObjects.RDSL.Syntax.NodesLocalType.TypeLocalType.PropertiesLocalType.PropertyLocalType Property)> ConcreteProperties(this XObjects.RDSL.Syntax rdsl)
+        //{
+        //    return from t in rdsl.Nodes.Type.Where(n => !n.@abstract)
+        //           from p in t.Properties?.Property
+        //           select (Type: t, Property: p);
+        //}
+
+        ///// <summary>
+        ///// Gets all the non-abstract expression properties (i.e., all property belonging to some non-abstract element type).
+        ///// </summary>
+        ///// <param name="rdsl">The Xml root of the RDSL.</param>
+        ///// <returns>all the non-abstract properties</returns>
+        //public static IEnumerable<(XObjects.RDSL.Syntax.NodesLocalType.TypeLocalType Type, XObjects.RDSL.Syntax.NodesLocalType.TypeLocalType.PropertiesLocalType.PropertyLocalType Property)> Expressions(this XObjects.RDSL.Syntax rdsl)
+        //{
+        //    return from p in rdsl.ConcreteProperties()
+        //           where p.Property.kind == "Expression"
+        //           select p;
+        //}
     }
 }
