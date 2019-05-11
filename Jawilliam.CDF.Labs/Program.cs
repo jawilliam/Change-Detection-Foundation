@@ -652,7 +652,7 @@ namespace Jawilliam.CDF.Labs
 
             var punctuationProperties2 = (from t in nonAbstractTypes
                                          from p in t.Properties.Property
-                                         where (p.Rules?.Pairwise?.tunneling ?? false) && !(p.Rules?.Pairwise?.bubbling ?? false)
+                                         where (p.Rules?.Pairwise?.tunneling ?? false)
                                          select new { Type = t, Property = p }).ToArray();
 
             var r1 = punctuationProperties1.Except(punctuationProperties2).ToArray();
