@@ -586,7 +586,7 @@ namespace Jawilliam.CDF.Labs
             //    //System.IO.File.AppendAllText(@"E:\Phd\Analysis\UniquePairs\WarningsGhost.csv", analyzer.Warnings.ToString());
             //}           
 
-            ExploringRDSL();
+            //ExploringRDSL();
             //int fragments = 0, frps = 0; 
             //foreach (var project in Projects)
             //{
@@ -671,7 +671,7 @@ namespace Jawilliam.CDF.Labs
 
             var puntuactionProperties = from t in nonAbstractTypes
                                         from p in t.Properties.Property
-                                        where p.kind == "Token" && (p.keyword ?? false) && p.Rules.Name == null && p.Rules.Signature == null
+                                        where p.kind == "Token" && p.keyword && p.Rules.Name == null && p.Rules.Signature == null
                                         select new { Type = t, Property = p };
             sb = new StringBuilder();
             foreach (var mp in operatorProperties)
@@ -681,7 +681,7 @@ namespace Jawilliam.CDF.Labs
             System.IO.File.WriteAllText(@"D:\Reports\Punctuation Properties.txt", sb.ToString());
 
             var testProperties = operatorProperties.Except(from t in nonAbstractTypes from p in t.Properties.Property where p.kind == "Token" select new { Type = t, Property = p });
-            var testProperties2 = (from t in nonAbstractTypes from p in t.Properties.Property where p.kind == "Token" && (p.keyword ?? false) select new { Type = t, Property = p }).Except(operatorProperties);
+            var testProperties2 = (from t in nonAbstractTypes from p in t.Properties.Property where p.kind == "Token" && p.keyword select new { Type = t, Property = p }).Except(operatorProperties);
 
             sb.Clear();
             foreach (var mp in testProperties2)
@@ -1079,9 +1079,9 @@ namespace Jawilliam.CDF.Labs
                 MillisecondsTimeout = 600000
             };
 
-            foreach (var project in Projects.Skip(55))
+            foreach (var project in Projects.Skip(79))
             {
-                foreach (var configuration in configurations.Where(c => project.Name == "mono" ? (int)c.Forward.Approach >= 18 : true))
+                foreach (var configuration in configurations.Where(c => project.Name == "PTVS" ? (int)c.Backward.Approach >= 24 : true))
                 {
                     var dbRepository = new GitRepository(project.Name) { Name = project.Name };
                     ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 600;
@@ -1109,15 +1109,15 @@ namespace Jawilliam.CDF.Labs
                     //}
 
                     ///TODO: Hay que repetir el experimento para AzureSdkForNet
-                    //if (!(project.Name == "MahAppsMetro" && (int)configuration.Forward.Approach == 18))
-                    //{
-                    analyzer.InverseNativeGumTreeDiff(gumTree, interopArgs, configuration.Backward.Approach, null, null);
+                    if (!(project.Name == "PTVS" && (int)configuration.Backward.Approach == 24))
+                    {
+                        analyzer.InverseNativeGumTreeDiff(gumTree, interopArgs, configuration.Backward.Approach, null, null);
                         //analyzer.InverseNativeGumTreeDiff(gumTree, interopArgs, gumTreeApproach, skipThese, cleaner);
                         System.IO.File.AppendAllText($@"D:\ExperimentLogs\{configuration.Backward.Name}.txt",
                             $"{Environment.NewLine}{Environment.NewLine}GumTreefied RoslynML (collection) completed {DateTime.Now.ToString("F", CultureInfo.InvariantCulture)} - {project.Name}");
-                    //}
+                    }
 
-                recognizer.ConfigForwardVsBackward((configuration.Forward.Approach, configuration.Forward.Name), (configuration.Backward.Approach, configuration.Backward.Name));
+                    recognizer.ConfigForwardVsBackward((configuration.Forward.Approach, configuration.Forward.Name), (configuration.Backward.Approach, configuration.Backward.Name));
                     recognizer.SqlRepository = dbRepository;
                     recognizer.Cancel = null;
                     //frp => dbRepository.Deltas.Any(d => d.RevisionPair.Id == frp.Id &&

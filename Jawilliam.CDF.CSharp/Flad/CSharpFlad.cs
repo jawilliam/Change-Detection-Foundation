@@ -216,12 +216,12 @@ namespace Jawilliam.CDF.CSharp.Flad
         /// <summary>
         /// Stores the value of <see cref="LanguageServiceProvider"/>.
         /// </summary>
-        private LanguageServiceProvider languageServiceProvider;
+        private Awareness.LanguageServiceProvider languageServiceProvider;
 
         /// <summary>
         /// Gets the C#-specific information for source code change detection. 
         /// </summary>
-        public virtual LanguageServiceProvider LanguageServiceProvider => this.languageServiceProvider ?? (this.languageServiceProvider = new LanguageServiceProvider(this));
+        public virtual Awareness.LanguageServiceProvider LanguageServiceProvider => this.languageServiceProvider ?? (this.languageServiceProvider = new Awareness.LanguageServiceProvider(this));
 
         /// <summary>
         /// Loads the original and modified versions to compare. 

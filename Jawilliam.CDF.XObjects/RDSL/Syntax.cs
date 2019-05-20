@@ -212,7 +212,7 @@ namespace Jawilliam.CDF.XObjects.RDSL
             /// Regular expression: (Type*)
             /// </para>
             /// </summary>
-            public IList<Syntax.NodesLocalType.TypeLocalType> Type
+            public IList<Jawilliam.CDF.XObjects.RDSL.Syntax.NodesLocalType.TypeLocalType> Type
             {
                 get
                 {
@@ -645,7 +645,7 @@ namespace Jawilliam.CDF.XObjects.RDSL
                     /// Regular expression: (Property+)
                     /// </para>
                     /// </summary>
-                    public IList<Syntax.NodesLocalType.TypeLocalType.PropertiesLocalType.PropertyLocalType> Property
+                    public IList<Jawilliam.CDF.XObjects.RDSL.Syntax.NodesLocalType.TypeLocalType.PropertiesLocalType.PropertyLocalType> Property
                     {
                         get
                         {
@@ -750,7 +750,16 @@ namespace Jawilliam.CDF.XObjects.RDSL
                         private static string multiplicityDefaultValue = "Single";
 
                         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                        private static bool invisibleDefaultValue = System.Xml.XmlConvert.ToBoolean("false");
+                        private static bool keywordDefaultValue = System.Xml.XmlConvert.ToBoolean("false");
+
+                        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                        private static bool @operatorDefaultValue = System.Xml.XmlConvert.ToBoolean("false");
+
+                        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                        private static bool puntuactionDefaultValue = System.Xml.XmlConvert.ToBoolean("false");
+
+                        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                        private static bool symbolicDefaultValue = System.Xml.XmlConvert.ToBoolean("false");
 
                         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
                         static Dictionary<XName, System.Type> localElementDictionary = new Dictionary<XName, System.Type>();
@@ -1002,16 +1011,12 @@ namespace Jawilliam.CDF.XObjects.RDSL
                         /// Occurrence: optional
                         /// </para>
                         /// </summary>
-                        public System.Nullable<bool> keyword
+                        public bool keyword
                         {
                             get
                             {
                                 XAttribute x = this.Attribute(XName.Get("keyword", ""));
-                                if ((x == null))
-                                {
-                                    return null;
-                                }
-                                return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
+                                return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype, keywordDefaultValue);
                             }
                             set
                             {
@@ -1024,16 +1029,12 @@ namespace Jawilliam.CDF.XObjects.RDSL
                         /// Occurrence: optional
                         /// </para>
                         /// </summary>
-                        public System.Nullable<bool> @operator
+                        public bool @operator
                         {
                             get
                             {
                                 XAttribute x = this.Attribute(XName.Get("operator", ""));
-                                if ((x == null))
-                                {
-                                    return null;
-                                }
-                                return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
+                                return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype, @operatorDefaultValue);
                             }
                             set
                             {
@@ -1046,16 +1047,12 @@ namespace Jawilliam.CDF.XObjects.RDSL
                         /// Occurrence: optional
                         /// </para>
                         /// </summary>
-                        public System.Nullable<bool> puntuaction
+                        public bool puntuaction
                         {
                             get
                             {
                                 XAttribute x = this.Attribute(XName.Get("puntuaction", ""));
-                                if ((x == null))
-                                {
-                                    return null;
-                                }
-                                return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
+                                return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype, puntuactionDefaultValue);
                             }
                             set
                             {
@@ -1068,16 +1065,16 @@ namespace Jawilliam.CDF.XObjects.RDSL
                         /// Occurrence: optional
                         /// </para>
                         /// </summary>
-                        public bool invisible
+                        public bool symbolic
                         {
                             get
                             {
-                                XAttribute x = this.Attribute(XName.Get("invisible", ""));
-                                return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype, invisibleDefaultValue);
+                                XAttribute x = this.Attribute(XName.Get("symbolic", ""));
+                                return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype, symbolicDefaultValue);
                             }
                             set
                             {
-                                this.SetAttribute(XName.Get("invisible", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
+                                this.SetAttribute(XName.Get("symbolic", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
                             }
                         }
 
@@ -1309,6 +1306,12 @@ namespace Jawilliam.CDF.XObjects.RDSL
                         {
 
                             [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                            private static bool collectionDefaultValue = System.Xml.XmlConvert.ToBoolean("false");
+
+                            [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                            private static bool eventuallyCollectionDefaultValue = System.Xml.XmlConvert.ToBoolean("false");
+
+                            [DebuggerBrowsable(DebuggerBrowsableState.Never)]
                             static Dictionary<XName, System.Type> localElementDictionary = new Dictionary<XName, System.Type>();
 
                             [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -1455,6 +1458,42 @@ namespace Jawilliam.CDF.XObjects.RDSL
                                 set
                                 {
                                     this.SetAttribute(XName.Get("essential", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
+                                }
+                            }
+
+                            /// <summary>
+                            /// <para>
+                            /// Occurrence: optional
+                            /// </para>
+                            /// </summary>
+                            public bool collection
+                            {
+                                get
+                                {
+                                    XAttribute x = this.Attribute(XName.Get("collection", ""));
+                                    return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype, collectionDefaultValue);
+                                }
+                                set
+                                {
+                                    this.SetAttribute(XName.Get("collection", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
+                                }
+                            }
+
+                            /// <summary>
+                            /// <para>
+                            /// Occurrence: optional
+                            /// </para>
+                            /// </summary>
+                            public bool eventuallyCollection
+                            {
+                                get
+                                {
+                                    XAttribute x = this.Attribute(XName.Get("eventuallyCollection", ""));
+                                    return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype, eventuallyCollectionDefaultValue);
+                                }
+                                set
+                                {
+                                    this.SetAttribute(XName.Get("eventuallyCollection", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
                                 }
                             }
 
@@ -1766,11 +1805,20 @@ namespace Jawilliam.CDF.XObjects.RDSL
 
                 /// <summary>
                 /// <para>
-                /// Regular expression: (Signature?, Name?, Hint?, Alias?, Compatibility?, Granularity?)
+                /// Regular expression: (Signature?, Name?, Hint?, Alias*, Compatibility*, Granularity?)
                 /// </para>
                 /// </summary>
                 public partial class RulesLocalType : XTypedElement, IXMetaData
                 {
+
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private XTypedList<CaseRules> AliasField;
+
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private XTypedList<CaseRules> CompatibilityField;
+
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private static bool collectionDefaultValue = System.Xml.XmlConvert.ToBoolean("false");
 
                     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
                     static Dictionary<XName, System.Type> localElementDictionary = new Dictionary<XName, System.Type>();
@@ -1788,7 +1836,7 @@ namespace Jawilliam.CDF.XObjects.RDSL
 
                     /// <summary>
                     /// <para>
-                    /// Regular expression: (Signature?, Name?, Hint?, Alias?, Compatibility?, Granularity?)
+                    /// Regular expression: (Signature?, Name?, Hint?, Alias*, Compatibility*, Granularity?)
                     /// </para>
                     /// </summary>
                     public RulesLocalType()
@@ -1800,7 +1848,7 @@ namespace Jawilliam.CDF.XObjects.RDSL
                     /// Occurrence: optional
                     /// </para>
                     /// <para>
-                    /// Regular expression: (Signature?, Name?, Hint?, Alias?, Compatibility?, Granularity?)
+                    /// Regular expression: (Signature?, Name?, Hint?, Alias*, Compatibility*, Granularity?)
                     /// </para>
                     /// </summary>
                     public KeyRules Signature
@@ -1821,7 +1869,7 @@ namespace Jawilliam.CDF.XObjects.RDSL
                     /// Occurrence: optional
                     /// </para>
                     /// <para>
-                    /// Regular expression: (Signature?, Name?, Hint?, Alias?, Compatibility?, Granularity?)
+                    /// Regular expression: (Signature?, Name?, Hint?, Alias*, Compatibility*, Granularity?)
                     /// </para>
                     /// </summary>
                     public KeyRules Name
@@ -1842,7 +1890,7 @@ namespace Jawilliam.CDF.XObjects.RDSL
                     /// Occurrence: optional
                     /// </para>
                     /// <para>
-                    /// Regular expression: (Signature?, Name?, Hint?, Alias?, Compatibility?, Granularity?)
+                    /// Regular expression: (Signature?, Name?, Hint?, Alias*, Compatibility*, Granularity?)
                     /// </para>
                     /// </summary>
                     public SuitabilityRule Hint
@@ -1860,22 +1908,77 @@ namespace Jawilliam.CDF.XObjects.RDSL
 
                     /// <summary>
                     /// <para>
-                    /// Occurrence: optional
+                    /// Occurrence: optional, repeating
                     /// </para>
                     /// <para>
-                    /// Regular expression: (Signature?, Name?, Hint?, Alias?, Compatibility?, Granularity?)
+                    /// Regular expression: (Signature?, Name?, Hint?, Alias*, Compatibility*, Granularity?)
                     /// </para>
                     /// </summary>
-                    public SuitabilityRule Alias
+                    public IList<CaseRules> Alias
                     {
                         get
                         {
-                            XElement x = this.GetElement(XName.Get("Alias", "http://tempuri.org/XNodeTypeSystem.xsd"));
-                            return ((SuitabilityRule)(x));
+                            if ((this.AliasField == null))
+                            {
+                                this.AliasField = new XTypedList<CaseRules>(this, LinqToXsdTypeManager.Instance, XName.Get("Alias", "http://tempuri.org/XNodeTypeSystem.xsd"));
+                            }
+                            return this.AliasField;
                         }
                         set
                         {
-                            this.SetElement(XName.Get("Alias", "http://tempuri.org/XNodeTypeSystem.xsd"), value);
+                            if ((value == null))
+                            {
+                                this.AliasField = null;
+                            }
+                            else
+                            {
+                                if ((this.AliasField == null))
+                                {
+                                    this.AliasField = XTypedList<CaseRules>.Initialize(this, LinqToXsdTypeManager.Instance, value, XName.Get("Alias", "http://tempuri.org/XNodeTypeSystem.xsd"));
+                                }
+                                else
+                                {
+                                    XTypedServices.SetList<CaseRules>(this.AliasField, value);
+                                }
+                            }
+                        }
+                    }
+
+                    /// <summary>
+                    /// <para>
+                    /// Occurrence: optional, repeating
+                    /// </para>
+                    /// <para>
+                    /// Regular expression: (Signature?, Name?, Hint?, Alias*, Compatibility*, Granularity?)
+                    /// </para>
+                    /// </summary>
+                    public IList<CaseRules> Compatibility
+                    {
+                        get
+                        {
+                            if ((this.CompatibilityField == null))
+                            {
+                                this.CompatibilityField = new XTypedList<CaseRules>(this, LinqToXsdTypeManager.Instance, XName.Get("Compatibility", "http://tempuri.org/XNodeTypeSystem.xsd"));
+                            }
+                            return this.CompatibilityField;
+                        }
+                        set
+                        {
+                            if ((value == null))
+                            {
+                                this.CompatibilityField = null;
+                            }
+                            else
+                            {
+                                if ((this.CompatibilityField == null))
+                                {
+                                    this.CompatibilityField = XTypedList<CaseRules>.Initialize(this, LinqToXsdTypeManager.Instance, value, XName.Get("Compatibility", "http://tempuri.org/XNodeTypeSystem.xsd"));
+                                }
+                                else
+                                {
+                                    XTypedServices.SetList<CaseRules>(this.CompatibilityField, value);
+                                }
+                            }
                         }
                     }
 
@@ -1884,28 +1987,7 @@ namespace Jawilliam.CDF.XObjects.RDSL
                     /// Occurrence: optional
                     /// </para>
                     /// <para>
-                    /// Regular expression: (Signature?, Name?, Hint?, Alias?, Compatibility?, Granularity?)
-                    /// </para>
-                    /// </summary>
-                    public SuitabilityRule Compatibility
-                    {
-                        get
-                        {
-                            XElement x = this.GetElement(XName.Get("Compatibility", "http://tempuri.org/XNodeTypeSystem.xsd"));
-                            return ((SuitabilityRule)(x));
-                        }
-                        set
-                        {
-                            this.SetElement(XName.Get("Compatibility", "http://tempuri.org/XNodeTypeSystem.xsd"), value);
-                        }
-                    }
-
-                    /// <summary>
-                    /// <para>
-                    /// Occurrence: optional
-                    /// </para>
-                    /// <para>
-                    /// Regular expression: (Signature?, Name?, Hint?, Alias?, Compatibility?, Granularity?)
+                    /// Regular expression: (Signature?, Name?, Hint?, Alias*, Compatibility*, Granularity?)
                     /// </para>
                     /// </summary>
                     public GranularityLocalType Granularity
@@ -1918,6 +2000,24 @@ namespace Jawilliam.CDF.XObjects.RDSL
                         set
                         {
                             this.SetElement(XName.Get("Granularity", "http://tempuri.org/XNodeTypeSystem.xsd"), value);
+                        }
+                    }
+
+                    /// <summary>
+                    /// <para>
+                    /// Occurrence: optional
+                    /// </para>
+                    /// </summary>
+                    public bool collection
+                    {
+                        get
+                        {
+                            XAttribute x = this.Attribute(XName.Get("collection", ""));
+                            return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype, collectionDefaultValue);
+                        }
+                        set
+                        {
+                            this.SetAttribute(XName.Get("collection", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
                         }
                     }
 
@@ -1967,8 +2067,8 @@ namespace Jawilliam.CDF.XObjects.RDSL
                         localElementDictionary.Add(XName.Get("Signature", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(KeyRules));
                         localElementDictionary.Add(XName.Get("Name", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(KeyRules));
                         localElementDictionary.Add(XName.Get("Hint", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(SuitabilityRule));
-                        localElementDictionary.Add(XName.Get("Alias", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(SuitabilityRule));
-                        localElementDictionary.Add(XName.Get("Compatibility", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(SuitabilityRule));
+                        localElementDictionary.Add(XName.Get("Alias", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(CaseRules));
+                        localElementDictionary.Add(XName.Get("Compatibility", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(CaseRules));
                         localElementDictionary.Add(XName.Get("Granularity", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(GranularityLocalType));
                     }
 
@@ -2103,7 +2203,7 @@ namespace Jawilliam.CDF.XObjects.RDSL
                     /// Regular expression: (Annotation)+
                     /// </para>
                     /// </summary>
-                    public IList<Syntax.NodesLocalType.TypeLocalType.AnnotationsLocalType.AnnotationLocalType> Annotation
+                    public IList<Jawilliam.CDF.XObjects.RDSL.Syntax.NodesLocalType.TypeLocalType.AnnotationsLocalType.AnnotationLocalType> Annotation
                     {
                         get
                         {
@@ -2340,6 +2440,24 @@ namespace Jawilliam.CDF.XObjects.RDSL
     {
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static bool keywordDefaultValue = System.Xml.XmlConvert.ToBoolean("false");
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static bool @operatorDefaultValue = System.Xml.XmlConvert.ToBoolean("false");
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static bool puntuactionDefaultValue = System.Xml.XmlConvert.ToBoolean("false");
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static bool expressionDefaultValue = System.Xml.XmlConvert.ToBoolean("false");
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static bool literalDefaultValue = System.Xml.XmlConvert.ToBoolean("false");
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static bool identifierDefaultValue = System.Xml.XmlConvert.ToBoolean("false");
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private static bool @readonlyDefaultValue = System.Xml.XmlConvert.ToBoolean("true");
 
         public static explicit operator PropertyLabelOption(XElement xe) { return XTypedServices.ToXTypedElement<PropertyLabelOption>(xe, LinqToXsdTypeManager.Instance as ILinqToXsdTypeManager); }
@@ -2371,16 +2489,12 @@ namespace Jawilliam.CDF.XObjects.RDSL
         /// Occurrence: optional
         /// </para>
         /// </summary>
-        public System.Nullable<bool> keyword
+        public bool keyword
         {
             get
             {
                 XAttribute x = this.Attribute(XName.Get("keyword", ""));
-                if ((x == null))
-                {
-                    return null;
-                }
-                return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
+                return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype, keywordDefaultValue);
             }
             set
             {
@@ -2393,16 +2507,12 @@ namespace Jawilliam.CDF.XObjects.RDSL
         /// Occurrence: optional
         /// </para>
         /// </summary>
-        public System.Nullable<bool> @operator
+        public bool @operator
         {
             get
             {
                 XAttribute x = this.Attribute(XName.Get("operator", ""));
-                if ((x == null))
-                {
-                    return null;
-                }
-                return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
+                return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype, @operatorDefaultValue);
             }
             set
             {
@@ -2415,16 +2525,12 @@ namespace Jawilliam.CDF.XObjects.RDSL
         /// Occurrence: optional
         /// </para>
         /// </summary>
-        public System.Nullable<bool> puntuaction
+        public bool puntuaction
         {
             get
             {
                 XAttribute x = this.Attribute(XName.Get("puntuaction", ""));
-                if ((x == null))
-                {
-                    return null;
-                }
-                return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
+                return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype, puntuactionDefaultValue);
             }
             set
             {
@@ -2437,16 +2543,12 @@ namespace Jawilliam.CDF.XObjects.RDSL
         /// Occurrence: optional
         /// </para>
         /// </summary>
-        public System.Nullable<bool> expression
+        public bool expression
         {
             get
             {
                 XAttribute x = this.Attribute(XName.Get("expression", ""));
-                if ((x == null))
-                {
-                    return null;
-                }
-                return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
+                return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype, expressionDefaultValue);
             }
             set
             {
@@ -2459,16 +2561,12 @@ namespace Jawilliam.CDF.XObjects.RDSL
         /// Occurrence: optional
         /// </para>
         /// </summary>
-        public System.Nullable<bool> literal
+        public bool literal
         {
             get
             {
                 XAttribute x = this.Attribute(XName.Get("literal", ""));
-                if ((x == null))
-                {
-                    return null;
-                }
-                return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
+                return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype, literalDefaultValue);
             }
             set
             {
@@ -2481,16 +2579,12 @@ namespace Jawilliam.CDF.XObjects.RDSL
         /// Occurrence: optional
         /// </para>
         /// </summary>
-        public System.Nullable<bool> identifier
+        public bool identifier
         {
             get
             {
                 XAttribute x = this.Attribute(XName.Get("identifier", ""));
-                if ((x == null))
-                {
-                    return null;
-                }
-                return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
+                return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype, identifierDefaultValue);
             }
             set
             {
@@ -3062,6 +3156,476 @@ namespace Jawilliam.CDF.XObjects.RDSL
         ContentModelEntity IXMetaData.GetContentModel()
         {
             return ContentModelEntity.Default;
+        }
+    }
+
+    public partial class JoinCase : XTypedElement, IXMetaData
+    {
+
+        public static explicit operator JoinCase(XElement xe) { return XTypedServices.ToXTypedElement<JoinCase>(xe, LinqToXsdTypeManager.Instance as ILinqToXsdTypeManager); }
+
+        public JoinCase()
+        {
+        }
+
+        /// <summary>
+        /// <para>
+        /// Occurrence: optional
+        /// </para>
+        /// </summary>
+        public string leftPath
+        {
+            get
+            {
+                XAttribute x = this.Attribute(XName.Get("leftPath", ""));
+                return XTypedServices.ParseValue<string>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String).Datatype);
+            }
+            set
+            {
+                this.SetAttribute(XName.Get("leftPath", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String).Datatype);
+            }
+        }
+
+        /// <summary>
+        /// <para>
+        /// Occurrence: optional
+        /// </para>
+        /// </summary>
+        public string rightPath
+        {
+            get
+            {
+                XAttribute x = this.Attribute(XName.Get("rightPath", ""));
+                return XTypedServices.ParseValue<string>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String).Datatype);
+            }
+            set
+            {
+                this.SetAttribute(XName.Get("rightPath", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String).Datatype);
+            }
+        }
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        XName IXMetaData.SchemaName
+        {
+            get
+            {
+                return XName.Get("JoinCase", "http://tempuri.org/XNodeTypeSystem.xsd");
+            }
+        }
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        SchemaOrigin IXMetaData.TypeOrigin
+        {
+            get
+            {
+                return SchemaOrigin.Fragment;
+            }
+        }
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        ILinqToXsdTypeManager IXMetaData.TypeManager
+        {
+            get
+            {
+                return LinqToXsdTypeManager.Instance;
+            }
+        }
+
+        public override XTypedElement Clone()
+        {
+            return XTypedServices.CloneXTypedElement<JoinCase>(this);
+        }
+
+        ContentModelEntity IXMetaData.GetContentModel()
+        {
+            return ContentModelEntity.Default;
+        }
+    }
+
+    /// <summary>
+    /// <para>
+    /// Regular expression: (Value | Equality | Similarity | Partner)+
+    /// </para>
+    /// </summary>
+    public partial class CaseRules : XTypedElement, IXMetaData
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private XTypedList<ValueLocalType> ValueField;
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private XTypedList<JoinCase> EqualityField;
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private XTypedList<JoinCase> SimilarityField;
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private XTypedList<JoinCase> PartnerField;
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        static Dictionary<XName, System.Type> localElementDictionary = new Dictionary<XName, System.Type>();
+
+        public static explicit operator CaseRules(XElement xe) { return XTypedServices.ToXTypedElement<CaseRules>(xe, LinqToXsdTypeManager.Instance as ILinqToXsdTypeManager); }
+
+        static CaseRules()
+        {
+            BuildElementDictionary();
+        }
+
+        /// <summary>
+        /// <para>
+        /// Regular expression: (Value | Equality | Similarity | Partner)+
+        /// </para>
+        /// </summary>
+        public CaseRules()
+        {
+        }
+
+        /// <summary>
+        /// <para>
+        /// Occurrence: required, choice
+        /// </para>
+        /// <para>
+        /// Regular expression: (Value | Equality | Similarity | Partner)+
+        /// </para>
+        /// </summary>
+        public IList<Jawilliam.CDF.XObjects.RDSL.CaseRules.ValueLocalType> Value
+        {
+            get
+            {
+                if ((this.ValueField == null))
+                {
+                    this.ValueField = new XTypedList<ValueLocalType>(this, LinqToXsdTypeManager.Instance, XName.Get("Value", "http://tempuri.org/XNodeTypeSystem.xsd"));
+                }
+                return this.ValueField;
+            }
+            set
+            {
+                if ((value == null))
+                {
+                    this.ValueField = null;
+                }
+                else
+                {
+                    if ((this.ValueField == null))
+                    {
+                        this.ValueField = XTypedList<ValueLocalType>.Initialize(this, LinqToXsdTypeManager.Instance, value, XName.Get("Value", "http://tempuri.org/XNodeTypeSystem.xsd"));
+                    }
+                    else
+                    {
+                        XTypedServices.SetList<ValueLocalType>(this.ValueField, value);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// <para>
+        /// Occurrence: required, choice
+        /// </para>
+        /// <para>
+        /// Regular expression: (Value | Equality | Similarity | Partner)+
+        /// </para>
+        /// </summary>
+        public IList<JoinCase> Equality
+        {
+            get
+            {
+                if ((this.EqualityField == null))
+                {
+                    this.EqualityField = new XTypedList<JoinCase>(this, LinqToXsdTypeManager.Instance, XName.Get("Equality", "http://tempuri.org/XNodeTypeSystem.xsd"));
+                }
+                return this.EqualityField;
+            }
+            set
+            {
+                if ((value == null))
+                {
+                    this.EqualityField = null;
+                }
+                else
+                {
+                    if ((this.EqualityField == null))
+                    {
+                        this.EqualityField = XTypedList<JoinCase>.Initialize(this, LinqToXsdTypeManager.Instance, value, XName.Get("Equality", "http://tempuri.org/XNodeTypeSystem.xsd"));
+                    }
+                    else
+                    {
+                        XTypedServices.SetList<JoinCase>(this.EqualityField, value);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// <para>
+        /// Occurrence: required, choice
+        /// </para>
+        /// <para>
+        /// Regular expression: (Value | Equality | Similarity | Partner)+
+        /// </para>
+        /// </summary>
+        public IList<JoinCase> Similarity
+        {
+            get
+            {
+                if ((this.SimilarityField == null))
+                {
+                    this.SimilarityField = new XTypedList<JoinCase>(this, LinqToXsdTypeManager.Instance, XName.Get("Similarity", "http://tempuri.org/XNodeTypeSystem.xsd"));
+                }
+                return this.SimilarityField;
+            }
+            set
+            {
+                if ((value == null))
+                {
+                    this.SimilarityField = null;
+                }
+                else
+                {
+                    if ((this.SimilarityField == null))
+                    {
+                        this.SimilarityField = XTypedList<JoinCase>.Initialize(this, LinqToXsdTypeManager.Instance, value, XName.Get("Similarity", "http://tempuri.org/XNodeTypeSystem.xsd"));
+                    }
+                    else
+                    {
+                        XTypedServices.SetList<JoinCase>(this.SimilarityField, value);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// <para>
+        /// Occurrence: required, choice
+        /// </para>
+        /// <para>
+        /// Regular expression: (Value | Equality | Similarity | Partner)+
+        /// </para>
+        /// </summary>
+        public IList<JoinCase> Partner
+        {
+            get
+            {
+                if ((this.PartnerField == null))
+                {
+                    this.PartnerField = new XTypedList<JoinCase>(this, LinqToXsdTypeManager.Instance, XName.Get("Partner", "http://tempuri.org/XNodeTypeSystem.xsd"));
+                }
+                return this.PartnerField;
+            }
+            set
+            {
+                if ((value == null))
+                {
+                    this.PartnerField = null;
+                }
+                else
+                {
+                    if ((this.PartnerField == null))
+                    {
+                        this.PartnerField = XTypedList<JoinCase>.Initialize(this, LinqToXsdTypeManager.Instance, value, XName.Get("Partner", "http://tempuri.org/XNodeTypeSystem.xsd"));
+                    }
+                    else
+                    {
+                        XTypedServices.SetList<JoinCase>(this.PartnerField, value);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// <para>
+        /// Occurrence: optional
+        /// </para>
+        /// </summary>
+        public string type
+        {
+            get
+            {
+                XAttribute x = this.Attribute(XName.Get("type", ""));
+                return XTypedServices.ParseValue<string>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String).Datatype);
+            }
+            set
+            {
+                this.SetAttribute(XName.Get("type", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String).Datatype);
+            }
+        }
+
+        /// <summary>
+        /// <para>
+        /// Occurrence: optional
+        /// </para>
+        /// </summary>
+        public string kind
+        {
+            get
+            {
+                XAttribute x = this.Attribute(XName.Get("kind", ""));
+                return XTypedServices.ParseValue<string>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String).Datatype);
+            }
+            set
+            {
+                this.SetAttribute(XName.Get("kind", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String).Datatype);
+            }
+        }
+
+        /// <summary>
+        /// <para>
+        /// Occurrence: optional
+        /// </para>
+        /// </summary>
+        public System.Nullable<bool> twoWay
+        {
+            get
+            {
+                XAttribute x = this.Attribute(XName.Get("twoWay", ""));
+                if ((x == null))
+                {
+                    return null;
+                }
+                return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
+            }
+            set
+            {
+                this.SetAttribute(XName.Get("twoWay", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
+            }
+        }
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        Dictionary<XName, System.Type> IXMetaData.LocalElementsDictionary
+        {
+            get
+            {
+                return localElementDictionary;
+            }
+        }
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        XName IXMetaData.SchemaName
+        {
+            get
+            {
+                return XName.Get("CaseRules", "http://tempuri.org/XNodeTypeSystem.xsd");
+            }
+        }
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        SchemaOrigin IXMetaData.TypeOrigin
+        {
+            get
+            {
+                return SchemaOrigin.Fragment;
+            }
+        }
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        ILinqToXsdTypeManager IXMetaData.TypeManager
+        {
+            get
+            {
+                return LinqToXsdTypeManager.Instance;
+            }
+        }
+
+        public override XTypedElement Clone()
+        {
+            return XTypedServices.CloneXTypedElement<CaseRules>(this);
+        }
+
+        private static void BuildElementDictionary()
+        {
+            localElementDictionary.Add(XName.Get("Value", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(ValueLocalType));
+            localElementDictionary.Add(XName.Get("Equality", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(JoinCase));
+            localElementDictionary.Add(XName.Get("Similarity", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(JoinCase));
+            localElementDictionary.Add(XName.Get("Partner", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(JoinCase));
+        }
+
+        ContentModelEntity IXMetaData.GetContentModel()
+        {
+            return ContentModelEntity.Default;
+        }
+
+        public partial class ValueLocalType : XTypedElement, IXMetaData
+        {
+
+            public static explicit operator ValueLocalType(XElement xe) { return XTypedServices.ToXTypedElement<ValueLocalType>(xe, LinqToXsdTypeManager.Instance as ILinqToXsdTypeManager); }
+
+            public ValueLocalType()
+            {
+            }
+
+            /// <summary>
+            /// <para>
+            /// Occurrence: optional
+            /// </para>
+            /// </summary>
+            public string path
+            {
+                get
+                {
+                    XAttribute x = this.Attribute(XName.Get("path", ""));
+                    return XTypedServices.ParseValue<string>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String).Datatype);
+                }
+                set
+                {
+                    this.SetAttribute(XName.Get("path", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String).Datatype);
+                }
+            }
+
+            /// <summary>
+            /// <para>
+            /// Occurrence: optional
+            /// </para>
+            /// </summary>
+            public string value
+            {
+                get
+                {
+                    XAttribute x = this.Attribute(XName.Get("value", ""));
+                    return XTypedServices.ParseValue<string>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String).Datatype);
+                }
+                set
+                {
+                    this.SetAttribute(XName.Get("value", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String).Datatype);
+                }
+            }
+
+            [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+            XName IXMetaData.SchemaName
+            {
+                get
+                {
+                    return XName.Get("Value", "http://tempuri.org/XNodeTypeSystem.xsd");
+                }
+            }
+
+            [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+            SchemaOrigin IXMetaData.TypeOrigin
+            {
+                get
+                {
+                    return SchemaOrigin.Fragment;
+                }
+            }
+
+            [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+            ILinqToXsdTypeManager IXMetaData.TypeManager
+            {
+                get
+                {
+                    return LinqToXsdTypeManager.Instance;
+                }
+            }
+
+            public override XTypedElement Clone()
+            {
+                return XTypedServices.CloneXTypedElement<ValueLocalType>(this);
+            }
+
+            ContentModelEntity IXMetaData.GetContentModel()
+            {
+                return ContentModelEntity.Default;
+            }
         }
     }
 }

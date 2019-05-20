@@ -136,6 +136,21 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Awareness\AliasRules.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AliasRules.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Awareness\LanguageServiceProvider.cs">
+      <DependentUpon>LanguageServiceProvider.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Awareness\PairwiseRules.cs">
+      <DependentUpon>PairwiseRules.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Flad\AnnotationSetService.cs" />
     <Compile Include="Flad\AttributeArgumentServiceProvider.Partial.cs" />
     <Compile Include="Flad\AnonymousMethodExpressionServiceProvider.Partial.cs" />
@@ -165,8 +180,8 @@
     <Compile Include="Approach.Matching.CSharp\MethodDeclarationMatchingOptions.cs" />
     <Compile Include="CSharpSyntaxNode.cs" />
     <Compile Include="ElementAbstraction.cs" />
-    <Compile Include="Flad\ElementTypeServiceProvider.cs" />
-    <Compile Include="Flad\ElementTypeServiceProviders.cs">
+    <Compile Include="Awareness\ElementTypeServiceProvider.cs" />
+    <Compile Include="Awareness\ElementTypeServiceProviders.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ElementTypeServiceProviders.tt</DependentUpon>
@@ -178,11 +193,6 @@
     </Compile>
     <Compile Include="Flad\QualifiedNameServiceProvider.Partial.cs" />
     <Compile Include="Flad\IdentifierNameServiceProvider.Partial.cs" />
-    <Compile Include="Flad\LanguageServiceProvider.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>LanguageServiceProvider.tt</DependentUpon>
-    </Compile>
     <Compile Include="Flad\LanguageServiceProvider.Partial.cs" />
     <Compile Include="Flad\MemberAccessExpressionServiceProvider.Partial.cs" />
     <Compile Include="Flad\NameColonServiceProvider.Partial.cs" />
@@ -228,6 +238,18 @@
     <None Include="RDSL.xml">
       <SubType>Designer</SubType>
     </None>
+    <Content Include="Awareness\LanguageServiceProvider.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>LanguageServiceProvider.cs</LastGenOutput>
+    </Content>
+    <Content Include="Awareness\AliasRules.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>AliasRules.cs</LastGenOutput>
+    </Content>
+    <Content Include="Awareness\PairwiseRules.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>PairwiseRules.cs</LastGenOutput>
+    </Content>
     <Content Include="Flad\EqualityServices.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>EqualityServices.cs</LastGenOutput>
@@ -248,13 +270,9 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>MutableNodes.cs</LastGenOutput>
     </Content>
-    <Content Include="Flad\ElementTypeServiceProviders.tt">
+    <Content Include="Awareness\ElementTypeServiceProviders.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ElementTypeServiceProviders.cs</LastGenOutput>
-    </Content>
-    <Content Include="Flad\LanguageServiceProvider.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>LanguageServiceProvider.cs</LastGenOutput>
     </Content>
     <Content Include="RoslynML\RoslynML.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

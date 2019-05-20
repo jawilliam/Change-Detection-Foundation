@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Jawilliam.CDF.CSharp.Flad
+namespace Jawilliam.CDF.CSharp.Awareness
 {
     /// <summary>
     /// Base class for implementations of <see cref="IElementTypeServiceProvider"/>. 

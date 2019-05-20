@@ -42,6 +42,8 @@
         /// </summary>
         RootsAlwaysMatch = 7,
 
-        Similarity = 8
+        Similarity = 8,
+
+        Alias = 9,
     }
 }

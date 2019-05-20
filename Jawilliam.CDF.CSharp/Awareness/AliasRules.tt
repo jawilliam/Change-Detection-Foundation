@@ -1,0 +1,358 @@
+<#@ template language="C#" debug="True" hostSpecific="true"#>
+<#@ output extension=".cs" #>
+<#@ include file="..\TemplateFileManagerV2.1.ttinclude" #>
+<#@ assembly name="$(SolutionDir)\packages\Microsoft.CodeAnalysis.Common.2.7.0\lib\netstandard1.3\Microsoft.CodeAnalysis.dll" #>
+<#@ assembly name="$(SolutionDir)\packages\Microsoft.CodeAnalysis.CSharp.2.7.0\lib\netstandard1.3\Microsoft.CodeAnalysis.CSharp.dll" #>
+<#@ assembly name="$(SolutionDir)\packages\CodePlex.LinqToXsd.2.0.2\lib\Xml.Schema.Linq.dll" #>
+<#@ assembly name="$(SolutionDir)\Jawilliam.CDF\bin\Debug\Jawilliam.CDF.dll" #>
+<#@ assembly name="$(SolutionDir)\Jawilliam.CDF.XObjects\bin\Debug\Jawilliam.CDF.XObjects.dll" #>
+<#@ assembly name="$(SolutionDir)\packages\System.Collections.Immutable.1.3.1\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll" #>
+<#@ assembly name="System.Runtime" #>
+<#@ assembly name="System.Linq" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.Reflection" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Collections" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Microsoft.CodeAnalysis.CSharp" #>
+<#@ import namespace="Jawilliam.CDF" #>
+<#@ import namespace="Jawilliam.CDF.GTED" #>
+<#@ import namespace="Jawilliam.CDF.XObjects.RDSL" #>
+<#
+// <copyright file="PairwiseChangeDetection.tt" company="Jasoco" author="Jawilliam">
+//  Copyright © . All Rights Reserved.
+// </copyright>
+
+Type csharpSyntaxVisitor = typeof(CSharpSyntaxVisitor);
+MethodInfo[] allMethods = csharpSyntaxVisitor.GetMembers().OfType<MethodInfo>().ToArray();
+
+// Filters to methods starting with 'Visit' prefix, except that being called just 'Visit'.
+MethodInfo[] visitMethods = allMethods.Where(m => m.Name.StartsWith("Visit") && m.Name != "Visit").ToArray();
+
+// This methods represents the case logic of CSharpSyntaxVisitor for each type of syntax node, then lets to collect all that syntax node types.
+List<Type> syntaxNodeTypes = visitMethods.Select(m => m.GetParameters().Single(p => p.Name == "node").ParameterType).Distinct().ToList();
+
+// Build up the class system of syntax node types by completing the total hierarchy. 
+List<Type> syntaxNodeSystem = new List<Type>(syntaxNodeTypes);
+List<Type> syntaxInnerNodes = new List<Type>(220);
+syntaxInnerNodes.AddRange(syntaxNodeSystem.Where(n => n.BaseType != typeof(object)).Select(n => n.BaseType).Distinct().Intersect(syntaxNodeSystem));
+List<Type> missingSyntaxTypes = syntaxNodeSystem.Where(n => n.BaseType != typeof(object)).Select(n => n.BaseType).Distinct().Except(syntaxNodeSystem).ToList();
+while (missingSyntaxTypes.Any())
+{
+    syntaxInnerNodes.AddRange(missingSyntaxTypes);
+    syntaxNodeSystem.AddRange(missingSyntaxTypes);
+    missingSyntaxTypes = syntaxNodeSystem.Where(n => n.BaseType != typeof(object)).Select(n => n.BaseType).Distinct().Except(syntaxNodeSystem).ToList();
+}
+
+var syntaxNodeViews = syntaxNodeSystem
+.Select(t => new
+{
+    Parent = t.BaseType.Name,
+    Child = new Tree { Root = new Node { Label = t.Name } }
+})
+.ToList();
+
+List<ITree> syntaxNodeHierarachies = new List<ITree>(220);
+foreach (var parentType in syntaxInnerNodes)
+{
+    var parent = syntaxNodeViews.First(n => object.Equals(n.Child.Root.Label, parentType.Name));
+    foreach (var child in syntaxNodeViews.Where(t => object.Equals(t.Parent, parent.Child.Root.Label)))
+    {
+        parent.Child.Children.Add(child.Child);
+        child.Child.Parent = parent.Child;
+    }
+}
+
+var syntaxSystemRoot = syntaxNodeViews.Where(t => t.Parent == typeof(object).Name).Single().Child;
+
+CodeGenerationTools code = new CodeGenerationTools(this);
+CodeRegion region = new CodeRegion(this, 1);
+string namespaceName = code.VsNamespaceSuggestion();
+
+var manager = TemplateFileManager.Create(this);
+
+// var xSyntaxTypeSystem = Jawilliam.CDF.XObjects.RDSL.Syntax.NodeTypes.Load(@"E:\Projects\Software Development Investigation\Jawilliam.Msr.Roslyn\CSharp\NodeTypeSystem.xml");
+var xSyntaxTypeSystem = Jawilliam.CDF.XObjects.RDSL.Syntax.Load(@"E:\MyRepositories\Change-Detection-Foundation\Jawilliam.CDF.CSharp\RDSL.xml");
+#>
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Xml.Linq;
+using Jawilliam.CDF.Approach.Flad;
+using Jawilliam.CDF.Approach.Awareness;
+using Jawilliam.CDF.Approach;
+using Jawilliam.CDF.Approach.Services;
+using Jawilliam.CDF.Approach.Criterions;
+
+<#
+BeginNamespace(namespaceName, code);
+
+var aliasProviders = xSyntaxTypeSystem.Nodes.Type.Where(t => !t.@abstract && (t.Rules?.Alias?.Any() ?? false)).ToList();
+var reverseAliasProviders = xSyntaxTypeSystem.Nodes.Type.Where(tx => !tx.@abstract && 
+	aliasProviders.Any(ap => tx != ap && !ap.@abstract && (ap.Rules.Alias.Any(a => (a.twoWay ?? false) && a.type == tx.name))))
+	.ToList();
+
+aliasProviders = aliasProviders.Union(reverseAliasProviders).Distinct().ToList();
+
+foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
+.Where(n => !object.Equals(n.Root.Label, "SyntaxNode") && 
+            !object.Equals(n.Root.Label, "CSharpSyntaxNode")))
+{
+	var xSyntaxNodeType = xSyntaxTypeSystem.Nodes.Type.SingleOrDefault(n => n.name == syntaxNode.Root.Label.ToString());
+	if(xSyntaxNodeType == null || !aliasProviders.Any(t => t == xSyntaxNodeType)) 
+		continue;
+
+	var xSyntaxNodeBaseType = xSyntaxNodeType != null && xSyntaxNodeType.@base != null ?
+	 xSyntaxTypeSystem.Nodes.Type.SingleOrDefault(n => n.name == xSyntaxNodeType.@base) 
+	 : null;
+#>
+partial class <#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>ServiceProvider
+{
+<#
+	var ySyntaxNodeNames = xSyntaxNodeType.Rules?.Alias?.Where(a => a.type != null).Select(a => a.type).Distinct() ?? new string[0];
+	foreach(var ySyntaxNodeName in ySyntaxNodeNames)
+	{
+		var baseDeclarationText = xSyntaxNodeBaseType == null 
+			? "Jawilliam.CDF.Domain.ElementTypeServiceProvider" 
+			: code.Escape(xSyntaxNodeBaseType.name.ToString()).Replace("Syntax", "") + "ServiceProvider";
+#>
+	/// <summary>
+    /// Method hook for implementing logic to execute before the <see cref="AliasMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(ySyntaxNodeName) #>, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/>.
+    /// </summary>
+    /// <param name="original">the original version.</param>
+    /// <param name="modified">the modified version.</param>
+    /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+    /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+    /// <param name="result">Mechanism to modify the result of <see cref="AliasMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(ySyntaxNodeName) #>, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/>.</param>
+    /// <param name="ignoreCore">If true, the <see cref="AliasMatchCore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(ySyntaxNodeName) #>, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/> is not executed and <see cref="AliasMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(ySyntaxNodeName) #>, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+    /// <param name="matchingDescription">in case the given elements are alias-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
+    partial void AliasMatchBefore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= code.Escape(ySyntaxNodeName) #> modified, MatchingContext<SyntaxNodeOrToken?> context, ref MatchInfo<SyntaxNodeOrToken?> matchingDescription, ref bool result, ref bool ignoreCore);
+    
+    /// <summary>
+    /// Method hook for implementing logic to execute after the <see cref="AliasMatchCore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(ySyntaxNodeName) #>, MatchingContext{SyntaxNodeOrToken?})"/>.
+    /// </summary>
+    /// <param name="original">the original version.</param>
+    /// <param name="modified">the modified version.</param>
+    /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+    /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+    /// <param name="result">Mechanism to modify the result of <see cref="AliasMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(ySyntaxNodeName) #>, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/>.</param>
+    /// <param name="matchingDescription">in case the given elements are alias-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
+    partial void AliasMatchAfter(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= code.Escape(ySyntaxNodeName) #> modified, MatchingContext<SyntaxNodeOrToken?> context, ref MatchInfo<SyntaxNodeOrToken?> matchingDescription, ref bool result);
+
+    /// <summary>
+    /// Determines if two elements are alias-based exactly equal.
+    /// </summary>
+    /// <param name="original">the original version.</param>
+    /// <param name="modified">the modified version.</param>
+    /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+    /// <returns>true if the given elements are alias-based exactly equal, otherwise returns false.</returns>
+    /// <param name="matchingDescription">in case the given elements are alias-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
+    /// <remarks>This is the default implementation for <see cref="AliasMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(ySyntaxNodeName) #>, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/>.</remarks>
+    protected virtual bool AliasMatchCore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= code.Escape(ySyntaxNodeName) #> modified, MatchingContext<SyntaxNodeOrToken?> context, ref MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+	{
+		if(original == null) 
+			throw new ArgumentNullException(nameof(original));
+
+		if(modified == null) 
+			throw new ArgumentNullException(nameof(modified));
+<#
+	var aliases = xSyntaxNodeType.Rules?.Alias?.Where(a => a.type == ySyntaxNodeName).ToArray();
+	StringBuilder @case = null;
+	for(int i = 0; i < aliases.Length; i++)
+	{
+		@case = new StringBuilder();
+		var conditions = (aliases[i].Value ?? new List<Jawilliam.CDF.XObjects.RDSL.CaseRules.ValueLocalType>()).OfType<object>()
+			.Union((aliases[i].Equality ?? new List<Jawilliam.CDF.XObjects.RDSL.JoinCase>()).OfType<object>())
+			.Union((aliases[i].Similarity ?? new List<Jawilliam.CDF.XObjects.RDSL.JoinCase>()).OfType<object>())
+			.Union((aliases[i].Partner ?? new List<Jawilliam.CDF.XObjects.RDSL.JoinCase>()).OfType<object>())
+			.ToArray();
+
+		for(int j = 0; j < conditions.Length; j++)
+		{
+			var valueCase = conditions[j] as Jawilliam.CDF.XObjects.RDSL.CaseRules.ValueLocalType;
+			if(valueCase != null)
+			{
+				var condition = string.Format(valueCase.path + " == " + $"{valueCase.value}", "original", "modified");
+				@case.AppendLine((j == 0 ? "if(" : "           && ") + condition + (j == conditions.Length - 1 ? ")" : ""));
+			}
+		}
+#>		
+		<#= @case.ToString() #>		{		
+			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.Alias) { Original = original, Modified = modified };
+			return true;
+		}
+<#
+	}
+#>
+
+		return false;
+	}    
+
+	/// <summary>
+    /// Determines if two elements are alias-based exactly equal.
+    /// </summary>
+    /// <param name="original">the original version.</param>
+    /// <param name="modified">the modified version.</param>
+    /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+    /// <returns>true if the given elements are alias-based exactly equal, otherwise returns false.</returns>
+    /// <param name="matchingDescription">in case the given elements are alias-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
+    public bool AliasMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= code.Escape(ySyntaxNodeName) #> modified, MatchingContext<SyntaxNodeOrToken?> context, ref MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+	{
+		bool result = false;
+		var ignoreCore = false;
+		AliasMatchBefore(original, modified, context, ref matchingDescription, ref result, ref ignoreCore);
+		if(ignoreCore) 
+			return result;
+		
+		result = this.AliasMatchCore(original, modified, context, ref matchingDescription);
+		AliasMatchAfter(original, modified, context, ref matchingDescription, ref result);
+		return result;
+	}
+<#
+	}
+
+	var reverseAliases = (from ty in aliasProviders
+	                      from ay in (ty.Rules?.Alias ?? new Jawilliam.CDF.XObjects.RDSL.CaseRules[0])
+						  where ty != xSyntaxNodeType && (ay.twoWay ?? false) && ay.type == xSyntaxNodeType.name
+						  select new { Type = ty, Alias = ay }).ToArray();
+							
+	foreach(var ySyntaxNodeName2 in reverseAliases.Select(ra => ra.Type.name).Distinct())
+	{
+		var ySyntaxNodeType = xSyntaxTypeSystem.Nodes.Type.SingleOrDefault(n => n.name == ySyntaxNodeName2);
+
+		/*var baseDeclarationText = xSyntaxNodeBaseType == null 
+			? "Jawilliam.CDF.Domain.ElementTypeServiceProvider" 
+			: code.Escape(xSyntaxNodeBaseType.name.ToString()).Replace("Syntax", "") + "ServiceProvider";*/
+#>
+	/// <summary>
+    /// Method hook for implementing logic to execute before the <see cref="AliasMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(ySyntaxNodeName2) #>, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/>.
+    /// </summary>
+    /// <param name="original">the original version.</param>
+    /// <param name="modified">the modified version.</param>
+    /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+    /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+    /// <param name="result">Mechanism to modify the result of <see cref="AliasMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(ySyntaxNodeName2) #>, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/>.</param>
+    /// <param name="ignoreCore">If true, the <see cref="AliasMatchCore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(ySyntaxNodeName2) #>, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/> is not executed and <see cref="AliasMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(ySyntaxNodeName2) #>, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+    /// <param name="matchingDescription">in case the given elements are alias-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
+    partial void AliasMatchBefore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= code.Escape(ySyntaxNodeName2) #> modified, MatchingContext<SyntaxNodeOrToken?> context, ref MatchInfo<SyntaxNodeOrToken?> matchingDescription, ref bool result, ref bool ignoreCore);
+    
+    /// <summary>
+    /// Method hook for implementing logic to execute after the <see cref="AliasMatchCore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(ySyntaxNodeName2) #>, MatchingContext{SyntaxNodeOrToken?})"/>.
+    /// </summary>
+    /// <param name="original">the original version.</param>
+    /// <param name="modified">the modified version.</param>
+    /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+    /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+    /// <param name="result">Mechanism to modify the result of <see cref="AliasMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(ySyntaxNodeName2) #>, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/>.</param>
+    /// <param name="matchingDescription">in case the given elements are alias-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
+    partial void AliasMatchAfter(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= code.Escape(ySyntaxNodeName2) #> modified, MatchingContext<SyntaxNodeOrToken?> context, ref MatchInfo<SyntaxNodeOrToken?> matchingDescription, ref bool result);
+
+    /// <summary>
+    /// Determines if two elements are alias-based exactly equal.
+    /// </summary>
+    /// <param name="original">the original version.</param>
+    /// <param name="modified">the modified version.</param>
+    /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+    /// <returns>true if the given elements are alias-based exactly equal, otherwise returns false.</returns>
+    /// <param name="matchingDescription">in case the given elements are alias-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
+    /// <remarks>This is the default implementation for <see cref="AliasMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(ySyntaxNodeName2) #>, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/>.</remarks>
+    protected virtual bool AliasMatchCore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= code.Escape(ySyntaxNodeName2) #> modified, MatchingContext<SyntaxNodeOrToken?> context, ref MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+	{
+		if(original == null) 
+			throw new ArgumentNullException(nameof(original));
+
+		if(modified == null) 
+			throw new ArgumentNullException(nameof(modified));
+<#
+	var aliases = ySyntaxNodeType.Rules?.Alias?.Where(a => a.type == syntaxNode.Root.Label.ToString()).ToArray();
+	StringBuilder @case = null;
+	for(int i = 0; i < aliases.Length; i++)
+	{
+		@case = new StringBuilder();
+		var conditions = (aliases[i].Value ?? new List<Jawilliam.CDF.XObjects.RDSL.CaseRules.ValueLocalType>()).OfType<object>()
+			.Union((aliases[i].Equality ?? new List<Jawilliam.CDF.XObjects.RDSL.JoinCase>()).OfType<object>())
+			.Union((aliases[i].Similarity ?? new List<Jawilliam.CDF.XObjects.RDSL.JoinCase>()).OfType<object>())
+			.Union((aliases[i].Partner ?? new List<Jawilliam.CDF.XObjects.RDSL.JoinCase>()).OfType<object>())
+			.ToArray();
+
+		for(int j = 0; j < conditions.Length; j++)
+		{
+			var valueCase = conditions[j] as Jawilliam.CDF.XObjects.RDSL.CaseRules.ValueLocalType;
+			if(valueCase != null)
+			{
+				var condition = string.Format(valueCase.path + " == " + $"{valueCase.value}", "modified", "original");
+				@case.AppendLine((j == 0 ? "if(" : "           && ") + condition + (j == conditions.Length - 1 ? ")" : ""));
+			}
+		}
+#>		
+		<#= @case.ToString() #>		{		
+			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.Alias) { Original = original, Modified = modified };
+			return true;
+		}
+<#
+	}
+#>
+
+		return false;
+	}    
+
+	/// <summary>
+    /// Determines if two elements are alias-based exactly equal.
+    /// </summary>
+    /// <param name="original">the original version.</param>
+    /// <param name="modified">the modified version.</param>
+    /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+    /// <returns>true if the given elements are alias-based exactly equal, otherwise returns false.</returns>
+    /// <param name="matchingDescription">in case the given elements are alias-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
+    public bool AliasMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= code.Escape(ySyntaxNodeName2) #> modified, MatchingContext<SyntaxNodeOrToken?> context, ref MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+	{
+		bool result = false;
+		var ignoreCore = false;
+		AliasMatchBefore(original, modified, context, ref matchingDescription, ref result, ref ignoreCore);
+		if(ignoreCore) 
+			return result;
+		
+		result = this.AliasMatchCore(original, modified, context, ref matchingDescription);
+		AliasMatchAfter(original, modified, context, ref matchingDescription, ref result);
+		return result;
+	}
+<#
+	}
+#>
+}
+
+<#
+}
+	
+EndNamespace(namespaceName);
+
+manager.Process();
+#>
+<#+ 
+void BeginNamespace(string namespaceName, CodeGenerationTools code)
+{
+    CodeRegion region = new CodeRegion(this);
+    if (!String.IsNullOrEmpty(namespaceName))
+    {
+#>
+namespace <#=code.EscapeNamespace(namespaceName)#>
+{
+<#+
+        PushIndent(CodeRegion.GetIndent(1));
+    }
+}
+
+void EndNamespace(string namespaceName)
+{
+    if (!String.IsNullOrEmpty(namespaceName))
+    {
+        PopIndent();
+#>
+}
+<#+
+    }
+}
+#>

@@ -8,12 +8,12 @@
     <xs:complexContent>
       <xs:extension base="mstns:TypeLabelOption">
         <xs:attribute name="type" type="xs:string" use="optional"/>
-        <xs:attribute name="keyword" type="xs:boolean" use="optional"/>
-        <xs:attribute name="operator" type="xs:boolean" use="optional"/>
-        <xs:attribute name="puntuaction" type="xs:boolean" use="optional"/>
-        <xs:attribute name="expression" type="xs:boolean" use="optional"/>
-        <xs:attribute name="literal" type="xs:boolean" use="optional"/>
-        <xs:attribute name="identifier" type="xs:boolean" use="optional"/>
+        <xs:attribute name="keyword" type="xs:boolean" use="optional" default="false"/>
+        <xs:attribute name="operator" type="xs:boolean" use="optional" default="false"/>
+        <xs:attribute name="puntuaction" type="xs:boolean" use="optional" default="false"/>
+        <xs:attribute name="expression" type="xs:boolean" use="optional" default="false"/>
+        <xs:attribute name="literal" type="xs:boolean" use="optional" default="false"/>
+        <xs:attribute name="identifier" type="xs:boolean" use="optional" default="false"/>
         <xs:attribute name="readonly" type="xs:boolean" use="optional" default="true"/>
       </xs:extension>
     </xs:complexContent>
@@ -40,6 +40,26 @@
     <xs:attribute name="relevant" type="xs:boolean" use="optional"/>
     <xs:attribute name="relevancy" type="xs:unsignedByte" use="optional" default="0"/>
     <xs:attribute name="leaf" type="xs:boolean" use="optional"/>
+  </xs:complexType>  
+  <xs:complexType name="JoinCase">
+    <xs:attribute name="leftPath" type="xs:string"/>
+    <xs:attribute name="rightPath" type="xs:string"/>
+  </xs:complexType>
+  <xs:complexType name="CaseRules">
+    <xs:choice maxOccurs="unbounded">
+      <xs:element name="Value">
+        <xs:complexType>
+          <xs:attribute name="path" type="xs:string"/>
+          <xs:attribute name="value" type="xs:string"/>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Equality" type="JoinCase"/>
+      <xs:element name="Similarity" type="JoinCase"/>
+      <xs:element name="Partner" type="JoinCase"/>
+    </xs:choice>
+    <xs:attribute name="type" type="xs:string" use="optional"/>
+    <xs:attribute name="kind" type="xs:string" use="optional"/>
+    <xs:attribute name="twoWay" type="xs:boolean" use="optional"/>
   </xs:complexType>
 	<xs:element name="Syntax">
 		<xs:annotation>
@@ -86,6 +106,8 @@
                                       <xs:element name="Topology" type="mstns:TopologyRules" minOccurs="0"/>
 																		</xs:sequence>
 																		<xs:attribute name="essential" type="xs:boolean" use="optional"/>
+                                    <xs:attribute name="collection" type="xs:boolean" use="optional" default="false"/>
+                                    <xs:attribute name="eventuallyCollection" type="xs:boolean" use="optional" default="false"/>
 																	</xs:complexType>
 																</xs:element>
 															</xs:sequence>
@@ -117,10 +139,10 @@
 															</xs:attribute>
 															<xs:attribute name="collectionType" type="xs:string" use="optional"/>
                               <xs:attribute name="collectionSeparator" type="xs:string" use="optional"/>
-                              <xs:attribute name="keyword" type="xs:boolean" use="optional"/>
-                              <xs:attribute name="operator" type="xs:boolean" use="optional"/>
-                              <xs:attribute name="puntuaction" type="xs:boolean" use="optional"/>
-                              <xs:attribute name="invisible" type="xs:boolean" use="optional" default="false"/>
+                              <xs:attribute name="keyword" type="xs:boolean" use="optional" default="false"/>
+                              <xs:attribute name="operator" type="xs:boolean" use="optional" default="false"/>
+                              <xs:attribute name="puntuaction" type="xs:boolean" use="optional" default="false"/>
+                              <xs:attribute name="symbolic" type="xs:boolean" use="optional" default="false"/>
 														</xs:complexType>
 													</xs:element>
 												</xs:sequence>
@@ -140,8 +162,8 @@
 													<xs:element name="Signature" type="mstns:KeyRules" minOccurs="0"/>
 													<xs:element name="Name" type="mstns:KeyRules" minOccurs="0"/>
                           <xs:element name="Hint" type="mstns:SuitabilityRule" minOccurs="0"/>
-                          <xs:element name="Alias" type="mstns:SuitabilityRule" minOccurs="0"/>
-                          <xs:element name="Compatibility" type="mstns:SuitabilityRule" minOccurs="0"/>
+                          <xs:element name="Alias" type="mstns:CaseRules" minOccurs="0" maxOccurs="unbounded"/>
+                          <xs:element name="Compatibility" type="mstns:CaseRules" minOccurs="0" maxOccurs="unbounded"/>
 													<xs:element name="Granularity" minOccurs="0">
 														<xs:complexType>
 															<xs:attribute name="fine" type="xs:boolean" use="optional"/>
@@ -149,6 +171,7 @@
 														</xs:complexType>
 													</xs:element>
 												</xs:sequence>
+                        <xs:attribute name="collection" type="xs:boolean" use="optional" default="false"/>
 											</xs:complexType>
 										</xs:element>
 										<xs:element name="Annotations" minOccurs="0">

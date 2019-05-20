@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 using Jawilliam.CDF.XObjects.RDSL;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis;
 
 namespace Jawilliam.CDF.Tests.CSharp
 {
@@ -21,7 +23,7 @@ namespace Jawilliam.CDF.Tests.CSharp
 
             var keywordProperties = (from t in concreteTypes
                                      from p in t.Properties?.Property
-                                     where p.keyword ?? false
+                                     where p.keyword
                                      select new { Type = t, Property = p }).ToArray();
 
             var keywordTermProperties = (from t in concreteTypes
@@ -45,15 +47,15 @@ namespace Jawilliam.CDF.Tests.CSharp
 
             var operatorProperties = (from t in concreteTypes
                                       from p in t.Properties?.Property
-                                      where p.@operator ?? false
+                                      where p.@operator
                                       select new { Type = t, Property = p }).ToArray();
 
             var operatorTermProperties = (from t in concreteTypes
                                           from p in t.Properties?.Property
-                                          where p.name.Contains("Operator") && 
-                                                !(p.keyword ?? false) && 
-                                                !(p.Rules?.Name?.Equality?.full ?? false) &&
-                                                !(p.Rules?.Signature?.Equality?.full ?? false)
+                                          where p.name.Contains("Operator") &&
+                                                !p.keyword &&
+                                                !(p.name == "OperatorToken" && t.name == "OperatorDeclarationSyntax") &&
+                                                !(p.name == "OperatorToken" && t.name == "OperatorMemberCrefSyntax")
                                           select new { Type = t, Property = p }).ToArray();
 
             Assert.AreEqual(operatorTermProperties.Except(operatorProperties).ToArray().Length, 0);
@@ -61,21 +63,21 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
-        public void DefinitionOfInvisibleProperties()
+        public void DefinitionOfSymbolicProperties()
         {
             var rdsl = Syntax.Load(@"..\..\..\Jawilliam.CDF.CSharp\RDSL.xml");
             var concreteTypes = rdsl.Nodes.Type.Where(n => !n.@abstract).ToArray();
 
-            var invisibleTypes = (from t in concreteTypes
-                                  from p in t.Properties?.Property
-                                  where p.invisible
-                                  select new { Type = t, Property = p }).ToArray();
+            var symbolicTypes = (from t in concreteTypes
+                                 from p in t.Properties?.Property
+                                 where p.symbolic
+                                 select new { Type = t, Property = p }).ToArray();
 
-            Assert.AreEqual(invisibleTypes.Length, 2);
-            Assert.AreEqual(invisibleTypes[0].Property.name, "OmittedTypeArgumentToken");
-            Assert.AreEqual(invisibleTypes[0].Type.name, "OmittedTypeArgumentSyntax");
-            Assert.AreEqual(invisibleTypes[1].Property.name, "OmittedArraySizeExpressionToken");
-            Assert.AreEqual(invisibleTypes[1].Type.name, "OmittedArraySizeExpressionSyntax");
+            Assert.AreEqual(symbolicTypes.Length, 2);
+            Assert.AreEqual(symbolicTypes[0].Property.name, "OmittedTypeArgumentToken");
+            Assert.AreEqual(symbolicTypes[0].Type.name, "OmittedTypeArgumentSyntax");
+            Assert.AreEqual(symbolicTypes[1].Property.name, "OmittedArraySizeExpressionToken");
+            Assert.AreEqual(symbolicTypes[1].Type.name, "OmittedArraySizeExpressionSyntax");
         }
 
         [TestMethod]
@@ -85,23 +87,21 @@ namespace Jawilliam.CDF.Tests.CSharp
             var concreteTypes = rdsl.Nodes.Type.Where(n => !n.@abstract).ToArray();
 
             var punctuationProperties = (from t in concreteTypes
-                                      from p in t.Properties?.Property
-                                      where p.puntuaction ?? false
-                                      select new { Type = t, Property = p }).ToArray();
+                                         from p in t.Properties?.Property
+                                         where p.puntuaction
+                                         select new { Type = t, Property = p }).ToArray();
 
             var punctuationTermProperties = (from t in concreteTypes
-                                          from p in t.Properties?.Property
-                                          where (p.kind == "Token" && p.readOnly &&
-                                                !(p.keyword ?? false) &&
-                                                !(p.@operator ?? false) &&
-                                                !(p.keyword ?? false) &&
-                                                !(p.Rules?.Name?.Equality?.full ?? false) &&
-                                                !(p.Rules?.Signature?.Equality?.full ?? false) &&
-                                                !p.invisible) || 
-                                                p.name == "StartQuoteToken" || 
-                                                p.name == "EndQuoteToken" ||
-                                                p.name == "StringStartToken"
-                                          select new { Type = t, Property = p }).ToArray();
+                                             from p in t.Properties?.Property
+                                             where (p.kind == "Token" && p.readOnly &&
+                                                   !p.keyword &&
+                                                   !p.@operator &&
+                                                   !p.symbolic &&
+                                                   !(p.name == "OperatorToken" && t.name == "OperatorDeclarationSyntax")) ||
+                                                   p.name == "StartQuoteToken" ||
+                                                   p.name == "EndQuoteToken" ||
+                                                   (p.name == "StringStartToken" && t.name == "InterpolatedStringExpressionSyntax")
+                                             select new { Type = t, Property = p }).ToArray();
 
             Assert.AreEqual(punctuationTermProperties.Except(punctuationProperties).ToArray().Length, 0);
             Assert.AreEqual(punctuationProperties.Except(punctuationTermProperties).ToArray().Length, 0);
@@ -120,23 +120,23 @@ namespace Jawilliam.CDF.Tests.CSharp
 
             var containsOrTermProperties = (from t in concreteTypes
                                             from p in t.Properties?.Property
-                                            where (p.keyword ?? false) && p.name.Contains("Or") && !p.name.StartsWith("Or")
+                                            where p.keyword && p.name.Contains("Or") && !p.name.StartsWith("Or")
                                             select new { Type = t, Property = p }).ToArray();
             Assert.AreEqual(containsOrTermProperties.Except(enumerationProperties).Count(), 0);
 
             var operatorsProperties = (from t in concreteTypes
                                        from p in t.Properties?.Property
-                                       where (p.@operator ?? false) && 
+                                       where p.@operator &&
                                              !(p.name == "OperatorToken" && t.name == "ConditionalAccessExpressionSyntax") &&
                                              !(p.name == "OperatorToken" && t.name == "MemberBindingExpressionSyntax")
                                        select new { Type = t, Property = p }).ToArray();
-           Assert.AreEqual(operatorsProperties.Except(enumerationProperties).Count(), 0);
+            Assert.AreEqual(operatorsProperties.Except(enumerationProperties).Count(), 0);
 
             var operatorDeclarationProperties = (from t in concreteTypes
                                                  from p in t.Properties?.Property
                                                  where p.name.Contains("Operator") &&
-                                                       !(p.keyword ?? false) && 
-                                                       !(p.@operator ?? false)
+                                                       !p.keyword &&
+                                                       !p.@operator
                                                  select new { Type = t, Property = p }).ToArray();
             Assert.AreEqual(operatorDeclarationProperties.Except(enumerationProperties).Count(), 0);
 
@@ -179,18 +179,38 @@ namespace Jawilliam.CDF.Tests.CSharp
             var rdsl = Syntax.Load(@"..\..\..\Jawilliam.CDF.CSharp\RDSL.xml");
             var concreteTypes = rdsl.Nodes.Type.Where(n => !n.@abstract).ToArray();
 
-            var labelingEnumerationProperties = (from t in concreteTypes
-                                                 from p in t.Properties?.Property
-                                                 where p.Enumeration() && p.Options.labeling
-                                                 select new { Type = t, Property = p }).ToArray();
+            var labelingProperties = (from t in concreteTypes
+                                      from p in t.Properties?.Property
+                                      where p.Enumeration() && p.Options.labeling
+                                      select new { Type = t, Property = p }).ToArray();
 
             var flagProperties = (from t in concreteTypes
                                   from p in t.Properties?.Property
                                   where p.Enumeration() && (p.Options?.Kind.Any(k => k.type != null) ?? false)
-                                 select new { Type = t, Property = p }).ToArray();
+                                  select new { Type = t, Property = p }).ToArray();
+            Assert.AreEqual(labelingProperties.Except(flagProperties).ToArray().Length, 0);
+            Assert.AreEqual(flagProperties.Except(labelingProperties).ToArray().Length, 0);
 
-            Assert.AreEqual(labelingEnumerationProperties.Except(flagProperties).ToArray().Length, 0);
-            Assert.AreEqual(flagProperties.Except(labelingEnumerationProperties).ToArray().Length, 0);
+            var flagProperties2 = (from t in concreteTypes
+                                   from p in t.Properties?.Property
+                                   where (p.name == "AscendingOrDescendingKeyword" && t.name == "OrderingSyntax") ||
+                                         (p.name == "CaseOrDefaultKeyword" && t.name == "GotoStatementSyntax") ||
+                                         (p.name == "ReturnOrBreakKeyword" && t.name == "YieldStatementSyntax") ||
+                                         (p.name == "ClassOrStructKeyword" && t.name == "ClassOrStructConstraintSyntax") ||
+                                         (p.name == "ThisOrBaseKeyword" && t.name == "ConstructorInitializerSyntax") ||
+                                         (p.name == "OperatorToken" && t.name == "PrefixUnaryExpressionSyntax") ||
+                                         (p.name == "OperatorToken" && t.name == "PostfixUnaryExpressionSyntax") ||
+                                         (p.name == "OperatorToken" && t.name == "MemberAccessExpressionSyntax") ||
+                                         (p.name == "OperatorToken" && t.name == "BinaryExpressionSyntax") ||
+                                         (p.name == "OperatorToken" && t.name == "AssignmentExpressionSyntax") ||
+                                         (p.name == "Token" && t.name == "LiteralExpressionSyntax") ||
+                                         (p.name == "Keyword" && t.name == "CheckedExpressionSyntax") ||
+                                         (p.name == "Keyword" && t.name == "CheckedStatementSyntax") ||
+                                         (p.name == "Keyword" && t.name == "AccessorDeclarationSyntax")
+                                   select new { Type = t, Property = p }).ToArray();
+
+            Assert.AreEqual(labelingProperties.Except(flagProperties2).ToArray().Length, 0);
+            Assert.AreEqual(flagProperties2.Except(labelingProperties).ToArray().Length, 0);
         }
 
         [TestMethod]
@@ -204,36 +224,29 @@ namespace Jawilliam.CDF.Tests.CSharp
                                       where p.readOnly
                                       select new { Type = t, Property = p }).ToArray();
 
-            // All operator property is topologically relevant.
+            // all the not enumerated keywords, except 1 case.
             var allKeywordsExceptThese6 = (from t in concreteTypes
                                            from p in t.Properties?.Property
-                                           where ((p.keyword ?? false) && !p.Enumeration()) || (p.name == "Keyword" && t.name == "PredefinedTypeSyntax")  /*&& !p.Labeling()
-                                                 !(p.name == "RefKindKeyword" && t.name == "ArgumentSyntax") &&
-                                                 !(p.name == "RefKindKeyword" && t.name == "CrefParameterSyntax") &&
-                                                 !(p.name == "VarianceKeyword" && t.name == "TypeParameterSyntax") &&
-                                                 !(p.name == "ImplicitOrExplicitKeyword" && t.name == "ConversionOperatorDeclarationSyntax") &&
-                                                 !(p.name == "ImplicitOrExplicitKeyword" && t.name == "ConversionOperatorMemberCrefSyntax") &&
-                                                 !(p.name == "DisableOrRestoreKeyword" && t.name == "PragmaWarningDirectiveTriviaSyntax")*/
+                                           where (p.keyword && !p.Enumeration()) ||
+                                                 (p.name == "Keyword" && t.name == "PredefinedTypeSyntax")
                                            select new { Type = t, Property = p }).ToArray();
-            var a = allKeywordsExceptThese6.Except(readOnlyProperties).ToArray();
-            var b = readOnlyProperties.Except(allKeywordsExceptThese6).ToArray();
-            //Assert.AreEqual(allKeywordsExceptThese6.Except(readOnlyProperties).ToArray().Length, 0);
+            Assert.AreEqual(allKeywordsExceptThese6.Except(readOnlyProperties).ToArray().Length, 0);
 
             var operators = (from t in concreteTypes
                              from p in t.Properties?.Property
-                             where p.@operator ?? false
+                             where p.@operator
                              select new { Type = t, Property = p }).ToArray();
             Assert.AreEqual(operators.Except(readOnlyProperties).ToArray().Length, 0);
 
             var allNotEnumeratedPunctuation = (from t in concreteTypes
                                                from p in t.Properties?.Property
-                                               where (p.puntuaction ?? false) && !p.Enumeration() //p.name != "StartQuoteToken" && p.name != "EndQuoteToken" //&& !p.Enumeration()
+                                               where p.puntuaction && !p.Enumeration() //p.name != "StartQuoteToken" && p.name != "EndQuoteToken" //&& !p.Enumeration()
                                                select new { Type = t, Property = p }).ToArray();
             //Assert.AreEqual(allNotEnumeratedPunctuation.Except(readOnlyProperties).ToArray().Length, 0);
 
             var symbolicProperties = (from t in concreteTypes
                                       from p in t.Properties?.Property
-                                      where p.invisible
+                                      where p.symbolic
                                       select new { Type = t, Property = p }).ToArray();
             Assert.AreEqual(symbolicProperties.Except(readOnlyProperties).ToArray().Length, 0);
 
@@ -271,65 +284,20 @@ namespace Jawilliam.CDF.Tests.CSharp
             var rdsl = CDF.XObjects.RDSL.Syntax.Load(@"..\..\..\Jawilliam.CDF.CSharp\RDSL.xml");
             var concreteTypes = rdsl.Nodes.Type.Where(n => !n.@abstract).ToArray();
 
-            var topologicalProperties = (from t in concreteTypes
-                                         from p in t.Properties?.Property
-                                         where p.Rules?.Topology?.relevant ?? false
-                                         select new { Type = t, Property = p }).ToArray();
+            var topologicallyRelevantProperties = (from t in concreteTypes
+                                                   from p in t.Properties?.Property
+                                                   where p.Rules?.Topology?.relevant ?? false
+                                                   select new { Type = t, Property = p }).ToArray();
 
-            var expressionProperties = (from t in concreteTypes
-                                        from p in t.Properties?.Property
-                                        where p.kind == "Expression"
-                                        select new { Type = t, Property = p }).ToArray();
-
-            // All expression property is topologically relevant.
-            var expressionButNonTopologicalProperties = expressionProperties.Except(topologicalProperties).ToArray();
-            Assert.AreEqual(expressionButNonTopologicalProperties.Length, 0);
-
-            var operatorProperties = (from t in concreteTypes
-                                      from p in t.Properties?.Property
-                                      where p.@operator ?? false
-                                      select new { Type = t, Property = p }).ToArray();
-
-            // All operator property is topologically relevant.
-            var operatorButNonTopologicalProperties = operatorProperties.Except(topologicalProperties).ToArray();
-            Assert.AreEqual(operatorButNonTopologicalProperties.Length, 0);
-
-            var identifierTokenProperties = (from t in concreteTypes
-                                             from p in t.Properties?.Property
-                                             where p.kind == "Token" && (p.Rules?.Name?.Equality.full ?? false) &&
-                                                   !(p.name == "ThisKeyword" && t.name == "IndexerDeclarationSyntax") &&
-                                                   !(p.name == "ThisKeyword" && t.name == "IndexerMemberCrefSyntax")
-                                             select new { Type = t, Property = p }).ToArray();
-
-            // All identifier token property is topologically relevant.
-            var identifierTokenButNonTopologicalProperties = identifierTokenProperties.Except(topologicalProperties).ToArray();
-            Assert.AreEqual(identifierTokenButNonTopologicalProperties.Length, 0);
-
-            // Exceptions
-            var otherProperties = (from t in concreteTypes
+            var theseProperties = (from t in concreteTypes
                                    from p in t.Properties?.Property
-                                   where (p.name == "Token" && t.name == "LiteralExpressionSyntax") ||
-                                         (p.name == "TextToken" && t.name == "InterpolatedStringTextSyntax") ||
-                                         (p.name == "FormatStringToken" && t.name == "InterpolationFormatClauseSyntax") ||
-                                         (p.name == "Keyword" && t.name == "PredefinedTypeSyntax") ||
-                                         (p.name == "CaseOrDefaultKeyword" && t.name == "GotoStatementSyntax") ||
-                                         (p.name == "VarianceKeyword" && t.name == "TypeParameterSyntax") ||
-                                         (p.name == "Line" && t.name == "LineDirectiveTriviaSyntax") ||
-                                         (p.name == "File" && t.name == "LineDirectiveTriviaSyntax") ||
-                                         (p.name == "DisableOrRestoreKeyword" && t.name == "PragmaWarningDirectiveTriviaSyntax") ||
-                                         (p.name == "File" && t.name == "PragmaChecksumDirectiveTriviaSyntax") ||
-                                         (p.name == "Guid" && t.name == "PragmaChecksumDirectiveTriviaSyntax") ||
-                                         (p.name == "Bytes" && t.name == "PragmaChecksumDirectiveTriviaSyntax") ||
-                                         (p.name == "File" && t.name == "ReferenceDirectiveTriviaSyntax") ||
-                                         (p.name == "File" && t.name == "LoadDirectiveTriviaSyntax")
+                                   where (!p.keyword || (p.name == "DisableOrRestoreKeyword" && t.name == "PragmaWarningDirectiveTriviaSyntax")) &&
+                                         !p.puntuaction &&
+                                         !p.@operator &&
+                                         !p.symbolic
                                    select new { Type = t, Property = p }).ToArray();
-            var otherPropertiesButNonTopologicalProperties = otherProperties.Except(topologicalProperties).ToArray();
-            Assert.AreEqual(otherPropertiesButNonTopologicalProperties.Length, 0);
-
-            var topologicalButNonExpressionProperties = topologicalProperties.Except(
-                expressionProperties.Union(operatorProperties).Union(identifierTokenProperties).Union(otherProperties)
-            ).ToArray();
-            Assert.AreEqual(topologicalButNonExpressionProperties.Length, 0);
+            Assert.AreEqual(theseProperties.Except(topologicallyRelevantProperties).ToArray().Length, 0);
+            Assert.AreEqual(topologicallyRelevantProperties.Except(theseProperties).ToArray().Length, 0);
         }
 
         [TestMethod]
@@ -350,6 +318,108 @@ namespace Jawilliam.CDF.Tests.CSharp
 
             Assert.AreEqual(typesWithJustReadOnlyProperties.Except(readonlyTypes).Count(), 0);
             Assert.AreEqual(readonlyTypes.Except(typesWithJustReadOnlyProperties).Count(), 0);
+        }
+
+        [TestMethod]
+        public void DefinitionOfCollectionProperties()
+        {
+            var rdsl = Syntax.Load(@"..\..\..\Jawilliam.CDF.CSharp\RDSL.xml");
+            var concreteTypes = rdsl.Nodes.Type.Where(n => !n.@abstract).ToArray();
+
+            var typeInfos = concreteTypes.Select(t => new
+            {
+                Class = typeof(Microsoft.CodeAnalysis.CSharp.CSharpSyntaxNode).Assembly.GetType("Microsoft.CodeAnalysis.CSharp.Syntax." + t.name),
+                Type = t
+            })
+            .ToDictionary(m => m.Type.name);
+
+            var collectionProperties = (from t in concreteTypes
+                                        from p in t.Properties?.Property
+                                        where p.Rules?.collection ?? false
+                                        select new { Type = t, Property = p }).ToArray();
+
+            var expectedCollectionProperties = (from t in concreteTypes
+                                                from p in t.Properties?.Property
+                                                let typeInfo = typeInfos.Any(ti => ti.Value.Type == t) ? typeInfos.Single(ti => ti.Value.Type == t).Value.Class : null
+                                                let propertyInfo = typeInfo?.GetProperty(p.name)
+                                                let propertyGenericTypeInfo = propertyInfo.PropertyType.IsGenericType
+                                                    ? propertyInfo.PropertyType.GetGenericTypeDefinition()
+                                                    : null
+                                                let propertyElementType = typeInfos.Any(ti => ti.Value.Class == propertyInfo.PropertyType)
+                                                    ? typeInfos.Single(ti => ti.Value.Class == propertyInfo.PropertyType).Value.Type
+                                                    : null
+                                                where p.kind != "Token" &&
+                                                      (propertyInfo.PropertyType == typeof(SyntaxTokenList) ||
+                                                       propertyGenericTypeInfo == typeof(SyntaxList<>) ||
+                                                       propertyGenericTypeInfo == typeof(SeparatedSyntaxList<>) ||
+                                                       (propertyElementType?.Rules?.collection ?? false))
+                                                select new { Type = t, Property = p }).ToArray();
+            Assert.AreEqual(expectedCollectionProperties.Except(collectionProperties).ToArray().Length, 0);
+            Assert.AreEqual(collectionProperties.Except(expectedCollectionProperties).ToArray().Length, 0);
+        }
+
+        [TestMethod]
+        public void DefinitionOfCollectionTypes()
+        {
+            var rdsl = Syntax.Load(@"..\..\..\Jawilliam.CDF.CSharp\RDSL.xml");
+            var concreteTypes = rdsl.Nodes.Type.Where(n => !n.@abstract).ToArray();
+
+            var typeInfos = concreteTypes.Select(t => new
+            {
+                Class = typeof(Microsoft.CodeAnalysis.CSharp.CSharpSyntaxNode).Assembly.GetType("Microsoft.CodeAnalysis.CSharp.Syntax." + t.name),
+                Type = t
+            })
+            .ToDictionary(m => m.Type.name);
+
+            var collectionTypes = (from t in concreteTypes
+                                   where t.Rules?.collection ?? false
+                                   select t).ToArray();
+
+            var expectedCollectionTypes = (from t in concreteTypes
+                                           where t.name == "VariableDeclarationSyntax" || 
+                                                 (t.Properties?.Property.Any(pi => (pi.Rules?.collection ?? false) &&
+                                                                                   (t.Properties?.Property.All(pj => pi == pj || pj.puntuaction || pj.keyword) ?? false)) 
+                                                  ?? false)
+                                           select t).ToArray();
+            Assert.AreEqual(expectedCollectionTypes.Except(collectionTypes).ToArray().Length, 0);
+            Assert.AreEqual(collectionTypes.Except(expectedCollectionTypes).ToArray().Length, 0);
+        }
+
+        [TestMethod]
+        public void DefinitionOf()
+        {
+            var rdsl = Syntax.Load(@"..\..\..\Jawilliam.CDF.CSharp\RDSL.xml");
+            var concreteTypes = rdsl.Nodes.Type.Where(n => !n.@abstract).ToArray();
+
+            var typeInfos = concreteTypes.Select(t => new
+            {
+                Class = typeof(Microsoft.CodeAnalysis.CSharp.CSharpSyntaxNode).Assembly.GetType("Microsoft.CodeAnalysis.CSharp.Syntax." + t.name),
+                Type = t
+            })
+            .ToDictionary(m => m.Type.name);
+
+            var allProperties = (from t in concreteTypes
+                                 from p in t.Properties?.Property
+                                 select new { Type = t, Property = p }).ToArray();
+
+            var allNames = allProperties.Select(p => p.Property.name).Distinct();
+
+            var nameFrequencies = (from n in allNames
+                                  let c = allProperties.Count(p => p.Property.name == n)
+                                  orderby c descending
+                                  select new { Name = n, Count = c }).ToArray();
+            StringBuilder sb = new StringBuilder();
+            foreach (var nf in nameFrequencies)
+            {
+                int i = 0;
+                foreach (var prop in allProperties.Where(p => p.Property.name == nf.Name))
+                {
+                    sb.AppendLine($"#{++i} {prop.Property.name} in {prop.Type.name}");
+                }
+                
+            }
+            System.IO.File.WriteAllText(@"D:\Reports\Temp.txt", sb.ToString());
+
         }
     }
 }
