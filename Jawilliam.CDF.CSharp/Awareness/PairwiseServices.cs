@@ -14,6 +14,1292 @@ using Jawilliam.CDF.Approach.Criterions;
 
 namespace Jawilliam.CDF.CSharp.Awareness
 {
+    partial class NameEqualsServiceProvider
+    {
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(NameEqualsSyntax, NameEqualsSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(NameEqualsSyntax, NameEqualsSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(NameEqualsSyntax, NameEqualsSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(NameEqualsSyntax, NameEqualsSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+        partial void PairwisePartnersBefore(NameEqualsSyntax original, NameEqualsSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
+        
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(NameEqualsSyntax, NameEqualsSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(NameEqualsSyntax, NameEqualsSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        partial void PairwisePartnersAfter(NameEqualsSyntax original, NameEqualsSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
+    
+        /// <summary>
+        /// Determines if two <see cref="NameEqualsSyntax"/> elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        /// <remarks>This is the default implementation for <see cref="PairwisePartners(NameEqualsSyntax, NameEqualsSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
+        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(NameEqualsSyntax original, NameEqualsSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		if(original == null) 
+    			throw new ArgumentNullException(nameof(original));
+    
+    		if(modified == null) 
+    			throw new ArgumentNullException(nameof(modified));
+    
+    		var matchingSet = context.Approach.MatchingSet();
+    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.EqualsToken,
+    		    Modified = modified.EqualsToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    	}    
+    
+    	/// <summary>
+        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(NameEqualsSyntax original, NameEqualsSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
+    		var ignoreCore = false;
+    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
+    		if(ignoreCore) 
+    			return result;
+    		
+    		result = this.PairwisePartnersCore(original, modified, context);
+    		PairwisePartnersAfter(original, modified, context, ref result);
+    		return result;
+    	}
+    }
+    
+    partial class TypeParameterListServiceProvider
+    {
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(TypeParameterListSyntax, TypeParameterListSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(TypeParameterListSyntax, TypeParameterListSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(TypeParameterListSyntax, TypeParameterListSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(TypeParameterListSyntax, TypeParameterListSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+        partial void PairwisePartnersBefore(TypeParameterListSyntax original, TypeParameterListSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
+        
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(TypeParameterListSyntax, TypeParameterListSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(TypeParameterListSyntax, TypeParameterListSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        partial void PairwisePartnersAfter(TypeParameterListSyntax original, TypeParameterListSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
+    
+        /// <summary>
+        /// Determines if two <see cref="TypeParameterListSyntax"/> elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        /// <remarks>This is the default implementation for <see cref="PairwisePartners(TypeParameterListSyntax, TypeParameterListSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
+        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(TypeParameterListSyntax original, TypeParameterListSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		if(original == null) 
+    			throw new ArgumentNullException(nameof(original));
+    
+    		if(modified == null) 
+    			throw new ArgumentNullException(nameof(modified));
+    
+    		var matchingSet = context.Approach.MatchingSet();
+    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.LessThanToken,
+    		    Modified = modified.LessThanToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.GreaterThanToken,
+    		    Modified = modified.GreaterThanToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    	}    
+    
+    	/// <summary>
+        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(TypeParameterListSyntax original, TypeParameterListSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
+    		var ignoreCore = false;
+    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
+    		if(ignoreCore) 
+    			return result;
+    		
+    		result = this.PairwisePartnersCore(original, modified, context);
+    		PairwisePartnersAfter(original, modified, context, ref result);
+    		return result;
+    	}
+    }
+    
+    partial class TypeParameterServiceProvider
+    {
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(TypeParameterSyntax, TypeParameterSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(TypeParameterSyntax, TypeParameterSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(TypeParameterSyntax, TypeParameterSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(TypeParameterSyntax, TypeParameterSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+        partial void PairwisePartnersBefore(TypeParameterSyntax original, TypeParameterSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
+        
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(TypeParameterSyntax, TypeParameterSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(TypeParameterSyntax, TypeParameterSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        partial void PairwisePartnersAfter(TypeParameterSyntax original, TypeParameterSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
+    
+        /// <summary>
+        /// Determines if two <see cref="TypeParameterSyntax"/> elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        /// <remarks>This is the default implementation for <see cref="PairwisePartners(TypeParameterSyntax, TypeParameterSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
+        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(TypeParameterSyntax original, TypeParameterSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		if(original == null) 
+    			throw new ArgumentNullException(nameof(original));
+    
+    		if(modified == null) 
+    			throw new ArgumentNullException(nameof(modified));
+    
+    		var matchingSet = context.Approach.MatchingSet();
+    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.VarianceKeyword,
+    		    Modified = modified.VarianceKeyword
+    		};
+    		if(original.VarianceKeyword != null && modified.VarianceKeyword != null)
+    		{
+        		if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    		}
+    		else if(original.VarianceKeyword != null)
+    			matchingSet.Originals.DisableMatching(original.VarianceKeyword);
+    		else
+    			matchingSet.Modifieds.DisableMatching(modified.VarianceKeyword);
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.Identifier,
+    		    Modified = modified.Identifier
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    	}    
+    
+    	/// <summary>
+        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(TypeParameterSyntax original, TypeParameterSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
+    		var ignoreCore = false;
+    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
+    		if(ignoreCore) 
+    			return result;
+    		
+    		result = this.PairwisePartnersCore(original, modified, context);
+    		PairwisePartnersAfter(original, modified, context, ref result);
+    		return result;
+    	}
+    }
+    
+    partial class BaseListServiceProvider
+    {
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(BaseListSyntax, BaseListSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(BaseListSyntax, BaseListSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(BaseListSyntax, BaseListSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(BaseListSyntax, BaseListSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+        partial void PairwisePartnersBefore(BaseListSyntax original, BaseListSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
+        
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(BaseListSyntax, BaseListSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(BaseListSyntax, BaseListSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        partial void PairwisePartnersAfter(BaseListSyntax original, BaseListSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
+    
+        /// <summary>
+        /// Determines if two <see cref="BaseListSyntax"/> elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        /// <remarks>This is the default implementation for <see cref="PairwisePartners(BaseListSyntax, BaseListSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
+        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(BaseListSyntax original, BaseListSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		if(original == null) 
+    			throw new ArgumentNullException(nameof(original));
+    
+    		if(modified == null) 
+    			throw new ArgumentNullException(nameof(modified));
+    
+    		var matchingSet = context.Approach.MatchingSet();
+    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.ColonToken,
+    		    Modified = modified.ColonToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    	}    
+    
+    	/// <summary>
+        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(BaseListSyntax original, BaseListSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
+    		var ignoreCore = false;
+    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
+    		if(ignoreCore) 
+    			return result;
+    		
+    		result = this.PairwisePartnersCore(original, modified, context);
+    		PairwisePartnersAfter(original, modified, context, ref result);
+    		return result;
+    	}
+    }
+    
+    partial class TypeParameterConstraintClauseServiceProvider
+    {
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(TypeParameterConstraintClauseSyntax, TypeParameterConstraintClauseSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(TypeParameterConstraintClauseSyntax, TypeParameterConstraintClauseSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(TypeParameterConstraintClauseSyntax, TypeParameterConstraintClauseSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(TypeParameterConstraintClauseSyntax, TypeParameterConstraintClauseSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+        partial void PairwisePartnersBefore(TypeParameterConstraintClauseSyntax original, TypeParameterConstraintClauseSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
+        
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(TypeParameterConstraintClauseSyntax, TypeParameterConstraintClauseSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(TypeParameterConstraintClauseSyntax, TypeParameterConstraintClauseSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        partial void PairwisePartnersAfter(TypeParameterConstraintClauseSyntax original, TypeParameterConstraintClauseSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
+    
+        /// <summary>
+        /// Determines if two <see cref="TypeParameterConstraintClauseSyntax"/> elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        /// <remarks>This is the default implementation for <see cref="PairwisePartners(TypeParameterConstraintClauseSyntax, TypeParameterConstraintClauseSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
+        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(TypeParameterConstraintClauseSyntax original, TypeParameterConstraintClauseSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		if(original == null) 
+    			throw new ArgumentNullException(nameof(original));
+    
+    		if(modified == null) 
+    			throw new ArgumentNullException(nameof(modified));
+    
+    		var matchingSet = context.Approach.MatchingSet();
+    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.WhereKeyword,
+    		    Modified = modified.WhereKeyword
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.ColonToken,
+    		    Modified = modified.ColonToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    	}    
+    
+    	/// <summary>
+        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(TypeParameterConstraintClauseSyntax original, TypeParameterConstraintClauseSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
+    		var ignoreCore = false;
+    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
+    		if(ignoreCore) 
+    			return result;
+    		
+    		result = this.PairwisePartnersCore(original, modified, context);
+    		PairwisePartnersAfter(original, modified, context, ref result);
+    		return result;
+    	}
+    }
+    
+    partial class ExplicitInterfaceSpecifierServiceProvider
+    {
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(ExplicitInterfaceSpecifierSyntax, ExplicitInterfaceSpecifierSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(ExplicitInterfaceSpecifierSyntax, ExplicitInterfaceSpecifierSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(ExplicitInterfaceSpecifierSyntax, ExplicitInterfaceSpecifierSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(ExplicitInterfaceSpecifierSyntax, ExplicitInterfaceSpecifierSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+        partial void PairwisePartnersBefore(ExplicitInterfaceSpecifierSyntax original, ExplicitInterfaceSpecifierSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
+        
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(ExplicitInterfaceSpecifierSyntax, ExplicitInterfaceSpecifierSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(ExplicitInterfaceSpecifierSyntax, ExplicitInterfaceSpecifierSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        partial void PairwisePartnersAfter(ExplicitInterfaceSpecifierSyntax original, ExplicitInterfaceSpecifierSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
+    
+        /// <summary>
+        /// Determines if two <see cref="ExplicitInterfaceSpecifierSyntax"/> elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        /// <remarks>This is the default implementation for <see cref="PairwisePartners(ExplicitInterfaceSpecifierSyntax, ExplicitInterfaceSpecifierSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
+        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(ExplicitInterfaceSpecifierSyntax original, ExplicitInterfaceSpecifierSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		if(original == null) 
+    			throw new ArgumentNullException(nameof(original));
+    
+    		if(modified == null) 
+    			throw new ArgumentNullException(nameof(modified));
+    
+    		var matchingSet = context.Approach.MatchingSet();
+    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.DotToken,
+    		    Modified = modified.DotToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    	}    
+    
+    	/// <summary>
+        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(ExplicitInterfaceSpecifierSyntax original, ExplicitInterfaceSpecifierSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
+    		var ignoreCore = false;
+    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
+    		if(ignoreCore) 
+    			return result;
+    		
+    		result = this.PairwisePartnersCore(original, modified, context);
+    		PairwisePartnersAfter(original, modified, context, ref result);
+    		return result;
+    	}
+    }
+    
+    partial class ConstructorInitializerServiceProvider
+    {
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(ConstructorInitializerSyntax, ConstructorInitializerSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(ConstructorInitializerSyntax, ConstructorInitializerSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(ConstructorInitializerSyntax, ConstructorInitializerSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(ConstructorInitializerSyntax, ConstructorInitializerSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+        partial void PairwisePartnersBefore(ConstructorInitializerSyntax original, ConstructorInitializerSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
+        
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(ConstructorInitializerSyntax, ConstructorInitializerSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(ConstructorInitializerSyntax, ConstructorInitializerSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        partial void PairwisePartnersAfter(ConstructorInitializerSyntax original, ConstructorInitializerSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
+    
+        /// <summary>
+        /// Determines if two <see cref="ConstructorInitializerSyntax"/> elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        /// <remarks>This is the default implementation for <see cref="PairwisePartners(ConstructorInitializerSyntax, ConstructorInitializerSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
+        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(ConstructorInitializerSyntax original, ConstructorInitializerSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		if(original == null) 
+    			throw new ArgumentNullException(nameof(original));
+    
+    		if(modified == null) 
+    			throw new ArgumentNullException(nameof(modified));
+    
+    		var matchingSet = context.Approach.MatchingSet();
+    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.ColonToken,
+    		    Modified = modified.ColonToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.ThisOrBaseKeyword,
+    		    Modified = modified.ThisOrBaseKeyword
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    	}    
+    
+    	/// <summary>
+        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(ConstructorInitializerSyntax original, ConstructorInitializerSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
+    		var ignoreCore = false;
+    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
+    		if(ignoreCore) 
+    			return result;
+    		
+    		result = this.PairwisePartnersCore(original, modified, context);
+    		PairwisePartnersAfter(original, modified, context, ref result);
+    		return result;
+    	}
+    }
+    
+    partial class ArrowExpressionClauseServiceProvider
+    {
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(ArrowExpressionClauseSyntax, ArrowExpressionClauseSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(ArrowExpressionClauseSyntax, ArrowExpressionClauseSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(ArrowExpressionClauseSyntax, ArrowExpressionClauseSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(ArrowExpressionClauseSyntax, ArrowExpressionClauseSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+        partial void PairwisePartnersBefore(ArrowExpressionClauseSyntax original, ArrowExpressionClauseSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
+        
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(ArrowExpressionClauseSyntax, ArrowExpressionClauseSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(ArrowExpressionClauseSyntax, ArrowExpressionClauseSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        partial void PairwisePartnersAfter(ArrowExpressionClauseSyntax original, ArrowExpressionClauseSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
+    
+        /// <summary>
+        /// Determines if two <see cref="ArrowExpressionClauseSyntax"/> elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        /// <remarks>This is the default implementation for <see cref="PairwisePartners(ArrowExpressionClauseSyntax, ArrowExpressionClauseSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
+        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(ArrowExpressionClauseSyntax original, ArrowExpressionClauseSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		if(original == null) 
+    			throw new ArgumentNullException(nameof(original));
+    
+    		if(modified == null) 
+    			throw new ArgumentNullException(nameof(modified));
+    
+    		var matchingSet = context.Approach.MatchingSet();
+    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.ArrowToken,
+    		    Modified = modified.ArrowToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    	}    
+    
+    	/// <summary>
+        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(ArrowExpressionClauseSyntax original, ArrowExpressionClauseSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
+    		var ignoreCore = false;
+    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
+    		if(ignoreCore) 
+    			return result;
+    		
+    		result = this.PairwisePartnersCore(original, modified, context);
+    		PairwisePartnersAfter(original, modified, context, ref result);
+    		return result;
+    	}
+    }
+    
+    partial class AccessorListServiceProvider
+    {
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(AccessorListSyntax, AccessorListSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(AccessorListSyntax, AccessorListSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(AccessorListSyntax, AccessorListSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(AccessorListSyntax, AccessorListSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+        partial void PairwisePartnersBefore(AccessorListSyntax original, AccessorListSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
+        
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(AccessorListSyntax, AccessorListSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(AccessorListSyntax, AccessorListSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        partial void PairwisePartnersAfter(AccessorListSyntax original, AccessorListSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
+    
+        /// <summary>
+        /// Determines if two <see cref="AccessorListSyntax"/> elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        /// <remarks>This is the default implementation for <see cref="PairwisePartners(AccessorListSyntax, AccessorListSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
+        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(AccessorListSyntax original, AccessorListSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		if(original == null) 
+    			throw new ArgumentNullException(nameof(original));
+    
+    		if(modified == null) 
+    			throw new ArgumentNullException(nameof(modified));
+    
+    		var matchingSet = context.Approach.MatchingSet();
+    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.OpenBraceToken,
+    		    Modified = modified.OpenBraceToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.CloseBraceToken,
+    		    Modified = modified.CloseBraceToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    	}    
+    
+    	/// <summary>
+        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(AccessorListSyntax original, AccessorListSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
+    		var ignoreCore = false;
+    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
+    		if(ignoreCore) 
+    			return result;
+    		
+    		result = this.PairwisePartnersCore(original, modified, context);
+    		PairwisePartnersAfter(original, modified, context, ref result);
+    		return result;
+    	}
+    }
+    
+    partial class AccessorDeclarationServiceProvider
+    {
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(AccessorDeclarationSyntax, AccessorDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(AccessorDeclarationSyntax, AccessorDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(AccessorDeclarationSyntax, AccessorDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(AccessorDeclarationSyntax, AccessorDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+        partial void PairwisePartnersBefore(AccessorDeclarationSyntax original, AccessorDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
+        
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(AccessorDeclarationSyntax, AccessorDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(AccessorDeclarationSyntax, AccessorDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        partial void PairwisePartnersAfter(AccessorDeclarationSyntax original, AccessorDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
+    
+        /// <summary>
+        /// Determines if two <see cref="AccessorDeclarationSyntax"/> elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        /// <remarks>This is the default implementation for <see cref="PairwisePartners(AccessorDeclarationSyntax, AccessorDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
+        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(AccessorDeclarationSyntax original, AccessorDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		if(original == null) 
+    			throw new ArgumentNullException(nameof(original));
+    
+    		if(modified == null) 
+    			throw new ArgumentNullException(nameof(modified));
+    
+    		var matchingSet = context.Approach.MatchingSet();
+    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.Keyword,
+    		    Modified = modified.Keyword
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.SemicolonToken,
+    		    Modified = modified.SemicolonToken
+    		};
+    		if(original.SemicolonToken != null && modified.SemicolonToken != null)
+    		{
+        		if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    		}
+    		else if(original.SemicolonToken != null)
+    			matchingSet.Originals.DisableMatching(original.SemicolonToken);
+    		else
+    			matchingSet.Modifieds.DisableMatching(modified.SemicolonToken);
+    	}    
+    
+    	/// <summary>
+        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(AccessorDeclarationSyntax original, AccessorDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
+    		var ignoreCore = false;
+    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
+    		if(ignoreCore) 
+    			return result;
+    		
+    		result = this.PairwisePartnersCore(original, modified, context);
+    		PairwisePartnersAfter(original, modified, context, ref result);
+    		return result;
+    	}
+    }
+    
+    partial class ParameterServiceProvider
+    {
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(ParameterSyntax, ParameterSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(ParameterSyntax, ParameterSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(ParameterSyntax, ParameterSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(ParameterSyntax, ParameterSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+        partial void PairwisePartnersBefore(ParameterSyntax original, ParameterSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
+        
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(ParameterSyntax, ParameterSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(ParameterSyntax, ParameterSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        partial void PairwisePartnersAfter(ParameterSyntax original, ParameterSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
+    
+        /// <summary>
+        /// Determines if two <see cref="ParameterSyntax"/> elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        /// <remarks>This is the default implementation for <see cref="PairwisePartners(ParameterSyntax, ParameterSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
+        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(ParameterSyntax original, ParameterSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		if(original == null) 
+    			throw new ArgumentNullException(nameof(original));
+    
+    		if(modified == null) 
+    			throw new ArgumentNullException(nameof(modified));
+    
+    		var matchingSet = context.Approach.MatchingSet();
+    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.Identifier,
+    		    Modified = modified.Identifier
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    	}    
+    
+    	/// <summary>
+        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(ParameterSyntax original, ParameterSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
+    		var ignoreCore = false;
+    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
+    		if(ignoreCore) 
+    			return result;
+    		
+    		result = this.PairwisePartnersCore(original, modified, context);
+    		PairwisePartnersAfter(original, modified, context, ref result);
+    		return result;
+    	}
+    }
+    
+    partial class CrefParameterServiceProvider
+    {
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(CrefParameterSyntax, CrefParameterSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(CrefParameterSyntax, CrefParameterSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(CrefParameterSyntax, CrefParameterSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(CrefParameterSyntax, CrefParameterSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+        partial void PairwisePartnersBefore(CrefParameterSyntax original, CrefParameterSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
+        
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(CrefParameterSyntax, CrefParameterSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(CrefParameterSyntax, CrefParameterSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        partial void PairwisePartnersAfter(CrefParameterSyntax original, CrefParameterSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
+    
+        /// <summary>
+        /// Determines if two <see cref="CrefParameterSyntax"/> elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        /// <remarks>This is the default implementation for <see cref="PairwisePartners(CrefParameterSyntax, CrefParameterSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
+        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(CrefParameterSyntax original, CrefParameterSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		if(original == null) 
+    			throw new ArgumentNullException(nameof(original));
+    
+    		if(modified == null) 
+    			throw new ArgumentNullException(nameof(modified));
+    
+    		var matchingSet = context.Approach.MatchingSet();
+    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.RefKindKeyword,
+    		    Modified = modified.RefKindKeyword
+    		};
+    		if(original.RefKindKeyword != null && modified.RefKindKeyword != null)
+    		{
+        		if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    		}
+    		else if(original.RefKindKeyword != null)
+    			matchingSet.Originals.DisableMatching(original.RefKindKeyword);
+    		else
+    			matchingSet.Modifieds.DisableMatching(modified.RefKindKeyword);
+    	}    
+    
+    	/// <summary>
+        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(CrefParameterSyntax original, CrefParameterSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
+    		var ignoreCore = false;
+    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
+    		if(ignoreCore) 
+    			return result;
+    		
+    		result = this.PairwisePartnersCore(original, modified, context);
+    		PairwisePartnersAfter(original, modified, context, ref result);
+    		return result;
+    	}
+    }
+    
+    partial class XmlElementStartTagServiceProvider
+    {
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(XmlElementStartTagSyntax, XmlElementStartTagSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(XmlElementStartTagSyntax, XmlElementStartTagSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(XmlElementStartTagSyntax, XmlElementStartTagSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(XmlElementStartTagSyntax, XmlElementStartTagSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+        partial void PairwisePartnersBefore(XmlElementStartTagSyntax original, XmlElementStartTagSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
+        
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(XmlElementStartTagSyntax, XmlElementStartTagSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(XmlElementStartTagSyntax, XmlElementStartTagSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        partial void PairwisePartnersAfter(XmlElementStartTagSyntax original, XmlElementStartTagSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
+    
+        /// <summary>
+        /// Determines if two <see cref="XmlElementStartTagSyntax"/> elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        /// <remarks>This is the default implementation for <see cref="PairwisePartners(XmlElementStartTagSyntax, XmlElementStartTagSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
+        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(XmlElementStartTagSyntax original, XmlElementStartTagSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		if(original == null) 
+    			throw new ArgumentNullException(nameof(original));
+    
+    		if(modified == null) 
+    			throw new ArgumentNullException(nameof(modified));
+    
+    		var matchingSet = context.Approach.MatchingSet();
+    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.LessThanToken,
+    		    Modified = modified.LessThanToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.GreaterThanToken,
+    		    Modified = modified.GreaterThanToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    	}    
+    
+    	/// <summary>
+        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(XmlElementStartTagSyntax original, XmlElementStartTagSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
+    		var ignoreCore = false;
+    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
+    		if(ignoreCore) 
+    			return result;
+    		
+    		result = this.PairwisePartnersCore(original, modified, context);
+    		PairwisePartnersAfter(original, modified, context, ref result);
+    		return result;
+    	}
+    }
+    
+    partial class XmlElementEndTagServiceProvider
+    {
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(XmlElementEndTagSyntax, XmlElementEndTagSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(XmlElementEndTagSyntax, XmlElementEndTagSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(XmlElementEndTagSyntax, XmlElementEndTagSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(XmlElementEndTagSyntax, XmlElementEndTagSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+        partial void PairwisePartnersBefore(XmlElementEndTagSyntax original, XmlElementEndTagSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
+        
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(XmlElementEndTagSyntax, XmlElementEndTagSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(XmlElementEndTagSyntax, XmlElementEndTagSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        partial void PairwisePartnersAfter(XmlElementEndTagSyntax original, XmlElementEndTagSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
+    
+        /// <summary>
+        /// Determines if two <see cref="XmlElementEndTagSyntax"/> elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        /// <remarks>This is the default implementation for <see cref="PairwisePartners(XmlElementEndTagSyntax, XmlElementEndTagSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
+        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(XmlElementEndTagSyntax original, XmlElementEndTagSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		if(original == null) 
+    			throw new ArgumentNullException(nameof(original));
+    
+    		if(modified == null) 
+    			throw new ArgumentNullException(nameof(modified));
+    
+    		var matchingSet = context.Approach.MatchingSet();
+    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.LessThanSlashToken,
+    		    Modified = modified.LessThanSlashToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.GreaterThanToken,
+    		    Modified = modified.GreaterThanToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    	}    
+    
+    	/// <summary>
+        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(XmlElementEndTagSyntax original, XmlElementEndTagSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
+    		var ignoreCore = false;
+    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
+    		if(ignoreCore) 
+    			return result;
+    		
+    		result = this.PairwisePartnersCore(original, modified, context);
+    		PairwisePartnersAfter(original, modified, context, ref result);
+    		return result;
+    	}
+    }
+    
+    partial class XmlNameServiceProvider
+    {
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(XmlNameSyntax, XmlNameSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(XmlNameSyntax, XmlNameSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(XmlNameSyntax, XmlNameSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(XmlNameSyntax, XmlNameSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+        partial void PairwisePartnersBefore(XmlNameSyntax original, XmlNameSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
+        
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(XmlNameSyntax, XmlNameSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(XmlNameSyntax, XmlNameSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        partial void PairwisePartnersAfter(XmlNameSyntax original, XmlNameSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
+    
+        /// <summary>
+        /// Determines if two <see cref="XmlNameSyntax"/> elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        /// <remarks>This is the default implementation for <see cref="PairwisePartners(XmlNameSyntax, XmlNameSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
+        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(XmlNameSyntax original, XmlNameSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		if(original == null) 
+    			throw new ArgumentNullException(nameof(original));
+    
+    		if(modified == null) 
+    			throw new ArgumentNullException(nameof(modified));
+    
+    		var matchingSet = context.Approach.MatchingSet();
+    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.LocalName,
+    		    Modified = modified.LocalName
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    	}    
+    
+    	/// <summary>
+        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(XmlNameSyntax original, XmlNameSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
+    		var ignoreCore = false;
+    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
+    		if(ignoreCore) 
+    			return result;
+    		
+    		result = this.PairwisePartnersCore(original, modified, context);
+    		PairwisePartnersAfter(original, modified, context, ref result);
+    		return result;
+    	}
+    }
+    
+    partial class XmlPrefixServiceProvider
+    {
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(XmlPrefixSyntax, XmlPrefixSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(XmlPrefixSyntax, XmlPrefixSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(XmlPrefixSyntax, XmlPrefixSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(XmlPrefixSyntax, XmlPrefixSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+        partial void PairwisePartnersBefore(XmlPrefixSyntax original, XmlPrefixSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
+        
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(XmlPrefixSyntax, XmlPrefixSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(XmlPrefixSyntax, XmlPrefixSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        partial void PairwisePartnersAfter(XmlPrefixSyntax original, XmlPrefixSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
+    
+        /// <summary>
+        /// Determines if two <see cref="XmlPrefixSyntax"/> elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        /// <remarks>This is the default implementation for <see cref="PairwisePartners(XmlPrefixSyntax, XmlPrefixSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
+        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(XmlPrefixSyntax original, XmlPrefixSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		if(original == null) 
+    			throw new ArgumentNullException(nameof(original));
+    
+    		if(modified == null) 
+    			throw new ArgumentNullException(nameof(modified));
+    
+    		var matchingSet = context.Approach.MatchingSet();
+    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.Prefix,
+    		    Modified = modified.Prefix
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.ColonToken,
+    		    Modified = modified.ColonToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    	}    
+    
+    	/// <summary>
+        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(XmlPrefixSyntax original, XmlPrefixSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
+    		var ignoreCore = false;
+    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
+    		if(ignoreCore) 
+    			return result;
+    		
+    		result = this.PairwisePartnersCore(original, modified, context);
+    		PairwisePartnersAfter(original, modified, context, ref result);
+    		return result;
+    	}
+    }
+    
     partial class TypeArgumentListServiceProvider
     {
     	/// <summary>
@@ -1978,39 +3264,39 @@ namespace Jawilliam.CDF.CSharp.Awareness
     	}
     }
     
-    partial class NameEqualsServiceProvider
+    partial class DelegateDeclarationServiceProvider
     {
     	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(NameEqualsSyntax, NameEqualsSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(DelegateDeclarationSyntax, DelegateDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
         /// </summary>
         /// <param name="original">the original version.</param>
         /// <param name="modified">the modified version.</param>
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(NameEqualsSyntax, NameEqualsSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(NameEqualsSyntax, NameEqualsSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(NameEqualsSyntax, NameEqualsSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
-        partial void PairwisePartnersBefore(NameEqualsSyntax original, NameEqualsSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(DelegateDeclarationSyntax, DelegateDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(DelegateDeclarationSyntax, DelegateDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(DelegateDeclarationSyntax, DelegateDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+        partial void PairwisePartnersBefore(DelegateDeclarationSyntax original, DelegateDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
         
         /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(NameEqualsSyntax, NameEqualsSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(DelegateDeclarationSyntax, DelegateDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
         /// </summary>
         /// <param name="original">the original version.</param>
         /// <param name="modified">the modified version.</param>
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(NameEqualsSyntax, NameEqualsSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        partial void PairwisePartnersAfter(NameEqualsSyntax original, NameEqualsSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(DelegateDeclarationSyntax, DelegateDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        partial void PairwisePartnersAfter(DelegateDeclarationSyntax original, DelegateDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
     
         /// <summary>
-        /// Determines if two <see cref="NameEqualsSyntax"/> elements are name-based exactly equal.
+        /// Determines if two <see cref="DelegateDeclarationSyntax"/> elements are name-based exactly equal.
         /// </summary>
         /// <param name="original">the original version.</param>
         /// <param name="modified">the modified version.</param>
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
         /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="PairwisePartners(NameEqualsSyntax, NameEqualsSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
-        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(NameEqualsSyntax original, NameEqualsSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+        /// <remarks>This is the default implementation for <see cref="PairwisePartners(DelegateDeclarationSyntax, DelegateDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
+        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(DelegateDeclarationSyntax original, DelegateDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
     	{
     		if(original == null) 
     			throw new ArgumentNullException(nameof(original));
@@ -2024,8 +3310,26 @@ namespace Jawilliam.CDF.CSharp.Awareness
     		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
     		{
     		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.EqualsToken,
-    		    Modified = modified.EqualsToken
+    		    Original = original.DelegateKeyword,
+    		    Modified = modified.DelegateKeyword
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.Identifier,
+    		    Modified = modified.Identifier
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.SemicolonToken,
+    		    Modified = modified.SemicolonToken
     		};
         	if(matchingSet.PartnersIfAvailable(matchInfo))
     				yield return matchInfo;
@@ -2038,7 +3342,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="modified">the modified version.</param>
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(NameEqualsSyntax original, NameEqualsSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(DelegateDeclarationSyntax original, DelegateDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
     	{
     		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
     		var ignoreCore = false;
@@ -2052,39 +3356,39 @@ namespace Jawilliam.CDF.CSharp.Awareness
     	}
     }
     
-    partial class TypeParameterListServiceProvider
+    partial class EnumMemberDeclarationServiceProvider
     {
     	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(TypeParameterListSyntax, TypeParameterListSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(EnumMemberDeclarationSyntax, EnumMemberDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
         /// </summary>
         /// <param name="original">the original version.</param>
         /// <param name="modified">the modified version.</param>
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(TypeParameterListSyntax, TypeParameterListSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(TypeParameterListSyntax, TypeParameterListSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(TypeParameterListSyntax, TypeParameterListSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
-        partial void PairwisePartnersBefore(TypeParameterListSyntax original, TypeParameterListSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(EnumMemberDeclarationSyntax, EnumMemberDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(EnumMemberDeclarationSyntax, EnumMemberDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(EnumMemberDeclarationSyntax, EnumMemberDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+        partial void PairwisePartnersBefore(EnumMemberDeclarationSyntax original, EnumMemberDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
         
         /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(TypeParameterListSyntax, TypeParameterListSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(EnumMemberDeclarationSyntax, EnumMemberDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
         /// </summary>
         /// <param name="original">the original version.</param>
         /// <param name="modified">the modified version.</param>
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(TypeParameterListSyntax, TypeParameterListSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        partial void PairwisePartnersAfter(TypeParameterListSyntax original, TypeParameterListSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(EnumMemberDeclarationSyntax, EnumMemberDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        partial void PairwisePartnersAfter(EnumMemberDeclarationSyntax original, EnumMemberDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
     
         /// <summary>
-        /// Determines if two <see cref="TypeParameterListSyntax"/> elements are name-based exactly equal.
+        /// Determines if two <see cref="EnumMemberDeclarationSyntax"/> elements are name-based exactly equal.
         /// </summary>
         /// <param name="original">the original version.</param>
         /// <param name="modified">the modified version.</param>
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
         /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="PairwisePartners(TypeParameterListSyntax, TypeParameterListSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
-        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(TypeParameterListSyntax original, TypeParameterListSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+        /// <remarks>This is the default implementation for <see cref="PairwisePartners(EnumMemberDeclarationSyntax, EnumMemberDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
+        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(EnumMemberDeclarationSyntax original, EnumMemberDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
     	{
     		if(original == null) 
     			throw new ArgumentNullException(nameof(original));
@@ -2094,105 +3398,6 @@ namespace Jawilliam.CDF.CSharp.Awareness
     
     		var matchingSet = context.Approach.MatchingSet();
     		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.LessThanToken,
-    		    Modified = modified.LessThanToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.GreaterThanToken,
-    		    Modified = modified.GreaterThanToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    	}    
-    
-    	/// <summary>
-        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(TypeParameterListSyntax original, TypeParameterListSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
-    		var ignoreCore = false;
-    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
-    		if(ignoreCore) 
-    			return result;
-    		
-    		result = this.PairwisePartnersCore(original, modified, context);
-    		PairwisePartnersAfter(original, modified, context, ref result);
-    		return result;
-    	}
-    }
-    
-    partial class TypeParameterServiceProvider
-    {
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(TypeParameterSyntax, TypeParameterSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(TypeParameterSyntax, TypeParameterSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(TypeParameterSyntax, TypeParameterSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(TypeParameterSyntax, TypeParameterSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
-        partial void PairwisePartnersBefore(TypeParameterSyntax original, TypeParameterSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(TypeParameterSyntax, TypeParameterSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(TypeParameterSyntax, TypeParameterSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        partial void PairwisePartnersAfter(TypeParameterSyntax original, TypeParameterSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
-    
-        /// <summary>
-        /// Determines if two <see cref="TypeParameterSyntax"/> elements are name-based exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="PairwisePartners(TypeParameterSyntax, TypeParameterSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
-        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(TypeParameterSyntax original, TypeParameterSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		if(original == null) 
-    			throw new ArgumentNullException(nameof(original));
-    
-    		if(modified == null) 
-    			throw new ArgumentNullException(nameof(modified));
-    
-    		var matchingSet = context.Approach.MatchingSet();
-    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.VarianceKeyword,
-    		    Modified = modified.VarianceKeyword
-    		};
-    		if(original.VarianceKeyword != null && modified.VarianceKeyword != null)
-    		{
-        		if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    		}
-    		else if(original.VarianceKeyword != null)
-    			matchingSet.Originals.DisableMatching(original.VarianceKeyword);
-    		else
-    			matchingSet.Modifieds.DisableMatching(modified.VarianceKeyword);
     
     		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
     		{
@@ -2211,7 +3416,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="modified">the modified version.</param>
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(TypeParameterSyntax original, TypeParameterSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(EnumMemberDeclarationSyntax original, EnumMemberDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
     	{
     		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
     		var ignoreCore = false;
@@ -2225,39 +3430,39 @@ namespace Jawilliam.CDF.CSharp.Awareness
     	}
     }
     
-    partial class BaseListServiceProvider
+    partial class NamespaceDeclarationServiceProvider
     {
     	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(BaseListSyntax, BaseListSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(NamespaceDeclarationSyntax, NamespaceDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
         /// </summary>
         /// <param name="original">the original version.</param>
         /// <param name="modified">the modified version.</param>
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(BaseListSyntax, BaseListSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(BaseListSyntax, BaseListSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(BaseListSyntax, BaseListSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
-        partial void PairwisePartnersBefore(BaseListSyntax original, BaseListSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(NamespaceDeclarationSyntax, NamespaceDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(NamespaceDeclarationSyntax, NamespaceDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(NamespaceDeclarationSyntax, NamespaceDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+        partial void PairwisePartnersBefore(NamespaceDeclarationSyntax original, NamespaceDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
         
         /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(BaseListSyntax, BaseListSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(NamespaceDeclarationSyntax, NamespaceDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
         /// </summary>
         /// <param name="original">the original version.</param>
         /// <param name="modified">the modified version.</param>
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(BaseListSyntax, BaseListSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        partial void PairwisePartnersAfter(BaseListSyntax original, BaseListSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(NamespaceDeclarationSyntax, NamespaceDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        partial void PairwisePartnersAfter(NamespaceDeclarationSyntax original, NamespaceDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
     
         /// <summary>
-        /// Determines if two <see cref="BaseListSyntax"/> elements are name-based exactly equal.
+        /// Determines if two <see cref="NamespaceDeclarationSyntax"/> elements are name-based exactly equal.
         /// </summary>
         /// <param name="original">the original version.</param>
         /// <param name="modified">the modified version.</param>
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
         /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="PairwisePartners(BaseListSyntax, BaseListSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
-        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(BaseListSyntax original, BaseListSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+        /// <remarks>This is the default implementation for <see cref="PairwisePartners(NamespaceDeclarationSyntax, NamespaceDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
+        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(NamespaceDeclarationSyntax original, NamespaceDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
     	{
     		if(original == null) 
     			throw new ArgumentNullException(nameof(original));
@@ -2271,390 +3476,11 @@ namespace Jawilliam.CDF.CSharp.Awareness
     		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
     		{
     		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.ColonToken,
-    		    Modified = modified.ColonToken
+    		    Original = original.NamespaceKeyword,
+    		    Modified = modified.NamespaceKeyword
     		};
         	if(matchingSet.PartnersIfAvailable(matchInfo))
     				yield return matchInfo;
-    	}    
-    
-    	/// <summary>
-        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(BaseListSyntax original, BaseListSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
-    		var ignoreCore = false;
-    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
-    		if(ignoreCore) 
-    			return result;
-    		
-    		result = this.PairwisePartnersCore(original, modified, context);
-    		PairwisePartnersAfter(original, modified, context, ref result);
-    		return result;
-    	}
-    }
-    
-    partial class TypeParameterConstraintClauseServiceProvider
-    {
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(TypeParameterConstraintClauseSyntax, TypeParameterConstraintClauseSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(TypeParameterConstraintClauseSyntax, TypeParameterConstraintClauseSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(TypeParameterConstraintClauseSyntax, TypeParameterConstraintClauseSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(TypeParameterConstraintClauseSyntax, TypeParameterConstraintClauseSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
-        partial void PairwisePartnersBefore(TypeParameterConstraintClauseSyntax original, TypeParameterConstraintClauseSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(TypeParameterConstraintClauseSyntax, TypeParameterConstraintClauseSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(TypeParameterConstraintClauseSyntax, TypeParameterConstraintClauseSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        partial void PairwisePartnersAfter(TypeParameterConstraintClauseSyntax original, TypeParameterConstraintClauseSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
-    
-        /// <summary>
-        /// Determines if two <see cref="TypeParameterConstraintClauseSyntax"/> elements are name-based exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="PairwisePartners(TypeParameterConstraintClauseSyntax, TypeParameterConstraintClauseSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
-        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(TypeParameterConstraintClauseSyntax original, TypeParameterConstraintClauseSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		if(original == null) 
-    			throw new ArgumentNullException(nameof(original));
-    
-    		if(modified == null) 
-    			throw new ArgumentNullException(nameof(modified));
-    
-    		var matchingSet = context.Approach.MatchingSet();
-    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.WhereKeyword,
-    		    Modified = modified.WhereKeyword
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.ColonToken,
-    		    Modified = modified.ColonToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    	}    
-    
-    	/// <summary>
-        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(TypeParameterConstraintClauseSyntax original, TypeParameterConstraintClauseSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
-    		var ignoreCore = false;
-    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
-    		if(ignoreCore) 
-    			return result;
-    		
-    		result = this.PairwisePartnersCore(original, modified, context);
-    		PairwisePartnersAfter(original, modified, context, ref result);
-    		return result;
-    	}
-    }
-    
-    partial class ExplicitInterfaceSpecifierServiceProvider
-    {
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(ExplicitInterfaceSpecifierSyntax, ExplicitInterfaceSpecifierSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(ExplicitInterfaceSpecifierSyntax, ExplicitInterfaceSpecifierSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(ExplicitInterfaceSpecifierSyntax, ExplicitInterfaceSpecifierSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(ExplicitInterfaceSpecifierSyntax, ExplicitInterfaceSpecifierSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
-        partial void PairwisePartnersBefore(ExplicitInterfaceSpecifierSyntax original, ExplicitInterfaceSpecifierSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(ExplicitInterfaceSpecifierSyntax, ExplicitInterfaceSpecifierSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(ExplicitInterfaceSpecifierSyntax, ExplicitInterfaceSpecifierSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        partial void PairwisePartnersAfter(ExplicitInterfaceSpecifierSyntax original, ExplicitInterfaceSpecifierSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
-    
-        /// <summary>
-        /// Determines if two <see cref="ExplicitInterfaceSpecifierSyntax"/> elements are name-based exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="PairwisePartners(ExplicitInterfaceSpecifierSyntax, ExplicitInterfaceSpecifierSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
-        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(ExplicitInterfaceSpecifierSyntax original, ExplicitInterfaceSpecifierSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		if(original == null) 
-    			throw new ArgumentNullException(nameof(original));
-    
-    		if(modified == null) 
-    			throw new ArgumentNullException(nameof(modified));
-    
-    		var matchingSet = context.Approach.MatchingSet();
-    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.DotToken,
-    		    Modified = modified.DotToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    	}    
-    
-    	/// <summary>
-        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(ExplicitInterfaceSpecifierSyntax original, ExplicitInterfaceSpecifierSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
-    		var ignoreCore = false;
-    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
-    		if(ignoreCore) 
-    			return result;
-    		
-    		result = this.PairwisePartnersCore(original, modified, context);
-    		PairwisePartnersAfter(original, modified, context, ref result);
-    		return result;
-    	}
-    }
-    
-    partial class ConstructorInitializerServiceProvider
-    {
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(ConstructorInitializerSyntax, ConstructorInitializerSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(ConstructorInitializerSyntax, ConstructorInitializerSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(ConstructorInitializerSyntax, ConstructorInitializerSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(ConstructorInitializerSyntax, ConstructorInitializerSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
-        partial void PairwisePartnersBefore(ConstructorInitializerSyntax original, ConstructorInitializerSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(ConstructorInitializerSyntax, ConstructorInitializerSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(ConstructorInitializerSyntax, ConstructorInitializerSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        partial void PairwisePartnersAfter(ConstructorInitializerSyntax original, ConstructorInitializerSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
-    
-        /// <summary>
-        /// Determines if two <see cref="ConstructorInitializerSyntax"/> elements are name-based exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="PairwisePartners(ConstructorInitializerSyntax, ConstructorInitializerSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
-        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(ConstructorInitializerSyntax original, ConstructorInitializerSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		if(original == null) 
-    			throw new ArgumentNullException(nameof(original));
-    
-    		if(modified == null) 
-    			throw new ArgumentNullException(nameof(modified));
-    
-    		var matchingSet = context.Approach.MatchingSet();
-    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.ColonToken,
-    		    Modified = modified.ColonToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.ThisOrBaseKeyword,
-    		    Modified = modified.ThisOrBaseKeyword
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    	}    
-    
-    	/// <summary>
-        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(ConstructorInitializerSyntax original, ConstructorInitializerSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
-    		var ignoreCore = false;
-    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
-    		if(ignoreCore) 
-    			return result;
-    		
-    		result = this.PairwisePartnersCore(original, modified, context);
-    		PairwisePartnersAfter(original, modified, context, ref result);
-    		return result;
-    	}
-    }
-    
-    partial class ArrowExpressionClauseServiceProvider
-    {
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(ArrowExpressionClauseSyntax, ArrowExpressionClauseSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(ArrowExpressionClauseSyntax, ArrowExpressionClauseSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(ArrowExpressionClauseSyntax, ArrowExpressionClauseSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(ArrowExpressionClauseSyntax, ArrowExpressionClauseSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
-        partial void PairwisePartnersBefore(ArrowExpressionClauseSyntax original, ArrowExpressionClauseSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(ArrowExpressionClauseSyntax, ArrowExpressionClauseSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(ArrowExpressionClauseSyntax, ArrowExpressionClauseSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        partial void PairwisePartnersAfter(ArrowExpressionClauseSyntax original, ArrowExpressionClauseSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
-    
-        /// <summary>
-        /// Determines if two <see cref="ArrowExpressionClauseSyntax"/> elements are name-based exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="PairwisePartners(ArrowExpressionClauseSyntax, ArrowExpressionClauseSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
-        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(ArrowExpressionClauseSyntax original, ArrowExpressionClauseSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		if(original == null) 
-    			throw new ArgumentNullException(nameof(original));
-    
-    		if(modified == null) 
-    			throw new ArgumentNullException(nameof(modified));
-    
-    		var matchingSet = context.Approach.MatchingSet();
-    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.ArrowToken,
-    		    Modified = modified.ArrowToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    	}    
-    
-    	/// <summary>
-        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(ArrowExpressionClauseSyntax original, ArrowExpressionClauseSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
-    		var ignoreCore = false;
-    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
-    		if(ignoreCore) 
-    			return result;
-    		
-    		result = this.PairwisePartnersCore(original, modified, context);
-    		PairwisePartnersAfter(original, modified, context, ref result);
-    		return result;
-    	}
-    }
-    
-    partial class AccessorListServiceProvider
-    {
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(AccessorListSyntax, AccessorListSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(AccessorListSyntax, AccessorListSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(AccessorListSyntax, AccessorListSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(AccessorListSyntax, AccessorListSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
-        partial void PairwisePartnersBefore(AccessorListSyntax original, AccessorListSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(AccessorListSyntax, AccessorListSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(AccessorListSyntax, AccessorListSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        partial void PairwisePartnersAfter(AccessorListSyntax original, AccessorListSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
-    
-        /// <summary>
-        /// Determines if two <see cref="AccessorListSyntax"/> elements are name-based exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="PairwisePartners(AccessorListSyntax, AccessorListSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
-        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(AccessorListSyntax original, AccessorListSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		if(original == null) 
-    			throw new ArgumentNullException(nameof(original));
-    
-    		if(modified == null) 
-    			throw new ArgumentNullException(nameof(modified));
-    
-    		var matchingSet = context.Approach.MatchingSet();
-    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
     
     		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
     		{
@@ -2670,80 +3496,6 @@ namespace Jawilliam.CDF.CSharp.Awareness
     		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
     		    Original = original.CloseBraceToken,
     		    Modified = modified.CloseBraceToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    	}    
-    
-    	/// <summary>
-        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(AccessorListSyntax original, AccessorListSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
-    		var ignoreCore = false;
-    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
-    		if(ignoreCore) 
-    			return result;
-    		
-    		result = this.PairwisePartnersCore(original, modified, context);
-    		PairwisePartnersAfter(original, modified, context, ref result);
-    		return result;
-    	}
-    }
-    
-    partial class AccessorDeclarationServiceProvider
-    {
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(AccessorDeclarationSyntax, AccessorDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(AccessorDeclarationSyntax, AccessorDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(AccessorDeclarationSyntax, AccessorDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(AccessorDeclarationSyntax, AccessorDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
-        partial void PairwisePartnersBefore(AccessorDeclarationSyntax original, AccessorDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(AccessorDeclarationSyntax, AccessorDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(AccessorDeclarationSyntax, AccessorDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        partial void PairwisePartnersAfter(AccessorDeclarationSyntax original, AccessorDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
-    
-        /// <summary>
-        /// Determines if two <see cref="AccessorDeclarationSyntax"/> elements are name-based exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="PairwisePartners(AccessorDeclarationSyntax, AccessorDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
-        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(AccessorDeclarationSyntax original, AccessorDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		if(original == null) 
-    			throw new ArgumentNullException(nameof(original));
-    
-    		if(modified == null) 
-    			throw new ArgumentNullException(nameof(modified));
-    
-    		var matchingSet = context.Approach.MatchingSet();
-    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.Keyword,
-    		    Modified = modified.Keyword
     		};
         	if(matchingSet.PartnersIfAvailable(matchInfo))
     				yield return matchInfo;
@@ -2772,7 +3524,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="modified">the modified version.</param>
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(AccessorDeclarationSyntax original, AccessorDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(NamespaceDeclarationSyntax original, NamespaceDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
     	{
     		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
     		var ignoreCore = false;
@@ -2786,39 +3538,664 @@ namespace Jawilliam.CDF.CSharp.Awareness
     	}
     }
     
-    partial class ParameterServiceProvider
+    partial class EnumDeclarationServiceProvider
     {
     	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(ParameterSyntax, ParameterSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(EnumDeclarationSyntax, EnumDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
         /// </summary>
         /// <param name="original">the original version.</param>
         /// <param name="modified">the modified version.</param>
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(ParameterSyntax, ParameterSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(ParameterSyntax, ParameterSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(ParameterSyntax, ParameterSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
-        partial void PairwisePartnersBefore(ParameterSyntax original, ParameterSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(EnumDeclarationSyntax, EnumDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(EnumDeclarationSyntax, EnumDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(EnumDeclarationSyntax, EnumDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+        partial void PairwisePartnersBefore(EnumDeclarationSyntax original, EnumDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
         
         /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(ParameterSyntax, ParameterSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(EnumDeclarationSyntax, EnumDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
         /// </summary>
         /// <param name="original">the original version.</param>
         /// <param name="modified">the modified version.</param>
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(ParameterSyntax, ParameterSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        partial void PairwisePartnersAfter(ParameterSyntax original, ParameterSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(EnumDeclarationSyntax, EnumDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        partial void PairwisePartnersAfter(EnumDeclarationSyntax original, EnumDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
     
         /// <summary>
-        /// Determines if two <see cref="ParameterSyntax"/> elements are name-based exactly equal.
+        /// Determines if two <see cref="EnumDeclarationSyntax"/> elements are name-based exactly equal.
         /// </summary>
         /// <param name="original">the original version.</param>
         /// <param name="modified">the modified version.</param>
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
         /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="PairwisePartners(ParameterSyntax, ParameterSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
-        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(ParameterSyntax original, ParameterSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+        /// <remarks>This is the default implementation for <see cref="PairwisePartners(EnumDeclarationSyntax, EnumDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
+        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(EnumDeclarationSyntax original, EnumDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		if(original == null) 
+    			throw new ArgumentNullException(nameof(original));
+    
+    		if(modified == null) 
+    			throw new ArgumentNullException(nameof(modified));
+    
+    		var matchingSet = context.Approach.MatchingSet();
+    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.EnumKeyword,
+    		    Modified = modified.EnumKeyword
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.Identifier,
+    		    Modified = modified.Identifier
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.OpenBraceToken,
+    		    Modified = modified.OpenBraceToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.CloseBraceToken,
+    		    Modified = modified.CloseBraceToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.SemicolonToken,
+    		    Modified = modified.SemicolonToken
+    		};
+    		if(original.SemicolonToken != null && modified.SemicolonToken != null)
+    		{
+        		if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    		}
+    		else if(original.SemicolonToken != null)
+    			matchingSet.Originals.DisableMatching(original.SemicolonToken);
+    		else
+    			matchingSet.Modifieds.DisableMatching(modified.SemicolonToken);
+    	}    
+    
+    	/// <summary>
+        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(EnumDeclarationSyntax original, EnumDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
+    		var ignoreCore = false;
+    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
+    		if(ignoreCore) 
+    			return result;
+    		
+    		result = this.PairwisePartnersCore(original, modified, context);
+    		PairwisePartnersAfter(original, modified, context, ref result);
+    		return result;
+    	}
+    }
+    
+    partial class ClassDeclarationServiceProvider
+    {
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(ClassDeclarationSyntax, ClassDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(ClassDeclarationSyntax, ClassDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(ClassDeclarationSyntax, ClassDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(ClassDeclarationSyntax, ClassDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+        partial void PairwisePartnersBefore(ClassDeclarationSyntax original, ClassDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
+        
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(ClassDeclarationSyntax, ClassDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(ClassDeclarationSyntax, ClassDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        partial void PairwisePartnersAfter(ClassDeclarationSyntax original, ClassDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
+    
+        /// <summary>
+        /// Determines if two <see cref="ClassDeclarationSyntax"/> elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        /// <remarks>This is the default implementation for <see cref="PairwisePartners(ClassDeclarationSyntax, ClassDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
+        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(ClassDeclarationSyntax original, ClassDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		if(original == null) 
+    			throw new ArgumentNullException(nameof(original));
+    
+    		if(modified == null) 
+    			throw new ArgumentNullException(nameof(modified));
+    
+    		var matchingSet = context.Approach.MatchingSet();
+    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.Keyword,
+    		    Modified = modified.Keyword
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.Identifier,
+    		    Modified = modified.Identifier
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.OpenBraceToken,
+    		    Modified = modified.OpenBraceToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.CloseBraceToken,
+    		    Modified = modified.CloseBraceToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.SemicolonToken,
+    		    Modified = modified.SemicolonToken
+    		};
+    		if(original.SemicolonToken != null && modified.SemicolonToken != null)
+    		{
+        		if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    		}
+    		else if(original.SemicolonToken != null)
+    			matchingSet.Originals.DisableMatching(original.SemicolonToken);
+    		else
+    			matchingSet.Modifieds.DisableMatching(modified.SemicolonToken);
+    	}    
+    
+    	/// <summary>
+        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(ClassDeclarationSyntax original, ClassDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
+    		var ignoreCore = false;
+    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
+    		if(ignoreCore) 
+    			return result;
+    		
+    		result = this.PairwisePartnersCore(original, modified, context);
+    		PairwisePartnersAfter(original, modified, context, ref result);
+    		return result;
+    	}
+    }
+    
+    partial class StructDeclarationServiceProvider
+    {
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(StructDeclarationSyntax, StructDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(StructDeclarationSyntax, StructDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(StructDeclarationSyntax, StructDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(StructDeclarationSyntax, StructDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+        partial void PairwisePartnersBefore(StructDeclarationSyntax original, StructDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
+        
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(StructDeclarationSyntax, StructDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(StructDeclarationSyntax, StructDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        partial void PairwisePartnersAfter(StructDeclarationSyntax original, StructDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
+    
+        /// <summary>
+        /// Determines if two <see cref="StructDeclarationSyntax"/> elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        /// <remarks>This is the default implementation for <see cref="PairwisePartners(StructDeclarationSyntax, StructDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
+        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(StructDeclarationSyntax original, StructDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		if(original == null) 
+    			throw new ArgumentNullException(nameof(original));
+    
+    		if(modified == null) 
+    			throw new ArgumentNullException(nameof(modified));
+    
+    		var matchingSet = context.Approach.MatchingSet();
+    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.Keyword,
+    		    Modified = modified.Keyword
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.Identifier,
+    		    Modified = modified.Identifier
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.OpenBraceToken,
+    		    Modified = modified.OpenBraceToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.CloseBraceToken,
+    		    Modified = modified.CloseBraceToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.SemicolonToken,
+    		    Modified = modified.SemicolonToken
+    		};
+    		if(original.SemicolonToken != null && modified.SemicolonToken != null)
+    		{
+        		if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    		}
+    		else if(original.SemicolonToken != null)
+    			matchingSet.Originals.DisableMatching(original.SemicolonToken);
+    		else
+    			matchingSet.Modifieds.DisableMatching(modified.SemicolonToken);
+    	}    
+    
+    	/// <summary>
+        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(StructDeclarationSyntax original, StructDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
+    		var ignoreCore = false;
+    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
+    		if(ignoreCore) 
+    			return result;
+    		
+    		result = this.PairwisePartnersCore(original, modified, context);
+    		PairwisePartnersAfter(original, modified, context, ref result);
+    		return result;
+    	}
+    }
+    
+    partial class InterfaceDeclarationServiceProvider
+    {
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(InterfaceDeclarationSyntax, InterfaceDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(InterfaceDeclarationSyntax, InterfaceDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(InterfaceDeclarationSyntax, InterfaceDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(InterfaceDeclarationSyntax, InterfaceDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+        partial void PairwisePartnersBefore(InterfaceDeclarationSyntax original, InterfaceDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
+        
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(InterfaceDeclarationSyntax, InterfaceDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(InterfaceDeclarationSyntax, InterfaceDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        partial void PairwisePartnersAfter(InterfaceDeclarationSyntax original, InterfaceDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
+    
+        /// <summary>
+        /// Determines if two <see cref="InterfaceDeclarationSyntax"/> elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        /// <remarks>This is the default implementation for <see cref="PairwisePartners(InterfaceDeclarationSyntax, InterfaceDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
+        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(InterfaceDeclarationSyntax original, InterfaceDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		if(original == null) 
+    			throw new ArgumentNullException(nameof(original));
+    
+    		if(modified == null) 
+    			throw new ArgumentNullException(nameof(modified));
+    
+    		var matchingSet = context.Approach.MatchingSet();
+    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.Keyword,
+    		    Modified = modified.Keyword
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.Identifier,
+    		    Modified = modified.Identifier
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.OpenBraceToken,
+    		    Modified = modified.OpenBraceToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.CloseBraceToken,
+    		    Modified = modified.CloseBraceToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.SemicolonToken,
+    		    Modified = modified.SemicolonToken
+    		};
+    		if(original.SemicolonToken != null && modified.SemicolonToken != null)
+    		{
+        		if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    		}
+    		else if(original.SemicolonToken != null)
+    			matchingSet.Originals.DisableMatching(original.SemicolonToken);
+    		else
+    			matchingSet.Modifieds.DisableMatching(modified.SemicolonToken);
+    	}    
+    
+    	/// <summary>
+        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(InterfaceDeclarationSyntax original, InterfaceDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
+    		var ignoreCore = false;
+    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
+    		if(ignoreCore) 
+    			return result;
+    		
+    		result = this.PairwisePartnersCore(original, modified, context);
+    		PairwisePartnersAfter(original, modified, context, ref result);
+    		return result;
+    	}
+    }
+    
+    partial class FieldDeclarationServiceProvider
+    {
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(FieldDeclarationSyntax, FieldDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(FieldDeclarationSyntax, FieldDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(FieldDeclarationSyntax, FieldDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(FieldDeclarationSyntax, FieldDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+        partial void PairwisePartnersBefore(FieldDeclarationSyntax original, FieldDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
+        
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(FieldDeclarationSyntax, FieldDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(FieldDeclarationSyntax, FieldDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        partial void PairwisePartnersAfter(FieldDeclarationSyntax original, FieldDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
+    
+        /// <summary>
+        /// Determines if two <see cref="FieldDeclarationSyntax"/> elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        /// <remarks>This is the default implementation for <see cref="PairwisePartners(FieldDeclarationSyntax, FieldDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
+        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(FieldDeclarationSyntax original, FieldDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		if(original == null) 
+    			throw new ArgumentNullException(nameof(original));
+    
+    		if(modified == null) 
+    			throw new ArgumentNullException(nameof(modified));
+    
+    		var matchingSet = context.Approach.MatchingSet();
+    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.SemicolonToken,
+    		    Modified = modified.SemicolonToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    	}    
+    
+    	/// <summary>
+        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(FieldDeclarationSyntax original, FieldDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
+    		var ignoreCore = false;
+    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
+    		if(ignoreCore) 
+    			return result;
+    		
+    		result = this.PairwisePartnersCore(original, modified, context);
+    		PairwisePartnersAfter(original, modified, context, ref result);
+    		return result;
+    	}
+    }
+    
+    partial class EventFieldDeclarationServiceProvider
+    {
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(EventFieldDeclarationSyntax, EventFieldDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(EventFieldDeclarationSyntax, EventFieldDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(EventFieldDeclarationSyntax, EventFieldDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(EventFieldDeclarationSyntax, EventFieldDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+        partial void PairwisePartnersBefore(EventFieldDeclarationSyntax original, EventFieldDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
+        
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(EventFieldDeclarationSyntax, EventFieldDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(EventFieldDeclarationSyntax, EventFieldDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        partial void PairwisePartnersAfter(EventFieldDeclarationSyntax original, EventFieldDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
+    
+        /// <summary>
+        /// Determines if two <see cref="EventFieldDeclarationSyntax"/> elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        /// <remarks>This is the default implementation for <see cref="PairwisePartners(EventFieldDeclarationSyntax, EventFieldDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
+        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(EventFieldDeclarationSyntax original, EventFieldDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		if(original == null) 
+    			throw new ArgumentNullException(nameof(original));
+    
+    		if(modified == null) 
+    			throw new ArgumentNullException(nameof(modified));
+    
+    		var matchingSet = context.Approach.MatchingSet();
+    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.EventKeyword,
+    		    Modified = modified.EventKeyword
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.SemicolonToken,
+    		    Modified = modified.SemicolonToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    	}    
+    
+    	/// <summary>
+        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(EventFieldDeclarationSyntax original, EventFieldDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
+    		var ignoreCore = false;
+    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
+    		if(ignoreCore) 
+    			return result;
+    		
+    		result = this.PairwisePartnersCore(original, modified, context);
+    		PairwisePartnersAfter(original, modified, context, ref result);
+    		return result;
+    	}
+    }
+    
+    partial class MethodDeclarationServiceProvider
+    {
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(MethodDeclarationSyntax, MethodDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(MethodDeclarationSyntax, MethodDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(MethodDeclarationSyntax, MethodDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(MethodDeclarationSyntax, MethodDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+        partial void PairwisePartnersBefore(MethodDeclarationSyntax original, MethodDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
+        
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(MethodDeclarationSyntax, MethodDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(MethodDeclarationSyntax, MethodDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        partial void PairwisePartnersAfter(MethodDeclarationSyntax original, MethodDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
+    
+        /// <summary>
+        /// Determines if two <see cref="MethodDeclarationSyntax"/> elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        /// <remarks>This is the default implementation for <see cref="PairwisePartners(MethodDeclarationSyntax, MethodDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
+        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(MethodDeclarationSyntax original, MethodDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
     	{
     		if(original == null) 
     			throw new ArgumentNullException(nameof(original));
@@ -2837,6 +4214,22 @@ namespace Jawilliam.CDF.CSharp.Awareness
     		};
         	if(matchingSet.PartnersIfAvailable(matchInfo))
     				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.SemicolonToken,
+    		    Modified = modified.SemicolonToken
+    		};
+    		if(original.SemicolonToken != null && modified.SemicolonToken != null)
+    		{
+        		if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    		}
+    		else if(original.SemicolonToken != null)
+    			matchingSet.Originals.DisableMatching(original.SemicolonToken);
+    		else
+    			matchingSet.Modifieds.DisableMatching(modified.SemicolonToken);
     	}    
     
     	/// <summary>
@@ -2846,7 +4239,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="modified">the modified version.</param>
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(ParameterSyntax original, ParameterSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(MethodDeclarationSyntax original, MethodDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
     	{
     		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
     		var ignoreCore = false;
@@ -2860,39 +4253,39 @@ namespace Jawilliam.CDF.CSharp.Awareness
     	}
     }
     
-    partial class CrefParameterServiceProvider
+    partial class OperatorDeclarationServiceProvider
     {
     	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(CrefParameterSyntax, CrefParameterSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(OperatorDeclarationSyntax, OperatorDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
         /// </summary>
         /// <param name="original">the original version.</param>
         /// <param name="modified">the modified version.</param>
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(CrefParameterSyntax, CrefParameterSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(CrefParameterSyntax, CrefParameterSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(CrefParameterSyntax, CrefParameterSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
-        partial void PairwisePartnersBefore(CrefParameterSyntax original, CrefParameterSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(OperatorDeclarationSyntax, OperatorDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(OperatorDeclarationSyntax, OperatorDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(OperatorDeclarationSyntax, OperatorDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+        partial void PairwisePartnersBefore(OperatorDeclarationSyntax original, OperatorDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
         
         /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(CrefParameterSyntax, CrefParameterSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(OperatorDeclarationSyntax, OperatorDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
         /// </summary>
         /// <param name="original">the original version.</param>
         /// <param name="modified">the modified version.</param>
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(CrefParameterSyntax, CrefParameterSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        partial void PairwisePartnersAfter(CrefParameterSyntax original, CrefParameterSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(OperatorDeclarationSyntax, OperatorDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        partial void PairwisePartnersAfter(OperatorDeclarationSyntax original, OperatorDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
     
         /// <summary>
-        /// Determines if two <see cref="CrefParameterSyntax"/> elements are name-based exactly equal.
+        /// Determines if two <see cref="OperatorDeclarationSyntax"/> elements are name-based exactly equal.
         /// </summary>
         /// <param name="original">the original version.</param>
         /// <param name="modified">the modified version.</param>
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
         /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="PairwisePartners(CrefParameterSyntax, CrefParameterSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
-        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(CrefParameterSyntax original, CrefParameterSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+        /// <remarks>This is the default implementation for <see cref="PairwisePartners(OperatorDeclarationSyntax, OperatorDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
+        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(OperatorDeclarationSyntax original, OperatorDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
     	{
     		if(original == null) 
     			throw new ArgumentNullException(nameof(original));
@@ -2906,18 +4299,36 @@ namespace Jawilliam.CDF.CSharp.Awareness
     		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
     		{
     		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.RefKindKeyword,
-    		    Modified = modified.RefKindKeyword
+    		    Original = original.OperatorKeyword,
+    		    Modified = modified.OperatorKeyword
     		};
-    		if(original.RefKindKeyword != null && modified.RefKindKeyword != null)
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.OperatorToken,
+    		    Modified = modified.OperatorToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.SemicolonToken,
+    		    Modified = modified.SemicolonToken
+    		};
+    		if(original.SemicolonToken != null && modified.SemicolonToken != null)
     		{
         		if(matchingSet.PartnersIfAvailable(matchInfo))
     				yield return matchInfo;
     		}
-    		else if(original.RefKindKeyword != null)
-    			matchingSet.Originals.DisableMatching(original.RefKindKeyword);
+    		else if(original.SemicolonToken != null)
+    			matchingSet.Originals.DisableMatching(original.SemicolonToken);
     		else
-    			matchingSet.Modifieds.DisableMatching(modified.RefKindKeyword);
+    			matchingSet.Modifieds.DisableMatching(modified.SemicolonToken);
     	}    
     
     	/// <summary>
@@ -2927,7 +4338,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="modified">the modified version.</param>
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(CrefParameterSyntax original, CrefParameterSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(OperatorDeclarationSyntax original, OperatorDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
     	{
     		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
     		var ignoreCore = false;
@@ -2941,39 +4352,3155 @@ namespace Jawilliam.CDF.CSharp.Awareness
     	}
     }
     
-    partial class XmlElementStartTagServiceProvider
+    partial class ConversionOperatorDeclarationServiceProvider
     {
     	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(XmlElementStartTagSyntax, XmlElementStartTagSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(ConversionOperatorDeclarationSyntax, ConversionOperatorDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
         /// </summary>
         /// <param name="original">the original version.</param>
         /// <param name="modified">the modified version.</param>
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(XmlElementStartTagSyntax, XmlElementStartTagSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(XmlElementStartTagSyntax, XmlElementStartTagSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(XmlElementStartTagSyntax, XmlElementStartTagSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
-        partial void PairwisePartnersBefore(XmlElementStartTagSyntax original, XmlElementStartTagSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(ConversionOperatorDeclarationSyntax, ConversionOperatorDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(ConversionOperatorDeclarationSyntax, ConversionOperatorDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(ConversionOperatorDeclarationSyntax, ConversionOperatorDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+        partial void PairwisePartnersBefore(ConversionOperatorDeclarationSyntax original, ConversionOperatorDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
         
         /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(XmlElementStartTagSyntax, XmlElementStartTagSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(ConversionOperatorDeclarationSyntax, ConversionOperatorDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
         /// </summary>
         /// <param name="original">the original version.</param>
         /// <param name="modified">the modified version.</param>
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(XmlElementStartTagSyntax, XmlElementStartTagSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        partial void PairwisePartnersAfter(XmlElementStartTagSyntax original, XmlElementStartTagSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(ConversionOperatorDeclarationSyntax, ConversionOperatorDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        partial void PairwisePartnersAfter(ConversionOperatorDeclarationSyntax original, ConversionOperatorDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
     
         /// <summary>
-        /// Determines if two <see cref="XmlElementStartTagSyntax"/> elements are name-based exactly equal.
+        /// Determines if two <see cref="ConversionOperatorDeclarationSyntax"/> elements are name-based exactly equal.
         /// </summary>
         /// <param name="original">the original version.</param>
         /// <param name="modified">the modified version.</param>
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
         /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="PairwisePartners(XmlElementStartTagSyntax, XmlElementStartTagSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
-        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(XmlElementStartTagSyntax original, XmlElementStartTagSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+        /// <remarks>This is the default implementation for <see cref="PairwisePartners(ConversionOperatorDeclarationSyntax, ConversionOperatorDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
+        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(ConversionOperatorDeclarationSyntax original, ConversionOperatorDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		if(original == null) 
+    			throw new ArgumentNullException(nameof(original));
+    
+    		if(modified == null) 
+    			throw new ArgumentNullException(nameof(modified));
+    
+    		var matchingSet = context.Approach.MatchingSet();
+    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.ImplicitOrExplicitKeyword,
+    		    Modified = modified.ImplicitOrExplicitKeyword
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.OperatorKeyword,
+    		    Modified = modified.OperatorKeyword
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.SemicolonToken,
+    		    Modified = modified.SemicolonToken
+    		};
+    		if(original.SemicolonToken != null && modified.SemicolonToken != null)
+    		{
+        		if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    		}
+    		else if(original.SemicolonToken != null)
+    			matchingSet.Originals.DisableMatching(original.SemicolonToken);
+    		else
+    			matchingSet.Modifieds.DisableMatching(modified.SemicolonToken);
+    	}    
+    
+    	/// <summary>
+        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(ConversionOperatorDeclarationSyntax original, ConversionOperatorDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
+    		var ignoreCore = false;
+    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
+    		if(ignoreCore) 
+    			return result;
+    		
+    		result = this.PairwisePartnersCore(original, modified, context);
+    		PairwisePartnersAfter(original, modified, context, ref result);
+    		return result;
+    	}
+    }
+    
+    partial class ConstructorDeclarationServiceProvider
+    {
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(ConstructorDeclarationSyntax, ConstructorDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(ConstructorDeclarationSyntax, ConstructorDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(ConstructorDeclarationSyntax, ConstructorDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(ConstructorDeclarationSyntax, ConstructorDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+        partial void PairwisePartnersBefore(ConstructorDeclarationSyntax original, ConstructorDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
+        
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(ConstructorDeclarationSyntax, ConstructorDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(ConstructorDeclarationSyntax, ConstructorDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        partial void PairwisePartnersAfter(ConstructorDeclarationSyntax original, ConstructorDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
+    
+        /// <summary>
+        /// Determines if two <see cref="ConstructorDeclarationSyntax"/> elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        /// <remarks>This is the default implementation for <see cref="PairwisePartners(ConstructorDeclarationSyntax, ConstructorDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
+        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(ConstructorDeclarationSyntax original, ConstructorDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		if(original == null) 
+    			throw new ArgumentNullException(nameof(original));
+    
+    		if(modified == null) 
+    			throw new ArgumentNullException(nameof(modified));
+    
+    		var matchingSet = context.Approach.MatchingSet();
+    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.Identifier,
+    		    Modified = modified.Identifier
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.SemicolonToken,
+    		    Modified = modified.SemicolonToken
+    		};
+    		if(original.SemicolonToken != null && modified.SemicolonToken != null)
+    		{
+        		if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    		}
+    		else if(original.SemicolonToken != null)
+    			matchingSet.Originals.DisableMatching(original.SemicolonToken);
+    		else
+    			matchingSet.Modifieds.DisableMatching(modified.SemicolonToken);
+    	}    
+    
+    	/// <summary>
+        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(ConstructorDeclarationSyntax original, ConstructorDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
+    		var ignoreCore = false;
+    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
+    		if(ignoreCore) 
+    			return result;
+    		
+    		result = this.PairwisePartnersCore(original, modified, context);
+    		PairwisePartnersAfter(original, modified, context, ref result);
+    		return result;
+    	}
+    }
+    
+    partial class DestructorDeclarationServiceProvider
+    {
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(DestructorDeclarationSyntax, DestructorDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(DestructorDeclarationSyntax, DestructorDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(DestructorDeclarationSyntax, DestructorDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(DestructorDeclarationSyntax, DestructorDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+        partial void PairwisePartnersBefore(DestructorDeclarationSyntax original, DestructorDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
+        
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(DestructorDeclarationSyntax, DestructorDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(DestructorDeclarationSyntax, DestructorDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        partial void PairwisePartnersAfter(DestructorDeclarationSyntax original, DestructorDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
+    
+        /// <summary>
+        /// Determines if two <see cref="DestructorDeclarationSyntax"/> elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        /// <remarks>This is the default implementation for <see cref="PairwisePartners(DestructorDeclarationSyntax, DestructorDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
+        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(DestructorDeclarationSyntax original, DestructorDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		if(original == null) 
+    			throw new ArgumentNullException(nameof(original));
+    
+    		if(modified == null) 
+    			throw new ArgumentNullException(nameof(modified));
+    
+    		var matchingSet = context.Approach.MatchingSet();
+    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.TildeToken,
+    		    Modified = modified.TildeToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.Identifier,
+    		    Modified = modified.Identifier
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.SemicolonToken,
+    		    Modified = modified.SemicolonToken
+    		};
+    		if(original.SemicolonToken != null && modified.SemicolonToken != null)
+    		{
+        		if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    		}
+    		else if(original.SemicolonToken != null)
+    			matchingSet.Originals.DisableMatching(original.SemicolonToken);
+    		else
+    			matchingSet.Modifieds.DisableMatching(modified.SemicolonToken);
+    	}    
+    
+    	/// <summary>
+        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(DestructorDeclarationSyntax original, DestructorDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
+    		var ignoreCore = false;
+    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
+    		if(ignoreCore) 
+    			return result;
+    		
+    		result = this.PairwisePartnersCore(original, modified, context);
+    		PairwisePartnersAfter(original, modified, context, ref result);
+    		return result;
+    	}
+    }
+    
+    partial class PropertyDeclarationServiceProvider
+    {
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(PropertyDeclarationSyntax, PropertyDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(PropertyDeclarationSyntax, PropertyDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(PropertyDeclarationSyntax, PropertyDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(PropertyDeclarationSyntax, PropertyDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+        partial void PairwisePartnersBefore(PropertyDeclarationSyntax original, PropertyDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
+        
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(PropertyDeclarationSyntax, PropertyDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(PropertyDeclarationSyntax, PropertyDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        partial void PairwisePartnersAfter(PropertyDeclarationSyntax original, PropertyDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
+    
+        /// <summary>
+        /// Determines if two <see cref="PropertyDeclarationSyntax"/> elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        /// <remarks>This is the default implementation for <see cref="PairwisePartners(PropertyDeclarationSyntax, PropertyDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
+        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(PropertyDeclarationSyntax original, PropertyDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		if(original == null) 
+    			throw new ArgumentNullException(nameof(original));
+    
+    		if(modified == null) 
+    			throw new ArgumentNullException(nameof(modified));
+    
+    		var matchingSet = context.Approach.MatchingSet();
+    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.Identifier,
+    		    Modified = modified.Identifier
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.SemicolonToken,
+    		    Modified = modified.SemicolonToken
+    		};
+    		if(original.SemicolonToken != null && modified.SemicolonToken != null)
+    		{
+        		if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    		}
+    		else if(original.SemicolonToken != null)
+    			matchingSet.Originals.DisableMatching(original.SemicolonToken);
+    		else
+    			matchingSet.Modifieds.DisableMatching(modified.SemicolonToken);
+    	}    
+    
+    	/// <summary>
+        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(PropertyDeclarationSyntax original, PropertyDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
+    		var ignoreCore = false;
+    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
+    		if(ignoreCore) 
+    			return result;
+    		
+    		result = this.PairwisePartnersCore(original, modified, context);
+    		PairwisePartnersAfter(original, modified, context, ref result);
+    		return result;
+    	}
+    }
+    
+    partial class EventDeclarationServiceProvider
+    {
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(EventDeclarationSyntax, EventDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(EventDeclarationSyntax, EventDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(EventDeclarationSyntax, EventDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(EventDeclarationSyntax, EventDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+        partial void PairwisePartnersBefore(EventDeclarationSyntax original, EventDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
+        
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(EventDeclarationSyntax, EventDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(EventDeclarationSyntax, EventDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        partial void PairwisePartnersAfter(EventDeclarationSyntax original, EventDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
+    
+        /// <summary>
+        /// Determines if two <see cref="EventDeclarationSyntax"/> elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        /// <remarks>This is the default implementation for <see cref="PairwisePartners(EventDeclarationSyntax, EventDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
+        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(EventDeclarationSyntax original, EventDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		if(original == null) 
+    			throw new ArgumentNullException(nameof(original));
+    
+    		if(modified == null) 
+    			throw new ArgumentNullException(nameof(modified));
+    
+    		var matchingSet = context.Approach.MatchingSet();
+    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.EventKeyword,
+    		    Modified = modified.EventKeyword
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.Identifier,
+    		    Modified = modified.Identifier
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    	}    
+    
+    	/// <summary>
+        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(EventDeclarationSyntax original, EventDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
+    		var ignoreCore = false;
+    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
+    		if(ignoreCore) 
+    			return result;
+    		
+    		result = this.PairwisePartnersCore(original, modified, context);
+    		PairwisePartnersAfter(original, modified, context, ref result);
+    		return result;
+    	}
+    }
+    
+    partial class IndexerDeclarationServiceProvider
+    {
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(IndexerDeclarationSyntax, IndexerDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(IndexerDeclarationSyntax, IndexerDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(IndexerDeclarationSyntax, IndexerDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(IndexerDeclarationSyntax, IndexerDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+        partial void PairwisePartnersBefore(IndexerDeclarationSyntax original, IndexerDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
+        
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(IndexerDeclarationSyntax, IndexerDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(IndexerDeclarationSyntax, IndexerDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        partial void PairwisePartnersAfter(IndexerDeclarationSyntax original, IndexerDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
+    
+        /// <summary>
+        /// Determines if two <see cref="IndexerDeclarationSyntax"/> elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        /// <remarks>This is the default implementation for <see cref="PairwisePartners(IndexerDeclarationSyntax, IndexerDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
+        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(IndexerDeclarationSyntax original, IndexerDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		if(original == null) 
+    			throw new ArgumentNullException(nameof(original));
+    
+    		if(modified == null) 
+    			throw new ArgumentNullException(nameof(modified));
+    
+    		var matchingSet = context.Approach.MatchingSet();
+    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.ThisKeyword,
+    		    Modified = modified.ThisKeyword
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.SemicolonToken,
+    		    Modified = modified.SemicolonToken
+    		};
+    		if(original.SemicolonToken != null && modified.SemicolonToken != null)
+    		{
+        		if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    		}
+    		else if(original.SemicolonToken != null)
+    			matchingSet.Originals.DisableMatching(original.SemicolonToken);
+    		else
+    			matchingSet.Modifieds.DisableMatching(modified.SemicolonToken);
+    	}    
+    
+    	/// <summary>
+        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(IndexerDeclarationSyntax original, IndexerDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
+    		var ignoreCore = false;
+    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
+    		if(ignoreCore) 
+    			return result;
+    		
+    		result = this.PairwisePartnersCore(original, modified, context);
+    		PairwisePartnersAfter(original, modified, context, ref result);
+    		return result;
+    	}
+    }
+    
+    partial class ConstructorConstraintServiceProvider
+    {
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(ConstructorConstraintSyntax, ConstructorConstraintSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(ConstructorConstraintSyntax, ConstructorConstraintSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(ConstructorConstraintSyntax, ConstructorConstraintSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(ConstructorConstraintSyntax, ConstructorConstraintSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+        partial void PairwisePartnersBefore(ConstructorConstraintSyntax original, ConstructorConstraintSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
+        
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(ConstructorConstraintSyntax, ConstructorConstraintSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(ConstructorConstraintSyntax, ConstructorConstraintSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        partial void PairwisePartnersAfter(ConstructorConstraintSyntax original, ConstructorConstraintSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
+    
+        /// <summary>
+        /// Determines if two <see cref="ConstructorConstraintSyntax"/> elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        /// <remarks>This is the default implementation for <see cref="PairwisePartners(ConstructorConstraintSyntax, ConstructorConstraintSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
+        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(ConstructorConstraintSyntax original, ConstructorConstraintSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		if(original == null) 
+    			throw new ArgumentNullException(nameof(original));
+    
+    		if(modified == null) 
+    			throw new ArgumentNullException(nameof(modified));
+    
+    		var matchingSet = context.Approach.MatchingSet();
+    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.NewKeyword,
+    		    Modified = modified.NewKeyword
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.OpenParenToken,
+    		    Modified = modified.OpenParenToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.CloseParenToken,
+    		    Modified = modified.CloseParenToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    	}    
+    
+    	/// <summary>
+        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(ConstructorConstraintSyntax original, ConstructorConstraintSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
+    		var ignoreCore = false;
+    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
+    		if(ignoreCore) 
+    			return result;
+    		
+    		result = this.PairwisePartnersCore(original, modified, context);
+    		PairwisePartnersAfter(original, modified, context, ref result);
+    		return result;
+    	}
+    }
+    
+    partial class ClassOrStructConstraintServiceProvider
+    {
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(ClassOrStructConstraintSyntax, ClassOrStructConstraintSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(ClassOrStructConstraintSyntax, ClassOrStructConstraintSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(ClassOrStructConstraintSyntax, ClassOrStructConstraintSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(ClassOrStructConstraintSyntax, ClassOrStructConstraintSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+        partial void PairwisePartnersBefore(ClassOrStructConstraintSyntax original, ClassOrStructConstraintSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
+        
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(ClassOrStructConstraintSyntax, ClassOrStructConstraintSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(ClassOrStructConstraintSyntax, ClassOrStructConstraintSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        partial void PairwisePartnersAfter(ClassOrStructConstraintSyntax original, ClassOrStructConstraintSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
+    
+        /// <summary>
+        /// Determines if two <see cref="ClassOrStructConstraintSyntax"/> elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        /// <remarks>This is the default implementation for <see cref="PairwisePartners(ClassOrStructConstraintSyntax, ClassOrStructConstraintSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
+        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(ClassOrStructConstraintSyntax original, ClassOrStructConstraintSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		if(original == null) 
+    			throw new ArgumentNullException(nameof(original));
+    
+    		if(modified == null) 
+    			throw new ArgumentNullException(nameof(modified));
+    
+    		var matchingSet = context.Approach.MatchingSet();
+    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.ClassOrStructKeyword,
+    		    Modified = modified.ClassOrStructKeyword
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    	}    
+    
+    	/// <summary>
+        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(ClassOrStructConstraintSyntax original, ClassOrStructConstraintSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
+    		var ignoreCore = false;
+    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
+    		if(ignoreCore) 
+    			return result;
+    		
+    		result = this.PairwisePartnersCore(original, modified, context);
+    		PairwisePartnersAfter(original, modified, context, ref result);
+    		return result;
+    	}
+    }
+    
+    partial class ParameterListServiceProvider
+    {
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(ParameterListSyntax, ParameterListSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(ParameterListSyntax, ParameterListSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(ParameterListSyntax, ParameterListSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(ParameterListSyntax, ParameterListSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+        partial void PairwisePartnersBefore(ParameterListSyntax original, ParameterListSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
+        
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(ParameterListSyntax, ParameterListSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(ParameterListSyntax, ParameterListSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        partial void PairwisePartnersAfter(ParameterListSyntax original, ParameterListSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
+    
+        /// <summary>
+        /// Determines if two <see cref="ParameterListSyntax"/> elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        /// <remarks>This is the default implementation for <see cref="PairwisePartners(ParameterListSyntax, ParameterListSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
+        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(ParameterListSyntax original, ParameterListSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		if(original == null) 
+    			throw new ArgumentNullException(nameof(original));
+    
+    		if(modified == null) 
+    			throw new ArgumentNullException(nameof(modified));
+    
+    		var matchingSet = context.Approach.MatchingSet();
+    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.OpenParenToken,
+    		    Modified = modified.OpenParenToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.CloseParenToken,
+    		    Modified = modified.CloseParenToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    	}    
+    
+    	/// <summary>
+        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(ParameterListSyntax original, ParameterListSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
+    		var ignoreCore = false;
+    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
+    		if(ignoreCore) 
+    			return result;
+    		
+    		result = this.PairwisePartnersCore(original, modified, context);
+    		PairwisePartnersAfter(original, modified, context, ref result);
+    		return result;
+    	}
+    }
+    
+    partial class BracketedParameterListServiceProvider
+    {
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(BracketedParameterListSyntax, BracketedParameterListSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(BracketedParameterListSyntax, BracketedParameterListSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(BracketedParameterListSyntax, BracketedParameterListSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(BracketedParameterListSyntax, BracketedParameterListSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+        partial void PairwisePartnersBefore(BracketedParameterListSyntax original, BracketedParameterListSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
+        
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(BracketedParameterListSyntax, BracketedParameterListSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(BracketedParameterListSyntax, BracketedParameterListSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        partial void PairwisePartnersAfter(BracketedParameterListSyntax original, BracketedParameterListSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
+    
+        /// <summary>
+        /// Determines if two <see cref="BracketedParameterListSyntax"/> elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        /// <remarks>This is the default implementation for <see cref="PairwisePartners(BracketedParameterListSyntax, BracketedParameterListSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
+        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(BracketedParameterListSyntax original, BracketedParameterListSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		if(original == null) 
+    			throw new ArgumentNullException(nameof(original));
+    
+    		if(modified == null) 
+    			throw new ArgumentNullException(nameof(modified));
+    
+    		var matchingSet = context.Approach.MatchingSet();
+    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.OpenBracketToken,
+    		    Modified = modified.OpenBracketToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.CloseBracketToken,
+    		    Modified = modified.CloseBracketToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    	}    
+    
+    	/// <summary>
+        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(BracketedParameterListSyntax original, BracketedParameterListSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
+    		var ignoreCore = false;
+    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
+    		if(ignoreCore) 
+    			return result;
+    		
+    		result = this.PairwisePartnersCore(original, modified, context);
+    		PairwisePartnersAfter(original, modified, context, ref result);
+    		return result;
+    	}
+    }
+    
+    partial class DocumentationCommentTriviaServiceProvider
+    {
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(DocumentationCommentTriviaSyntax, DocumentationCommentTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(DocumentationCommentTriviaSyntax, DocumentationCommentTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(DocumentationCommentTriviaSyntax, DocumentationCommentTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(DocumentationCommentTriviaSyntax, DocumentationCommentTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+        partial void PairwisePartnersBefore(DocumentationCommentTriviaSyntax original, DocumentationCommentTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
+        
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(DocumentationCommentTriviaSyntax, DocumentationCommentTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(DocumentationCommentTriviaSyntax, DocumentationCommentTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        partial void PairwisePartnersAfter(DocumentationCommentTriviaSyntax original, DocumentationCommentTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
+    
+        /// <summary>
+        /// Determines if two <see cref="DocumentationCommentTriviaSyntax"/> elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        /// <remarks>This is the default implementation for <see cref="PairwisePartners(DocumentationCommentTriviaSyntax, DocumentationCommentTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
+        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(DocumentationCommentTriviaSyntax original, DocumentationCommentTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		if(original == null) 
+    			throw new ArgumentNullException(nameof(original));
+    
+    		if(modified == null) 
+    			throw new ArgumentNullException(nameof(modified));
+    
+    		var matchingSet = context.Approach.MatchingSet();
+    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.EndOfComment,
+    		    Modified = modified.EndOfComment
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    	}    
+    
+    	/// <summary>
+        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(DocumentationCommentTriviaSyntax original, DocumentationCommentTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
+    		var ignoreCore = false;
+    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
+    		if(ignoreCore) 
+    			return result;
+    		
+    		result = this.PairwisePartnersCore(original, modified, context);
+    		PairwisePartnersAfter(original, modified, context, ref result);
+    		return result;
+    	}
+    }
+    
+    partial class EndIfDirectiveTriviaServiceProvider
+    {
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(EndIfDirectiveTriviaSyntax, EndIfDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(EndIfDirectiveTriviaSyntax, EndIfDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(EndIfDirectiveTriviaSyntax, EndIfDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(EndIfDirectiveTriviaSyntax, EndIfDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+        partial void PairwisePartnersBefore(EndIfDirectiveTriviaSyntax original, EndIfDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
+        
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(EndIfDirectiveTriviaSyntax, EndIfDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(EndIfDirectiveTriviaSyntax, EndIfDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        partial void PairwisePartnersAfter(EndIfDirectiveTriviaSyntax original, EndIfDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
+    
+        /// <summary>
+        /// Determines if two <see cref="EndIfDirectiveTriviaSyntax"/> elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        /// <remarks>This is the default implementation for <see cref="PairwisePartners(EndIfDirectiveTriviaSyntax, EndIfDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
+        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(EndIfDirectiveTriviaSyntax original, EndIfDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		if(original == null) 
+    			throw new ArgumentNullException(nameof(original));
+    
+    		if(modified == null) 
+    			throw new ArgumentNullException(nameof(modified));
+    
+    		var matchingSet = context.Approach.MatchingSet();
+    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.HashToken,
+    		    Modified = modified.HashToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.EndIfKeyword,
+    		    Modified = modified.EndIfKeyword
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.EndOfDirectiveToken,
+    		    Modified = modified.EndOfDirectiveToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    	}    
+    
+    	/// <summary>
+        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(EndIfDirectiveTriviaSyntax original, EndIfDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
+    		var ignoreCore = false;
+    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
+    		if(ignoreCore) 
+    			return result;
+    		
+    		result = this.PairwisePartnersCore(original, modified, context);
+    		PairwisePartnersAfter(original, modified, context, ref result);
+    		return result;
+    	}
+    }
+    
+    partial class RegionDirectiveTriviaServiceProvider
+    {
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(RegionDirectiveTriviaSyntax, RegionDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(RegionDirectiveTriviaSyntax, RegionDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(RegionDirectiveTriviaSyntax, RegionDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(RegionDirectiveTriviaSyntax, RegionDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+        partial void PairwisePartnersBefore(RegionDirectiveTriviaSyntax original, RegionDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
+        
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(RegionDirectiveTriviaSyntax, RegionDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(RegionDirectiveTriviaSyntax, RegionDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        partial void PairwisePartnersAfter(RegionDirectiveTriviaSyntax original, RegionDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
+    
+        /// <summary>
+        /// Determines if two <see cref="RegionDirectiveTriviaSyntax"/> elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        /// <remarks>This is the default implementation for <see cref="PairwisePartners(RegionDirectiveTriviaSyntax, RegionDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
+        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(RegionDirectiveTriviaSyntax original, RegionDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		if(original == null) 
+    			throw new ArgumentNullException(nameof(original));
+    
+    		if(modified == null) 
+    			throw new ArgumentNullException(nameof(modified));
+    
+    		var matchingSet = context.Approach.MatchingSet();
+    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.HashToken,
+    		    Modified = modified.HashToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.RegionKeyword,
+    		    Modified = modified.RegionKeyword
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.EndOfDirectiveToken,
+    		    Modified = modified.EndOfDirectiveToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    	}    
+    
+    	/// <summary>
+        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(RegionDirectiveTriviaSyntax original, RegionDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
+    		var ignoreCore = false;
+    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
+    		if(ignoreCore) 
+    			return result;
+    		
+    		result = this.PairwisePartnersCore(original, modified, context);
+    		PairwisePartnersAfter(original, modified, context, ref result);
+    		return result;
+    	}
+    }
+    
+    partial class EndRegionDirectiveTriviaServiceProvider
+    {
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(EndRegionDirectiveTriviaSyntax, EndRegionDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(EndRegionDirectiveTriviaSyntax, EndRegionDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(EndRegionDirectiveTriviaSyntax, EndRegionDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(EndRegionDirectiveTriviaSyntax, EndRegionDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+        partial void PairwisePartnersBefore(EndRegionDirectiveTriviaSyntax original, EndRegionDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
+        
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(EndRegionDirectiveTriviaSyntax, EndRegionDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(EndRegionDirectiveTriviaSyntax, EndRegionDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        partial void PairwisePartnersAfter(EndRegionDirectiveTriviaSyntax original, EndRegionDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
+    
+        /// <summary>
+        /// Determines if two <see cref="EndRegionDirectiveTriviaSyntax"/> elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        /// <remarks>This is the default implementation for <see cref="PairwisePartners(EndRegionDirectiveTriviaSyntax, EndRegionDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
+        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(EndRegionDirectiveTriviaSyntax original, EndRegionDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		if(original == null) 
+    			throw new ArgumentNullException(nameof(original));
+    
+    		if(modified == null) 
+    			throw new ArgumentNullException(nameof(modified));
+    
+    		var matchingSet = context.Approach.MatchingSet();
+    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.HashToken,
+    		    Modified = modified.HashToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.EndRegionKeyword,
+    		    Modified = modified.EndRegionKeyword
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.EndOfDirectiveToken,
+    		    Modified = modified.EndOfDirectiveToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    	}    
+    
+    	/// <summary>
+        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(EndRegionDirectiveTriviaSyntax original, EndRegionDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
+    		var ignoreCore = false;
+    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
+    		if(ignoreCore) 
+    			return result;
+    		
+    		result = this.PairwisePartnersCore(original, modified, context);
+    		PairwisePartnersAfter(original, modified, context, ref result);
+    		return result;
+    	}
+    }
+    
+    partial class ErrorDirectiveTriviaServiceProvider
+    {
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(ErrorDirectiveTriviaSyntax, ErrorDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(ErrorDirectiveTriviaSyntax, ErrorDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(ErrorDirectiveTriviaSyntax, ErrorDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(ErrorDirectiveTriviaSyntax, ErrorDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+        partial void PairwisePartnersBefore(ErrorDirectiveTriviaSyntax original, ErrorDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
+        
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(ErrorDirectiveTriviaSyntax, ErrorDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(ErrorDirectiveTriviaSyntax, ErrorDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        partial void PairwisePartnersAfter(ErrorDirectiveTriviaSyntax original, ErrorDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
+    
+        /// <summary>
+        /// Determines if two <see cref="ErrorDirectiveTriviaSyntax"/> elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        /// <remarks>This is the default implementation for <see cref="PairwisePartners(ErrorDirectiveTriviaSyntax, ErrorDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
+        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(ErrorDirectiveTriviaSyntax original, ErrorDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		if(original == null) 
+    			throw new ArgumentNullException(nameof(original));
+    
+    		if(modified == null) 
+    			throw new ArgumentNullException(nameof(modified));
+    
+    		var matchingSet = context.Approach.MatchingSet();
+    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.HashToken,
+    		    Modified = modified.HashToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.ErrorKeyword,
+    		    Modified = modified.ErrorKeyword
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.EndOfDirectiveToken,
+    		    Modified = modified.EndOfDirectiveToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    	}    
+    
+    	/// <summary>
+        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(ErrorDirectiveTriviaSyntax original, ErrorDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
+    		var ignoreCore = false;
+    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
+    		if(ignoreCore) 
+    			return result;
+    		
+    		result = this.PairwisePartnersCore(original, modified, context);
+    		PairwisePartnersAfter(original, modified, context, ref result);
+    		return result;
+    	}
+    }
+    
+    partial class WarningDirectiveTriviaServiceProvider
+    {
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(WarningDirectiveTriviaSyntax, WarningDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(WarningDirectiveTriviaSyntax, WarningDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(WarningDirectiveTriviaSyntax, WarningDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(WarningDirectiveTriviaSyntax, WarningDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+        partial void PairwisePartnersBefore(WarningDirectiveTriviaSyntax original, WarningDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
+        
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(WarningDirectiveTriviaSyntax, WarningDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(WarningDirectiveTriviaSyntax, WarningDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        partial void PairwisePartnersAfter(WarningDirectiveTriviaSyntax original, WarningDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
+    
+        /// <summary>
+        /// Determines if two <see cref="WarningDirectiveTriviaSyntax"/> elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        /// <remarks>This is the default implementation for <see cref="PairwisePartners(WarningDirectiveTriviaSyntax, WarningDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
+        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(WarningDirectiveTriviaSyntax original, WarningDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		if(original == null) 
+    			throw new ArgumentNullException(nameof(original));
+    
+    		if(modified == null) 
+    			throw new ArgumentNullException(nameof(modified));
+    
+    		var matchingSet = context.Approach.MatchingSet();
+    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.HashToken,
+    		    Modified = modified.HashToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.WarningKeyword,
+    		    Modified = modified.WarningKeyword
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.EndOfDirectiveToken,
+    		    Modified = modified.EndOfDirectiveToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    	}    
+    
+    	/// <summary>
+        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(WarningDirectiveTriviaSyntax original, WarningDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
+    		var ignoreCore = false;
+    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
+    		if(ignoreCore) 
+    			return result;
+    		
+    		result = this.PairwisePartnersCore(original, modified, context);
+    		PairwisePartnersAfter(original, modified, context, ref result);
+    		return result;
+    	}
+    }
+    
+    partial class BadDirectiveTriviaServiceProvider
+    {
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(BadDirectiveTriviaSyntax, BadDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(BadDirectiveTriviaSyntax, BadDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(BadDirectiveTriviaSyntax, BadDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(BadDirectiveTriviaSyntax, BadDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+        partial void PairwisePartnersBefore(BadDirectiveTriviaSyntax original, BadDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
+        
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(BadDirectiveTriviaSyntax, BadDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(BadDirectiveTriviaSyntax, BadDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        partial void PairwisePartnersAfter(BadDirectiveTriviaSyntax original, BadDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
+    
+        /// <summary>
+        /// Determines if two <see cref="BadDirectiveTriviaSyntax"/> elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        /// <remarks>This is the default implementation for <see cref="PairwisePartners(BadDirectiveTriviaSyntax, BadDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
+        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(BadDirectiveTriviaSyntax original, BadDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		if(original == null) 
+    			throw new ArgumentNullException(nameof(original));
+    
+    		if(modified == null) 
+    			throw new ArgumentNullException(nameof(modified));
+    
+    		var matchingSet = context.Approach.MatchingSet();
+    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.HashToken,
+    		    Modified = modified.HashToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.Identifier,
+    		    Modified = modified.Identifier
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.EndOfDirectiveToken,
+    		    Modified = modified.EndOfDirectiveToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    	}    
+    
+    	/// <summary>
+        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(BadDirectiveTriviaSyntax original, BadDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
+    		var ignoreCore = false;
+    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
+    		if(ignoreCore) 
+    			return result;
+    		
+    		result = this.PairwisePartnersCore(original, modified, context);
+    		PairwisePartnersAfter(original, modified, context, ref result);
+    		return result;
+    	}
+    }
+    
+    partial class DefineDirectiveTriviaServiceProvider
+    {
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(DefineDirectiveTriviaSyntax, DefineDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(DefineDirectiveTriviaSyntax, DefineDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(DefineDirectiveTriviaSyntax, DefineDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(DefineDirectiveTriviaSyntax, DefineDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+        partial void PairwisePartnersBefore(DefineDirectiveTriviaSyntax original, DefineDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
+        
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(DefineDirectiveTriviaSyntax, DefineDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(DefineDirectiveTriviaSyntax, DefineDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        partial void PairwisePartnersAfter(DefineDirectiveTriviaSyntax original, DefineDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
+    
+        /// <summary>
+        /// Determines if two <see cref="DefineDirectiveTriviaSyntax"/> elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        /// <remarks>This is the default implementation for <see cref="PairwisePartners(DefineDirectiveTriviaSyntax, DefineDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
+        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(DefineDirectiveTriviaSyntax original, DefineDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		if(original == null) 
+    			throw new ArgumentNullException(nameof(original));
+    
+    		if(modified == null) 
+    			throw new ArgumentNullException(nameof(modified));
+    
+    		var matchingSet = context.Approach.MatchingSet();
+    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.HashToken,
+    		    Modified = modified.HashToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.DefineKeyword,
+    		    Modified = modified.DefineKeyword
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.Name,
+    		    Modified = modified.Name
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.EndOfDirectiveToken,
+    		    Modified = modified.EndOfDirectiveToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    	}    
+    
+    	/// <summary>
+        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(DefineDirectiveTriviaSyntax original, DefineDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
+    		var ignoreCore = false;
+    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
+    		if(ignoreCore) 
+    			return result;
+    		
+    		result = this.PairwisePartnersCore(original, modified, context);
+    		PairwisePartnersAfter(original, modified, context, ref result);
+    		return result;
+    	}
+    }
+    
+    partial class UndefDirectiveTriviaServiceProvider
+    {
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(UndefDirectiveTriviaSyntax, UndefDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(UndefDirectiveTriviaSyntax, UndefDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(UndefDirectiveTriviaSyntax, UndefDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(UndefDirectiveTriviaSyntax, UndefDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+        partial void PairwisePartnersBefore(UndefDirectiveTriviaSyntax original, UndefDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
+        
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(UndefDirectiveTriviaSyntax, UndefDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(UndefDirectiveTriviaSyntax, UndefDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        partial void PairwisePartnersAfter(UndefDirectiveTriviaSyntax original, UndefDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
+    
+        /// <summary>
+        /// Determines if two <see cref="UndefDirectiveTriviaSyntax"/> elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        /// <remarks>This is the default implementation for <see cref="PairwisePartners(UndefDirectiveTriviaSyntax, UndefDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
+        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(UndefDirectiveTriviaSyntax original, UndefDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		if(original == null) 
+    			throw new ArgumentNullException(nameof(original));
+    
+    		if(modified == null) 
+    			throw new ArgumentNullException(nameof(modified));
+    
+    		var matchingSet = context.Approach.MatchingSet();
+    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.HashToken,
+    		    Modified = modified.HashToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.UndefKeyword,
+    		    Modified = modified.UndefKeyword
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.Name,
+    		    Modified = modified.Name
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.EndOfDirectiveToken,
+    		    Modified = modified.EndOfDirectiveToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    	}    
+    
+    	/// <summary>
+        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(UndefDirectiveTriviaSyntax original, UndefDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
+    		var ignoreCore = false;
+    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
+    		if(ignoreCore) 
+    			return result;
+    		
+    		result = this.PairwisePartnersCore(original, modified, context);
+    		PairwisePartnersAfter(original, modified, context, ref result);
+    		return result;
+    	}
+    }
+    
+    partial class LineDirectiveTriviaServiceProvider
+    {
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(LineDirectiveTriviaSyntax, LineDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(LineDirectiveTriviaSyntax, LineDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(LineDirectiveTriviaSyntax, LineDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(LineDirectiveTriviaSyntax, LineDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+        partial void PairwisePartnersBefore(LineDirectiveTriviaSyntax original, LineDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
+        
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(LineDirectiveTriviaSyntax, LineDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(LineDirectiveTriviaSyntax, LineDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        partial void PairwisePartnersAfter(LineDirectiveTriviaSyntax original, LineDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
+    
+        /// <summary>
+        /// Determines if two <see cref="LineDirectiveTriviaSyntax"/> elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        /// <remarks>This is the default implementation for <see cref="PairwisePartners(LineDirectiveTriviaSyntax, LineDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
+        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(LineDirectiveTriviaSyntax original, LineDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		if(original == null) 
+    			throw new ArgumentNullException(nameof(original));
+    
+    		if(modified == null) 
+    			throw new ArgumentNullException(nameof(modified));
+    
+    		var matchingSet = context.Approach.MatchingSet();
+    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.HashToken,
+    		    Modified = modified.HashToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.LineKeyword,
+    		    Modified = modified.LineKeyword
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.Line,
+    		    Modified = modified.Line
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.File,
+    		    Modified = modified.File
+    		};
+    		if(original.File != null && modified.File != null)
+    		{
+        		if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    		}
+    		else if(original.File != null)
+    			matchingSet.Originals.DisableMatching(original.File);
+    		else
+    			matchingSet.Modifieds.DisableMatching(modified.File);
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.EndOfDirectiveToken,
+    		    Modified = modified.EndOfDirectiveToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    	}    
+    
+    	/// <summary>
+        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(LineDirectiveTriviaSyntax original, LineDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
+    		var ignoreCore = false;
+    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
+    		if(ignoreCore) 
+    			return result;
+    		
+    		result = this.PairwisePartnersCore(original, modified, context);
+    		PairwisePartnersAfter(original, modified, context, ref result);
+    		return result;
+    	}
+    }
+    
+    partial class PragmaWarningDirectiveTriviaServiceProvider
+    {
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(PragmaWarningDirectiveTriviaSyntax, PragmaWarningDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(PragmaWarningDirectiveTriviaSyntax, PragmaWarningDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(PragmaWarningDirectiveTriviaSyntax, PragmaWarningDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(PragmaWarningDirectiveTriviaSyntax, PragmaWarningDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+        partial void PairwisePartnersBefore(PragmaWarningDirectiveTriviaSyntax original, PragmaWarningDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
+        
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(PragmaWarningDirectiveTriviaSyntax, PragmaWarningDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(PragmaWarningDirectiveTriviaSyntax, PragmaWarningDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        partial void PairwisePartnersAfter(PragmaWarningDirectiveTriviaSyntax original, PragmaWarningDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
+    
+        /// <summary>
+        /// Determines if two <see cref="PragmaWarningDirectiveTriviaSyntax"/> elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        /// <remarks>This is the default implementation for <see cref="PairwisePartners(PragmaWarningDirectiveTriviaSyntax, PragmaWarningDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
+        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(PragmaWarningDirectiveTriviaSyntax original, PragmaWarningDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		if(original == null) 
+    			throw new ArgumentNullException(nameof(original));
+    
+    		if(modified == null) 
+    			throw new ArgumentNullException(nameof(modified));
+    
+    		var matchingSet = context.Approach.MatchingSet();
+    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.HashToken,
+    		    Modified = modified.HashToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.PragmaKeyword,
+    		    Modified = modified.PragmaKeyword
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.WarningKeyword,
+    		    Modified = modified.WarningKeyword
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.DisableOrRestoreKeyword,
+    		    Modified = modified.DisableOrRestoreKeyword
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.EndOfDirectiveToken,
+    		    Modified = modified.EndOfDirectiveToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    	}    
+    
+    	/// <summary>
+        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(PragmaWarningDirectiveTriviaSyntax original, PragmaWarningDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
+    		var ignoreCore = false;
+    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
+    		if(ignoreCore) 
+    			return result;
+    		
+    		result = this.PairwisePartnersCore(original, modified, context);
+    		PairwisePartnersAfter(original, modified, context, ref result);
+    		return result;
+    	}
+    }
+    
+    partial class PragmaChecksumDirectiveTriviaServiceProvider
+    {
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(PragmaChecksumDirectiveTriviaSyntax, PragmaChecksumDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(PragmaChecksumDirectiveTriviaSyntax, PragmaChecksumDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(PragmaChecksumDirectiveTriviaSyntax, PragmaChecksumDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(PragmaChecksumDirectiveTriviaSyntax, PragmaChecksumDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+        partial void PairwisePartnersBefore(PragmaChecksumDirectiveTriviaSyntax original, PragmaChecksumDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
+        
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(PragmaChecksumDirectiveTriviaSyntax, PragmaChecksumDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(PragmaChecksumDirectiveTriviaSyntax, PragmaChecksumDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        partial void PairwisePartnersAfter(PragmaChecksumDirectiveTriviaSyntax original, PragmaChecksumDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
+    
+        /// <summary>
+        /// Determines if two <see cref="PragmaChecksumDirectiveTriviaSyntax"/> elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        /// <remarks>This is the default implementation for <see cref="PairwisePartners(PragmaChecksumDirectiveTriviaSyntax, PragmaChecksumDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
+        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(PragmaChecksumDirectiveTriviaSyntax original, PragmaChecksumDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		if(original == null) 
+    			throw new ArgumentNullException(nameof(original));
+    
+    		if(modified == null) 
+    			throw new ArgumentNullException(nameof(modified));
+    
+    		var matchingSet = context.Approach.MatchingSet();
+    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.HashToken,
+    		    Modified = modified.HashToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.PragmaKeyword,
+    		    Modified = modified.PragmaKeyword
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.ChecksumKeyword,
+    		    Modified = modified.ChecksumKeyword
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.File,
+    		    Modified = modified.File
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.Guid,
+    		    Modified = modified.Guid
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.Bytes,
+    		    Modified = modified.Bytes
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.EndOfDirectiveToken,
+    		    Modified = modified.EndOfDirectiveToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    	}    
+    
+    	/// <summary>
+        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(PragmaChecksumDirectiveTriviaSyntax original, PragmaChecksumDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
+    		var ignoreCore = false;
+    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
+    		if(ignoreCore) 
+    			return result;
+    		
+    		result = this.PairwisePartnersCore(original, modified, context);
+    		PairwisePartnersAfter(original, modified, context, ref result);
+    		return result;
+    	}
+    }
+    
+    partial class ReferenceDirectiveTriviaServiceProvider
+    {
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(ReferenceDirectiveTriviaSyntax, ReferenceDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(ReferenceDirectiveTriviaSyntax, ReferenceDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(ReferenceDirectiveTriviaSyntax, ReferenceDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(ReferenceDirectiveTriviaSyntax, ReferenceDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+        partial void PairwisePartnersBefore(ReferenceDirectiveTriviaSyntax original, ReferenceDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
+        
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(ReferenceDirectiveTriviaSyntax, ReferenceDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(ReferenceDirectiveTriviaSyntax, ReferenceDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        partial void PairwisePartnersAfter(ReferenceDirectiveTriviaSyntax original, ReferenceDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
+    
+        /// <summary>
+        /// Determines if two <see cref="ReferenceDirectiveTriviaSyntax"/> elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        /// <remarks>This is the default implementation for <see cref="PairwisePartners(ReferenceDirectiveTriviaSyntax, ReferenceDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
+        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(ReferenceDirectiveTriviaSyntax original, ReferenceDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		if(original == null) 
+    			throw new ArgumentNullException(nameof(original));
+    
+    		if(modified == null) 
+    			throw new ArgumentNullException(nameof(modified));
+    
+    		var matchingSet = context.Approach.MatchingSet();
+    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.HashToken,
+    		    Modified = modified.HashToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.ReferenceKeyword,
+    		    Modified = modified.ReferenceKeyword
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.File,
+    		    Modified = modified.File
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.EndOfDirectiveToken,
+    		    Modified = modified.EndOfDirectiveToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    	}    
+    
+    	/// <summary>
+        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(ReferenceDirectiveTriviaSyntax original, ReferenceDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
+    		var ignoreCore = false;
+    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
+    		if(ignoreCore) 
+    			return result;
+    		
+    		result = this.PairwisePartnersCore(original, modified, context);
+    		PairwisePartnersAfter(original, modified, context, ref result);
+    		return result;
+    	}
+    }
+    
+    partial class LoadDirectiveTriviaServiceProvider
+    {
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(LoadDirectiveTriviaSyntax, LoadDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(LoadDirectiveTriviaSyntax, LoadDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(LoadDirectiveTriviaSyntax, LoadDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(LoadDirectiveTriviaSyntax, LoadDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+        partial void PairwisePartnersBefore(LoadDirectiveTriviaSyntax original, LoadDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
+        
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(LoadDirectiveTriviaSyntax, LoadDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(LoadDirectiveTriviaSyntax, LoadDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        partial void PairwisePartnersAfter(LoadDirectiveTriviaSyntax original, LoadDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
+    
+        /// <summary>
+        /// Determines if two <see cref="LoadDirectiveTriviaSyntax"/> elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        /// <remarks>This is the default implementation for <see cref="PairwisePartners(LoadDirectiveTriviaSyntax, LoadDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
+        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(LoadDirectiveTriviaSyntax original, LoadDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		if(original == null) 
+    			throw new ArgumentNullException(nameof(original));
+    
+    		if(modified == null) 
+    			throw new ArgumentNullException(nameof(modified));
+    
+    		var matchingSet = context.Approach.MatchingSet();
+    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.HashToken,
+    		    Modified = modified.HashToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.LoadKeyword,
+    		    Modified = modified.LoadKeyword
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.File,
+    		    Modified = modified.File
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.EndOfDirectiveToken,
+    		    Modified = modified.EndOfDirectiveToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    	}    
+    
+    	/// <summary>
+        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(LoadDirectiveTriviaSyntax original, LoadDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
+    		var ignoreCore = false;
+    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
+    		if(ignoreCore) 
+    			return result;
+    		
+    		result = this.PairwisePartnersCore(original, modified, context);
+    		PairwisePartnersAfter(original, modified, context, ref result);
+    		return result;
+    	}
+    }
+    
+    partial class ShebangDirectiveTriviaServiceProvider
+    {
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(ShebangDirectiveTriviaSyntax, ShebangDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(ShebangDirectiveTriviaSyntax, ShebangDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(ShebangDirectiveTriviaSyntax, ShebangDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(ShebangDirectiveTriviaSyntax, ShebangDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+        partial void PairwisePartnersBefore(ShebangDirectiveTriviaSyntax original, ShebangDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
+        
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(ShebangDirectiveTriviaSyntax, ShebangDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(ShebangDirectiveTriviaSyntax, ShebangDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        partial void PairwisePartnersAfter(ShebangDirectiveTriviaSyntax original, ShebangDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
+    
+        /// <summary>
+        /// Determines if two <see cref="ShebangDirectiveTriviaSyntax"/> elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        /// <remarks>This is the default implementation for <see cref="PairwisePartners(ShebangDirectiveTriviaSyntax, ShebangDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
+        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(ShebangDirectiveTriviaSyntax original, ShebangDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		if(original == null) 
+    			throw new ArgumentNullException(nameof(original));
+    
+    		if(modified == null) 
+    			throw new ArgumentNullException(nameof(modified));
+    
+    		var matchingSet = context.Approach.MatchingSet();
+    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.HashToken,
+    		    Modified = modified.HashToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.ExclamationToken,
+    		    Modified = modified.ExclamationToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.EndOfDirectiveToken,
+    		    Modified = modified.EndOfDirectiveToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    	}    
+    
+    	/// <summary>
+        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(ShebangDirectiveTriviaSyntax original, ShebangDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
+    		var ignoreCore = false;
+    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
+    		if(ignoreCore) 
+    			return result;
+    		
+    		result = this.PairwisePartnersCore(original, modified, context);
+    		PairwisePartnersAfter(original, modified, context, ref result);
+    		return result;
+    	}
+    }
+    
+    partial class ElseDirectiveTriviaServiceProvider
+    {
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(ElseDirectiveTriviaSyntax, ElseDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(ElseDirectiveTriviaSyntax, ElseDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(ElseDirectiveTriviaSyntax, ElseDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(ElseDirectiveTriviaSyntax, ElseDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+        partial void PairwisePartnersBefore(ElseDirectiveTriviaSyntax original, ElseDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
+        
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(ElseDirectiveTriviaSyntax, ElseDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(ElseDirectiveTriviaSyntax, ElseDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        partial void PairwisePartnersAfter(ElseDirectiveTriviaSyntax original, ElseDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
+    
+        /// <summary>
+        /// Determines if two <see cref="ElseDirectiveTriviaSyntax"/> elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        /// <remarks>This is the default implementation for <see cref="PairwisePartners(ElseDirectiveTriviaSyntax, ElseDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
+        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(ElseDirectiveTriviaSyntax original, ElseDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		if(original == null) 
+    			throw new ArgumentNullException(nameof(original));
+    
+    		if(modified == null) 
+    			throw new ArgumentNullException(nameof(modified));
+    
+    		var matchingSet = context.Approach.MatchingSet();
+    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.HashToken,
+    		    Modified = modified.HashToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.ElseKeyword,
+    		    Modified = modified.ElseKeyword
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.EndOfDirectiveToken,
+    		    Modified = modified.EndOfDirectiveToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    	}    
+    
+    	/// <summary>
+        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(ElseDirectiveTriviaSyntax original, ElseDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
+    		var ignoreCore = false;
+    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
+    		if(ignoreCore) 
+    			return result;
+    		
+    		result = this.PairwisePartnersCore(original, modified, context);
+    		PairwisePartnersAfter(original, modified, context, ref result);
+    		return result;
+    	}
+    }
+    
+    partial class IfDirectiveTriviaServiceProvider
+    {
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(IfDirectiveTriviaSyntax, IfDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(IfDirectiveTriviaSyntax, IfDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(IfDirectiveTriviaSyntax, IfDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(IfDirectiveTriviaSyntax, IfDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+        partial void PairwisePartnersBefore(IfDirectiveTriviaSyntax original, IfDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
+        
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(IfDirectiveTriviaSyntax, IfDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(IfDirectiveTriviaSyntax, IfDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        partial void PairwisePartnersAfter(IfDirectiveTriviaSyntax original, IfDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
+    
+        /// <summary>
+        /// Determines if two <see cref="IfDirectiveTriviaSyntax"/> elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        /// <remarks>This is the default implementation for <see cref="PairwisePartners(IfDirectiveTriviaSyntax, IfDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
+        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(IfDirectiveTriviaSyntax original, IfDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		if(original == null) 
+    			throw new ArgumentNullException(nameof(original));
+    
+    		if(modified == null) 
+    			throw new ArgumentNullException(nameof(modified));
+    
+    		var matchingSet = context.Approach.MatchingSet();
+    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.HashToken,
+    		    Modified = modified.HashToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.IfKeyword,
+    		    Modified = modified.IfKeyword
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.EndOfDirectiveToken,
+    		    Modified = modified.EndOfDirectiveToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    	}    
+    
+    	/// <summary>
+        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(IfDirectiveTriviaSyntax original, IfDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
+    		var ignoreCore = false;
+    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
+    		if(ignoreCore) 
+    			return result;
+    		
+    		result = this.PairwisePartnersCore(original, modified, context);
+    		PairwisePartnersAfter(original, modified, context, ref result);
+    		return result;
+    	}
+    }
+    
+    partial class ElifDirectiveTriviaServiceProvider
+    {
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(ElifDirectiveTriviaSyntax, ElifDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(ElifDirectiveTriviaSyntax, ElifDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(ElifDirectiveTriviaSyntax, ElifDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(ElifDirectiveTriviaSyntax, ElifDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+        partial void PairwisePartnersBefore(ElifDirectiveTriviaSyntax original, ElifDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
+        
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(ElifDirectiveTriviaSyntax, ElifDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(ElifDirectiveTriviaSyntax, ElifDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        partial void PairwisePartnersAfter(ElifDirectiveTriviaSyntax original, ElifDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
+    
+        /// <summary>
+        /// Determines if two <see cref="ElifDirectiveTriviaSyntax"/> elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        /// <remarks>This is the default implementation for <see cref="PairwisePartners(ElifDirectiveTriviaSyntax, ElifDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
+        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(ElifDirectiveTriviaSyntax original, ElifDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		if(original == null) 
+    			throw new ArgumentNullException(nameof(original));
+    
+    		if(modified == null) 
+    			throw new ArgumentNullException(nameof(modified));
+    
+    		var matchingSet = context.Approach.MatchingSet();
+    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.HashToken,
+    		    Modified = modified.HashToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.ElifKeyword,
+    		    Modified = modified.ElifKeyword
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.EndOfDirectiveToken,
+    		    Modified = modified.EndOfDirectiveToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    	}    
+    
+    	/// <summary>
+        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(ElifDirectiveTriviaSyntax original, ElifDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
+    		var ignoreCore = false;
+    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
+    		if(ignoreCore) 
+    			return result;
+    		
+    		result = this.PairwisePartnersCore(original, modified, context);
+    		PairwisePartnersAfter(original, modified, context, ref result);
+    		return result;
+    	}
+    }
+    
+    partial class QualifiedCrefServiceProvider
+    {
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(QualifiedCrefSyntax, QualifiedCrefSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(QualifiedCrefSyntax, QualifiedCrefSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(QualifiedCrefSyntax, QualifiedCrefSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(QualifiedCrefSyntax, QualifiedCrefSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+        partial void PairwisePartnersBefore(QualifiedCrefSyntax original, QualifiedCrefSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
+        
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(QualifiedCrefSyntax, QualifiedCrefSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(QualifiedCrefSyntax, QualifiedCrefSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        partial void PairwisePartnersAfter(QualifiedCrefSyntax original, QualifiedCrefSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
+    
+        /// <summary>
+        /// Determines if two <see cref="QualifiedCrefSyntax"/> elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        /// <remarks>This is the default implementation for <see cref="PairwisePartners(QualifiedCrefSyntax, QualifiedCrefSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
+        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(QualifiedCrefSyntax original, QualifiedCrefSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		if(original == null) 
+    			throw new ArgumentNullException(nameof(original));
+    
+    		if(modified == null) 
+    			throw new ArgumentNullException(nameof(modified));
+    
+    		var matchingSet = context.Approach.MatchingSet();
+    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.DotToken,
+    		    Modified = modified.DotToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    	}    
+    
+    	/// <summary>
+        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(QualifiedCrefSyntax original, QualifiedCrefSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
+    		var ignoreCore = false;
+    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
+    		if(ignoreCore) 
+    			return result;
+    		
+    		result = this.PairwisePartnersCore(original, modified, context);
+    		PairwisePartnersAfter(original, modified, context, ref result);
+    		return result;
+    	}
+    }
+    
+    partial class IndexerMemberCrefServiceProvider
+    {
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(IndexerMemberCrefSyntax, IndexerMemberCrefSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(IndexerMemberCrefSyntax, IndexerMemberCrefSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(IndexerMemberCrefSyntax, IndexerMemberCrefSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(IndexerMemberCrefSyntax, IndexerMemberCrefSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+        partial void PairwisePartnersBefore(IndexerMemberCrefSyntax original, IndexerMemberCrefSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
+        
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(IndexerMemberCrefSyntax, IndexerMemberCrefSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(IndexerMemberCrefSyntax, IndexerMemberCrefSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        partial void PairwisePartnersAfter(IndexerMemberCrefSyntax original, IndexerMemberCrefSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
+    
+        /// <summary>
+        /// Determines if two <see cref="IndexerMemberCrefSyntax"/> elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        /// <remarks>This is the default implementation for <see cref="PairwisePartners(IndexerMemberCrefSyntax, IndexerMemberCrefSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
+        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(IndexerMemberCrefSyntax original, IndexerMemberCrefSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		if(original == null) 
+    			throw new ArgumentNullException(nameof(original));
+    
+    		if(modified == null) 
+    			throw new ArgumentNullException(nameof(modified));
+    
+    		var matchingSet = context.Approach.MatchingSet();
+    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.ThisKeyword,
+    		    Modified = modified.ThisKeyword
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    	}    
+    
+    	/// <summary>
+        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(IndexerMemberCrefSyntax original, IndexerMemberCrefSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
+    		var ignoreCore = false;
+    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
+    		if(ignoreCore) 
+    			return result;
+    		
+    		result = this.PairwisePartnersCore(original, modified, context);
+    		PairwisePartnersAfter(original, modified, context, ref result);
+    		return result;
+    	}
+    }
+    
+    partial class OperatorMemberCrefServiceProvider
+    {
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(OperatorMemberCrefSyntax, OperatorMemberCrefSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(OperatorMemberCrefSyntax, OperatorMemberCrefSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(OperatorMemberCrefSyntax, OperatorMemberCrefSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(OperatorMemberCrefSyntax, OperatorMemberCrefSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+        partial void PairwisePartnersBefore(OperatorMemberCrefSyntax original, OperatorMemberCrefSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
+        
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(OperatorMemberCrefSyntax, OperatorMemberCrefSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(OperatorMemberCrefSyntax, OperatorMemberCrefSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        partial void PairwisePartnersAfter(OperatorMemberCrefSyntax original, OperatorMemberCrefSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
+    
+        /// <summary>
+        /// Determines if two <see cref="OperatorMemberCrefSyntax"/> elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        /// <remarks>This is the default implementation for <see cref="PairwisePartners(OperatorMemberCrefSyntax, OperatorMemberCrefSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
+        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(OperatorMemberCrefSyntax original, OperatorMemberCrefSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		if(original == null) 
+    			throw new ArgumentNullException(nameof(original));
+    
+    		if(modified == null) 
+    			throw new ArgumentNullException(nameof(modified));
+    
+    		var matchingSet = context.Approach.MatchingSet();
+    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.OperatorKeyword,
+    		    Modified = modified.OperatorKeyword
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.OperatorToken,
+    		    Modified = modified.OperatorToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    	}    
+    
+    	/// <summary>
+        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(OperatorMemberCrefSyntax original, OperatorMemberCrefSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
+    		var ignoreCore = false;
+    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
+    		if(ignoreCore) 
+    			return result;
+    		
+    		result = this.PairwisePartnersCore(original, modified, context);
+    		PairwisePartnersAfter(original, modified, context, ref result);
+    		return result;
+    	}
+    }
+    
+    partial class ConversionOperatorMemberCrefServiceProvider
+    {
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(ConversionOperatorMemberCrefSyntax, ConversionOperatorMemberCrefSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(ConversionOperatorMemberCrefSyntax, ConversionOperatorMemberCrefSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(ConversionOperatorMemberCrefSyntax, ConversionOperatorMemberCrefSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(ConversionOperatorMemberCrefSyntax, ConversionOperatorMemberCrefSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+        partial void PairwisePartnersBefore(ConversionOperatorMemberCrefSyntax original, ConversionOperatorMemberCrefSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
+        
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(ConversionOperatorMemberCrefSyntax, ConversionOperatorMemberCrefSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(ConversionOperatorMemberCrefSyntax, ConversionOperatorMemberCrefSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        partial void PairwisePartnersAfter(ConversionOperatorMemberCrefSyntax original, ConversionOperatorMemberCrefSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
+    
+        /// <summary>
+        /// Determines if two <see cref="ConversionOperatorMemberCrefSyntax"/> elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        /// <remarks>This is the default implementation for <see cref="PairwisePartners(ConversionOperatorMemberCrefSyntax, ConversionOperatorMemberCrefSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
+        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(ConversionOperatorMemberCrefSyntax original, ConversionOperatorMemberCrefSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		if(original == null) 
+    			throw new ArgumentNullException(nameof(original));
+    
+    		if(modified == null) 
+    			throw new ArgumentNullException(nameof(modified));
+    
+    		var matchingSet = context.Approach.MatchingSet();
+    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.ImplicitOrExplicitKeyword,
+    		    Modified = modified.ImplicitOrExplicitKeyword
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.OperatorKeyword,
+    		    Modified = modified.OperatorKeyword
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    	}    
+    
+    	/// <summary>
+        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(ConversionOperatorMemberCrefSyntax original, ConversionOperatorMemberCrefSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
+    		var ignoreCore = false;
+    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
+    		if(ignoreCore) 
+    			return result;
+    		
+    		result = this.PairwisePartnersCore(original, modified, context);
+    		PairwisePartnersAfter(original, modified, context, ref result);
+    		return result;
+    	}
+    }
+    
+    partial class CrefParameterListServiceProvider
+    {
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(CrefParameterListSyntax, CrefParameterListSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(CrefParameterListSyntax, CrefParameterListSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(CrefParameterListSyntax, CrefParameterListSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(CrefParameterListSyntax, CrefParameterListSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+        partial void PairwisePartnersBefore(CrefParameterListSyntax original, CrefParameterListSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
+        
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(CrefParameterListSyntax, CrefParameterListSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(CrefParameterListSyntax, CrefParameterListSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        partial void PairwisePartnersAfter(CrefParameterListSyntax original, CrefParameterListSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
+    
+        /// <summary>
+        /// Determines if two <see cref="CrefParameterListSyntax"/> elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        /// <remarks>This is the default implementation for <see cref="PairwisePartners(CrefParameterListSyntax, CrefParameterListSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
+        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(CrefParameterListSyntax original, CrefParameterListSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		if(original == null) 
+    			throw new ArgumentNullException(nameof(original));
+    
+    		if(modified == null) 
+    			throw new ArgumentNullException(nameof(modified));
+    
+    		var matchingSet = context.Approach.MatchingSet();
+    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.OpenParenToken,
+    		    Modified = modified.OpenParenToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.CloseParenToken,
+    		    Modified = modified.CloseParenToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    	}    
+    
+    	/// <summary>
+        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(CrefParameterListSyntax original, CrefParameterListSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
+    		var ignoreCore = false;
+    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
+    		if(ignoreCore) 
+    			return result;
+    		
+    		result = this.PairwisePartnersCore(original, modified, context);
+    		PairwisePartnersAfter(original, modified, context, ref result);
+    		return result;
+    	}
+    }
+    
+    partial class CrefBracketedParameterListServiceProvider
+    {
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(CrefBracketedParameterListSyntax, CrefBracketedParameterListSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(CrefBracketedParameterListSyntax, CrefBracketedParameterListSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(CrefBracketedParameterListSyntax, CrefBracketedParameterListSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(CrefBracketedParameterListSyntax, CrefBracketedParameterListSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+        partial void PairwisePartnersBefore(CrefBracketedParameterListSyntax original, CrefBracketedParameterListSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
+        
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(CrefBracketedParameterListSyntax, CrefBracketedParameterListSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(CrefBracketedParameterListSyntax, CrefBracketedParameterListSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        partial void PairwisePartnersAfter(CrefBracketedParameterListSyntax original, CrefBracketedParameterListSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
+    
+        /// <summary>
+        /// Determines if two <see cref="CrefBracketedParameterListSyntax"/> elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        /// <remarks>This is the default implementation for <see cref="PairwisePartners(CrefBracketedParameterListSyntax, CrefBracketedParameterListSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
+        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(CrefBracketedParameterListSyntax original, CrefBracketedParameterListSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		if(original == null) 
+    			throw new ArgumentNullException(nameof(original));
+    
+    		if(modified == null) 
+    			throw new ArgumentNullException(nameof(modified));
+    
+    		var matchingSet = context.Approach.MatchingSet();
+    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.OpenBracketToken,
+    		    Modified = modified.OpenBracketToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.CloseBracketToken,
+    		    Modified = modified.CloseBracketToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    	}    
+    
+    	/// <summary>
+        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(CrefBracketedParameterListSyntax original, CrefBracketedParameterListSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
+    		var ignoreCore = false;
+    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
+    		if(ignoreCore) 
+    			return result;
+    		
+    		result = this.PairwisePartnersCore(original, modified, context);
+    		PairwisePartnersAfter(original, modified, context, ref result);
+    		return result;
+    	}
+    }
+    
+    partial class XmlEmptyElementServiceProvider
+    {
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(XmlEmptyElementSyntax, XmlEmptyElementSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(XmlEmptyElementSyntax, XmlEmptyElementSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(XmlEmptyElementSyntax, XmlEmptyElementSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(XmlEmptyElementSyntax, XmlEmptyElementSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+        partial void PairwisePartnersBefore(XmlEmptyElementSyntax original, XmlEmptyElementSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
+        
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(XmlEmptyElementSyntax, XmlEmptyElementSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(XmlEmptyElementSyntax, XmlEmptyElementSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        partial void PairwisePartnersAfter(XmlEmptyElementSyntax original, XmlEmptyElementSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
+    
+        /// <summary>
+        /// Determines if two <see cref="XmlEmptyElementSyntax"/> elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        /// <remarks>This is the default implementation for <see cref="PairwisePartners(XmlEmptyElementSyntax, XmlEmptyElementSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
+        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(XmlEmptyElementSyntax original, XmlEmptyElementSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
     	{
     		if(original == null) 
     			throw new ArgumentNullException(nameof(original));
@@ -2996,8 +7523,8 @@ namespace Jawilliam.CDF.CSharp.Awareness
     		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
     		{
     		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.GreaterThanToken,
-    		    Modified = modified.GreaterThanToken
+    		    Original = original.SlashGreaterThanToken,
+    		    Modified = modified.SlashGreaterThanToken
     		};
         	if(matchingSet.PartnersIfAvailable(matchInfo))
     				yield return matchInfo;
@@ -3010,7 +7537,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="modified">the modified version.</param>
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(XmlElementStartTagSyntax original, XmlElementStartTagSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(XmlEmptyElementSyntax original, XmlEmptyElementSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
     	{
     		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
     		var ignoreCore = false;
@@ -3024,39 +7551,39 @@ namespace Jawilliam.CDF.CSharp.Awareness
     	}
     }
     
-    partial class XmlElementEndTagServiceProvider
+    partial class XmlCDataSectionServiceProvider
     {
     	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(XmlElementEndTagSyntax, XmlElementEndTagSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(XmlCDataSectionSyntax, XmlCDataSectionSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
         /// </summary>
         /// <param name="original">the original version.</param>
         /// <param name="modified">the modified version.</param>
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(XmlElementEndTagSyntax, XmlElementEndTagSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(XmlElementEndTagSyntax, XmlElementEndTagSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(XmlElementEndTagSyntax, XmlElementEndTagSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
-        partial void PairwisePartnersBefore(XmlElementEndTagSyntax original, XmlElementEndTagSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(XmlCDataSectionSyntax, XmlCDataSectionSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(XmlCDataSectionSyntax, XmlCDataSectionSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(XmlCDataSectionSyntax, XmlCDataSectionSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+        partial void PairwisePartnersBefore(XmlCDataSectionSyntax original, XmlCDataSectionSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
         
         /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(XmlElementEndTagSyntax, XmlElementEndTagSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(XmlCDataSectionSyntax, XmlCDataSectionSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
         /// </summary>
         /// <param name="original">the original version.</param>
         /// <param name="modified">the modified version.</param>
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(XmlElementEndTagSyntax, XmlElementEndTagSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        partial void PairwisePartnersAfter(XmlElementEndTagSyntax original, XmlElementEndTagSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(XmlCDataSectionSyntax, XmlCDataSectionSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        partial void PairwisePartnersAfter(XmlCDataSectionSyntax original, XmlCDataSectionSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
     
         /// <summary>
-        /// Determines if two <see cref="XmlElementEndTagSyntax"/> elements are name-based exactly equal.
+        /// Determines if two <see cref="XmlCDataSectionSyntax"/> elements are name-based exactly equal.
         /// </summary>
         /// <param name="original">the original version.</param>
         /// <param name="modified">the modified version.</param>
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
         /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="PairwisePartners(XmlElementEndTagSyntax, XmlElementEndTagSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
-        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(XmlElementEndTagSyntax original, XmlElementEndTagSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+        /// <remarks>This is the default implementation for <see cref="PairwisePartners(XmlCDataSectionSyntax, XmlCDataSectionSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
+        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(XmlCDataSectionSyntax original, XmlCDataSectionSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
     	{
     		if(original == null) 
     			throw new ArgumentNullException(nameof(original));
@@ -3070,8 +7597,8 @@ namespace Jawilliam.CDF.CSharp.Awareness
     		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
     		{
     		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.LessThanSlashToken,
-    		    Modified = modified.LessThanSlashToken
+    		    Original = original.StartCDataToken,
+    		    Modified = modified.StartCDataToken
     		};
         	if(matchingSet.PartnersIfAvailable(matchInfo))
     				yield return matchInfo;
@@ -3079,8 +7606,8 @@ namespace Jawilliam.CDF.CSharp.Awareness
     		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
     		{
     		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.GreaterThanToken,
-    		    Modified = modified.GreaterThanToken
+    		    Original = original.EndCDataToken,
+    		    Modified = modified.EndCDataToken
     		};
         	if(matchingSet.PartnersIfAvailable(matchInfo))
     				yield return matchInfo;
@@ -3093,7 +7620,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="modified">the modified version.</param>
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(XmlElementEndTagSyntax original, XmlElementEndTagSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(XmlCDataSectionSyntax original, XmlCDataSectionSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
     	{
     		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
     		var ignoreCore = false;
@@ -3107,39 +7634,39 @@ namespace Jawilliam.CDF.CSharp.Awareness
     	}
     }
     
-    partial class XmlNameServiceProvider
+    partial class XmlProcessingInstructionServiceProvider
     {
     	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(XmlNameSyntax, XmlNameSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(XmlProcessingInstructionSyntax, XmlProcessingInstructionSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
         /// </summary>
         /// <param name="original">the original version.</param>
         /// <param name="modified">the modified version.</param>
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(XmlNameSyntax, XmlNameSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(XmlNameSyntax, XmlNameSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(XmlNameSyntax, XmlNameSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
-        partial void PairwisePartnersBefore(XmlNameSyntax original, XmlNameSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(XmlProcessingInstructionSyntax, XmlProcessingInstructionSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(XmlProcessingInstructionSyntax, XmlProcessingInstructionSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(XmlProcessingInstructionSyntax, XmlProcessingInstructionSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+        partial void PairwisePartnersBefore(XmlProcessingInstructionSyntax original, XmlProcessingInstructionSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
         
         /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(XmlNameSyntax, XmlNameSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(XmlProcessingInstructionSyntax, XmlProcessingInstructionSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
         /// </summary>
         /// <param name="original">the original version.</param>
         /// <param name="modified">the modified version.</param>
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(XmlNameSyntax, XmlNameSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        partial void PairwisePartnersAfter(XmlNameSyntax original, XmlNameSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(XmlProcessingInstructionSyntax, XmlProcessingInstructionSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        partial void PairwisePartnersAfter(XmlProcessingInstructionSyntax original, XmlProcessingInstructionSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
     
         /// <summary>
-        /// Determines if two <see cref="XmlNameSyntax"/> elements are name-based exactly equal.
+        /// Determines if two <see cref="XmlProcessingInstructionSyntax"/> elements are name-based exactly equal.
         /// </summary>
         /// <param name="original">the original version.</param>
         /// <param name="modified">the modified version.</param>
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
         /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="PairwisePartners(XmlNameSyntax, XmlNameSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
-        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(XmlNameSyntax original, XmlNameSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+        /// <remarks>This is the default implementation for <see cref="PairwisePartners(XmlProcessingInstructionSyntax, XmlProcessingInstructionSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
+        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(XmlProcessingInstructionSyntax original, XmlProcessingInstructionSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
     	{
     		if(original == null) 
     			throw new ArgumentNullException(nameof(original));
@@ -3153,8 +7680,17 @@ namespace Jawilliam.CDF.CSharp.Awareness
     		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
     		{
     		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.LocalName,
-    		    Modified = modified.LocalName
+    		    Original = original.StartProcessingInstructionToken,
+    		    Modified = modified.StartProcessingInstructionToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.EndProcessingInstructionToken,
+    		    Modified = modified.EndProcessingInstructionToken
     		};
         	if(matchingSet.PartnersIfAvailable(matchInfo))
     				yield return matchInfo;
@@ -3167,7 +7703,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="modified">the modified version.</param>
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(XmlNameSyntax original, XmlNameSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(XmlProcessingInstructionSyntax original, XmlProcessingInstructionSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
     	{
     		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
     		var ignoreCore = false;
@@ -3181,39 +7717,39 @@ namespace Jawilliam.CDF.CSharp.Awareness
     	}
     }
     
-    partial class XmlPrefixServiceProvider
+    partial class XmlCommentServiceProvider
     {
     	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(XmlPrefixSyntax, XmlPrefixSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(XmlCommentSyntax, XmlCommentSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
         /// </summary>
         /// <param name="original">the original version.</param>
         /// <param name="modified">the modified version.</param>
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(XmlPrefixSyntax, XmlPrefixSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(XmlPrefixSyntax, XmlPrefixSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(XmlPrefixSyntax, XmlPrefixSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
-        partial void PairwisePartnersBefore(XmlPrefixSyntax original, XmlPrefixSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(XmlCommentSyntax, XmlCommentSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(XmlCommentSyntax, XmlCommentSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(XmlCommentSyntax, XmlCommentSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+        partial void PairwisePartnersBefore(XmlCommentSyntax original, XmlCommentSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
         
         /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(XmlPrefixSyntax, XmlPrefixSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(XmlCommentSyntax, XmlCommentSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
         /// </summary>
         /// <param name="original">the original version.</param>
         /// <param name="modified">the modified version.</param>
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(XmlPrefixSyntax, XmlPrefixSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        partial void PairwisePartnersAfter(XmlPrefixSyntax original, XmlPrefixSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(XmlCommentSyntax, XmlCommentSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        partial void PairwisePartnersAfter(XmlCommentSyntax original, XmlCommentSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
     
         /// <summary>
-        /// Determines if two <see cref="XmlPrefixSyntax"/> elements are name-based exactly equal.
+        /// Determines if two <see cref="XmlCommentSyntax"/> elements are name-based exactly equal.
         /// </summary>
         /// <param name="original">the original version.</param>
         /// <param name="modified">the modified version.</param>
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
         /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="PairwisePartners(XmlPrefixSyntax, XmlPrefixSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
-        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(XmlPrefixSyntax original, XmlPrefixSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+        /// <remarks>This is the default implementation for <see cref="PairwisePartners(XmlCommentSyntax, XmlCommentSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
+        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(XmlCommentSyntax original, XmlCommentSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
     	{
     		if(original == null) 
     			throw new ArgumentNullException(nameof(original));
@@ -3227,8 +7763,8 @@ namespace Jawilliam.CDF.CSharp.Awareness
     		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
     		{
     		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.Prefix,
-    		    Modified = modified.Prefix
+    		    Original = original.LessThanExclamationMinusMinusToken,
+    		    Modified = modified.LessThanExclamationMinusMinusToken
     		};
         	if(matchingSet.PartnersIfAvailable(matchInfo))
     				yield return matchInfo;
@@ -3236,8 +7772,8 @@ namespace Jawilliam.CDF.CSharp.Awareness
     		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
     		{
     		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.ColonToken,
-    		    Modified = modified.ColonToken
+    		    Original = original.MinusMinusGreaterThanToken,
+    		    Modified = modified.MinusMinusGreaterThanToken
     		};
         	if(matchingSet.PartnersIfAvailable(matchInfo))
     				yield return matchInfo;
@@ -3250,7 +7786,283 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="modified">the modified version.</param>
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(XmlPrefixSyntax original, XmlPrefixSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(XmlCommentSyntax original, XmlCommentSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
+    		var ignoreCore = false;
+    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
+    		if(ignoreCore) 
+    			return result;
+    		
+    		result = this.PairwisePartnersCore(original, modified, context);
+    		PairwisePartnersAfter(original, modified, context, ref result);
+    		return result;
+    	}
+    }
+    
+    partial class XmlTextAttributeServiceProvider
+    {
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(XmlTextAttributeSyntax, XmlTextAttributeSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(XmlTextAttributeSyntax, XmlTextAttributeSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(XmlTextAttributeSyntax, XmlTextAttributeSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(XmlTextAttributeSyntax, XmlTextAttributeSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+        partial void PairwisePartnersBefore(XmlTextAttributeSyntax original, XmlTextAttributeSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
+        
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(XmlTextAttributeSyntax, XmlTextAttributeSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(XmlTextAttributeSyntax, XmlTextAttributeSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        partial void PairwisePartnersAfter(XmlTextAttributeSyntax original, XmlTextAttributeSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
+    
+        /// <summary>
+        /// Determines if two <see cref="XmlTextAttributeSyntax"/> elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        /// <remarks>This is the default implementation for <see cref="PairwisePartners(XmlTextAttributeSyntax, XmlTextAttributeSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
+        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(XmlTextAttributeSyntax original, XmlTextAttributeSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		if(original == null) 
+    			throw new ArgumentNullException(nameof(original));
+    
+    		if(modified == null) 
+    			throw new ArgumentNullException(nameof(modified));
+    
+    		var matchingSet = context.Approach.MatchingSet();
+    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.EqualsToken,
+    		    Modified = modified.EqualsToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.StartQuoteToken,
+    		    Modified = modified.StartQuoteToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.EndQuoteToken,
+    		    Modified = modified.EndQuoteToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    	}    
+    
+    	/// <summary>
+        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(XmlTextAttributeSyntax original, XmlTextAttributeSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
+    		var ignoreCore = false;
+    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
+    		if(ignoreCore) 
+    			return result;
+    		
+    		result = this.PairwisePartnersCore(original, modified, context);
+    		PairwisePartnersAfter(original, modified, context, ref result);
+    		return result;
+    	}
+    }
+    
+    partial class XmlCrefAttributeServiceProvider
+    {
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(XmlCrefAttributeSyntax, XmlCrefAttributeSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(XmlCrefAttributeSyntax, XmlCrefAttributeSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(XmlCrefAttributeSyntax, XmlCrefAttributeSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(XmlCrefAttributeSyntax, XmlCrefAttributeSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+        partial void PairwisePartnersBefore(XmlCrefAttributeSyntax original, XmlCrefAttributeSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
+        
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(XmlCrefAttributeSyntax, XmlCrefAttributeSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(XmlCrefAttributeSyntax, XmlCrefAttributeSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        partial void PairwisePartnersAfter(XmlCrefAttributeSyntax original, XmlCrefAttributeSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
+    
+        /// <summary>
+        /// Determines if two <see cref="XmlCrefAttributeSyntax"/> elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        /// <remarks>This is the default implementation for <see cref="PairwisePartners(XmlCrefAttributeSyntax, XmlCrefAttributeSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
+        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(XmlCrefAttributeSyntax original, XmlCrefAttributeSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		if(original == null) 
+    			throw new ArgumentNullException(nameof(original));
+    
+    		if(modified == null) 
+    			throw new ArgumentNullException(nameof(modified));
+    
+    		var matchingSet = context.Approach.MatchingSet();
+    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.EqualsToken,
+    		    Modified = modified.EqualsToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.StartQuoteToken,
+    		    Modified = modified.StartQuoteToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.EndQuoteToken,
+    		    Modified = modified.EndQuoteToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    	}    
+    
+    	/// <summary>
+        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(XmlCrefAttributeSyntax original, XmlCrefAttributeSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
+    		var ignoreCore = false;
+    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
+    		if(ignoreCore) 
+    			return result;
+    		
+    		result = this.PairwisePartnersCore(original, modified, context);
+    		PairwisePartnersAfter(original, modified, context, ref result);
+    		return result;
+    	}
+    }
+    
+    partial class XmlNameAttributeServiceProvider
+    {
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(XmlNameAttributeSyntax, XmlNameAttributeSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(XmlNameAttributeSyntax, XmlNameAttributeSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(XmlNameAttributeSyntax, XmlNameAttributeSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(XmlNameAttributeSyntax, XmlNameAttributeSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+        partial void PairwisePartnersBefore(XmlNameAttributeSyntax original, XmlNameAttributeSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
+        
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(XmlNameAttributeSyntax, XmlNameAttributeSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(XmlNameAttributeSyntax, XmlNameAttributeSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
+        partial void PairwisePartnersAfter(XmlNameAttributeSyntax original, XmlNameAttributeSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
+    
+        /// <summary>
+        /// Determines if two <see cref="XmlNameAttributeSyntax"/> elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+        /// <remarks>This is the default implementation for <see cref="PairwisePartners(XmlNameAttributeSyntax, XmlNameAttributeSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
+        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(XmlNameAttributeSyntax original, XmlNameAttributeSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
+    	{
+    		if(original == null) 
+    			throw new ArgumentNullException(nameof(original));
+    
+    		if(modified == null) 
+    			throw new ArgumentNullException(nameof(modified));
+    
+    		var matchingSet = context.Approach.MatchingSet();
+    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.EqualsToken,
+    		    Modified = modified.EqualsToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.StartQuoteToken,
+    		    Modified = modified.StartQuoteToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.EndQuoteToken,
+    		    Modified = modified.EndQuoteToken
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    	}    
+    
+    	/// <summary>
+        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(XmlNameAttributeSyntax original, XmlNameAttributeSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
     	{
     		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
     		var ignoreCore = false;
@@ -7895,1645 +12707,6 @@ namespace Jawilliam.CDF.CSharp.Awareness
     	}
     }
     
-    partial class NamespaceDeclarationServiceProvider
-    {
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(NamespaceDeclarationSyntax, NamespaceDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(NamespaceDeclarationSyntax, NamespaceDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(NamespaceDeclarationSyntax, NamespaceDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(NamespaceDeclarationSyntax, NamespaceDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
-        partial void PairwisePartnersBefore(NamespaceDeclarationSyntax original, NamespaceDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(NamespaceDeclarationSyntax, NamespaceDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(NamespaceDeclarationSyntax, NamespaceDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        partial void PairwisePartnersAfter(NamespaceDeclarationSyntax original, NamespaceDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
-    
-        /// <summary>
-        /// Determines if two <see cref="NamespaceDeclarationSyntax"/> elements are name-based exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="PairwisePartners(NamespaceDeclarationSyntax, NamespaceDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
-        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(NamespaceDeclarationSyntax original, NamespaceDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		if(original == null) 
-    			throw new ArgumentNullException(nameof(original));
-    
-    		if(modified == null) 
-    			throw new ArgumentNullException(nameof(modified));
-    
-    		var matchingSet = context.Approach.MatchingSet();
-    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.NamespaceKeyword,
-    		    Modified = modified.NamespaceKeyword
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.OpenBraceToken,
-    		    Modified = modified.OpenBraceToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.CloseBraceToken,
-    		    Modified = modified.CloseBraceToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.SemicolonToken,
-    		    Modified = modified.SemicolonToken
-    		};
-    		if(original.SemicolonToken != null && modified.SemicolonToken != null)
-    		{
-        		if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    		}
-    		else if(original.SemicolonToken != null)
-    			matchingSet.Originals.DisableMatching(original.SemicolonToken);
-    		else
-    			matchingSet.Modifieds.DisableMatching(modified.SemicolonToken);
-    	}    
-    
-    	/// <summary>
-        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(NamespaceDeclarationSyntax original, NamespaceDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
-    		var ignoreCore = false;
-    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
-    		if(ignoreCore) 
-    			return result;
-    		
-    		result = this.PairwisePartnersCore(original, modified, context);
-    		PairwisePartnersAfter(original, modified, context, ref result);
-    		return result;
-    	}
-    }
-    
-    partial class DelegateDeclarationServiceProvider
-    {
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(DelegateDeclarationSyntax, DelegateDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(DelegateDeclarationSyntax, DelegateDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(DelegateDeclarationSyntax, DelegateDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(DelegateDeclarationSyntax, DelegateDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
-        partial void PairwisePartnersBefore(DelegateDeclarationSyntax original, DelegateDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(DelegateDeclarationSyntax, DelegateDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(DelegateDeclarationSyntax, DelegateDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        partial void PairwisePartnersAfter(DelegateDeclarationSyntax original, DelegateDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
-    
-        /// <summary>
-        /// Determines if two <see cref="DelegateDeclarationSyntax"/> elements are name-based exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="PairwisePartners(DelegateDeclarationSyntax, DelegateDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
-        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(DelegateDeclarationSyntax original, DelegateDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		if(original == null) 
-    			throw new ArgumentNullException(nameof(original));
-    
-    		if(modified == null) 
-    			throw new ArgumentNullException(nameof(modified));
-    
-    		var matchingSet = context.Approach.MatchingSet();
-    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.DelegateKeyword,
-    		    Modified = modified.DelegateKeyword
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.Identifier,
-    		    Modified = modified.Identifier
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.SemicolonToken,
-    		    Modified = modified.SemicolonToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    	}    
-    
-    	/// <summary>
-        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(DelegateDeclarationSyntax original, DelegateDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
-    		var ignoreCore = false;
-    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
-    		if(ignoreCore) 
-    			return result;
-    		
-    		result = this.PairwisePartnersCore(original, modified, context);
-    		PairwisePartnersAfter(original, modified, context, ref result);
-    		return result;
-    	}
-    }
-    
-    partial class EnumMemberDeclarationServiceProvider
-    {
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(EnumMemberDeclarationSyntax, EnumMemberDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(EnumMemberDeclarationSyntax, EnumMemberDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(EnumMemberDeclarationSyntax, EnumMemberDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(EnumMemberDeclarationSyntax, EnumMemberDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
-        partial void PairwisePartnersBefore(EnumMemberDeclarationSyntax original, EnumMemberDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(EnumMemberDeclarationSyntax, EnumMemberDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(EnumMemberDeclarationSyntax, EnumMemberDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        partial void PairwisePartnersAfter(EnumMemberDeclarationSyntax original, EnumMemberDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
-    
-        /// <summary>
-        /// Determines if two <see cref="EnumMemberDeclarationSyntax"/> elements are name-based exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="PairwisePartners(EnumMemberDeclarationSyntax, EnumMemberDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
-        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(EnumMemberDeclarationSyntax original, EnumMemberDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		if(original == null) 
-    			throw new ArgumentNullException(nameof(original));
-    
-    		if(modified == null) 
-    			throw new ArgumentNullException(nameof(modified));
-    
-    		var matchingSet = context.Approach.MatchingSet();
-    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.Identifier,
-    		    Modified = modified.Identifier
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    	}    
-    
-    	/// <summary>
-        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(EnumMemberDeclarationSyntax original, EnumMemberDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
-    		var ignoreCore = false;
-    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
-    		if(ignoreCore) 
-    			return result;
-    		
-    		result = this.PairwisePartnersCore(original, modified, context);
-    		PairwisePartnersAfter(original, modified, context, ref result);
-    		return result;
-    	}
-    }
-    
-    partial class EnumDeclarationServiceProvider
-    {
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(EnumDeclarationSyntax, EnumDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(EnumDeclarationSyntax, EnumDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(EnumDeclarationSyntax, EnumDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(EnumDeclarationSyntax, EnumDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
-        partial void PairwisePartnersBefore(EnumDeclarationSyntax original, EnumDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(EnumDeclarationSyntax, EnumDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(EnumDeclarationSyntax, EnumDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        partial void PairwisePartnersAfter(EnumDeclarationSyntax original, EnumDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
-    
-        /// <summary>
-        /// Determines if two <see cref="EnumDeclarationSyntax"/> elements are name-based exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="PairwisePartners(EnumDeclarationSyntax, EnumDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
-        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(EnumDeclarationSyntax original, EnumDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		if(original == null) 
-    			throw new ArgumentNullException(nameof(original));
-    
-    		if(modified == null) 
-    			throw new ArgumentNullException(nameof(modified));
-    
-    		var matchingSet = context.Approach.MatchingSet();
-    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.EnumKeyword,
-    		    Modified = modified.EnumKeyword
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.Identifier,
-    		    Modified = modified.Identifier
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.OpenBraceToken,
-    		    Modified = modified.OpenBraceToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.CloseBraceToken,
-    		    Modified = modified.CloseBraceToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.SemicolonToken,
-    		    Modified = modified.SemicolonToken
-    		};
-    		if(original.SemicolonToken != null && modified.SemicolonToken != null)
-    		{
-        		if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    		}
-    		else if(original.SemicolonToken != null)
-    			matchingSet.Originals.DisableMatching(original.SemicolonToken);
-    		else
-    			matchingSet.Modifieds.DisableMatching(modified.SemicolonToken);
-    	}    
-    
-    	/// <summary>
-        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(EnumDeclarationSyntax original, EnumDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
-    		var ignoreCore = false;
-    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
-    		if(ignoreCore) 
-    			return result;
-    		
-    		result = this.PairwisePartnersCore(original, modified, context);
-    		PairwisePartnersAfter(original, modified, context, ref result);
-    		return result;
-    	}
-    }
-    
-    partial class ClassDeclarationServiceProvider
-    {
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(ClassDeclarationSyntax, ClassDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(ClassDeclarationSyntax, ClassDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(ClassDeclarationSyntax, ClassDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(ClassDeclarationSyntax, ClassDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
-        partial void PairwisePartnersBefore(ClassDeclarationSyntax original, ClassDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(ClassDeclarationSyntax, ClassDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(ClassDeclarationSyntax, ClassDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        partial void PairwisePartnersAfter(ClassDeclarationSyntax original, ClassDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
-    
-        /// <summary>
-        /// Determines if two <see cref="ClassDeclarationSyntax"/> elements are name-based exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="PairwisePartners(ClassDeclarationSyntax, ClassDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
-        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(ClassDeclarationSyntax original, ClassDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		if(original == null) 
-    			throw new ArgumentNullException(nameof(original));
-    
-    		if(modified == null) 
-    			throw new ArgumentNullException(nameof(modified));
-    
-    		var matchingSet = context.Approach.MatchingSet();
-    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.Keyword,
-    		    Modified = modified.Keyword
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.Identifier,
-    		    Modified = modified.Identifier
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.OpenBraceToken,
-    		    Modified = modified.OpenBraceToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.CloseBraceToken,
-    		    Modified = modified.CloseBraceToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.SemicolonToken,
-    		    Modified = modified.SemicolonToken
-    		};
-    		if(original.SemicolonToken != null && modified.SemicolonToken != null)
-    		{
-        		if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    		}
-    		else if(original.SemicolonToken != null)
-    			matchingSet.Originals.DisableMatching(original.SemicolonToken);
-    		else
-    			matchingSet.Modifieds.DisableMatching(modified.SemicolonToken);
-    	}    
-    
-    	/// <summary>
-        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(ClassDeclarationSyntax original, ClassDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
-    		var ignoreCore = false;
-    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
-    		if(ignoreCore) 
-    			return result;
-    		
-    		result = this.PairwisePartnersCore(original, modified, context);
-    		PairwisePartnersAfter(original, modified, context, ref result);
-    		return result;
-    	}
-    }
-    
-    partial class StructDeclarationServiceProvider
-    {
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(StructDeclarationSyntax, StructDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(StructDeclarationSyntax, StructDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(StructDeclarationSyntax, StructDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(StructDeclarationSyntax, StructDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
-        partial void PairwisePartnersBefore(StructDeclarationSyntax original, StructDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(StructDeclarationSyntax, StructDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(StructDeclarationSyntax, StructDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        partial void PairwisePartnersAfter(StructDeclarationSyntax original, StructDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
-    
-        /// <summary>
-        /// Determines if two <see cref="StructDeclarationSyntax"/> elements are name-based exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="PairwisePartners(StructDeclarationSyntax, StructDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
-        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(StructDeclarationSyntax original, StructDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		if(original == null) 
-    			throw new ArgumentNullException(nameof(original));
-    
-    		if(modified == null) 
-    			throw new ArgumentNullException(nameof(modified));
-    
-    		var matchingSet = context.Approach.MatchingSet();
-    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.Keyword,
-    		    Modified = modified.Keyword
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.Identifier,
-    		    Modified = modified.Identifier
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.OpenBraceToken,
-    		    Modified = modified.OpenBraceToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.CloseBraceToken,
-    		    Modified = modified.CloseBraceToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.SemicolonToken,
-    		    Modified = modified.SemicolonToken
-    		};
-    		if(original.SemicolonToken != null && modified.SemicolonToken != null)
-    		{
-        		if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    		}
-    		else if(original.SemicolonToken != null)
-    			matchingSet.Originals.DisableMatching(original.SemicolonToken);
-    		else
-    			matchingSet.Modifieds.DisableMatching(modified.SemicolonToken);
-    	}    
-    
-    	/// <summary>
-        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(StructDeclarationSyntax original, StructDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
-    		var ignoreCore = false;
-    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
-    		if(ignoreCore) 
-    			return result;
-    		
-    		result = this.PairwisePartnersCore(original, modified, context);
-    		PairwisePartnersAfter(original, modified, context, ref result);
-    		return result;
-    	}
-    }
-    
-    partial class InterfaceDeclarationServiceProvider
-    {
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(InterfaceDeclarationSyntax, InterfaceDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(InterfaceDeclarationSyntax, InterfaceDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(InterfaceDeclarationSyntax, InterfaceDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(InterfaceDeclarationSyntax, InterfaceDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
-        partial void PairwisePartnersBefore(InterfaceDeclarationSyntax original, InterfaceDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(InterfaceDeclarationSyntax, InterfaceDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(InterfaceDeclarationSyntax, InterfaceDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        partial void PairwisePartnersAfter(InterfaceDeclarationSyntax original, InterfaceDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
-    
-        /// <summary>
-        /// Determines if two <see cref="InterfaceDeclarationSyntax"/> elements are name-based exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="PairwisePartners(InterfaceDeclarationSyntax, InterfaceDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
-        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(InterfaceDeclarationSyntax original, InterfaceDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		if(original == null) 
-    			throw new ArgumentNullException(nameof(original));
-    
-    		if(modified == null) 
-    			throw new ArgumentNullException(nameof(modified));
-    
-    		var matchingSet = context.Approach.MatchingSet();
-    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.Keyword,
-    		    Modified = modified.Keyword
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.Identifier,
-    		    Modified = modified.Identifier
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.OpenBraceToken,
-    		    Modified = modified.OpenBraceToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.CloseBraceToken,
-    		    Modified = modified.CloseBraceToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.SemicolonToken,
-    		    Modified = modified.SemicolonToken
-    		};
-    		if(original.SemicolonToken != null && modified.SemicolonToken != null)
-    		{
-        		if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    		}
-    		else if(original.SemicolonToken != null)
-    			matchingSet.Originals.DisableMatching(original.SemicolonToken);
-    		else
-    			matchingSet.Modifieds.DisableMatching(modified.SemicolonToken);
-    	}    
-    
-    	/// <summary>
-        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(InterfaceDeclarationSyntax original, InterfaceDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
-    		var ignoreCore = false;
-    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
-    		if(ignoreCore) 
-    			return result;
-    		
-    		result = this.PairwisePartnersCore(original, modified, context);
-    		PairwisePartnersAfter(original, modified, context, ref result);
-    		return result;
-    	}
-    }
-    
-    partial class FieldDeclarationServiceProvider
-    {
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(FieldDeclarationSyntax, FieldDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(FieldDeclarationSyntax, FieldDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(FieldDeclarationSyntax, FieldDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(FieldDeclarationSyntax, FieldDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
-        partial void PairwisePartnersBefore(FieldDeclarationSyntax original, FieldDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(FieldDeclarationSyntax, FieldDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(FieldDeclarationSyntax, FieldDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        partial void PairwisePartnersAfter(FieldDeclarationSyntax original, FieldDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
-    
-        /// <summary>
-        /// Determines if two <see cref="FieldDeclarationSyntax"/> elements are name-based exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="PairwisePartners(FieldDeclarationSyntax, FieldDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
-        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(FieldDeclarationSyntax original, FieldDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		if(original == null) 
-    			throw new ArgumentNullException(nameof(original));
-    
-    		if(modified == null) 
-    			throw new ArgumentNullException(nameof(modified));
-    
-    		var matchingSet = context.Approach.MatchingSet();
-    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.SemicolonToken,
-    		    Modified = modified.SemicolonToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    	}    
-    
-    	/// <summary>
-        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(FieldDeclarationSyntax original, FieldDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
-    		var ignoreCore = false;
-    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
-    		if(ignoreCore) 
-    			return result;
-    		
-    		result = this.PairwisePartnersCore(original, modified, context);
-    		PairwisePartnersAfter(original, modified, context, ref result);
-    		return result;
-    	}
-    }
-    
-    partial class EventFieldDeclarationServiceProvider
-    {
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(EventFieldDeclarationSyntax, EventFieldDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(EventFieldDeclarationSyntax, EventFieldDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(EventFieldDeclarationSyntax, EventFieldDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(EventFieldDeclarationSyntax, EventFieldDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
-        partial void PairwisePartnersBefore(EventFieldDeclarationSyntax original, EventFieldDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(EventFieldDeclarationSyntax, EventFieldDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(EventFieldDeclarationSyntax, EventFieldDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        partial void PairwisePartnersAfter(EventFieldDeclarationSyntax original, EventFieldDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
-    
-        /// <summary>
-        /// Determines if two <see cref="EventFieldDeclarationSyntax"/> elements are name-based exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="PairwisePartners(EventFieldDeclarationSyntax, EventFieldDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
-        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(EventFieldDeclarationSyntax original, EventFieldDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		if(original == null) 
-    			throw new ArgumentNullException(nameof(original));
-    
-    		if(modified == null) 
-    			throw new ArgumentNullException(nameof(modified));
-    
-    		var matchingSet = context.Approach.MatchingSet();
-    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.EventKeyword,
-    		    Modified = modified.EventKeyword
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.SemicolonToken,
-    		    Modified = modified.SemicolonToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    	}    
-    
-    	/// <summary>
-        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(EventFieldDeclarationSyntax original, EventFieldDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
-    		var ignoreCore = false;
-    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
-    		if(ignoreCore) 
-    			return result;
-    		
-    		result = this.PairwisePartnersCore(original, modified, context);
-    		PairwisePartnersAfter(original, modified, context, ref result);
-    		return result;
-    	}
-    }
-    
-    partial class MethodDeclarationServiceProvider
-    {
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(MethodDeclarationSyntax, MethodDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(MethodDeclarationSyntax, MethodDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(MethodDeclarationSyntax, MethodDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(MethodDeclarationSyntax, MethodDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
-        partial void PairwisePartnersBefore(MethodDeclarationSyntax original, MethodDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(MethodDeclarationSyntax, MethodDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(MethodDeclarationSyntax, MethodDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        partial void PairwisePartnersAfter(MethodDeclarationSyntax original, MethodDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
-    
-        /// <summary>
-        /// Determines if two <see cref="MethodDeclarationSyntax"/> elements are name-based exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="PairwisePartners(MethodDeclarationSyntax, MethodDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
-        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(MethodDeclarationSyntax original, MethodDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		if(original == null) 
-    			throw new ArgumentNullException(nameof(original));
-    
-    		if(modified == null) 
-    			throw new ArgumentNullException(nameof(modified));
-    
-    		var matchingSet = context.Approach.MatchingSet();
-    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.Identifier,
-    		    Modified = modified.Identifier
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.SemicolonToken,
-    		    Modified = modified.SemicolonToken
-    		};
-    		if(original.SemicolonToken != null && modified.SemicolonToken != null)
-    		{
-        		if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    		}
-    		else if(original.SemicolonToken != null)
-    			matchingSet.Originals.DisableMatching(original.SemicolonToken);
-    		else
-    			matchingSet.Modifieds.DisableMatching(modified.SemicolonToken);
-    	}    
-    
-    	/// <summary>
-        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(MethodDeclarationSyntax original, MethodDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
-    		var ignoreCore = false;
-    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
-    		if(ignoreCore) 
-    			return result;
-    		
-    		result = this.PairwisePartnersCore(original, modified, context);
-    		PairwisePartnersAfter(original, modified, context, ref result);
-    		return result;
-    	}
-    }
-    
-    partial class OperatorDeclarationServiceProvider
-    {
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(OperatorDeclarationSyntax, OperatorDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(OperatorDeclarationSyntax, OperatorDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(OperatorDeclarationSyntax, OperatorDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(OperatorDeclarationSyntax, OperatorDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
-        partial void PairwisePartnersBefore(OperatorDeclarationSyntax original, OperatorDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(OperatorDeclarationSyntax, OperatorDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(OperatorDeclarationSyntax, OperatorDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        partial void PairwisePartnersAfter(OperatorDeclarationSyntax original, OperatorDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
-    
-        /// <summary>
-        /// Determines if two <see cref="OperatorDeclarationSyntax"/> elements are name-based exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="PairwisePartners(OperatorDeclarationSyntax, OperatorDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
-        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(OperatorDeclarationSyntax original, OperatorDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		if(original == null) 
-    			throw new ArgumentNullException(nameof(original));
-    
-    		if(modified == null) 
-    			throw new ArgumentNullException(nameof(modified));
-    
-    		var matchingSet = context.Approach.MatchingSet();
-    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.OperatorKeyword,
-    		    Modified = modified.OperatorKeyword
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.OperatorToken,
-    		    Modified = modified.OperatorToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.SemicolonToken,
-    		    Modified = modified.SemicolonToken
-    		};
-    		if(original.SemicolonToken != null && modified.SemicolonToken != null)
-    		{
-        		if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    		}
-    		else if(original.SemicolonToken != null)
-    			matchingSet.Originals.DisableMatching(original.SemicolonToken);
-    		else
-    			matchingSet.Modifieds.DisableMatching(modified.SemicolonToken);
-    	}    
-    
-    	/// <summary>
-        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(OperatorDeclarationSyntax original, OperatorDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
-    		var ignoreCore = false;
-    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
-    		if(ignoreCore) 
-    			return result;
-    		
-    		result = this.PairwisePartnersCore(original, modified, context);
-    		PairwisePartnersAfter(original, modified, context, ref result);
-    		return result;
-    	}
-    }
-    
-    partial class ConversionOperatorDeclarationServiceProvider
-    {
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(ConversionOperatorDeclarationSyntax, ConversionOperatorDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(ConversionOperatorDeclarationSyntax, ConversionOperatorDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(ConversionOperatorDeclarationSyntax, ConversionOperatorDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(ConversionOperatorDeclarationSyntax, ConversionOperatorDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
-        partial void PairwisePartnersBefore(ConversionOperatorDeclarationSyntax original, ConversionOperatorDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(ConversionOperatorDeclarationSyntax, ConversionOperatorDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(ConversionOperatorDeclarationSyntax, ConversionOperatorDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        partial void PairwisePartnersAfter(ConversionOperatorDeclarationSyntax original, ConversionOperatorDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
-    
-        /// <summary>
-        /// Determines if two <see cref="ConversionOperatorDeclarationSyntax"/> elements are name-based exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="PairwisePartners(ConversionOperatorDeclarationSyntax, ConversionOperatorDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
-        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(ConversionOperatorDeclarationSyntax original, ConversionOperatorDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		if(original == null) 
-    			throw new ArgumentNullException(nameof(original));
-    
-    		if(modified == null) 
-    			throw new ArgumentNullException(nameof(modified));
-    
-    		var matchingSet = context.Approach.MatchingSet();
-    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.ImplicitOrExplicitKeyword,
-    		    Modified = modified.ImplicitOrExplicitKeyword
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.OperatorKeyword,
-    		    Modified = modified.OperatorKeyword
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.SemicolonToken,
-    		    Modified = modified.SemicolonToken
-    		};
-    		if(original.SemicolonToken != null && modified.SemicolonToken != null)
-    		{
-        		if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    		}
-    		else if(original.SemicolonToken != null)
-    			matchingSet.Originals.DisableMatching(original.SemicolonToken);
-    		else
-    			matchingSet.Modifieds.DisableMatching(modified.SemicolonToken);
-    	}    
-    
-    	/// <summary>
-        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(ConversionOperatorDeclarationSyntax original, ConversionOperatorDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
-    		var ignoreCore = false;
-    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
-    		if(ignoreCore) 
-    			return result;
-    		
-    		result = this.PairwisePartnersCore(original, modified, context);
-    		PairwisePartnersAfter(original, modified, context, ref result);
-    		return result;
-    	}
-    }
-    
-    partial class ConstructorDeclarationServiceProvider
-    {
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(ConstructorDeclarationSyntax, ConstructorDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(ConstructorDeclarationSyntax, ConstructorDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(ConstructorDeclarationSyntax, ConstructorDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(ConstructorDeclarationSyntax, ConstructorDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
-        partial void PairwisePartnersBefore(ConstructorDeclarationSyntax original, ConstructorDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(ConstructorDeclarationSyntax, ConstructorDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(ConstructorDeclarationSyntax, ConstructorDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        partial void PairwisePartnersAfter(ConstructorDeclarationSyntax original, ConstructorDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
-    
-        /// <summary>
-        /// Determines if two <see cref="ConstructorDeclarationSyntax"/> elements are name-based exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="PairwisePartners(ConstructorDeclarationSyntax, ConstructorDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
-        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(ConstructorDeclarationSyntax original, ConstructorDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		if(original == null) 
-    			throw new ArgumentNullException(nameof(original));
-    
-    		if(modified == null) 
-    			throw new ArgumentNullException(nameof(modified));
-    
-    		var matchingSet = context.Approach.MatchingSet();
-    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.Identifier,
-    		    Modified = modified.Identifier
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.SemicolonToken,
-    		    Modified = modified.SemicolonToken
-    		};
-    		if(original.SemicolonToken != null && modified.SemicolonToken != null)
-    		{
-        		if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    		}
-    		else if(original.SemicolonToken != null)
-    			matchingSet.Originals.DisableMatching(original.SemicolonToken);
-    		else
-    			matchingSet.Modifieds.DisableMatching(modified.SemicolonToken);
-    	}    
-    
-    	/// <summary>
-        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(ConstructorDeclarationSyntax original, ConstructorDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
-    		var ignoreCore = false;
-    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
-    		if(ignoreCore) 
-    			return result;
-    		
-    		result = this.PairwisePartnersCore(original, modified, context);
-    		PairwisePartnersAfter(original, modified, context, ref result);
-    		return result;
-    	}
-    }
-    
-    partial class DestructorDeclarationServiceProvider
-    {
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(DestructorDeclarationSyntax, DestructorDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(DestructorDeclarationSyntax, DestructorDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(DestructorDeclarationSyntax, DestructorDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(DestructorDeclarationSyntax, DestructorDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
-        partial void PairwisePartnersBefore(DestructorDeclarationSyntax original, DestructorDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(DestructorDeclarationSyntax, DestructorDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(DestructorDeclarationSyntax, DestructorDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        partial void PairwisePartnersAfter(DestructorDeclarationSyntax original, DestructorDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
-    
-        /// <summary>
-        /// Determines if two <see cref="DestructorDeclarationSyntax"/> elements are name-based exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="PairwisePartners(DestructorDeclarationSyntax, DestructorDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
-        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(DestructorDeclarationSyntax original, DestructorDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		if(original == null) 
-    			throw new ArgumentNullException(nameof(original));
-    
-    		if(modified == null) 
-    			throw new ArgumentNullException(nameof(modified));
-    
-    		var matchingSet = context.Approach.MatchingSet();
-    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.TildeToken,
-    		    Modified = modified.TildeToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.Identifier,
-    		    Modified = modified.Identifier
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.SemicolonToken,
-    		    Modified = modified.SemicolonToken
-    		};
-    		if(original.SemicolonToken != null && modified.SemicolonToken != null)
-    		{
-        		if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    		}
-    		else if(original.SemicolonToken != null)
-    			matchingSet.Originals.DisableMatching(original.SemicolonToken);
-    		else
-    			matchingSet.Modifieds.DisableMatching(modified.SemicolonToken);
-    	}    
-    
-    	/// <summary>
-        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(DestructorDeclarationSyntax original, DestructorDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
-    		var ignoreCore = false;
-    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
-    		if(ignoreCore) 
-    			return result;
-    		
-    		result = this.PairwisePartnersCore(original, modified, context);
-    		PairwisePartnersAfter(original, modified, context, ref result);
-    		return result;
-    	}
-    }
-    
-    partial class PropertyDeclarationServiceProvider
-    {
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(PropertyDeclarationSyntax, PropertyDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(PropertyDeclarationSyntax, PropertyDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(PropertyDeclarationSyntax, PropertyDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(PropertyDeclarationSyntax, PropertyDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
-        partial void PairwisePartnersBefore(PropertyDeclarationSyntax original, PropertyDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(PropertyDeclarationSyntax, PropertyDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(PropertyDeclarationSyntax, PropertyDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        partial void PairwisePartnersAfter(PropertyDeclarationSyntax original, PropertyDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
-    
-        /// <summary>
-        /// Determines if two <see cref="PropertyDeclarationSyntax"/> elements are name-based exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="PairwisePartners(PropertyDeclarationSyntax, PropertyDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
-        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(PropertyDeclarationSyntax original, PropertyDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		if(original == null) 
-    			throw new ArgumentNullException(nameof(original));
-    
-    		if(modified == null) 
-    			throw new ArgumentNullException(nameof(modified));
-    
-    		var matchingSet = context.Approach.MatchingSet();
-    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.Identifier,
-    		    Modified = modified.Identifier
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.SemicolonToken,
-    		    Modified = modified.SemicolonToken
-    		};
-    		if(original.SemicolonToken != null && modified.SemicolonToken != null)
-    		{
-        		if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    		}
-    		else if(original.SemicolonToken != null)
-    			matchingSet.Originals.DisableMatching(original.SemicolonToken);
-    		else
-    			matchingSet.Modifieds.DisableMatching(modified.SemicolonToken);
-    	}    
-    
-    	/// <summary>
-        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(PropertyDeclarationSyntax original, PropertyDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
-    		var ignoreCore = false;
-    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
-    		if(ignoreCore) 
-    			return result;
-    		
-    		result = this.PairwisePartnersCore(original, modified, context);
-    		PairwisePartnersAfter(original, modified, context, ref result);
-    		return result;
-    	}
-    }
-    
-    partial class EventDeclarationServiceProvider
-    {
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(EventDeclarationSyntax, EventDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(EventDeclarationSyntax, EventDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(EventDeclarationSyntax, EventDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(EventDeclarationSyntax, EventDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
-        partial void PairwisePartnersBefore(EventDeclarationSyntax original, EventDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(EventDeclarationSyntax, EventDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(EventDeclarationSyntax, EventDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        partial void PairwisePartnersAfter(EventDeclarationSyntax original, EventDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
-    
-        /// <summary>
-        /// Determines if two <see cref="EventDeclarationSyntax"/> elements are name-based exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="PairwisePartners(EventDeclarationSyntax, EventDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
-        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(EventDeclarationSyntax original, EventDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		if(original == null) 
-    			throw new ArgumentNullException(nameof(original));
-    
-    		if(modified == null) 
-    			throw new ArgumentNullException(nameof(modified));
-    
-    		var matchingSet = context.Approach.MatchingSet();
-    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.EventKeyword,
-    		    Modified = modified.EventKeyword
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.Identifier,
-    		    Modified = modified.Identifier
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    	}    
-    
-    	/// <summary>
-        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(EventDeclarationSyntax original, EventDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
-    		var ignoreCore = false;
-    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
-    		if(ignoreCore) 
-    			return result;
-    		
-    		result = this.PairwisePartnersCore(original, modified, context);
-    		PairwisePartnersAfter(original, modified, context, ref result);
-    		return result;
-    	}
-    }
-    
-    partial class IndexerDeclarationServiceProvider
-    {
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(IndexerDeclarationSyntax, IndexerDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(IndexerDeclarationSyntax, IndexerDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(IndexerDeclarationSyntax, IndexerDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(IndexerDeclarationSyntax, IndexerDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
-        partial void PairwisePartnersBefore(IndexerDeclarationSyntax original, IndexerDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(IndexerDeclarationSyntax, IndexerDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(IndexerDeclarationSyntax, IndexerDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        partial void PairwisePartnersAfter(IndexerDeclarationSyntax original, IndexerDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
-    
-        /// <summary>
-        /// Determines if two <see cref="IndexerDeclarationSyntax"/> elements are name-based exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="PairwisePartners(IndexerDeclarationSyntax, IndexerDeclarationSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
-        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(IndexerDeclarationSyntax original, IndexerDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		if(original == null) 
-    			throw new ArgumentNullException(nameof(original));
-    
-    		if(modified == null) 
-    			throw new ArgumentNullException(nameof(modified));
-    
-    		var matchingSet = context.Approach.MatchingSet();
-    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.ThisKeyword,
-    		    Modified = modified.ThisKeyword
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.SemicolonToken,
-    		    Modified = modified.SemicolonToken
-    		};
-    		if(original.SemicolonToken != null && modified.SemicolonToken != null)
-    		{
-        		if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    		}
-    		else if(original.SemicolonToken != null)
-    			matchingSet.Originals.DisableMatching(original.SemicolonToken);
-    		else
-    			matchingSet.Modifieds.DisableMatching(modified.SemicolonToken);
-    	}    
-    
-    	/// <summary>
-        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(IndexerDeclarationSyntax original, IndexerDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
-    		var ignoreCore = false;
-    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
-    		if(ignoreCore) 
-    			return result;
-    		
-    		result = this.PairwisePartnersCore(original, modified, context);
-    		PairwisePartnersAfter(original, modified, context, ref result);
-    		return result;
-    	}
-    }
-    
     partial class BlockServiceProvider
     {
     	/// <summary>
@@ -12225,3179 +15398,6 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
         public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(DefaultSwitchLabelSyntax original, DefaultSwitchLabelSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
-    		var ignoreCore = false;
-    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
-    		if(ignoreCore) 
-    			return result;
-    		
-    		result = this.PairwisePartnersCore(original, modified, context);
-    		PairwisePartnersAfter(original, modified, context, ref result);
-    		return result;
-    	}
-    }
-    
-    partial class ConstructorConstraintServiceProvider
-    {
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(ConstructorConstraintSyntax, ConstructorConstraintSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(ConstructorConstraintSyntax, ConstructorConstraintSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(ConstructorConstraintSyntax, ConstructorConstraintSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(ConstructorConstraintSyntax, ConstructorConstraintSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
-        partial void PairwisePartnersBefore(ConstructorConstraintSyntax original, ConstructorConstraintSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(ConstructorConstraintSyntax, ConstructorConstraintSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(ConstructorConstraintSyntax, ConstructorConstraintSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        partial void PairwisePartnersAfter(ConstructorConstraintSyntax original, ConstructorConstraintSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
-    
-        /// <summary>
-        /// Determines if two <see cref="ConstructorConstraintSyntax"/> elements are name-based exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="PairwisePartners(ConstructorConstraintSyntax, ConstructorConstraintSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
-        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(ConstructorConstraintSyntax original, ConstructorConstraintSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		if(original == null) 
-    			throw new ArgumentNullException(nameof(original));
-    
-    		if(modified == null) 
-    			throw new ArgumentNullException(nameof(modified));
-    
-    		var matchingSet = context.Approach.MatchingSet();
-    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.NewKeyword,
-    		    Modified = modified.NewKeyword
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.OpenParenToken,
-    		    Modified = modified.OpenParenToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.CloseParenToken,
-    		    Modified = modified.CloseParenToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    	}    
-    
-    	/// <summary>
-        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(ConstructorConstraintSyntax original, ConstructorConstraintSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
-    		var ignoreCore = false;
-    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
-    		if(ignoreCore) 
-    			return result;
-    		
-    		result = this.PairwisePartnersCore(original, modified, context);
-    		PairwisePartnersAfter(original, modified, context, ref result);
-    		return result;
-    	}
-    }
-    
-    partial class ClassOrStructConstraintServiceProvider
-    {
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(ClassOrStructConstraintSyntax, ClassOrStructConstraintSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(ClassOrStructConstraintSyntax, ClassOrStructConstraintSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(ClassOrStructConstraintSyntax, ClassOrStructConstraintSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(ClassOrStructConstraintSyntax, ClassOrStructConstraintSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
-        partial void PairwisePartnersBefore(ClassOrStructConstraintSyntax original, ClassOrStructConstraintSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(ClassOrStructConstraintSyntax, ClassOrStructConstraintSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(ClassOrStructConstraintSyntax, ClassOrStructConstraintSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        partial void PairwisePartnersAfter(ClassOrStructConstraintSyntax original, ClassOrStructConstraintSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
-    
-        /// <summary>
-        /// Determines if two <see cref="ClassOrStructConstraintSyntax"/> elements are name-based exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="PairwisePartners(ClassOrStructConstraintSyntax, ClassOrStructConstraintSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
-        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(ClassOrStructConstraintSyntax original, ClassOrStructConstraintSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		if(original == null) 
-    			throw new ArgumentNullException(nameof(original));
-    
-    		if(modified == null) 
-    			throw new ArgumentNullException(nameof(modified));
-    
-    		var matchingSet = context.Approach.MatchingSet();
-    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.ClassOrStructKeyword,
-    		    Modified = modified.ClassOrStructKeyword
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    	}    
-    
-    	/// <summary>
-        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(ClassOrStructConstraintSyntax original, ClassOrStructConstraintSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
-    		var ignoreCore = false;
-    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
-    		if(ignoreCore) 
-    			return result;
-    		
-    		result = this.PairwisePartnersCore(original, modified, context);
-    		PairwisePartnersAfter(original, modified, context, ref result);
-    		return result;
-    	}
-    }
-    
-    partial class ParameterListServiceProvider
-    {
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(ParameterListSyntax, ParameterListSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(ParameterListSyntax, ParameterListSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(ParameterListSyntax, ParameterListSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(ParameterListSyntax, ParameterListSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
-        partial void PairwisePartnersBefore(ParameterListSyntax original, ParameterListSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(ParameterListSyntax, ParameterListSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(ParameterListSyntax, ParameterListSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        partial void PairwisePartnersAfter(ParameterListSyntax original, ParameterListSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
-    
-        /// <summary>
-        /// Determines if two <see cref="ParameterListSyntax"/> elements are name-based exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="PairwisePartners(ParameterListSyntax, ParameterListSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
-        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(ParameterListSyntax original, ParameterListSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		if(original == null) 
-    			throw new ArgumentNullException(nameof(original));
-    
-    		if(modified == null) 
-    			throw new ArgumentNullException(nameof(modified));
-    
-    		var matchingSet = context.Approach.MatchingSet();
-    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.OpenParenToken,
-    		    Modified = modified.OpenParenToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.CloseParenToken,
-    		    Modified = modified.CloseParenToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    	}    
-    
-    	/// <summary>
-        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(ParameterListSyntax original, ParameterListSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
-    		var ignoreCore = false;
-    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
-    		if(ignoreCore) 
-    			return result;
-    		
-    		result = this.PairwisePartnersCore(original, modified, context);
-    		PairwisePartnersAfter(original, modified, context, ref result);
-    		return result;
-    	}
-    }
-    
-    partial class BracketedParameterListServiceProvider
-    {
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(BracketedParameterListSyntax, BracketedParameterListSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(BracketedParameterListSyntax, BracketedParameterListSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(BracketedParameterListSyntax, BracketedParameterListSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(BracketedParameterListSyntax, BracketedParameterListSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
-        partial void PairwisePartnersBefore(BracketedParameterListSyntax original, BracketedParameterListSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(BracketedParameterListSyntax, BracketedParameterListSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(BracketedParameterListSyntax, BracketedParameterListSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        partial void PairwisePartnersAfter(BracketedParameterListSyntax original, BracketedParameterListSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
-    
-        /// <summary>
-        /// Determines if two <see cref="BracketedParameterListSyntax"/> elements are name-based exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="PairwisePartners(BracketedParameterListSyntax, BracketedParameterListSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
-        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(BracketedParameterListSyntax original, BracketedParameterListSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		if(original == null) 
-    			throw new ArgumentNullException(nameof(original));
-    
-    		if(modified == null) 
-    			throw new ArgumentNullException(nameof(modified));
-    
-    		var matchingSet = context.Approach.MatchingSet();
-    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.OpenBracketToken,
-    		    Modified = modified.OpenBracketToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.CloseBracketToken,
-    		    Modified = modified.CloseBracketToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    	}    
-    
-    	/// <summary>
-        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(BracketedParameterListSyntax original, BracketedParameterListSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
-    		var ignoreCore = false;
-    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
-    		if(ignoreCore) 
-    			return result;
-    		
-    		result = this.PairwisePartnersCore(original, modified, context);
-    		PairwisePartnersAfter(original, modified, context, ref result);
-    		return result;
-    	}
-    }
-    
-    partial class DocumentationCommentTriviaServiceProvider
-    {
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(DocumentationCommentTriviaSyntax, DocumentationCommentTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(DocumentationCommentTriviaSyntax, DocumentationCommentTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(DocumentationCommentTriviaSyntax, DocumentationCommentTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(DocumentationCommentTriviaSyntax, DocumentationCommentTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
-        partial void PairwisePartnersBefore(DocumentationCommentTriviaSyntax original, DocumentationCommentTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(DocumentationCommentTriviaSyntax, DocumentationCommentTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(DocumentationCommentTriviaSyntax, DocumentationCommentTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        partial void PairwisePartnersAfter(DocumentationCommentTriviaSyntax original, DocumentationCommentTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
-    
-        /// <summary>
-        /// Determines if two <see cref="DocumentationCommentTriviaSyntax"/> elements are name-based exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="PairwisePartners(DocumentationCommentTriviaSyntax, DocumentationCommentTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
-        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(DocumentationCommentTriviaSyntax original, DocumentationCommentTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		if(original == null) 
-    			throw new ArgumentNullException(nameof(original));
-    
-    		if(modified == null) 
-    			throw new ArgumentNullException(nameof(modified));
-    
-    		var matchingSet = context.Approach.MatchingSet();
-    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.EndOfComment,
-    		    Modified = modified.EndOfComment
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    	}    
-    
-    	/// <summary>
-        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(DocumentationCommentTriviaSyntax original, DocumentationCommentTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
-    		var ignoreCore = false;
-    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
-    		if(ignoreCore) 
-    			return result;
-    		
-    		result = this.PairwisePartnersCore(original, modified, context);
-    		PairwisePartnersAfter(original, modified, context, ref result);
-    		return result;
-    	}
-    }
-    
-    partial class EndIfDirectiveTriviaServiceProvider
-    {
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(EndIfDirectiveTriviaSyntax, EndIfDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(EndIfDirectiveTriviaSyntax, EndIfDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(EndIfDirectiveTriviaSyntax, EndIfDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(EndIfDirectiveTriviaSyntax, EndIfDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
-        partial void PairwisePartnersBefore(EndIfDirectiveTriviaSyntax original, EndIfDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(EndIfDirectiveTriviaSyntax, EndIfDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(EndIfDirectiveTriviaSyntax, EndIfDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        partial void PairwisePartnersAfter(EndIfDirectiveTriviaSyntax original, EndIfDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
-    
-        /// <summary>
-        /// Determines if two <see cref="EndIfDirectiveTriviaSyntax"/> elements are name-based exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="PairwisePartners(EndIfDirectiveTriviaSyntax, EndIfDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
-        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(EndIfDirectiveTriviaSyntax original, EndIfDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		if(original == null) 
-    			throw new ArgumentNullException(nameof(original));
-    
-    		if(modified == null) 
-    			throw new ArgumentNullException(nameof(modified));
-    
-    		var matchingSet = context.Approach.MatchingSet();
-    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.HashToken,
-    		    Modified = modified.HashToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.EndIfKeyword,
-    		    Modified = modified.EndIfKeyword
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.EndOfDirectiveToken,
-    		    Modified = modified.EndOfDirectiveToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    	}    
-    
-    	/// <summary>
-        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(EndIfDirectiveTriviaSyntax original, EndIfDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
-    		var ignoreCore = false;
-    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
-    		if(ignoreCore) 
-    			return result;
-    		
-    		result = this.PairwisePartnersCore(original, modified, context);
-    		PairwisePartnersAfter(original, modified, context, ref result);
-    		return result;
-    	}
-    }
-    
-    partial class RegionDirectiveTriviaServiceProvider
-    {
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(RegionDirectiveTriviaSyntax, RegionDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(RegionDirectiveTriviaSyntax, RegionDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(RegionDirectiveTriviaSyntax, RegionDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(RegionDirectiveTriviaSyntax, RegionDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
-        partial void PairwisePartnersBefore(RegionDirectiveTriviaSyntax original, RegionDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(RegionDirectiveTriviaSyntax, RegionDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(RegionDirectiveTriviaSyntax, RegionDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        partial void PairwisePartnersAfter(RegionDirectiveTriviaSyntax original, RegionDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
-    
-        /// <summary>
-        /// Determines if two <see cref="RegionDirectiveTriviaSyntax"/> elements are name-based exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="PairwisePartners(RegionDirectiveTriviaSyntax, RegionDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
-        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(RegionDirectiveTriviaSyntax original, RegionDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		if(original == null) 
-    			throw new ArgumentNullException(nameof(original));
-    
-    		if(modified == null) 
-    			throw new ArgumentNullException(nameof(modified));
-    
-    		var matchingSet = context.Approach.MatchingSet();
-    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.HashToken,
-    		    Modified = modified.HashToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.RegionKeyword,
-    		    Modified = modified.RegionKeyword
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.EndOfDirectiveToken,
-    		    Modified = modified.EndOfDirectiveToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    	}    
-    
-    	/// <summary>
-        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(RegionDirectiveTriviaSyntax original, RegionDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
-    		var ignoreCore = false;
-    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
-    		if(ignoreCore) 
-    			return result;
-    		
-    		result = this.PairwisePartnersCore(original, modified, context);
-    		PairwisePartnersAfter(original, modified, context, ref result);
-    		return result;
-    	}
-    }
-    
-    partial class EndRegionDirectiveTriviaServiceProvider
-    {
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(EndRegionDirectiveTriviaSyntax, EndRegionDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(EndRegionDirectiveTriviaSyntax, EndRegionDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(EndRegionDirectiveTriviaSyntax, EndRegionDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(EndRegionDirectiveTriviaSyntax, EndRegionDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
-        partial void PairwisePartnersBefore(EndRegionDirectiveTriviaSyntax original, EndRegionDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(EndRegionDirectiveTriviaSyntax, EndRegionDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(EndRegionDirectiveTriviaSyntax, EndRegionDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        partial void PairwisePartnersAfter(EndRegionDirectiveTriviaSyntax original, EndRegionDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
-    
-        /// <summary>
-        /// Determines if two <see cref="EndRegionDirectiveTriviaSyntax"/> elements are name-based exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="PairwisePartners(EndRegionDirectiveTriviaSyntax, EndRegionDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
-        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(EndRegionDirectiveTriviaSyntax original, EndRegionDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		if(original == null) 
-    			throw new ArgumentNullException(nameof(original));
-    
-    		if(modified == null) 
-    			throw new ArgumentNullException(nameof(modified));
-    
-    		var matchingSet = context.Approach.MatchingSet();
-    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.HashToken,
-    		    Modified = modified.HashToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.EndRegionKeyword,
-    		    Modified = modified.EndRegionKeyword
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.EndOfDirectiveToken,
-    		    Modified = modified.EndOfDirectiveToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    	}    
-    
-    	/// <summary>
-        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(EndRegionDirectiveTriviaSyntax original, EndRegionDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
-    		var ignoreCore = false;
-    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
-    		if(ignoreCore) 
-    			return result;
-    		
-    		result = this.PairwisePartnersCore(original, modified, context);
-    		PairwisePartnersAfter(original, modified, context, ref result);
-    		return result;
-    	}
-    }
-    
-    partial class ErrorDirectiveTriviaServiceProvider
-    {
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(ErrorDirectiveTriviaSyntax, ErrorDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(ErrorDirectiveTriviaSyntax, ErrorDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(ErrorDirectiveTriviaSyntax, ErrorDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(ErrorDirectiveTriviaSyntax, ErrorDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
-        partial void PairwisePartnersBefore(ErrorDirectiveTriviaSyntax original, ErrorDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(ErrorDirectiveTriviaSyntax, ErrorDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(ErrorDirectiveTriviaSyntax, ErrorDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        partial void PairwisePartnersAfter(ErrorDirectiveTriviaSyntax original, ErrorDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
-    
-        /// <summary>
-        /// Determines if two <see cref="ErrorDirectiveTriviaSyntax"/> elements are name-based exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="PairwisePartners(ErrorDirectiveTriviaSyntax, ErrorDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
-        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(ErrorDirectiveTriviaSyntax original, ErrorDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		if(original == null) 
-    			throw new ArgumentNullException(nameof(original));
-    
-    		if(modified == null) 
-    			throw new ArgumentNullException(nameof(modified));
-    
-    		var matchingSet = context.Approach.MatchingSet();
-    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.HashToken,
-    		    Modified = modified.HashToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.ErrorKeyword,
-    		    Modified = modified.ErrorKeyword
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.EndOfDirectiveToken,
-    		    Modified = modified.EndOfDirectiveToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    	}    
-    
-    	/// <summary>
-        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(ErrorDirectiveTriviaSyntax original, ErrorDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
-    		var ignoreCore = false;
-    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
-    		if(ignoreCore) 
-    			return result;
-    		
-    		result = this.PairwisePartnersCore(original, modified, context);
-    		PairwisePartnersAfter(original, modified, context, ref result);
-    		return result;
-    	}
-    }
-    
-    partial class WarningDirectiveTriviaServiceProvider
-    {
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(WarningDirectiveTriviaSyntax, WarningDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(WarningDirectiveTriviaSyntax, WarningDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(WarningDirectiveTriviaSyntax, WarningDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(WarningDirectiveTriviaSyntax, WarningDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
-        partial void PairwisePartnersBefore(WarningDirectiveTriviaSyntax original, WarningDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(WarningDirectiveTriviaSyntax, WarningDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(WarningDirectiveTriviaSyntax, WarningDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        partial void PairwisePartnersAfter(WarningDirectiveTriviaSyntax original, WarningDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
-    
-        /// <summary>
-        /// Determines if two <see cref="WarningDirectiveTriviaSyntax"/> elements are name-based exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="PairwisePartners(WarningDirectiveTriviaSyntax, WarningDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
-        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(WarningDirectiveTriviaSyntax original, WarningDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		if(original == null) 
-    			throw new ArgumentNullException(nameof(original));
-    
-    		if(modified == null) 
-    			throw new ArgumentNullException(nameof(modified));
-    
-    		var matchingSet = context.Approach.MatchingSet();
-    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.HashToken,
-    		    Modified = modified.HashToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.WarningKeyword,
-    		    Modified = modified.WarningKeyword
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.EndOfDirectiveToken,
-    		    Modified = modified.EndOfDirectiveToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    	}    
-    
-    	/// <summary>
-        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(WarningDirectiveTriviaSyntax original, WarningDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
-    		var ignoreCore = false;
-    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
-    		if(ignoreCore) 
-    			return result;
-    		
-    		result = this.PairwisePartnersCore(original, modified, context);
-    		PairwisePartnersAfter(original, modified, context, ref result);
-    		return result;
-    	}
-    }
-    
-    partial class BadDirectiveTriviaServiceProvider
-    {
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(BadDirectiveTriviaSyntax, BadDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(BadDirectiveTriviaSyntax, BadDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(BadDirectiveTriviaSyntax, BadDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(BadDirectiveTriviaSyntax, BadDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
-        partial void PairwisePartnersBefore(BadDirectiveTriviaSyntax original, BadDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(BadDirectiveTriviaSyntax, BadDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(BadDirectiveTriviaSyntax, BadDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        partial void PairwisePartnersAfter(BadDirectiveTriviaSyntax original, BadDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
-    
-        /// <summary>
-        /// Determines if two <see cref="BadDirectiveTriviaSyntax"/> elements are name-based exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="PairwisePartners(BadDirectiveTriviaSyntax, BadDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
-        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(BadDirectiveTriviaSyntax original, BadDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		if(original == null) 
-    			throw new ArgumentNullException(nameof(original));
-    
-    		if(modified == null) 
-    			throw new ArgumentNullException(nameof(modified));
-    
-    		var matchingSet = context.Approach.MatchingSet();
-    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.HashToken,
-    		    Modified = modified.HashToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.Identifier,
-    		    Modified = modified.Identifier
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.EndOfDirectiveToken,
-    		    Modified = modified.EndOfDirectiveToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    	}    
-    
-    	/// <summary>
-        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(BadDirectiveTriviaSyntax original, BadDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
-    		var ignoreCore = false;
-    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
-    		if(ignoreCore) 
-    			return result;
-    		
-    		result = this.PairwisePartnersCore(original, modified, context);
-    		PairwisePartnersAfter(original, modified, context, ref result);
-    		return result;
-    	}
-    }
-    
-    partial class DefineDirectiveTriviaServiceProvider
-    {
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(DefineDirectiveTriviaSyntax, DefineDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(DefineDirectiveTriviaSyntax, DefineDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(DefineDirectiveTriviaSyntax, DefineDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(DefineDirectiveTriviaSyntax, DefineDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
-        partial void PairwisePartnersBefore(DefineDirectiveTriviaSyntax original, DefineDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(DefineDirectiveTriviaSyntax, DefineDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(DefineDirectiveTriviaSyntax, DefineDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        partial void PairwisePartnersAfter(DefineDirectiveTriviaSyntax original, DefineDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
-    
-        /// <summary>
-        /// Determines if two <see cref="DefineDirectiveTriviaSyntax"/> elements are name-based exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="PairwisePartners(DefineDirectiveTriviaSyntax, DefineDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
-        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(DefineDirectiveTriviaSyntax original, DefineDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		if(original == null) 
-    			throw new ArgumentNullException(nameof(original));
-    
-    		if(modified == null) 
-    			throw new ArgumentNullException(nameof(modified));
-    
-    		var matchingSet = context.Approach.MatchingSet();
-    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.HashToken,
-    		    Modified = modified.HashToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.DefineKeyword,
-    		    Modified = modified.DefineKeyword
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.Name,
-    		    Modified = modified.Name
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.EndOfDirectiveToken,
-    		    Modified = modified.EndOfDirectiveToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    	}    
-    
-    	/// <summary>
-        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(DefineDirectiveTriviaSyntax original, DefineDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
-    		var ignoreCore = false;
-    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
-    		if(ignoreCore) 
-    			return result;
-    		
-    		result = this.PairwisePartnersCore(original, modified, context);
-    		PairwisePartnersAfter(original, modified, context, ref result);
-    		return result;
-    	}
-    }
-    
-    partial class UndefDirectiveTriviaServiceProvider
-    {
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(UndefDirectiveTriviaSyntax, UndefDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(UndefDirectiveTriviaSyntax, UndefDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(UndefDirectiveTriviaSyntax, UndefDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(UndefDirectiveTriviaSyntax, UndefDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
-        partial void PairwisePartnersBefore(UndefDirectiveTriviaSyntax original, UndefDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(UndefDirectiveTriviaSyntax, UndefDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(UndefDirectiveTriviaSyntax, UndefDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        partial void PairwisePartnersAfter(UndefDirectiveTriviaSyntax original, UndefDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
-    
-        /// <summary>
-        /// Determines if two <see cref="UndefDirectiveTriviaSyntax"/> elements are name-based exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="PairwisePartners(UndefDirectiveTriviaSyntax, UndefDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
-        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(UndefDirectiveTriviaSyntax original, UndefDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		if(original == null) 
-    			throw new ArgumentNullException(nameof(original));
-    
-    		if(modified == null) 
-    			throw new ArgumentNullException(nameof(modified));
-    
-    		var matchingSet = context.Approach.MatchingSet();
-    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.HashToken,
-    		    Modified = modified.HashToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.UndefKeyword,
-    		    Modified = modified.UndefKeyword
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.Name,
-    		    Modified = modified.Name
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.EndOfDirectiveToken,
-    		    Modified = modified.EndOfDirectiveToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    	}    
-    
-    	/// <summary>
-        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(UndefDirectiveTriviaSyntax original, UndefDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
-    		var ignoreCore = false;
-    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
-    		if(ignoreCore) 
-    			return result;
-    		
-    		result = this.PairwisePartnersCore(original, modified, context);
-    		PairwisePartnersAfter(original, modified, context, ref result);
-    		return result;
-    	}
-    }
-    
-    partial class LineDirectiveTriviaServiceProvider
-    {
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(LineDirectiveTriviaSyntax, LineDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(LineDirectiveTriviaSyntax, LineDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(LineDirectiveTriviaSyntax, LineDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(LineDirectiveTriviaSyntax, LineDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
-        partial void PairwisePartnersBefore(LineDirectiveTriviaSyntax original, LineDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(LineDirectiveTriviaSyntax, LineDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(LineDirectiveTriviaSyntax, LineDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        partial void PairwisePartnersAfter(LineDirectiveTriviaSyntax original, LineDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
-    
-        /// <summary>
-        /// Determines if two <see cref="LineDirectiveTriviaSyntax"/> elements are name-based exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="PairwisePartners(LineDirectiveTriviaSyntax, LineDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
-        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(LineDirectiveTriviaSyntax original, LineDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		if(original == null) 
-    			throw new ArgumentNullException(nameof(original));
-    
-    		if(modified == null) 
-    			throw new ArgumentNullException(nameof(modified));
-    
-    		var matchingSet = context.Approach.MatchingSet();
-    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.HashToken,
-    		    Modified = modified.HashToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.LineKeyword,
-    		    Modified = modified.LineKeyword
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.Line,
-    		    Modified = modified.Line
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.File,
-    		    Modified = modified.File
-    		};
-    		if(original.File != null && modified.File != null)
-    		{
-        		if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    		}
-    		else if(original.File != null)
-    			matchingSet.Originals.DisableMatching(original.File);
-    		else
-    			matchingSet.Modifieds.DisableMatching(modified.File);
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.EndOfDirectiveToken,
-    		    Modified = modified.EndOfDirectiveToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    	}    
-    
-    	/// <summary>
-        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(LineDirectiveTriviaSyntax original, LineDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
-    		var ignoreCore = false;
-    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
-    		if(ignoreCore) 
-    			return result;
-    		
-    		result = this.PairwisePartnersCore(original, modified, context);
-    		PairwisePartnersAfter(original, modified, context, ref result);
-    		return result;
-    	}
-    }
-    
-    partial class PragmaWarningDirectiveTriviaServiceProvider
-    {
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(PragmaWarningDirectiveTriviaSyntax, PragmaWarningDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(PragmaWarningDirectiveTriviaSyntax, PragmaWarningDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(PragmaWarningDirectiveTriviaSyntax, PragmaWarningDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(PragmaWarningDirectiveTriviaSyntax, PragmaWarningDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
-        partial void PairwisePartnersBefore(PragmaWarningDirectiveTriviaSyntax original, PragmaWarningDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(PragmaWarningDirectiveTriviaSyntax, PragmaWarningDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(PragmaWarningDirectiveTriviaSyntax, PragmaWarningDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        partial void PairwisePartnersAfter(PragmaWarningDirectiveTriviaSyntax original, PragmaWarningDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
-    
-        /// <summary>
-        /// Determines if two <see cref="PragmaWarningDirectiveTriviaSyntax"/> elements are name-based exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="PairwisePartners(PragmaWarningDirectiveTriviaSyntax, PragmaWarningDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
-        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(PragmaWarningDirectiveTriviaSyntax original, PragmaWarningDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		if(original == null) 
-    			throw new ArgumentNullException(nameof(original));
-    
-    		if(modified == null) 
-    			throw new ArgumentNullException(nameof(modified));
-    
-    		var matchingSet = context.Approach.MatchingSet();
-    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.HashToken,
-    		    Modified = modified.HashToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.PragmaKeyword,
-    		    Modified = modified.PragmaKeyword
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.WarningKeyword,
-    		    Modified = modified.WarningKeyword
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.DisableOrRestoreKeyword,
-    		    Modified = modified.DisableOrRestoreKeyword
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.EndOfDirectiveToken,
-    		    Modified = modified.EndOfDirectiveToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    	}    
-    
-    	/// <summary>
-        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(PragmaWarningDirectiveTriviaSyntax original, PragmaWarningDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
-    		var ignoreCore = false;
-    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
-    		if(ignoreCore) 
-    			return result;
-    		
-    		result = this.PairwisePartnersCore(original, modified, context);
-    		PairwisePartnersAfter(original, modified, context, ref result);
-    		return result;
-    	}
-    }
-    
-    partial class PragmaChecksumDirectiveTriviaServiceProvider
-    {
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(PragmaChecksumDirectiveTriviaSyntax, PragmaChecksumDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(PragmaChecksumDirectiveTriviaSyntax, PragmaChecksumDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(PragmaChecksumDirectiveTriviaSyntax, PragmaChecksumDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(PragmaChecksumDirectiveTriviaSyntax, PragmaChecksumDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
-        partial void PairwisePartnersBefore(PragmaChecksumDirectiveTriviaSyntax original, PragmaChecksumDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(PragmaChecksumDirectiveTriviaSyntax, PragmaChecksumDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(PragmaChecksumDirectiveTriviaSyntax, PragmaChecksumDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        partial void PairwisePartnersAfter(PragmaChecksumDirectiveTriviaSyntax original, PragmaChecksumDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
-    
-        /// <summary>
-        /// Determines if two <see cref="PragmaChecksumDirectiveTriviaSyntax"/> elements are name-based exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="PairwisePartners(PragmaChecksumDirectiveTriviaSyntax, PragmaChecksumDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
-        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(PragmaChecksumDirectiveTriviaSyntax original, PragmaChecksumDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		if(original == null) 
-    			throw new ArgumentNullException(nameof(original));
-    
-    		if(modified == null) 
-    			throw new ArgumentNullException(nameof(modified));
-    
-    		var matchingSet = context.Approach.MatchingSet();
-    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.HashToken,
-    		    Modified = modified.HashToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.PragmaKeyword,
-    		    Modified = modified.PragmaKeyword
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.ChecksumKeyword,
-    		    Modified = modified.ChecksumKeyword
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.File,
-    		    Modified = modified.File
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.Guid,
-    		    Modified = modified.Guid
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.Bytes,
-    		    Modified = modified.Bytes
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.EndOfDirectiveToken,
-    		    Modified = modified.EndOfDirectiveToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    	}    
-    
-    	/// <summary>
-        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(PragmaChecksumDirectiveTriviaSyntax original, PragmaChecksumDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
-    		var ignoreCore = false;
-    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
-    		if(ignoreCore) 
-    			return result;
-    		
-    		result = this.PairwisePartnersCore(original, modified, context);
-    		PairwisePartnersAfter(original, modified, context, ref result);
-    		return result;
-    	}
-    }
-    
-    partial class ReferenceDirectiveTriviaServiceProvider
-    {
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(ReferenceDirectiveTriviaSyntax, ReferenceDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(ReferenceDirectiveTriviaSyntax, ReferenceDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(ReferenceDirectiveTriviaSyntax, ReferenceDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(ReferenceDirectiveTriviaSyntax, ReferenceDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
-        partial void PairwisePartnersBefore(ReferenceDirectiveTriviaSyntax original, ReferenceDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(ReferenceDirectiveTriviaSyntax, ReferenceDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(ReferenceDirectiveTriviaSyntax, ReferenceDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        partial void PairwisePartnersAfter(ReferenceDirectiveTriviaSyntax original, ReferenceDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
-    
-        /// <summary>
-        /// Determines if two <see cref="ReferenceDirectiveTriviaSyntax"/> elements are name-based exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="PairwisePartners(ReferenceDirectiveTriviaSyntax, ReferenceDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
-        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(ReferenceDirectiveTriviaSyntax original, ReferenceDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		if(original == null) 
-    			throw new ArgumentNullException(nameof(original));
-    
-    		if(modified == null) 
-    			throw new ArgumentNullException(nameof(modified));
-    
-    		var matchingSet = context.Approach.MatchingSet();
-    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.HashToken,
-    		    Modified = modified.HashToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.ReferenceKeyword,
-    		    Modified = modified.ReferenceKeyword
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.File,
-    		    Modified = modified.File
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.EndOfDirectiveToken,
-    		    Modified = modified.EndOfDirectiveToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    	}    
-    
-    	/// <summary>
-        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(ReferenceDirectiveTriviaSyntax original, ReferenceDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
-    		var ignoreCore = false;
-    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
-    		if(ignoreCore) 
-    			return result;
-    		
-    		result = this.PairwisePartnersCore(original, modified, context);
-    		PairwisePartnersAfter(original, modified, context, ref result);
-    		return result;
-    	}
-    }
-    
-    partial class LoadDirectiveTriviaServiceProvider
-    {
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(LoadDirectiveTriviaSyntax, LoadDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(LoadDirectiveTriviaSyntax, LoadDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(LoadDirectiveTriviaSyntax, LoadDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(LoadDirectiveTriviaSyntax, LoadDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
-        partial void PairwisePartnersBefore(LoadDirectiveTriviaSyntax original, LoadDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(LoadDirectiveTriviaSyntax, LoadDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(LoadDirectiveTriviaSyntax, LoadDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        partial void PairwisePartnersAfter(LoadDirectiveTriviaSyntax original, LoadDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
-    
-        /// <summary>
-        /// Determines if two <see cref="LoadDirectiveTriviaSyntax"/> elements are name-based exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="PairwisePartners(LoadDirectiveTriviaSyntax, LoadDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
-        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(LoadDirectiveTriviaSyntax original, LoadDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		if(original == null) 
-    			throw new ArgumentNullException(nameof(original));
-    
-    		if(modified == null) 
-    			throw new ArgumentNullException(nameof(modified));
-    
-    		var matchingSet = context.Approach.MatchingSet();
-    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.HashToken,
-    		    Modified = modified.HashToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.LoadKeyword,
-    		    Modified = modified.LoadKeyword
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.File,
-    		    Modified = modified.File
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.EndOfDirectiveToken,
-    		    Modified = modified.EndOfDirectiveToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    	}    
-    
-    	/// <summary>
-        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(LoadDirectiveTriviaSyntax original, LoadDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
-    		var ignoreCore = false;
-    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
-    		if(ignoreCore) 
-    			return result;
-    		
-    		result = this.PairwisePartnersCore(original, modified, context);
-    		PairwisePartnersAfter(original, modified, context, ref result);
-    		return result;
-    	}
-    }
-    
-    partial class ShebangDirectiveTriviaServiceProvider
-    {
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(ShebangDirectiveTriviaSyntax, ShebangDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(ShebangDirectiveTriviaSyntax, ShebangDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(ShebangDirectiveTriviaSyntax, ShebangDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(ShebangDirectiveTriviaSyntax, ShebangDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
-        partial void PairwisePartnersBefore(ShebangDirectiveTriviaSyntax original, ShebangDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(ShebangDirectiveTriviaSyntax, ShebangDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(ShebangDirectiveTriviaSyntax, ShebangDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        partial void PairwisePartnersAfter(ShebangDirectiveTriviaSyntax original, ShebangDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
-    
-        /// <summary>
-        /// Determines if two <see cref="ShebangDirectiveTriviaSyntax"/> elements are name-based exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="PairwisePartners(ShebangDirectiveTriviaSyntax, ShebangDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
-        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(ShebangDirectiveTriviaSyntax original, ShebangDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		if(original == null) 
-    			throw new ArgumentNullException(nameof(original));
-    
-    		if(modified == null) 
-    			throw new ArgumentNullException(nameof(modified));
-    
-    		var matchingSet = context.Approach.MatchingSet();
-    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.HashToken,
-    		    Modified = modified.HashToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.ExclamationToken,
-    		    Modified = modified.ExclamationToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.EndOfDirectiveToken,
-    		    Modified = modified.EndOfDirectiveToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    	}    
-    
-    	/// <summary>
-        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(ShebangDirectiveTriviaSyntax original, ShebangDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
-    		var ignoreCore = false;
-    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
-    		if(ignoreCore) 
-    			return result;
-    		
-    		result = this.PairwisePartnersCore(original, modified, context);
-    		PairwisePartnersAfter(original, modified, context, ref result);
-    		return result;
-    	}
-    }
-    
-    partial class ElseDirectiveTriviaServiceProvider
-    {
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(ElseDirectiveTriviaSyntax, ElseDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(ElseDirectiveTriviaSyntax, ElseDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(ElseDirectiveTriviaSyntax, ElseDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(ElseDirectiveTriviaSyntax, ElseDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
-        partial void PairwisePartnersBefore(ElseDirectiveTriviaSyntax original, ElseDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(ElseDirectiveTriviaSyntax, ElseDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(ElseDirectiveTriviaSyntax, ElseDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        partial void PairwisePartnersAfter(ElseDirectiveTriviaSyntax original, ElseDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
-    
-        /// <summary>
-        /// Determines if two <see cref="ElseDirectiveTriviaSyntax"/> elements are name-based exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="PairwisePartners(ElseDirectiveTriviaSyntax, ElseDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
-        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(ElseDirectiveTriviaSyntax original, ElseDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		if(original == null) 
-    			throw new ArgumentNullException(nameof(original));
-    
-    		if(modified == null) 
-    			throw new ArgumentNullException(nameof(modified));
-    
-    		var matchingSet = context.Approach.MatchingSet();
-    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.HashToken,
-    		    Modified = modified.HashToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.ElseKeyword,
-    		    Modified = modified.ElseKeyword
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.EndOfDirectiveToken,
-    		    Modified = modified.EndOfDirectiveToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    	}    
-    
-    	/// <summary>
-        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(ElseDirectiveTriviaSyntax original, ElseDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
-    		var ignoreCore = false;
-    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
-    		if(ignoreCore) 
-    			return result;
-    		
-    		result = this.PairwisePartnersCore(original, modified, context);
-    		PairwisePartnersAfter(original, modified, context, ref result);
-    		return result;
-    	}
-    }
-    
-    partial class IfDirectiveTriviaServiceProvider
-    {
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(IfDirectiveTriviaSyntax, IfDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(IfDirectiveTriviaSyntax, IfDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(IfDirectiveTriviaSyntax, IfDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(IfDirectiveTriviaSyntax, IfDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
-        partial void PairwisePartnersBefore(IfDirectiveTriviaSyntax original, IfDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(IfDirectiveTriviaSyntax, IfDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(IfDirectiveTriviaSyntax, IfDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        partial void PairwisePartnersAfter(IfDirectiveTriviaSyntax original, IfDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
-    
-        /// <summary>
-        /// Determines if two <see cref="IfDirectiveTriviaSyntax"/> elements are name-based exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="PairwisePartners(IfDirectiveTriviaSyntax, IfDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
-        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(IfDirectiveTriviaSyntax original, IfDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		if(original == null) 
-    			throw new ArgumentNullException(nameof(original));
-    
-    		if(modified == null) 
-    			throw new ArgumentNullException(nameof(modified));
-    
-    		var matchingSet = context.Approach.MatchingSet();
-    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.HashToken,
-    		    Modified = modified.HashToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.IfKeyword,
-    		    Modified = modified.IfKeyword
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.EndOfDirectiveToken,
-    		    Modified = modified.EndOfDirectiveToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    	}    
-    
-    	/// <summary>
-        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(IfDirectiveTriviaSyntax original, IfDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
-    		var ignoreCore = false;
-    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
-    		if(ignoreCore) 
-    			return result;
-    		
-    		result = this.PairwisePartnersCore(original, modified, context);
-    		PairwisePartnersAfter(original, modified, context, ref result);
-    		return result;
-    	}
-    }
-    
-    partial class ElifDirectiveTriviaServiceProvider
-    {
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(ElifDirectiveTriviaSyntax, ElifDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(ElifDirectiveTriviaSyntax, ElifDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(ElifDirectiveTriviaSyntax, ElifDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(ElifDirectiveTriviaSyntax, ElifDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
-        partial void PairwisePartnersBefore(ElifDirectiveTriviaSyntax original, ElifDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(ElifDirectiveTriviaSyntax, ElifDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(ElifDirectiveTriviaSyntax, ElifDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        partial void PairwisePartnersAfter(ElifDirectiveTriviaSyntax original, ElifDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
-    
-        /// <summary>
-        /// Determines if two <see cref="ElifDirectiveTriviaSyntax"/> elements are name-based exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="PairwisePartners(ElifDirectiveTriviaSyntax, ElifDirectiveTriviaSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
-        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(ElifDirectiveTriviaSyntax original, ElifDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		if(original == null) 
-    			throw new ArgumentNullException(nameof(original));
-    
-    		if(modified == null) 
-    			throw new ArgumentNullException(nameof(modified));
-    
-    		var matchingSet = context.Approach.MatchingSet();
-    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.HashToken,
-    		    Modified = modified.HashToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.ElifKeyword,
-    		    Modified = modified.ElifKeyword
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.EndOfDirectiveToken,
-    		    Modified = modified.EndOfDirectiveToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    	}    
-    
-    	/// <summary>
-        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(ElifDirectiveTriviaSyntax original, ElifDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
-    		var ignoreCore = false;
-    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
-    		if(ignoreCore) 
-    			return result;
-    		
-    		result = this.PairwisePartnersCore(original, modified, context);
-    		PairwisePartnersAfter(original, modified, context, ref result);
-    		return result;
-    	}
-    }
-    
-    partial class QualifiedCrefServiceProvider
-    {
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(QualifiedCrefSyntax, QualifiedCrefSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(QualifiedCrefSyntax, QualifiedCrefSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(QualifiedCrefSyntax, QualifiedCrefSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(QualifiedCrefSyntax, QualifiedCrefSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
-        partial void PairwisePartnersBefore(QualifiedCrefSyntax original, QualifiedCrefSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(QualifiedCrefSyntax, QualifiedCrefSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(QualifiedCrefSyntax, QualifiedCrefSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        partial void PairwisePartnersAfter(QualifiedCrefSyntax original, QualifiedCrefSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
-    
-        /// <summary>
-        /// Determines if two <see cref="QualifiedCrefSyntax"/> elements are name-based exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="PairwisePartners(QualifiedCrefSyntax, QualifiedCrefSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
-        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(QualifiedCrefSyntax original, QualifiedCrefSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		if(original == null) 
-    			throw new ArgumentNullException(nameof(original));
-    
-    		if(modified == null) 
-    			throw new ArgumentNullException(nameof(modified));
-    
-    		var matchingSet = context.Approach.MatchingSet();
-    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.DotToken,
-    		    Modified = modified.DotToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    	}    
-    
-    	/// <summary>
-        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(QualifiedCrefSyntax original, QualifiedCrefSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
-    		var ignoreCore = false;
-    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
-    		if(ignoreCore) 
-    			return result;
-    		
-    		result = this.PairwisePartnersCore(original, modified, context);
-    		PairwisePartnersAfter(original, modified, context, ref result);
-    		return result;
-    	}
-    }
-    
-    partial class IndexerMemberCrefServiceProvider
-    {
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(IndexerMemberCrefSyntax, IndexerMemberCrefSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(IndexerMemberCrefSyntax, IndexerMemberCrefSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(IndexerMemberCrefSyntax, IndexerMemberCrefSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(IndexerMemberCrefSyntax, IndexerMemberCrefSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
-        partial void PairwisePartnersBefore(IndexerMemberCrefSyntax original, IndexerMemberCrefSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(IndexerMemberCrefSyntax, IndexerMemberCrefSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(IndexerMemberCrefSyntax, IndexerMemberCrefSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        partial void PairwisePartnersAfter(IndexerMemberCrefSyntax original, IndexerMemberCrefSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
-    
-        /// <summary>
-        /// Determines if two <see cref="IndexerMemberCrefSyntax"/> elements are name-based exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="PairwisePartners(IndexerMemberCrefSyntax, IndexerMemberCrefSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
-        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(IndexerMemberCrefSyntax original, IndexerMemberCrefSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		if(original == null) 
-    			throw new ArgumentNullException(nameof(original));
-    
-    		if(modified == null) 
-    			throw new ArgumentNullException(nameof(modified));
-    
-    		var matchingSet = context.Approach.MatchingSet();
-    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.ThisKeyword,
-    		    Modified = modified.ThisKeyword
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    	}    
-    
-    	/// <summary>
-        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(IndexerMemberCrefSyntax original, IndexerMemberCrefSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
-    		var ignoreCore = false;
-    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
-    		if(ignoreCore) 
-    			return result;
-    		
-    		result = this.PairwisePartnersCore(original, modified, context);
-    		PairwisePartnersAfter(original, modified, context, ref result);
-    		return result;
-    	}
-    }
-    
-    partial class OperatorMemberCrefServiceProvider
-    {
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(OperatorMemberCrefSyntax, OperatorMemberCrefSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(OperatorMemberCrefSyntax, OperatorMemberCrefSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(OperatorMemberCrefSyntax, OperatorMemberCrefSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(OperatorMemberCrefSyntax, OperatorMemberCrefSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
-        partial void PairwisePartnersBefore(OperatorMemberCrefSyntax original, OperatorMemberCrefSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(OperatorMemberCrefSyntax, OperatorMemberCrefSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(OperatorMemberCrefSyntax, OperatorMemberCrefSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        partial void PairwisePartnersAfter(OperatorMemberCrefSyntax original, OperatorMemberCrefSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
-    
-        /// <summary>
-        /// Determines if two <see cref="OperatorMemberCrefSyntax"/> elements are name-based exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="PairwisePartners(OperatorMemberCrefSyntax, OperatorMemberCrefSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
-        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(OperatorMemberCrefSyntax original, OperatorMemberCrefSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		if(original == null) 
-    			throw new ArgumentNullException(nameof(original));
-    
-    		if(modified == null) 
-    			throw new ArgumentNullException(nameof(modified));
-    
-    		var matchingSet = context.Approach.MatchingSet();
-    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.OperatorKeyword,
-    		    Modified = modified.OperatorKeyword
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.OperatorToken,
-    		    Modified = modified.OperatorToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    	}    
-    
-    	/// <summary>
-        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(OperatorMemberCrefSyntax original, OperatorMemberCrefSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
-    		var ignoreCore = false;
-    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
-    		if(ignoreCore) 
-    			return result;
-    		
-    		result = this.PairwisePartnersCore(original, modified, context);
-    		PairwisePartnersAfter(original, modified, context, ref result);
-    		return result;
-    	}
-    }
-    
-    partial class ConversionOperatorMemberCrefServiceProvider
-    {
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(ConversionOperatorMemberCrefSyntax, ConversionOperatorMemberCrefSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(ConversionOperatorMemberCrefSyntax, ConversionOperatorMemberCrefSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(ConversionOperatorMemberCrefSyntax, ConversionOperatorMemberCrefSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(ConversionOperatorMemberCrefSyntax, ConversionOperatorMemberCrefSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
-        partial void PairwisePartnersBefore(ConversionOperatorMemberCrefSyntax original, ConversionOperatorMemberCrefSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(ConversionOperatorMemberCrefSyntax, ConversionOperatorMemberCrefSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(ConversionOperatorMemberCrefSyntax, ConversionOperatorMemberCrefSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        partial void PairwisePartnersAfter(ConversionOperatorMemberCrefSyntax original, ConversionOperatorMemberCrefSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
-    
-        /// <summary>
-        /// Determines if two <see cref="ConversionOperatorMemberCrefSyntax"/> elements are name-based exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="PairwisePartners(ConversionOperatorMemberCrefSyntax, ConversionOperatorMemberCrefSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
-        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(ConversionOperatorMemberCrefSyntax original, ConversionOperatorMemberCrefSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		if(original == null) 
-    			throw new ArgumentNullException(nameof(original));
-    
-    		if(modified == null) 
-    			throw new ArgumentNullException(nameof(modified));
-    
-    		var matchingSet = context.Approach.MatchingSet();
-    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.ImplicitOrExplicitKeyword,
-    		    Modified = modified.ImplicitOrExplicitKeyword
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.OperatorKeyword,
-    		    Modified = modified.OperatorKeyword
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    	}    
-    
-    	/// <summary>
-        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(ConversionOperatorMemberCrefSyntax original, ConversionOperatorMemberCrefSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
-    		var ignoreCore = false;
-    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
-    		if(ignoreCore) 
-    			return result;
-    		
-    		result = this.PairwisePartnersCore(original, modified, context);
-    		PairwisePartnersAfter(original, modified, context, ref result);
-    		return result;
-    	}
-    }
-    
-    partial class CrefParameterListServiceProvider
-    {
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(CrefParameterListSyntax, CrefParameterListSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(CrefParameterListSyntax, CrefParameterListSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(CrefParameterListSyntax, CrefParameterListSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(CrefParameterListSyntax, CrefParameterListSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
-        partial void PairwisePartnersBefore(CrefParameterListSyntax original, CrefParameterListSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(CrefParameterListSyntax, CrefParameterListSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(CrefParameterListSyntax, CrefParameterListSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        partial void PairwisePartnersAfter(CrefParameterListSyntax original, CrefParameterListSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
-    
-        /// <summary>
-        /// Determines if two <see cref="CrefParameterListSyntax"/> elements are name-based exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="PairwisePartners(CrefParameterListSyntax, CrefParameterListSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
-        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(CrefParameterListSyntax original, CrefParameterListSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		if(original == null) 
-    			throw new ArgumentNullException(nameof(original));
-    
-    		if(modified == null) 
-    			throw new ArgumentNullException(nameof(modified));
-    
-    		var matchingSet = context.Approach.MatchingSet();
-    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.OpenParenToken,
-    		    Modified = modified.OpenParenToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.CloseParenToken,
-    		    Modified = modified.CloseParenToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    	}    
-    
-    	/// <summary>
-        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(CrefParameterListSyntax original, CrefParameterListSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
-    		var ignoreCore = false;
-    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
-    		if(ignoreCore) 
-    			return result;
-    		
-    		result = this.PairwisePartnersCore(original, modified, context);
-    		PairwisePartnersAfter(original, modified, context, ref result);
-    		return result;
-    	}
-    }
-    
-    partial class CrefBracketedParameterListServiceProvider
-    {
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(CrefBracketedParameterListSyntax, CrefBracketedParameterListSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(CrefBracketedParameterListSyntax, CrefBracketedParameterListSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(CrefBracketedParameterListSyntax, CrefBracketedParameterListSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(CrefBracketedParameterListSyntax, CrefBracketedParameterListSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
-        partial void PairwisePartnersBefore(CrefBracketedParameterListSyntax original, CrefBracketedParameterListSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(CrefBracketedParameterListSyntax, CrefBracketedParameterListSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(CrefBracketedParameterListSyntax, CrefBracketedParameterListSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        partial void PairwisePartnersAfter(CrefBracketedParameterListSyntax original, CrefBracketedParameterListSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
-    
-        /// <summary>
-        /// Determines if two <see cref="CrefBracketedParameterListSyntax"/> elements are name-based exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="PairwisePartners(CrefBracketedParameterListSyntax, CrefBracketedParameterListSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
-        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(CrefBracketedParameterListSyntax original, CrefBracketedParameterListSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		if(original == null) 
-    			throw new ArgumentNullException(nameof(original));
-    
-    		if(modified == null) 
-    			throw new ArgumentNullException(nameof(modified));
-    
-    		var matchingSet = context.Approach.MatchingSet();
-    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.OpenBracketToken,
-    		    Modified = modified.OpenBracketToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.CloseBracketToken,
-    		    Modified = modified.CloseBracketToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    	}    
-    
-    	/// <summary>
-        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(CrefBracketedParameterListSyntax original, CrefBracketedParameterListSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
-    		var ignoreCore = false;
-    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
-    		if(ignoreCore) 
-    			return result;
-    		
-    		result = this.PairwisePartnersCore(original, modified, context);
-    		PairwisePartnersAfter(original, modified, context, ref result);
-    		return result;
-    	}
-    }
-    
-    partial class XmlEmptyElementServiceProvider
-    {
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(XmlEmptyElementSyntax, XmlEmptyElementSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(XmlEmptyElementSyntax, XmlEmptyElementSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(XmlEmptyElementSyntax, XmlEmptyElementSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(XmlEmptyElementSyntax, XmlEmptyElementSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
-        partial void PairwisePartnersBefore(XmlEmptyElementSyntax original, XmlEmptyElementSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(XmlEmptyElementSyntax, XmlEmptyElementSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(XmlEmptyElementSyntax, XmlEmptyElementSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        partial void PairwisePartnersAfter(XmlEmptyElementSyntax original, XmlEmptyElementSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
-    
-        /// <summary>
-        /// Determines if two <see cref="XmlEmptyElementSyntax"/> elements are name-based exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="PairwisePartners(XmlEmptyElementSyntax, XmlEmptyElementSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
-        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(XmlEmptyElementSyntax original, XmlEmptyElementSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		if(original == null) 
-    			throw new ArgumentNullException(nameof(original));
-    
-    		if(modified == null) 
-    			throw new ArgumentNullException(nameof(modified));
-    
-    		var matchingSet = context.Approach.MatchingSet();
-    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.LessThanToken,
-    		    Modified = modified.LessThanToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.SlashGreaterThanToken,
-    		    Modified = modified.SlashGreaterThanToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    	}    
-    
-    	/// <summary>
-        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(XmlEmptyElementSyntax original, XmlEmptyElementSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
-    		var ignoreCore = false;
-    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
-    		if(ignoreCore) 
-    			return result;
-    		
-    		result = this.PairwisePartnersCore(original, modified, context);
-    		PairwisePartnersAfter(original, modified, context, ref result);
-    		return result;
-    	}
-    }
-    
-    partial class XmlCDataSectionServiceProvider
-    {
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(XmlCDataSectionSyntax, XmlCDataSectionSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(XmlCDataSectionSyntax, XmlCDataSectionSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(XmlCDataSectionSyntax, XmlCDataSectionSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(XmlCDataSectionSyntax, XmlCDataSectionSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
-        partial void PairwisePartnersBefore(XmlCDataSectionSyntax original, XmlCDataSectionSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(XmlCDataSectionSyntax, XmlCDataSectionSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(XmlCDataSectionSyntax, XmlCDataSectionSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        partial void PairwisePartnersAfter(XmlCDataSectionSyntax original, XmlCDataSectionSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
-    
-        /// <summary>
-        /// Determines if two <see cref="XmlCDataSectionSyntax"/> elements are name-based exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="PairwisePartners(XmlCDataSectionSyntax, XmlCDataSectionSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
-        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(XmlCDataSectionSyntax original, XmlCDataSectionSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		if(original == null) 
-    			throw new ArgumentNullException(nameof(original));
-    
-    		if(modified == null) 
-    			throw new ArgumentNullException(nameof(modified));
-    
-    		var matchingSet = context.Approach.MatchingSet();
-    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.StartCDataToken,
-    		    Modified = modified.StartCDataToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.EndCDataToken,
-    		    Modified = modified.EndCDataToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    	}    
-    
-    	/// <summary>
-        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(XmlCDataSectionSyntax original, XmlCDataSectionSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
-    		var ignoreCore = false;
-    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
-    		if(ignoreCore) 
-    			return result;
-    		
-    		result = this.PairwisePartnersCore(original, modified, context);
-    		PairwisePartnersAfter(original, modified, context, ref result);
-    		return result;
-    	}
-    }
-    
-    partial class XmlProcessingInstructionServiceProvider
-    {
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(XmlProcessingInstructionSyntax, XmlProcessingInstructionSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(XmlProcessingInstructionSyntax, XmlProcessingInstructionSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(XmlProcessingInstructionSyntax, XmlProcessingInstructionSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(XmlProcessingInstructionSyntax, XmlProcessingInstructionSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
-        partial void PairwisePartnersBefore(XmlProcessingInstructionSyntax original, XmlProcessingInstructionSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(XmlProcessingInstructionSyntax, XmlProcessingInstructionSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(XmlProcessingInstructionSyntax, XmlProcessingInstructionSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        partial void PairwisePartnersAfter(XmlProcessingInstructionSyntax original, XmlProcessingInstructionSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
-    
-        /// <summary>
-        /// Determines if two <see cref="XmlProcessingInstructionSyntax"/> elements are name-based exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="PairwisePartners(XmlProcessingInstructionSyntax, XmlProcessingInstructionSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
-        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(XmlProcessingInstructionSyntax original, XmlProcessingInstructionSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		if(original == null) 
-    			throw new ArgumentNullException(nameof(original));
-    
-    		if(modified == null) 
-    			throw new ArgumentNullException(nameof(modified));
-    
-    		var matchingSet = context.Approach.MatchingSet();
-    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.StartProcessingInstructionToken,
-    		    Modified = modified.StartProcessingInstructionToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.EndProcessingInstructionToken,
-    		    Modified = modified.EndProcessingInstructionToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    	}    
-    
-    	/// <summary>
-        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(XmlProcessingInstructionSyntax original, XmlProcessingInstructionSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
-    		var ignoreCore = false;
-    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
-    		if(ignoreCore) 
-    			return result;
-    		
-    		result = this.PairwisePartnersCore(original, modified, context);
-    		PairwisePartnersAfter(original, modified, context, ref result);
-    		return result;
-    	}
-    }
-    
-    partial class XmlCommentServiceProvider
-    {
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(XmlCommentSyntax, XmlCommentSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(XmlCommentSyntax, XmlCommentSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(XmlCommentSyntax, XmlCommentSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(XmlCommentSyntax, XmlCommentSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
-        partial void PairwisePartnersBefore(XmlCommentSyntax original, XmlCommentSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(XmlCommentSyntax, XmlCommentSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(XmlCommentSyntax, XmlCommentSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        partial void PairwisePartnersAfter(XmlCommentSyntax original, XmlCommentSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
-    
-        /// <summary>
-        /// Determines if two <see cref="XmlCommentSyntax"/> elements are name-based exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="PairwisePartners(XmlCommentSyntax, XmlCommentSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
-        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(XmlCommentSyntax original, XmlCommentSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		if(original == null) 
-    			throw new ArgumentNullException(nameof(original));
-    
-    		if(modified == null) 
-    			throw new ArgumentNullException(nameof(modified));
-    
-    		var matchingSet = context.Approach.MatchingSet();
-    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.LessThanExclamationMinusMinusToken,
-    		    Modified = modified.LessThanExclamationMinusMinusToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.MinusMinusGreaterThanToken,
-    		    Modified = modified.MinusMinusGreaterThanToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    	}    
-    
-    	/// <summary>
-        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(XmlCommentSyntax original, XmlCommentSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
-    		var ignoreCore = false;
-    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
-    		if(ignoreCore) 
-    			return result;
-    		
-    		result = this.PairwisePartnersCore(original, modified, context);
-    		PairwisePartnersAfter(original, modified, context, ref result);
-    		return result;
-    	}
-    }
-    
-    partial class XmlTextAttributeServiceProvider
-    {
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(XmlTextAttributeSyntax, XmlTextAttributeSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(XmlTextAttributeSyntax, XmlTextAttributeSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(XmlTextAttributeSyntax, XmlTextAttributeSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(XmlTextAttributeSyntax, XmlTextAttributeSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
-        partial void PairwisePartnersBefore(XmlTextAttributeSyntax original, XmlTextAttributeSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(XmlTextAttributeSyntax, XmlTextAttributeSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(XmlTextAttributeSyntax, XmlTextAttributeSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        partial void PairwisePartnersAfter(XmlTextAttributeSyntax original, XmlTextAttributeSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
-    
-        /// <summary>
-        /// Determines if two <see cref="XmlTextAttributeSyntax"/> elements are name-based exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="PairwisePartners(XmlTextAttributeSyntax, XmlTextAttributeSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
-        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(XmlTextAttributeSyntax original, XmlTextAttributeSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		if(original == null) 
-    			throw new ArgumentNullException(nameof(original));
-    
-    		if(modified == null) 
-    			throw new ArgumentNullException(nameof(modified));
-    
-    		var matchingSet = context.Approach.MatchingSet();
-    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.EqualsToken,
-    		    Modified = modified.EqualsToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.StartQuoteToken,
-    		    Modified = modified.StartQuoteToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.EndQuoteToken,
-    		    Modified = modified.EndQuoteToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    	}    
-    
-    	/// <summary>
-        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(XmlTextAttributeSyntax original, XmlTextAttributeSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
-    		var ignoreCore = false;
-    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
-    		if(ignoreCore) 
-    			return result;
-    		
-    		result = this.PairwisePartnersCore(original, modified, context);
-    		PairwisePartnersAfter(original, modified, context, ref result);
-    		return result;
-    	}
-    }
-    
-    partial class XmlCrefAttributeServiceProvider
-    {
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(XmlCrefAttributeSyntax, XmlCrefAttributeSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(XmlCrefAttributeSyntax, XmlCrefAttributeSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(XmlCrefAttributeSyntax, XmlCrefAttributeSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(XmlCrefAttributeSyntax, XmlCrefAttributeSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
-        partial void PairwisePartnersBefore(XmlCrefAttributeSyntax original, XmlCrefAttributeSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(XmlCrefAttributeSyntax, XmlCrefAttributeSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(XmlCrefAttributeSyntax, XmlCrefAttributeSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        partial void PairwisePartnersAfter(XmlCrefAttributeSyntax original, XmlCrefAttributeSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
-    
-        /// <summary>
-        /// Determines if two <see cref="XmlCrefAttributeSyntax"/> elements are name-based exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="PairwisePartners(XmlCrefAttributeSyntax, XmlCrefAttributeSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
-        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(XmlCrefAttributeSyntax original, XmlCrefAttributeSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		if(original == null) 
-    			throw new ArgumentNullException(nameof(original));
-    
-    		if(modified == null) 
-    			throw new ArgumentNullException(nameof(modified));
-    
-    		var matchingSet = context.Approach.MatchingSet();
-    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.EqualsToken,
-    		    Modified = modified.EqualsToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.StartQuoteToken,
-    		    Modified = modified.StartQuoteToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.EndQuoteToken,
-    		    Modified = modified.EndQuoteToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    	}    
-    
-    	/// <summary>
-        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(XmlCrefAttributeSyntax original, XmlCrefAttributeSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
-    		var ignoreCore = false;
-    		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
-    		if(ignoreCore) 
-    			return result;
-    		
-    		result = this.PairwisePartnersCore(original, modified, context);
-    		PairwisePartnersAfter(original, modified, context, ref result);
-    		return result;
-    	}
-    }
-    
-    partial class XmlNameAttributeServiceProvider
-    {
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(XmlNameAttributeSyntax, XmlNameAttributeSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(XmlNameAttributeSyntax, XmlNameAttributeSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(XmlNameAttributeSyntax, XmlNameAttributeSyntax, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(XmlNameAttributeSyntax, XmlNameAttributeSyntax, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
-        partial void PairwisePartnersBefore(XmlNameAttributeSyntax original, XmlNameAttributeSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
-        
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(XmlNameAttributeSyntax, XmlNameAttributeSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(XmlNameAttributeSyntax, XmlNameAttributeSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-        partial void PairwisePartnersAfter(XmlNameAttributeSyntax original, XmlNameAttributeSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
-    
-        /// <summary>
-        /// Determines if two <see cref="XmlNameAttributeSyntax"/> elements are name-based exactly equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-        /// <remarks>This is the default implementation for <see cref="PairwisePartners(XmlNameAttributeSyntax, XmlNameAttributeSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
-        protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(XmlNameAttributeSyntax original, XmlNameAttributeSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
-    	{
-    		if(original == null) 
-    			throw new ArgumentNullException(nameof(original));
-    
-    		if(modified == null) 
-    			throw new ArgumentNullException(nameof(modified));
-    
-    		var matchingSet = context.Approach.MatchingSet();
-    		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.EqualsToken,
-    		    Modified = modified.EqualsToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.StartQuoteToken,
-    		    Modified = modified.StartQuoteToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    
-    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
-    		{
-    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
-    		    Original = original.EndQuoteToken,
-    		    Modified = modified.EndQuoteToken
-    		};
-        	if(matchingSet.PartnersIfAvailable(matchInfo))
-    				yield return matchInfo;
-    	}    
-    
-    	/// <summary>
-        /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-        public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(XmlNameAttributeSyntax original, XmlNameAttributeSyntax modified, MatchingContext<SyntaxNodeOrToken?> context)
     	{
     		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
     		var ignoreCore = false;

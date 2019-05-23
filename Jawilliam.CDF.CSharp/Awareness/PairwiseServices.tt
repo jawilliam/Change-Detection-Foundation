@@ -132,7 +132,6 @@ foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
 
 	if(xSyntaxNodeType != null)
 	{
-		var baseDeclarationText = xSyntaxNodeBaseType == null ? "Jawilliam.CDF.Domain.ElementTypeServiceProvider" : code.Escape(xSyntaxNodeBaseType.name.ToString()).Replace("Syntax", "") + "ServiceProvider";
 #>
 partial class <#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>ServiceProvider
 {

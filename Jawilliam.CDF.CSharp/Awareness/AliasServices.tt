@@ -75,15 +75,8 @@ var manager = TemplateFileManager.Create(this);
 var xSyntaxTypeSystem = Jawilliam.CDF.XObjects.RDSL.Syntax.Load(@"E:\MyRepositories\Change-Detection-Foundation\Jawilliam.CDF.CSharp\RDSL.xml");
 #>
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Xml.Linq;
-using Jawilliam.CDF.Approach.Flad;
-using Jawilliam.CDF.Approach.Awareness;
-using Jawilliam.CDF.Approach;
 using Jawilliam.CDF.Approach.Services;
 using Jawilliam.CDF.Approach.Criterions;
 
@@ -151,7 +144,7 @@ partial class <#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax"
     /// <returns>true if the given elements are alias-based exactly equal, otherwise returns false.</returns>
     /// <param name="matchingDescription">in case the given elements are alias-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
     /// <remarks>This is the default implementation for <see cref="AliasMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(ySyntaxNodeName) #>, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/>.</remarks>
-    protected virtual bool AliasMatchCore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= code.Escape(ySyntaxNodeName) #> modified, MatchingContext<SyntaxNodeOrToken?> context, ref MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+    protected virtual bool AliasMatchCore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= code.Escape(ySyntaxNodeName) #> modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
 	{
 		if(original == null) 
 			throw new ArgumentNullException(nameof(original));
@@ -188,6 +181,7 @@ partial class <#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax"
 	}
 #>
 
+		matchingDescription = null;
 		return false;
 	}    
 
@@ -198,7 +192,7 @@ partial class <#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax"
     /// <param name="modified">the modified version.</param>
     /// <param name="context">the context wherein certain matching criterion is currently running.</param>
     /// <returns>true if the given elements are alias-based exactly equal, otherwise returns false.</returns>
-    /// <param name="matchingDescription">in case the given elements are alias-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
+    /// <param name="matchingDescription">in case the given elements are alias-based exactly equal, this parameter will contain the corresponding matching description.</param>
     public bool AliasMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= code.Escape(ySyntaxNodeName) #> modified, MatchingContext<SyntaxNodeOrToken?> context, ref MatchInfo<SyntaxNodeOrToken?> matchingDescription)
 	{
 		bool result = false;
@@ -207,10 +201,11 @@ partial class <#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax"
 		if(ignoreCore) 
 			return result;
 		
-		result = this.AliasMatchCore(original, modified, context, ref matchingDescription);
+		result = this.AliasMatchCore(original, modified, context, out matchingDescription);
 		AliasMatchAfter(original, modified, context, ref matchingDescription, ref result);
 		return result;
 	}
+
 <#
 	}
 
@@ -222,10 +217,6 @@ partial class <#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax"
 	foreach(var ySyntaxNodeName2 in reverseAliases.Select(ra => ra.Type.name).Distinct())
 	{
 		var ySyntaxNodeType = xSyntaxTypeSystem.Nodes.Type.SingleOrDefault(n => n.name == ySyntaxNodeName2);
-
-		/*var baseDeclarationText = xSyntaxNodeBaseType == null 
-			? "Jawilliam.CDF.Domain.ElementTypeServiceProvider" 
-			: code.Escape(xSyntaxNodeBaseType.name.ToString()).Replace("Syntax", "") + "ServiceProvider";*/
 #>
 	/// <summary>
     /// Method hook for implementing logic to execute before the <see cref="AliasMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(ySyntaxNodeName2) #>, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/>.
@@ -257,9 +248,9 @@ partial class <#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax"
     /// <param name="modified">the modified version.</param>
     /// <param name="context">the context wherein certain matching criterion is currently running.</param>
     /// <returns>true if the given elements are alias-based exactly equal, otherwise returns false.</returns>
-    /// <param name="matchingDescription">in case the given elements are alias-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
+    /// <param name="matchingDescription">in case the given elements are alias-based exactly equal, this parameter will contain the corresponding matching description.</param>
     /// <remarks>This is the default implementation for <see cref="AliasMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(ySyntaxNodeName2) #>, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/>.</remarks>
-    protected virtual bool AliasMatchCore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= code.Escape(ySyntaxNodeName2) #> modified, MatchingContext<SyntaxNodeOrToken?> context, ref MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+    protected virtual bool AliasMatchCore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= code.Escape(ySyntaxNodeName2) #> modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
 	{
 		if(original == null) 
 			throw new ArgumentNullException(nameof(original));
@@ -296,6 +287,7 @@ partial class <#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax"
 	}
 #>
 
+		matchingDescription = null;
 		return false;
 	}    
 
@@ -315,10 +307,11 @@ partial class <#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax"
 		if(ignoreCore) 
 			return result;
 		
-		result = this.AliasMatchCore(original, modified, context, ref matchingDescription);
+		result = this.AliasMatchCore(original, modified, context, out matchingDescription);
 		AliasMatchAfter(original, modified, context, ref matchingDescription, ref result);
 		return result;
 	}
+
 <#
 	}
 #>

@@ -65,6 +65,9 @@
     <Compile Include="Approach.Annotations\IHierarchicalAbstractionAnnotation.cs" />
     <Compile Include="Approach.Annotations\IHierarchicalStructureAnnotation.cs" />
     <Compile Include="Approach.Annotations\IMcesAnnotation.cs" />
+    <Compile Include="Approach.Awareness\IAliasEqualityCriterion.cs" />
+    <Compile Include="Approach.Awareness\IEqualityCriterion.cs" />
+    <Compile Include="Approach.Awareness\ISignatureEqualityCriterion.cs" />
     <Compile Include="Approach.Awareness\IPartnership.cs" />
     <Compile Include="Approach.Awareness\PairwiseMatchInfo.cs" />
     <Compile Include="Approach.Choices\MatchingTieBreakChoice.cs" />
@@ -143,7 +146,7 @@
     <Compile Include="Approach.Impl\FladApproach.cs" />
     <Compile Include="Approach.Services\IHierarchicalAbstractionService.cs" />
     <Compile Include="Approach.Criterions\IMatcher.cs" />
-    <Compile Include="Approach.Flad\INameEqualityCondition.cs" />
+    <Compile Include="Approach.Awareness\INameEqualityCriterion.cs" />
     <Compile Include="Approach.Flad\ITypeEqualityCondition.cs" />
     <Compile Include="Approach.Flad\ISignatureEqualityCondition.cs" />
     <Compile Include="Approach.Flad\IEqualityCondition.cs" />

@@ -136,20 +136,31 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Awareness\AliasRules.cs">
+    <Compile Include="Awareness\AliasServices.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>AliasRules.tt</DependentUpon>
+      <DependentUpon>AliasServices.tt</DependentUpon>
     </Compile>
+    <Compile Include="Awareness\Extensions.cs" />
     <Compile Include="Awareness\LanguageServiceProvider.cs">
       <DependentUpon>LanguageServiceProvider.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Awareness\PairwiseRules.cs">
-      <DependentUpon>PairwiseRules.tt</DependentUpon>
+    <Compile Include="Awareness\NameServices.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
+      <DependentUpon>NameServices.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Awareness\PairwiseServices.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PairwiseServices.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Awareness\SignatureEqualityServices.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SignatureEqualityServices.tt</DependentUpon>
     </Compile>
     <Compile Include="Flad\AnnotationSetService.cs" />
     <Compile Include="Flad\AttributeArgumentServiceProvider.Partial.cs" />
@@ -157,16 +168,6 @@
     <Compile Include="Flad\Extensions.cs" />
     <Compile Include="Flad\HierarchicalSyntaxNodeService.cs" />
     <Compile Include="Flad\McesHierarchicalSyntaxNodeService.cs" />
-    <Compile Include="Flad\PairwiseChangeDetection.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>PairwiseChangeDetection.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Flad\NameEqualityServices.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>NameEqualityServices.tt</DependentUpon>
-    </Compile>
     <Compile Include="Flad\SemanticAbstractionService.cs" />
     <Compile Include="Flad\TextualSyntaxNodeService.cs" />
     <Compile Include="Flad\InterfaceDeclarationServiceProvider.Partial.cs" />
@@ -186,25 +187,17 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ElementTypeServiceProviders.tt</DependentUpon>
     </Compile>
-    <Compile Include="Flad\EqualityServices.cs">
+    <Compile Include="Awareness\EqualityServices.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>EqualityServices.tt</DependentUpon>
     </Compile>
-    <Compile Include="Flad\QualifiedNameServiceProvider.Partial.cs" />
     <Compile Include="Flad\IdentifierNameServiceProvider.Partial.cs" />
     <Compile Include="Flad\LanguageServiceProvider.Partial.cs" />
     <Compile Include="Flad\MemberAccessExpressionServiceProvider.Partial.cs" />
     <Compile Include="Flad\NameColonServiceProvider.Partial.cs" />
-    <Compile Include="Flad\PredefinedTypeServiceProvider.Partial.cs" />
-    <Compile Include="Flad\SignatureEqualityServices.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>SignatureEqualityServices.tt</DependentUpon>
-    </Compile>
     <Compile Include="Flad\NameEqualsServiceProvider.Partial.cs" />
     <Compile Include="Flad\NameServiceProvider.Partial.cs" />
-    <Compile Include="Flad\OmittedTypeArgumentServiceProvider.Partial.cs" />
     <Compile Include="Flad\SyntaxTokenServiceProvider.cs" />
     <Compile Include="GumTree\PriorityTreeList.cs" />
     <Compile Include="MutableNodes.cs">
@@ -242,29 +235,25 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>LanguageServiceProvider.cs</LastGenOutput>
     </Content>
-    <Content Include="Awareness\AliasRules.tt">
+    <Content Include="Awareness\AliasServices.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>AliasRules.cs</LastGenOutput>
+      <LastGenOutput>AliasServices.cs</LastGenOutput>
     </Content>
-    <Content Include="Awareness\PairwiseRules.tt">
+    <Content Include="Awareness\NameServices.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>PairwiseRules.cs</LastGenOutput>
+      <LastGenOutput>NameServices.cs</LastGenOutput>
     </Content>
-    <Content Include="Flad\EqualityServices.tt">
+    <Content Include="Awareness\PairwiseServices.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>PairwiseServices.cs</LastGenOutput>
+    </Content>
+    <Content Include="Awareness\EqualityServices.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>EqualityServices.cs</LastGenOutput>
     </Content>
-    <Content Include="Flad\PairwiseChangeDetection.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>PairwiseChangeDetection.cs</LastGenOutput>
-    </Content>
-    <Content Include="Flad\SignatureEqualityServices.tt">
+    <Content Include="Awareness\SignatureEqualityServices.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>SignatureEqualityServices.cs</LastGenOutput>
-    </Content>
-    <Content Include="Flad\NameEqualityServices.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>NameEqualityServices.cs</LastGenOutput>
     </Content>
     <Content Include="MutableNodes.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

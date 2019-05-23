@@ -1,14 +1,7 @@
 
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Xml.Linq;
-using Jawilliam.CDF.Approach.Flad;
-using Jawilliam.CDF.Approach.Awareness;
-using Jawilliam.CDF.Approach;
 using Jawilliam.CDF.Approach.Services;
 using Jawilliam.CDF.Approach.Criterions;
 
@@ -48,7 +41,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <returns>true if the given elements are alias-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are alias-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
         /// <remarks>This is the default implementation for <see cref="AliasMatch(PredefinedTypeSyntax, IdentifierNameSyntax, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/>.</remarks>
-        protected virtual bool AliasMatchCore(PredefinedTypeSyntax original, IdentifierNameSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        protected virtual bool AliasMatchCore(PredefinedTypeSyntax original, IdentifierNameSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		if(original == null) 
     			throw new ArgumentNullException(nameof(original));
@@ -161,6 +154,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return true;
     		}
     
+    		matchingDescription = null;
     		return false;
     	}    
     
@@ -171,7 +165,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="modified">the modified version.</param>
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are alias-based exactly equal, otherwise returns false.</returns>
-        /// <param name="matchingDescription">in case the given elements are alias-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
+        /// <param name="matchingDescription">in case the given elements are alias-based exactly equal, this parameter will contain the corresponding matching description.</param>
         public bool AliasMatch(PredefinedTypeSyntax original, IdentifierNameSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
@@ -180,10 +174,11 @@ namespace Jawilliam.CDF.CSharp.Awareness
     		if(ignoreCore) 
     			return result;
     		
-    		result = this.AliasMatchCore(original, modified, context, ref matchingDescription);
+    		result = this.AliasMatchCore(original, modified, context, out matchingDescription);
     		AliasMatchAfter(original, modified, context, ref matchingDescription, ref result);
     		return result;
     	}
+    
     	/// <summary>
         /// Method hook for implementing logic to execute before the <see cref="AliasMatch(PredefinedTypeSyntax, QualifiedNameSyntax, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/>.
         /// </summary>
@@ -216,7 +211,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <returns>true if the given elements are alias-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are alias-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
         /// <remarks>This is the default implementation for <see cref="AliasMatch(PredefinedTypeSyntax, QualifiedNameSyntax, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/>.</remarks>
-        protected virtual bool AliasMatchCore(PredefinedTypeSyntax original, QualifiedNameSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        protected virtual bool AliasMatchCore(PredefinedTypeSyntax original, QualifiedNameSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		if(original == null) 
     			throw new ArgumentNullException(nameof(original));
@@ -344,6 +339,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return true;
     		}
     
+    		matchingDescription = null;
     		return false;
     	}    
     
@@ -354,7 +350,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="modified">the modified version.</param>
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are alias-based exactly equal, otherwise returns false.</returns>
-        /// <param name="matchingDescription">in case the given elements are alias-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
+        /// <param name="matchingDescription">in case the given elements are alias-based exactly equal, this parameter will contain the corresponding matching description.</param>
         public bool AliasMatch(PredefinedTypeSyntax original, QualifiedNameSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
@@ -363,10 +359,11 @@ namespace Jawilliam.CDF.CSharp.Awareness
     		if(ignoreCore) 
     			return result;
     		
-    		result = this.AliasMatchCore(original, modified, context, ref matchingDescription);
+    		result = this.AliasMatchCore(original, modified, context, out matchingDescription);
     		AliasMatchAfter(original, modified, context, ref matchingDescription, ref result);
     		return result;
     	}
+    
     }
     
     partial class QualifiedNameServiceProvider
@@ -401,9 +398,9 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="modified">the modified version.</param>
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are alias-based exactly equal, otherwise returns false.</returns>
-        /// <param name="matchingDescription">in case the given elements are alias-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
+        /// <param name="matchingDescription">in case the given elements are alias-based exactly equal, this parameter will contain the corresponding matching description.</param>
         /// <remarks>This is the default implementation for <see cref="AliasMatch(QualifiedNameSyntax, PredefinedTypeSyntax, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/>.</remarks>
-        protected virtual bool AliasMatchCore(QualifiedNameSyntax original, PredefinedTypeSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        protected virtual bool AliasMatchCore(QualifiedNameSyntax original, PredefinedTypeSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		if(original == null) 
     			throw new ArgumentNullException(nameof(original));
@@ -531,6 +528,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return true;
     		}
     
+    		matchingDescription = null;
     		return false;
     	}    
     
@@ -550,10 +548,11 @@ namespace Jawilliam.CDF.CSharp.Awareness
     		if(ignoreCore) 
     			return result;
     		
-    		result = this.AliasMatchCore(original, modified, context, ref matchingDescription);
+    		result = this.AliasMatchCore(original, modified, context, out matchingDescription);
     		AliasMatchAfter(original, modified, context, ref matchingDescription, ref result);
     		return result;
     	}
+    
     }
     
     partial class IdentifierNameServiceProvider
@@ -588,9 +587,9 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="modified">the modified version.</param>
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are alias-based exactly equal, otherwise returns false.</returns>
-        /// <param name="matchingDescription">in case the given elements are alias-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
+        /// <param name="matchingDescription">in case the given elements are alias-based exactly equal, this parameter will contain the corresponding matching description.</param>
         /// <remarks>This is the default implementation for <see cref="AliasMatch(IdentifierNameSyntax, PredefinedTypeSyntax, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/>.</remarks>
-        protected virtual bool AliasMatchCore(IdentifierNameSyntax original, PredefinedTypeSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        protected virtual bool AliasMatchCore(IdentifierNameSyntax original, PredefinedTypeSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		if(original == null) 
     			throw new ArgumentNullException(nameof(original));
@@ -703,6 +702,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return true;
     		}
     
+    		matchingDescription = null;
     		return false;
     	}    
     
@@ -722,10 +722,11 @@ namespace Jawilliam.CDF.CSharp.Awareness
     		if(ignoreCore) 
     			return result;
     		
-    		result = this.AliasMatchCore(original, modified, context, ref matchingDescription);
+    		result = this.AliasMatchCore(original, modified, context, out matchingDescription);
     		AliasMatchAfter(original, modified, context, ref matchingDescription, ref result);
     		return result;
     	}
+    
     }
     
 }

@@ -42,8 +42,14 @@
         /// </summary>
         RootsAlwaysMatch = 7,
 
-        Similarity = 8,
+        Equality = 8,
 
-        Alias = 9,
+        NameEquality = 9,
+
+        SignatureEquality = 10,
+
+        Similarity = 11,
+
+        Alias = 12,
     }
 }

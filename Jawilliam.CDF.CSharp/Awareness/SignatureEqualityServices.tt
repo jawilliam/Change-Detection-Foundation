@@ -1,0 +1,561 @@
+<#@ template language="C#" debug="True" hostSpecific="true"#>
+<#@ output extension=".cs" #>
+<#@ include file="..\TemplateFileManagerV2.1.ttinclude" #>
+<#@ assembly name="$(SolutionDir)\packages\Microsoft.CodeAnalysis.Common.2.7.0\lib\netstandard1.3\Microsoft.CodeAnalysis.dll" #>
+<#@ assembly name="$(SolutionDir)\packages\Microsoft.CodeAnalysis.CSharp.2.7.0\lib\netstandard1.3\Microsoft.CodeAnalysis.CSharp.dll" #>
+<#@ assembly name="$(SolutionDir)\packages\CodePlex.LinqToXsd.2.0.2\lib\Xml.Schema.Linq.dll" #>
+<#@ assembly name="$(SolutionDir)\Jawilliam.CDF\bin\Debug\Jawilliam.CDF.dll" #>
+<#@ assembly name="$(SolutionDir)\Jawilliam.CDF.XObjects\bin\Debug\Jawilliam.CDF.XObjects.dll" #>
+<#@ assembly name="$(SolutionDir)\packages\System.Collections.Immutable.1.3.1\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll" #>
+<#@ assembly name="System.Runtime" #>
+<#@ assembly name="System.Linq" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.Reflection" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Collections" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Microsoft.CodeAnalysis.CSharp" #>
+<#@ import namespace="Jawilliam.CDF" #>
+<#@ import namespace="Jawilliam.CDF.GTED" #>
+<#@ import namespace="Jawilliam.CDF.XObjects.RDSL" #>
+<#
+// <copyright file="LearningFromCSharpSyntaxVisitor.tt" company="Jasoco" author="Jawilliam">
+//  Copyright © . All Rights Reserved.
+// </copyright>
+
+Type csharpSyntaxVisitor = typeof(CSharpSyntaxVisitor);
+MethodInfo[] allMethods = csharpSyntaxVisitor.GetMembers().OfType<MethodInfo>().ToArray();
+
+// Filters to methods starting with 'Visit' prefix, except that being called just 'Visit'.
+MethodInfo[] visitMethods = allMethods.Where(m => m.Name.StartsWith("Visit") && m.Name != "Visit").ToArray();
+
+// This methods represents the case logic of CSharpSyntaxVisitor for each type of syntax node, then lets to collect all that syntax node types.
+List<Type> syntaxNodeTypes = visitMethods.Select(m => m.GetParameters().Single(p => p.Name == "node").ParameterType).Distinct().ToList();
+
+// Build up the class system of syntax node types by completing the total hierarchy. 
+List<Type> syntaxNodeSystem = new List<Type>(syntaxNodeTypes);
+List<Type> syntaxInnerNodes = new List<Type>(220);
+syntaxInnerNodes.AddRange(syntaxNodeSystem.Where(n => n.BaseType != typeof(object)).Select(n => n.BaseType).Distinct().Intersect(syntaxNodeSystem));
+List<Type> missingSyntaxTypes = syntaxNodeSystem.Where(n => n.BaseType != typeof(object)).Select(n => n.BaseType).Distinct().Except(syntaxNodeSystem).ToList();
+while (missingSyntaxTypes.Any())
+{
+    syntaxInnerNodes.AddRange(missingSyntaxTypes);
+    syntaxNodeSystem.AddRange(missingSyntaxTypes);
+    missingSyntaxTypes = syntaxNodeSystem.Where(n => n.BaseType != typeof(object)).Select(n => n.BaseType).Distinct().Except(syntaxNodeSystem).ToList();
+}
+
+var syntaxNodeViews = syntaxNodeSystem
+.Select(t => new
+{
+    Parent = t.BaseType.Name,
+    Child = new Tree { Root = new Node { Label = t.Name } }
+})
+.ToList();
+
+List<ITree> syntaxNodeHierarachies = new List<ITree>(220);
+foreach (var parentType in syntaxInnerNodes)
+{
+    var parent = syntaxNodeViews.First(n => object.Equals(n.Child.Root.Label, parentType.Name));
+    foreach (var child in syntaxNodeViews.Where(t => object.Equals(t.Parent, parent.Child.Root.Label)))
+    {
+        parent.Child.Children.Add(child.Child);
+        child.Child.Parent = parent.Child;
+    }
+}
+
+var syntaxSystemRoot = syntaxNodeViews.Where(t => t.Parent == typeof(object).Name).Single().Child;
+
+CodeGenerationTools code = new CodeGenerationTools(this);
+CodeRegion region = new CodeRegion(this, 1);
+string namespaceName = code.VsNamespaceSuggestion();
+
+var manager = TemplateFileManager.Create(this);
+
+// var xSyntaxTypeSystem = Jawilliam.CDF.XObjects.RDSL.Syntax.NodeTypes.Load(@"E:\Projects\Software Development Investigation\Jawilliam.Msr.Roslyn\CSharp\NodeTypeSystem.xml");
+var xSyntaxTypeSystem = Jawilliam.CDF.XObjects.RDSL.Syntax.Load(@"E:\MyRepositories\Change-Detection-Foundation\Jawilliam.CDF.CSharp\RDSL.xml");
+#>
+using Jawilliam.CDF.Approach.Awareness;
+using Jawilliam.CDF.Approach.Criterions;
+using Jawilliam.CDF.Approach.Flad;
+using Jawilliam.CDF.Approach.Services;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System;
+using System.Linq;
+
+<#
+BeginNamespace(namespaceName, code);
+#>
+partial class SyntaxTokenServiceProvider : ISignatureEqualityCriterion<SyntaxNodeOrToken?, SyntaxToken, SyntaxToken>
+{
+	/*/// <summary>
+    /// Determines if two <see cref="SyntaxToken"/> elements are type-based exactly equal.
+    /// </summary>
+    /// <param name="original">the original version.</param>
+    /// <param name="modified">the modified version.</param>
+    /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+    public virtual bool TypeExactlyEqual(SyntaxToken original, SyntaxToken modified)
+    {
+        return this.LanguageServiceProvider.Equal(original, modified);
+    }
+
+	/// <summary>
+    /// Determines if two <see cref="SyntaxToken"/> elements are signature-based exactly equal.
+    /// </summary>
+    /// <param name="original">the original version.</param>
+    /// <param name="modified">the modified version.</param>
+    /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+    public virtual bool SignatureExactlyEqual(SyntaxToken original, SyntaxToken modified)
+    {
+        return this.LanguageServiceProvider.Equal(original, modified);
+    }*/
+
+    /// <summary>
+    /// Determines if two elements are signature-based exactly equal.
+    /// </summary>
+    /// <param name="original">the original version.</param>
+    /// <param name="modified">the modified version.</param>
+    /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+    /// <returns>true if the given elements are signature-based exactly equal, otherwise returns false.</returns>
+    /// <param name="matchingDescription">in case the given elements are signature-based exactly equal, this parameter will contain the corresponding matching description.</param>
+    public virtual bool SignatureEqualityMatch(SyntaxToken original, SyntaxToken modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+    {
+		matchingDescription = null;
+
+        if (original == null || modified == null)
+            return false;
+    
+        if (!string.IsNullOrWhiteSpace(original.ValueText) && 
+		    !string.IsNullOrWhiteSpace(modified.ValueText) && 
+			original.ValueText == modified.ValueText)
+		{
+            matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.SignatureEquality) { Original = original, Modified = modified };
+    		return true;
+		}
+    
+        return false;
+    }
+}
+
+partial class LanguageServiceProvider
+{
+	/// <summary>
+    /// Determines if two elements are signature-based exactly equal.
+    /// </summary>
+    /// <param name="original">the original version.</param>
+    /// <param name="modified">the modified version.</param>
+    /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+    /// <typeparam name="TOriginal">Specific type of the original element.</typeparam>
+    /// <typeparam name="TModified">Specific type of the modified element.</typeparam>
+    /// <returns>true if the given elements are signature-based exactly equal, otherwise returns false.</returns>
+    public virtual bool SignatureEqualityMatch<TOriginal, TModified>(TOriginal original, TModified modified, MatchingContext<SyntaxNodeOrToken?> context)
+    where TOriginal : SyntaxNode where TModified : SyntaxNode
+    {
+        return this.SignatureEqualityMatch<TOriginal, TModified>(original, modified, context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription);
+    }
+
+    /// <summary>
+    /// Determines if two elements are signature-based exactly equal.
+    /// </summary>
+    /// <param name="original">the original version.</param>
+    /// <param name="modified">the modified version.</param>
+    /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+    /// <typeparam name="TOriginal">Specific type of the original element.</typeparam>
+    /// <typeparam name="TModified">Specific type of the modified element.</typeparam>
+    /// <returns>true if the given elements are signature-based exactly equal, otherwise returns false.</returns>
+    /// <param name="matchingDescription">in case the given elements are signature-based exactly equal, this parameter will contain the corresponding matching description.</param>
+    public virtual bool SignatureEqualityMatch<TOriginal, TModified>(TOriginal original, TModified modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+    where TOriginal : SyntaxNode where TModified : SyntaxNode
+    {
+        matchingDescription = null;
+        if (original != null && modified != null)
+        {
+            if (this.GetElementTypeServiceProvider((SyntaxKind)original.RawKind) is ISignatureEqualityCriterion<SyntaxNodeOrToken?, TOriginal, TModified> elementTypeServiceProvider)
+                return elementTypeServiceProvider.SignatureEqualityMatch(original, modified, context, out matchingDescription);
+        }
+        return false;
+    }
+
+    /// <summary>
+    /// Determines if two elements are signature-based exactly equal.
+    /// </summary>
+    /// <param name="original">the original version.</param>
+    /// <param name="modified">the modified version.</param>
+    /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+    /// <returns>true if the given elements are signature-based exactly equal, otherwise returns false.</returns>
+    public virtual bool SignatureEqualityMatch(SyntaxNode original, SyntaxNode modified, MatchingContext<SyntaxNodeOrToken?> context)
+    {
+        return this.SignatureEqualityMatch(original, modified, context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription);
+    }
+
+    /// <summary>
+    /// Determines if two elements are signature-based exactly equal.
+    /// </summary>
+    /// <param name="original">the original version.</param>
+    /// <param name="modified">the modified version.</param>
+    /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+    /// <returns>true if the given elements are signature-based exactly equal, otherwise returns false.</returns>
+    /// <param name="matchingDescription">in case the given elements are signature-based exactly equal, this parameter will contain the corresponding matching description.</param>
+    public virtual bool SignatureEqualityMatch(SyntaxNode original, SyntaxNode modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+    {
+        var parameterModifier = new System.Reflection.ParameterModifier(4);
+        parameterModifier[3] = true;
+        var genericMethod = this.GetType().GetMethod("SignatureEqualityMatch", 
+			new[] { original.GetType(), modified.GetType(), typeof(MatchingContext<SyntaxNodeOrToken?>), typeof(MatchInfo<SyntaxNodeOrToken?>) }, 
+			new System.Reflection.ParameterModifier[] { parameterModifier }).MakeGenericMethod(original.GetType(), modified.GetType());
+    
+        matchingDescription = null;
+        return (bool)genericMethod.Invoke(this, new object[] { original, modified, context, matchingDescription });
+    }
+    
+    /// <summary>
+    /// Determines if two <see cref="SeparatedSyntaxList{TNode}"/> elements are equal.
+    /// </summary>
+    /// <param name="original">the original version.</param>
+    /// <param name="modified">the modified version.</param>
+    /// <param name="equal">logic of equality.</param>
+    /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+    /// <returns>true if the given elements are signature-based exactly equal, otherwise returns false.</returns>
+    /// <param name="matchingDescription">in case the given elements are signature-based exactly equal, this parameter will contain the corresponding matching description.</param>
+    public virtual bool SignatureEqualityMatch<T>(SeparatedSyntaxList<T> original, SeparatedSyntaxList<T> modified, Func<T, T, bool> equal, MatchingContext<SyntaxNodeOrToken?> context) where T : SyntaxNode
+    {
+        if (original == null || modified == null)
+            return false;
+    
+        if (original.Count != modified.Count)
+            return false;
+    
+        for (int i = 0; i < original.Count; i++)
+        {
+            if (!equal(original[i], modified[i]))
+                return false;
+        }
+        
+    	return true;
+    }	
+    
+    /// <summary>
+    /// Determines if two <see cref="SeparatedSyntaxList{TNode}"/> elements are equal.
+    /// </summary>
+    /// <param name="original">the original version.</param>
+    /// <param name="modified">the modified version.</param>
+    /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+    /// <returns>true if the given elements are signature-based exactly equal, otherwise returns false.</returns>
+    /// <param name="matchingDescription">in case the given elements are signature-based exactly equal, this parameter will contain the corresponding matching description.</param>
+    public virtual bool SignatureEqualityMatch<T>(SeparatedSyntaxList<T> original, SeparatedSyntaxList<T> modified, MatchingContext<SyntaxNodeOrToken?> context) where T : SyntaxNode
+    {
+        return this.SignatureEqualityMatch(original, modified, (o, m) => this.SignatureEqualityMatch(o, m, context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription), context);
+    }
+
+    /// <summary>
+    /// Determines if two <see cref="SyntaxList{TNode}"/> elements are equal.
+    /// </summary>
+    /// <param name="original">the original version.</param>
+    /// <param name="modified">the modified version.</param>
+    /// <param name="equal">logic of equality.</param>
+    /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+    /// <returns>true if the given elements are signature-based exactly equal, otherwise returns false.</returns>
+    /// <param name="matchingDescription">in case the given elements are signature-based exactly equal, this parameter will contain the corresponding matching description.</param>
+    public virtual bool SignatureEqualityMatch<T>(SyntaxList<T> original, SyntaxList<T> modified, Func<T, T, bool> equal, MatchingContext<SyntaxNodeOrToken?> context) where T : SyntaxNode
+    {
+        if (original == null || modified == null)
+            return false;
+
+        if (original.Count != modified.Count)
+            return false;
+
+        for (int i = 0; i < original.Count; i++)
+        {
+            if (!equal(original[i], modified[i]))
+                return false;
+        }
+
+        return true;
+    }
+
+    /// <summary>
+    /// Determines if two <see cref="SyntaxList{TNode}"/> elements are equal.
+    /// </summary>
+    /// <param name="original">the original version.</param>
+    /// <param name="modified">the modified version.</param>
+    /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+    /// <returns>true if the given elements are signature-based exactly equal, otherwise returns false.</returns>
+    /// <param name="matchingDescription">in case the given elements are signature-based exactly equal, this parameter will contain the corresponding matching description.</param>
+    public virtual bool SignatureEqualityMatch<T>(SyntaxList<T> original, SyntaxList<T> modified, MatchingContext<SyntaxNodeOrToken?> context) where T : SyntaxNode
+    {
+        return this.SignatureEqualityMatch(original, modified, (o, m) => this.SignatureEqualityMatch(o, m, context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription), context);
+    }
+    
+    /// <summary>
+    /// Determines if two <see cref="SyntaxToken"/> elements are equal.
+    /// </summary>
+    /// <param name="original">the original version.</param>
+    /// <param name="modified">the modified version.</param>
+    /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+    /// <returns>true if the given elements are signature-based exactly equal, otherwise returns false.</returns>
+    /// <param name="matchingDescription">in case the given elements are signature-based exactly equal, this parameter will contain the corresponding matching description.</param>
+    public virtual bool SignatureEqualityMatch(SyntaxToken original, SyntaxToken modified, MatchingContext<SyntaxNodeOrToken?> context)
+    {
+        return this.SyntaxTokenServiceProvider.SignatureEqualityMatch(original, modified, context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription);
+    }
+}
+
+/*
+
+partial class PredefinedTypeServiceProvider : ITypeEqualityCondition<PredefinedTypeSyntax, PredefinedTypeSyntax>
+{
+	/// <summary>
+    /// Determines if two <see cref="PredefinedTypeSyntax"/> elements are type-based exactly equal.
+    /// </summary>
+    /// <param name="original">the original version.</param>
+    /// <param name="modified">the modified version.</param>
+    /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+    public virtual bool TypeExactlyEqual(PredefinedTypeSyntax original, PredefinedTypeSyntax modified)
+    {
+        return this.LanguageServiceProvider.Equal(original, modified);
+    }
+
+    /// <summary>
+    /// Determines if two <see cref="PredefinedTypeSyntax"/> elements are signature-based exactly equal.
+    /// </summary>
+    /// <param name="original">the original version.</param>
+    /// <param name="modified">the modified version.</param>
+    /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+    public virtual bool SignatureExactlyEqual(PredefinedTypeSyntax original, PredefinedTypeSyntax modified)
+    {
+        return this.LanguageServiceProvider.Equal(original, modified);
+    }
+}
+
+partial class TypeParameterListServiceProvider : ITypeEqualityCondition<TypeParameterListSyntax, TypeParameterListSyntax>
+{
+	/// <summary>
+    /// Determines if two <see cref="TypeParameterListSyntax"/> elements are type-based exactly equal.
+    /// </summary>
+    /// <param name="original">the original version.</param>
+    /// <param name="modified">the modified version.</param>
+    /// <returns>true if they are exactly equal, otherwise returns false.</returns>
+    public virtual bool TypeExactlyEqual(TypeParameterListSyntax original, TypeParameterListSyntax modified)
+    {
+        return original.Parameters.Count() == modified.Parameters.Count();
+    }
+}*/
+
+<#
+var signatureProviders = xSyntaxTypeSystem.Nodes.Type.Where(t => !t.@abstract && t.Properties.Property.Any(p => p.Rules?.Signature?.Equality?.full ?? false)).ToList();
+
+foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
+.Where(n => !object.Equals(n.Root.Label, "SyntaxNode") && 
+            !object.Equals(n.Root.Label, "CSharpSyntaxNode")))
+{
+	var xSyntaxNodeType = xSyntaxTypeSystem.Nodes.Type.SingleOrDefault(n => n.name == syntaxNode.Root.Label.ToString());
+	if(xSyntaxNodeType == null) continue;
+
+	if(!signatureProviders.Any(t => t == xSyntaxNodeType)) 
+		continue;
+	var signatureProperties = xSyntaxNodeType.Properties.Property.Where(p => p.Rules?.Signature?.Equality?.full ?? false).ToList();
+	if(!signatureProperties.Any()) 
+		continue;
+	
+	var typeProperties = signatureProperties.Where(p => !(p.Rules?.Name?.Equality?.full ?? false)).ToList();
+	var nameProperties = xSyntaxNodeType.Properties.Property.Where(p => p.Rules?.Name?.Equality?.full ?? false).ToList();
+
+	var xSyntaxNodeBaseType = xSyntaxNodeType != null && xSyntaxNodeType.@base != null ?
+	 xSyntaxTypeSystem.Nodes.Type.SingleOrDefault(n => n.name == xSyntaxNodeType.@base) 
+	 : null;
+	
+	var isUpdatable = false;
+	if(xSyntaxNodeType != null && xSyntaxNodeType.Properties != null && xSyntaxNodeType.Properties.Property != null)
+		isUpdatable = xSyntaxNodeType.Properties.Property.Any(p => p.changepoint);
+
+	if(xSyntaxNodeType != null)
+    {
+		var xSyntaxNodeBaseTypeProperties = xSyntaxNodeBaseType != null && xSyntaxNodeBaseType.Properties != null && xSyntaxNodeBaseType.Properties.Property != null 
+				? xSyntaxNodeBaseType.Properties.Property
+				: new Syntax.NodesLocalType.TypeLocalType.PropertiesLocalType.PropertyLocalType[0];
+
+		var xSyntaxNodeProperties = xSyntaxNodeType.Properties != null && xSyntaxNodeType.Properties.Property != null 
+			? xSyntaxNodeType.Properties.Property
+			: new Syntax.NodesLocalType.TypeLocalType.PropertiesLocalType.PropertyLocalType[0];
+
+		var currentType = typeof(Microsoft.CodeAnalysis.CSharp.CSharpSyntaxNode)
+			.Assembly.GetType("Microsoft.CodeAnalysis.CSharp.Syntax." + code.Escape(syntaxNode.Root.Label.ToString()));
+		var currentPropertiesMetadata = currentType.GetMembers().OfType<PropertyInfo>()
+			.Where(p => xSyntaxNodeProperties.Any(n => n.name == p.Name))
+			.Select(p => new Tuple<PropertyInfo, Syntax.NodesLocalType.TypeLocalType.PropertiesLocalType.PropertyLocalType>(p, xSyntaxNodeProperties.Single(n => n.name == p.Name)))
+			.OrderBy(p => p.Item2.index)
+			.ToArray();
+
+	if(xSyntaxNodeType != null)
+	{
+		var baseDeclarationText = (xSyntaxNodeType.Rules?.Signature?.Equality?.full ?? false)
+			? $": ISignatureEqualityCriterion<SyntaxNodeOrToken?, {code.Escape(syntaxNode.Root.Label.ToString())}, {code.Escape(syntaxNode.Root.Label.ToString())}>"
+			: "";
+#>
+public <#= xSyntaxNodeType.@abstract ? "abstract " : "" #>partial class <#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>ServiceProvider<#= baseDeclarationText #>
+{
+	/// <summary>
+    /// Method hook for implementing logic to execute before the <see cref="SignatureEqualityMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/>.
+    /// </summary>
+    /// <param name="original">the original version.</param>
+    /// <param name="modified">the modified version.</param>
+    /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+    /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+    /// <param name="result">Mechanism to modify the result of <see cref="SignatureEqualityMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/>.</param>
+    /// <param name="ignoreCore">If true, the <see cref="SignatureEqualityMatchCore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/> is not executed and <see cref="SignatureEqualityMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+    /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
+    partial void SignatureEqualityMatchBefore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= code.Escape(syntaxNode.Root.Label.ToString()) #> modified, MatchingContext<SyntaxNodeOrToken?> context, ref MatchInfo<SyntaxNodeOrToken?> matchingDescription, ref bool result, ref bool ignoreCore);
+    
+    /// <summary>
+    /// Method hook for implementing logic to execute after the <see cref="SignatureEqualityMatchCore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>, MatchingContext{SyntaxNodeOrToken?})"/>.
+    /// </summary>
+    /// <param name="original">the original version.</param>
+    /// <param name="modified">the modified version.</param>
+    /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+    /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+    /// <param name="result">Mechanism to modify the result of <see cref="SignatureEqualityMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/>.</param>
+    /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
+    partial void SignatureEqualityMatchAfter(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= code.Escape(syntaxNode.Root.Label.ToString()) #> modified, MatchingContext<SyntaxNodeOrToken?> context, ref MatchInfo<SyntaxNodeOrToken?> matchingDescription, ref bool result);
+
+<#
+		if(xSyntaxNodeType.name == "TypeParameterListSyntax")
+		{
+#>
+	/// <summary>
+    /// Determines if two elements are name-based exactly equal.
+    /// </summary>
+    /// <param name="original">the original version.</param>
+    /// <param name="modified">the modified version.</param>
+    /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+    /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
+    /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
+    /// <remarks>This is the default implementation for <see cref="SignatureEqualityMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/>.</remarks>
+    protected virtual bool SignatureEqualityMatchCore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= code.Escape(syntaxNode.Root.Label.ToString()) #> modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+	{
+		matchingDescription = original.Parameters.Count() == modified.Parameters.Count()
+			? new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.SignatureEquality) { Original = original, Modified = modified }
+			: null;
+
+		return matchingDescription != null;
+	}
+<#
+		}
+		else
+		{
+#>
+    /// <summary>
+    /// Determines if two elements are name-based exactly equal.
+    /// </summary>
+    /// <param name="original">the original version.</param>
+    /// <param name="modified">the modified version.</param>
+    /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+    /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
+    /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
+    /// <remarks>This is the default implementation for <see cref="SignatureEqualityMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/>.</remarks>
+    protected virtual bool SignatureEqualityMatchCore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= code.Escape(syntaxNode.Root.Label.ToString()) #> modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+	{
+		matchingDescription = null;
+		if(original == null || modified == null) 
+			return false;
+
+<#
+	for (int i = 0; i < signatureProperties.Count; i++)
+	{
+		var keyProperty = currentPropertiesMetadata.Single(p => signatureProperties[i].name == p.Item2.name);
+
+		var prefix = i == 0 ? "if (" : "    ";
+		var line = prefix + (signatureProperties.Count > 1 ? "(" : "") + 
+		           (keyProperty.Item2.optional 
+						? (signatureProperties.Any(kp => !kp.optional) 
+								? $"(original.{keyProperty.Item2.name} == null && modified.{keyProperty.Item2.name} == null) || (" 
+								: "") + 
+						  $"original.{keyProperty.Item2.name} != null && modified.{keyProperty.Item2.name} != null && "
+						: "");
+
+		if(keyProperty.Item2.kind == "Token")
+			line += $"this.LanguageServiceProvider.EqualityMatch(original.{keyProperty.Item2.name}, modified.{keyProperty.Item2.name}, context)";
+		else
+			line += $"this.LanguageServiceProvider.SignatureEqualityMatch(original.{keyProperty.Item2.name}, modified.{keyProperty.Item2.name}, context)";
+
+		line += (keyProperty.Item2.optional && signatureProperties.Any(kp => !kp.optional) ? ")" : "") +
+		        (signatureProperties.Count > 1 ? ")" : "") + 
+		        (signatureProperties.Count > 1 && i != (signatureProperties.Count - 1) 
+					? (signatureProperties.All(kp => kp.optional) 
+						? " ||" 
+						: " &&") 
+					: "") + 
+			    (i == (signatureProperties.Count - 1) ? ")" : "");
+#>
+        <#= line #>
+<# 
+	}
+#>
+		{
+			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.SignatureEquality) { Original = original, Modified = modified };
+			return true;
+		}
+
+	    return false;
+	}
+<#
+		}
+#>
+
+    /// <summary>
+    /// Determines if two elements are name-based exactly equal.
+    /// </summary>
+    /// <param name="original">the original version.</param>
+    /// <param name="modified">the modified version.</param>
+    /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+    /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
+    /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
+    <#= baseDeclarationText == "" ? "public virtual " : "" #>bool <#= baseDeclarationText != "" ? $"ISignatureEqualityCriterion<SyntaxNodeOrToken?, {code.Escape(syntaxNode.Root.Label.ToString())}, {code.Escape(syntaxNode.Root.Label.ToString())}>." : ""#>SignatureEqualityMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= code.Escape(syntaxNode.Root.Label.ToString()) #> modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+	{
+		bool result = false;
+		var ignoreCore = false;
+		matchingDescription = null;
+		SignatureEqualityMatchBefore(original, modified, context, ref matchingDescription, ref result, ref ignoreCore);
+		if(ignoreCore) 
+			return result;
+		
+		result = this.SignatureEqualityMatchCore(original, modified, context, out matchingDescription);
+		SignatureEqualityMatchAfter(original, modified, context, ref matchingDescription, ref result);
+		return result;
+	}    
+}
+
+<#
+	}
+ }
+}
+	
+EndNamespace(namespaceName);
+
+manager.Process();
+#>
+<#+ 
+void BeginNamespace(string namespaceName, CodeGenerationTools code)
+{
+    CodeRegion region = new CodeRegion(this);
+    if (!String.IsNullOrEmpty(namespaceName))
+    {
+#>
+namespace <#=code.EscapeNamespace(namespaceName)#>
+{
+<#+
+        PushIndent(CodeRegion.GetIndent(1));
+    }
+}
+
+void EndNamespace(string namespaceName)
+{
+    if (!String.IsNullOrEmpty(namespaceName))
+    {
+        PopIndent();
+#>
+}
+<#+
+    }
+}
+#>
