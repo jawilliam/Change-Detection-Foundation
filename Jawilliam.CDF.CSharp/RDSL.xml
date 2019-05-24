@@ -1670,6 +1670,83 @@
           </Rules>
         </Property>
       </Properties>
+      <Rules>
+        <Alias type="IdentifierNameSyntax" twoWay="true">
+          <Value path="({0}.Left as IdentifierNameSyntax)?.Identifier.ValueText" value="&quot;System&quot;"/>
+          <Value path="({0}.Right as IdentifierNameSyntax)?.Identifier.ValueText" value="&quot;Boolean&quot;"/>
+          <Value path="{1}.Identifier.ValueText" value="&quot;Boolean&quot;"/>
+        </Alias>
+        <Alias type="IdentifierNameSyntax" twoWay="true">
+          <Value path="({0}.Left as IdentifierNameSyntax)?.Identifier.ValueText" value="&quot;System&quot;"/>
+          <Value path="({0}.Right as IdentifierNameSyntax)?.Identifier.ValueText" value="&quot;Byte&quot;"/>
+          <Value path="{1}.Identifier.ValueText" value="&quot;Byte&quot;"/>
+        </Alias>
+        <Alias type="IdentifierNameSyntax" twoWay="true">
+          <Value path="({0}.Left as IdentifierNameSyntax)?.Identifier.ValueText" value="&quot;System&quot;"/>
+          <Value path="({0}.Right as IdentifierNameSyntax)?.Identifier.ValueText" value="&quot;SByte&quot;"/>
+          <Value path="{1}.Identifier.ValueText" value="&quot;SByte&quot;"/>
+        </Alias>
+        <Alias type="IdentifierNameSyntax" twoWay="true">
+          <Value path="({0}.Left as IdentifierNameSyntax)?.Identifier.ValueText" value="&quot;System&quot;"/>
+          <Value path="({0}.Right as IdentifierNameSyntax)?.Identifier.ValueText" value="&quot;Int32&quot;"/>
+          <Value path="{1}.Identifier.ValueText" value="&quot;Int32&quot;"/>
+        </Alias>
+        <Alias type="IdentifierNameSyntax" twoWay="true">
+          <Value path="({0}.Left as IdentifierNameSyntax)?.Identifier.ValueText" value="&quot;System&quot;"/>
+          <Value path="({0}.Right as IdentifierNameSyntax)?.Identifier.ValueText" value="&quot;UInt32&quot;"/>
+          <Value path="{1}.Identifier.ValueText" value="&quot;UInt32&quot;"/>
+        </Alias>
+        <Alias type="IdentifierNameSyntax" twoWay="true">
+          <Value path="({0}.Left as IdentifierNameSyntax)?.Identifier.ValueText" value="&quot;System&quot;"/>
+          <Value path="({0}.Right as IdentifierNameSyntax)?.Identifier.ValueText" value="&quot;Int16&quot;"/>
+          <Value path="{1}.Identifier.ValueText" value="&quot;Int16&quot;"/>
+        </Alias>
+        <Alias type="IdentifierNameSyntax" twoWay="true">
+          <Value path="({0}.Left as IdentifierNameSyntax)?.Identifier.ValueText" value="&quot;System&quot;"/>
+          <Value path="({0}.Right as IdentifierNameSyntax)?.Identifier.ValueText" value="&quot;UInt16&quot;"/>
+          <Value path="{1}.Identifier.ValueText" value="&quot;UInt16&quot;"/>
+        </Alias>
+        <Alias type="IdentifierNameSyntax" twoWay="true">
+          <Value path="({0}.Left as IdentifierNameSyntax)?.Identifier.ValueText" value="&quot;System&quot;"/>
+          <Value path="({0}.Right as IdentifierNameSyntax)?.Identifier.ValueText" value="&quot;Int64&quot;"/>
+          <Value path="{1}.Identifier.ValueText" value="&quot;Int64&quot;"/>
+        </Alias>
+        <Alias type="IdentifierNameSyntax" twoWay="true">
+          <Value path="({0}.Left as IdentifierNameSyntax)?.Identifier.ValueText" value="&quot;System&quot;"/>
+          <Value path="({0}.Right as IdentifierNameSyntax)?.Identifier.ValueText" value="&quot;UInt64&quot;"/>
+          <Value path="{1}.Identifier.ValueText" value="&quot;UInt64&quot;"/>
+        </Alias>
+        <Alias type="IdentifierNameSyntax" twoWay="true">
+          <Value path="({0}.Left as IdentifierNameSyntax)?.Identifier.ValueText" value="&quot;System&quot;"/>
+          <Value path="({0}.Right as IdentifierNameSyntax)?.Identifier.ValueText" value="&quot;Single&quot;"/>
+          <Value path="{1}.Identifier.ValueText" value="&quot;Single&quot;"/>
+        </Alias>
+        <Alias type="IdentifierNameSyntax" twoWay="true">
+          <Value path="({0}.Left as IdentifierNameSyntax)?.Identifier.ValueText" value="&quot;System&quot;"/>
+          <Value path="({0}.Right as IdentifierNameSyntax)?.Identifier.ValueText" value="&quot;Double&quot;"/>
+          <Value path="{1}.Identifier.ValueText" value="&quot;Double&quot;"/>
+        </Alias>
+        <Alias type="IdentifierNameSyntax" twoWay="true">
+          <Value path="({0}.Left as IdentifierNameSyntax)?.Identifier.ValueText" value="&quot;System&quot;"/>
+          <Value path="({0}.Right as IdentifierNameSyntax)?.Identifier.ValueText" value="&quot;Decimal&quot;"/>
+          <Value path="{1}.Identifier.ValueText" value="&quot;Decimal&quot;"/>
+        </Alias>
+        <Alias type="IdentifierNameSyntax" twoWay="true">
+          <Value path="({0}.Left as IdentifierNameSyntax)?.Identifier.ValueText" value="&quot;System&quot;"/>
+          <Value path="({0}.Right as IdentifierNameSyntax)?.Identifier.ValueText" value="&quot;String&quot;"/>
+          <Value path="{1}.Identifier.ValueText" value="&quot;String&quot;"/>
+        </Alias>
+        <Alias type="IdentifierNameSyntax" twoWay="true">
+          <Value path="({0}.Left as IdentifierNameSyntax)?.Identifier.ValueText" value="&quot;System&quot;"/>
+          <Value path="({0}.Right as IdentifierNameSyntax)?.Identifier.ValueText" value="&quot;Char&quot;"/>
+          <Value path="{1}.Identifier.ValueText" value="&quot;Char&quot;"/>
+        </Alias>
+        <Alias type="IdentifierNameSyntax" twoWay="true">
+          <Value path="({0}.Left as IdentifierNameSyntax)?.Identifier.ValueText" value="&quot;System&quot;"/>
+          <Value path="({0}.Right as IdentifierNameSyntax)?.Identifier.ValueText" value="&quot;Object&quot;"/>
+          <Value path="{1}.Identifier.ValueText" value="&quot;Object&quot;"/>
+        </Alias>
+      </Rules>
     </Type>
     <Type name="AliasQualifiedNameSyntax" base="NameSyntax">
       <Properties>
