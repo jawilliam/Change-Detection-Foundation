@@ -970,6 +970,9 @@ namespace tempuri.org.XNodeTypeSystem.xsd {
                             private XTypedList<PropertyLabelOption> KindField;
                             
                             [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                            private static bool exclusiveDefaultValue = System.Xml.XmlConvert.ToBoolean("false");
+                            
+                            [DebuggerBrowsable(DebuggerBrowsableState.Never)]
                             private static bool labelingDefaultValue = System.Xml.XmlConvert.ToBoolean("false");
                             
                             [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -1028,13 +1031,10 @@ namespace tempuri.org.XNodeTypeSystem.xsd {
                             /// Occurrence: optional
                             /// </para>
                             /// </summary>
-                            public System.Nullable<bool> exclusive {
+                            public bool exclusive {
                                 get {
                                     XAttribute x = this.Attribute(XName.Get("exclusive", ""));
-                                    if ((x == null)) {
-                                        return null;
-                                    }
-                                    return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
+                                    return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype, exclusiveDefaultValue);
                                 }
                                 set {
                                     this.SetAttribute(XName.Get("exclusive", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
@@ -1099,10 +1099,19 @@ namespace tempuri.org.XNodeTypeSystem.xsd {
                         
                         /// <summary>
                         /// <para>
-                        /// Regular expression: (Signature?, Name?, Hint?, Pairwise?, Topology?)
+                        /// Regular expression: (Signature*, Name*, Hint?, Compatibility?, Pairwise?, Topology?)
                         /// </para>
                         /// </summary>
                         public partial class RulesLocalType : XTypedElement, IXMetaData {
+                            
+                            [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                            private XTypedList<EqualityAndOrSimilarityAbsoluteAndOrRelativeRules> SignatureField;
+                            
+                            [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                            private XTypedList<NameLocalType> NameField;
+                            
+                            [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                            private static bool essentialDefaultValue = System.Xml.XmlConvert.ToBoolean("false");
                             
                             [DebuggerBrowsable(DebuggerBrowsableState.Never)]
                             private static bool collectionDefaultValue = System.Xml.XmlConvert.ToBoolean("false");
@@ -1120,12 +1129,12 @@ namespace tempuri.org.XNodeTypeSystem.xsd {
                             
                             static RulesLocalType() {
                                 BuildElementDictionary();
-                                contentModel = new SequenceContentModelEntity(new NamedContentModelEntity(XName.Get("Signature", "http://tempuri.org/XNodeTypeSystem.xsd")), new NamedContentModelEntity(XName.Get("Name", "http://tempuri.org/XNodeTypeSystem.xsd")), new NamedContentModelEntity(XName.Get("Hint", "http://tempuri.org/XNodeTypeSystem.xsd")), new NamedContentModelEntity(XName.Get("Pairwise", "http://tempuri.org/XNodeTypeSystem.xsd")), new NamedContentModelEntity(XName.Get("Topology", "http://tempuri.org/XNodeTypeSystem.xsd")));
+                                contentModel = new SequenceContentModelEntity(new NamedContentModelEntity(XName.Get("Signature", "http://tempuri.org/XNodeTypeSystem.xsd")), new NamedContentModelEntity(XName.Get("Name", "http://tempuri.org/XNodeTypeSystem.xsd")), new NamedContentModelEntity(XName.Get("Hint", "http://tempuri.org/XNodeTypeSystem.xsd")), new NamedContentModelEntity(XName.Get("Compatibility", "http://tempuri.org/XNodeTypeSystem.xsd")), new NamedContentModelEntity(XName.Get("Pairwise", "http://tempuri.org/XNodeTypeSystem.xsd")), new NamedContentModelEntity(XName.Get("Topology", "http://tempuri.org/XNodeTypeSystem.xsd")));
                             }
                             
                             /// <summary>
                             /// <para>
-                            /// Regular expression: (Signature?, Name?, Hint?, Pairwise?, Topology?)
+                            /// Regular expression: (Signature*, Name*, Hint?, Compatibility?, Pairwise?, Topology?)
                             /// </para>
                             /// </summary>
                             public RulesLocalType() {
@@ -1133,19 +1142,61 @@ namespace tempuri.org.XNodeTypeSystem.xsd {
                             
                             /// <summary>
                             /// <para>
-                            /// Occurrence: optional
+                            /// Occurrence: optional, repeating
                             /// </para>
                             /// <para>
-                            /// Regular expression: (Signature?, Name?, Hint?, Pairwise?, Topology?)
+                            /// Regular expression: (Signature*, Name*, Hint?, Compatibility?, Pairwise?, Topology?)
                             /// </para>
                             /// </summary>
-                            public KeyRules Signature {
+                            public IList<EqualityAndOrSimilarityAbsoluteAndOrRelativeRules> Signature {
                                 get {
-                                    XElement x = this.GetElement(XName.Get("Signature", "http://tempuri.org/XNodeTypeSystem.xsd"));
-                                    return ((KeyRules)(x));
+                                    if ((this.SignatureField == null)) {
+                                        this.SignatureField = new XTypedList<EqualityAndOrSimilarityAbsoluteAndOrRelativeRules>(this, LinqToXsdTypeManager.Instance, XName.Get("Signature", "http://tempuri.org/XNodeTypeSystem.xsd"));
+                                    }
+                                    return this.SignatureField;
                                 }
                                 set {
-                                    this.SetElement(XName.Get("Signature", "http://tempuri.org/XNodeTypeSystem.xsd"), value);
+                                    if ((value == null)) {
+                                        this.SignatureField = null;
+                                    }
+                                    else {
+                                        if ((this.SignatureField == null)) {
+                                            this.SignatureField = XTypedList<EqualityAndOrSimilarityAbsoluteAndOrRelativeRules>.Initialize(this, LinqToXsdTypeManager.Instance, value, XName.Get("Signature", "http://tempuri.org/XNodeTypeSystem.xsd"));
+                                        }
+                                        else {
+                                            XTypedServices.SetList<EqualityAndOrSimilarityAbsoluteAndOrRelativeRules>(this.SignatureField, value);
+                                        }
+                                    }
+                                }
+                            }
+                            
+                            /// <summary>
+                            /// <para>
+                            /// Occurrence: optional, repeating
+                            /// </para>
+                            /// <para>
+                            /// Regular expression: (Signature*, Name*, Hint?, Compatibility?, Pairwise?, Topology?)
+                            /// </para>
+                            /// </summary>
+                            public IList<tempuri.org.XNodeTypeSystem.xsd.Syntax.NodesLocalType.TypeLocalType.PropertiesLocalType.PropertyLocalType.RulesLocalType.NameLocalType> Name {
+                                get {
+                                    if ((this.NameField == null)) {
+                                        this.NameField = new XTypedList<NameLocalType>(this, LinqToXsdTypeManager.Instance, XName.Get("Name", "http://tempuri.org/XNodeTypeSystem.xsd"));
+                                    }
+                                    return this.NameField;
+                                }
+                                set {
+                                    if ((value == null)) {
+                                        this.NameField = null;
+                                    }
+                                    else {
+                                        if ((this.NameField == null)) {
+                                            this.NameField = XTypedList<NameLocalType>.Initialize(this, LinqToXsdTypeManager.Instance, value, XName.Get("Name", "http://tempuri.org/XNodeTypeSystem.xsd"));
+                                        }
+                                        else {
+                                            XTypedServices.SetList<NameLocalType>(this.NameField, value);
+                                        }
+                                    }
                                 }
                             }
                             
@@ -1154,25 +1205,7 @@ namespace tempuri.org.XNodeTypeSystem.xsd {
                             /// Occurrence: optional
                             /// </para>
                             /// <para>
-                            /// Regular expression: (Signature?, Name?, Hint?, Pairwise?, Topology?)
-                            /// </para>
-                            /// </summary>
-                            public NameLocalType Name {
-                                get {
-                                    XElement x = this.GetElement(XName.Get("Name", "http://tempuri.org/XNodeTypeSystem.xsd"));
-                                    return ((NameLocalType)(x));
-                                }
-                                set {
-                                    this.SetElement(XName.Get("Name", "http://tempuri.org/XNodeTypeSystem.xsd"), value);
-                                }
-                            }
-                            
-                            /// <summary>
-                            /// <para>
-                            /// Occurrence: optional
-                            /// </para>
-                            /// <para>
-                            /// Regular expression: (Signature?, Name?, Hint?, Pairwise?, Topology?)
+                            /// Regular expression: (Signature*, Name*, Hint?, Compatibility?, Pairwise?, Topology?)
                             /// </para>
                             /// </summary>
                             public SuitabilityRule Hint {
@@ -1190,7 +1223,25 @@ namespace tempuri.org.XNodeTypeSystem.xsd {
                             /// Occurrence: optional
                             /// </para>
                             /// <para>
-                            /// Regular expression: (Signature?, Name?, Hint?, Pairwise?, Topology?)
+                            /// Regular expression: (Signature*, Name*, Hint?, Compatibility?, Pairwise?, Topology?)
+                            /// </para>
+                            /// </summary>
+                            public CompatibilityLocalType Compatibility {
+                                get {
+                                    XElement x = this.GetElement(XName.Get("Compatibility", "http://tempuri.org/XNodeTypeSystem.xsd"));
+                                    return ((CompatibilityLocalType)(x));
+                                }
+                                set {
+                                    this.SetElement(XName.Get("Compatibility", "http://tempuri.org/XNodeTypeSystem.xsd"), value);
+                                }
+                            }
+                            
+                            /// <summary>
+                            /// <para>
+                            /// Occurrence: optional
+                            /// </para>
+                            /// <para>
+                            /// Regular expression: (Signature*, Name*, Hint?, Compatibility?, Pairwise?, Topology?)
                             /// </para>
                             /// </summary>
                             public PairwiseRules Pairwise {
@@ -1208,7 +1259,7 @@ namespace tempuri.org.XNodeTypeSystem.xsd {
                             /// Occurrence: optional
                             /// </para>
                             /// <para>
-                            /// Regular expression: (Signature?, Name?, Hint?, Pairwise?, Topology?)
+                            /// Regular expression: (Signature*, Name*, Hint?, Compatibility?, Pairwise?, Topology?)
                             /// </para>
                             /// </summary>
                             public TopologyRules Topology {
@@ -1226,13 +1277,10 @@ namespace tempuri.org.XNodeTypeSystem.xsd {
                             /// Occurrence: optional
                             /// </para>
                             /// </summary>
-                            public System.Nullable<bool> essential {
+                            public bool essential {
                                 get {
                                     XAttribute x = this.Attribute(XName.Get("essential", ""));
-                                    if ((x == null)) {
-                                        return null;
-                                    }
-                                    return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
+                                    return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype, essentialDefaultValue);
                                 }
                                 set {
                                     this.SetAttribute(XName.Get("essential", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
@@ -1302,9 +1350,10 @@ namespace tempuri.org.XNodeTypeSystem.xsd {
                             }
                             
                             private static void BuildElementDictionary() {
-                                localElementDictionary.Add(XName.Get("Signature", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(KeyRules));
+                                localElementDictionary.Add(XName.Get("Signature", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(EqualityAndOrSimilarityAbsoluteAndOrRelativeRules));
                                 localElementDictionary.Add(XName.Get("Name", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(NameLocalType));
                                 localElementDictionary.Add(XName.Get("Hint", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(SuitabilityRule));
+                                localElementDictionary.Add(XName.Get("Compatibility", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(CompatibilityLocalType));
                                 localElementDictionary.Add(XName.Get("Pairwise", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(PairwiseRules));
                                 localElementDictionary.Add(XName.Get("Topology", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(TopologyRules));
                             }
@@ -1313,31 +1362,10 @@ namespace tempuri.org.XNodeTypeSystem.xsd {
                                 return contentModel;
                             }
                             
-                            /// <summary>
-                            /// <para>
-                            /// Regular expression: (Equality?, Similarity?)
-                            /// </para>
-                            /// </summary>
-                            public partial class NameLocalType : global::tempuri.org.XNodeTypeSystem.xsd.KeyRules, IXMetaData {
-                                
-                                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                                static Dictionary<XName, System.Type> localElementDictionary = new Dictionary<XName, System.Type>();
-                                
-                                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                                private static ContentModelEntity contentModel;
+                            public partial class NameLocalType : global::tempuri.org.XNodeTypeSystem.xsd.EqualityAndOrSimilarityAbsoluteAndOrRelativeRules, IXMetaData {
                                 
          public static explicit operator NameLocalType(XElement xe) { return XTypedServices.ToXTypedElement<NameLocalType>(xe,LinqToXsdTypeManager.Instance as ILinqToXsdTypeManager); }
                                 
-                                static NameLocalType() {
-                                    BuildElementDictionary();
-                                    contentModel = new SequenceContentModelEntity(new NamedContentModelEntity(XName.Get("Equality", "http://tempuri.org/XNodeTypeSystem.xsd")), new NamedContentModelEntity(XName.Get("Similarity", "http://tempuri.org/XNodeTypeSystem.xsd")));
-                                }
-                                
-                                /// <summary>
-                                /// <para>
-                                /// Regular expression: (Equality?, Similarity?)
-                                /// </para>
-                                /// </summary>
                                 public NameLocalType() {
                                 }
                                 
@@ -1353,13 +1381,6 @@ namespace tempuri.org.XNodeTypeSystem.xsd {
                                     }
                                     set {
                                         this.SetAttribute(XName.Get("conventionPattern", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String).Datatype);
-                                    }
-                                }
-                                
-                                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                                Dictionary<XName, System.Type> IXMetaData.LocalElementsDictionary {
-                                    get {
-                                        return localElementDictionary;
                                     }
                                 }
                                 
@@ -1388,13 +1409,176 @@ namespace tempuri.org.XNodeTypeSystem.xsd {
                                     return XTypedServices.CloneXTypedElement<NameLocalType>(this);
                                 }
                                 
+                                ContentModelEntity IXMetaData.GetContentModel() {
+                                    return ContentModelEntity.Default;
+                                }
+                            }
+                            
+                            /// <summary>
+                            /// <para>
+                            /// Regular expression: (Exclusive?)*
+                            /// </para>
+                            /// </summary>
+                            public partial class CompatibilityLocalType : XTypedElement, IXMetaData {
+                                
+                                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                                private XTypedList<ExclusiveLocalType> ExclusiveField;
+                                
+                                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                                static Dictionary<XName, System.Type> localElementDictionary = new Dictionary<XName, System.Type>();
+                                
+         public static explicit operator CompatibilityLocalType(XElement xe) { return XTypedServices.ToXTypedElement<CompatibilityLocalType>(xe,LinqToXsdTypeManager.Instance as ILinqToXsdTypeManager); }
+                                
+                                static CompatibilityLocalType() {
+                                    BuildElementDictionary();
+                                }
+                                
+                                /// <summary>
+                                /// <para>
+                                /// Regular expression: (Exclusive?)*
+                                /// </para>
+                                /// </summary>
+                                public CompatibilityLocalType() {
+                                }
+                                
+                                /// <summary>
+                                /// <para>
+                                /// Occurrence: optional, choice
+                                /// </para>
+                                /// <para>
+                                /// Regular expression: (Exclusive?)*
+                                /// </para>
+                                /// </summary>
+                                public IList<tempuri.org.XNodeTypeSystem.xsd.Syntax.NodesLocalType.TypeLocalType.PropertiesLocalType.PropertyLocalType.RulesLocalType.CompatibilityLocalType.ExclusiveLocalType> Exclusive {
+                                    get {
+                                        if ((this.ExclusiveField == null)) {
+                                            this.ExclusiveField = new XTypedList<ExclusiveLocalType>(this, LinqToXsdTypeManager.Instance, XName.Get("Exclusive", "http://tempuri.org/XNodeTypeSystem.xsd"));
+                                        }
+                                        return this.ExclusiveField;
+                                    }
+                                    set {
+                                        if ((value == null)) {
+                                            this.ExclusiveField = null;
+                                        }
+                                        else {
+                                            if ((this.ExclusiveField == null)) {
+                                                this.ExclusiveField = XTypedList<ExclusiveLocalType>.Initialize(this, LinqToXsdTypeManager.Instance, value, XName.Get("Exclusive", "http://tempuri.org/XNodeTypeSystem.xsd"));
+                                            }
+                                            else {
+                                                XTypedServices.SetList<ExclusiveLocalType>(this.ExclusiveField, value);
+                                            }
+                                        }
+                                    }
+                                }
+                                
+                                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                                Dictionary<XName, System.Type> IXMetaData.LocalElementsDictionary {
+                                    get {
+                                        return localElementDictionary;
+                                    }
+                                }
+                                
+                                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                                XName IXMetaData.SchemaName {
+                                    get {
+                                        return XName.Get("Compatibility", "http://tempuri.org/XNodeTypeSystem.xsd");
+                                    }
+                                }
+                                
+                                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                                SchemaOrigin IXMetaData.TypeOrigin {
+                                    get {
+                                        return SchemaOrigin.Fragment;
+                                    }
+                                }
+                                
+                                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                                ILinqToXsdTypeManager IXMetaData.TypeManager {
+                                    get {
+                                        return LinqToXsdTypeManager.Instance;
+                                    }
+                                }
+                                
+                                public override XTypedElement Clone() {
+                                    return XTypedServices.CloneXTypedElement<CompatibilityLocalType>(this);
+                                }
+                                
                                 private static void BuildElementDictionary() {
-                                    localElementDictionary.Add(XName.Get("Equality", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(EqualityOrSimilarityRules));
-                                    localElementDictionary.Add(XName.Get("Similarity", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(EqualityOrSimilarityRules));
+                                    localElementDictionary.Add(XName.Get("Exclusive", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(ExclusiveLocalType));
                                 }
                                 
                                 ContentModelEntity IXMetaData.GetContentModel() {
-                                    return contentModel;
+                                    return ContentModelEntity.Default;
+                                }
+                                
+                                public partial class ExclusiveLocalType : XTypedElement, IXMetaData {
+                                    
+                                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                                    private static bool mutuallyDefaultValue = System.Xml.XmlConvert.ToBoolean("false");
+                                    
+         public static explicit operator ExclusiveLocalType(XElement xe) { return XTypedServices.ToXTypedElement<ExclusiveLocalType>(xe,LinqToXsdTypeManager.Instance as ILinqToXsdTypeManager); }
+                                    
+                                    public ExclusiveLocalType() {
+                                    }
+                                    
+                                    /// <summary>
+                                    /// <para>
+                                    /// Occurrence: optional
+                                    /// </para>
+                                    /// </summary>
+                                    public bool mutually {
+                                        get {
+                                            XAttribute x = this.Attribute(XName.Get("mutually", ""));
+                                            return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype, mutuallyDefaultValue);
+                                        }
+                                        set {
+                                            this.SetAttribute(XName.Get("mutually", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
+                                        }
+                                    }
+                                    
+                                    /// <summary>
+                                    /// <para>
+                                    /// Occurrence: required
+                                    /// </para>
+                                    /// </summary>
+                                    public string with {
+                                        get {
+                                            XAttribute x = this.Attribute(XName.Get("with", ""));
+                                            return XTypedServices.ParseValue<string>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String).Datatype);
+                                        }
+                                        set {
+                                            this.SetAttribute(XName.Get("with", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String).Datatype);
+                                        }
+                                    }
+                                    
+                                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                                    XName IXMetaData.SchemaName {
+                                        get {
+                                            return XName.Get("Exclusive", "http://tempuri.org/XNodeTypeSystem.xsd");
+                                        }
+                                    }
+                                    
+                                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                                    SchemaOrigin IXMetaData.TypeOrigin {
+                                        get {
+                                            return SchemaOrigin.Fragment;
+                                        }
+                                    }
+                                    
+                                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                                    ILinqToXsdTypeManager IXMetaData.TypeManager {
+                                        get {
+                                            return LinqToXsdTypeManager.Instance;
+                                        }
+                                    }
+                                    
+                                    public override XTypedElement Clone() {
+                                        return XTypedServices.CloneXTypedElement<ExclusiveLocalType>(this);
+                                    }
+                                    
+                                    ContentModelEntity IXMetaData.GetContentModel() {
+                                        return ContentModelEntity.Default;
+                                    }
                                 }
                             }
                         }
@@ -1410,6 +1594,9 @@ namespace tempuri.org.XNodeTypeSystem.xsd {
                     
                     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
                     private XTypedList<TypeLabelOption> TypeField;
+                    
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private static bool exclusiveDefaultValue = System.Xml.XmlConvert.ToBoolean("false");
                     
                     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
                     static Dictionary<XName, System.Type> localElementDictionary = new Dictionary<XName, System.Type>();
@@ -1467,13 +1654,10 @@ namespace tempuri.org.XNodeTypeSystem.xsd {
                     /// Occurrence: optional
                     /// </para>
                     /// </summary>
-                    public System.Nullable<bool> exclusive {
+                    public bool exclusive {
                         get {
                             XAttribute x = this.Attribute(XName.Get("exclusive", ""));
-                            if ((x == null)) {
-                                return null;
-                            }
-                            return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
+                            return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype, exclusiveDefaultValue);
                         }
                         set {
                             this.SetAttribute(XName.Get("exclusive", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
@@ -1523,16 +1707,10 @@ namespace tempuri.org.XNodeTypeSystem.xsd {
                 
                 /// <summary>
                 /// <para>
-                /// Regular expression: (Signature?, Name?, Hint?, Alias*, Compatibility*, Granularity?)
+                /// Regular expression: (Signature?, Name?, Hint?, Compatibility?, Granularity?)
                 /// </para>
                 /// </summary>
                 public partial class RulesLocalType : XTypedElement, IXMetaData {
-                    
-                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                    private XTypedList<CaseRules> AliasField;
-                    
-                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                    private XTypedList<CaseRules> CompatibilityField;
                     
                     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
                     private static bool collectionDefaultValue = System.Xml.XmlConvert.ToBoolean("false");
@@ -1547,12 +1725,12 @@ namespace tempuri.org.XNodeTypeSystem.xsd {
                     
                     static RulesLocalType() {
                         BuildElementDictionary();
-                        contentModel = new SequenceContentModelEntity(new NamedContentModelEntity(XName.Get("Signature", "http://tempuri.org/XNodeTypeSystem.xsd")), new NamedContentModelEntity(XName.Get("Name", "http://tempuri.org/XNodeTypeSystem.xsd")), new NamedContentModelEntity(XName.Get("Hint", "http://tempuri.org/XNodeTypeSystem.xsd")), new NamedContentModelEntity(XName.Get("Alias", "http://tempuri.org/XNodeTypeSystem.xsd")), new NamedContentModelEntity(XName.Get("Compatibility", "http://tempuri.org/XNodeTypeSystem.xsd")), new NamedContentModelEntity(XName.Get("Granularity", "http://tempuri.org/XNodeTypeSystem.xsd")));
+                        contentModel = new SequenceContentModelEntity(new NamedContentModelEntity(XName.Get("Signature", "http://tempuri.org/XNodeTypeSystem.xsd")), new NamedContentModelEntity(XName.Get("Name", "http://tempuri.org/XNodeTypeSystem.xsd")), new NamedContentModelEntity(XName.Get("Hint", "http://tempuri.org/XNodeTypeSystem.xsd")), new NamedContentModelEntity(XName.Get("Compatibility", "http://tempuri.org/XNodeTypeSystem.xsd")), new NamedContentModelEntity(XName.Get("Granularity", "http://tempuri.org/XNodeTypeSystem.xsd")));
                     }
                     
                     /// <summary>
                     /// <para>
-                    /// Regular expression: (Signature?, Name?, Hint?, Alias*, Compatibility*, Granularity?)
+                    /// Regular expression: (Signature?, Name?, Hint?, Compatibility?, Granularity?)
                     /// </para>
                     /// </summary>
                     public RulesLocalType() {
@@ -1563,13 +1741,13 @@ namespace tempuri.org.XNodeTypeSystem.xsd {
                     /// Occurrence: optional
                     /// </para>
                     /// <para>
-                    /// Regular expression: (Signature?, Name?, Hint?, Alias*, Compatibility*, Granularity?)
+                    /// Regular expression: (Signature?, Name?, Hint?, Compatibility?, Granularity?)
                     /// </para>
                     /// </summary>
-                    public KeyRules Signature {
+                    public EqualityAndOrSimilarityAbsoluteAndOrRelativeRules Signature {
                         get {
                             XElement x = this.GetElement(XName.Get("Signature", "http://tempuri.org/XNodeTypeSystem.xsd"));
-                            return ((KeyRules)(x));
+                            return ((EqualityAndOrSimilarityAbsoluteAndOrRelativeRules)(x));
                         }
                         set {
                             this.SetElement(XName.Get("Signature", "http://tempuri.org/XNodeTypeSystem.xsd"), value);
@@ -1581,13 +1759,13 @@ namespace tempuri.org.XNodeTypeSystem.xsd {
                     /// Occurrence: optional
                     /// </para>
                     /// <para>
-                    /// Regular expression: (Signature?, Name?, Hint?, Alias*, Compatibility*, Granularity?)
+                    /// Regular expression: (Signature?, Name?, Hint?, Compatibility?, Granularity?)
                     /// </para>
                     /// </summary>
-                    public KeyRules Name {
+                    public EqualityAndOrSimilarityAbsoluteAndOrRelativeRules Name {
                         get {
                             XElement x = this.GetElement(XName.Get("Name", "http://tempuri.org/XNodeTypeSystem.xsd"));
-                            return ((KeyRules)(x));
+                            return ((EqualityAndOrSimilarityAbsoluteAndOrRelativeRules)(x));
                         }
                         set {
                             this.SetElement(XName.Get("Name", "http://tempuri.org/XNodeTypeSystem.xsd"), value);
@@ -1599,7 +1777,7 @@ namespace tempuri.org.XNodeTypeSystem.xsd {
                     /// Occurrence: optional
                     /// </para>
                     /// <para>
-                    /// Regular expression: (Signature?, Name?, Hint?, Alias*, Compatibility*, Granularity?)
+                    /// Regular expression: (Signature?, Name?, Hint?, Compatibility?, Granularity?)
                     /// </para>
                     /// </summary>
                     public SuitabilityRule Hint {
@@ -1614,61 +1792,19 @@ namespace tempuri.org.XNodeTypeSystem.xsd {
                     
                     /// <summary>
                     /// <para>
-                    /// Occurrence: optional, repeating
+                    /// Occurrence: optional
                     /// </para>
                     /// <para>
-                    /// Regular expression: (Signature?, Name?, Hint?, Alias*, Compatibility*, Granularity?)
+                    /// Regular expression: (Signature?, Name?, Hint?, Compatibility?, Granularity?)
                     /// </para>
                     /// </summary>
-                    public IList<CaseRules> Alias {
+                    public CompatibilityLocalType Compatibility {
                         get {
-                            if ((this.AliasField == null)) {
-                                this.AliasField = new XTypedList<CaseRules>(this, LinqToXsdTypeManager.Instance, XName.Get("Alias", "http://tempuri.org/XNodeTypeSystem.xsd"));
-                            }
-                            return this.AliasField;
+                            XElement x = this.GetElement(XName.Get("Compatibility", "http://tempuri.org/XNodeTypeSystem.xsd"));
+                            return ((CompatibilityLocalType)(x));
                         }
                         set {
-                            if ((value == null)) {
-                                this.AliasField = null;
-                            }
-                            else {
-                                if ((this.AliasField == null)) {
-                                    this.AliasField = XTypedList<CaseRules>.Initialize(this, LinqToXsdTypeManager.Instance, value, XName.Get("Alias", "http://tempuri.org/XNodeTypeSystem.xsd"));
-                                }
-                                else {
-                                    XTypedServices.SetList<CaseRules>(this.AliasField, value);
-                                }
-                            }
-                        }
-                    }
-                    
-                    /// <summary>
-                    /// <para>
-                    /// Occurrence: optional, repeating
-                    /// </para>
-                    /// <para>
-                    /// Regular expression: (Signature?, Name?, Hint?, Alias*, Compatibility*, Granularity?)
-                    /// </para>
-                    /// </summary>
-                    public IList<CaseRules> Compatibility {
-                        get {
-                            if ((this.CompatibilityField == null)) {
-                                this.CompatibilityField = new XTypedList<CaseRules>(this, LinqToXsdTypeManager.Instance, XName.Get("Compatibility", "http://tempuri.org/XNodeTypeSystem.xsd"));
-                            }
-                            return this.CompatibilityField;
-                        }
-                        set {
-                            if ((value == null)) {
-                                this.CompatibilityField = null;
-                            }
-                            else {
-                                if ((this.CompatibilityField == null)) {
-                                    this.CompatibilityField = XTypedList<CaseRules>.Initialize(this, LinqToXsdTypeManager.Instance, value, XName.Get("Compatibility", "http://tempuri.org/XNodeTypeSystem.xsd"));
-                                }
-                                else {
-                                    XTypedServices.SetList<CaseRules>(this.CompatibilityField, value);
-                                }
-                            }
+                            this.SetElement(XName.Get("Compatibility", "http://tempuri.org/XNodeTypeSystem.xsd"), value);
                         }
                     }
                     
@@ -1677,7 +1813,7 @@ namespace tempuri.org.XNodeTypeSystem.xsd {
                     /// Occurrence: optional
                     /// </para>
                     /// <para>
-                    /// Regular expression: (Signature?, Name?, Hint?, Alias*, Compatibility*, Granularity?)
+                    /// Regular expression: (Signature?, Name?, Hint?, Compatibility?, Granularity?)
                     /// </para>
                     /// </summary>
                     public GranularityLocalType Granularity {
@@ -1738,11 +1874,10 @@ namespace tempuri.org.XNodeTypeSystem.xsd {
                     }
                     
                     private static void BuildElementDictionary() {
-                        localElementDictionary.Add(XName.Get("Signature", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(KeyRules));
-                        localElementDictionary.Add(XName.Get("Name", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(KeyRules));
+                        localElementDictionary.Add(XName.Get("Signature", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(EqualityAndOrSimilarityAbsoluteAndOrRelativeRules));
+                        localElementDictionary.Add(XName.Get("Name", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(EqualityAndOrSimilarityAbsoluteAndOrRelativeRules));
                         localElementDictionary.Add(XName.Get("Hint", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(SuitabilityRule));
-                        localElementDictionary.Add(XName.Get("Alias", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(CaseRules));
-                        localElementDictionary.Add(XName.Get("Compatibility", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(CaseRules));
+                        localElementDictionary.Add(XName.Get("Compatibility", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(CompatibilityLocalType));
                         localElementDictionary.Add(XName.Get("Granularity", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(GranularityLocalType));
                     }
                     
@@ -1750,7 +1885,889 @@ namespace tempuri.org.XNodeTypeSystem.xsd {
                         return contentModel;
                     }
                     
+                    /// <summary>
+                    /// <para>
+                    /// Regular expression: (Signature? | Name? | Hint? | Alias?)*
+                    /// </para>
+                    /// </summary>
+                    public partial class CompatibilityLocalType : XTypedElement, IXMetaData {
+                        
+                        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                        private XTypedList<SignatureLocalType> SignatureField;
+                        
+                        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                        private XTypedList<NameLocalType> NameField;
+                        
+                        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                        private XTypedList<HintLocalType> HintField;
+                        
+                        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                        private XTypedList<AliasLocalType> AliasField;
+                        
+                        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                        static Dictionary<XName, System.Type> localElementDictionary = new Dictionary<XName, System.Type>();
+                        
+         public static explicit operator CompatibilityLocalType(XElement xe) { return XTypedServices.ToXTypedElement<CompatibilityLocalType>(xe,LinqToXsdTypeManager.Instance as ILinqToXsdTypeManager); }
+                        
+                        static CompatibilityLocalType() {
+                            BuildElementDictionary();
+                        }
+                        
+                        /// <summary>
+                        /// <para>
+                        /// Regular expression: (Signature? | Name? | Hint? | Alias?)*
+                        /// </para>
+                        /// </summary>
+                        public CompatibilityLocalType() {
+                        }
+                        
+                        /// <summary>
+                        /// <para>
+                        /// Occurrence: optional, choice
+                        /// </para>
+                        /// <para>
+                        /// Regular expression: (Signature? | Name? | Hint? | Alias?)*
+                        /// </para>
+                        /// </summary>
+                        public IList<tempuri.org.XNodeTypeSystem.xsd.Syntax.NodesLocalType.TypeLocalType.RulesLocalType.CompatibilityLocalType.SignatureLocalType> Signature {
+                            get {
+                                if ((this.SignatureField == null)) {
+                                    this.SignatureField = new XTypedList<SignatureLocalType>(this, LinqToXsdTypeManager.Instance, XName.Get("Signature", "http://tempuri.org/XNodeTypeSystem.xsd"));
+                                }
+                                return this.SignatureField;
+                            }
+                            set {
+                                if ((value == null)) {
+                                    this.SignatureField = null;
+                                }
+                                else {
+                                    if ((this.SignatureField == null)) {
+                                        this.SignatureField = XTypedList<SignatureLocalType>.Initialize(this, LinqToXsdTypeManager.Instance, value, XName.Get("Signature", "http://tempuri.org/XNodeTypeSystem.xsd"));
+                                    }
+                                    else {
+                                        XTypedServices.SetList<SignatureLocalType>(this.SignatureField, value);
+                                    }
+                                }
+                            }
+                        }
+                        
+                        /// <summary>
+                        /// <para>
+                        /// Occurrence: optional, choice
+                        /// </para>
+                        /// <para>
+                        /// Regular expression: (Signature? | Name? | Hint? | Alias?)*
+                        /// </para>
+                        /// </summary>
+                        public IList<tempuri.org.XNodeTypeSystem.xsd.Syntax.NodesLocalType.TypeLocalType.RulesLocalType.CompatibilityLocalType.NameLocalType> Name {
+                            get {
+                                if ((this.NameField == null)) {
+                                    this.NameField = new XTypedList<NameLocalType>(this, LinqToXsdTypeManager.Instance, XName.Get("Name", "http://tempuri.org/XNodeTypeSystem.xsd"));
+                                }
+                                return this.NameField;
+                            }
+                            set {
+                                if ((value == null)) {
+                                    this.NameField = null;
+                                }
+                                else {
+                                    if ((this.NameField == null)) {
+                                        this.NameField = XTypedList<NameLocalType>.Initialize(this, LinqToXsdTypeManager.Instance, value, XName.Get("Name", "http://tempuri.org/XNodeTypeSystem.xsd"));
+                                    }
+                                    else {
+                                        XTypedServices.SetList<NameLocalType>(this.NameField, value);
+                                    }
+                                }
+                            }
+                        }
+                        
+                        /// <summary>
+                        /// <para>
+                        /// Occurrence: optional, choice
+                        /// </para>
+                        /// <para>
+                        /// Regular expression: (Signature? | Name? | Hint? | Alias?)*
+                        /// </para>
+                        /// </summary>
+                        public IList<tempuri.org.XNodeTypeSystem.xsd.Syntax.NodesLocalType.TypeLocalType.RulesLocalType.CompatibilityLocalType.HintLocalType> Hint {
+                            get {
+                                if ((this.HintField == null)) {
+                                    this.HintField = new XTypedList<HintLocalType>(this, LinqToXsdTypeManager.Instance, XName.Get("Hint", "http://tempuri.org/XNodeTypeSystem.xsd"));
+                                }
+                                return this.HintField;
+                            }
+                            set {
+                                if ((value == null)) {
+                                    this.HintField = null;
+                                }
+                                else {
+                                    if ((this.HintField == null)) {
+                                        this.HintField = XTypedList<HintLocalType>.Initialize(this, LinqToXsdTypeManager.Instance, value, XName.Get("Hint", "http://tempuri.org/XNodeTypeSystem.xsd"));
+                                    }
+                                    else {
+                                        XTypedServices.SetList<HintLocalType>(this.HintField, value);
+                                    }
+                                }
+                            }
+                        }
+                        
+                        /// <summary>
+                        /// <para>
+                        /// Occurrence: optional, choice
+                        /// </para>
+                        /// <para>
+                        /// Regular expression: (Signature? | Name? | Hint? | Alias?)*
+                        /// </para>
+                        /// </summary>
+                        public IList<tempuri.org.XNodeTypeSystem.xsd.Syntax.NodesLocalType.TypeLocalType.RulesLocalType.CompatibilityLocalType.AliasLocalType> Alias {
+                            get {
+                                if ((this.AliasField == null)) {
+                                    this.AliasField = new XTypedList<AliasLocalType>(this, LinqToXsdTypeManager.Instance, XName.Get("Alias", "http://tempuri.org/XNodeTypeSystem.xsd"));
+                                }
+                                return this.AliasField;
+                            }
+                            set {
+                                if ((value == null)) {
+                                    this.AliasField = null;
+                                }
+                                else {
+                                    if ((this.AliasField == null)) {
+                                        this.AliasField = XTypedList<AliasLocalType>.Initialize(this, LinqToXsdTypeManager.Instance, value, XName.Get("Alias", "http://tempuri.org/XNodeTypeSystem.xsd"));
+                                    }
+                                    else {
+                                        XTypedServices.SetList<AliasLocalType>(this.AliasField, value);
+                                    }
+                                }
+                            }
+                        }
+                        
+                        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                        Dictionary<XName, System.Type> IXMetaData.LocalElementsDictionary {
+                            get {
+                                return localElementDictionary;
+                            }
+                        }
+                        
+                        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                        XName IXMetaData.SchemaName {
+                            get {
+                                return XName.Get("Compatibility", "http://tempuri.org/XNodeTypeSystem.xsd");
+                            }
+                        }
+                        
+                        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                        SchemaOrigin IXMetaData.TypeOrigin {
+                            get {
+                                return SchemaOrigin.Fragment;
+                            }
+                        }
+                        
+                        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                        ILinqToXsdTypeManager IXMetaData.TypeManager {
+                            get {
+                                return LinqToXsdTypeManager.Instance;
+                            }
+                        }
+                        
+                        public override XTypedElement Clone() {
+                            return XTypedServices.CloneXTypedElement<CompatibilityLocalType>(this);
+                        }
+                        
+                        private static void BuildElementDictionary() {
+                            localElementDictionary.Add(XName.Get("Signature", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(SignatureLocalType));
+                            localElementDictionary.Add(XName.Get("Name", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(NameLocalType));
+                            localElementDictionary.Add(XName.Get("Hint", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(HintLocalType));
+                            localElementDictionary.Add(XName.Get("Alias", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(AliasLocalType));
+                        }
+                        
+                        ContentModelEntity IXMetaData.GetContentModel() {
+                            return ContentModelEntity.Default;
+                        }
+                        
+                        /// <summary>
+                        /// <para>
+                        /// Regular expression: (Condition)+
+                        /// </para>
+                        /// </summary>
+                        public partial class SignatureLocalType : global::tempuri.org.XNodeTypeSystem.xsd.EqualityAndOrSimilarityAbsoluteAndOrRelativeRules, IXMetaData {
+                            
+                            [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                            private XTypedList<ConditionLocalType> ConditionField;
+                            
+                            [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                            private static bool twoWayDefaultValue = System.Xml.XmlConvert.ToBoolean("false");
+                            
+                            [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                            static Dictionary<XName, System.Type> localElementDictionary = new Dictionary<XName, System.Type>();
+                            
+         public static explicit operator SignatureLocalType(XElement xe) { return XTypedServices.ToXTypedElement<SignatureLocalType>(xe,LinqToXsdTypeManager.Instance as ILinqToXsdTypeManager); }
+                            
+                            static SignatureLocalType() {
+                                BuildElementDictionary();
+                            }
+                            
+                            /// <summary>
+                            /// <para>
+                            /// Regular expression: (Condition)+
+                            /// </para>
+                            /// </summary>
+                            public SignatureLocalType() {
+                            }
+                            
+                            /// <summary>
+                            /// <para>
+                            /// Occurrence: required, choice
+                            /// </para>
+                            /// <para>
+                            /// Regular expression: (Condition)+
+                            /// </para>
+                            /// </summary>
+                            public IList<tempuri.org.XNodeTypeSystem.xsd.Syntax.NodesLocalType.TypeLocalType.RulesLocalType.CompatibilityLocalType.SignatureLocalType.ConditionLocalType> Condition {
+                                get {
+                                    if ((this.ConditionField == null)) {
+                                        this.ConditionField = new XTypedList<ConditionLocalType>(this, LinqToXsdTypeManager.Instance, XName.Get("Condition", "http://tempuri.org/XNodeTypeSystem.xsd"));
+                                    }
+                                    return this.ConditionField;
+                                }
+                                set {
+                                    if ((value == null)) {
+                                        this.ConditionField = null;
+                                    }
+                                    else {
+                                        if ((this.ConditionField == null)) {
+                                            this.ConditionField = XTypedList<ConditionLocalType>.Initialize(this, LinqToXsdTypeManager.Instance, value, XName.Get("Condition", "http://tempuri.org/XNodeTypeSystem.xsd"));
+                                        }
+                                        else {
+                                            XTypedServices.SetList<ConditionLocalType>(this.ConditionField, value);
+                                        }
+                                    }
+                                }
+                            }
+                            
+                            /// <summary>
+                            /// <para>
+                            /// Occurrence: optional
+                            /// </para>
+                            /// </summary>
+                            public string type {
+                                get {
+                                    XAttribute x = this.Attribute(XName.Get("type", ""));
+                                    return XTypedServices.ParseValue<string>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String).Datatype);
+                                }
+                                set {
+                                    this.SetAttribute(XName.Get("type", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String).Datatype);
+                                }
+                            }
+                            
+                            /// <summary>
+                            /// <para>
+                            /// Occurrence: optional
+                            /// </para>
+                            /// </summary>
+                            public string kind {
+                                get {
+                                    XAttribute x = this.Attribute(XName.Get("kind", ""));
+                                    return XTypedServices.ParseValue<string>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String).Datatype);
+                                }
+                                set {
+                                    this.SetAttribute(XName.Get("kind", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String).Datatype);
+                                }
+                            }
+                            
+                            /// <summary>
+                            /// <para>
+                            /// Occurrence: optional
+                            /// </para>
+                            /// </summary>
+                            public bool twoWay {
+                                get {
+                                    XAttribute x = this.Attribute(XName.Get("twoWay", ""));
+                                    return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype, twoWayDefaultValue);
+                                }
+                                set {
+                                    this.SetAttribute(XName.Get("twoWay", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
+                                }
+                            }
+                            
+                            [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                            Dictionary<XName, System.Type> IXMetaData.LocalElementsDictionary {
+                                get {
+                                    return localElementDictionary;
+                                }
+                            }
+                            
+                            [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                            XName IXMetaData.SchemaName {
+                                get {
+                                    return XName.Get("Signature", "http://tempuri.org/XNodeTypeSystem.xsd");
+                                }
+                            }
+                            
+                            [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                            SchemaOrigin IXMetaData.TypeOrigin {
+                                get {
+                                    return SchemaOrigin.Fragment;
+                                }
+                            }
+                            
+                            [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                            ILinqToXsdTypeManager IXMetaData.TypeManager {
+                                get {
+                                    return LinqToXsdTypeManager.Instance;
+                                }
+                            }
+                            
+                            public override XTypedElement Clone() {
+                                return XTypedServices.CloneXTypedElement<SignatureLocalType>(this);
+                            }
+                            
+                            private static void BuildElementDictionary() {
+                                localElementDictionary.Add(XName.Get("Condition", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(ConditionLocalType));
+                            }
+                            
+                            ContentModelEntity IXMetaData.GetContentModel() {
+                                return ContentModelEntity.Default;
+                            }
+                            
+                            public partial class ConditionLocalType : XTypedElement, IXMetaData {
+                                
+         public static explicit operator ConditionLocalType(XElement xe) { return XTypedServices.ToXTypedElement<ConditionLocalType>(xe,LinqToXsdTypeManager.Instance as ILinqToXsdTypeManager); }
+                                
+                                public ConditionLocalType() {
+                                }
+                                
+                                /// <summary>
+                                /// <para>
+                                /// Occurrence: required
+                                /// </para>
+                                /// </summary>
+                                public string code {
+                                    get {
+                                        XAttribute x = this.Attribute(XName.Get("code", ""));
+                                        return XTypedServices.ParseValue<string>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String).Datatype);
+                                    }
+                                    set {
+                                        this.SetAttribute(XName.Get("code", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String).Datatype);
+                                    }
+                                }
+                                
+                                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                                XName IXMetaData.SchemaName {
+                                    get {
+                                        return XName.Get("Condition", "http://tempuri.org/XNodeTypeSystem.xsd");
+                                    }
+                                }
+                                
+                                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                                SchemaOrigin IXMetaData.TypeOrigin {
+                                    get {
+                                        return SchemaOrigin.Fragment;
+                                    }
+                                }
+                                
+                                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                                ILinqToXsdTypeManager IXMetaData.TypeManager {
+                                    get {
+                                        return LinqToXsdTypeManager.Instance;
+                                    }
+                                }
+                                
+                                public override XTypedElement Clone() {
+                                    return XTypedServices.CloneXTypedElement<ConditionLocalType>(this);
+                                }
+                                
+                                ContentModelEntity IXMetaData.GetContentModel() {
+                                    return ContentModelEntity.Default;
+                                }
+                            }
+                        }
+                        
+                        /// <summary>
+                        /// <para>
+                        /// Regular expression: (Condition)+
+                        /// </para>
+                        /// </summary>
+                        public partial class NameLocalType : global::tempuri.org.XNodeTypeSystem.xsd.EqualityAndOrSimilarityAbsoluteAndOrRelativeRules, IXMetaData {
+                            
+                            [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                            private XTypedList<ConditionLocalType> ConditionField;
+                            
+                            [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                            private static bool twoWayDefaultValue = System.Xml.XmlConvert.ToBoolean("false");
+                            
+                            [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                            static Dictionary<XName, System.Type> localElementDictionary = new Dictionary<XName, System.Type>();
+                            
+         public static explicit operator NameLocalType(XElement xe) { return XTypedServices.ToXTypedElement<NameLocalType>(xe,LinqToXsdTypeManager.Instance as ILinqToXsdTypeManager); }
+                            
+                            static NameLocalType() {
+                                BuildElementDictionary();
+                            }
+                            
+                            /// <summary>
+                            /// <para>
+                            /// Regular expression: (Condition)+
+                            /// </para>
+                            /// </summary>
+                            public NameLocalType() {
+                            }
+                            
+                            /// <summary>
+                            /// <para>
+                            /// Occurrence: required, choice
+                            /// </para>
+                            /// <para>
+                            /// Regular expression: (Condition)+
+                            /// </para>
+                            /// </summary>
+                            public IList<tempuri.org.XNodeTypeSystem.xsd.Syntax.NodesLocalType.TypeLocalType.RulesLocalType.CompatibilityLocalType.NameLocalType.ConditionLocalType> Condition {
+                                get {
+                                    if ((this.ConditionField == null)) {
+                                        this.ConditionField = new XTypedList<ConditionLocalType>(this, LinqToXsdTypeManager.Instance, XName.Get("Condition", "http://tempuri.org/XNodeTypeSystem.xsd"));
+                                    }
+                                    return this.ConditionField;
+                                }
+                                set {
+                                    if ((value == null)) {
+                                        this.ConditionField = null;
+                                    }
+                                    else {
+                                        if ((this.ConditionField == null)) {
+                                            this.ConditionField = XTypedList<ConditionLocalType>.Initialize(this, LinqToXsdTypeManager.Instance, value, XName.Get("Condition", "http://tempuri.org/XNodeTypeSystem.xsd"));
+                                        }
+                                        else {
+                                            XTypedServices.SetList<ConditionLocalType>(this.ConditionField, value);
+                                        }
+                                    }
+                                }
+                            }
+                            
+                            /// <summary>
+                            /// <para>
+                            /// Occurrence: optional
+                            /// </para>
+                            /// </summary>
+                            public string type {
+                                get {
+                                    XAttribute x = this.Attribute(XName.Get("type", ""));
+                                    return XTypedServices.ParseValue<string>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String).Datatype);
+                                }
+                                set {
+                                    this.SetAttribute(XName.Get("type", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String).Datatype);
+                                }
+                            }
+                            
+                            /// <summary>
+                            /// <para>
+                            /// Occurrence: optional
+                            /// </para>
+                            /// </summary>
+                            public string kind {
+                                get {
+                                    XAttribute x = this.Attribute(XName.Get("kind", ""));
+                                    return XTypedServices.ParseValue<string>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String).Datatype);
+                                }
+                                set {
+                                    this.SetAttribute(XName.Get("kind", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String).Datatype);
+                                }
+                            }
+                            
+                            /// <summary>
+                            /// <para>
+                            /// Occurrence: optional
+                            /// </para>
+                            /// </summary>
+                            public bool twoWay {
+                                get {
+                                    XAttribute x = this.Attribute(XName.Get("twoWay", ""));
+                                    return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype, twoWayDefaultValue);
+                                }
+                                set {
+                                    this.SetAttribute(XName.Get("twoWay", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
+                                }
+                            }
+                            
+                            [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                            Dictionary<XName, System.Type> IXMetaData.LocalElementsDictionary {
+                                get {
+                                    return localElementDictionary;
+                                }
+                            }
+                            
+                            [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                            XName IXMetaData.SchemaName {
+                                get {
+                                    return XName.Get("Name", "http://tempuri.org/XNodeTypeSystem.xsd");
+                                }
+                            }
+                            
+                            [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                            SchemaOrigin IXMetaData.TypeOrigin {
+                                get {
+                                    return SchemaOrigin.Fragment;
+                                }
+                            }
+                            
+                            [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                            ILinqToXsdTypeManager IXMetaData.TypeManager {
+                                get {
+                                    return LinqToXsdTypeManager.Instance;
+                                }
+                            }
+                            
+                            public override XTypedElement Clone() {
+                                return XTypedServices.CloneXTypedElement<NameLocalType>(this);
+                            }
+                            
+                            private static void BuildElementDictionary() {
+                                localElementDictionary.Add(XName.Get("Condition", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(ConditionLocalType));
+                            }
+                            
+                            ContentModelEntity IXMetaData.GetContentModel() {
+                                return ContentModelEntity.Default;
+                            }
+                            
+                            public partial class ConditionLocalType : XTypedElement, IXMetaData {
+                                
+         public static explicit operator ConditionLocalType(XElement xe) { return XTypedServices.ToXTypedElement<ConditionLocalType>(xe,LinqToXsdTypeManager.Instance as ILinqToXsdTypeManager); }
+                                
+                                public ConditionLocalType() {
+                                }
+                                
+                                /// <summary>
+                                /// <para>
+                                /// Occurrence: required
+                                /// </para>
+                                /// </summary>
+                                public string code {
+                                    get {
+                                        XAttribute x = this.Attribute(XName.Get("code", ""));
+                                        return XTypedServices.ParseValue<string>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String).Datatype);
+                                    }
+                                    set {
+                                        this.SetAttribute(XName.Get("code", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String).Datatype);
+                                    }
+                                }
+                                
+                                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                                XName IXMetaData.SchemaName {
+                                    get {
+                                        return XName.Get("Condition", "http://tempuri.org/XNodeTypeSystem.xsd");
+                                    }
+                                }
+                                
+                                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                                SchemaOrigin IXMetaData.TypeOrigin {
+                                    get {
+                                        return SchemaOrigin.Fragment;
+                                    }
+                                }
+                                
+                                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                                ILinqToXsdTypeManager IXMetaData.TypeManager {
+                                    get {
+                                        return LinqToXsdTypeManager.Instance;
+                                    }
+                                }
+                                
+                                public override XTypedElement Clone() {
+                                    return XTypedServices.CloneXTypedElement<ConditionLocalType>(this);
+                                }
+                                
+                                ContentModelEntity IXMetaData.GetContentModel() {
+                                    return ContentModelEntity.Default;
+                                }
+                            }
+                        }
+                        
+                        public partial class HintLocalType : global::tempuri.org.XNodeTypeSystem.xsd.SuitabilityRule, IXMetaData {
+                            
+                            [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                            private static bool twoWayDefaultValue = System.Xml.XmlConvert.ToBoolean("false");
+                            
+         public static explicit operator HintLocalType(XElement xe) { return XTypedServices.ToXTypedElement<HintLocalType>(xe,LinqToXsdTypeManager.Instance as ILinqToXsdTypeManager); }
+                            
+                            public HintLocalType() {
+                            }
+                            
+                            /// <summary>
+                            /// <para>
+                            /// Occurrence: optional
+                            /// </para>
+                            /// </summary>
+                            public string type {
+                                get {
+                                    XAttribute x = this.Attribute(XName.Get("type", ""));
+                                    return XTypedServices.ParseValue<string>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String).Datatype);
+                                }
+                                set {
+                                    this.SetAttribute(XName.Get("type", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String).Datatype);
+                                }
+                            }
+                            
+                            /// <summary>
+                            /// <para>
+                            /// Occurrence: optional
+                            /// </para>
+                            /// </summary>
+                            public string kind {
+                                get {
+                                    XAttribute x = this.Attribute(XName.Get("kind", ""));
+                                    return XTypedServices.ParseValue<string>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String).Datatype);
+                                }
+                                set {
+                                    this.SetAttribute(XName.Get("kind", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String).Datatype);
+                                }
+                            }
+                            
+                            /// <summary>
+                            /// <para>
+                            /// Occurrence: optional
+                            /// </para>
+                            /// </summary>
+                            public bool twoWay {
+                                get {
+                                    XAttribute x = this.Attribute(XName.Get("twoWay", ""));
+                                    return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype, twoWayDefaultValue);
+                                }
+                                set {
+                                    this.SetAttribute(XName.Get("twoWay", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
+                                }
+                            }
+                            
+                            [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                            XName IXMetaData.SchemaName {
+                                get {
+                                    return XName.Get("Hint", "http://tempuri.org/XNodeTypeSystem.xsd");
+                                }
+                            }
+                            
+                            [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                            SchemaOrigin IXMetaData.TypeOrigin {
+                                get {
+                                    return SchemaOrigin.Fragment;
+                                }
+                            }
+                            
+                            [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                            ILinqToXsdTypeManager IXMetaData.TypeManager {
+                                get {
+                                    return LinqToXsdTypeManager.Instance;
+                                }
+                            }
+                            
+                            public override XTypedElement Clone() {
+                                return XTypedServices.CloneXTypedElement<HintLocalType>(this);
+                            }
+                            
+                            ContentModelEntity IXMetaData.GetContentModel() {
+                                return ContentModelEntity.Default;
+                            }
+                        }
+                        
+                        /// <summary>
+                        /// <para>
+                        /// Regular expression: (Condition)+
+                        /// </para>
+                        /// </summary>
+                        public partial class AliasLocalType : XTypedElement, IXMetaData {
+                            
+                            [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                            private XTypedList<ConditionLocalType> ConditionField;
+                            
+                            [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                            private static bool twoWayDefaultValue = System.Xml.XmlConvert.ToBoolean("false");
+                            
+                            [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                            static Dictionary<XName, System.Type> localElementDictionary = new Dictionary<XName, System.Type>();
+                            
+         public static explicit operator AliasLocalType(XElement xe) { return XTypedServices.ToXTypedElement<AliasLocalType>(xe,LinqToXsdTypeManager.Instance as ILinqToXsdTypeManager); }
+                            
+                            static AliasLocalType() {
+                                BuildElementDictionary();
+                            }
+                            
+                            /// <summary>
+                            /// <para>
+                            /// Regular expression: (Condition)+
+                            /// </para>
+                            /// </summary>
+                            public AliasLocalType() {
+                            }
+                            
+                            /// <summary>
+                            /// <para>
+                            /// Occurrence: required, choice
+                            /// </para>
+                            /// <para>
+                            /// Regular expression: (Condition)+
+                            /// </para>
+                            /// </summary>
+                            public IList<tempuri.org.XNodeTypeSystem.xsd.Syntax.NodesLocalType.TypeLocalType.RulesLocalType.CompatibilityLocalType.AliasLocalType.ConditionLocalType> Condition {
+                                get {
+                                    if ((this.ConditionField == null)) {
+                                        this.ConditionField = new XTypedList<ConditionLocalType>(this, LinqToXsdTypeManager.Instance, XName.Get("Condition", "http://tempuri.org/XNodeTypeSystem.xsd"));
+                                    }
+                                    return this.ConditionField;
+                                }
+                                set {
+                                    if ((value == null)) {
+                                        this.ConditionField = null;
+                                    }
+                                    else {
+                                        if ((this.ConditionField == null)) {
+                                            this.ConditionField = XTypedList<ConditionLocalType>.Initialize(this, LinqToXsdTypeManager.Instance, value, XName.Get("Condition", "http://tempuri.org/XNodeTypeSystem.xsd"));
+                                        }
+                                        else {
+                                            XTypedServices.SetList<ConditionLocalType>(this.ConditionField, value);
+                                        }
+                                    }
+                                }
+                            }
+                            
+                            /// <summary>
+                            /// <para>
+                            /// Occurrence: optional
+                            /// </para>
+                            /// </summary>
+                            public string type {
+                                get {
+                                    XAttribute x = this.Attribute(XName.Get("type", ""));
+                                    return XTypedServices.ParseValue<string>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String).Datatype);
+                                }
+                                set {
+                                    this.SetAttribute(XName.Get("type", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String).Datatype);
+                                }
+                            }
+                            
+                            /// <summary>
+                            /// <para>
+                            /// Occurrence: optional
+                            /// </para>
+                            /// </summary>
+                            public string kind {
+                                get {
+                                    XAttribute x = this.Attribute(XName.Get("kind", ""));
+                                    return XTypedServices.ParseValue<string>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String).Datatype);
+                                }
+                                set {
+                                    this.SetAttribute(XName.Get("kind", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String).Datatype);
+                                }
+                            }
+                            
+                            /// <summary>
+                            /// <para>
+                            /// Occurrence: optional
+                            /// </para>
+                            /// </summary>
+                            public bool twoWay {
+                                get {
+                                    XAttribute x = this.Attribute(XName.Get("twoWay", ""));
+                                    return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype, twoWayDefaultValue);
+                                }
+                                set {
+                                    this.SetAttribute(XName.Get("twoWay", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
+                                }
+                            }
+                            
+                            [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                            Dictionary<XName, System.Type> IXMetaData.LocalElementsDictionary {
+                                get {
+                                    return localElementDictionary;
+                                }
+                            }
+                            
+                            [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                            XName IXMetaData.SchemaName {
+                                get {
+                                    return XName.Get("Alias", "http://tempuri.org/XNodeTypeSystem.xsd");
+                                }
+                            }
+                            
+                            [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                            SchemaOrigin IXMetaData.TypeOrigin {
+                                get {
+                                    return SchemaOrigin.Fragment;
+                                }
+                            }
+                            
+                            [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                            ILinqToXsdTypeManager IXMetaData.TypeManager {
+                                get {
+                                    return LinqToXsdTypeManager.Instance;
+                                }
+                            }
+                            
+                            public override XTypedElement Clone() {
+                                return XTypedServices.CloneXTypedElement<AliasLocalType>(this);
+                            }
+                            
+                            private static void BuildElementDictionary() {
+                                localElementDictionary.Add(XName.Get("Condition", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(ConditionLocalType));
+                            }
+                            
+                            ContentModelEntity IXMetaData.GetContentModel() {
+                                return ContentModelEntity.Default;
+                            }
+                            
+                            public partial class ConditionLocalType : XTypedElement, IXMetaData {
+                                
+         public static explicit operator ConditionLocalType(XElement xe) { return XTypedServices.ToXTypedElement<ConditionLocalType>(xe,LinqToXsdTypeManager.Instance as ILinqToXsdTypeManager); }
+                                
+                                public ConditionLocalType() {
+                                }
+                                
+                                /// <summary>
+                                /// <para>
+                                /// Occurrence: required
+                                /// </para>
+                                /// </summary>
+                                public string code {
+                                    get {
+                                        XAttribute x = this.Attribute(XName.Get("code", ""));
+                                        return XTypedServices.ParseValue<string>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String).Datatype);
+                                    }
+                                    set {
+                                        this.SetAttribute(XName.Get("code", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String).Datatype);
+                                    }
+                                }
+                                
+                                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                                XName IXMetaData.SchemaName {
+                                    get {
+                                        return XName.Get("Condition", "http://tempuri.org/XNodeTypeSystem.xsd");
+                                    }
+                                }
+                                
+                                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                                SchemaOrigin IXMetaData.TypeOrigin {
+                                    get {
+                                        return SchemaOrigin.Fragment;
+                                    }
+                                }
+                                
+                                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                                ILinqToXsdTypeManager IXMetaData.TypeManager {
+                                    get {
+                                        return LinqToXsdTypeManager.Instance;
+                                    }
+                                }
+                                
+                                public override XTypedElement Clone() {
+                                    return XTypedServices.CloneXTypedElement<ConditionLocalType>(this);
+                                }
+                                
+                                ContentModelEntity IXMetaData.GetContentModel() {
+                                    return ContentModelEntity.Default;
+                                }
+                            }
+                        }
+                    }
+                    
                     public partial class GranularityLocalType : XTypedElement, IXMetaData {
+                        
+                        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                        private static bool fineDefaultValue = System.Xml.XmlConvert.ToBoolean("false");
                         
          public static explicit operator GranularityLocalType(XElement xe) { return XTypedServices.ToXTypedElement<GranularityLocalType>(xe,LinqToXsdTypeManager.Instance as ILinqToXsdTypeManager); }
                         
@@ -1762,13 +2779,10 @@ namespace tempuri.org.XNodeTypeSystem.xsd {
                         /// Occurrence: optional
                         /// </para>
                         /// </summary>
-                        public System.Nullable<bool> fine {
+                        public bool fine {
                             get {
                                 XAttribute x = this.Attribute(XName.Get("fine", ""));
-                                if ((x == null)) {
-                                    return null;
-                                }
-                                return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
+                                return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype, fineDefaultValue);
                             }
                             set {
                                 this.SetAttribute(XName.Get("fine", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
@@ -2219,11 +3233,23 @@ namespace tempuri.org.XNodeTypeSystem.xsd {
         }
     }
     
-    public partial class EqualityOrSimilarityRules : XTypedElement, IXMetaData {
+    public partial class EqualityAndOrSimilarityAbsoluteAndOrRelativeRules : XTypedElement, IXMetaData {
         
-         public static explicit operator EqualityOrSimilarityRules(XElement xe) { return XTypedServices.ToXTypedElement<EqualityOrSimilarityRules>(xe,LinqToXsdTypeManager.Instance as ILinqToXsdTypeManager); }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static bool equalityDefaultValue = System.Xml.XmlConvert.ToBoolean("false");
         
-        public EqualityOrSimilarityRules() {
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static bool similarityDefaultValue = System.Xml.XmlConvert.ToBoolean("false");
+        
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static bool absoluteDefaultValue = System.Xml.XmlConvert.ToBoolean("false");
+        
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static bool relativeDefaultValue = System.Xml.XmlConvert.ToBoolean("false");
+        
+         public static explicit operator EqualityAndOrSimilarityAbsoluteAndOrRelativeRules(XElement xe) { return XTypedServices.ToXTypedElement<EqualityAndOrSimilarityAbsoluteAndOrRelativeRules>(xe,LinqToXsdTypeManager.Instance as ILinqToXsdTypeManager); }
+        
+        public EqualityAndOrSimilarityAbsoluteAndOrRelativeRules() {
         }
         
         /// <summary>
@@ -2231,16 +3257,13 @@ namespace tempuri.org.XNodeTypeSystem.xsd {
         /// Occurrence: optional
         /// </para>
         /// </summary>
-        public System.Nullable<bool> full {
+        public bool equality {
             get {
-                XAttribute x = this.Attribute(XName.Get("full", ""));
-                if ((x == null)) {
-                    return null;
-                }
-                return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
+                XAttribute x = this.Attribute(XName.Get("equality", ""));
+                return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype, equalityDefaultValue);
             }
             set {
-                this.SetAttribute(XName.Get("full", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
+                this.SetAttribute(XName.Get("equality", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
             }
         }
         
@@ -2249,23 +3272,50 @@ namespace tempuri.org.XNodeTypeSystem.xsd {
         /// Occurrence: optional
         /// </para>
         /// </summary>
-        public System.Nullable<bool> partial {
+        public bool similarity {
             get {
-                XAttribute x = this.Attribute(XName.Get("partial", ""));
-                if ((x == null)) {
-                    return null;
-                }
-                return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
+                XAttribute x = this.Attribute(XName.Get("similarity", ""));
+                return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype, similarityDefaultValue);
             }
             set {
-                this.SetAttribute(XName.Get("partial", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
+                this.SetAttribute(XName.Get("similarity", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
+            }
+        }
+        
+        /// <summary>
+        /// <para>
+        /// Occurrence: optional
+        /// </para>
+        /// </summary>
+        public bool absolute {
+            get {
+                XAttribute x = this.Attribute(XName.Get("absolute", ""));
+                return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype, absoluteDefaultValue);
+            }
+            set {
+                this.SetAttribute(XName.Get("absolute", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
+            }
+        }
+        
+        /// <summary>
+        /// <para>
+        /// Occurrence: optional
+        /// </para>
+        /// </summary>
+        public bool relative {
+            get {
+                XAttribute x = this.Attribute(XName.Get("relative", ""));
+                return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype, relativeDefaultValue);
+            }
+            set {
+                this.SetAttribute(XName.Get("relative", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
             }
         }
         
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         XName IXMetaData.SchemaName {
             get {
-                return XName.Get("EqualityOrSimilarityRules", "http://tempuri.org/XNodeTypeSystem.xsd");
+                return XName.Get("EqualityAndOrSimilarityAbsoluteAndOrRelativeRules", "http://tempuri.org/XNodeTypeSystem.xsd");
             }
         }
         
@@ -2284,7 +3334,7 @@ namespace tempuri.org.XNodeTypeSystem.xsd {
         }
         
         public override XTypedElement Clone() {
-            return XTypedServices.CloneXTypedElement<EqualityOrSimilarityRules>(this);
+            return XTypedServices.CloneXTypedElement<EqualityAndOrSimilarityAbsoluteAndOrRelativeRules>(this);
         }
         
         ContentModelEntity IXMetaData.GetContentModel() {
@@ -2292,113 +3342,10 @@ namespace tempuri.org.XNodeTypeSystem.xsd {
         }
     }
     
-    /// <summary>
-    /// <para>
-    /// Regular expression: (Equality?, Similarity?)
-    /// </para>
-    /// </summary>
-    public partial class KeyRules : XTypedElement, IXMetaData {
-        
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        static Dictionary<XName, System.Type> localElementDictionary = new Dictionary<XName, System.Type>();
-        
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private static ContentModelEntity contentModel;
-        
-         public static explicit operator KeyRules(XElement xe) { return XTypedServices.ToXTypedElement<KeyRules>(xe,LinqToXsdTypeManager.Instance as ILinqToXsdTypeManager); }
-        
-        static KeyRules() {
-            BuildElementDictionary();
-            contentModel = new SequenceContentModelEntity(new NamedContentModelEntity(XName.Get("Equality", "http://tempuri.org/XNodeTypeSystem.xsd")), new NamedContentModelEntity(XName.Get("Similarity", "http://tempuri.org/XNodeTypeSystem.xsd")));
-        }
-        
-        /// <summary>
-        /// <para>
-        /// Regular expression: (Equality?, Similarity?)
-        /// </para>
-        /// </summary>
-        public KeyRules() {
-        }
-        
-        /// <summary>
-        /// <para>
-        /// Occurrence: optional
-        /// </para>
-        /// <para>
-        /// Regular expression: (Equality?, Similarity?)
-        /// </para>
-        /// </summary>
-        public EqualityOrSimilarityRules Equality {
-            get {
-                XElement x = this.GetElement(XName.Get("Equality", "http://tempuri.org/XNodeTypeSystem.xsd"));
-                return ((EqualityOrSimilarityRules)(x));
-            }
-            set {
-                this.SetElement(XName.Get("Equality", "http://tempuri.org/XNodeTypeSystem.xsd"), value);
-            }
-        }
-        
-        /// <summary>
-        /// <para>
-        /// Occurrence: optional
-        /// </para>
-        /// <para>
-        /// Regular expression: (Equality?, Similarity?)
-        /// </para>
-        /// </summary>
-        public EqualityOrSimilarityRules Similarity {
-            get {
-                XElement x = this.GetElement(XName.Get("Similarity", "http://tempuri.org/XNodeTypeSystem.xsd"));
-                return ((EqualityOrSimilarityRules)(x));
-            }
-            set {
-                this.SetElement(XName.Get("Similarity", "http://tempuri.org/XNodeTypeSystem.xsd"), value);
-            }
-        }
-        
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        Dictionary<XName, System.Type> IXMetaData.LocalElementsDictionary {
-            get {
-                return localElementDictionary;
-            }
-        }
-        
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        XName IXMetaData.SchemaName {
-            get {
-                return XName.Get("KeyRules", "http://tempuri.org/XNodeTypeSystem.xsd");
-            }
-        }
-        
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        SchemaOrigin IXMetaData.TypeOrigin {
-            get {
-                return SchemaOrigin.Fragment;
-            }
-        }
-        
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        ILinqToXsdTypeManager IXMetaData.TypeManager {
-            get {
-                return LinqToXsdTypeManager.Instance;
-            }
-        }
-        
-        public override XTypedElement Clone() {
-            return XTypedServices.CloneXTypedElement<KeyRules>(this);
-        }
-        
-        private static void BuildElementDictionary() {
-            localElementDictionary.Add(XName.Get("Equality", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(EqualityOrSimilarityRules));
-            localElementDictionary.Add(XName.Get("Similarity", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(EqualityOrSimilarityRules));
-        }
-        
-        ContentModelEntity IXMetaData.GetContentModel() {
-            return contentModel;
-        }
-    }
-    
     public partial class SuitabilityRule : XTypedElement, IXMetaData {
+        
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static bool suitableDefaultValue = System.Xml.XmlConvert.ToBoolean("false");
         
          public static explicit operator SuitabilityRule(XElement xe) { return XTypedServices.ToXTypedElement<SuitabilityRule>(xe,LinqToXsdTypeManager.Instance as ILinqToXsdTypeManager); }
         
@@ -2410,13 +3357,10 @@ namespace tempuri.org.XNodeTypeSystem.xsd {
         /// Occurrence: optional
         /// </para>
         /// </summary>
-        public System.Nullable<bool> suitable {
+        public bool suitable {
             get {
                 XAttribute x = this.Attribute(XName.Get("suitable", ""));
-                if ((x == null)) {
-                    return null;
-                }
-                return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
+                return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype, suitableDefaultValue);
             }
             set {
                 this.SetAttribute(XName.Get("suitable", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
@@ -2455,6 +3399,12 @@ namespace tempuri.org.XNodeTypeSystem.xsd {
     
     public partial class PairwiseRules : XTypedElement, IXMetaData {
         
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static bool tunnelingDefaultValue = System.Xml.XmlConvert.ToBoolean("false");
+        
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static bool discriminantDefaultValue = System.Xml.XmlConvert.ToBoolean("false");
+        
          public static explicit operator PairwiseRules(XElement xe) { return XTypedServices.ToXTypedElement<PairwiseRules>(xe,LinqToXsdTypeManager.Instance as ILinqToXsdTypeManager); }
         
         public PairwiseRules() {
@@ -2465,13 +3415,10 @@ namespace tempuri.org.XNodeTypeSystem.xsd {
         /// Occurrence: optional
         /// </para>
         /// </summary>
-        public System.Nullable<bool> tunneling {
+        public bool tunneling {
             get {
                 XAttribute x = this.Attribute(XName.Get("tunneling", ""));
-                if ((x == null)) {
-                    return null;
-                }
-                return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
+                return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype, tunnelingDefaultValue);
             }
             set {
                 this.SetAttribute(XName.Get("tunneling", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
@@ -2483,13 +3430,10 @@ namespace tempuri.org.XNodeTypeSystem.xsd {
         /// Occurrence: optional
         /// </para>
         /// </summary>
-        public System.Nullable<bool> discriminant {
+        public bool discriminant {
             get {
                 XAttribute x = this.Attribute(XName.Get("discriminant", ""));
-                if ((x == null)) {
-                    return null;
-                }
-                return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
+                return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype, discriminantDefaultValue);
             }
             set {
                 this.SetAttribute(XName.Get("discriminant", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
@@ -2547,7 +3491,13 @@ namespace tempuri.org.XNodeTypeSystem.xsd {
     public partial class TopologyRules : XTypedElement, IXMetaData {
         
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static bool relevantDefaultValue = System.Xml.XmlConvert.ToBoolean("false");
+        
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private static byte relevancyDefaultValue = System.Xml.XmlConvert.ToByte("0");
+        
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static bool leafDefaultValue = System.Xml.XmlConvert.ToBoolean("false");
         
          public static explicit operator TopologyRules(XElement xe) { return XTypedServices.ToXTypedElement<TopologyRules>(xe,LinqToXsdTypeManager.Instance as ILinqToXsdTypeManager); }
         
@@ -2559,13 +3509,10 @@ namespace tempuri.org.XNodeTypeSystem.xsd {
         /// Occurrence: optional
         /// </para>
         /// </summary>
-        public System.Nullable<bool> relevant {
+        public bool relevant {
             get {
                 XAttribute x = this.Attribute(XName.Get("relevant", ""));
-                if ((x == null)) {
-                    return null;
-                }
-                return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
+                return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype, relevantDefaultValue);
             }
             set {
                 this.SetAttribute(XName.Get("relevant", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
@@ -2592,13 +3539,10 @@ namespace tempuri.org.XNodeTypeSystem.xsd {
         /// Occurrence: optional
         /// </para>
         /// </summary>
-        public System.Nullable<bool> leaf {
+        public bool leaf {
             get {
                 XAttribute x = this.Attribute(XName.Get("leaf", ""));
-                if ((x == null)) {
-                    return null;
-                }
-                return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
+                return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype, leafDefaultValue);
             }
             set {
                 this.SetAttribute(XName.Get("leaf", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
@@ -2702,321 +3646,6 @@ namespace tempuri.org.XNodeTypeSystem.xsd {
         }
     }
     
-    /// <summary>
-    /// <para>
-    /// Regular expression: (Value | Equality | Similarity | Partner)+
-    /// </para>
-    /// </summary>
-    public partial class CaseRules : XTypedElement, IXMetaData {
-        
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private XTypedList<ValueLocalType> ValueField;
-        
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private XTypedList<JoinCase> EqualityField;
-        
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private XTypedList<JoinCase> SimilarityField;
-        
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private XTypedList<JoinCase> PartnerField;
-        
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        static Dictionary<XName, System.Type> localElementDictionary = new Dictionary<XName, System.Type>();
-        
-         public static explicit operator CaseRules(XElement xe) { return XTypedServices.ToXTypedElement<CaseRules>(xe,LinqToXsdTypeManager.Instance as ILinqToXsdTypeManager); }
-        
-        static CaseRules() {
-            BuildElementDictionary();
-        }
-        
-        /// <summary>
-        /// <para>
-        /// Regular expression: (Value | Equality | Similarity | Partner)+
-        /// </para>
-        /// </summary>
-        public CaseRules() {
-        }
-        
-        /// <summary>
-        /// <para>
-        /// Occurrence: required, choice
-        /// </para>
-        /// <para>
-        /// Regular expression: (Value | Equality | Similarity | Partner)+
-        /// </para>
-        /// </summary>
-        public IList<tempuri.org.XNodeTypeSystem.xsd.CaseRules.ValueLocalType> Value {
-            get {
-                if ((this.ValueField == null)) {
-                    this.ValueField = new XTypedList<ValueLocalType>(this, LinqToXsdTypeManager.Instance, XName.Get("Value", "http://tempuri.org/XNodeTypeSystem.xsd"));
-                }
-                return this.ValueField;
-            }
-            set {
-                if ((value == null)) {
-                    this.ValueField = null;
-                }
-                else {
-                    if ((this.ValueField == null)) {
-                        this.ValueField = XTypedList<ValueLocalType>.Initialize(this, LinqToXsdTypeManager.Instance, value, XName.Get("Value", "http://tempuri.org/XNodeTypeSystem.xsd"));
-                    }
-                    else {
-                        XTypedServices.SetList<ValueLocalType>(this.ValueField, value);
-                    }
-                }
-            }
-        }
-        
-        /// <summary>
-        /// <para>
-        /// Occurrence: required, choice
-        /// </para>
-        /// <para>
-        /// Regular expression: (Value | Equality | Similarity | Partner)+
-        /// </para>
-        /// </summary>
-        public IList<JoinCase> Equality {
-            get {
-                if ((this.EqualityField == null)) {
-                    this.EqualityField = new XTypedList<JoinCase>(this, LinqToXsdTypeManager.Instance, XName.Get("Equality", "http://tempuri.org/XNodeTypeSystem.xsd"));
-                }
-                return this.EqualityField;
-            }
-            set {
-                if ((value == null)) {
-                    this.EqualityField = null;
-                }
-                else {
-                    if ((this.EqualityField == null)) {
-                        this.EqualityField = XTypedList<JoinCase>.Initialize(this, LinqToXsdTypeManager.Instance, value, XName.Get("Equality", "http://tempuri.org/XNodeTypeSystem.xsd"));
-                    }
-                    else {
-                        XTypedServices.SetList<JoinCase>(this.EqualityField, value);
-                    }
-                }
-            }
-        }
-        
-        /// <summary>
-        /// <para>
-        /// Occurrence: required, choice
-        /// </para>
-        /// <para>
-        /// Regular expression: (Value | Equality | Similarity | Partner)+
-        /// </para>
-        /// </summary>
-        public IList<JoinCase> Similarity {
-            get {
-                if ((this.SimilarityField == null)) {
-                    this.SimilarityField = new XTypedList<JoinCase>(this, LinqToXsdTypeManager.Instance, XName.Get("Similarity", "http://tempuri.org/XNodeTypeSystem.xsd"));
-                }
-                return this.SimilarityField;
-            }
-            set {
-                if ((value == null)) {
-                    this.SimilarityField = null;
-                }
-                else {
-                    if ((this.SimilarityField == null)) {
-                        this.SimilarityField = XTypedList<JoinCase>.Initialize(this, LinqToXsdTypeManager.Instance, value, XName.Get("Similarity", "http://tempuri.org/XNodeTypeSystem.xsd"));
-                    }
-                    else {
-                        XTypedServices.SetList<JoinCase>(this.SimilarityField, value);
-                    }
-                }
-            }
-        }
-        
-        /// <summary>
-        /// <para>
-        /// Occurrence: required, choice
-        /// </para>
-        /// <para>
-        /// Regular expression: (Value | Equality | Similarity | Partner)+
-        /// </para>
-        /// </summary>
-        public IList<JoinCase> Partner {
-            get {
-                if ((this.PartnerField == null)) {
-                    this.PartnerField = new XTypedList<JoinCase>(this, LinqToXsdTypeManager.Instance, XName.Get("Partner", "http://tempuri.org/XNodeTypeSystem.xsd"));
-                }
-                return this.PartnerField;
-            }
-            set {
-                if ((value == null)) {
-                    this.PartnerField = null;
-                }
-                else {
-                    if ((this.PartnerField == null)) {
-                        this.PartnerField = XTypedList<JoinCase>.Initialize(this, LinqToXsdTypeManager.Instance, value, XName.Get("Partner", "http://tempuri.org/XNodeTypeSystem.xsd"));
-                    }
-                    else {
-                        XTypedServices.SetList<JoinCase>(this.PartnerField, value);
-                    }
-                }
-            }
-        }
-        
-        /// <summary>
-        /// <para>
-        /// Occurrence: optional
-        /// </para>
-        /// </summary>
-        public string type {
-            get {
-                XAttribute x = this.Attribute(XName.Get("type", ""));
-                return XTypedServices.ParseValue<string>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String).Datatype);
-            }
-            set {
-                this.SetAttribute(XName.Get("type", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String).Datatype);
-            }
-        }
-        
-        /// <summary>
-        /// <para>
-        /// Occurrence: optional
-        /// </para>
-        /// </summary>
-        public string kind {
-            get {
-                XAttribute x = this.Attribute(XName.Get("kind", ""));
-                return XTypedServices.ParseValue<string>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String).Datatype);
-            }
-            set {
-                this.SetAttribute(XName.Get("kind", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String).Datatype);
-            }
-        }
-        
-        /// <summary>
-        /// <para>
-        /// Occurrence: optional
-        /// </para>
-        /// </summary>
-        public System.Nullable<bool> twoWay {
-            get {
-                XAttribute x = this.Attribute(XName.Get("twoWay", ""));
-                if ((x == null)) {
-                    return null;
-                }
-                return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
-            }
-            set {
-                this.SetAttribute(XName.Get("twoWay", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
-            }
-        }
-        
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        Dictionary<XName, System.Type> IXMetaData.LocalElementsDictionary {
-            get {
-                return localElementDictionary;
-            }
-        }
-        
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        XName IXMetaData.SchemaName {
-            get {
-                return XName.Get("CaseRules", "http://tempuri.org/XNodeTypeSystem.xsd");
-            }
-        }
-        
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        SchemaOrigin IXMetaData.TypeOrigin {
-            get {
-                return SchemaOrigin.Fragment;
-            }
-        }
-        
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        ILinqToXsdTypeManager IXMetaData.TypeManager {
-            get {
-                return LinqToXsdTypeManager.Instance;
-            }
-        }
-        
-        public override XTypedElement Clone() {
-            return XTypedServices.CloneXTypedElement<CaseRules>(this);
-        }
-        
-        private static void BuildElementDictionary() {
-            localElementDictionary.Add(XName.Get("Value", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(ValueLocalType));
-            localElementDictionary.Add(XName.Get("Equality", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(JoinCase));
-            localElementDictionary.Add(XName.Get("Similarity", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(JoinCase));
-            localElementDictionary.Add(XName.Get("Partner", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(JoinCase));
-        }
-        
-        ContentModelEntity IXMetaData.GetContentModel() {
-            return ContentModelEntity.Default;
-        }
-        
-        public partial class ValueLocalType : XTypedElement, IXMetaData {
-            
-         public static explicit operator ValueLocalType(XElement xe) { return XTypedServices.ToXTypedElement<ValueLocalType>(xe,LinqToXsdTypeManager.Instance as ILinqToXsdTypeManager); }
-            
-            public ValueLocalType() {
-            }
-            
-            /// <summary>
-            /// <para>
-            /// Occurrence: optional
-            /// </para>
-            /// </summary>
-            public string path {
-                get {
-                    XAttribute x = this.Attribute(XName.Get("path", ""));
-                    return XTypedServices.ParseValue<string>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String).Datatype);
-                }
-                set {
-                    this.SetAttribute(XName.Get("path", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String).Datatype);
-                }
-            }
-            
-            /// <summary>
-            /// <para>
-            /// Occurrence: optional
-            /// </para>
-            /// </summary>
-            public string value {
-                get {
-                    XAttribute x = this.Attribute(XName.Get("value", ""));
-                    return XTypedServices.ParseValue<string>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String).Datatype);
-                }
-                set {
-                    this.SetAttribute(XName.Get("value", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String).Datatype);
-                }
-            }
-            
-            [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-            XName IXMetaData.SchemaName {
-                get {
-                    return XName.Get("Value", "http://tempuri.org/XNodeTypeSystem.xsd");
-                }
-            }
-            
-            [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-            SchemaOrigin IXMetaData.TypeOrigin {
-                get {
-                    return SchemaOrigin.Fragment;
-                }
-            }
-            
-            [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-            ILinqToXsdTypeManager IXMetaData.TypeManager {
-                get {
-                    return LinqToXsdTypeManager.Instance;
-                }
-            }
-            
-            public override XTypedElement Clone() {
-                return XTypedServices.CloneXTypedElement<ValueLocalType>(this);
-            }
-            
-            ContentModelEntity IXMetaData.GetContentModel() {
-                return ContentModelEntity.Default;
-            }
-        }
-    }
-    
     public class LinqToXsdTypeManager : ILinqToXsdTypeManager {
         
         static Dictionary<XName, System.Type> typeDictionary = new Dictionary<XName, System.Type>();
@@ -3073,13 +3702,11 @@ namespace tempuri.org.XNodeTypeSystem.xsd {
         private static void BuildTypeDictionary() {
             typeDictionary.Add(XName.Get("TypeLabelOption", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(global::tempuri.org.XNodeTypeSystem.xsd.TypeLabelOption));
             typeDictionary.Add(XName.Get("PropertyLabelOption", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(global::tempuri.org.XNodeTypeSystem.xsd.PropertyLabelOption));
-            typeDictionary.Add(XName.Get("EqualityOrSimilarityRules", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(global::tempuri.org.XNodeTypeSystem.xsd.EqualityOrSimilarityRules));
-            typeDictionary.Add(XName.Get("KeyRules", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(global::tempuri.org.XNodeTypeSystem.xsd.KeyRules));
+            typeDictionary.Add(XName.Get("EqualityAndOrSimilarityAbsoluteAndOrRelativeRules", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(global::tempuri.org.XNodeTypeSystem.xsd.EqualityAndOrSimilarityAbsoluteAndOrRelativeRules));
             typeDictionary.Add(XName.Get("SuitabilityRule", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(global::tempuri.org.XNodeTypeSystem.xsd.SuitabilityRule));
             typeDictionary.Add(XName.Get("PairwiseRules", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(global::tempuri.org.XNodeTypeSystem.xsd.PairwiseRules));
             typeDictionary.Add(XName.Get("TopologyRules", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(global::tempuri.org.XNodeTypeSystem.xsd.TopologyRules));
             typeDictionary.Add(XName.Get("JoinCase", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(global::tempuri.org.XNodeTypeSystem.xsd.JoinCase));
-            typeDictionary.Add(XName.Get("CaseRules", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(global::tempuri.org.XNodeTypeSystem.xsd.CaseRules));
         }
         
         private static void BuildElementDictionary() {

@@ -44,7 +44,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     
     partial class LanguageServiceProvider
     {
-    	/// <summary>
+    	/*/// <summary>
         /// Determines if two elements are name-based exactly equal.
         /// </summary>
         /// <param name="original">the original version.</param>
@@ -111,86 +111,89 @@ namespace Jawilliam.CDF.CSharp.Awareness
         
             matchingDescription = null;
             return (bool)genericMethod.Invoke(this, new object[] { original, modified, context, matchingDescription });
-        }
-        
-        /// <summary>
-        /// Determines if two <see cref="SeparatedSyntaxList{TNode}"/> elements are equal.
+        }*/
+    
+    	/// <summary>
+        /// Determines if two elements are name-based exactly equal.
         /// </summary>
         /// <param name="original">the original version.</param>
         /// <param name="modified">the modified version.</param>
-        /// <param name="equal">logic of equality.</param>
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <typeparam name="TOriginal">Specific type of the original element.</typeparam>
+        /// <typeparam name="TModified">Specific type of the modified element.</typeparam>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description.</param>
-        public virtual bool NameEqualityMatch<T>(SeparatedSyntaxList<T> original, SeparatedSyntaxList<T> modified, Func<T, T, bool> equal, MatchingContext<SyntaxNodeOrToken?> context) where T : SyntaxNode
+        protected virtual bool NameEqualityMatch<TOriginal, TModified>(IEnumerable<TOriginal> original, IEnumerable<TModified> modified, Func<TOriginal, TModified, bool> equal, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        where TOriginal : SyntaxNode where TModified : SyntaxNode
         {
-            if (original == null || modified == null)
+    		matchingDescription = null;
+    
+    		if (original == null || modified == null)
                 return false;
         
-            if (original.Count != modified.Count)
+            if (original.Count() != modified.Count())
                 return false;
-        
-            for (int i = 0; i < original.Count; i++)
+    
+    		var originalList = original.ToList();
+    		var modifiedList = modified.ToList();
+    
+            if (originalList.Select((o, i) => equal(o, modifiedList[i])).All(r => r))
             {
-                if (!equal(original[i], modified[i]))
-                    return false;
+                matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original as SyntaxNode, Modified = modified as SyntaxNode };
+                return true;
             }
+    
+    		while(originalList.Count() > 0)
+    		{
+    			var o = originalList.First();
+    			originalList.Remove(o);
+    
+    			var equalModifieds = modifiedList.Where(m => equal(o, m)).ToList();
+    			if(equalModifieds.Count() != 1)
+    				return false;
+    
+    			modifiedList.Remove(equalModifieds.Single());
+    		}
+    
+    		if (originalList.Count() != modifiedList.Count())
+                return false;
             
+    		matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original as SyntaxNode, Modified = modified as SyntaxNode };
         	return true;
-        }	
-        
-        /// <summary>
-        /// Determines if two <see cref="SeparatedSyntaxList{TNode}"/> elements are equal.
+    	}
+    
+    	/// <summary>
+        /// Determines if two elements are name-based exactly equal.
         /// </summary>
         /// <param name="original">the original version.</param>
         /// <param name="modified">the modified version.</param>
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <typeparam name="TOriginal">Specific type of the original element.</typeparam>
+        /// <typeparam name="TModified">Specific type of the modified element.</typeparam>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description.</param>
-        public virtual bool NameEqualityMatch<T>(SeparatedSyntaxList<T> original, SeparatedSyntaxList<T> modified, MatchingContext<SyntaxNodeOrToken?> context) where T : SyntaxNode
+        public virtual bool NameEqualityMatch<TOriginal, TModified>(SeparatedSyntaxList<TOriginal> original, SeparatedSyntaxList<TModified> modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        where TOriginal : SyntaxNode where TModified : SyntaxNode
         {
-            return this.NameEqualityMatch(original, modified, (o, m) => this.NameEqualityMatch(o, m, context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription), context);
-        }
+    		return this.NameEqualityMatch(original, modified, (o, m) => this.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", o, m, context), context, out matchingDescription);
+    	}		
     
-        /// <summary>
-        /// Determines if two <see cref="SyntaxList{TNode}"/> elements are equal.
-        /// </summary>
-        /// <param name="original">the original version.</param>
-        /// <param name="modified">the modified version.</param>
-        /// <param name="equal">logic of equality.</param>
-        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-        /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
-        /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description.</param>
-        public virtual bool NameEqualityMatch<T>(SyntaxList<T> original, SyntaxList<T> modified, Func<T, T, bool> equal, MatchingContext<SyntaxNodeOrToken?> context) where T : SyntaxNode
-        {
-            if (original == null || modified == null)
-                return false;
-    
-            if (original.Count != modified.Count)
-                return false;
-    
-            for (int i = 0; i < original.Count; i++)
-            {
-                if (!equal(original[i], modified[i]))
-                    return false;
-            }
-    
-            return true;
-        }
-    
-        /// <summary>
-        /// Determines if two <see cref="SyntaxList{TNode}"/> elements are equal.
+    	/// <summary>
+        /// Determines if two elements are name-based exactly equal.
         /// </summary>
         /// <param name="original">the original version.</param>
         /// <param name="modified">the modified version.</param>
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <typeparam name="TOriginal">Specific type of the original element.</typeparam>
+        /// <typeparam name="TModified">Specific type of the modified element.</typeparam>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description.</param>
-        public virtual bool NameEqualityMatch<T>(SyntaxList<T> original, SyntaxList<T> modified, MatchingContext<SyntaxNodeOrToken?> context) where T : SyntaxNode
+        public virtual bool NameEqualityMatch<TOriginal, TModified>(SyntaxList<TOriginal> original, SyntaxList<TModified> modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        where TOriginal : SyntaxNode where TModified : SyntaxNode
         {
-            return this.NameEqualityMatch(original, modified, (o, m) => this.NameEqualityMatch(o, m, context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription), context);
-        }
-        
+    		return this.NameEqualityMatch(original, modified, (o, m) => this.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", o, m, context), context, out matchingDescription);
+    	}	
+        /*
         /// <summary>
         /// Determines if two <see cref="SyntaxToken"/> elements are equal.
         /// </summary>
@@ -202,7 +205,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         public virtual bool NameEqualityMatch(SyntaxToken original, SyntaxToken modified, MatchingContext<SyntaxNodeOrToken?> context)
         {
             return this.SyntaxTokenServiceProvider.NameEqualityMatch(original, modified, context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription);
-        }
+        }*/
     }
     
     partial class OmittedTypeArgumentServiceProvider : INameEqualityCriterion<SyntaxNodeOrToken?, OmittedTypeArgumentSyntax, OmittedTypeArgumentSyntax>
@@ -223,8 +226,8 @@ namespace Jawilliam.CDF.CSharp.Awareness
                 return false;
             }
     
-            matchingDescription = null;
-            return false;
+            matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
+        	return true;
         }
     }
     
@@ -270,8 +273,20 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if ((original.NameEquals != null && modified.NameEquals != null && this.LanguageServiceProvider.NameEqualityMatch(original.NameEquals, modified.NameEquals, context)) ||
-                (original.NameColon != null && modified.NameColon != null && this.LanguageServiceProvider.NameEqualityMatch(original.NameColon, modified.NameColon, context)))
+            if ((original.NameEquals != null && modified.NameEquals != null && this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.NameEquals, modified.NameEquals, context)) ||
+                (original.NameColon != null && modified.NameColon != null && this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.NameColon, modified.NameColon, context)))
+    		{
+    			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
+    			return true;
+    		}
+    		
+    		if (original.NameEquals != null && modified.NameColon != null && this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.NameEquals, modified.NameColon, context))
+    		{
+    			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
+    			return true;
+    		}
+    		
+    		if (original.NameColon != null && modified.NameEquals != null && this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.NameColon, modified.NameEquals, context))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -289,7 +304,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, AttributeArgumentSyntax, AttributeArgumentSyntax>.NameEqualityMatch(AttributeArgumentSyntax original, AttributeArgumentSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(AttributeArgumentSyntax original, AttributeArgumentSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -304,7 +319,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     	}
     }
     
-    public partial class NameEqualsServiceProvider : INameEqualityCriterion<SyntaxNodeOrToken?, NameEqualsSyntax, NameEqualsSyntax>
+    public partial class NameEqualsServiceProvider : INameEqualityCriterion<SyntaxNodeOrToken?, NameEqualsSyntax, NameEqualsSyntax>, INameEqualityCriterion<SyntaxNodeOrToken?, NameEqualsSyntax, NameColonSyntax>
     {
     	/// <summary>
         /// Method hook for implementing logic to execute before the <see cref="NameEqualityMatch(NameEqualsSyntax, NameEqualsSyntax, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/>.
@@ -346,7 +361,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if (this.LanguageServiceProvider.NameEqualityMatch(original.Name, modified.Name, context))
+            if (this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.Name, modified.Name, context))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -364,7 +379,79 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, NameEqualsSyntax, NameEqualsSyntax>.NameEqualityMatch(NameEqualsSyntax original, NameEqualsSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(NameEqualsSyntax original, NameEqualsSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+    	{
+    		bool result = false;
+    		var ignoreCore = false;
+    		matchingDescription = null;
+    		NameEqualityMatchBefore(original, modified, context, ref matchingDescription, ref result, ref ignoreCore);
+    		if(ignoreCore) 
+    			return result;
+    		
+    		result = this.NameEqualityMatchCore(original, modified, context, out matchingDescription);
+    		NameEqualityMatchAfter(original, modified, context, ref matchingDescription, ref result);
+    		return result;
+    	}
+    
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="NameEqualityMatch(NameEqualsSyntax, NameColonSyntax, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="NameEqualityMatch(NameEqualsSyntax, NameColonSyntax, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="NameEqualityMatchCore(NameEqualsSyntax, NameColonSyntax, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/> is not executed and <see cref="NameEqualityMatch(NameEqualsSyntax, NameColonSyntax, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+        /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description.</param>
+        partial void NameEqualityMatchBefore(NameEqualsSyntax original, NameColonSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref MatchInfo<SyntaxNodeOrToken?> matchingDescription, ref bool result, ref bool ignoreCore);
+        
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="NameEqualityMatchCore(NameEqualsSyntax, NameColonSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="NameEqualityMatch(NameEqualsSyntax, NameColonSyntax, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/>.</param>
+        /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
+        partial void NameEqualityMatchAfter(NameEqualsSyntax original, NameColonSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref MatchInfo<SyntaxNodeOrToken?> matchingDescription, ref bool result);
+    
+        /// <summary>
+        /// Determines if two elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
+        /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description.</param>
+        /// <remarks>This is the default implementation for <see cref="NameEqualityMatch(NameEqualsSyntax, NameColonSyntax, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/>.</remarks>
+        protected virtual bool NameEqualityMatchCore(NameEqualsSyntax original, NameColonSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+    	{
+    		if(original == null) 
+    			throw new ArgumentNullException(nameof(original));
+    
+    		if(modified == null) 
+    			throw new ArgumentNullException(nameof(modified));
+    		
+    		if(modified.Name.Identifier.ValueText == original.Name.Identifier.ValueText)
+    		{		
+    			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
+    			return true;
+    		}
+    
+    		matchingDescription = null;
+    	    return false;
+    	}
+    
+        /// <summary>
+        /// Determines if two elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
+        /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description.</param>
+        public virtual bool NameEqualityMatch(NameEqualsSyntax original, NameColonSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -421,7 +508,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if (this.LanguageServiceProvider.NameEqualityMatch(original.Parameters, modified.Parameters, context))
+            if (this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.Parameters, modified.Parameters, context))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -439,7 +526,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, TypeParameterListSyntax, TypeParameterListSyntax>.NameEqualityMatch(TypeParameterListSyntax original, TypeParameterListSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(TypeParameterListSyntax original, TypeParameterListSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -496,7 +583,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if (this.LanguageServiceProvider.NameEqualityMatch(original.Identifier, modified.Identifier, context))
+            if (this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.Identifier, modified.Identifier, context))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -514,7 +601,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, TypeParameterSyntax, TypeParameterSyntax>.NameEqualityMatch(TypeParameterSyntax original, TypeParameterSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(TypeParameterSyntax original, TypeParameterSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -571,7 +658,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if (this.LanguageServiceProvider.NameEqualityMatch(original.Name, modified.Name, context))
+            if (this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.Name, modified.Name, context))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -589,7 +676,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, TypeParameterConstraintClauseSyntax, TypeParameterConstraintClauseSyntax>.NameEqualityMatch(TypeParameterConstraintClauseSyntax original, TypeParameterConstraintClauseSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(TypeParameterConstraintClauseSyntax original, TypeParameterConstraintClauseSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -646,7 +733,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if (this.LanguageServiceProvider.NameEqualityMatch(original.Name, modified.Name, context))
+            if (this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.Name, modified.Name, context))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -664,7 +751,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, ExplicitInterfaceSpecifierSyntax, ExplicitInterfaceSpecifierSyntax>.NameEqualityMatch(ExplicitInterfaceSpecifierSyntax original, ExplicitInterfaceSpecifierSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(ExplicitInterfaceSpecifierSyntax original, ExplicitInterfaceSpecifierSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -721,8 +808,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if ((this.LanguageServiceProvider.NameEqualityMatch(original.ThisOrBaseKeyword, modified.ThisOrBaseKeyword, context)) &&
-                (this.LanguageServiceProvider.NameEqualityMatch(original.ArgumentList, modified.ArgumentList, context)))
+            if (this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.ThisOrBaseKeyword, modified.ThisOrBaseKeyword, context))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -740,7 +826,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, ConstructorInitializerSyntax, ConstructorInitializerSyntax>.NameEqualityMatch(ConstructorInitializerSyntax original, ConstructorInitializerSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(ConstructorInitializerSyntax original, ConstructorInitializerSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -797,7 +883,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if (this.LanguageServiceProvider.NameEqualityMatch(original.Keyword, modified.Keyword, context))
+            if (this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.Keyword, modified.Keyword, context))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -815,7 +901,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, AccessorDeclarationSyntax, AccessorDeclarationSyntax>.NameEqualityMatch(AccessorDeclarationSyntax original, AccessorDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(AccessorDeclarationSyntax original, AccessorDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -872,7 +958,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if (this.LanguageServiceProvider.NameEqualityMatch(original.Identifier, modified.Identifier, context))
+            if (this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.Identifier, modified.Identifier, context))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -890,7 +976,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, ParameterSyntax, ParameterSyntax>.NameEqualityMatch(ParameterSyntax original, ParameterSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(ParameterSyntax original, ParameterSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -947,7 +1033,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if (this.LanguageServiceProvider.NameEqualityMatch(original.Name, modified.Name, context))
+            if (this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.Name, modified.Name, context))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -965,7 +1051,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, XmlElementStartTagSyntax, XmlElementStartTagSyntax>.NameEqualityMatch(XmlElementStartTagSyntax original, XmlElementStartTagSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(XmlElementStartTagSyntax original, XmlElementStartTagSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -1022,7 +1108,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if (this.LanguageServiceProvider.NameEqualityMatch(original.Name, modified.Name, context))
+            if (this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.Name, modified.Name, context))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -1040,7 +1126,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, XmlElementEndTagSyntax, XmlElementEndTagSyntax>.NameEqualityMatch(XmlElementEndTagSyntax original, XmlElementEndTagSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(XmlElementEndTagSyntax original, XmlElementEndTagSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -1097,8 +1183,8 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if (((original.Prefix == null && modified.Prefix == null) || (original.Prefix != null && modified.Prefix != null && this.LanguageServiceProvider.NameEqualityMatch(original.Prefix, modified.Prefix, context))) &&
-                (this.LanguageServiceProvider.NameEqualityMatch(original.LocalName, modified.LocalName, context)))
+            if (((original.Prefix == null && modified.Prefix == null) || (original.Prefix != null && modified.Prefix != null && this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.Prefix, modified.Prefix, context))) &&
+                (this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.LocalName, modified.LocalName, context)))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -1116,7 +1202,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, XmlNameSyntax, XmlNameSyntax>.NameEqualityMatch(XmlNameSyntax original, XmlNameSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(XmlNameSyntax original, XmlNameSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -1173,7 +1259,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if (this.LanguageServiceProvider.NameEqualityMatch(original.Prefix, modified.Prefix, context))
+            if (this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.Prefix, modified.Prefix, context))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -1191,7 +1277,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, XmlPrefixSyntax, XmlPrefixSyntax>.NameEqualityMatch(XmlPrefixSyntax original, XmlPrefixSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(XmlPrefixSyntax original, XmlPrefixSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -1248,7 +1334,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if (this.LanguageServiceProvider.NameEqualityMatch(original.Arguments, modified.Arguments, context))
+            if (this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.Arguments, modified.Arguments, context))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -1266,7 +1352,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, TypeArgumentListSyntax, TypeArgumentListSyntax>.NameEqualityMatch(TypeArgumentListSyntax original, TypeArgumentListSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(TypeArgumentListSyntax original, TypeArgumentListSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -1323,7 +1409,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if (original.Identifier != null && modified.Identifier != null && this.LanguageServiceProvider.NameEqualityMatch(original.Identifier, modified.Identifier, context))
+            if (original.Identifier != null && modified.Identifier != null && this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.Identifier, modified.Identifier, context))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -1341,7 +1427,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, TupleElementSyntax, TupleElementSyntax>.NameEqualityMatch(TupleElementSyntax original, TupleElementSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(TupleElementSyntax original, TupleElementSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -1398,7 +1484,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if (original.NameColon != null && modified.NameColon != null && this.LanguageServiceProvider.NameEqualityMatch(original.NameColon, modified.NameColon, context))
+            if (original.NameColon != null && modified.NameColon != null && this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.NameColon, modified.NameColon, context))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -1416,7 +1502,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, ArgumentSyntax, ArgumentSyntax>.NameEqualityMatch(ArgumentSyntax original, ArgumentSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(ArgumentSyntax original, ArgumentSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -1431,7 +1517,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     	}
     }
     
-    public partial class NameColonServiceProvider : INameEqualityCriterion<SyntaxNodeOrToken?, NameColonSyntax, NameColonSyntax>
+    public partial class NameColonServiceProvider : INameEqualityCriterion<SyntaxNodeOrToken?, NameColonSyntax, NameColonSyntax>, INameEqualityCriterion<SyntaxNodeOrToken?, NameColonSyntax, NameEqualsSyntax>
     {
     	/// <summary>
         /// Method hook for implementing logic to execute before the <see cref="NameEqualityMatch(NameColonSyntax, NameColonSyntax, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/>.
@@ -1473,7 +1559,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if (this.LanguageServiceProvider.NameEqualityMatch(original.Name, modified.Name, context))
+            if (this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.Name, modified.Name, context))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -1491,7 +1577,79 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, NameColonSyntax, NameColonSyntax>.NameEqualityMatch(NameColonSyntax original, NameColonSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(NameColonSyntax original, NameColonSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+    	{
+    		bool result = false;
+    		var ignoreCore = false;
+    		matchingDescription = null;
+    		NameEqualityMatchBefore(original, modified, context, ref matchingDescription, ref result, ref ignoreCore);
+    		if(ignoreCore) 
+    			return result;
+    		
+    		result = this.NameEqualityMatchCore(original, modified, context, out matchingDescription);
+    		NameEqualityMatchAfter(original, modified, context, ref matchingDescription, ref result);
+    		return result;
+    	}
+    
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="NameEqualityMatch(NameColonSyntax, NameEqualsSyntax, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="NameEqualityMatch(NameColonSyntax, NameEqualsSyntax, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="NameEqualityMatchCore(NameColonSyntax, NameEqualsSyntax, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/> is not executed and <see cref="NameEqualityMatch(NameColonSyntax, NameEqualsSyntax, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+        /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description.</param>
+        partial void NameEqualityMatchBefore(NameColonSyntax original, NameEqualsSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref MatchInfo<SyntaxNodeOrToken?> matchingDescription, ref bool result, ref bool ignoreCore);
+        
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="NameEqualityMatchCore(NameColonSyntax, NameEqualsSyntax, MatchingContext{SyntaxNodeOrToken?})"/>.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+        /// <param name="result">Mechanism to modify the result of <see cref="NameEqualityMatch(NameColonSyntax, NameEqualsSyntax, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/>.</param>
+        /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description.</param>
+        partial void NameEqualityMatchAfter(NameColonSyntax original, NameEqualsSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, ref MatchInfo<SyntaxNodeOrToken?> matchingDescription, ref bool result);
+    
+        /// <summary>
+        /// Determines if two elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
+        /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description.</param>
+        /// <remarks>This is the default implementation for <see cref="NameEqualityMatch(NameColonSyntax, NameEqualsSyntax, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/>.</remarks>
+        protected virtual bool NameEqualityMatchCore(NameColonSyntax original, NameEqualsSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+    	{
+    		if(original == null) 
+    			throw new ArgumentNullException(nameof(original));
+    
+    		if(modified == null) 
+    			throw new ArgumentNullException(nameof(modified));
+    		
+    		if(original.Name.Identifier.ValueText == modified.Name.Identifier.ValueText)
+    		{		
+    			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
+    			return true;
+    		}
+    
+    		matchingDescription = null;
+    	    return false;
+    	}
+    
+        /// <summary>
+        /// Determines if two elements are name-based exactly equal.
+        /// </summary>
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
+        /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description.</param>
+        public virtual bool NameEqualityMatch(NameColonSyntax original, NameEqualsSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -1548,7 +1706,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if (original.NameEquals != null && modified.NameEquals != null && this.LanguageServiceProvider.NameEqualityMatch(original.NameEquals, modified.NameEquals, context))
+            if (original.NameEquals != null && modified.NameEquals != null && this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.NameEquals, modified.NameEquals, context))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -1566,7 +1724,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, AnonymousObjectMemberDeclaratorSyntax, AnonymousObjectMemberDeclaratorSyntax>.NameEqualityMatch(AnonymousObjectMemberDeclaratorSyntax original, AnonymousObjectMemberDeclaratorSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(AnonymousObjectMemberDeclaratorSyntax original, AnonymousObjectMemberDeclaratorSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -1623,7 +1781,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if (original.Continuation != null && modified.Continuation != null && this.LanguageServiceProvider.NameEqualityMatch(original.Continuation, modified.Continuation, context))
+            if (original.Continuation != null && modified.Continuation != null && this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.Continuation, modified.Continuation, context))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -1641,7 +1799,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, QueryBodySyntax, QueryBodySyntax>.NameEqualityMatch(QueryBodySyntax original, QueryBodySyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(QueryBodySyntax original, QueryBodySyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -1698,7 +1856,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if (this.LanguageServiceProvider.NameEqualityMatch(original.Identifier, modified.Identifier, context))
+            if (this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.Identifier, modified.Identifier, context))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -1716,7 +1874,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, JoinIntoClauseSyntax, JoinIntoClauseSyntax>.NameEqualityMatch(JoinIntoClauseSyntax original, JoinIntoClauseSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(JoinIntoClauseSyntax original, JoinIntoClauseSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -1773,7 +1931,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if (this.LanguageServiceProvider.NameEqualityMatch(original.Identifier, modified.Identifier, context))
+            if (this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.Identifier, modified.Identifier, context))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -1791,7 +1949,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, QueryContinuationSyntax, QueryContinuationSyntax>.NameEqualityMatch(QueryContinuationSyntax original, QueryContinuationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(QueryContinuationSyntax original, QueryContinuationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -1848,7 +2006,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if (this.LanguageServiceProvider.NameEqualityMatch(original.Variables, modified.Variables, context))
+            if (this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.Variables, modified.Variables, context))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -1866,7 +2024,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, VariableDeclarationSyntax, VariableDeclarationSyntax>.NameEqualityMatch(VariableDeclarationSyntax original, VariableDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(VariableDeclarationSyntax original, VariableDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -1923,7 +2081,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if (this.LanguageServiceProvider.NameEqualityMatch(original.Identifier, modified.Identifier, context))
+            if (this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.Identifier, modified.Identifier, context))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -1941,7 +2099,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, VariableDeclaratorSyntax, VariableDeclaratorSyntax>.NameEqualityMatch(VariableDeclaratorSyntax original, VariableDeclaratorSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(VariableDeclaratorSyntax original, VariableDeclaratorSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -1998,7 +2156,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if (original.Declaration != null && modified.Declaration != null && this.LanguageServiceProvider.NameEqualityMatch(original.Declaration, modified.Declaration, context))
+            if (original.Declaration != null && modified.Declaration != null && this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.Declaration, modified.Declaration, context))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -2016,7 +2174,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, CatchClauseSyntax, CatchClauseSyntax>.NameEqualityMatch(CatchClauseSyntax original, CatchClauseSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(CatchClauseSyntax original, CatchClauseSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -2073,7 +2231,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if (original.Identifier != null && modified.Identifier != null && this.LanguageServiceProvider.NameEqualityMatch(original.Identifier, modified.Identifier, context))
+            if (original.Identifier != null && modified.Identifier != null && this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.Identifier, modified.Identifier, context))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -2091,7 +2249,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, CatchDeclarationSyntax, CatchDeclarationSyntax>.NameEqualityMatch(CatchDeclarationSyntax original, CatchDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(CatchDeclarationSyntax original, CatchDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -2148,7 +2306,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if (this.LanguageServiceProvider.NameEqualityMatch(original.Identifier, modified.Identifier, context))
+            if (this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.Identifier, modified.Identifier, context))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -2166,7 +2324,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, ExternAliasDirectiveSyntax, ExternAliasDirectiveSyntax>.NameEqualityMatch(ExternAliasDirectiveSyntax original, ExternAliasDirectiveSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(ExternAliasDirectiveSyntax original, ExternAliasDirectiveSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -2223,8 +2381,8 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if (((original.Alias == null && modified.Alias == null) || (original.Alias != null && modified.Alias != null && this.LanguageServiceProvider.NameEqualityMatch(original.Alias, modified.Alias, context))) &&
-                (this.LanguageServiceProvider.NameEqualityMatch(original.Name, modified.Name, context)))
+            if (((original.Alias == null && modified.Alias == null) || (original.Alias != null && modified.Alias != null && this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.Alias, modified.Alias, context))) &&
+                (this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.Name, modified.Name, context)))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -2242,7 +2400,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, UsingDirectiveSyntax, UsingDirectiveSyntax>.NameEqualityMatch(UsingDirectiveSyntax original, UsingDirectiveSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(UsingDirectiveSyntax original, UsingDirectiveSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -2299,8 +2457,8 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if (((original.Target == null && modified.Target == null) || (original.Target != null && modified.Target != null && this.LanguageServiceProvider.NameEqualityMatch(original.Target, modified.Target, context))) &&
-                (this.LanguageServiceProvider.NameEqualityMatch(original.Attributes, modified.Attributes, context)))
+            if (((original.Target == null && modified.Target == null) || (original.Target != null && modified.Target != null && this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.Target, modified.Target, context))) &&
+                (this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.Attributes, modified.Attributes, context)))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -2318,7 +2476,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, AttributeListSyntax, AttributeListSyntax>.NameEqualityMatch(AttributeListSyntax original, AttributeListSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(AttributeListSyntax original, AttributeListSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -2375,7 +2533,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if (this.LanguageServiceProvider.NameEqualityMatch(original.Identifier, modified.Identifier, context))
+            if (this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.Identifier, modified.Identifier, context))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -2393,7 +2551,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, AttributeTargetSpecifierSyntax, AttributeTargetSpecifierSyntax>.NameEqualityMatch(AttributeTargetSpecifierSyntax original, AttributeTargetSpecifierSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(AttributeTargetSpecifierSyntax original, AttributeTargetSpecifierSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -2450,7 +2608,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if (this.LanguageServiceProvider.NameEqualityMatch(original.Name, modified.Name, context))
+            if (this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.Name, modified.Name, context))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -2468,7 +2626,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, AttributeSyntax, AttributeSyntax>.NameEqualityMatch(AttributeSyntax original, AttributeSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(AttributeSyntax original, AttributeSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -2525,7 +2683,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if (this.LanguageServiceProvider.NameEqualityMatch(original.Identifier, modified.Identifier, context))
+            if (this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.Identifier, modified.Identifier, context))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -2543,7 +2701,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, DelegateDeclarationSyntax, DelegateDeclarationSyntax>.NameEqualityMatch(DelegateDeclarationSyntax original, DelegateDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(DelegateDeclarationSyntax original, DelegateDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -2600,7 +2758,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if (this.LanguageServiceProvider.NameEqualityMatch(original.Identifier, modified.Identifier, context))
+            if (this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.Identifier, modified.Identifier, context))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -2618,7 +2776,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, EnumMemberDeclarationSyntax, EnumMemberDeclarationSyntax>.NameEqualityMatch(EnumMemberDeclarationSyntax original, EnumMemberDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(EnumMemberDeclarationSyntax original, EnumMemberDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -2675,7 +2833,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if (this.LanguageServiceProvider.NameEqualityMatch(original.Name, modified.Name, context))
+            if (this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.Name, modified.Name, context))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -2693,7 +2851,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, NamespaceDeclarationSyntax, NamespaceDeclarationSyntax>.NameEqualityMatch(NamespaceDeclarationSyntax original, NamespaceDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(NamespaceDeclarationSyntax original, NamespaceDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -2750,7 +2908,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if (this.LanguageServiceProvider.NameEqualityMatch(original.Identifier, modified.Identifier, context))
+            if (this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.Identifier, modified.Identifier, context))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -2768,7 +2926,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, EnumDeclarationSyntax, EnumDeclarationSyntax>.NameEqualityMatch(EnumDeclarationSyntax original, EnumDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(EnumDeclarationSyntax original, EnumDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -2825,7 +2983,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if (this.LanguageServiceProvider.NameEqualityMatch(original.Identifier, modified.Identifier, context))
+            if (this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.Identifier, modified.Identifier, context))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -2843,7 +3001,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, ClassDeclarationSyntax, ClassDeclarationSyntax>.NameEqualityMatch(ClassDeclarationSyntax original, ClassDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(ClassDeclarationSyntax original, ClassDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -2900,7 +3058,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if (this.LanguageServiceProvider.NameEqualityMatch(original.Identifier, modified.Identifier, context))
+            if (this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.Identifier, modified.Identifier, context))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -2918,7 +3076,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, StructDeclarationSyntax, StructDeclarationSyntax>.NameEqualityMatch(StructDeclarationSyntax original, StructDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(StructDeclarationSyntax original, StructDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -2975,7 +3133,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if (this.LanguageServiceProvider.NameEqualityMatch(original.Identifier, modified.Identifier, context))
+            if (this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.Identifier, modified.Identifier, context))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -2993,7 +3151,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, InterfaceDeclarationSyntax, InterfaceDeclarationSyntax>.NameEqualityMatch(InterfaceDeclarationSyntax original, InterfaceDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(InterfaceDeclarationSyntax original, InterfaceDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -3050,7 +3208,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if (this.LanguageServiceProvider.NameEqualityMatch(original.Declaration, modified.Declaration, context))
+            if (this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.Declaration, modified.Declaration, context))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -3068,7 +3226,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, FieldDeclarationSyntax, FieldDeclarationSyntax>.NameEqualityMatch(FieldDeclarationSyntax original, FieldDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(FieldDeclarationSyntax original, FieldDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -3125,7 +3283,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if (this.LanguageServiceProvider.NameEqualityMatch(original.Declaration, modified.Declaration, context))
+            if (this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.Declaration, modified.Declaration, context))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -3143,7 +3301,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, EventFieldDeclarationSyntax, EventFieldDeclarationSyntax>.NameEqualityMatch(EventFieldDeclarationSyntax original, EventFieldDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(EventFieldDeclarationSyntax original, EventFieldDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -3200,8 +3358,8 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if (((original.ExplicitInterfaceSpecifier == null && modified.ExplicitInterfaceSpecifier == null) || (original.ExplicitInterfaceSpecifier != null && modified.ExplicitInterfaceSpecifier != null && this.LanguageServiceProvider.NameEqualityMatch(original.ExplicitInterfaceSpecifier, modified.ExplicitInterfaceSpecifier, context))) &&
-                (this.LanguageServiceProvider.NameEqualityMatch(original.Identifier, modified.Identifier, context)))
+            if (((original.ExplicitInterfaceSpecifier == null && modified.ExplicitInterfaceSpecifier == null) || (original.ExplicitInterfaceSpecifier != null && modified.ExplicitInterfaceSpecifier != null && this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.ExplicitInterfaceSpecifier, modified.ExplicitInterfaceSpecifier, context))) &&
+                (this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.Identifier, modified.Identifier, context)))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -3219,7 +3377,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, MethodDeclarationSyntax, MethodDeclarationSyntax>.NameEqualityMatch(MethodDeclarationSyntax original, MethodDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(MethodDeclarationSyntax original, MethodDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -3276,7 +3434,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if (this.LanguageServiceProvider.NameEqualityMatch(original.OperatorToken, modified.OperatorToken, context))
+            if (this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.OperatorToken, modified.OperatorToken, context))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -3294,7 +3452,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, OperatorDeclarationSyntax, OperatorDeclarationSyntax>.NameEqualityMatch(OperatorDeclarationSyntax original, OperatorDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(OperatorDeclarationSyntax original, OperatorDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -3351,7 +3509,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if (this.LanguageServiceProvider.NameEqualityMatch(original.Type, modified.Type, context))
+            if (this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.Type, modified.Type, context))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -3369,7 +3527,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, ConversionOperatorDeclarationSyntax, ConversionOperatorDeclarationSyntax>.NameEqualityMatch(ConversionOperatorDeclarationSyntax original, ConversionOperatorDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(ConversionOperatorDeclarationSyntax original, ConversionOperatorDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -3426,7 +3584,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if (this.LanguageServiceProvider.NameEqualityMatch(original.Identifier, modified.Identifier, context))
+            if (this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.Identifier, modified.Identifier, context))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -3444,7 +3602,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, ConstructorDeclarationSyntax, ConstructorDeclarationSyntax>.NameEqualityMatch(ConstructorDeclarationSyntax original, ConstructorDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(ConstructorDeclarationSyntax original, ConstructorDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -3501,7 +3659,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if (this.LanguageServiceProvider.NameEqualityMatch(original.Identifier, modified.Identifier, context))
+            if (this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.Identifier, modified.Identifier, context))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -3519,7 +3677,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, DestructorDeclarationSyntax, DestructorDeclarationSyntax>.NameEqualityMatch(DestructorDeclarationSyntax original, DestructorDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(DestructorDeclarationSyntax original, DestructorDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -3576,8 +3734,8 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if (((original.ExplicitInterfaceSpecifier == null && modified.ExplicitInterfaceSpecifier == null) || (original.ExplicitInterfaceSpecifier != null && modified.ExplicitInterfaceSpecifier != null && this.LanguageServiceProvider.NameEqualityMatch(original.ExplicitInterfaceSpecifier, modified.ExplicitInterfaceSpecifier, context))) &&
-                (this.LanguageServiceProvider.NameEqualityMatch(original.Identifier, modified.Identifier, context)))
+            if (((original.ExplicitInterfaceSpecifier == null && modified.ExplicitInterfaceSpecifier == null) || (original.ExplicitInterfaceSpecifier != null && modified.ExplicitInterfaceSpecifier != null && this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.ExplicitInterfaceSpecifier, modified.ExplicitInterfaceSpecifier, context))) &&
+                (this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.Identifier, modified.Identifier, context)))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -3595,7 +3753,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, PropertyDeclarationSyntax, PropertyDeclarationSyntax>.NameEqualityMatch(PropertyDeclarationSyntax original, PropertyDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(PropertyDeclarationSyntax original, PropertyDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -3652,8 +3810,8 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if (((original.ExplicitInterfaceSpecifier == null && modified.ExplicitInterfaceSpecifier == null) || (original.ExplicitInterfaceSpecifier != null && modified.ExplicitInterfaceSpecifier != null && this.LanguageServiceProvider.NameEqualityMatch(original.ExplicitInterfaceSpecifier, modified.ExplicitInterfaceSpecifier, context))) &&
-                (this.LanguageServiceProvider.NameEqualityMatch(original.Identifier, modified.Identifier, context)))
+            if (((original.ExplicitInterfaceSpecifier == null && modified.ExplicitInterfaceSpecifier == null) || (original.ExplicitInterfaceSpecifier != null && modified.ExplicitInterfaceSpecifier != null && this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.ExplicitInterfaceSpecifier, modified.ExplicitInterfaceSpecifier, context))) &&
+                (this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.Identifier, modified.Identifier, context)))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -3671,7 +3829,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, EventDeclarationSyntax, EventDeclarationSyntax>.NameEqualityMatch(EventDeclarationSyntax original, EventDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(EventDeclarationSyntax original, EventDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -3728,8 +3886,8 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if (((original.ExplicitInterfaceSpecifier == null && modified.ExplicitInterfaceSpecifier == null) || (original.ExplicitInterfaceSpecifier != null && modified.ExplicitInterfaceSpecifier != null && this.LanguageServiceProvider.NameEqualityMatch(original.ExplicitInterfaceSpecifier, modified.ExplicitInterfaceSpecifier, context))) &&
-                (this.LanguageServiceProvider.NameEqualityMatch(original.ThisKeyword, modified.ThisKeyword, context)))
+            if (((original.ExplicitInterfaceSpecifier == null && modified.ExplicitInterfaceSpecifier == null) || (original.ExplicitInterfaceSpecifier != null && modified.ExplicitInterfaceSpecifier != null && this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.ExplicitInterfaceSpecifier, modified.ExplicitInterfaceSpecifier, context))) &&
+                (this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.ThisKeyword, modified.ThisKeyword, context)))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -3747,7 +3905,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, IndexerDeclarationSyntax, IndexerDeclarationSyntax>.NameEqualityMatch(IndexerDeclarationSyntax original, IndexerDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(IndexerDeclarationSyntax original, IndexerDeclarationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -3804,7 +3962,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if (this.LanguageServiceProvider.NameEqualityMatch(original.Identifier, modified.Identifier, context))
+            if (this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.Identifier, modified.Identifier, context))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -3822,7 +3980,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, BadDirectiveTriviaSyntax, BadDirectiveTriviaSyntax>.NameEqualityMatch(BadDirectiveTriviaSyntax original, BadDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(BadDirectiveTriviaSyntax original, BadDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -3879,7 +4037,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if (this.LanguageServiceProvider.NameEqualityMatch(original.Name, modified.Name, context))
+            if (this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.Name, modified.Name, context))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -3897,7 +4055,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, DefineDirectiveTriviaSyntax, DefineDirectiveTriviaSyntax>.NameEqualityMatch(DefineDirectiveTriviaSyntax original, DefineDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(DefineDirectiveTriviaSyntax original, DefineDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -3954,7 +4112,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if (this.LanguageServiceProvider.NameEqualityMatch(original.Name, modified.Name, context))
+            if (this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.Name, modified.Name, context))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -3972,7 +4130,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, UndefDirectiveTriviaSyntax, UndefDirectiveTriviaSyntax>.NameEqualityMatch(UndefDirectiveTriviaSyntax original, UndefDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(UndefDirectiveTriviaSyntax original, UndefDirectiveTriviaSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -4029,7 +4187,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if (this.LanguageServiceProvider.NameEqualityMatch(original.Name, modified.Name, context))
+            if (this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.Name, modified.Name, context))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -4047,7 +4205,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, NameMemberCrefSyntax, NameMemberCrefSyntax>.NameEqualityMatch(NameMemberCrefSyntax original, NameMemberCrefSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(NameMemberCrefSyntax original, NameMemberCrefSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -4104,7 +4262,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if (this.LanguageServiceProvider.NameEqualityMatch(original.ThisKeyword, modified.ThisKeyword, context))
+            if (this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.ThisKeyword, modified.ThisKeyword, context))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -4122,7 +4280,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, IndexerMemberCrefSyntax, IndexerMemberCrefSyntax>.NameEqualityMatch(IndexerMemberCrefSyntax original, IndexerMemberCrefSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(IndexerMemberCrefSyntax original, IndexerMemberCrefSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -4179,7 +4337,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if (this.LanguageServiceProvider.NameEqualityMatch(original.OperatorToken, modified.OperatorToken, context))
+            if (this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.OperatorToken, modified.OperatorToken, context))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -4197,7 +4355,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, OperatorMemberCrefSyntax, OperatorMemberCrefSyntax>.NameEqualityMatch(OperatorMemberCrefSyntax original, OperatorMemberCrefSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(OperatorMemberCrefSyntax original, OperatorMemberCrefSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -4254,7 +4412,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if (this.LanguageServiceProvider.NameEqualityMatch(original.StartTag, modified.StartTag, context))
+            if (this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.StartTag, modified.StartTag, context))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -4272,7 +4430,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, XmlElementSyntax, XmlElementSyntax>.NameEqualityMatch(XmlElementSyntax original, XmlElementSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(XmlElementSyntax original, XmlElementSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -4329,7 +4487,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if (this.LanguageServiceProvider.NameEqualityMatch(original.Name, modified.Name, context))
+            if (this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.Name, modified.Name, context))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -4347,7 +4505,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, XmlEmptyElementSyntax, XmlEmptyElementSyntax>.NameEqualityMatch(XmlEmptyElementSyntax original, XmlEmptyElementSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(XmlEmptyElementSyntax original, XmlEmptyElementSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -4404,7 +4562,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if (this.LanguageServiceProvider.NameEqualityMatch(original.Name, modified.Name, context))
+            if (this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.Name, modified.Name, context))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -4422,7 +4580,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, XmlProcessingInstructionSyntax, XmlProcessingInstructionSyntax>.NameEqualityMatch(XmlProcessingInstructionSyntax original, XmlProcessingInstructionSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(XmlProcessingInstructionSyntax original, XmlProcessingInstructionSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -4479,7 +4637,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if (this.LanguageServiceProvider.NameEqualityMatch(original.Name, modified.Name, context))
+            if (this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.Name, modified.Name, context))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -4497,7 +4655,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, XmlTextAttributeSyntax, XmlTextAttributeSyntax>.NameEqualityMatch(XmlTextAttributeSyntax original, XmlTextAttributeSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(XmlTextAttributeSyntax original, XmlTextAttributeSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -4554,7 +4712,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if (this.LanguageServiceProvider.NameEqualityMatch(original.Cref, modified.Cref, context))
+            if (this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.Cref, modified.Cref, context))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -4572,7 +4730,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, XmlCrefAttributeSyntax, XmlCrefAttributeSyntax>.NameEqualityMatch(XmlCrefAttributeSyntax original, XmlCrefAttributeSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(XmlCrefAttributeSyntax original, XmlCrefAttributeSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -4629,7 +4787,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if (this.LanguageServiceProvider.NameEqualityMatch(original.Identifier, modified.Identifier, context))
+            if (this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.Identifier, modified.Identifier, context))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -4647,7 +4805,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, XmlNameAttributeSyntax, XmlNameAttributeSyntax>.NameEqualityMatch(XmlNameAttributeSyntax original, XmlNameAttributeSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(XmlNameAttributeSyntax original, XmlNameAttributeSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -4704,8 +4862,8 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if ((this.LanguageServiceProvider.NameEqualityMatch(original.Expression, modified.Expression, context)) &&
-                (this.LanguageServiceProvider.NameEqualityMatch(original.Name, modified.Name, context)))
+            if ((this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.Expression, modified.Expression, context)) &&
+                (this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.Name, modified.Name, context)))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -4723,7 +4881,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, MemberAccessExpressionSyntax, MemberAccessExpressionSyntax>.NameEqualityMatch(MemberAccessExpressionSyntax original, MemberAccessExpressionSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(MemberAccessExpressionSyntax original, MemberAccessExpressionSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -4780,7 +4938,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if (this.LanguageServiceProvider.NameEqualityMatch(original.Name, modified.Name, context))
+            if (this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.Name, modified.Name, context))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -4798,7 +4956,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, MemberBindingExpressionSyntax, MemberBindingExpressionSyntax>.NameEqualityMatch(MemberBindingExpressionSyntax original, MemberBindingExpressionSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(MemberBindingExpressionSyntax original, MemberBindingExpressionSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -4855,7 +5013,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if (this.LanguageServiceProvider.NameEqualityMatch(original.FromClause, modified.FromClause, context))
+            if (this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.FromClause, modified.FromClause, context))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -4873,7 +5031,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, QueryExpressionSyntax, QueryExpressionSyntax>.NameEqualityMatch(QueryExpressionSyntax original, QueryExpressionSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(QueryExpressionSyntax original, QueryExpressionSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -4930,8 +5088,8 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if ((this.LanguageServiceProvider.NameEqualityMatch(original.Alias, modified.Alias, context)) &&
-                (this.LanguageServiceProvider.NameEqualityMatch(original.Name, modified.Name, context)))
+            if ((this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.Alias, modified.Alias, context)) &&
+                (this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.Name, modified.Name, context)))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -4949,7 +5107,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, AliasQualifiedNameSyntax, AliasQualifiedNameSyntax>.NameEqualityMatch(AliasQualifiedNameSyntax original, AliasQualifiedNameSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(AliasQualifiedNameSyntax original, AliasQualifiedNameSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -5006,7 +5164,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if (this.LanguageServiceProvider.NameEqualityMatch(original.Identifier, modified.Identifier, context))
+            if (this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.Identifier, modified.Identifier, context))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -5024,7 +5182,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, IdentifierNameSyntax, IdentifierNameSyntax>.NameEqualityMatch(IdentifierNameSyntax original, IdentifierNameSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(IdentifierNameSyntax original, IdentifierNameSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -5081,7 +5239,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if (this.LanguageServiceProvider.NameEqualityMatch(original.Identifier, modified.Identifier, context))
+            if (this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.Identifier, modified.Identifier, context))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -5099,7 +5257,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, GenericNameSyntax, GenericNameSyntax>.NameEqualityMatch(GenericNameSyntax original, GenericNameSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(GenericNameSyntax original, GenericNameSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -5156,7 +5314,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if (this.LanguageServiceProvider.NameEqualityMatch(original.Parameter, modified.Parameter, context))
+            if (this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.Parameter, modified.Parameter, context))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -5174,7 +5332,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, SimpleLambdaExpressionSyntax, SimpleLambdaExpressionSyntax>.NameEqualityMatch(SimpleLambdaExpressionSyntax original, SimpleLambdaExpressionSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(SimpleLambdaExpressionSyntax original, SimpleLambdaExpressionSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -5231,7 +5389,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if (this.LanguageServiceProvider.NameEqualityMatch(original.Identifier, modified.Identifier, context))
+            if (this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.Identifier, modified.Identifier, context))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -5249,7 +5407,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, FromClauseSyntax, FromClauseSyntax>.NameEqualityMatch(FromClauseSyntax original, FromClauseSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(FromClauseSyntax original, FromClauseSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -5306,7 +5464,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if (this.LanguageServiceProvider.NameEqualityMatch(original.Identifier, modified.Identifier, context))
+            if (this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.Identifier, modified.Identifier, context))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -5324,7 +5482,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, LetClauseSyntax, LetClauseSyntax>.NameEqualityMatch(LetClauseSyntax original, LetClauseSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(LetClauseSyntax original, LetClauseSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -5381,7 +5539,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if (this.LanguageServiceProvider.NameEqualityMatch(original.Identifier, modified.Identifier, context))
+            if (this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.Identifier, modified.Identifier, context))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -5399,7 +5557,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, JoinClauseSyntax, JoinClauseSyntax>.NameEqualityMatch(JoinClauseSyntax original, JoinClauseSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(JoinClauseSyntax original, JoinClauseSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -5456,7 +5614,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if (this.LanguageServiceProvider.NameEqualityMatch(original.Identifier, modified.Identifier, context))
+            if (this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.Identifier, modified.Identifier, context))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -5474,7 +5632,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, LocalFunctionStatementSyntax, LocalFunctionStatementSyntax>.NameEqualityMatch(LocalFunctionStatementSyntax original, LocalFunctionStatementSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(LocalFunctionStatementSyntax original, LocalFunctionStatementSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -5531,7 +5689,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if (this.LanguageServiceProvider.NameEqualityMatch(original.Declaration, modified.Declaration, context))
+            if (this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.Declaration, modified.Declaration, context))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -5549,7 +5707,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, LocalDeclarationStatementSyntax, LocalDeclarationStatementSyntax>.NameEqualityMatch(LocalDeclarationStatementSyntax original, LocalDeclarationStatementSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(LocalDeclarationStatementSyntax original, LocalDeclarationStatementSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -5606,7 +5764,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if (this.LanguageServiceProvider.NameEqualityMatch(original.Identifier, modified.Identifier, context))
+            if (this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.Identifier, modified.Identifier, context))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -5624,7 +5782,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, LabeledStatementSyntax, LabeledStatementSyntax>.NameEqualityMatch(LabeledStatementSyntax original, LabeledStatementSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(LabeledStatementSyntax original, LabeledStatementSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -5681,7 +5839,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if (original.Declaration != null && modified.Declaration != null && this.LanguageServiceProvider.NameEqualityMatch(original.Declaration, modified.Declaration, context))
+            if (original.Declaration != null && modified.Declaration != null && this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.Declaration, modified.Declaration, context))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -5699,7 +5857,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, ForStatementSyntax, ForStatementSyntax>.NameEqualityMatch(ForStatementSyntax original, ForStatementSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(ForStatementSyntax original, ForStatementSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -5756,7 +5914,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if (original.Declaration != null && modified.Declaration != null && this.LanguageServiceProvider.NameEqualityMatch(original.Declaration, modified.Declaration, context))
+            if (original.Declaration != null && modified.Declaration != null && this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.Declaration, modified.Declaration, context))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -5774,7 +5932,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, UsingStatementSyntax, UsingStatementSyntax>.NameEqualityMatch(UsingStatementSyntax original, UsingStatementSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(UsingStatementSyntax original, UsingStatementSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -5831,7 +5989,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if (this.LanguageServiceProvider.NameEqualityMatch(original.Declaration, modified.Declaration, context))
+            if (this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.Declaration, modified.Declaration, context))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -5849,7 +6007,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, FixedStatementSyntax, FixedStatementSyntax>.NameEqualityMatch(FixedStatementSyntax original, FixedStatementSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(FixedStatementSyntax original, FixedStatementSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -5906,7 +6064,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if (this.LanguageServiceProvider.NameEqualityMatch(original.Identifier, modified.Identifier, context))
+            if (this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.Identifier, modified.Identifier, context))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -5924,7 +6082,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, ForEachStatementSyntax, ForEachStatementSyntax>.NameEqualityMatch(ForEachStatementSyntax original, ForEachStatementSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(ForEachStatementSyntax original, ForEachStatementSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;
@@ -5981,7 +6139,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			return false;
     		}
     
-            if (this.LanguageServiceProvider.NameEqualityMatch(original.Identifier, modified.Identifier, context))
+            if (this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", original.Identifier, modified.Identifier, context))
     		{
     			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
     			return true;
@@ -5999,7 +6157,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <param name="context">the context wherein certain matching criterion is currently running.</param>
         /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
         /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-        bool INameEqualityCriterion<SyntaxNodeOrToken?, SingleVariableDesignationSyntax, SingleVariableDesignationSyntax>.NameEqualityMatch(SingleVariableDesignationSyntax original, SingleVariableDesignationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        public virtual bool NameEqualityMatch(SingleVariableDesignationSyntax original, SingleVariableDesignationSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     	{
     		bool result = false;
     		var ignoreCore = false;

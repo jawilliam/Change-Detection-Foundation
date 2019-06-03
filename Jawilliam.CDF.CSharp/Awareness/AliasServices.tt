@@ -83,9 +83,9 @@ using Jawilliam.CDF.Approach.Criterions;
 <#
 BeginNamespace(namespaceName, code);
 
-var aliasProviders = xSyntaxTypeSystem.Nodes.Type.Where(t => !t.@abstract && (t.Rules?.Alias?.Any() ?? false)).ToList();
+var aliasProviders = xSyntaxTypeSystem.Nodes.Type.Where(t => !t.@abstract && (t.Rules?.Compatibility?.Alias?.Any() ?? false)).ToList();
 var reverseAliasProviders = xSyntaxTypeSystem.Nodes.Type.Where(tx => !tx.@abstract && 
-	aliasProviders.Any(ap => tx != ap && !ap.@abstract && (ap.Rules.Alias.Any(a => (a.twoWay ?? false) && a.type == tx.name))))
+	aliasProviders.Any(ap => tx != ap && !ap.@abstract && (ap.Rules.Compatibility.Alias.Any(a => a.twoWay && a.type == tx.name))))
 	.ToList();
 
 aliasProviders = aliasProviders.Union(reverseAliasProviders).Distinct().ToList();
@@ -105,7 +105,7 @@ foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
 partial class <#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>ServiceProvider
 {
 <#
-	var ySyntaxNodeNames = xSyntaxNodeType.Rules?.Alias?.Where(a => a.type != null).Select(a => a.type).Distinct() ?? new string[0];
+	var ySyntaxNodeNames = xSyntaxNodeType.Rules?.Compatibility?.Alias?.Where(a => a.type != null).Select(a => a.type).Distinct() ?? new string[0];
 	foreach(var ySyntaxNodeName in ySyntaxNodeNames)
 	{
 		var baseDeclarationText = xSyntaxNodeBaseType == null 
@@ -152,24 +152,21 @@ partial class <#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax"
 		if(modified == null) 
 			throw new ArgumentNullException(nameof(modified));
 <#
-	var aliases = xSyntaxNodeType.Rules?.Alias?.Where(a => a.type == ySyntaxNodeName).ToArray();
+	var aliases = xSyntaxNodeType.Rules?.Compatibility?.Alias?.Where(a => a.type == ySyntaxNodeName).ToArray();
 	StringBuilder @case = null;
 	for(int i = 0; i < aliases.Length; i++)
 	{
 		@case = new StringBuilder();
-		var conditions = (aliases[i].Value ?? new List<Jawilliam.CDF.XObjects.RDSL.CaseRules.ValueLocalType>()).OfType<object>()
-			.Union((aliases[i].Equality ?? new List<Jawilliam.CDF.XObjects.RDSL.JoinCase>()).OfType<object>())
-			.Union((aliases[i].Similarity ?? new List<Jawilliam.CDF.XObjects.RDSL.JoinCase>()).OfType<object>())
-			.Union((aliases[i].Partner ?? new List<Jawilliam.CDF.XObjects.RDSL.JoinCase>()).OfType<object>())
-			.ToArray();
+		var conditions = aliases[i].Condition;
 
-		for(int j = 0; j < conditions.Length; j++)
+		for(int j = 0; j < aliases[i].Condition.Count(); j++)
 		{
-			var valueCase = conditions[j] as Jawilliam.CDF.XObjects.RDSL.CaseRules.ValueLocalType;
-			if(valueCase != null)
+			var condition = conditions[j] as Syntax.NodesLocalType.TypeLocalType.RulesLocalType.CompatibilityLocalType.AliasLocalType.ConditionLocalType;
+			if(condition != null)
 			{
-				var condition = string.Format(valueCase.path + " == " + $"{valueCase.value}", "original", "modified");
-				@case.AppendLine((j == 0 ? "if(" : "           && ") + condition + (j == conditions.Length - 1 ? ")" : ""));
+				@case.AppendLine((j == 0 ? "if(" : "           && ") + 
+					string.Format(condition.code, "original", "modified") +
+					(j == conditions.Count() - 1 ? ")" : ""));
 			}
 		}
 #>		
@@ -210,8 +207,8 @@ partial class <#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax"
 	}
 
 	var reverseAliases = (from ty in aliasProviders
-	                      from ay in (ty.Rules?.Alias ?? new Jawilliam.CDF.XObjects.RDSL.CaseRules[0])
-						  where ty != xSyntaxNodeType && (ay.twoWay ?? false) && ay.type == xSyntaxNodeType.name
+	                      from ay in (ty.Rules?.Compatibility?.Alias ?? new Jawilliam.CDF.XObjects.RDSL.Syntax.NodesLocalType.TypeLocalType.RulesLocalType.CompatibilityLocalType.AliasLocalType[0])
+						  where ty != xSyntaxNodeType && ay.twoWay && ay.type == xSyntaxNodeType.name
 						  select new { Type = ty, Alias = ay }).ToArray();
 							
 	foreach(var ySyntaxNodeName2 in reverseAliases.Select(ra => ra.Type.name).Distinct())
@@ -258,24 +255,21 @@ partial class <#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax"
 		if(modified == null) 
 			throw new ArgumentNullException(nameof(modified));
 <#
-	var aliases = ySyntaxNodeType.Rules?.Alias?.Where(a => a.type == syntaxNode.Root.Label.ToString()).ToArray();
+	var aliases = ySyntaxNodeType.Rules?.Compatibility?.Alias?.Where(a => a.type == syntaxNode.Root.Label.ToString()).ToArray();
 	StringBuilder @case = null;
 	for(int i = 0; i < aliases.Length; i++)
 	{
 		@case = new StringBuilder();
-		var conditions = (aliases[i].Value ?? new List<Jawilliam.CDF.XObjects.RDSL.CaseRules.ValueLocalType>()).OfType<object>()
-			.Union((aliases[i].Equality ?? new List<Jawilliam.CDF.XObjects.RDSL.JoinCase>()).OfType<object>())
-			.Union((aliases[i].Similarity ?? new List<Jawilliam.CDF.XObjects.RDSL.JoinCase>()).OfType<object>())
-			.Union((aliases[i].Partner ?? new List<Jawilliam.CDF.XObjects.RDSL.JoinCase>()).OfType<object>())
-			.ToArray();
+		var conditions = aliases[i].Condition;
 
-		for(int j = 0; j < conditions.Length; j++)
+		for(int j = 0; j < conditions.Count(); j++)
 		{
-			var valueCase = conditions[j] as Jawilliam.CDF.XObjects.RDSL.CaseRules.ValueLocalType;
-			if(valueCase != null)
+			var condition = conditions[j] as Syntax.NodesLocalType.TypeLocalType.RulesLocalType.CompatibilityLocalType.AliasLocalType.ConditionLocalType;
+			if(condition != null)
 			{
-				var condition = string.Format(valueCase.path + " == " + $"{valueCase.value}", "modified", "original");
-				@case.AppendLine((j == 0 ? "if(" : "           && ") + condition + (j == conditions.Length - 1 ? ")" : ""));
+				@case.AppendLine((j == 0 ? "if(" : "           && ") + 
+					string.Format(condition.code, "modified", "original") + 
+					(j == conditions.Count() - 1 ? ")" : ""));
 			}
 		}
 #>		

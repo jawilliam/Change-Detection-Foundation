@@ -183,8 +183,8 @@
     <Compile Include="CSharp\CSharpFladTests.cs" />
     <Compile Include="CSharp\MatchingProvider.cs" />
     <Compile Include="CSharp\RDSLTests.cs" />
-    <Compile Include="CSharp\SignatureEqualityServicesTests.cs" />
-    <Compile Include="CSharp\NameEqualityServicesTests.cs" />
+    <Compile Include="Flad.Awareness\SignatureEqualityServicesTests.cs" />
+    <Compile Include="Flad.Awareness\NameEqualityServicesTests.cs" />
     <Compile Include="CSharp\RoslynMLTests.CSharp7x.cs" />
     <Compile Include="CSharp\RoslynMLTests.ExpressionSyntaxes.CompilationUnit.cs" />
     <Compile Include="CSharp\RoslynMLTests.ExpressionSyntaxes.Trivia.cs" />

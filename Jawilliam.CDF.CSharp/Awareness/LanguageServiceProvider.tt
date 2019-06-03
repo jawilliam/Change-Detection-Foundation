@@ -75,10 +75,15 @@ var manager = TemplateFileManager.Create(this);
 var xSyntaxTypeSystem = Jawilliam.CDF.XObjects.RDSL.Syntax.Load(@"E:\MyRepositories\Change-Detection-Foundation\Jawilliam.CDF.CSharp\RDSL.xml");
 
 #>
+using Jawilliam.CDF.Approach.Criterions;
+using Jawilliam.CDF.Approach.Services;
+using Jawilliam.CDF.Approach.Awareness;
 using Jawilliam.CDF.CSharp.Flad;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using System;
+using System.Reflection;
+using System.Linq;
 
 <#
 BeginNamespace(namespaceName, code);
@@ -435,7 +440,290 @@ foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
 	}
  }
 }
-#>
+#>    
+    /// <summary>
+    /// Determines if two elements match by invoking the <paramref name="matchNamePrefix"/>Match method supposedly defined in <paramref name="genericCriterionDefinition"/>.
+    /// </summary>
+    /// <param name="original">the original version.</param>
+    /// <param name="modified">the modified version.</param>
+    /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+    /// <param name="matchNamePrefix">'Match' method prefix, e.g., "NameEquality" in <see cref="INameEqualityCriterion{TElement, TOriginal, TModified}.NameEqualityMatch(TOriginal, TModified, MatchingContext{TElement}, out MatchInfo{TElement})"/>.</param>
+    /// <param name="genericCriterionDefinition">The type where the <paramref name="matchNamePrefix"/>Match method was defined in, e.g., <code>typeof(INameEqualityCriterion{,,})</param>
+    /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
+    /// <remarks>This promotes the convention that matching criterion are defined in dedicated interfaces and are postfixed with 'Match'.</remarks>
+    public virtual bool MatchBy(Type genericCriterionDefinition, string matchNamePrefix, SyntaxNode original, SyntaxNode modified, MatchingContext<SyntaxNodeOrToken?> context)
+    {
+        return this.MatchBy(genericCriterionDefinition, matchNamePrefix, original, modified, context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription);
+    }
+    
+    /// <summary>
+    /// Determines if two elements match by invoking the <paramref name="matchNamePrefix"/>Match method supposedly defined in <paramref name="genericCriterionDefinition"/>.
+    /// </summary>
+    /// <param name="original">the original version.</param>
+    /// <param name="modified">the modified version.</param>
+    /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+    /// <param name="matchNamePrefix">'Match' method prefix, e.g., "NameEquality" in <see cref="INameEqualityCriterion{TElement, TOriginal, TModified}.NameEqualityMatch(TOriginal, TModified, MatchingContext{TElement}, out MatchInfo{TElement})"/>.</param>
+    /// <param name="genericCriterionDefinition">The type where the <paramref name="matchNamePrefix"/>Match method was defined in, e.g., <code>typeof(INameEqualityCriterion{,,})</code>.</param>
+    /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
+    /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description.</param>
+    /// <remarks>This promotes the convention that matching criterion are defined in dedicated interfaces and are postfixed with 'Match'.</remarks>
+    public virtual bool MatchBy(Type genericCriterionDefinition, string matchNamePrefix, SyntaxNode original, SyntaxNode modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+    {
+        matchingDescription = null;
+
+        return this.MatchBy(this.GetElementTypeServiceProvider((SyntaxKind)original.RawKind),
+            genericCriterionDefinition,
+            matchNamePrefix,
+            original, modified, context, out matchingDescription);
+    }
+
+    /// <summary>
+    /// Determines if two elements match by invoking the <paramref name="matchNamePrefix"/>Match method supposedly defined in <paramref name="genericCriterionDefinition"/>.
+    /// </summary>
+    /// <param name="original">the original version.</param>
+    /// <param name="modified">the modified version.</param>
+    /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+    /// <param name="matchNamePrefix">'Match' method prefix, e.g., "NameEquality" in <see cref="INameEqualityCriterion{TElement, TOriginal, TModified}.NameEqualityMatch(TOriginal, TModified, MatchingContext{TElement}, out MatchInfo{TElement})"/>.</param>
+    /// <param name="genericCriterionDefinition">The type where the <paramref name="matchNamePrefix"/>Match method was defined in, e.g., <code>typeof(INameEqualityCriterion{,,})</code>.</param>
+    /// <param name="serviceProvider">the expected host to implement the matching criterion.</param>
+    /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
+    /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description.</param>
+    /// <remarks>This promotes the convention that matching criterion are defined in dedicated interfaces and are postfixed with 'Match'.</remarks>
+    private bool MatchBy(object serviceProvider, Type genericCriterionDefinition, string matchNamePrefix, object original, object modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+    {
+        matchingDescription = null;
+
+        var genericCriterionType = genericCriterionDefinition.MakeGenericType(typeof(SyntaxNodeOrToken?), original.GetType(), modified.GetType());
+        if (!genericCriterionType.IsAssignableFrom(serviceProvider.GetType()))
+            return false;
+    
+        var matchMethod = (from method in genericCriterionType.GetMethods(BindingFlags.Public | BindingFlags.Instance)
+                           let genericArguments = genericCriterionType.GetGenericArguments()
+                           let parameters = method.GetParameters()
+                           where method.Name == $"{matchNamePrefix}Match" &&
+                                 parameters.Length == 4 &&
+                                 genericArguments.Length == 3 &&
+                                 parameters[0].ParameterType == genericArguments[1] &&
+                                 parameters[1].ParameterType == genericArguments[2] &&
+                                 parameters[2].ParameterType == typeof(MatchingContext<>).MakeGenericType(genericArguments[0]) &&
+                                 parameters[3].IsOut &&
+                                 parameters[3].ParameterType.FullName == $"{typeof(MatchInfo<>).MakeGenericType(genericArguments[0]).FullName}&"
+                           select method).Single();
+
+        return (bool)matchMethod.Invoke(serviceProvider, new object[] { original, modified, context, matchingDescription });
+    }
+
+    /// <summary>
+    /// Determines if two elements match by invoking the <paramref name="matchNamePrefix"/>Match method supposedly defined in <paramref name="genericCriterionDefinition"/>.
+    /// </summary>
+    /// <param name="original">the original version.</param>
+    /// <param name="modified">the modified version.</param>
+    /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+    /// <param name="matchNamePrefix">'Match' method prefix, e.g., "NameEquality" in <see cref="INameEqualityCriterion{TElement, TOriginal, TModified}.NameEqualityMatch(TOriginal, TModified, MatchingContext{TElement}, out MatchInfo{TElement})"/>.</param>
+    /// <param name="genericCriterionDefinition">The type where the <paramref name="matchNamePrefix"/>Match method was defined in, e.g., <code>typeof(INameEqualityCriterion{,,})</param>
+    /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
+    /// <remarks>This promotes the convention that matching criterion are defined in dedicated interfaces and are postfixed with 'Match'.</remarks>
+    public virtual bool MatchBy(Type genericCriterionDefinition, string matchNamePrefix, SyntaxToken original, SyntaxToken modified, MatchingContext<SyntaxNodeOrToken?> context)
+    {
+        return this.MatchBy(genericCriterionDefinition, matchNamePrefix, original, modified, context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription);
+    }
+
+    /// <summary>
+    /// Determines if two elements match by invoking the <paramref name="matchNamePrefix"/>Match method supposedly defined in <paramref name="genericCriterionDefinition"/>.
+    /// </summary>
+    /// <param name="original">the original version.</param>
+    /// <param name="modified">the modified version.</param>
+    /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+    /// <param name="matchNamePrefix">'Match' method prefix, e.g., "NameEquality" in <see cref="INameEqualityCriterion{TElement, TOriginal, TModified}.NameEqualityMatch(TOriginal, TModified, MatchingContext{TElement}, out MatchInfo{TElement})"/>.</param>
+    /// <param name="genericCriterionDefinition">The type where the <paramref name="matchNamePrefix"/>Match method was defined in, e.g., <code>typeof(INameEqualityCriterion{,,})</code>.</param>
+    /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
+    /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description.</param>
+    /// <remarks>This promotes the convention that matching criterion are defined in dedicated interfaces and are postfixed with 'Match'.</remarks>
+    public virtual bool MatchBy(Type genericCriterionDefinition, string matchNamePrefix, SyntaxToken original, SyntaxToken modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+    {
+        matchingDescription = null;
+
+        return this.MatchBy(this.SyntaxTokenServiceProvider,
+            genericCriterionDefinition,
+            matchNamePrefix,
+            original, modified, context, out matchingDescription);
+    }
+
+    /// <summary>
+    /// Determines if two elements match by invoking the <paramref name="matchNamePrefix"/>Match method supposedly defined in <paramref name="genericCriterionDefinition"/>.
+    /// </summary>
+    /// <param name="original">the original version.</param>
+    /// <param name="modified">the modified version.</param>
+    /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+    /// <param name="matchNamePrefix">'Match' method prefix, e.g., "NameEquality" in <see cref="INameEqualityCriterion{TElement, TOriginal, TModified}.NameEqualityMatch(TOriginal, TModified, MatchingContext{TElement}, out MatchInfo{TElement})"/>.</param>
+    /// <param name="genericCriterionDefinition">The type where the <paramref name="matchNamePrefix"/>Match method was defined in, e.g., <code>typeof(INameEqualityCriterion{,,})</param>
+    /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
+    /// <remarks>This promotes the convention that matching criterion are defined in dedicated interfaces and are postfixed with 'Match'.</remarks>
+    public virtual bool MatchBy(Type genericCriterionDefinition, string matchNamePrefix, SyntaxTokenList original, SyntaxTokenList modified, MatchingContext<SyntaxNodeOrToken?> context)
+    {
+        return this.MatchBy(genericCriterionDefinition, matchNamePrefix, original, modified, context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription);
+    }
+
+    /// <summary>
+    /// Determines if two elements match by invoking the <paramref name="matchNamePrefix"/>Match method supposedly defined in <paramref name="genericCriterionDefinition"/>.
+    /// </summary>
+    /// <param name="original">the original version.</param>
+    /// <param name="modified">the modified version.</param>
+    /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+    /// <param name="matchNamePrefix">'Match' method prefix, e.g., "NameEquality" in <see cref="INameEqualityCriterion{TElement, TOriginal, TModified}.NameEqualityMatch(TOriginal, TModified, MatchingContext{TElement}, out MatchInfo{TElement})"/>.</param>
+    /// <param name="genericCriterionDefinition">The type where the <paramref name="matchNamePrefix"/>Match method was defined in, e.g., <code>typeof(INameEqualityCriterion{,,})</code>.</param>
+    /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
+    /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description.</param>
+    /// <remarks>This promotes the convention that matching criterion are defined in dedicated interfaces and are postfixed with 'Match'.</remarks>
+    public virtual bool MatchBy(Type genericCriterionDefinition, string matchNamePrefix, SyntaxTokenList original, SyntaxTokenList modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+    {
+        matchingDescription = null;
+
+        return this.MatchBy(this,
+            genericCriterionDefinition,
+            matchNamePrefix,
+            original, modified, context, out matchingDescription);
+    }
+
+    /// <summary>
+    /// Determines if two elements match by invoking the <paramref name="matchNamePrefix"/>Match method supposedly defined in <paramref name="genericCriterionDefinition"/>.
+    /// </summary>
+    /// <param name="original">the original version.</param>
+    /// <param name="modified">the modified version.</param>
+    /// <typeparam name="TOriginal">Specific type of the original element.</typeparam>
+    /// <typeparam name="TModified">Specific type of the modified element.</typeparam>
+    /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+    /// <param name="matchNamePrefix">'Match' method prefix, e.g., "NameEquality" in <see cref="INameEqualityCriterion{TElement, TOriginal, TModified}.NameEqualityMatch(TOriginal, TModified, MatchingContext{TElement}, out MatchInfo{TElement})"/>.</param>
+    /// <param name="genericCriterionDefinition">The type where the <paramref name="matchNamePrefix"/>Match method was defined in, e.g., <code>typeof(INameEqualityCriterion{,,})</param>
+    /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
+    /// <remarks>This promotes the convention that matching criterion are defined in dedicated interfaces and are postfixed with 'Match'.</remarks>
+    public virtual bool MatchBy<TOriginal, TModified>(Type genericCriterionDefinition, string matchNamePrefix, SyntaxList<TOriginal> original, SyntaxList<TModified> modified, MatchingContext<SyntaxNodeOrToken?> context)
+    where TOriginal : SyntaxNode  where TModified : SyntaxNode
+    {
+        return this.MatchBy(genericCriterionDefinition, matchNamePrefix, original, modified, context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription);
+    }
+
+    /// <summary>
+    /// Determines if two elements match by invoking the <paramref name="matchNamePrefix"/>Match method supposedly defined in <paramref name="genericCriterionDefinition"/>.
+    /// </summary>
+    /// <param name="original">the original version.</param>
+    /// <param name="modified">the modified version.</param>
+    /// <typeparam name="TOriginal">Specific type of the original element.</typeparam>
+    /// <typeparam name="TModified">Specific type of the modified element.</typeparam>
+    /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+    /// <param name="matchNamePrefix">'Match' method prefix, e.g., "NameEquality" in <see cref="INameEqualityCriterion{TElement, TOriginal, TModified}.NameEqualityMatch(TOriginal, TModified, MatchingContext{TElement}, out MatchInfo{TElement})"/>.</param>
+    /// <param name="genericCriterionDefinition">The type where the <paramref name="matchNamePrefix"/>Match method was defined in, e.g., <code>typeof(INameEqualityCriterion{,,})</code>.</param>
+    /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
+    /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description.</param>
+    /// <remarks>This promotes the convention that matching criterion are defined in dedicated interfaces and are postfixed with 'Match'.</remarks>
+    public virtual bool MatchBy<TOriginal, TModified>(Type genericCriterionDefinition, string matchNamePrefix, SyntaxList<TOriginal> original, SyntaxList<TModified> modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+    where TOriginal : SyntaxNode  where TModified : SyntaxNode
+    {
+        return this.MatchGenericListBy<TOriginal, TModified>(this, genericCriterionDefinition, matchNamePrefix, typeof(SyntaxList<>), original, modified, context, out matchingDescription);
+    }
+
+    /// <summary>
+    /// Determines if two elements match by invoking the <paramref name="matchNamePrefix"/>Match method supposedly defined in <paramref name="genericCriterionDefinition"/>.
+    /// </summary>
+    /// <param name="original">the original version.</param>
+    /// <param name="modified">the modified version.</param>
+    /// <typeparam name="TOriginal">Specific type of the original element.</typeparam>
+    /// <typeparam name="TModified">Specific type of the modified element.</typeparam>
+    /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+    /// <param name="matchNamePrefix">'Match' method prefix, e.g., "NameEquality" in <see cref="INameEqualityCriterion{TElement, TOriginal, TModified}.NameEqualityMatch(TOriginal, TModified, MatchingContext{TElement}, out MatchInfo{TElement})"/>.</param>
+    /// <param name="genericCriterionDefinition">The type where the <paramref name="matchNamePrefix"/>Match method was defined in, e.g., <code>typeof(INameEqualityCriterion{,,})</param>
+    /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
+    /// <remarks>This promotes the convention that matching criterion are defined in dedicated interfaces and are postfixed with 'Match'.</remarks>
+    public virtual bool MatchBy<TOriginal, TModified>(Type genericCriterionDefinition, string matchNamePrefix, SeparatedSyntaxList<TOriginal> original, SeparatedSyntaxList<TModified> modified, MatchingContext<SyntaxNodeOrToken?> context)
+    where TOriginal : SyntaxNode  where TModified : SyntaxNode
+    {
+        return this.MatchBy(genericCriterionDefinition, matchNamePrefix, original, modified, context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription);
+    }
+
+    /// <summary>
+    /// Determines if two elements match by invoking the <paramref name="matchNamePrefix"/>Match method supposedly defined in <paramref name="genericCriterionDefinition"/>.
+    /// </summary>
+    /// <param name="original">the original version.</param>
+    /// <param name="modified">the modified version.</param>
+    /// <typeparam name="TOriginal">Specific type of the original element.</typeparam>
+    /// <typeparam name="TModified">Specific type of the modified element.</typeparam>
+    /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+    /// <param name="matchNamePrefix">'Match' method prefix, e.g., "NameEquality" in <see cref="INameEqualityCriterion{TElement, TOriginal, TModified}.NameEqualityMatch(TOriginal, TModified, MatchingContext{TElement}, out MatchInfo{TElement})"/>.</param>
+    /// <param name="genericCriterionDefinition">The type where the <paramref name="matchNamePrefix"/>Match method was defined in, e.g., <code>typeof(INameEqualityCriterion{,,})</code>.</param>
+    /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
+    /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description.</param>
+    /// <remarks>This promotes the convention that matching criterion are defined in dedicated interfaces and are postfixed with 'Match'.</remarks>
+    public virtual bool MatchBy<TOriginal, TModified>(Type genericCriterionDefinition, string matchNamePrefix, SeparatedSyntaxList<TOriginal> original, SeparatedSyntaxList<TModified> modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+    where TOriginal : SyntaxNode  where TModified : SyntaxNode
+    {
+        return this.MatchGenericListBy<TOriginal, TModified>(this, genericCriterionDefinition, matchNamePrefix, typeof(SeparatedSyntaxList<>), original, modified, context, out matchingDescription);
+    }
+
+    /// <summary>
+    /// Determines if two elements match by invoking the <paramref name="matchNamePrefix"/>Match method supposedly defined in <paramref name="genericCriterionDefinition"/>.
+    /// </summary>
+    /// <param name="original">the original version.</param>
+    /// <param name="modified">the modified version.</param>
+    /// <typeparam name="TOriginal">Specific type of the original element.</typeparam>
+    /// <typeparam name="TModified">Specific type of the modified element.</typeparam>
+    /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+    /// <param name="matchNamePrefix">'Match' method prefix, e.g., "NameEquality" in <see cref="INameEqualityCriterion{TElement, TOriginal, TModified}.NameEqualityMatch(TOriginal, TModified, MatchingContext{TElement}, out MatchInfo{TElement})"/>.</param>
+    /// <param name="genericCriterionDefinition">The type where the <paramref name="matchNamePrefix"/>Match method was defined in, e.g., <code>typeof(INameEqualityCriterion{,,})</code>.</param>
+    /// <param name="serviceProvider">the expected host to implement the matching criterion.</param>
+    /// <param name="genericListDefinition">The type of the expected generic list, e.g., <code>typeof(SyntaxList{})</code></param>
+    /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
+    /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description.</param>
+    /// <remarks>This promotes the convention that matching criterion are defined in dedicated interfaces and are postfixed with 'Match'.</remarks>
+    private bool MatchGenericListBy<TOriginal, TModified>(object serviceProvider, Type genericCriterionDefinition, string matchNamePrefix, Type genericListDefinition, object original, object modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+    where TOriginal : SyntaxNode  where TModified : SyntaxNode
+    {
+        matchingDescription = null;
+    
+        var parameterModifier = new ParameterModifier(4);
+        parameterModifier[3] = true;
+
+		var originalType = genericListDefinition.MakeGenericType(typeof(TOriginal));
+		var modifiedType = genericListDefinition.MakeGenericType(typeof(TModified));
+    
+        var genericCriterionType = genericCriterionDefinition.MakeGenericType(typeof(SyntaxNodeOrToken?), originalType, modifiedType);
+        var genericArguments = genericCriterionType.GetGenericArguments();
+        MethodInfo matchMethod = null;
+        if (!genericCriterionType.IsAssignableFrom(serviceProvider.GetType()))
+        {
+            matchMethod = (from method in serviceProvider.GetType().GetMethods(BindingFlags.Public | BindingFlags.Instance)
+                           let genericDefinition = method.IsGenericMethodDefinition ? method : null
+                           let mGenericArguments = genericDefinition?.GetGenericArguments()
+                           let parameters = method.GetParameters()
+                           where genericDefinition != null &&
+                                 method.Name == $"{matchNamePrefix}Match" &&
+                                 mGenericArguments.Length == 2 &&
+                                 parameters.Length == 4 &&
+                                 typeof(SyntaxNode).IsAssignableFrom(mGenericArguments[0]) &&
+                                 typeof(SyntaxNode).IsAssignableFrom(mGenericArguments[1]) &&
+                                 parameters[0].ParameterType == genericListDefinition.MakeGenericType(mGenericArguments[0]) &&
+                                 parameters[1].ParameterType == genericListDefinition.MakeGenericType(mGenericArguments[1]) &&
+                                 parameters[2].ParameterType == typeof(MatchingContext<>).MakeGenericType(genericArguments[0]) &&
+                                 parameters[3].IsOut &&
+                                 parameters[3].ParameterType.FullName == $"{typeof(MatchInfo<>).MakeGenericType(genericArguments[0]).FullName}&"
+                           select method).SingleOrDefault()?.MakeGenericMethod(typeof(TOriginal), typeof(TModified));
+        }
+        else
+        {
+            matchMethod = (from method in genericCriterionType.GetMethods(BindingFlags.Public | BindingFlags.Instance)
+                           let parameters = method.GetParameters()
+                           where method.Name == $"{matchNamePrefix}Match" &&
+                                 parameters.Length == 4 &&
+                                 genericArguments.Length == 3 &&
+                                 parameters[0].ParameterType == genericArguments[1] &&
+                                 parameters[1].ParameterType == genericArguments[2] &&
+                                 parameters[2].ParameterType == typeof(MatchingContext<>).MakeGenericType(genericArguments[0]) &&
+                                 parameters[3].IsOut &&
+                                 parameters[3].ParameterType.FullName == $"{typeof(MatchInfo<>).MakeGenericType(genericArguments[0]).FullName}&"
+                           select method).Single().MakeGenericMethod(genericArguments[1], genericArguments[2]);
+        }
+    
+       return (bool)(matchMethod?.Invoke(serviceProvider, new object[] { original, modified, context, matchingDescription }) ?? false);
+    }
 }
 <#
 	

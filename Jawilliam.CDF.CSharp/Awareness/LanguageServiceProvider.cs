@@ -1,8 +1,13 @@
 
+using Jawilliam.CDF.Approach.Criterions;
+using Jawilliam.CDF.Approach.Services;
+using Jawilliam.CDF.Approach.Awareness;
 using Jawilliam.CDF.CSharp.Flad;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using System;
+using System.Reflection;
+using System.Linq;
 
 namespace Jawilliam.CDF.CSharp.Awareness
 {
@@ -35,6 +40,23 @@ namespace Jawilliam.CDF.CSharp.Awareness
     	{
     		switch(type)
     		{
+    			case "AttributeArgument": return this.AttributeArgumentServiceProvider;
+    			case "NameEquals": return this.NameEqualsServiceProvider;
+    			case "TypeParameterList": return this.TypeParameterListServiceProvider;
+    			case "TypeParameter": return this.TypeParameterServiceProvider;
+    			case "BaseList": return this.BaseListServiceProvider;
+    			case "TypeParameterConstraintClause": return this.TypeParameterConstraintClauseServiceProvider;
+    			case "ExplicitInterfaceSpecifier": return this.ExplicitInterfaceSpecifierServiceProvider;
+    			case "ConstructorInitializer": return this.ConstructorInitializerServiceProvider;
+    			case "ArrowExpressionClause": return this.ArrowExpressionClauseServiceProvider;
+    			case "AccessorList": return this.AccessorListServiceProvider;
+    			case "AccessorDeclaration": return this.AccessorDeclarationServiceProvider;
+    			case "Parameter": return this.ParameterServiceProvider;
+    			case "CrefParameter": return this.CrefParameterServiceProvider;
+    			case "XmlElementStartTag": return this.XmlElementStartTagServiceProvider;
+    			case "XmlElementEndTag": return this.XmlElementEndTagServiceProvider;
+    			case "XmlName": return this.XmlNameServiceProvider;
+    			case "XmlPrefix": return this.XmlPrefixServiceProvider;
     			case "TypeArgumentList": return this.TypeArgumentListServiceProvider;
     			case "ArrayRankSpecifier": return this.ArrayRankSpecifierServiceProvider;
     			case "TupleElement": return this.TupleElementServiceProvider;
@@ -64,23 +86,67 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			case "AttributeTargetSpecifier": return this.AttributeTargetSpecifierServiceProvider;
     			case "Attribute": return this.AttributeServiceProvider;
     			case "AttributeArgumentList": return this.AttributeArgumentListServiceProvider;
-    			case "AttributeArgument": return this.AttributeArgumentServiceProvider;
-    			case "NameEquals": return this.NameEqualsServiceProvider;
-    			case "TypeParameterList": return this.TypeParameterListServiceProvider;
-    			case "TypeParameter": return this.TypeParameterServiceProvider;
-    			case "BaseList": return this.BaseListServiceProvider;
-    			case "TypeParameterConstraintClause": return this.TypeParameterConstraintClauseServiceProvider;
-    			case "ExplicitInterfaceSpecifier": return this.ExplicitInterfaceSpecifierServiceProvider;
-    			case "ConstructorInitializer": return this.ConstructorInitializerServiceProvider;
-    			case "ArrowExpressionClause": return this.ArrowExpressionClauseServiceProvider;
-    			case "AccessorList": return this.AccessorListServiceProvider;
-    			case "AccessorDeclaration": return this.AccessorDeclarationServiceProvider;
-    			case "Parameter": return this.ParameterServiceProvider;
-    			case "CrefParameter": return this.CrefParameterServiceProvider;
-    			case "XmlElementStartTag": return this.XmlElementStartTagServiceProvider;
-    			case "XmlElementEndTag": return this.XmlElementEndTagServiceProvider;
-    			case "XmlName": return this.XmlNameServiceProvider;
-    			case "XmlPrefix": return this.XmlPrefixServiceProvider;
+    			case "DelegateDeclaration": return this.DelegateDeclarationServiceProvider;
+    			case "EnumMemberDeclaration": return this.EnumMemberDeclarationServiceProvider;
+    			case "IncompleteMember": return this.IncompleteMemberServiceProvider;
+    			case "GlobalStatement": return this.GlobalStatementServiceProvider;
+    			case "NamespaceDeclaration": return this.NamespaceDeclarationServiceProvider;
+    			case "EnumDeclaration": return this.EnumDeclarationServiceProvider;
+    			case "ClassDeclaration": return this.ClassDeclarationServiceProvider;
+    			case "StructDeclaration": return this.StructDeclarationServiceProvider;
+    			case "InterfaceDeclaration": return this.InterfaceDeclarationServiceProvider;
+    			case "FieldDeclaration": return this.FieldDeclarationServiceProvider;
+    			case "EventFieldDeclaration": return this.EventFieldDeclarationServiceProvider;
+    			case "MethodDeclaration": return this.MethodDeclarationServiceProvider;
+    			case "OperatorDeclaration": return this.OperatorDeclarationServiceProvider;
+    			case "ConversionOperatorDeclaration": return this.ConversionOperatorDeclarationServiceProvider;
+    			case "ConstructorDeclaration": return this.ConstructorDeclarationServiceProvider;
+    			case "DestructorDeclaration": return this.DestructorDeclarationServiceProvider;
+    			case "PropertyDeclaration": return this.PropertyDeclarationServiceProvider;
+    			case "EventDeclaration": return this.EventDeclarationServiceProvider;
+    			case "IndexerDeclaration": return this.IndexerDeclarationServiceProvider;
+    			case "SimpleBaseType": return this.SimpleBaseTypeServiceProvider;
+    			case "ConstructorConstraint": return this.ConstructorConstraintServiceProvider;
+    			case "ClassOrStructConstraint": return this.ClassOrStructConstraintServiceProvider;
+    			case "TypeConstraint": return this.TypeConstraintServiceProvider;
+    			case "ParameterList": return this.ParameterListServiceProvider;
+    			case "BracketedParameterList": return this.BracketedParameterListServiceProvider;
+    			case "SkippedTokensTrivia": return this.SkippedTokensTriviaServiceProvider;
+    			case "DocumentationCommentTrivia": return this.DocumentationCommentTriviaServiceProvider;
+    			case "EndIfDirectiveTrivia": return this.EndIfDirectiveTriviaServiceProvider;
+    			case "RegionDirectiveTrivia": return this.RegionDirectiveTriviaServiceProvider;
+    			case "EndRegionDirectiveTrivia": return this.EndRegionDirectiveTriviaServiceProvider;
+    			case "ErrorDirectiveTrivia": return this.ErrorDirectiveTriviaServiceProvider;
+    			case "WarningDirectiveTrivia": return this.WarningDirectiveTriviaServiceProvider;
+    			case "BadDirectiveTrivia": return this.BadDirectiveTriviaServiceProvider;
+    			case "DefineDirectiveTrivia": return this.DefineDirectiveTriviaServiceProvider;
+    			case "UndefDirectiveTrivia": return this.UndefDirectiveTriviaServiceProvider;
+    			case "LineDirectiveTrivia": return this.LineDirectiveTriviaServiceProvider;
+    			case "PragmaWarningDirectiveTrivia": return this.PragmaWarningDirectiveTriviaServiceProvider;
+    			case "PragmaChecksumDirectiveTrivia": return this.PragmaChecksumDirectiveTriviaServiceProvider;
+    			case "ReferenceDirectiveTrivia": return this.ReferenceDirectiveTriviaServiceProvider;
+    			case "LoadDirectiveTrivia": return this.LoadDirectiveTriviaServiceProvider;
+    			case "ShebangDirectiveTrivia": return this.ShebangDirectiveTriviaServiceProvider;
+    			case "ElseDirectiveTrivia": return this.ElseDirectiveTriviaServiceProvider;
+    			case "IfDirectiveTrivia": return this.IfDirectiveTriviaServiceProvider;
+    			case "ElifDirectiveTrivia": return this.ElifDirectiveTriviaServiceProvider;
+    			case "TypeCref": return this.TypeCrefServiceProvider;
+    			case "QualifiedCref": return this.QualifiedCrefServiceProvider;
+    			case "NameMemberCref": return this.NameMemberCrefServiceProvider;
+    			case "IndexerMemberCref": return this.IndexerMemberCrefServiceProvider;
+    			case "OperatorMemberCref": return this.OperatorMemberCrefServiceProvider;
+    			case "ConversionOperatorMemberCref": return this.ConversionOperatorMemberCrefServiceProvider;
+    			case "CrefParameterList": return this.CrefParameterListServiceProvider;
+    			case "CrefBracketedParameterList": return this.CrefBracketedParameterListServiceProvider;
+    			case "XmlElement": return this.XmlElementServiceProvider;
+    			case "XmlEmptyElement": return this.XmlEmptyElementServiceProvider;
+    			case "XmlText": return this.XmlTextServiceProvider;
+    			case "XmlCDataSection": return this.XmlCDataSectionServiceProvider;
+    			case "XmlProcessingInstruction": return this.XmlProcessingInstructionServiceProvider;
+    			case "XmlComment": return this.XmlCommentServiceProvider;
+    			case "XmlTextAttribute": return this.XmlTextAttributeServiceProvider;
+    			case "XmlCrefAttribute": return this.XmlCrefAttributeServiceProvider;
+    			case "XmlNameAttribute": return this.XmlNameAttributeServiceProvider;
     			case "ParenthesizedExpression": return this.ParenthesizedExpressionServiceProvider;
     			case "TupleExpression": return this.TupleExpressionServiceProvider;
     			case "PrefixUnaryExpression": return this.PrefixUnaryExpressionServiceProvider;
@@ -147,25 +213,6 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			case "ConstantPattern": return this.ConstantPatternServiceProvider;
     			case "InterpolatedStringText": return this.InterpolatedStringTextServiceProvider;
     			case "Interpolation": return this.InterpolationServiceProvider;
-    			case "GlobalStatement": return this.GlobalStatementServiceProvider;
-    			case "NamespaceDeclaration": return this.NamespaceDeclarationServiceProvider;
-    			case "DelegateDeclaration": return this.DelegateDeclarationServiceProvider;
-    			case "EnumMemberDeclaration": return this.EnumMemberDeclarationServiceProvider;
-    			case "IncompleteMember": return this.IncompleteMemberServiceProvider;
-    			case "EnumDeclaration": return this.EnumDeclarationServiceProvider;
-    			case "ClassDeclaration": return this.ClassDeclarationServiceProvider;
-    			case "StructDeclaration": return this.StructDeclarationServiceProvider;
-    			case "InterfaceDeclaration": return this.InterfaceDeclarationServiceProvider;
-    			case "FieldDeclaration": return this.FieldDeclarationServiceProvider;
-    			case "EventFieldDeclaration": return this.EventFieldDeclarationServiceProvider;
-    			case "MethodDeclaration": return this.MethodDeclarationServiceProvider;
-    			case "OperatorDeclaration": return this.OperatorDeclarationServiceProvider;
-    			case "ConversionOperatorDeclaration": return this.ConversionOperatorDeclarationServiceProvider;
-    			case "ConstructorDeclaration": return this.ConstructorDeclarationServiceProvider;
-    			case "DestructorDeclaration": return this.DestructorDeclarationServiceProvider;
-    			case "PropertyDeclaration": return this.PropertyDeclarationServiceProvider;
-    			case "EventDeclaration": return this.EventDeclarationServiceProvider;
-    			case "IndexerDeclaration": return this.IndexerDeclarationServiceProvider;
     			case "Block": return this.BlockServiceProvider;
     			case "LocalFunctionStatement": return this.LocalFunctionStatementServiceProvider;
     			case "LocalDeclarationStatement": return this.LocalDeclarationStatementServiceProvider;
@@ -197,48 +244,6 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			case "CasePatternSwitchLabel": return this.CasePatternSwitchLabelServiceProvider;
     			case "CaseSwitchLabel": return this.CaseSwitchLabelServiceProvider;
     			case "DefaultSwitchLabel": return this.DefaultSwitchLabelServiceProvider;
-    			case "SimpleBaseType": return this.SimpleBaseTypeServiceProvider;
-    			case "ConstructorConstraint": return this.ConstructorConstraintServiceProvider;
-    			case "ClassOrStructConstraint": return this.ClassOrStructConstraintServiceProvider;
-    			case "TypeConstraint": return this.TypeConstraintServiceProvider;
-    			case "ParameterList": return this.ParameterListServiceProvider;
-    			case "BracketedParameterList": return this.BracketedParameterListServiceProvider;
-    			case "SkippedTokensTrivia": return this.SkippedTokensTriviaServiceProvider;
-    			case "DocumentationCommentTrivia": return this.DocumentationCommentTriviaServiceProvider;
-    			case "EndIfDirectiveTrivia": return this.EndIfDirectiveTriviaServiceProvider;
-    			case "RegionDirectiveTrivia": return this.RegionDirectiveTriviaServiceProvider;
-    			case "EndRegionDirectiveTrivia": return this.EndRegionDirectiveTriviaServiceProvider;
-    			case "ErrorDirectiveTrivia": return this.ErrorDirectiveTriviaServiceProvider;
-    			case "WarningDirectiveTrivia": return this.WarningDirectiveTriviaServiceProvider;
-    			case "BadDirectiveTrivia": return this.BadDirectiveTriviaServiceProvider;
-    			case "DefineDirectiveTrivia": return this.DefineDirectiveTriviaServiceProvider;
-    			case "UndefDirectiveTrivia": return this.UndefDirectiveTriviaServiceProvider;
-    			case "LineDirectiveTrivia": return this.LineDirectiveTriviaServiceProvider;
-    			case "PragmaWarningDirectiveTrivia": return this.PragmaWarningDirectiveTriviaServiceProvider;
-    			case "PragmaChecksumDirectiveTrivia": return this.PragmaChecksumDirectiveTriviaServiceProvider;
-    			case "ReferenceDirectiveTrivia": return this.ReferenceDirectiveTriviaServiceProvider;
-    			case "LoadDirectiveTrivia": return this.LoadDirectiveTriviaServiceProvider;
-    			case "ShebangDirectiveTrivia": return this.ShebangDirectiveTriviaServiceProvider;
-    			case "ElseDirectiveTrivia": return this.ElseDirectiveTriviaServiceProvider;
-    			case "IfDirectiveTrivia": return this.IfDirectiveTriviaServiceProvider;
-    			case "ElifDirectiveTrivia": return this.ElifDirectiveTriviaServiceProvider;
-    			case "TypeCref": return this.TypeCrefServiceProvider;
-    			case "QualifiedCref": return this.QualifiedCrefServiceProvider;
-    			case "NameMemberCref": return this.NameMemberCrefServiceProvider;
-    			case "IndexerMemberCref": return this.IndexerMemberCrefServiceProvider;
-    			case "OperatorMemberCref": return this.OperatorMemberCrefServiceProvider;
-    			case "ConversionOperatorMemberCref": return this.ConversionOperatorMemberCrefServiceProvider;
-    			case "CrefParameterList": return this.CrefParameterListServiceProvider;
-    			case "CrefBracketedParameterList": return this.CrefBracketedParameterListServiceProvider;
-    			case "XmlElement": return this.XmlElementServiceProvider;
-    			case "XmlEmptyElement": return this.XmlEmptyElementServiceProvider;
-    			case "XmlText": return this.XmlTextServiceProvider;
-    			case "XmlCDataSection": return this.XmlCDataSectionServiceProvider;
-    			case "XmlProcessingInstruction": return this.XmlProcessingInstructionServiceProvider;
-    			case "XmlComment": return this.XmlCommentServiceProvider;
-    			case "XmlTextAttribute": return this.XmlTextAttributeServiceProvider;
-    			case "XmlCrefAttribute": return this.XmlCrefAttributeServiceProvider;
-    			case "XmlNameAttribute": return this.XmlNameAttributeServiceProvider;
     			default: return null;//throw new ArgumentException(nameof(type));
     		}
     	}
@@ -253,6 +258,27 @@ namespace Jawilliam.CDF.CSharp.Awareness
     	{
     		switch(type)
     		{
+    			case SyntaxKind.AttributeArgument: return this.AttributeArgumentServiceProvider;
+    			case SyntaxKind.NameEquals: return this.NameEqualsServiceProvider;
+    			case SyntaxKind.TypeParameterList: return this.TypeParameterListServiceProvider;
+    			case SyntaxKind.TypeParameter: return this.TypeParameterServiceProvider;
+    			case SyntaxKind.BaseList: return this.BaseListServiceProvider;
+    			case SyntaxKind.TypeParameterConstraintClause: return this.TypeParameterConstraintClauseServiceProvider;
+    			case SyntaxKind.ExplicitInterfaceSpecifier: return this.ExplicitInterfaceSpecifierServiceProvider;
+    			case SyntaxKind.BaseConstructorInitializer:
+    			case SyntaxKind.ThisConstructorInitializer: return this.ConstructorInitializerServiceProvider;
+    			case SyntaxKind.ArrowExpressionClause: return this.ArrowExpressionClauseServiceProvider;
+    			case SyntaxKind.AccessorList: return this.AccessorListServiceProvider;
+    			case SyntaxKind.AddAccessorDeclaration:
+    			case SyntaxKind.RemoveAccessorDeclaration:
+    			case SyntaxKind.GetAccessorDeclaration:
+    			case SyntaxKind.SetAccessorDeclaration: return this.AccessorDeclarationServiceProvider;
+    			case SyntaxKind.Parameter: return this.ParameterServiceProvider;
+    			case SyntaxKind.CrefParameter: return this.CrefParameterServiceProvider;
+    			case SyntaxKind.XmlElementStartTag: return this.XmlElementStartTagServiceProvider;
+    			case SyntaxKind.XmlElementEndTag: return this.XmlElementEndTagServiceProvider;
+    			case SyntaxKind.XmlName: return this.XmlNameServiceProvider;
+    			case SyntaxKind.XmlPrefix: return this.XmlPrefixServiceProvider;
     			case SyntaxKind.TypeArgumentList: return this.TypeArgumentListServiceProvider;
     			case SyntaxKind.ArrayRankSpecifier: return this.ArrayRankSpecifierServiceProvider;
     			case SyntaxKind.TupleElement: return this.TupleElementServiceProvider;
@@ -283,27 +309,69 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			case SyntaxKind.AttributeTargetSpecifier: return this.AttributeTargetSpecifierServiceProvider;
     			case SyntaxKind.Attribute: return this.AttributeServiceProvider;
     			case SyntaxKind.AttributeArgumentList: return this.AttributeArgumentListServiceProvider;
-    			case SyntaxKind.AttributeArgument: return this.AttributeArgumentServiceProvider;
-    			case SyntaxKind.NameEquals: return this.NameEqualsServiceProvider;
-    			case SyntaxKind.TypeParameterList: return this.TypeParameterListServiceProvider;
-    			case SyntaxKind.TypeParameter: return this.TypeParameterServiceProvider;
-    			case SyntaxKind.BaseList: return this.BaseListServiceProvider;
-    			case SyntaxKind.TypeParameterConstraintClause: return this.TypeParameterConstraintClauseServiceProvider;
-    			case SyntaxKind.ExplicitInterfaceSpecifier: return this.ExplicitInterfaceSpecifierServiceProvider;
-    			case SyntaxKind.BaseConstructorInitializer:
-    			case SyntaxKind.ThisConstructorInitializer: return this.ConstructorInitializerServiceProvider;
-    			case SyntaxKind.ArrowExpressionClause: return this.ArrowExpressionClauseServiceProvider;
-    			case SyntaxKind.AccessorList: return this.AccessorListServiceProvider;
-    			case SyntaxKind.AddAccessorDeclaration:
-    			case SyntaxKind.RemoveAccessorDeclaration:
-    			case SyntaxKind.GetAccessorDeclaration:
-    			case SyntaxKind.SetAccessorDeclaration: return this.AccessorDeclarationServiceProvider;
-    			case SyntaxKind.Parameter: return this.ParameterServiceProvider;
-    			case SyntaxKind.CrefParameter: return this.CrefParameterServiceProvider;
-    			case SyntaxKind.XmlElementStartTag: return this.XmlElementStartTagServiceProvider;
-    			case SyntaxKind.XmlElementEndTag: return this.XmlElementEndTagServiceProvider;
-    			case SyntaxKind.XmlName: return this.XmlNameServiceProvider;
-    			case SyntaxKind.XmlPrefix: return this.XmlPrefixServiceProvider;
+    			case SyntaxKind.DelegateDeclaration: return this.DelegateDeclarationServiceProvider;
+    			case SyntaxKind.EnumMemberDeclaration: return this.EnumMemberDeclarationServiceProvider;
+    			case SyntaxKind.IncompleteMember: return this.IncompleteMemberServiceProvider;
+    			case SyntaxKind.GlobalStatement: return this.GlobalStatementServiceProvider;
+    			case SyntaxKind.NamespaceDeclaration: return this.NamespaceDeclarationServiceProvider;
+    			case SyntaxKind.EnumDeclaration: return this.EnumDeclarationServiceProvider;
+    			case SyntaxKind.ClassDeclaration: return this.ClassDeclarationServiceProvider;
+    			case SyntaxKind.StructDeclaration: return this.StructDeclarationServiceProvider;
+    			case SyntaxKind.InterfaceDeclaration: return this.InterfaceDeclarationServiceProvider;
+    			case SyntaxKind.FieldDeclaration: return this.FieldDeclarationServiceProvider;
+    			case SyntaxKind.EventFieldDeclaration: return this.EventFieldDeclarationServiceProvider;
+    			case SyntaxKind.MethodDeclaration: return this.MethodDeclarationServiceProvider;
+    			case SyntaxKind.OperatorDeclaration: return this.OperatorDeclarationServiceProvider;
+    			case SyntaxKind.ConversionOperatorDeclaration: return this.ConversionOperatorDeclarationServiceProvider;
+    			case SyntaxKind.ConstructorDeclaration: return this.ConstructorDeclarationServiceProvider;
+    			case SyntaxKind.DestructorDeclaration: return this.DestructorDeclarationServiceProvider;
+    			case SyntaxKind.PropertyDeclaration: return this.PropertyDeclarationServiceProvider;
+    			case SyntaxKind.EventDeclaration: return this.EventDeclarationServiceProvider;
+    			case SyntaxKind.IndexerDeclaration: return this.IndexerDeclarationServiceProvider;
+    			case SyntaxKind.SimpleBaseType: return this.SimpleBaseTypeServiceProvider;
+    			case SyntaxKind.ConstructorConstraint: return this.ConstructorConstraintServiceProvider;
+    			case SyntaxKind.ClassConstraint:
+    			case SyntaxKind.StructConstraint: return this.ClassOrStructConstraintServiceProvider;
+    			case SyntaxKind.TypeConstraint: return this.TypeConstraintServiceProvider;
+    			case SyntaxKind.ParameterList: return this.ParameterListServiceProvider;
+    			case SyntaxKind.BracketedParameterList: return this.BracketedParameterListServiceProvider;
+    			case SyntaxKind.SkippedTokensTrivia: return this.SkippedTokensTriviaServiceProvider;
+    			case SyntaxKind.SingleLineDocumentationCommentTrivia:
+    			case SyntaxKind.MultiLineDocumentationCommentTrivia:  return this.DocumentationCommentTriviaServiceProvider;
+    			case SyntaxKind.EndIfDirectiveTrivia: return this.EndIfDirectiveTriviaServiceProvider;
+    			case SyntaxKind.RegionDirectiveTrivia: return this.RegionDirectiveTriviaServiceProvider;
+    			case SyntaxKind.EndRegionDirectiveTrivia: return this.EndRegionDirectiveTriviaServiceProvider;
+    			case SyntaxKind.ErrorDirectiveTrivia: return this.ErrorDirectiveTriviaServiceProvider;
+    			case SyntaxKind.WarningDirectiveTrivia: return this.WarningDirectiveTriviaServiceProvider;
+    			case SyntaxKind.BadDirectiveTrivia: return this.BadDirectiveTriviaServiceProvider;
+    			case SyntaxKind.DefineDirectiveTrivia: return this.DefineDirectiveTriviaServiceProvider;
+    			case SyntaxKind.UndefDirectiveTrivia: return this.UndefDirectiveTriviaServiceProvider;
+    			case SyntaxKind.LineDirectiveTrivia: return this.LineDirectiveTriviaServiceProvider;
+    			case SyntaxKind.PragmaWarningDirectiveTrivia: return this.PragmaWarningDirectiveTriviaServiceProvider;
+    			case SyntaxKind.PragmaChecksumDirectiveTrivia: return this.PragmaChecksumDirectiveTriviaServiceProvider;
+    			case SyntaxKind.ReferenceDirectiveTrivia: return this.ReferenceDirectiveTriviaServiceProvider;
+    			case SyntaxKind.LoadDirectiveTrivia: return this.LoadDirectiveTriviaServiceProvider;
+    			case SyntaxKind.ShebangDirectiveTrivia: return this.ShebangDirectiveTriviaServiceProvider;
+    			case SyntaxKind.ElseDirectiveTrivia: return this.ElseDirectiveTriviaServiceProvider;
+    			case SyntaxKind.IfDirectiveTrivia: return this.IfDirectiveTriviaServiceProvider;
+    			case SyntaxKind.ElifDirectiveTrivia: return this.ElifDirectiveTriviaServiceProvider;
+    			case SyntaxKind.TypeCref: return this.TypeCrefServiceProvider;
+    			case SyntaxKind.QualifiedCref: return this.QualifiedCrefServiceProvider;
+    			case SyntaxKind.NameMemberCref: return this.NameMemberCrefServiceProvider;
+    			case SyntaxKind.IndexerMemberCref: return this.IndexerMemberCrefServiceProvider;
+    			case SyntaxKind.OperatorMemberCref: return this.OperatorMemberCrefServiceProvider;
+    			case SyntaxKind.ConversionOperatorMemberCref: return this.ConversionOperatorMemberCrefServiceProvider;
+    			case SyntaxKind.CrefParameterList: return this.CrefParameterListServiceProvider;
+    			case SyntaxKind.CrefBracketedParameterList: return this.CrefBracketedParameterListServiceProvider;
+    			case SyntaxKind.XmlElement: return this.XmlElementServiceProvider;
+    			case SyntaxKind.XmlEmptyElement: return this.XmlEmptyElementServiceProvider;
+    			case SyntaxKind.XmlText: return this.XmlTextServiceProvider;
+    			case SyntaxKind.XmlCDataSection: return this.XmlCDataSectionServiceProvider;
+    			case SyntaxKind.XmlProcessingInstruction: return this.XmlProcessingInstructionServiceProvider;
+    			case SyntaxKind.XmlComment: return this.XmlCommentServiceProvider;
+    			case SyntaxKind.XmlTextAttribute: return this.XmlTextAttributeServiceProvider;
+    			case SyntaxKind.XmlCrefAttribute: return this.XmlCrefAttributeServiceProvider;
+    			case SyntaxKind.XmlNameAttribute: return this.XmlNameAttributeServiceProvider;
     			case SyntaxKind.ParenthesizedExpression: return this.ParenthesizedExpressionServiceProvider;
     			case SyntaxKind.TupleExpression: return this.TupleExpressionServiceProvider;
     			case SyntaxKind.UnaryPlusExpression:
@@ -418,25 +486,6 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			case SyntaxKind.ConstantPattern: return this.ConstantPatternServiceProvider;
     			case SyntaxKind.InterpolatedStringText: return this.InterpolatedStringTextServiceProvider;
     			case SyntaxKind.Interpolation: return this.InterpolationServiceProvider;
-    			case SyntaxKind.GlobalStatement: return this.GlobalStatementServiceProvider;
-    			case SyntaxKind.NamespaceDeclaration: return this.NamespaceDeclarationServiceProvider;
-    			case SyntaxKind.DelegateDeclaration: return this.DelegateDeclarationServiceProvider;
-    			case SyntaxKind.EnumMemberDeclaration: return this.EnumMemberDeclarationServiceProvider;
-    			case SyntaxKind.IncompleteMember: return this.IncompleteMemberServiceProvider;
-    			case SyntaxKind.EnumDeclaration: return this.EnumDeclarationServiceProvider;
-    			case SyntaxKind.ClassDeclaration: return this.ClassDeclarationServiceProvider;
-    			case SyntaxKind.StructDeclaration: return this.StructDeclarationServiceProvider;
-    			case SyntaxKind.InterfaceDeclaration: return this.InterfaceDeclarationServiceProvider;
-    			case SyntaxKind.FieldDeclaration: return this.FieldDeclarationServiceProvider;
-    			case SyntaxKind.EventFieldDeclaration: return this.EventFieldDeclarationServiceProvider;
-    			case SyntaxKind.MethodDeclaration: return this.MethodDeclarationServiceProvider;
-    			case SyntaxKind.OperatorDeclaration: return this.OperatorDeclarationServiceProvider;
-    			case SyntaxKind.ConversionOperatorDeclaration: return this.ConversionOperatorDeclarationServiceProvider;
-    			case SyntaxKind.ConstructorDeclaration: return this.ConstructorDeclarationServiceProvider;
-    			case SyntaxKind.DestructorDeclaration: return this.DestructorDeclarationServiceProvider;
-    			case SyntaxKind.PropertyDeclaration: return this.PropertyDeclarationServiceProvider;
-    			case SyntaxKind.EventDeclaration: return this.EventDeclarationServiceProvider;
-    			case SyntaxKind.IndexerDeclaration: return this.IndexerDeclarationServiceProvider;
     			case SyntaxKind.Block: return this.BlockServiceProvider;
     			case SyntaxKind.LocalFunctionStatement: return this.LocalFunctionStatementServiceProvider;
     			case SyntaxKind.LocalDeclarationStatement: return this.LocalDeclarationStatementServiceProvider;
@@ -469,50 +518,6 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			case SyntaxKind.CasePatternSwitchLabel: return this.CasePatternSwitchLabelServiceProvider;
     			case SyntaxKind.CaseSwitchLabel: return this.CaseSwitchLabelServiceProvider;
     			case SyntaxKind.DefaultSwitchLabel: return this.DefaultSwitchLabelServiceProvider;
-    			case SyntaxKind.SimpleBaseType: return this.SimpleBaseTypeServiceProvider;
-    			case SyntaxKind.ConstructorConstraint: return this.ConstructorConstraintServiceProvider;
-    			case SyntaxKind.ClassConstraint:
-    			case SyntaxKind.StructConstraint: return this.ClassOrStructConstraintServiceProvider;
-    			case SyntaxKind.TypeConstraint: return this.TypeConstraintServiceProvider;
-    			case SyntaxKind.ParameterList: return this.ParameterListServiceProvider;
-    			case SyntaxKind.BracketedParameterList: return this.BracketedParameterListServiceProvider;
-    			case SyntaxKind.SkippedTokensTrivia: return this.SkippedTokensTriviaServiceProvider;
-    			case SyntaxKind.SingleLineDocumentationCommentTrivia:
-    			case SyntaxKind.MultiLineDocumentationCommentTrivia:  return this.DocumentationCommentTriviaServiceProvider;
-    			case SyntaxKind.EndIfDirectiveTrivia: return this.EndIfDirectiveTriviaServiceProvider;
-    			case SyntaxKind.RegionDirectiveTrivia: return this.RegionDirectiveTriviaServiceProvider;
-    			case SyntaxKind.EndRegionDirectiveTrivia: return this.EndRegionDirectiveTriviaServiceProvider;
-    			case SyntaxKind.ErrorDirectiveTrivia: return this.ErrorDirectiveTriviaServiceProvider;
-    			case SyntaxKind.WarningDirectiveTrivia: return this.WarningDirectiveTriviaServiceProvider;
-    			case SyntaxKind.BadDirectiveTrivia: return this.BadDirectiveTriviaServiceProvider;
-    			case SyntaxKind.DefineDirectiveTrivia: return this.DefineDirectiveTriviaServiceProvider;
-    			case SyntaxKind.UndefDirectiveTrivia: return this.UndefDirectiveTriviaServiceProvider;
-    			case SyntaxKind.LineDirectiveTrivia: return this.LineDirectiveTriviaServiceProvider;
-    			case SyntaxKind.PragmaWarningDirectiveTrivia: return this.PragmaWarningDirectiveTriviaServiceProvider;
-    			case SyntaxKind.PragmaChecksumDirectiveTrivia: return this.PragmaChecksumDirectiveTriviaServiceProvider;
-    			case SyntaxKind.ReferenceDirectiveTrivia: return this.ReferenceDirectiveTriviaServiceProvider;
-    			case SyntaxKind.LoadDirectiveTrivia: return this.LoadDirectiveTriviaServiceProvider;
-    			case SyntaxKind.ShebangDirectiveTrivia: return this.ShebangDirectiveTriviaServiceProvider;
-    			case SyntaxKind.ElseDirectiveTrivia: return this.ElseDirectiveTriviaServiceProvider;
-    			case SyntaxKind.IfDirectiveTrivia: return this.IfDirectiveTriviaServiceProvider;
-    			case SyntaxKind.ElifDirectiveTrivia: return this.ElifDirectiveTriviaServiceProvider;
-    			case SyntaxKind.TypeCref: return this.TypeCrefServiceProvider;
-    			case SyntaxKind.QualifiedCref: return this.QualifiedCrefServiceProvider;
-    			case SyntaxKind.NameMemberCref: return this.NameMemberCrefServiceProvider;
-    			case SyntaxKind.IndexerMemberCref: return this.IndexerMemberCrefServiceProvider;
-    			case SyntaxKind.OperatorMemberCref: return this.OperatorMemberCrefServiceProvider;
-    			case SyntaxKind.ConversionOperatorMemberCref: return this.ConversionOperatorMemberCrefServiceProvider;
-    			case SyntaxKind.CrefParameterList: return this.CrefParameterListServiceProvider;
-    			case SyntaxKind.CrefBracketedParameterList: return this.CrefBracketedParameterListServiceProvider;
-    			case SyntaxKind.XmlElement: return this.XmlElementServiceProvider;
-    			case SyntaxKind.XmlEmptyElement: return this.XmlEmptyElementServiceProvider;
-    			case SyntaxKind.XmlText: return this.XmlTextServiceProvider;
-    			case SyntaxKind.XmlCDataSection: return this.XmlCDataSectionServiceProvider;
-    			case SyntaxKind.XmlProcessingInstruction: return this.XmlProcessingInstructionServiceProvider;
-    			case SyntaxKind.XmlComment: return this.XmlCommentServiceProvider;
-    			case SyntaxKind.XmlTextAttribute: return this.XmlTextAttributeServiceProvider;
-    			case SyntaxKind.XmlCrefAttribute: return this.XmlCrefAttributeServiceProvider;
-    			case SyntaxKind.XmlNameAttribute: return this.XmlNameAttributeServiceProvider;
     			default: throw new ArgumentException(nameof(type));
     		}
     	}
@@ -553,6 +558,176 @@ namespace Jawilliam.CDF.CSharp.Awareness
             set => _syntaxTokenServiceProvider = value;
         }
         private SyntaxTokenServiceProvider _syntaxTokenServiceProvider;
+    
+    	/// <summary>
+        /// Provides language-specific information about the "AttributeArgument" type.
+        /// </summary>
+    	public virtual AttributeArgumentServiceProvider AttributeArgumentServiceProvider
+    	{
+    		get => _attributeArgumentServiceProvider ?? (_attributeArgumentServiceProvider = new AttributeArgumentServiceProvider(this));
+    		set => _attributeArgumentServiceProvider = value;
+    	}
+    	private AttributeArgumentServiceProvider _attributeArgumentServiceProvider;
+    
+    	/// <summary>
+        /// Provides language-specific information about the "NameEquals" type.
+        /// </summary>
+    	public virtual NameEqualsServiceProvider NameEqualsServiceProvider
+    	{
+    		get => _nameEqualsServiceProvider ?? (_nameEqualsServiceProvider = new NameEqualsServiceProvider(this));
+    		set => _nameEqualsServiceProvider = value;
+    	}
+    	private NameEqualsServiceProvider _nameEqualsServiceProvider;
+    
+    	/// <summary>
+        /// Provides language-specific information about the "TypeParameterList" type.
+        /// </summary>
+    	public virtual TypeParameterListServiceProvider TypeParameterListServiceProvider
+    	{
+    		get => _typeParameterListServiceProvider ?? (_typeParameterListServiceProvider = new TypeParameterListServiceProvider(this));
+    		set => _typeParameterListServiceProvider = value;
+    	}
+    	private TypeParameterListServiceProvider _typeParameterListServiceProvider;
+    
+    	/// <summary>
+        /// Provides language-specific information about the "TypeParameter" type.
+        /// </summary>
+    	public virtual TypeParameterServiceProvider TypeParameterServiceProvider
+    	{
+    		get => _typeParameterServiceProvider ?? (_typeParameterServiceProvider = new TypeParameterServiceProvider(this));
+    		set => _typeParameterServiceProvider = value;
+    	}
+    	private TypeParameterServiceProvider _typeParameterServiceProvider;
+    
+    	/// <summary>
+        /// Provides language-specific information about the "BaseList" type.
+        /// </summary>
+    	public virtual BaseListServiceProvider BaseListServiceProvider
+    	{
+    		get => _baseListServiceProvider ?? (_baseListServiceProvider = new BaseListServiceProvider(this));
+    		set => _baseListServiceProvider = value;
+    	}
+    	private BaseListServiceProvider _baseListServiceProvider;
+    
+    	/// <summary>
+        /// Provides language-specific information about the "TypeParameterConstraintClause" type.
+        /// </summary>
+    	public virtual TypeParameterConstraintClauseServiceProvider TypeParameterConstraintClauseServiceProvider
+    	{
+    		get => _typeParameterConstraintClauseServiceProvider ?? (_typeParameterConstraintClauseServiceProvider = new TypeParameterConstraintClauseServiceProvider(this));
+    		set => _typeParameterConstraintClauseServiceProvider = value;
+    	}
+    	private TypeParameterConstraintClauseServiceProvider _typeParameterConstraintClauseServiceProvider;
+    
+    	/// <summary>
+        /// Provides language-specific information about the "ExplicitInterfaceSpecifier" type.
+        /// </summary>
+    	public virtual ExplicitInterfaceSpecifierServiceProvider ExplicitInterfaceSpecifierServiceProvider
+    	{
+    		get => _explicitInterfaceSpecifierServiceProvider ?? (_explicitInterfaceSpecifierServiceProvider = new ExplicitInterfaceSpecifierServiceProvider(this));
+    		set => _explicitInterfaceSpecifierServiceProvider = value;
+    	}
+    	private ExplicitInterfaceSpecifierServiceProvider _explicitInterfaceSpecifierServiceProvider;
+    
+    	/// <summary>
+        /// Provides language-specific information about the "ConstructorInitializer" type.
+        /// </summary>
+    	public virtual ConstructorInitializerServiceProvider ConstructorInitializerServiceProvider
+    	{
+    		get => _constructorInitializerServiceProvider ?? (_constructorInitializerServiceProvider = new ConstructorInitializerServiceProvider(this));
+    		set => _constructorInitializerServiceProvider = value;
+    	}
+    	private ConstructorInitializerServiceProvider _constructorInitializerServiceProvider;
+    
+    	/// <summary>
+        /// Provides language-specific information about the "ArrowExpressionClause" type.
+        /// </summary>
+    	public virtual ArrowExpressionClauseServiceProvider ArrowExpressionClauseServiceProvider
+    	{
+    		get => _arrowExpressionClauseServiceProvider ?? (_arrowExpressionClauseServiceProvider = new ArrowExpressionClauseServiceProvider(this));
+    		set => _arrowExpressionClauseServiceProvider = value;
+    	}
+    	private ArrowExpressionClauseServiceProvider _arrowExpressionClauseServiceProvider;
+    
+    	/// <summary>
+        /// Provides language-specific information about the "AccessorList" type.
+        /// </summary>
+    	public virtual AccessorListServiceProvider AccessorListServiceProvider
+    	{
+    		get => _accessorListServiceProvider ?? (_accessorListServiceProvider = new AccessorListServiceProvider(this));
+    		set => _accessorListServiceProvider = value;
+    	}
+    	private AccessorListServiceProvider _accessorListServiceProvider;
+    
+    	/// <summary>
+        /// Provides language-specific information about the "AccessorDeclaration" type.
+        /// </summary>
+    	public virtual AccessorDeclarationServiceProvider AccessorDeclarationServiceProvider
+    	{
+    		get => _accessorDeclarationServiceProvider ?? (_accessorDeclarationServiceProvider = new AccessorDeclarationServiceProvider(this));
+    		set => _accessorDeclarationServiceProvider = value;
+    	}
+    	private AccessorDeclarationServiceProvider _accessorDeclarationServiceProvider;
+    
+    	/// <summary>
+        /// Provides language-specific information about the "Parameter" type.
+        /// </summary>
+    	public virtual ParameterServiceProvider ParameterServiceProvider
+    	{
+    		get => _parameterServiceProvider ?? (_parameterServiceProvider = new ParameterServiceProvider(this));
+    		set => _parameterServiceProvider = value;
+    	}
+    	private ParameterServiceProvider _parameterServiceProvider;
+    
+    	/// <summary>
+        /// Provides language-specific information about the "CrefParameter" type.
+        /// </summary>
+    	public virtual CrefParameterServiceProvider CrefParameterServiceProvider
+    	{
+    		get => _crefParameterServiceProvider ?? (_crefParameterServiceProvider = new CrefParameterServiceProvider(this));
+    		set => _crefParameterServiceProvider = value;
+    	}
+    	private CrefParameterServiceProvider _crefParameterServiceProvider;
+    
+    	/// <summary>
+        /// Provides language-specific information about the "XmlElementStartTag" type.
+        /// </summary>
+    	public virtual XmlElementStartTagServiceProvider XmlElementStartTagServiceProvider
+    	{
+    		get => _xmlElementStartTagServiceProvider ?? (_xmlElementStartTagServiceProvider = new XmlElementStartTagServiceProvider(this));
+    		set => _xmlElementStartTagServiceProvider = value;
+    	}
+    	private XmlElementStartTagServiceProvider _xmlElementStartTagServiceProvider;
+    
+    	/// <summary>
+        /// Provides language-specific information about the "XmlElementEndTag" type.
+        /// </summary>
+    	public virtual XmlElementEndTagServiceProvider XmlElementEndTagServiceProvider
+    	{
+    		get => _xmlElementEndTagServiceProvider ?? (_xmlElementEndTagServiceProvider = new XmlElementEndTagServiceProvider(this));
+    		set => _xmlElementEndTagServiceProvider = value;
+    	}
+    	private XmlElementEndTagServiceProvider _xmlElementEndTagServiceProvider;
+    
+    	/// <summary>
+        /// Provides language-specific information about the "XmlName" type.
+        /// </summary>
+    	public virtual XmlNameServiceProvider XmlNameServiceProvider
+    	{
+    		get => _xmlNameServiceProvider ?? (_xmlNameServiceProvider = new XmlNameServiceProvider(this));
+    		set => _xmlNameServiceProvider = value;
+    	}
+    	private XmlNameServiceProvider _xmlNameServiceProvider;
+    
+    	/// <summary>
+        /// Provides language-specific information about the "XmlPrefix" type.
+        /// </summary>
+    	public virtual XmlPrefixServiceProvider XmlPrefixServiceProvider
+    	{
+    		get => _xmlPrefixServiceProvider ?? (_xmlPrefixServiceProvider = new XmlPrefixServiceProvider(this));
+    		set => _xmlPrefixServiceProvider = value;
+    	}
+    	private XmlPrefixServiceProvider _xmlPrefixServiceProvider;
     
     	/// <summary>
         /// Provides language-specific information about the "TypeArgumentList" type.
@@ -845,174 +1020,614 @@ namespace Jawilliam.CDF.CSharp.Awareness
     	private AttributeArgumentListServiceProvider _attributeArgumentListServiceProvider;
     
     	/// <summary>
-        /// Provides language-specific information about the "AttributeArgument" type.
+        /// Provides language-specific information about the "DelegateDeclaration" type.
         /// </summary>
-    	public virtual AttributeArgumentServiceProvider AttributeArgumentServiceProvider
+    	public virtual DelegateDeclarationServiceProvider DelegateDeclarationServiceProvider
     	{
-    		get => _attributeArgumentServiceProvider ?? (_attributeArgumentServiceProvider = new AttributeArgumentServiceProvider(this));
-    		set => _attributeArgumentServiceProvider = value;
+    		get => _delegateDeclarationServiceProvider ?? (_delegateDeclarationServiceProvider = new DelegateDeclarationServiceProvider(this));
+    		set => _delegateDeclarationServiceProvider = value;
     	}
-    	private AttributeArgumentServiceProvider _attributeArgumentServiceProvider;
+    	private DelegateDeclarationServiceProvider _delegateDeclarationServiceProvider;
     
     	/// <summary>
-        /// Provides language-specific information about the "NameEquals" type.
+        /// Provides language-specific information about the "EnumMemberDeclaration" type.
         /// </summary>
-    	public virtual NameEqualsServiceProvider NameEqualsServiceProvider
+    	public virtual EnumMemberDeclarationServiceProvider EnumMemberDeclarationServiceProvider
     	{
-    		get => _nameEqualsServiceProvider ?? (_nameEqualsServiceProvider = new NameEqualsServiceProvider(this));
-    		set => _nameEqualsServiceProvider = value;
+    		get => _enumMemberDeclarationServiceProvider ?? (_enumMemberDeclarationServiceProvider = new EnumMemberDeclarationServiceProvider(this));
+    		set => _enumMemberDeclarationServiceProvider = value;
     	}
-    	private NameEqualsServiceProvider _nameEqualsServiceProvider;
+    	private EnumMemberDeclarationServiceProvider _enumMemberDeclarationServiceProvider;
     
     	/// <summary>
-        /// Provides language-specific information about the "TypeParameterList" type.
+        /// Provides language-specific information about the "IncompleteMember" type.
         /// </summary>
-    	public virtual TypeParameterListServiceProvider TypeParameterListServiceProvider
+    	public virtual IncompleteMemberServiceProvider IncompleteMemberServiceProvider
     	{
-    		get => _typeParameterListServiceProvider ?? (_typeParameterListServiceProvider = new TypeParameterListServiceProvider(this));
-    		set => _typeParameterListServiceProvider = value;
+    		get => _incompleteMemberServiceProvider ?? (_incompleteMemberServiceProvider = new IncompleteMemberServiceProvider(this));
+    		set => _incompleteMemberServiceProvider = value;
     	}
-    	private TypeParameterListServiceProvider _typeParameterListServiceProvider;
+    	private IncompleteMemberServiceProvider _incompleteMemberServiceProvider;
     
     	/// <summary>
-        /// Provides language-specific information about the "TypeParameter" type.
+        /// Provides language-specific information about the "GlobalStatement" type.
         /// </summary>
-    	public virtual TypeParameterServiceProvider TypeParameterServiceProvider
+    	public virtual GlobalStatementServiceProvider GlobalStatementServiceProvider
     	{
-    		get => _typeParameterServiceProvider ?? (_typeParameterServiceProvider = new TypeParameterServiceProvider(this));
-    		set => _typeParameterServiceProvider = value;
+    		get => _globalStatementServiceProvider ?? (_globalStatementServiceProvider = new GlobalStatementServiceProvider(this));
+    		set => _globalStatementServiceProvider = value;
     	}
-    	private TypeParameterServiceProvider _typeParameterServiceProvider;
+    	private GlobalStatementServiceProvider _globalStatementServiceProvider;
     
     	/// <summary>
-        /// Provides language-specific information about the "BaseList" type.
+        /// Provides language-specific information about the "NamespaceDeclaration" type.
         /// </summary>
-    	public virtual BaseListServiceProvider BaseListServiceProvider
+    	public virtual NamespaceDeclarationServiceProvider NamespaceDeclarationServiceProvider
     	{
-    		get => _baseListServiceProvider ?? (_baseListServiceProvider = new BaseListServiceProvider(this));
-    		set => _baseListServiceProvider = value;
+    		get => _namespaceDeclarationServiceProvider ?? (_namespaceDeclarationServiceProvider = new NamespaceDeclarationServiceProvider(this));
+    		set => _namespaceDeclarationServiceProvider = value;
     	}
-    	private BaseListServiceProvider _baseListServiceProvider;
+    	private NamespaceDeclarationServiceProvider _namespaceDeclarationServiceProvider;
     
     	/// <summary>
-        /// Provides language-specific information about the "TypeParameterConstraintClause" type.
+        /// Provides language-specific information about the "EnumDeclaration" type.
         /// </summary>
-    	public virtual TypeParameterConstraintClauseServiceProvider TypeParameterConstraintClauseServiceProvider
+    	public virtual EnumDeclarationServiceProvider EnumDeclarationServiceProvider
     	{
-    		get => _typeParameterConstraintClauseServiceProvider ?? (_typeParameterConstraintClauseServiceProvider = new TypeParameterConstraintClauseServiceProvider(this));
-    		set => _typeParameterConstraintClauseServiceProvider = value;
+    		get => _enumDeclarationServiceProvider ?? (_enumDeclarationServiceProvider = new EnumDeclarationServiceProvider(this));
+    		set => _enumDeclarationServiceProvider = value;
     	}
-    	private TypeParameterConstraintClauseServiceProvider _typeParameterConstraintClauseServiceProvider;
+    	private EnumDeclarationServiceProvider _enumDeclarationServiceProvider;
     
     	/// <summary>
-        /// Provides language-specific information about the "ExplicitInterfaceSpecifier" type.
+        /// Provides language-specific information about the "ClassDeclaration" type.
         /// </summary>
-    	public virtual ExplicitInterfaceSpecifierServiceProvider ExplicitInterfaceSpecifierServiceProvider
+    	public virtual ClassDeclarationServiceProvider ClassDeclarationServiceProvider
     	{
-    		get => _explicitInterfaceSpecifierServiceProvider ?? (_explicitInterfaceSpecifierServiceProvider = new ExplicitInterfaceSpecifierServiceProvider(this));
-    		set => _explicitInterfaceSpecifierServiceProvider = value;
+    		get => _classDeclarationServiceProvider ?? (_classDeclarationServiceProvider = new ClassDeclarationServiceProvider(this));
+    		set => _classDeclarationServiceProvider = value;
     	}
-    	private ExplicitInterfaceSpecifierServiceProvider _explicitInterfaceSpecifierServiceProvider;
+    	private ClassDeclarationServiceProvider _classDeclarationServiceProvider;
     
     	/// <summary>
-        /// Provides language-specific information about the "ConstructorInitializer" type.
+        /// Provides language-specific information about the "StructDeclaration" type.
         /// </summary>
-    	public virtual ConstructorInitializerServiceProvider ConstructorInitializerServiceProvider
+    	public virtual StructDeclarationServiceProvider StructDeclarationServiceProvider
     	{
-    		get => _constructorInitializerServiceProvider ?? (_constructorInitializerServiceProvider = new ConstructorInitializerServiceProvider(this));
-    		set => _constructorInitializerServiceProvider = value;
+    		get => _structDeclarationServiceProvider ?? (_structDeclarationServiceProvider = new StructDeclarationServiceProvider(this));
+    		set => _structDeclarationServiceProvider = value;
     	}
-    	private ConstructorInitializerServiceProvider _constructorInitializerServiceProvider;
+    	private StructDeclarationServiceProvider _structDeclarationServiceProvider;
     
     	/// <summary>
-        /// Provides language-specific information about the "ArrowExpressionClause" type.
+        /// Provides language-specific information about the "InterfaceDeclaration" type.
         /// </summary>
-    	public virtual ArrowExpressionClauseServiceProvider ArrowExpressionClauseServiceProvider
+    	public virtual InterfaceDeclarationServiceProvider InterfaceDeclarationServiceProvider
     	{
-    		get => _arrowExpressionClauseServiceProvider ?? (_arrowExpressionClauseServiceProvider = new ArrowExpressionClauseServiceProvider(this));
-    		set => _arrowExpressionClauseServiceProvider = value;
+    		get => _interfaceDeclarationServiceProvider ?? (_interfaceDeclarationServiceProvider = new InterfaceDeclarationServiceProvider(this));
+    		set => _interfaceDeclarationServiceProvider = value;
     	}
-    	private ArrowExpressionClauseServiceProvider _arrowExpressionClauseServiceProvider;
+    	private InterfaceDeclarationServiceProvider _interfaceDeclarationServiceProvider;
     
     	/// <summary>
-        /// Provides language-specific information about the "AccessorList" type.
+        /// Provides language-specific information about the "FieldDeclaration" type.
         /// </summary>
-    	public virtual AccessorListServiceProvider AccessorListServiceProvider
+    	public virtual FieldDeclarationServiceProvider FieldDeclarationServiceProvider
     	{
-    		get => _accessorListServiceProvider ?? (_accessorListServiceProvider = new AccessorListServiceProvider(this));
-    		set => _accessorListServiceProvider = value;
+    		get => _fieldDeclarationServiceProvider ?? (_fieldDeclarationServiceProvider = new FieldDeclarationServiceProvider(this));
+    		set => _fieldDeclarationServiceProvider = value;
     	}
-    	private AccessorListServiceProvider _accessorListServiceProvider;
+    	private FieldDeclarationServiceProvider _fieldDeclarationServiceProvider;
     
     	/// <summary>
-        /// Provides language-specific information about the "AccessorDeclaration" type.
+        /// Provides language-specific information about the "EventFieldDeclaration" type.
         /// </summary>
-    	public virtual AccessorDeclarationServiceProvider AccessorDeclarationServiceProvider
+    	public virtual EventFieldDeclarationServiceProvider EventFieldDeclarationServiceProvider
     	{
-    		get => _accessorDeclarationServiceProvider ?? (_accessorDeclarationServiceProvider = new AccessorDeclarationServiceProvider(this));
-    		set => _accessorDeclarationServiceProvider = value;
+    		get => _eventFieldDeclarationServiceProvider ?? (_eventFieldDeclarationServiceProvider = new EventFieldDeclarationServiceProvider(this));
+    		set => _eventFieldDeclarationServiceProvider = value;
     	}
-    	private AccessorDeclarationServiceProvider _accessorDeclarationServiceProvider;
+    	private EventFieldDeclarationServiceProvider _eventFieldDeclarationServiceProvider;
     
     	/// <summary>
-        /// Provides language-specific information about the "Parameter" type.
+        /// Provides language-specific information about the "MethodDeclaration" type.
         /// </summary>
-    	public virtual ParameterServiceProvider ParameterServiceProvider
+    	public virtual MethodDeclarationServiceProvider MethodDeclarationServiceProvider
     	{
-    		get => _parameterServiceProvider ?? (_parameterServiceProvider = new ParameterServiceProvider(this));
-    		set => _parameterServiceProvider = value;
+    		get => _methodDeclarationServiceProvider ?? (_methodDeclarationServiceProvider = new MethodDeclarationServiceProvider(this));
+    		set => _methodDeclarationServiceProvider = value;
     	}
-    	private ParameterServiceProvider _parameterServiceProvider;
+    	private MethodDeclarationServiceProvider _methodDeclarationServiceProvider;
     
     	/// <summary>
-        /// Provides language-specific information about the "CrefParameter" type.
+        /// Provides language-specific information about the "OperatorDeclaration" type.
         /// </summary>
-    	public virtual CrefParameterServiceProvider CrefParameterServiceProvider
+    	public virtual OperatorDeclarationServiceProvider OperatorDeclarationServiceProvider
     	{
-    		get => _crefParameterServiceProvider ?? (_crefParameterServiceProvider = new CrefParameterServiceProvider(this));
-    		set => _crefParameterServiceProvider = value;
+    		get => _operatorDeclarationServiceProvider ?? (_operatorDeclarationServiceProvider = new OperatorDeclarationServiceProvider(this));
+    		set => _operatorDeclarationServiceProvider = value;
     	}
-    	private CrefParameterServiceProvider _crefParameterServiceProvider;
+    	private OperatorDeclarationServiceProvider _operatorDeclarationServiceProvider;
     
     	/// <summary>
-        /// Provides language-specific information about the "XmlElementStartTag" type.
+        /// Provides language-specific information about the "ConversionOperatorDeclaration" type.
         /// </summary>
-    	public virtual XmlElementStartTagServiceProvider XmlElementStartTagServiceProvider
+    	public virtual ConversionOperatorDeclarationServiceProvider ConversionOperatorDeclarationServiceProvider
     	{
-    		get => _xmlElementStartTagServiceProvider ?? (_xmlElementStartTagServiceProvider = new XmlElementStartTagServiceProvider(this));
-    		set => _xmlElementStartTagServiceProvider = value;
+    		get => _conversionOperatorDeclarationServiceProvider ?? (_conversionOperatorDeclarationServiceProvider = new ConversionOperatorDeclarationServiceProvider(this));
+    		set => _conversionOperatorDeclarationServiceProvider = value;
     	}
-    	private XmlElementStartTagServiceProvider _xmlElementStartTagServiceProvider;
+    	private ConversionOperatorDeclarationServiceProvider _conversionOperatorDeclarationServiceProvider;
     
     	/// <summary>
-        /// Provides language-specific information about the "XmlElementEndTag" type.
+        /// Provides language-specific information about the "ConstructorDeclaration" type.
         /// </summary>
-    	public virtual XmlElementEndTagServiceProvider XmlElementEndTagServiceProvider
+    	public virtual ConstructorDeclarationServiceProvider ConstructorDeclarationServiceProvider
     	{
-    		get => _xmlElementEndTagServiceProvider ?? (_xmlElementEndTagServiceProvider = new XmlElementEndTagServiceProvider(this));
-    		set => _xmlElementEndTagServiceProvider = value;
+    		get => _constructorDeclarationServiceProvider ?? (_constructorDeclarationServiceProvider = new ConstructorDeclarationServiceProvider(this));
+    		set => _constructorDeclarationServiceProvider = value;
     	}
-    	private XmlElementEndTagServiceProvider _xmlElementEndTagServiceProvider;
+    	private ConstructorDeclarationServiceProvider _constructorDeclarationServiceProvider;
     
     	/// <summary>
-        /// Provides language-specific information about the "XmlName" type.
+        /// Provides language-specific information about the "DestructorDeclaration" type.
         /// </summary>
-    	public virtual XmlNameServiceProvider XmlNameServiceProvider
+    	public virtual DestructorDeclarationServiceProvider DestructorDeclarationServiceProvider
     	{
-    		get => _xmlNameServiceProvider ?? (_xmlNameServiceProvider = new XmlNameServiceProvider(this));
-    		set => _xmlNameServiceProvider = value;
+    		get => _destructorDeclarationServiceProvider ?? (_destructorDeclarationServiceProvider = new DestructorDeclarationServiceProvider(this));
+    		set => _destructorDeclarationServiceProvider = value;
     	}
-    	private XmlNameServiceProvider _xmlNameServiceProvider;
+    	private DestructorDeclarationServiceProvider _destructorDeclarationServiceProvider;
     
     	/// <summary>
-        /// Provides language-specific information about the "XmlPrefix" type.
+        /// Provides language-specific information about the "PropertyDeclaration" type.
         /// </summary>
-    	public virtual XmlPrefixServiceProvider XmlPrefixServiceProvider
+    	public virtual PropertyDeclarationServiceProvider PropertyDeclarationServiceProvider
     	{
-    		get => _xmlPrefixServiceProvider ?? (_xmlPrefixServiceProvider = new XmlPrefixServiceProvider(this));
-    		set => _xmlPrefixServiceProvider = value;
+    		get => _propertyDeclarationServiceProvider ?? (_propertyDeclarationServiceProvider = new PropertyDeclarationServiceProvider(this));
+    		set => _propertyDeclarationServiceProvider = value;
     	}
-    	private XmlPrefixServiceProvider _xmlPrefixServiceProvider;
+    	private PropertyDeclarationServiceProvider _propertyDeclarationServiceProvider;
+    
+    	/// <summary>
+        /// Provides language-specific information about the "EventDeclaration" type.
+        /// </summary>
+    	public virtual EventDeclarationServiceProvider EventDeclarationServiceProvider
+    	{
+    		get => _eventDeclarationServiceProvider ?? (_eventDeclarationServiceProvider = new EventDeclarationServiceProvider(this));
+    		set => _eventDeclarationServiceProvider = value;
+    	}
+    	private EventDeclarationServiceProvider _eventDeclarationServiceProvider;
+    
+    	/// <summary>
+        /// Provides language-specific information about the "IndexerDeclaration" type.
+        /// </summary>
+    	public virtual IndexerDeclarationServiceProvider IndexerDeclarationServiceProvider
+    	{
+    		get => _indexerDeclarationServiceProvider ?? (_indexerDeclarationServiceProvider = new IndexerDeclarationServiceProvider(this));
+    		set => _indexerDeclarationServiceProvider = value;
+    	}
+    	private IndexerDeclarationServiceProvider _indexerDeclarationServiceProvider;
+    
+    	/// <summary>
+        /// Provides language-specific information about the "SimpleBaseType" type.
+        /// </summary>
+    	public virtual SimpleBaseTypeServiceProvider SimpleBaseTypeServiceProvider
+    	{
+    		get => _simpleBaseTypeServiceProvider ?? (_simpleBaseTypeServiceProvider = new SimpleBaseTypeServiceProvider(this));
+    		set => _simpleBaseTypeServiceProvider = value;
+    	}
+    	private SimpleBaseTypeServiceProvider _simpleBaseTypeServiceProvider;
+    
+    	/// <summary>
+        /// Provides language-specific information about the "ConstructorConstraint" type.
+        /// </summary>
+    	public virtual ConstructorConstraintServiceProvider ConstructorConstraintServiceProvider
+    	{
+    		get => _constructorConstraintServiceProvider ?? (_constructorConstraintServiceProvider = new ConstructorConstraintServiceProvider(this));
+    		set => _constructorConstraintServiceProvider = value;
+    	}
+    	private ConstructorConstraintServiceProvider _constructorConstraintServiceProvider;
+    
+    	/// <summary>
+        /// Provides language-specific information about the "ClassOrStructConstraint" type.
+        /// </summary>
+    	public virtual ClassOrStructConstraintServiceProvider ClassOrStructConstraintServiceProvider
+    	{
+    		get => _classOrStructConstraintServiceProvider ?? (_classOrStructConstraintServiceProvider = new ClassOrStructConstraintServiceProvider(this));
+    		set => _classOrStructConstraintServiceProvider = value;
+    	}
+    	private ClassOrStructConstraintServiceProvider _classOrStructConstraintServiceProvider;
+    
+    	/// <summary>
+        /// Provides language-specific information about the "TypeConstraint" type.
+        /// </summary>
+    	public virtual TypeConstraintServiceProvider TypeConstraintServiceProvider
+    	{
+    		get => _typeConstraintServiceProvider ?? (_typeConstraintServiceProvider = new TypeConstraintServiceProvider(this));
+    		set => _typeConstraintServiceProvider = value;
+    	}
+    	private TypeConstraintServiceProvider _typeConstraintServiceProvider;
+    
+    	/// <summary>
+        /// Provides language-specific information about the "ParameterList" type.
+        /// </summary>
+    	public virtual ParameterListServiceProvider ParameterListServiceProvider
+    	{
+    		get => _parameterListServiceProvider ?? (_parameterListServiceProvider = new ParameterListServiceProvider(this));
+    		set => _parameterListServiceProvider = value;
+    	}
+    	private ParameterListServiceProvider _parameterListServiceProvider;
+    
+    	/// <summary>
+        /// Provides language-specific information about the "BracketedParameterList" type.
+        /// </summary>
+    	public virtual BracketedParameterListServiceProvider BracketedParameterListServiceProvider
+    	{
+    		get => _bracketedParameterListServiceProvider ?? (_bracketedParameterListServiceProvider = new BracketedParameterListServiceProvider(this));
+    		set => _bracketedParameterListServiceProvider = value;
+    	}
+    	private BracketedParameterListServiceProvider _bracketedParameterListServiceProvider;
+    
+    	/// <summary>
+        /// Provides language-specific information about the "SkippedTokensTrivia" type.
+        /// </summary>
+    	public virtual SkippedTokensTriviaServiceProvider SkippedTokensTriviaServiceProvider
+    	{
+    		get => _skippedTokensTriviaServiceProvider ?? (_skippedTokensTriviaServiceProvider = new SkippedTokensTriviaServiceProvider(this));
+    		set => _skippedTokensTriviaServiceProvider = value;
+    	}
+    	private SkippedTokensTriviaServiceProvider _skippedTokensTriviaServiceProvider;
+    
+    	/// <summary>
+        /// Provides language-specific information about the "DocumentationCommentTrivia" type.
+        /// </summary>
+    	public virtual DocumentationCommentTriviaServiceProvider DocumentationCommentTriviaServiceProvider
+    	{
+    		get => _documentationCommentTriviaServiceProvider ?? (_documentationCommentTriviaServiceProvider = new DocumentationCommentTriviaServiceProvider(this));
+    		set => _documentationCommentTriviaServiceProvider = value;
+    	}
+    	private DocumentationCommentTriviaServiceProvider _documentationCommentTriviaServiceProvider;
+    
+    	/// <summary>
+        /// Provides language-specific information about the "EndIfDirectiveTrivia" type.
+        /// </summary>
+    	public virtual EndIfDirectiveTriviaServiceProvider EndIfDirectiveTriviaServiceProvider
+    	{
+    		get => _endIfDirectiveTriviaServiceProvider ?? (_endIfDirectiveTriviaServiceProvider = new EndIfDirectiveTriviaServiceProvider(this));
+    		set => _endIfDirectiveTriviaServiceProvider = value;
+    	}
+    	private EndIfDirectiveTriviaServiceProvider _endIfDirectiveTriviaServiceProvider;
+    
+    	/// <summary>
+        /// Provides language-specific information about the "RegionDirectiveTrivia" type.
+        /// </summary>
+    	public virtual RegionDirectiveTriviaServiceProvider RegionDirectiveTriviaServiceProvider
+    	{
+    		get => _regionDirectiveTriviaServiceProvider ?? (_regionDirectiveTriviaServiceProvider = new RegionDirectiveTriviaServiceProvider(this));
+    		set => _regionDirectiveTriviaServiceProvider = value;
+    	}
+    	private RegionDirectiveTriviaServiceProvider _regionDirectiveTriviaServiceProvider;
+    
+    	/// <summary>
+        /// Provides language-specific information about the "EndRegionDirectiveTrivia" type.
+        /// </summary>
+    	public virtual EndRegionDirectiveTriviaServiceProvider EndRegionDirectiveTriviaServiceProvider
+    	{
+    		get => _endRegionDirectiveTriviaServiceProvider ?? (_endRegionDirectiveTriviaServiceProvider = new EndRegionDirectiveTriviaServiceProvider(this));
+    		set => _endRegionDirectiveTriviaServiceProvider = value;
+    	}
+    	private EndRegionDirectiveTriviaServiceProvider _endRegionDirectiveTriviaServiceProvider;
+    
+    	/// <summary>
+        /// Provides language-specific information about the "ErrorDirectiveTrivia" type.
+        /// </summary>
+    	public virtual ErrorDirectiveTriviaServiceProvider ErrorDirectiveTriviaServiceProvider
+    	{
+    		get => _errorDirectiveTriviaServiceProvider ?? (_errorDirectiveTriviaServiceProvider = new ErrorDirectiveTriviaServiceProvider(this));
+    		set => _errorDirectiveTriviaServiceProvider = value;
+    	}
+    	private ErrorDirectiveTriviaServiceProvider _errorDirectiveTriviaServiceProvider;
+    
+    	/// <summary>
+        /// Provides language-specific information about the "WarningDirectiveTrivia" type.
+        /// </summary>
+    	public virtual WarningDirectiveTriviaServiceProvider WarningDirectiveTriviaServiceProvider
+    	{
+    		get => _warningDirectiveTriviaServiceProvider ?? (_warningDirectiveTriviaServiceProvider = new WarningDirectiveTriviaServiceProvider(this));
+    		set => _warningDirectiveTriviaServiceProvider = value;
+    	}
+    	private WarningDirectiveTriviaServiceProvider _warningDirectiveTriviaServiceProvider;
+    
+    	/// <summary>
+        /// Provides language-specific information about the "BadDirectiveTrivia" type.
+        /// </summary>
+    	public virtual BadDirectiveTriviaServiceProvider BadDirectiveTriviaServiceProvider
+    	{
+    		get => _badDirectiveTriviaServiceProvider ?? (_badDirectiveTriviaServiceProvider = new BadDirectiveTriviaServiceProvider(this));
+    		set => _badDirectiveTriviaServiceProvider = value;
+    	}
+    	private BadDirectiveTriviaServiceProvider _badDirectiveTriviaServiceProvider;
+    
+    	/// <summary>
+        /// Provides language-specific information about the "DefineDirectiveTrivia" type.
+        /// </summary>
+    	public virtual DefineDirectiveTriviaServiceProvider DefineDirectiveTriviaServiceProvider
+    	{
+    		get => _defineDirectiveTriviaServiceProvider ?? (_defineDirectiveTriviaServiceProvider = new DefineDirectiveTriviaServiceProvider(this));
+    		set => _defineDirectiveTriviaServiceProvider = value;
+    	}
+    	private DefineDirectiveTriviaServiceProvider _defineDirectiveTriviaServiceProvider;
+    
+    	/// <summary>
+        /// Provides language-specific information about the "UndefDirectiveTrivia" type.
+        /// </summary>
+    	public virtual UndefDirectiveTriviaServiceProvider UndefDirectiveTriviaServiceProvider
+    	{
+    		get => _undefDirectiveTriviaServiceProvider ?? (_undefDirectiveTriviaServiceProvider = new UndefDirectiveTriviaServiceProvider(this));
+    		set => _undefDirectiveTriviaServiceProvider = value;
+    	}
+    	private UndefDirectiveTriviaServiceProvider _undefDirectiveTriviaServiceProvider;
+    
+    	/// <summary>
+        /// Provides language-specific information about the "LineDirectiveTrivia" type.
+        /// </summary>
+    	public virtual LineDirectiveTriviaServiceProvider LineDirectiveTriviaServiceProvider
+    	{
+    		get => _lineDirectiveTriviaServiceProvider ?? (_lineDirectiveTriviaServiceProvider = new LineDirectiveTriviaServiceProvider(this));
+    		set => _lineDirectiveTriviaServiceProvider = value;
+    	}
+    	private LineDirectiveTriviaServiceProvider _lineDirectiveTriviaServiceProvider;
+    
+    	/// <summary>
+        /// Provides language-specific information about the "PragmaWarningDirectiveTrivia" type.
+        /// </summary>
+    	public virtual PragmaWarningDirectiveTriviaServiceProvider PragmaWarningDirectiveTriviaServiceProvider
+    	{
+    		get => _pragmaWarningDirectiveTriviaServiceProvider ?? (_pragmaWarningDirectiveTriviaServiceProvider = new PragmaWarningDirectiveTriviaServiceProvider(this));
+    		set => _pragmaWarningDirectiveTriviaServiceProvider = value;
+    	}
+    	private PragmaWarningDirectiveTriviaServiceProvider _pragmaWarningDirectiveTriviaServiceProvider;
+    
+    	/// <summary>
+        /// Provides language-specific information about the "PragmaChecksumDirectiveTrivia" type.
+        /// </summary>
+    	public virtual PragmaChecksumDirectiveTriviaServiceProvider PragmaChecksumDirectiveTriviaServiceProvider
+    	{
+    		get => _pragmaChecksumDirectiveTriviaServiceProvider ?? (_pragmaChecksumDirectiveTriviaServiceProvider = new PragmaChecksumDirectiveTriviaServiceProvider(this));
+    		set => _pragmaChecksumDirectiveTriviaServiceProvider = value;
+    	}
+    	private PragmaChecksumDirectiveTriviaServiceProvider _pragmaChecksumDirectiveTriviaServiceProvider;
+    
+    	/// <summary>
+        /// Provides language-specific information about the "ReferenceDirectiveTrivia" type.
+        /// </summary>
+    	public virtual ReferenceDirectiveTriviaServiceProvider ReferenceDirectiveTriviaServiceProvider
+    	{
+    		get => _referenceDirectiveTriviaServiceProvider ?? (_referenceDirectiveTriviaServiceProvider = new ReferenceDirectiveTriviaServiceProvider(this));
+    		set => _referenceDirectiveTriviaServiceProvider = value;
+    	}
+    	private ReferenceDirectiveTriviaServiceProvider _referenceDirectiveTriviaServiceProvider;
+    
+    	/// <summary>
+        /// Provides language-specific information about the "LoadDirectiveTrivia" type.
+        /// </summary>
+    	public virtual LoadDirectiveTriviaServiceProvider LoadDirectiveTriviaServiceProvider
+    	{
+    		get => _loadDirectiveTriviaServiceProvider ?? (_loadDirectiveTriviaServiceProvider = new LoadDirectiveTriviaServiceProvider(this));
+    		set => _loadDirectiveTriviaServiceProvider = value;
+    	}
+    	private LoadDirectiveTriviaServiceProvider _loadDirectiveTriviaServiceProvider;
+    
+    	/// <summary>
+        /// Provides language-specific information about the "ShebangDirectiveTrivia" type.
+        /// </summary>
+    	public virtual ShebangDirectiveTriviaServiceProvider ShebangDirectiveTriviaServiceProvider
+    	{
+    		get => _shebangDirectiveTriviaServiceProvider ?? (_shebangDirectiveTriviaServiceProvider = new ShebangDirectiveTriviaServiceProvider(this));
+    		set => _shebangDirectiveTriviaServiceProvider = value;
+    	}
+    	private ShebangDirectiveTriviaServiceProvider _shebangDirectiveTriviaServiceProvider;
+    
+    	/// <summary>
+        /// Provides language-specific information about the "ElseDirectiveTrivia" type.
+        /// </summary>
+    	public virtual ElseDirectiveTriviaServiceProvider ElseDirectiveTriviaServiceProvider
+    	{
+    		get => _elseDirectiveTriviaServiceProvider ?? (_elseDirectiveTriviaServiceProvider = new ElseDirectiveTriviaServiceProvider(this));
+    		set => _elseDirectiveTriviaServiceProvider = value;
+    	}
+    	private ElseDirectiveTriviaServiceProvider _elseDirectiveTriviaServiceProvider;
+    
+    	/// <summary>
+        /// Provides language-specific information about the "IfDirectiveTrivia" type.
+        /// </summary>
+    	public virtual IfDirectiveTriviaServiceProvider IfDirectiveTriviaServiceProvider
+    	{
+    		get => _ifDirectiveTriviaServiceProvider ?? (_ifDirectiveTriviaServiceProvider = new IfDirectiveTriviaServiceProvider(this));
+    		set => _ifDirectiveTriviaServiceProvider = value;
+    	}
+    	private IfDirectiveTriviaServiceProvider _ifDirectiveTriviaServiceProvider;
+    
+    	/// <summary>
+        /// Provides language-specific information about the "ElifDirectiveTrivia" type.
+        /// </summary>
+    	public virtual ElifDirectiveTriviaServiceProvider ElifDirectiveTriviaServiceProvider
+    	{
+    		get => _elifDirectiveTriviaServiceProvider ?? (_elifDirectiveTriviaServiceProvider = new ElifDirectiveTriviaServiceProvider(this));
+    		set => _elifDirectiveTriviaServiceProvider = value;
+    	}
+    	private ElifDirectiveTriviaServiceProvider _elifDirectiveTriviaServiceProvider;
+    
+    	/// <summary>
+        /// Provides language-specific information about the "TypeCref" type.
+        /// </summary>
+    	public virtual TypeCrefServiceProvider TypeCrefServiceProvider
+    	{
+    		get => _typeCrefServiceProvider ?? (_typeCrefServiceProvider = new TypeCrefServiceProvider(this));
+    		set => _typeCrefServiceProvider = value;
+    	}
+    	private TypeCrefServiceProvider _typeCrefServiceProvider;
+    
+    	/// <summary>
+        /// Provides language-specific information about the "QualifiedCref" type.
+        /// </summary>
+    	public virtual QualifiedCrefServiceProvider QualifiedCrefServiceProvider
+    	{
+    		get => _qualifiedCrefServiceProvider ?? (_qualifiedCrefServiceProvider = new QualifiedCrefServiceProvider(this));
+    		set => _qualifiedCrefServiceProvider = value;
+    	}
+    	private QualifiedCrefServiceProvider _qualifiedCrefServiceProvider;
+    
+    	/// <summary>
+        /// Provides language-specific information about the "NameMemberCref" type.
+        /// </summary>
+    	public virtual NameMemberCrefServiceProvider NameMemberCrefServiceProvider
+    	{
+    		get => _nameMemberCrefServiceProvider ?? (_nameMemberCrefServiceProvider = new NameMemberCrefServiceProvider(this));
+    		set => _nameMemberCrefServiceProvider = value;
+    	}
+    	private NameMemberCrefServiceProvider _nameMemberCrefServiceProvider;
+    
+    	/// <summary>
+        /// Provides language-specific information about the "IndexerMemberCref" type.
+        /// </summary>
+    	public virtual IndexerMemberCrefServiceProvider IndexerMemberCrefServiceProvider
+    	{
+    		get => _indexerMemberCrefServiceProvider ?? (_indexerMemberCrefServiceProvider = new IndexerMemberCrefServiceProvider(this));
+    		set => _indexerMemberCrefServiceProvider = value;
+    	}
+    	private IndexerMemberCrefServiceProvider _indexerMemberCrefServiceProvider;
+    
+    	/// <summary>
+        /// Provides language-specific information about the "OperatorMemberCref" type.
+        /// </summary>
+    	public virtual OperatorMemberCrefServiceProvider OperatorMemberCrefServiceProvider
+    	{
+    		get => _operatorMemberCrefServiceProvider ?? (_operatorMemberCrefServiceProvider = new OperatorMemberCrefServiceProvider(this));
+    		set => _operatorMemberCrefServiceProvider = value;
+    	}
+    	private OperatorMemberCrefServiceProvider _operatorMemberCrefServiceProvider;
+    
+    	/// <summary>
+        /// Provides language-specific information about the "ConversionOperatorMemberCref" type.
+        /// </summary>
+    	public virtual ConversionOperatorMemberCrefServiceProvider ConversionOperatorMemberCrefServiceProvider
+    	{
+    		get => _conversionOperatorMemberCrefServiceProvider ?? (_conversionOperatorMemberCrefServiceProvider = new ConversionOperatorMemberCrefServiceProvider(this));
+    		set => _conversionOperatorMemberCrefServiceProvider = value;
+    	}
+    	private ConversionOperatorMemberCrefServiceProvider _conversionOperatorMemberCrefServiceProvider;
+    
+    	/// <summary>
+        /// Provides language-specific information about the "CrefParameterList" type.
+        /// </summary>
+    	public virtual CrefParameterListServiceProvider CrefParameterListServiceProvider
+    	{
+    		get => _crefParameterListServiceProvider ?? (_crefParameterListServiceProvider = new CrefParameterListServiceProvider(this));
+    		set => _crefParameterListServiceProvider = value;
+    	}
+    	private CrefParameterListServiceProvider _crefParameterListServiceProvider;
+    
+    	/// <summary>
+        /// Provides language-specific information about the "CrefBracketedParameterList" type.
+        /// </summary>
+    	public virtual CrefBracketedParameterListServiceProvider CrefBracketedParameterListServiceProvider
+    	{
+    		get => _crefBracketedParameterListServiceProvider ?? (_crefBracketedParameterListServiceProvider = new CrefBracketedParameterListServiceProvider(this));
+    		set => _crefBracketedParameterListServiceProvider = value;
+    	}
+    	private CrefBracketedParameterListServiceProvider _crefBracketedParameterListServiceProvider;
+    
+    	/// <summary>
+        /// Provides language-specific information about the "XmlElement" type.
+        /// </summary>
+    	public virtual XmlElementServiceProvider XmlElementServiceProvider
+    	{
+    		get => _xmlElementServiceProvider ?? (_xmlElementServiceProvider = new XmlElementServiceProvider(this));
+    		set => _xmlElementServiceProvider = value;
+    	}
+    	private XmlElementServiceProvider _xmlElementServiceProvider;
+    
+    	/// <summary>
+        /// Provides language-specific information about the "XmlEmptyElement" type.
+        /// </summary>
+    	public virtual XmlEmptyElementServiceProvider XmlEmptyElementServiceProvider
+    	{
+    		get => _xmlEmptyElementServiceProvider ?? (_xmlEmptyElementServiceProvider = new XmlEmptyElementServiceProvider(this));
+    		set => _xmlEmptyElementServiceProvider = value;
+    	}
+    	private XmlEmptyElementServiceProvider _xmlEmptyElementServiceProvider;
+    
+    	/// <summary>
+        /// Provides language-specific information about the "XmlText" type.
+        /// </summary>
+    	public virtual XmlTextServiceProvider XmlTextServiceProvider
+    	{
+    		get => _xmlTextServiceProvider ?? (_xmlTextServiceProvider = new XmlTextServiceProvider(this));
+    		set => _xmlTextServiceProvider = value;
+    	}
+    	private XmlTextServiceProvider _xmlTextServiceProvider;
+    
+    	/// <summary>
+        /// Provides language-specific information about the "XmlCDataSection" type.
+        /// </summary>
+    	public virtual XmlCDataSectionServiceProvider XmlCDataSectionServiceProvider
+    	{
+    		get => _xmlCDataSectionServiceProvider ?? (_xmlCDataSectionServiceProvider = new XmlCDataSectionServiceProvider(this));
+    		set => _xmlCDataSectionServiceProvider = value;
+    	}
+    	private XmlCDataSectionServiceProvider _xmlCDataSectionServiceProvider;
+    
+    	/// <summary>
+        /// Provides language-specific information about the "XmlProcessingInstruction" type.
+        /// </summary>
+    	public virtual XmlProcessingInstructionServiceProvider XmlProcessingInstructionServiceProvider
+    	{
+    		get => _xmlProcessingInstructionServiceProvider ?? (_xmlProcessingInstructionServiceProvider = new XmlProcessingInstructionServiceProvider(this));
+    		set => _xmlProcessingInstructionServiceProvider = value;
+    	}
+    	private XmlProcessingInstructionServiceProvider _xmlProcessingInstructionServiceProvider;
+    
+    	/// <summary>
+        /// Provides language-specific information about the "XmlComment" type.
+        /// </summary>
+    	public virtual XmlCommentServiceProvider XmlCommentServiceProvider
+    	{
+    		get => _xmlCommentServiceProvider ?? (_xmlCommentServiceProvider = new XmlCommentServiceProvider(this));
+    		set => _xmlCommentServiceProvider = value;
+    	}
+    	private XmlCommentServiceProvider _xmlCommentServiceProvider;
+    
+    	/// <summary>
+        /// Provides language-specific information about the "XmlTextAttribute" type.
+        /// </summary>
+    	public virtual XmlTextAttributeServiceProvider XmlTextAttributeServiceProvider
+    	{
+    		get => _xmlTextAttributeServiceProvider ?? (_xmlTextAttributeServiceProvider = new XmlTextAttributeServiceProvider(this));
+    		set => _xmlTextAttributeServiceProvider = value;
+    	}
+    	private XmlTextAttributeServiceProvider _xmlTextAttributeServiceProvider;
+    
+    	/// <summary>
+        /// Provides language-specific information about the "XmlCrefAttribute" type.
+        /// </summary>
+    	public virtual XmlCrefAttributeServiceProvider XmlCrefAttributeServiceProvider
+    	{
+    		get => _xmlCrefAttributeServiceProvider ?? (_xmlCrefAttributeServiceProvider = new XmlCrefAttributeServiceProvider(this));
+    		set => _xmlCrefAttributeServiceProvider = value;
+    	}
+    	private XmlCrefAttributeServiceProvider _xmlCrefAttributeServiceProvider;
+    
+    	/// <summary>
+        /// Provides language-specific information about the "XmlNameAttribute" type.
+        /// </summary>
+    	public virtual XmlNameAttributeServiceProvider XmlNameAttributeServiceProvider
+    	{
+    		get => _xmlNameAttributeServiceProvider ?? (_xmlNameAttributeServiceProvider = new XmlNameAttributeServiceProvider(this));
+    		set => _xmlNameAttributeServiceProvider = value;
+    	}
+    	private XmlNameAttributeServiceProvider _xmlNameAttributeServiceProvider;
     
     	/// <summary>
         /// Provides language-specific information about the "ParenthesizedExpression" type.
@@ -1675,196 +2290,6 @@ namespace Jawilliam.CDF.CSharp.Awareness
     	private InterpolationServiceProvider _interpolationServiceProvider;
     
     	/// <summary>
-        /// Provides language-specific information about the "GlobalStatement" type.
-        /// </summary>
-    	public virtual GlobalStatementServiceProvider GlobalStatementServiceProvider
-    	{
-    		get => _globalStatementServiceProvider ?? (_globalStatementServiceProvider = new GlobalStatementServiceProvider(this));
-    		set => _globalStatementServiceProvider = value;
-    	}
-    	private GlobalStatementServiceProvider _globalStatementServiceProvider;
-    
-    	/// <summary>
-        /// Provides language-specific information about the "NamespaceDeclaration" type.
-        /// </summary>
-    	public virtual NamespaceDeclarationServiceProvider NamespaceDeclarationServiceProvider
-    	{
-    		get => _namespaceDeclarationServiceProvider ?? (_namespaceDeclarationServiceProvider = new NamespaceDeclarationServiceProvider(this));
-    		set => _namespaceDeclarationServiceProvider = value;
-    	}
-    	private NamespaceDeclarationServiceProvider _namespaceDeclarationServiceProvider;
-    
-    	/// <summary>
-        /// Provides language-specific information about the "DelegateDeclaration" type.
-        /// </summary>
-    	public virtual DelegateDeclarationServiceProvider DelegateDeclarationServiceProvider
-    	{
-    		get => _delegateDeclarationServiceProvider ?? (_delegateDeclarationServiceProvider = new DelegateDeclarationServiceProvider(this));
-    		set => _delegateDeclarationServiceProvider = value;
-    	}
-    	private DelegateDeclarationServiceProvider _delegateDeclarationServiceProvider;
-    
-    	/// <summary>
-        /// Provides language-specific information about the "EnumMemberDeclaration" type.
-        /// </summary>
-    	public virtual EnumMemberDeclarationServiceProvider EnumMemberDeclarationServiceProvider
-    	{
-    		get => _enumMemberDeclarationServiceProvider ?? (_enumMemberDeclarationServiceProvider = new EnumMemberDeclarationServiceProvider(this));
-    		set => _enumMemberDeclarationServiceProvider = value;
-    	}
-    	private EnumMemberDeclarationServiceProvider _enumMemberDeclarationServiceProvider;
-    
-    	/// <summary>
-        /// Provides language-specific information about the "IncompleteMember" type.
-        /// </summary>
-    	public virtual IncompleteMemberServiceProvider IncompleteMemberServiceProvider
-    	{
-    		get => _incompleteMemberServiceProvider ?? (_incompleteMemberServiceProvider = new IncompleteMemberServiceProvider(this));
-    		set => _incompleteMemberServiceProvider = value;
-    	}
-    	private IncompleteMemberServiceProvider _incompleteMemberServiceProvider;
-    
-    	/// <summary>
-        /// Provides language-specific information about the "EnumDeclaration" type.
-        /// </summary>
-    	public virtual EnumDeclarationServiceProvider EnumDeclarationServiceProvider
-    	{
-    		get => _enumDeclarationServiceProvider ?? (_enumDeclarationServiceProvider = new EnumDeclarationServiceProvider(this));
-    		set => _enumDeclarationServiceProvider = value;
-    	}
-    	private EnumDeclarationServiceProvider _enumDeclarationServiceProvider;
-    
-    	/// <summary>
-        /// Provides language-specific information about the "ClassDeclaration" type.
-        /// </summary>
-    	public virtual ClassDeclarationServiceProvider ClassDeclarationServiceProvider
-    	{
-    		get => _classDeclarationServiceProvider ?? (_classDeclarationServiceProvider = new ClassDeclarationServiceProvider(this));
-    		set => _classDeclarationServiceProvider = value;
-    	}
-    	private ClassDeclarationServiceProvider _classDeclarationServiceProvider;
-    
-    	/// <summary>
-        /// Provides language-specific information about the "StructDeclaration" type.
-        /// </summary>
-    	public virtual StructDeclarationServiceProvider StructDeclarationServiceProvider
-    	{
-    		get => _structDeclarationServiceProvider ?? (_structDeclarationServiceProvider = new StructDeclarationServiceProvider(this));
-    		set => _structDeclarationServiceProvider = value;
-    	}
-    	private StructDeclarationServiceProvider _structDeclarationServiceProvider;
-    
-    	/// <summary>
-        /// Provides language-specific information about the "InterfaceDeclaration" type.
-        /// </summary>
-    	public virtual InterfaceDeclarationServiceProvider InterfaceDeclarationServiceProvider
-    	{
-    		get => _interfaceDeclarationServiceProvider ?? (_interfaceDeclarationServiceProvider = new InterfaceDeclarationServiceProvider(this));
-    		set => _interfaceDeclarationServiceProvider = value;
-    	}
-    	private InterfaceDeclarationServiceProvider _interfaceDeclarationServiceProvider;
-    
-    	/// <summary>
-        /// Provides language-specific information about the "FieldDeclaration" type.
-        /// </summary>
-    	public virtual FieldDeclarationServiceProvider FieldDeclarationServiceProvider
-    	{
-    		get => _fieldDeclarationServiceProvider ?? (_fieldDeclarationServiceProvider = new FieldDeclarationServiceProvider(this));
-    		set => _fieldDeclarationServiceProvider = value;
-    	}
-    	private FieldDeclarationServiceProvider _fieldDeclarationServiceProvider;
-    
-    	/// <summary>
-        /// Provides language-specific information about the "EventFieldDeclaration" type.
-        /// </summary>
-    	public virtual EventFieldDeclarationServiceProvider EventFieldDeclarationServiceProvider
-    	{
-    		get => _eventFieldDeclarationServiceProvider ?? (_eventFieldDeclarationServiceProvider = new EventFieldDeclarationServiceProvider(this));
-    		set => _eventFieldDeclarationServiceProvider = value;
-    	}
-    	private EventFieldDeclarationServiceProvider _eventFieldDeclarationServiceProvider;
-    
-    	/// <summary>
-        /// Provides language-specific information about the "MethodDeclaration" type.
-        /// </summary>
-    	public virtual MethodDeclarationServiceProvider MethodDeclarationServiceProvider
-    	{
-    		get => _methodDeclarationServiceProvider ?? (_methodDeclarationServiceProvider = new MethodDeclarationServiceProvider(this));
-    		set => _methodDeclarationServiceProvider = value;
-    	}
-    	private MethodDeclarationServiceProvider _methodDeclarationServiceProvider;
-    
-    	/// <summary>
-        /// Provides language-specific information about the "OperatorDeclaration" type.
-        /// </summary>
-    	public virtual OperatorDeclarationServiceProvider OperatorDeclarationServiceProvider
-    	{
-    		get => _operatorDeclarationServiceProvider ?? (_operatorDeclarationServiceProvider = new OperatorDeclarationServiceProvider(this));
-    		set => _operatorDeclarationServiceProvider = value;
-    	}
-    	private OperatorDeclarationServiceProvider _operatorDeclarationServiceProvider;
-    
-    	/// <summary>
-        /// Provides language-specific information about the "ConversionOperatorDeclaration" type.
-        /// </summary>
-    	public virtual ConversionOperatorDeclarationServiceProvider ConversionOperatorDeclarationServiceProvider
-    	{
-    		get => _conversionOperatorDeclarationServiceProvider ?? (_conversionOperatorDeclarationServiceProvider = new ConversionOperatorDeclarationServiceProvider(this));
-    		set => _conversionOperatorDeclarationServiceProvider = value;
-    	}
-    	private ConversionOperatorDeclarationServiceProvider _conversionOperatorDeclarationServiceProvider;
-    
-    	/// <summary>
-        /// Provides language-specific information about the "ConstructorDeclaration" type.
-        /// </summary>
-    	public virtual ConstructorDeclarationServiceProvider ConstructorDeclarationServiceProvider
-    	{
-    		get => _constructorDeclarationServiceProvider ?? (_constructorDeclarationServiceProvider = new ConstructorDeclarationServiceProvider(this));
-    		set => _constructorDeclarationServiceProvider = value;
-    	}
-    	private ConstructorDeclarationServiceProvider _constructorDeclarationServiceProvider;
-    
-    	/// <summary>
-        /// Provides language-specific information about the "DestructorDeclaration" type.
-        /// </summary>
-    	public virtual DestructorDeclarationServiceProvider DestructorDeclarationServiceProvider
-    	{
-    		get => _destructorDeclarationServiceProvider ?? (_destructorDeclarationServiceProvider = new DestructorDeclarationServiceProvider(this));
-    		set => _destructorDeclarationServiceProvider = value;
-    	}
-    	private DestructorDeclarationServiceProvider _destructorDeclarationServiceProvider;
-    
-    	/// <summary>
-        /// Provides language-specific information about the "PropertyDeclaration" type.
-        /// </summary>
-    	public virtual PropertyDeclarationServiceProvider PropertyDeclarationServiceProvider
-    	{
-    		get => _propertyDeclarationServiceProvider ?? (_propertyDeclarationServiceProvider = new PropertyDeclarationServiceProvider(this));
-    		set => _propertyDeclarationServiceProvider = value;
-    	}
-    	private PropertyDeclarationServiceProvider _propertyDeclarationServiceProvider;
-    
-    	/// <summary>
-        /// Provides language-specific information about the "EventDeclaration" type.
-        /// </summary>
-    	public virtual EventDeclarationServiceProvider EventDeclarationServiceProvider
-    	{
-    		get => _eventDeclarationServiceProvider ?? (_eventDeclarationServiceProvider = new EventDeclarationServiceProvider(this));
-    		set => _eventDeclarationServiceProvider = value;
-    	}
-    	private EventDeclarationServiceProvider _eventDeclarationServiceProvider;
-    
-    	/// <summary>
-        /// Provides language-specific information about the "IndexerDeclaration" type.
-        /// </summary>
-    	public virtual IndexerDeclarationServiceProvider IndexerDeclarationServiceProvider
-    	{
-    		get => _indexerDeclarationServiceProvider ?? (_indexerDeclarationServiceProvider = new IndexerDeclarationServiceProvider(this));
-    		set => _indexerDeclarationServiceProvider = value;
-    	}
-    	private IndexerDeclarationServiceProvider _indexerDeclarationServiceProvider;
-    
-    	/// <summary>
         /// Provides language-specific information about the "Block" type.
         /// </summary>
     	public virtual BlockServiceProvider BlockServiceProvider
@@ -2174,426 +2599,290 @@ namespace Jawilliam.CDF.CSharp.Awareness
     	}
     	private DefaultSwitchLabelServiceProvider _defaultSwitchLabelServiceProvider;
     
-    	/// <summary>
-        /// Provides language-specific information about the "SimpleBaseType" type.
+        
+        /// <summary>
+        /// Determines if two elements match by invoking the <paramref name="matchNamePrefix"/>Match method supposedly defined in <paramref name="genericCriterionDefinition"/>.
         /// </summary>
-    	public virtual SimpleBaseTypeServiceProvider SimpleBaseTypeServiceProvider
-    	{
-    		get => _simpleBaseTypeServiceProvider ?? (_simpleBaseTypeServiceProvider = new SimpleBaseTypeServiceProvider(this));
-    		set => _simpleBaseTypeServiceProvider = value;
-    	}
-    	private SimpleBaseTypeServiceProvider _simpleBaseTypeServiceProvider;
-    
-    	/// <summary>
-        /// Provides language-specific information about the "ConstructorConstraint" type.
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <param name="matchNamePrefix">'Match' method prefix, e.g., "NameEquality" in <see cref="INameEqualityCriterion{TElement, TOriginal, TModified}.NameEqualityMatch(TOriginal, TModified, MatchingContext{TElement}, out MatchInfo{TElement})"/>.</param>
+        /// <param name="genericCriterionDefinition">The type where the <paramref name="matchNamePrefix"/>Match method was defined in, e.g., <code>typeof(INameEqualityCriterion{,,})</param>
+        /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
+        /// <remarks>This promotes the convention that matching criterion are defined in dedicated interfaces and are postfixed with 'Match'.</remarks>
+        public virtual bool MatchBy(Type genericCriterionDefinition, string matchNamePrefix, SyntaxNode original, SyntaxNode modified, MatchingContext<SyntaxNodeOrToken?> context)
+        {
+            return this.MatchBy(genericCriterionDefinition, matchNamePrefix, original, modified, context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription);
+        }
+        
+        /// <summary>
+        /// Determines if two elements match by invoking the <paramref name="matchNamePrefix"/>Match method supposedly defined in <paramref name="genericCriterionDefinition"/>.
         /// </summary>
-    	public virtual ConstructorConstraintServiceProvider ConstructorConstraintServiceProvider
-    	{
-    		get => _constructorConstraintServiceProvider ?? (_constructorConstraintServiceProvider = new ConstructorConstraintServiceProvider(this));
-    		set => _constructorConstraintServiceProvider = value;
-    	}
-    	private ConstructorConstraintServiceProvider _constructorConstraintServiceProvider;
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <param name="matchNamePrefix">'Match' method prefix, e.g., "NameEquality" in <see cref="INameEqualityCriterion{TElement, TOriginal, TModified}.NameEqualityMatch(TOriginal, TModified, MatchingContext{TElement}, out MatchInfo{TElement})"/>.</param>
+        /// <param name="genericCriterionDefinition">The type where the <paramref name="matchNamePrefix"/>Match method was defined in, e.g., <code>typeof(INameEqualityCriterion{,,})</code>.</param>
+        /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
+        /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description.</param>
+        /// <remarks>This promotes the convention that matching criterion are defined in dedicated interfaces and are postfixed with 'Match'.</remarks>
+        public virtual bool MatchBy(Type genericCriterionDefinition, string matchNamePrefix, SyntaxNode original, SyntaxNode modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        {
+            matchingDescription = null;
     
-    	/// <summary>
-        /// Provides language-specific information about the "ClassOrStructConstraint" type.
+            return this.MatchBy(this.GetElementTypeServiceProvider((SyntaxKind)original.RawKind),
+                genericCriterionDefinition,
+                matchNamePrefix,
+                original, modified, context, out matchingDescription);
+        }
+    
+        /// <summary>
+        /// Determines if two elements match by invoking the <paramref name="matchNamePrefix"/>Match method supposedly defined in <paramref name="genericCriterionDefinition"/>.
         /// </summary>
-    	public virtual ClassOrStructConstraintServiceProvider ClassOrStructConstraintServiceProvider
-    	{
-    		get => _classOrStructConstraintServiceProvider ?? (_classOrStructConstraintServiceProvider = new ClassOrStructConstraintServiceProvider(this));
-    		set => _classOrStructConstraintServiceProvider = value;
-    	}
-    	private ClassOrStructConstraintServiceProvider _classOrStructConstraintServiceProvider;
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <param name="matchNamePrefix">'Match' method prefix, e.g., "NameEquality" in <see cref="INameEqualityCriterion{TElement, TOriginal, TModified}.NameEqualityMatch(TOriginal, TModified, MatchingContext{TElement}, out MatchInfo{TElement})"/>.</param>
+        /// <param name="genericCriterionDefinition">The type where the <paramref name="matchNamePrefix"/>Match method was defined in, e.g., <code>typeof(INameEqualityCriterion{,,})</code>.</param>
+        /// <param name="serviceProvider">the expected host to implement the matching criterion.</param>
+        /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
+        /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description.</param>
+        /// <remarks>This promotes the convention that matching criterion are defined in dedicated interfaces and are postfixed with 'Match'.</remarks>
+        private bool MatchBy(object serviceProvider, Type genericCriterionDefinition, string matchNamePrefix, object original, object modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        {
+            matchingDescription = null;
     
-    	/// <summary>
-        /// Provides language-specific information about the "TypeConstraint" type.
+            var genericCriterionType = genericCriterionDefinition.MakeGenericType(typeof(SyntaxNodeOrToken?), original.GetType(), modified.GetType());
+            if (!genericCriterionType.IsAssignableFrom(serviceProvider.GetType()))
+                return false;
+        
+            var matchMethod = (from method in genericCriterionType.GetMethods(BindingFlags.Public | BindingFlags.Instance)
+                               let genericArguments = genericCriterionType.GetGenericArguments()
+                               let parameters = method.GetParameters()
+                               where method.Name == $"{matchNamePrefix}Match" &&
+                                     parameters.Length == 4 &&
+                                     genericArguments.Length == 3 &&
+                                     parameters[0].ParameterType == genericArguments[1] &&
+                                     parameters[1].ParameterType == genericArguments[2] &&
+                                     parameters[2].ParameterType == typeof(MatchingContext<>).MakeGenericType(genericArguments[0]) &&
+                                     parameters[3].IsOut &&
+                                     parameters[3].ParameterType.FullName == $"{typeof(MatchInfo<>).MakeGenericType(genericArguments[0]).FullName}&"
+                               select method).Single();
+    
+            return (bool)matchMethod.Invoke(serviceProvider, new object[] { original, modified, context, matchingDescription });
+        }
+    
+        /// <summary>
+        /// Determines if two elements match by invoking the <paramref name="matchNamePrefix"/>Match method supposedly defined in <paramref name="genericCriterionDefinition"/>.
         /// </summary>
-    	public virtual TypeConstraintServiceProvider TypeConstraintServiceProvider
-    	{
-    		get => _typeConstraintServiceProvider ?? (_typeConstraintServiceProvider = new TypeConstraintServiceProvider(this));
-    		set => _typeConstraintServiceProvider = value;
-    	}
-    	private TypeConstraintServiceProvider _typeConstraintServiceProvider;
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <param name="matchNamePrefix">'Match' method prefix, e.g., "NameEquality" in <see cref="INameEqualityCriterion{TElement, TOriginal, TModified}.NameEqualityMatch(TOriginal, TModified, MatchingContext{TElement}, out MatchInfo{TElement})"/>.</param>
+        /// <param name="genericCriterionDefinition">The type where the <paramref name="matchNamePrefix"/>Match method was defined in, e.g., <code>typeof(INameEqualityCriterion{,,})</param>
+        /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
+        /// <remarks>This promotes the convention that matching criterion are defined in dedicated interfaces and are postfixed with 'Match'.</remarks>
+        public virtual bool MatchBy(Type genericCriterionDefinition, string matchNamePrefix, SyntaxToken original, SyntaxToken modified, MatchingContext<SyntaxNodeOrToken?> context)
+        {
+            return this.MatchBy(genericCriterionDefinition, matchNamePrefix, original, modified, context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription);
+        }
     
-    	/// <summary>
-        /// Provides language-specific information about the "ParameterList" type.
+        /// <summary>
+        /// Determines if two elements match by invoking the <paramref name="matchNamePrefix"/>Match method supposedly defined in <paramref name="genericCriterionDefinition"/>.
         /// </summary>
-    	public virtual ParameterListServiceProvider ParameterListServiceProvider
-    	{
-    		get => _parameterListServiceProvider ?? (_parameterListServiceProvider = new ParameterListServiceProvider(this));
-    		set => _parameterListServiceProvider = value;
-    	}
-    	private ParameterListServiceProvider _parameterListServiceProvider;
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <param name="matchNamePrefix">'Match' method prefix, e.g., "NameEquality" in <see cref="INameEqualityCriterion{TElement, TOriginal, TModified}.NameEqualityMatch(TOriginal, TModified, MatchingContext{TElement}, out MatchInfo{TElement})"/>.</param>
+        /// <param name="genericCriterionDefinition">The type where the <paramref name="matchNamePrefix"/>Match method was defined in, e.g., <code>typeof(INameEqualityCriterion{,,})</code>.</param>
+        /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
+        /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description.</param>
+        /// <remarks>This promotes the convention that matching criterion are defined in dedicated interfaces and are postfixed with 'Match'.</remarks>
+        public virtual bool MatchBy(Type genericCriterionDefinition, string matchNamePrefix, SyntaxToken original, SyntaxToken modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        {
+            matchingDescription = null;
     
-    	/// <summary>
-        /// Provides language-specific information about the "BracketedParameterList" type.
+            return this.MatchBy(this.SyntaxTokenServiceProvider,
+                genericCriterionDefinition,
+                matchNamePrefix,
+                original, modified, context, out matchingDescription);
+        }
+    
+        /// <summary>
+        /// Determines if two elements match by invoking the <paramref name="matchNamePrefix"/>Match method supposedly defined in <paramref name="genericCriterionDefinition"/>.
         /// </summary>
-    	public virtual BracketedParameterListServiceProvider BracketedParameterListServiceProvider
-    	{
-    		get => _bracketedParameterListServiceProvider ?? (_bracketedParameterListServiceProvider = new BracketedParameterListServiceProvider(this));
-    		set => _bracketedParameterListServiceProvider = value;
-    	}
-    	private BracketedParameterListServiceProvider _bracketedParameterListServiceProvider;
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <param name="matchNamePrefix">'Match' method prefix, e.g., "NameEquality" in <see cref="INameEqualityCriterion{TElement, TOriginal, TModified}.NameEqualityMatch(TOriginal, TModified, MatchingContext{TElement}, out MatchInfo{TElement})"/>.</param>
+        /// <param name="genericCriterionDefinition">The type where the <paramref name="matchNamePrefix"/>Match method was defined in, e.g., <code>typeof(INameEqualityCriterion{,,})</param>
+        /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
+        /// <remarks>This promotes the convention that matching criterion are defined in dedicated interfaces and are postfixed with 'Match'.</remarks>
+        public virtual bool MatchBy(Type genericCriterionDefinition, string matchNamePrefix, SyntaxTokenList original, SyntaxTokenList modified, MatchingContext<SyntaxNodeOrToken?> context)
+        {
+            return this.MatchBy(genericCriterionDefinition, matchNamePrefix, original, modified, context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription);
+        }
     
-    	/// <summary>
-        /// Provides language-specific information about the "SkippedTokensTrivia" type.
+        /// <summary>
+        /// Determines if two elements match by invoking the <paramref name="matchNamePrefix"/>Match method supposedly defined in <paramref name="genericCriterionDefinition"/>.
         /// </summary>
-    	public virtual SkippedTokensTriviaServiceProvider SkippedTokensTriviaServiceProvider
-    	{
-    		get => _skippedTokensTriviaServiceProvider ?? (_skippedTokensTriviaServiceProvider = new SkippedTokensTriviaServiceProvider(this));
-    		set => _skippedTokensTriviaServiceProvider = value;
-    	}
-    	private SkippedTokensTriviaServiceProvider _skippedTokensTriviaServiceProvider;
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <param name="matchNamePrefix">'Match' method prefix, e.g., "NameEquality" in <see cref="INameEqualityCriterion{TElement, TOriginal, TModified}.NameEqualityMatch(TOriginal, TModified, MatchingContext{TElement}, out MatchInfo{TElement})"/>.</param>
+        /// <param name="genericCriterionDefinition">The type where the <paramref name="matchNamePrefix"/>Match method was defined in, e.g., <code>typeof(INameEqualityCriterion{,,})</code>.</param>
+        /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
+        /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description.</param>
+        /// <remarks>This promotes the convention that matching criterion are defined in dedicated interfaces and are postfixed with 'Match'.</remarks>
+        public virtual bool MatchBy(Type genericCriterionDefinition, string matchNamePrefix, SyntaxTokenList original, SyntaxTokenList modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        {
+            matchingDescription = null;
     
-    	/// <summary>
-        /// Provides language-specific information about the "DocumentationCommentTrivia" type.
+            return this.MatchBy(this,
+                genericCriterionDefinition,
+                matchNamePrefix,
+                original, modified, context, out matchingDescription);
+        }
+    
+        /// <summary>
+        /// Determines if two elements match by invoking the <paramref name="matchNamePrefix"/>Match method supposedly defined in <paramref name="genericCriterionDefinition"/>.
         /// </summary>
-    	public virtual DocumentationCommentTriviaServiceProvider DocumentationCommentTriviaServiceProvider
-    	{
-    		get => _documentationCommentTriviaServiceProvider ?? (_documentationCommentTriviaServiceProvider = new DocumentationCommentTriviaServiceProvider(this));
-    		set => _documentationCommentTriviaServiceProvider = value;
-    	}
-    	private DocumentationCommentTriviaServiceProvider _documentationCommentTriviaServiceProvider;
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <typeparam name="TOriginal">Specific type of the original element.</typeparam>
+        /// <typeparam name="TModified">Specific type of the modified element.</typeparam>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <param name="matchNamePrefix">'Match' method prefix, e.g., "NameEquality" in <see cref="INameEqualityCriterion{TElement, TOriginal, TModified}.NameEqualityMatch(TOriginal, TModified, MatchingContext{TElement}, out MatchInfo{TElement})"/>.</param>
+        /// <param name="genericCriterionDefinition">The type where the <paramref name="matchNamePrefix"/>Match method was defined in, e.g., <code>typeof(INameEqualityCriterion{,,})</param>
+        /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
+        /// <remarks>This promotes the convention that matching criterion are defined in dedicated interfaces and are postfixed with 'Match'.</remarks>
+        public virtual bool MatchBy<TOriginal, TModified>(Type genericCriterionDefinition, string matchNamePrefix, SyntaxList<TOriginal> original, SyntaxList<TModified> modified, MatchingContext<SyntaxNodeOrToken?> context)
+        where TOriginal : SyntaxNode  where TModified : SyntaxNode
+        {
+            return this.MatchBy(genericCriterionDefinition, matchNamePrefix, original, modified, context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription);
+        }
     
-    	/// <summary>
-        /// Provides language-specific information about the "EndIfDirectiveTrivia" type.
+        /// <summary>
+        /// Determines if two elements match by invoking the <paramref name="matchNamePrefix"/>Match method supposedly defined in <paramref name="genericCriterionDefinition"/>.
         /// </summary>
-    	public virtual EndIfDirectiveTriviaServiceProvider EndIfDirectiveTriviaServiceProvider
-    	{
-    		get => _endIfDirectiveTriviaServiceProvider ?? (_endIfDirectiveTriviaServiceProvider = new EndIfDirectiveTriviaServiceProvider(this));
-    		set => _endIfDirectiveTriviaServiceProvider = value;
-    	}
-    	private EndIfDirectiveTriviaServiceProvider _endIfDirectiveTriviaServiceProvider;
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <typeparam name="TOriginal">Specific type of the original element.</typeparam>
+        /// <typeparam name="TModified">Specific type of the modified element.</typeparam>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <param name="matchNamePrefix">'Match' method prefix, e.g., "NameEquality" in <see cref="INameEqualityCriterion{TElement, TOriginal, TModified}.NameEqualityMatch(TOriginal, TModified, MatchingContext{TElement}, out MatchInfo{TElement})"/>.</param>
+        /// <param name="genericCriterionDefinition">The type where the <paramref name="matchNamePrefix"/>Match method was defined in, e.g., <code>typeof(INameEqualityCriterion{,,})</code>.</param>
+        /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
+        /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description.</param>
+        /// <remarks>This promotes the convention that matching criterion are defined in dedicated interfaces and are postfixed with 'Match'.</remarks>
+        public virtual bool MatchBy<TOriginal, TModified>(Type genericCriterionDefinition, string matchNamePrefix, SyntaxList<TOriginal> original, SyntaxList<TModified> modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        where TOriginal : SyntaxNode  where TModified : SyntaxNode
+        {
+            return this.MatchGenericListBy<TOriginal, TModified>(this, genericCriterionDefinition, matchNamePrefix, typeof(SyntaxList<>), original, modified, context, out matchingDescription);
+        }
     
-    	/// <summary>
-        /// Provides language-specific information about the "RegionDirectiveTrivia" type.
+        /// <summary>
+        /// Determines if two elements match by invoking the <paramref name="matchNamePrefix"/>Match method supposedly defined in <paramref name="genericCriterionDefinition"/>.
         /// </summary>
-    	public virtual RegionDirectiveTriviaServiceProvider RegionDirectiveTriviaServiceProvider
-    	{
-    		get => _regionDirectiveTriviaServiceProvider ?? (_regionDirectiveTriviaServiceProvider = new RegionDirectiveTriviaServiceProvider(this));
-    		set => _regionDirectiveTriviaServiceProvider = value;
-    	}
-    	private RegionDirectiveTriviaServiceProvider _regionDirectiveTriviaServiceProvider;
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <typeparam name="TOriginal">Specific type of the original element.</typeparam>
+        /// <typeparam name="TModified">Specific type of the modified element.</typeparam>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <param name="matchNamePrefix">'Match' method prefix, e.g., "NameEquality" in <see cref="INameEqualityCriterion{TElement, TOriginal, TModified}.NameEqualityMatch(TOriginal, TModified, MatchingContext{TElement}, out MatchInfo{TElement})"/>.</param>
+        /// <param name="genericCriterionDefinition">The type where the <paramref name="matchNamePrefix"/>Match method was defined in, e.g., <code>typeof(INameEqualityCriterion{,,})</param>
+        /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
+        /// <remarks>This promotes the convention that matching criterion are defined in dedicated interfaces and are postfixed with 'Match'.</remarks>
+        public virtual bool MatchBy<TOriginal, TModified>(Type genericCriterionDefinition, string matchNamePrefix, SeparatedSyntaxList<TOriginal> original, SeparatedSyntaxList<TModified> modified, MatchingContext<SyntaxNodeOrToken?> context)
+        where TOriginal : SyntaxNode  where TModified : SyntaxNode
+        {
+            return this.MatchBy(genericCriterionDefinition, matchNamePrefix, original, modified, context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription);
+        }
     
-    	/// <summary>
-        /// Provides language-specific information about the "EndRegionDirectiveTrivia" type.
+        /// <summary>
+        /// Determines if two elements match by invoking the <paramref name="matchNamePrefix"/>Match method supposedly defined in <paramref name="genericCriterionDefinition"/>.
         /// </summary>
-    	public virtual EndRegionDirectiveTriviaServiceProvider EndRegionDirectiveTriviaServiceProvider
-    	{
-    		get => _endRegionDirectiveTriviaServiceProvider ?? (_endRegionDirectiveTriviaServiceProvider = new EndRegionDirectiveTriviaServiceProvider(this));
-    		set => _endRegionDirectiveTriviaServiceProvider = value;
-    	}
-    	private EndRegionDirectiveTriviaServiceProvider _endRegionDirectiveTriviaServiceProvider;
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <typeparam name="TOriginal">Specific type of the original element.</typeparam>
+        /// <typeparam name="TModified">Specific type of the modified element.</typeparam>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <param name="matchNamePrefix">'Match' method prefix, e.g., "NameEquality" in <see cref="INameEqualityCriterion{TElement, TOriginal, TModified}.NameEqualityMatch(TOriginal, TModified, MatchingContext{TElement}, out MatchInfo{TElement})"/>.</param>
+        /// <param name="genericCriterionDefinition">The type where the <paramref name="matchNamePrefix"/>Match method was defined in, e.g., <code>typeof(INameEqualityCriterion{,,})</code>.</param>
+        /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
+        /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description.</param>
+        /// <remarks>This promotes the convention that matching criterion are defined in dedicated interfaces and are postfixed with 'Match'.</remarks>
+        public virtual bool MatchBy<TOriginal, TModified>(Type genericCriterionDefinition, string matchNamePrefix, SeparatedSyntaxList<TOriginal> original, SeparatedSyntaxList<TModified> modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        where TOriginal : SyntaxNode  where TModified : SyntaxNode
+        {
+            return this.MatchGenericListBy<TOriginal, TModified>(this, genericCriterionDefinition, matchNamePrefix, typeof(SeparatedSyntaxList<>), original, modified, context, out matchingDescription);
+        }
     
-    	/// <summary>
-        /// Provides language-specific information about the "ErrorDirectiveTrivia" type.
+        /// <summary>
+        /// Determines if two elements match by invoking the <paramref name="matchNamePrefix"/>Match method supposedly defined in <paramref name="genericCriterionDefinition"/>.
         /// </summary>
-    	public virtual ErrorDirectiveTriviaServiceProvider ErrorDirectiveTriviaServiceProvider
-    	{
-    		get => _errorDirectiveTriviaServiceProvider ?? (_errorDirectiveTriviaServiceProvider = new ErrorDirectiveTriviaServiceProvider(this));
-    		set => _errorDirectiveTriviaServiceProvider = value;
-    	}
-    	private ErrorDirectiveTriviaServiceProvider _errorDirectiveTriviaServiceProvider;
+        /// <param name="original">the original version.</param>
+        /// <param name="modified">the modified version.</param>
+        /// <typeparam name="TOriginal">Specific type of the original element.</typeparam>
+        /// <typeparam name="TModified">Specific type of the modified element.</typeparam>
+        /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+        /// <param name="matchNamePrefix">'Match' method prefix, e.g., "NameEquality" in <see cref="INameEqualityCriterion{TElement, TOriginal, TModified}.NameEqualityMatch(TOriginal, TModified, MatchingContext{TElement}, out MatchInfo{TElement})"/>.</param>
+        /// <param name="genericCriterionDefinition">The type where the <paramref name="matchNamePrefix"/>Match method was defined in, e.g., <code>typeof(INameEqualityCriterion{,,})</code>.</param>
+        /// <param name="serviceProvider">the expected host to implement the matching criterion.</param>
+        /// <param name="genericListDefinition">The type of the expected generic list, e.g., <code>typeof(SyntaxList{})</code></param>
+        /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
+        /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description.</param>
+        /// <remarks>This promotes the convention that matching criterion are defined in dedicated interfaces and are postfixed with 'Match'.</remarks>
+        private bool MatchGenericListBy<TOriginal, TModified>(object serviceProvider, Type genericCriterionDefinition, string matchNamePrefix, Type genericListDefinition, object original, object modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+        where TOriginal : SyntaxNode  where TModified : SyntaxNode
+        {
+            matchingDescription = null;
+        
+            var parameterModifier = new ParameterModifier(4);
+            parameterModifier[3] = true;
     
-    	/// <summary>
-        /// Provides language-specific information about the "WarningDirectiveTrivia" type.
-        /// </summary>
-    	public virtual WarningDirectiveTriviaServiceProvider WarningDirectiveTriviaServiceProvider
-    	{
-    		get => _warningDirectiveTriviaServiceProvider ?? (_warningDirectiveTriviaServiceProvider = new WarningDirectiveTriviaServiceProvider(this));
-    		set => _warningDirectiveTriviaServiceProvider = value;
-    	}
-    	private WarningDirectiveTriviaServiceProvider _warningDirectiveTriviaServiceProvider;
-    
-    	/// <summary>
-        /// Provides language-specific information about the "BadDirectiveTrivia" type.
-        /// </summary>
-    	public virtual BadDirectiveTriviaServiceProvider BadDirectiveTriviaServiceProvider
-    	{
-    		get => _badDirectiveTriviaServiceProvider ?? (_badDirectiveTriviaServiceProvider = new BadDirectiveTriviaServiceProvider(this));
-    		set => _badDirectiveTriviaServiceProvider = value;
-    	}
-    	private BadDirectiveTriviaServiceProvider _badDirectiveTriviaServiceProvider;
-    
-    	/// <summary>
-        /// Provides language-specific information about the "DefineDirectiveTrivia" type.
-        /// </summary>
-    	public virtual DefineDirectiveTriviaServiceProvider DefineDirectiveTriviaServiceProvider
-    	{
-    		get => _defineDirectiveTriviaServiceProvider ?? (_defineDirectiveTriviaServiceProvider = new DefineDirectiveTriviaServiceProvider(this));
-    		set => _defineDirectiveTriviaServiceProvider = value;
-    	}
-    	private DefineDirectiveTriviaServiceProvider _defineDirectiveTriviaServiceProvider;
-    
-    	/// <summary>
-        /// Provides language-specific information about the "UndefDirectiveTrivia" type.
-        /// </summary>
-    	public virtual UndefDirectiveTriviaServiceProvider UndefDirectiveTriviaServiceProvider
-    	{
-    		get => _undefDirectiveTriviaServiceProvider ?? (_undefDirectiveTriviaServiceProvider = new UndefDirectiveTriviaServiceProvider(this));
-    		set => _undefDirectiveTriviaServiceProvider = value;
-    	}
-    	private UndefDirectiveTriviaServiceProvider _undefDirectiveTriviaServiceProvider;
-    
-    	/// <summary>
-        /// Provides language-specific information about the "LineDirectiveTrivia" type.
-        /// </summary>
-    	public virtual LineDirectiveTriviaServiceProvider LineDirectiveTriviaServiceProvider
-    	{
-    		get => _lineDirectiveTriviaServiceProvider ?? (_lineDirectiveTriviaServiceProvider = new LineDirectiveTriviaServiceProvider(this));
-    		set => _lineDirectiveTriviaServiceProvider = value;
-    	}
-    	private LineDirectiveTriviaServiceProvider _lineDirectiveTriviaServiceProvider;
-    
-    	/// <summary>
-        /// Provides language-specific information about the "PragmaWarningDirectiveTrivia" type.
-        /// </summary>
-    	public virtual PragmaWarningDirectiveTriviaServiceProvider PragmaWarningDirectiveTriviaServiceProvider
-    	{
-    		get => _pragmaWarningDirectiveTriviaServiceProvider ?? (_pragmaWarningDirectiveTriviaServiceProvider = new PragmaWarningDirectiveTriviaServiceProvider(this));
-    		set => _pragmaWarningDirectiveTriviaServiceProvider = value;
-    	}
-    	private PragmaWarningDirectiveTriviaServiceProvider _pragmaWarningDirectiveTriviaServiceProvider;
-    
-    	/// <summary>
-        /// Provides language-specific information about the "PragmaChecksumDirectiveTrivia" type.
-        /// </summary>
-    	public virtual PragmaChecksumDirectiveTriviaServiceProvider PragmaChecksumDirectiveTriviaServiceProvider
-    	{
-    		get => _pragmaChecksumDirectiveTriviaServiceProvider ?? (_pragmaChecksumDirectiveTriviaServiceProvider = new PragmaChecksumDirectiveTriviaServiceProvider(this));
-    		set => _pragmaChecksumDirectiveTriviaServiceProvider = value;
-    	}
-    	private PragmaChecksumDirectiveTriviaServiceProvider _pragmaChecksumDirectiveTriviaServiceProvider;
-    
-    	/// <summary>
-        /// Provides language-specific information about the "ReferenceDirectiveTrivia" type.
-        /// </summary>
-    	public virtual ReferenceDirectiveTriviaServiceProvider ReferenceDirectiveTriviaServiceProvider
-    	{
-    		get => _referenceDirectiveTriviaServiceProvider ?? (_referenceDirectiveTriviaServiceProvider = new ReferenceDirectiveTriviaServiceProvider(this));
-    		set => _referenceDirectiveTriviaServiceProvider = value;
-    	}
-    	private ReferenceDirectiveTriviaServiceProvider _referenceDirectiveTriviaServiceProvider;
-    
-    	/// <summary>
-        /// Provides language-specific information about the "LoadDirectiveTrivia" type.
-        /// </summary>
-    	public virtual LoadDirectiveTriviaServiceProvider LoadDirectiveTriviaServiceProvider
-    	{
-    		get => _loadDirectiveTriviaServiceProvider ?? (_loadDirectiveTriviaServiceProvider = new LoadDirectiveTriviaServiceProvider(this));
-    		set => _loadDirectiveTriviaServiceProvider = value;
-    	}
-    	private LoadDirectiveTriviaServiceProvider _loadDirectiveTriviaServiceProvider;
-    
-    	/// <summary>
-        /// Provides language-specific information about the "ShebangDirectiveTrivia" type.
-        /// </summary>
-    	public virtual ShebangDirectiveTriviaServiceProvider ShebangDirectiveTriviaServiceProvider
-    	{
-    		get => _shebangDirectiveTriviaServiceProvider ?? (_shebangDirectiveTriviaServiceProvider = new ShebangDirectiveTriviaServiceProvider(this));
-    		set => _shebangDirectiveTriviaServiceProvider = value;
-    	}
-    	private ShebangDirectiveTriviaServiceProvider _shebangDirectiveTriviaServiceProvider;
-    
-    	/// <summary>
-        /// Provides language-specific information about the "ElseDirectiveTrivia" type.
-        /// </summary>
-    	public virtual ElseDirectiveTriviaServiceProvider ElseDirectiveTriviaServiceProvider
-    	{
-    		get => _elseDirectiveTriviaServiceProvider ?? (_elseDirectiveTriviaServiceProvider = new ElseDirectiveTriviaServiceProvider(this));
-    		set => _elseDirectiveTriviaServiceProvider = value;
-    	}
-    	private ElseDirectiveTriviaServiceProvider _elseDirectiveTriviaServiceProvider;
-    
-    	/// <summary>
-        /// Provides language-specific information about the "IfDirectiveTrivia" type.
-        /// </summary>
-    	public virtual IfDirectiveTriviaServiceProvider IfDirectiveTriviaServiceProvider
-    	{
-    		get => _ifDirectiveTriviaServiceProvider ?? (_ifDirectiveTriviaServiceProvider = new IfDirectiveTriviaServiceProvider(this));
-    		set => _ifDirectiveTriviaServiceProvider = value;
-    	}
-    	private IfDirectiveTriviaServiceProvider _ifDirectiveTriviaServiceProvider;
-    
-    	/// <summary>
-        /// Provides language-specific information about the "ElifDirectiveTrivia" type.
-        /// </summary>
-    	public virtual ElifDirectiveTriviaServiceProvider ElifDirectiveTriviaServiceProvider
-    	{
-    		get => _elifDirectiveTriviaServiceProvider ?? (_elifDirectiveTriviaServiceProvider = new ElifDirectiveTriviaServiceProvider(this));
-    		set => _elifDirectiveTriviaServiceProvider = value;
-    	}
-    	private ElifDirectiveTriviaServiceProvider _elifDirectiveTriviaServiceProvider;
-    
-    	/// <summary>
-        /// Provides language-specific information about the "TypeCref" type.
-        /// </summary>
-    	public virtual TypeCrefServiceProvider TypeCrefServiceProvider
-    	{
-    		get => _typeCrefServiceProvider ?? (_typeCrefServiceProvider = new TypeCrefServiceProvider(this));
-    		set => _typeCrefServiceProvider = value;
-    	}
-    	private TypeCrefServiceProvider _typeCrefServiceProvider;
-    
-    	/// <summary>
-        /// Provides language-specific information about the "QualifiedCref" type.
-        /// </summary>
-    	public virtual QualifiedCrefServiceProvider QualifiedCrefServiceProvider
-    	{
-    		get => _qualifiedCrefServiceProvider ?? (_qualifiedCrefServiceProvider = new QualifiedCrefServiceProvider(this));
-    		set => _qualifiedCrefServiceProvider = value;
-    	}
-    	private QualifiedCrefServiceProvider _qualifiedCrefServiceProvider;
-    
-    	/// <summary>
-        /// Provides language-specific information about the "NameMemberCref" type.
-        /// </summary>
-    	public virtual NameMemberCrefServiceProvider NameMemberCrefServiceProvider
-    	{
-    		get => _nameMemberCrefServiceProvider ?? (_nameMemberCrefServiceProvider = new NameMemberCrefServiceProvider(this));
-    		set => _nameMemberCrefServiceProvider = value;
-    	}
-    	private NameMemberCrefServiceProvider _nameMemberCrefServiceProvider;
-    
-    	/// <summary>
-        /// Provides language-specific information about the "IndexerMemberCref" type.
-        /// </summary>
-    	public virtual IndexerMemberCrefServiceProvider IndexerMemberCrefServiceProvider
-    	{
-    		get => _indexerMemberCrefServiceProvider ?? (_indexerMemberCrefServiceProvider = new IndexerMemberCrefServiceProvider(this));
-    		set => _indexerMemberCrefServiceProvider = value;
-    	}
-    	private IndexerMemberCrefServiceProvider _indexerMemberCrefServiceProvider;
-    
-    	/// <summary>
-        /// Provides language-specific information about the "OperatorMemberCref" type.
-        /// </summary>
-    	public virtual OperatorMemberCrefServiceProvider OperatorMemberCrefServiceProvider
-    	{
-    		get => _operatorMemberCrefServiceProvider ?? (_operatorMemberCrefServiceProvider = new OperatorMemberCrefServiceProvider(this));
-    		set => _operatorMemberCrefServiceProvider = value;
-    	}
-    	private OperatorMemberCrefServiceProvider _operatorMemberCrefServiceProvider;
-    
-    	/// <summary>
-        /// Provides language-specific information about the "ConversionOperatorMemberCref" type.
-        /// </summary>
-    	public virtual ConversionOperatorMemberCrefServiceProvider ConversionOperatorMemberCrefServiceProvider
-    	{
-    		get => _conversionOperatorMemberCrefServiceProvider ?? (_conversionOperatorMemberCrefServiceProvider = new ConversionOperatorMemberCrefServiceProvider(this));
-    		set => _conversionOperatorMemberCrefServiceProvider = value;
-    	}
-    	private ConversionOperatorMemberCrefServiceProvider _conversionOperatorMemberCrefServiceProvider;
-    
-    	/// <summary>
-        /// Provides language-specific information about the "CrefParameterList" type.
-        /// </summary>
-    	public virtual CrefParameterListServiceProvider CrefParameterListServiceProvider
-    	{
-    		get => _crefParameterListServiceProvider ?? (_crefParameterListServiceProvider = new CrefParameterListServiceProvider(this));
-    		set => _crefParameterListServiceProvider = value;
-    	}
-    	private CrefParameterListServiceProvider _crefParameterListServiceProvider;
-    
-    	/// <summary>
-        /// Provides language-specific information about the "CrefBracketedParameterList" type.
-        /// </summary>
-    	public virtual CrefBracketedParameterListServiceProvider CrefBracketedParameterListServiceProvider
-    	{
-    		get => _crefBracketedParameterListServiceProvider ?? (_crefBracketedParameterListServiceProvider = new CrefBracketedParameterListServiceProvider(this));
-    		set => _crefBracketedParameterListServiceProvider = value;
-    	}
-    	private CrefBracketedParameterListServiceProvider _crefBracketedParameterListServiceProvider;
-    
-    	/// <summary>
-        /// Provides language-specific information about the "XmlElement" type.
-        /// </summary>
-    	public virtual XmlElementServiceProvider XmlElementServiceProvider
-    	{
-    		get => _xmlElementServiceProvider ?? (_xmlElementServiceProvider = new XmlElementServiceProvider(this));
-    		set => _xmlElementServiceProvider = value;
-    	}
-    	private XmlElementServiceProvider _xmlElementServiceProvider;
-    
-    	/// <summary>
-        /// Provides language-specific information about the "XmlEmptyElement" type.
-        /// </summary>
-    	public virtual XmlEmptyElementServiceProvider XmlEmptyElementServiceProvider
-    	{
-    		get => _xmlEmptyElementServiceProvider ?? (_xmlEmptyElementServiceProvider = new XmlEmptyElementServiceProvider(this));
-    		set => _xmlEmptyElementServiceProvider = value;
-    	}
-    	private XmlEmptyElementServiceProvider _xmlEmptyElementServiceProvider;
-    
-    	/// <summary>
-        /// Provides language-specific information about the "XmlText" type.
-        /// </summary>
-    	public virtual XmlTextServiceProvider XmlTextServiceProvider
-    	{
-    		get => _xmlTextServiceProvider ?? (_xmlTextServiceProvider = new XmlTextServiceProvider(this));
-    		set => _xmlTextServiceProvider = value;
-    	}
-    	private XmlTextServiceProvider _xmlTextServiceProvider;
-    
-    	/// <summary>
-        /// Provides language-specific information about the "XmlCDataSection" type.
-        /// </summary>
-    	public virtual XmlCDataSectionServiceProvider XmlCDataSectionServiceProvider
-    	{
-    		get => _xmlCDataSectionServiceProvider ?? (_xmlCDataSectionServiceProvider = new XmlCDataSectionServiceProvider(this));
-    		set => _xmlCDataSectionServiceProvider = value;
-    	}
-    	private XmlCDataSectionServiceProvider _xmlCDataSectionServiceProvider;
-    
-    	/// <summary>
-        /// Provides language-specific information about the "XmlProcessingInstruction" type.
-        /// </summary>
-    	public virtual XmlProcessingInstructionServiceProvider XmlProcessingInstructionServiceProvider
-    	{
-    		get => _xmlProcessingInstructionServiceProvider ?? (_xmlProcessingInstructionServiceProvider = new XmlProcessingInstructionServiceProvider(this));
-    		set => _xmlProcessingInstructionServiceProvider = value;
-    	}
-    	private XmlProcessingInstructionServiceProvider _xmlProcessingInstructionServiceProvider;
-    
-    	/// <summary>
-        /// Provides language-specific information about the "XmlComment" type.
-        /// </summary>
-    	public virtual XmlCommentServiceProvider XmlCommentServiceProvider
-    	{
-    		get => _xmlCommentServiceProvider ?? (_xmlCommentServiceProvider = new XmlCommentServiceProvider(this));
-    		set => _xmlCommentServiceProvider = value;
-    	}
-    	private XmlCommentServiceProvider _xmlCommentServiceProvider;
-    
-    	/// <summary>
-        /// Provides language-specific information about the "XmlTextAttribute" type.
-        /// </summary>
-    	public virtual XmlTextAttributeServiceProvider XmlTextAttributeServiceProvider
-    	{
-    		get => _xmlTextAttributeServiceProvider ?? (_xmlTextAttributeServiceProvider = new XmlTextAttributeServiceProvider(this));
-    		set => _xmlTextAttributeServiceProvider = value;
-    	}
-    	private XmlTextAttributeServiceProvider _xmlTextAttributeServiceProvider;
-    
-    	/// <summary>
-        /// Provides language-specific information about the "XmlCrefAttribute" type.
-        /// </summary>
-    	public virtual XmlCrefAttributeServiceProvider XmlCrefAttributeServiceProvider
-    	{
-    		get => _xmlCrefAttributeServiceProvider ?? (_xmlCrefAttributeServiceProvider = new XmlCrefAttributeServiceProvider(this));
-    		set => _xmlCrefAttributeServiceProvider = value;
-    	}
-    	private XmlCrefAttributeServiceProvider _xmlCrefAttributeServiceProvider;
-    
-    	/// <summary>
-        /// Provides language-specific information about the "XmlNameAttribute" type.
-        /// </summary>
-    	public virtual XmlNameAttributeServiceProvider XmlNameAttributeServiceProvider
-    	{
-    		get => _xmlNameAttributeServiceProvider ?? (_xmlNameAttributeServiceProvider = new XmlNameAttributeServiceProvider(this));
-    		set => _xmlNameAttributeServiceProvider = value;
-    	}
-    	private XmlNameAttributeServiceProvider _xmlNameAttributeServiceProvider;
-    
+    		var originalType = genericListDefinition.MakeGenericType(typeof(TOriginal));
+    		var modifiedType = genericListDefinition.MakeGenericType(typeof(TModified));
+        
+            var genericCriterionType = genericCriterionDefinition.MakeGenericType(typeof(SyntaxNodeOrToken?), originalType, modifiedType);
+            var genericArguments = genericCriterionType.GetGenericArguments();
+            MethodInfo matchMethod = null;
+            if (!genericCriterionType.IsAssignableFrom(serviceProvider.GetType()))
+            {
+                matchMethod = (from method in serviceProvider.GetType().GetMethods(BindingFlags.Public | BindingFlags.Instance)
+                               let genericDefinition = method.IsGenericMethodDefinition ? method : null
+                               let mGenericArguments = genericDefinition?.GetGenericArguments()
+                               let parameters = method.GetParameters()
+                               where genericDefinition != null &&
+                                     method.Name == $"{matchNamePrefix}Match" &&
+                                     mGenericArguments.Length == 2 &&
+                                     parameters.Length == 4 &&
+                                     typeof(SyntaxNode).IsAssignableFrom(mGenericArguments[0]) &&
+                                     typeof(SyntaxNode).IsAssignableFrom(mGenericArguments[1]) &&
+                                     parameters[0].ParameterType == genericListDefinition.MakeGenericType(mGenericArguments[0]) &&
+                                     parameters[1].ParameterType == genericListDefinition.MakeGenericType(mGenericArguments[1]) &&
+                                     parameters[2].ParameterType == typeof(MatchingContext<>).MakeGenericType(genericArguments[0]) &&
+                                     parameters[3].IsOut &&
+                                     parameters[3].ParameterType.FullName == $"{typeof(MatchInfo<>).MakeGenericType(genericArguments[0]).FullName}&"
+                               select method).SingleOrDefault()?.MakeGenericMethod(typeof(TOriginal), typeof(TModified));
+            }
+            else
+            {
+                matchMethod = (from method in genericCriterionType.GetMethods(BindingFlags.Public | BindingFlags.Instance)
+                               let parameters = method.GetParameters()
+                               where method.Name == $"{matchNamePrefix}Match" &&
+                                     parameters.Length == 4 &&
+                                     genericArguments.Length == 3 &&
+                                     parameters[0].ParameterType == genericArguments[1] &&
+                                     parameters[1].ParameterType == genericArguments[2] &&
+                                     parameters[2].ParameterType == typeof(MatchingContext<>).MakeGenericType(genericArguments[0]) &&
+                                     parameters[3].IsOut &&
+                                     parameters[3].ParameterType.FullName == $"{typeof(MatchInfo<>).MakeGenericType(genericArguments[0]).FullName}&"
+                               select method).Single().MakeGenericMethod(genericArguments[1], genericArguments[2]);
+            }
+        
+           return (bool)(matchMethod?.Invoke(serviceProvider, new object[] { original, modified, context, matchingDescription }) ?? false);
+        }
     }
 }
 // Generated helper templates

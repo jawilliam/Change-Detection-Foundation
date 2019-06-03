@@ -394,26 +394,35 @@ partial class <#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax"
 			return false;
 
 <#
-		for (int i = 0; i < currentPropertiesMetadata.Count(); i++)
+		if(xSyntaxNodeType.symbolic)
 		{
-			var currentProperty = currentPropertiesMetadata[i];
-			var prefix = i == 0 ? "if (" : "    ";
-			var line = prefix + (currentPropertiesMetadata.Count() > 1 ? "(" : "") + 
-			           (currentProperty.Item2.optional 
-						? ((currentPropertiesMetadata.Any(kp => !kp.Item2.optional) ? $"(original.{currentProperty.Item2.name} == null && modified.{currentProperty.Item2.name} == null) || (" : "") + 
-						  $"original.{currentProperty.Item2.name} != null && modified.{currentProperty.Item2.name} != null && ") 
-						: "");
-			var postfix = (currentProperty.Item2.optional && currentPropertiesMetadata.Any(kp => !kp.Item2.optional) ? ")" : "") +
-			              (currentPropertiesMetadata.Count() > 1 ? ")" : "") + 
-			              (currentPropertiesMetadata.Count() > 1 && i != (currentPropertiesMetadata.Count() - 1) ? (currentPropertiesMetadata.All(kp => kp.Item2.optional) ? " ||" : " &&") : "") + 
-						  (i == (currentPropertiesMetadata.Count() - 1) ? ")" : "");
-			line += $"this.LanguageServiceProvider.EqualityMatch(original.{currentProperty.Item2.name}, modified.{currentProperty.Item2.name}, context)";
-			 
-			line += postfix;
+#>
+		matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.Equality) { Original = original, Modified = modified };
+		return true;
+<#
+		}
+		else
+		{
+			for (int i = 0; i < currentPropertiesMetadata.Count(); i++)
+			{
+				var currentProperty = currentPropertiesMetadata[i];
+				var prefix = i == 0 ? "if (" : "    ";
+				var line = prefix + (currentPropertiesMetadata.Count() > 1 ? "(" : "") + 
+				           (currentProperty.Item2.optional 
+							? ((currentPropertiesMetadata.Any(kp => !kp.Item2.optional) ? $"(original.{currentProperty.Item2.name} == null && modified.{currentProperty.Item2.name} == null) || (" : "") + 
+							  $"original.{currentProperty.Item2.name} != null && modified.{currentProperty.Item2.name} != null && ") 
+							: "");
+				var postfix = (currentProperty.Item2.optional && currentPropertiesMetadata.Any(kp => !kp.Item2.optional) ? ")" : "") +
+				              (currentPropertiesMetadata.Count() > 1 ? ")" : "") + 
+				              (currentPropertiesMetadata.Count() > 1 && i != (currentPropertiesMetadata.Count() - 1) ? (currentPropertiesMetadata.All(kp => kp.Item2.optional) ? " ||" : " &&") : "") + 
+							  (i == (currentPropertiesMetadata.Count() - 1) ? ")" : "");
+				line += $"this.LanguageServiceProvider.EqualityMatch(original.{currentProperty.Item2.name}, modified.{currentProperty.Item2.name}, context)";
+				 
+				line += postfix;
 #>
         <#= line #>
 <# 
-		}
+			}
 #>
 		{
 			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.Equality) { Original = original, Modified = modified };
@@ -421,6 +430,9 @@ partial class <#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax"
 		}
 
 	    return false;
+<#
+		}
+#>
 	}	
 
 	/// <summary>

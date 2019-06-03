@@ -20,6 +20,5 @@ namespace Jawilliam.CDF.CSharp.Awareness
     /// </summary>
     public static partial class Extensions
     {
-        
     }
 }

@@ -11421,13 +11421,8 @@ namespace Jawilliam.CDF.CSharp.Awareness
     		if(original == null || modified == null) 
     			return false;
     
-            if (this.LanguageServiceProvider.EqualityMatch(original.OmittedArraySizeExpressionToken, modified.OmittedArraySizeExpressionToken, context))
-    		{
-    			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.Equality) { Original = original, Modified = modified };
-    			return true;
-    		}
-    
-    	    return false;
+    		matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.Equality) { Original = original, Modified = modified };
+    		return true;
     	}	
     
     	/// <summary>
@@ -12124,13 +12119,8 @@ namespace Jawilliam.CDF.CSharp.Awareness
     		if(original == null || modified == null) 
     			return false;
     
-            if (this.LanguageServiceProvider.EqualityMatch(original.OmittedTypeArgumentToken, modified.OmittedTypeArgumentToken, context))
-    		{
-    			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.Equality) { Original = original, Modified = modified };
-    			return true;
-    		}
-    
-    	    return false;
+    		matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.Equality) { Original = original, Modified = modified };
+    		return true;
     	}	
     
     	/// <summary>

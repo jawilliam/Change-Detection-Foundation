@@ -121,7 +121,7 @@ partial class SyntaxTokenServiceProvider : INameEqualityCriterion<SyntaxNodeOrTo
 
 partial class LanguageServiceProvider
 {
-	/// <summary>
+	/*/// <summary>
     /// Determines if two elements are name-based exactly equal.
     /// </summary>
     /// <param name="original">the original version.</param>
@@ -188,86 +188,89 @@ partial class LanguageServiceProvider
     
         matchingDescription = null;
         return (bool)genericMethod.Invoke(this, new object[] { original, modified, context, matchingDescription });
-    }
-    
-    /// <summary>
-    /// Determines if two <see cref="SeparatedSyntaxList{TNode}"/> elements are equal.
+    }*/
+
+	/// <summary>
+    /// Determines if two elements are name-based exactly equal.
     /// </summary>
     /// <param name="original">the original version.</param>
     /// <param name="modified">the modified version.</param>
-    /// <param name="equal">logic of equality.</param>
     /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+    /// <typeparam name="TOriginal">Specific type of the original element.</typeparam>
+    /// <typeparam name="TModified">Specific type of the modified element.</typeparam>
     /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
     /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description.</param>
-    public virtual bool NameEqualityMatch<T>(SeparatedSyntaxList<T> original, SeparatedSyntaxList<T> modified, Func<T, T, bool> equal, MatchingContext<SyntaxNodeOrToken?> context) where T : SyntaxNode
+    protected virtual bool NameEqualityMatch<TOriginal, TModified>(IEnumerable<TOriginal> original, IEnumerable<TModified> modified, Func<TOriginal, TModified, bool> equal, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+    where TOriginal : SyntaxNode where TModified : SyntaxNode
     {
-        if (original == null || modified == null)
+		matchingDescription = null;
+
+		if (original == null || modified == null)
             return false;
     
-        if (original.Count != modified.Count)
+        if (original.Count() != modified.Count())
             return false;
-    
-        for (int i = 0; i < original.Count; i++)
+
+		var originalList = original.ToList();
+		var modifiedList = modified.ToList();
+
+        if (originalList.Select((o, i) => equal(o, modifiedList[i])).All(r => r))
         {
-            if (!equal(original[i], modified[i]))
-                return false;
+            matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original as SyntaxNode, Modified = modified as SyntaxNode };
+            return true;
         }
+
+		while(originalList.Count() > 0)
+		{
+			var o = originalList.First();
+			originalList.Remove(o);
+
+			var equalModifieds = modifiedList.Where(m => equal(o, m)).ToList();
+			if(equalModifieds.Count() != 1)
+				return false;
+
+			modifiedList.Remove(equalModifieds.Single());
+		}
+
+		if (originalList.Count() != modifiedList.Count())
+            return false;
         
+		matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original as SyntaxNode, Modified = modified as SyntaxNode };
     	return true;
-    }	
-    
-    /// <summary>
-    /// Determines if two <see cref="SeparatedSyntaxList{TNode}"/> elements are equal.
+	}
+
+	/// <summary>
+    /// Determines if two elements are name-based exactly equal.
     /// </summary>
     /// <param name="original">the original version.</param>
     /// <param name="modified">the modified version.</param>
     /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+    /// <typeparam name="TOriginal">Specific type of the original element.</typeparam>
+    /// <typeparam name="TModified">Specific type of the modified element.</typeparam>
     /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
     /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description.</param>
-    public virtual bool NameEqualityMatch<T>(SeparatedSyntaxList<T> original, SeparatedSyntaxList<T> modified, MatchingContext<SyntaxNodeOrToken?> context) where T : SyntaxNode
+    public virtual bool NameEqualityMatch<TOriginal, TModified>(SeparatedSyntaxList<TOriginal> original, SeparatedSyntaxList<TModified> modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+    where TOriginal : SyntaxNode where TModified : SyntaxNode
     {
-        return this.NameEqualityMatch(original, modified, (o, m) => this.NameEqualityMatch(o, m, context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription), context);
-    }
+		return this.NameEqualityMatch(original, modified, (o, m) => this.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", o, m, context), context, out matchingDescription);
+	}		
 
-    /// <summary>
-    /// Determines if two <see cref="SyntaxList{TNode}"/> elements are equal.
-    /// </summary>
-    /// <param name="original">the original version.</param>
-    /// <param name="modified">the modified version.</param>
-    /// <param name="equal">logic of equality.</param>
-    /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-    /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
-    /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description.</param>
-    public virtual bool NameEqualityMatch<T>(SyntaxList<T> original, SyntaxList<T> modified, Func<T, T, bool> equal, MatchingContext<SyntaxNodeOrToken?> context) where T : SyntaxNode
-    {
-        if (original == null || modified == null)
-            return false;
-
-        if (original.Count != modified.Count)
-            return false;
-
-        for (int i = 0; i < original.Count; i++)
-        {
-            if (!equal(original[i], modified[i]))
-                return false;
-        }
-
-        return true;
-    }
-
-    /// <summary>
-    /// Determines if two <see cref="SyntaxList{TNode}"/> elements are equal.
+	/// <summary>
+    /// Determines if two elements are name-based exactly equal.
     /// </summary>
     /// <param name="original">the original version.</param>
     /// <param name="modified">the modified version.</param>
     /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+    /// <typeparam name="TOriginal">Specific type of the original element.</typeparam>
+    /// <typeparam name="TModified">Specific type of the modified element.</typeparam>
     /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
     /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description.</param>
-    public virtual bool NameEqualityMatch<T>(SyntaxList<T> original, SyntaxList<T> modified, MatchingContext<SyntaxNodeOrToken?> context) where T : SyntaxNode
+    public virtual bool NameEqualityMatch<TOriginal, TModified>(SyntaxList<TOriginal> original, SyntaxList<TModified> modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+    where TOriginal : SyntaxNode where TModified : SyntaxNode
     {
-        return this.NameEqualityMatch(original, modified, (o, m) => this.NameEqualityMatch(o, m, context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription), context);
-    }
-    
+		return this.NameEqualityMatch(original, modified, (o, m) => this.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", o, m, context), context, out matchingDescription);
+	}	
+    /*
     /// <summary>
     /// Determines if two <see cref="SyntaxToken"/> elements are equal.
     /// </summary>
@@ -279,7 +282,7 @@ partial class LanguageServiceProvider
     public virtual bool NameEqualityMatch(SyntaxToken original, SyntaxToken modified, MatchingContext<SyntaxNodeOrToken?> context)
     {
         return this.SyntaxTokenServiceProvider.NameEqualityMatch(original, modified, context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription);
-    }
+    }*/
 }
 
 partial class OmittedTypeArgumentServiceProvider : INameEqualityCriterion<SyntaxNodeOrToken?, OmittedTypeArgumentSyntax, OmittedTypeArgumentSyntax>
@@ -300,13 +303,15 @@ partial class OmittedTypeArgumentServiceProvider : INameEqualityCriterion<Syntax
             return false;
         }
 
-        matchingDescription = null;
-        return false;
+        matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
+    	return true;
     }
 }
 
 <#
-var nameProviders = xSyntaxTypeSystem.Nodes.Type.Where(t => !t.@abstract && t.Properties.Property.Any(p => p.Rules?.Name?.Equality?.full ?? false)).ToList();
+var nameProviders = xSyntaxTypeSystem.Nodes.Type
+	.Where(t => !t.@abstract && t.Properties.Property.Any(p => p.Rules?.Name.Any(n => n.equality && n.absolute) ?? false))
+	.ToList();
 
 foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
 .Where(n => !object.Equals(n.Root.Label, "SyntaxNode") && 
@@ -317,7 +322,11 @@ foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
 
 	if(!nameProviders.Any(t => t == xSyntaxNodeType)) 
 		continue;
-	var keyProperties = xSyntaxNodeType.Properties.Property.Where(p => p.Rules?.Name?.Equality?.full ?? false).ToList();
+
+	var keyProperties = xSyntaxNodeType.Properties.Property
+		.Where(p => p.Rules?.Name.Any(n => n.equality && n.absolute) ?? false)
+		.ToList();
+
 	if(!keyProperties.Any()) 
 		continue;
 
@@ -349,9 +358,22 @@ foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
 
 	if(xSyntaxNodeType != null)
 	{
-		var baseDeclarationText = xSyntaxNodeBaseType == null ? "Jawilliam.CDF.Domain.ElementTypeServiceProvider" : code.Escape(xSyntaxNodeBaseType.name.ToString()).Replace("Syntax", "") + "ServiceProvider";
+		var compatibilityRules = xSyntaxNodeType.Rules?.Compatibility?.Name.Where(n => n.equality && n.absolute).ToArray();
+		var reversedCompatibilityRules = nameProviders
+			.Where(np => np.Rules?.Compatibility?.Name.Any(n => n.equality && n.absolute && n.type == xSyntaxNodeType.name && n.twoWay) ?? false)
+			.SelectMany(np => np.Rules?.Compatibility?.Name
+							 .Where(n => n.equality && n.absolute && n.type == xSyntaxNodeType.name && n.twoWay)
+							 .Select(n => new {Type = np, Rule = n}))
+		.ToArray();
+
+		var compatibleInterfaces = compatibilityRules?.Aggregate("", (prev, cr) => prev + 
+			$", INameEqualityCriterion<SyntaxNodeOrToken?, {code.Escape(syntaxNode.Root.Label.ToString())}, {code.Escape(cr.type)}>")
+		?? "";
+		compatibleInterfaces += reversedCompatibilityRules?.Aggregate("", (prev, cr) => prev + 
+			$", INameEqualityCriterion<SyntaxNodeOrToken?, {code.Escape(syntaxNode.Root.Label.ToString())}, {code.Escape(cr.Type.name)}>")
+		?? "";
 #>
-public <#= xSyntaxNodeType.@abstract ? "abstract " : "" #>partial class <#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>ServiceProvider : INameEqualityCriterion<SyntaxNodeOrToken?, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>>
+public <#= xSyntaxNodeType.@abstract ? "abstract " : "" #>partial class <#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>ServiceProvider : INameEqualityCriterion<SyntaxNodeOrToken?, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>><#= compatibleInterfaces #>
 {
 	/// <summary>
     /// Method hook for implementing logic to execute before the <see cref="NameEqualityMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/>.
@@ -407,7 +429,7 @@ public <#= xSyntaxNodeType.@abstract ? "abstract " : "" #>partial class <#= code
 		              (keyProperties.Count > 1 ? ")" : "") + 
 		              (keyProperties.Count > 1 && i != (keyProperties.Count - 1) ? (currentPropertiesMetadata.Where(p => keyProperties.Any(kp => kp.name == p.Item2.name)).All(kp => kp.Item2.optional) ? " ||" : " &&") : "") + 
 					  (i == (keyProperties.Count - 1) ? ")" : "");
-		line += $"this.LanguageServiceProvider.NameEqualityMatch(original.{keyProperty.Item2.name}, modified.{keyProperty.Item2.name}, context)";
+		line += $"this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), \"NameEquality\", original.{keyProperty.Item2.name}, modified.{keyProperty.Item2.name}, context)";
 		 
 		line += postfix;
 #>
@@ -416,6 +438,177 @@ public <#= xSyntaxNodeType.@abstract ? "abstract " : "" #>partial class <#= code
 	}
 #>
 		{
+			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
+			return true;
+		}
+<#
+	var compatibleProperties = keyProperties
+		.Where(kp => kp.Rules?.Compatibility?.Exclusive.Any(w => w.with != null) ?? false)
+		.SelectMany(kp => kp.Rules.Compatibility.Exclusive
+						 .Where(w => w.with != null)
+						 .Select(w => new { Left = kp, Right = keyProperties.SingleOrDefault(kp2 => kp2.name == w.with), Rule = w }))
+		.ToArray();
+
+	foreach(var compatibleProperty in compatibleProperties.Where(cp => cp.Right != null))
+	{
+		var remainingKeyProperties = keyProperties.Where(kp => kp != compatibleProperty.Right).ToList();
+		for (int i = 0; i < remainingKeyProperties.Count; i++)
+		{
+			var keyProperty = currentPropertiesMetadata.Single(p => remainingKeyProperties[i].name == p.Item2.name);
+			var otherProperty = remainingKeyProperties[i] == compatibleProperty.Left 
+				? currentPropertiesMetadata.Single(p => compatibleProperty.Right.name == p.Item2.name)
+				: null;
+				
+			var prefix = i == 0 ? System.Environment.NewLine + "		if (" : "    ";
+			var line = prefix + (remainingKeyProperties.Count > 1 ? "(" : "") + 
+					(keyProperty.Item2.optional 
+						? ((currentPropertiesMetadata.Where(p => remainingKeyProperties.Any(kp => kp.name == p.Item2.name)).Any(kp => !kp.Item2.optional) ? $"(original.{keyProperty.Item2.name} == null && modified.{(otherProperty != null ? otherProperty : keyProperty).Item2.name} == null) || (" : "") + 
+						$"original.{keyProperty.Item2.name} != null && modified.{(otherProperty != null ? otherProperty : keyProperty).Item2.name} != null && ") 
+						: "");
+			var postfix = (keyProperty.Item2.optional && currentPropertiesMetadata.Where(p => remainingKeyProperties.Any(kp => kp.name == p.Item2.name)).Any(kp => !kp.Item2.optional) ? ")" : "") +
+						(remainingKeyProperties.Count > 1 ? ")" : "") + 
+						(remainingKeyProperties.Count > 1 && i != (remainingKeyProperties.Count - 1) ? (currentPropertiesMetadata.Where(p => remainingKeyProperties.Any(kp => kp.name == p.Item2.name)).All(kp => kp.Item2.optional) ? " ||" : " &&") : "") + 
+						(i == (remainingKeyProperties.Count - 1) ? ")" : "");
+			line += $"this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), \"NameEquality\", original.{keyProperty.Item2.name}, modified.{(otherProperty != null ? otherProperty : keyProperty).Item2.name}, context)";
+		 
+			line += postfix;
+#>
+		<#= line #>
+<# 
+		}
+#>
+		{
+			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
+			return true;
+		}
+<#
+		if(compatibleProperty.Rule.mutually)
+		{
+			remainingKeyProperties = keyProperties.Where(kp => kp != compatibleProperty.Right).ToList();
+			for (int i = 0; i < remainingKeyProperties.Count; i++)
+			{
+				var keyProperty = currentPropertiesMetadata.Single(p => remainingKeyProperties[i].name == p.Item2.name);
+				var otherProperty = remainingKeyProperties[i] == compatibleProperty.Left 
+					? currentPropertiesMetadata.Single(p => compatibleProperty.Right.name == p.Item2.name)
+					: null;
+					
+				var prefix = i == 0 ? System.Environment.NewLine + "		if (" : "    ";
+				var line = prefix + (remainingKeyProperties.Count > 1 ? "(" : "") + 
+						(keyProperty.Item2.optional 
+							? ((currentPropertiesMetadata.Where(p => remainingKeyProperties.Any(kp => kp.name == p.Item2.name)).Any(kp => !kp.Item2.optional) ? $"(original.{(otherProperty != null ? otherProperty : keyProperty).Item2.name} == null && modified.{keyProperty.Item2.name} == null) || (" : "") + 
+							$"original.{(otherProperty != null ? otherProperty : keyProperty).Item2.name} != null && modified.{keyProperty.Item2.name} != null && ") 
+							: "");
+				var postfix = (keyProperty.Item2.optional && currentPropertiesMetadata.Where(p => remainingKeyProperties.Any(kp => kp.name == p.Item2.name)).Any(kp => !kp.Item2.optional) ? ")" : "") +
+							(remainingKeyProperties.Count > 1 ? ")" : "") + 
+							(remainingKeyProperties.Count > 1 && i != (remainingKeyProperties.Count - 1) ? (currentPropertiesMetadata.Where(p => remainingKeyProperties.Any(kp => kp.name == p.Item2.name)).All(kp => kp.Item2.optional) ? " ||" : " &&") : "") + 
+							(i == (remainingKeyProperties.Count - 1) ? ")" : "");
+				line += $"this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), \"NameEquality\", original.{(otherProperty != null ? otherProperty : keyProperty).Item2.name}, modified.{keyProperty.Item2.name}, context)";
+		 
+				line += postfix;
+#>
+		<#= line #>
+<# 
+			}
+#>
+		{
+			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
+			return true;
+		}
+<#
+		}
+	}
+#>
+
+		matchingDescription = null;
+	    return false;
+	}
+
+    /// <summary>
+    /// Determines if two elements are name-based exactly equal.
+    /// </summary>
+    /// <param name="original">the original version.</param>
+    /// <param name="modified">the modified version.</param>
+    /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+    /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
+    /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
+    public virtual bool NameEqualityMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= code.Escape(syntaxNode.Root.Label.ToString()) #> modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+	{
+		bool result = false;
+		var ignoreCore = false;
+		matchingDescription = null;
+		NameEqualityMatchBefore(original, modified, context, ref matchingDescription, ref result, ref ignoreCore);
+		if(ignoreCore) 
+			return result;
+		
+		result = this.NameEqualityMatchCore(original, modified, context, out matchingDescription);
+		NameEqualityMatchAfter(original, modified, context, ref matchingDescription, ref result);
+		return result;
+	}
+<#
+
+	if(compatibilityRules?.Any() ?? false)
+	{
+		foreach(var rule in compatibilityRules)
+		{
+#>
+
+	/// <summary>
+    /// Method hook for implementing logic to execute before the <see cref="NameEqualityMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= rule.type #>, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/>.
+    /// </summary>
+    /// <param name="original">the original version.</param>
+    /// <param name="modified">the modified version.</param>
+    /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+    /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+    /// <param name="result">Mechanism to modify the result of <see cref="NameEqualityMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= rule.type #>, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/>.</param>
+    /// <param name="ignoreCore">If true, the <see cref="NameEqualityMatchCore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= rule.type #>, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/> is not executed and <see cref="NameEqualityMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= rule.type #>, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+    /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description.</param>
+    partial void NameEqualityMatchBefore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= rule.type #> modified, MatchingContext<SyntaxNodeOrToken?> context, ref MatchInfo<SyntaxNodeOrToken?> matchingDescription, ref bool result, ref bool ignoreCore);
+    
+    /// <summary>
+    /// Method hook for implementing logic to execute after the <see cref="NameEqualityMatchCore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= rule.type #>, MatchingContext{SyntaxNodeOrToken?})"/>.
+    /// </summary>
+    /// <param name="original">the original version.</param>
+    /// <param name="modified">the modified version.</param>
+    /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+    /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+    /// <param name="result">Mechanism to modify the result of <see cref="NameEqualityMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= rule.type #>, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/>.</param>
+    /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description.</param>
+    partial void NameEqualityMatchAfter(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= rule.type #> modified, MatchingContext<SyntaxNodeOrToken?> context, ref MatchInfo<SyntaxNodeOrToken?> matchingDescription, ref bool result);
+
+    /// <summary>
+    /// Determines if two elements are name-based exactly equal.
+    /// </summary>
+    /// <param name="original">the original version.</param>
+    /// <param name="modified">the modified version.</param>
+    /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+    /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
+    /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description.</param>
+    /// <remarks>This is the default implementation for <see cref="NameEqualityMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= rule.type #>, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/>.</remarks>
+    protected virtual bool NameEqualityMatchCore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= rule.type #> modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+	{
+		if(original == null) 
+			throw new ArgumentNullException(nameof(original));
+
+		if(modified == null) 
+			throw new ArgumentNullException(nameof(modified));
+<#
+		var @case = new StringBuilder();
+		var conditions = rule.Condition;
+
+		for(int j = 0; j < conditions.Count(); j++)
+		{
+			var condition = conditions[j] as Syntax.NodesLocalType.TypeLocalType.RulesLocalType.CompatibilityLocalType.NameLocalType.ConditionLocalType;
+			if(condition != null)
+			{
+				@case.AppendLine((j == 0 ? "if(" : "           && ") + 
+					string.Format(condition.code, "original", "modified") +
+					(j == conditions.Count() - 1 ? ")" : ""));
+
+				continue;
+			}
+		}
+#>		
+		<#= @case.ToString() #>		{		
 			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
 			return true;
 		}
@@ -431,8 +624,8 @@ public <#= xSyntaxNodeType.@abstract ? "abstract " : "" #>partial class <#= code
     /// <param name="modified">the modified version.</param>
     /// <param name="context">the context wherein certain matching criterion is currently running.</param>
     /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
-    /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-    bool INameEqualityCriterion<SyntaxNodeOrToken?, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>>.NameEqualityMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= code.Escape(syntaxNode.Root.Label.ToString()) #> modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+    /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description.</param>
+    public virtual bool NameEqualityMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= rule.type #> modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
 	{
 		bool result = false;
 		var ignoreCore = false;
@@ -445,6 +638,106 @@ public <#= xSyntaxNodeType.@abstract ? "abstract " : "" #>partial class <#= code
 		NameEqualityMatchAfter(original, modified, context, ref matchingDescription, ref result);
 		return result;
 	}
+<#
+		}
+	}
+
+	if(reversedCompatibilityRules?.Any() ?? false)
+	{
+		foreach(var rule in reversedCompatibilityRules)
+		{
+#>
+
+	/// <summary>
+    /// Method hook for implementing logic to execute before the <see cref="NameEqualityMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= rule.Type.name #>, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/>.
+    /// </summary>
+    /// <param name="original">the original version.</param>
+    /// <param name="modified">the modified version.</param>
+    /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+    /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+    /// <param name="result">Mechanism to modify the result of <see cref="NameEqualityMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= rule.Type.name #>, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/>.</param>
+    /// <param name="ignoreCore">If true, the <see cref="NameEqualityMatchCore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= rule.Type.name #>, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/> is not executed and <see cref="NameEqualityMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= rule.Type.name #>, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+    /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description.</param>
+    partial void NameEqualityMatchBefore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= rule.Type.name #> modified, MatchingContext<SyntaxNodeOrToken?> context, ref MatchInfo<SyntaxNodeOrToken?> matchingDescription, ref bool result, ref bool ignoreCore);
+    
+    /// <summary>
+    /// Method hook for implementing logic to execute after the <see cref="NameEqualityMatchCore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= rule.Type.name #>, MatchingContext{SyntaxNodeOrToken?})"/>.
+    /// </summary>
+    /// <param name="original">the original version.</param>
+    /// <param name="modified">the modified version.</param>
+    /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+    /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+    /// <param name="result">Mechanism to modify the result of <see cref="NameEqualityMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= rule.Type.name #>, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/>.</param>
+    /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
+    partial void NameEqualityMatchAfter(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= rule.Type.name #> modified, MatchingContext<SyntaxNodeOrToken?> context, ref MatchInfo<SyntaxNodeOrToken?> matchingDescription, ref bool result);
+
+    /// <summary>
+    /// Determines if two elements are name-based exactly equal.
+    /// </summary>
+    /// <param name="original">the original version.</param>
+    /// <param name="modified">the modified version.</param>
+    /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+    /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
+    /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description.</param>
+    /// <remarks>This is the default implementation for <see cref="NameEqualityMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= rule.Type.name #>, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/>.</remarks>
+    protected virtual bool NameEqualityMatchCore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= rule.Type.name #> modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+	{
+		if(original == null) 
+			throw new ArgumentNullException(nameof(original));
+
+		if(modified == null) 
+			throw new ArgumentNullException(nameof(modified));
+<#
+		var @case = new StringBuilder();
+		var conditions = rule.Rule.Condition;
+
+		for(int j = 0; j < conditions.Count(); j++)
+		{
+			var condition = conditions[j] as Syntax.NodesLocalType.TypeLocalType.RulesLocalType.CompatibilityLocalType.NameLocalType.ConditionLocalType;
+			if(condition != null)
+			{
+				@case.AppendLine((j == 0 ? "if(" : "           && ") + 
+					string.Format(condition.code, "modified", "original") +
+					(j == conditions.Count() - 1 ? ")" : ""));
+
+				continue;
+			}
+		}
+#>		
+		<#= @case.ToString() #>		{		
+			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
+			return true;
+		}
+
+		matchingDescription = null;
+	    return false;
+	}
+
+    /// <summary>
+    /// Determines if two elements are name-based exactly equal.
+    /// </summary>
+    /// <param name="original">the original version.</param>
+    /// <param name="modified">the modified version.</param>
+    /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+    /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
+    /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description.</param>
+    public virtual bool NameEqualityMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= rule.Type.name #> modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+	{
+		bool result = false;
+		var ignoreCore = false;
+		matchingDescription = null;
+		NameEqualityMatchBefore(original, modified, context, ref matchingDescription, ref result, ref ignoreCore);
+		if(ignoreCore) 
+			return result;
+		
+		result = this.NameEqualityMatchCore(original, modified, context, out matchingDescription);
+		NameEqualityMatchAfter(original, modified, context, ref matchingDescription, ref result);
+		return result;
+	}
+<#
+		}
+	}
+#>
 }
 
 <#

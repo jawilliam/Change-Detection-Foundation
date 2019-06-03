@@ -18,52 +18,46 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-  <xs:complexType name="EqualityOrSimilarityRules">
-		<xs:attribute name="full" type="xs:boolean" use="optional"/>
-		<xs:attribute name="partial" type="xs:boolean" use="optional"/>
-	</xs:complexType>
-	<xs:complexType name="KeyRules">
-		<xs:sequence>
-			<xs:element name="Equality" type="EqualityOrSimilarityRules" minOccurs="0"/>
-			<xs:element name="Similarity" type="EqualityOrSimilarityRules" minOccurs="0"/>
-		</xs:sequence>
+  <xs:complexType name="EqualityAndOrSimilarityAbsoluteAndOrRelativeRules">
+    <xs:attribute name="equality" type="xs:boolean" use="optional" default="false"/>
+    <xs:attribute name="similarity" type="xs:boolean" use="optional" default="false"/>
+		<xs:attribute name="absolute" type="xs:boolean" use="optional" default="false"/>
+		<xs:attribute name="relative" type="xs:boolean" use="optional" default="false"/>
 	</xs:complexType>
   <xs:complexType name="SuitabilityRule">
-    <xs:attribute name="suitable" type="xs:boolean" use="optional"/>
+    <xs:attribute name="suitable" type="xs:boolean" use="optional" default="false"/>
   </xs:complexType>
   <xs:complexType name="PairwiseRules">
-    <xs:attribute name="tunneling" type="xs:boolean" use="optional"/>
-    <xs:attribute name="discriminant" type="xs:boolean" use="optional"/>
+    <xs:attribute name="tunneling" type="xs:boolean" use="optional" default="false"/>
+    <xs:attribute name="discriminant" type="xs:boolean" use="optional" default="false"/>
     <xs:attribute name="priority" type="xs:unsignedByte" use="optional"/>
   </xs:complexType>
   <xs:complexType name="TopologyRules">
-    <xs:attribute name="relevant" type="xs:boolean" use="optional"/>
+    <xs:attribute name="relevant" type="xs:boolean" use="optional" default="false"/>
     <xs:attribute name="relevancy" type="xs:unsignedByte" use="optional" default="0"/>
-    <xs:attribute name="leaf" type="xs:boolean" use="optional"/>
+    <xs:attribute name="leaf" type="xs:boolean" use="optional" default="false"/>
   </xs:complexType>  
   <xs:complexType name="JoinCase">
     <xs:attribute name="leftPath" type="xs:string"/>
     <xs:attribute name="rightPath" type="xs:string"/>
   </xs:complexType>
-  <xs:complexType name="CaseRules">
-    <xs:choice maxOccurs="unbounded">
-      <xs:element name="Value">
-        <xs:complexType>
-          <xs:attribute name="path" type="xs:string"/>
-          <xs:attribute name="value" type="xs:string"/>
-        </xs:complexType>
-      </xs:element>
-      <xs:element name="Equality" type="JoinCase"/>
-      <xs:element name="Similarity" type="JoinCase"/>
-      <xs:element name="Partner" type="JoinCase"/>
-    </xs:choice>
+  <xs:attributeGroup name="CompatibilityAttributes">
     <xs:attribute name="type" type="xs:string" use="optional"/>
     <xs:attribute name="kind" type="xs:string" use="optional"/>
-    <xs:attribute name="twoWay" type="xs:boolean" use="optional"/>
-  </xs:complexType>
+    <xs:attribute name="twoWay" type="xs:boolean" use="optional" default="false"/>
+  </xs:attributeGroup>
+  <xs:group name="CaseRules">
+    <xs:choice>
+      <xs:element name="Condition">
+        <xs:complexType>
+          <xs:attribute name="code" type="xs:string" use="required"/>
+        </xs:complexType>
+      </xs:element>
+    </xs:choice>
+  </xs:group>
 	<xs:element name="Syntax">
 		<xs:annotation>
-			<xs:documentation>A Change Detection Model Language for Abstract Syntax Trees</xs:documentation>
+			<xs:documentation>Roslyn Delta Specification Language</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
@@ -84,28 +78,40 @@
                                     <xs:sequence>
                                       <xs:element name="Kind" type="mstns:PropertyLabelOption" minOccurs="0" maxOccurs="unbounded"/>
                                     </xs:sequence>
-                                    <xs:attribute name="exclusive" type="xs:boolean" use="optional"/>
+                                    <xs:attribute name="exclusive" type="xs:boolean" use="optional" default="false"/>
                                     <xs:attribute name="labeling" type="xs:boolean" use="optional" default="false"/>
                                   </xs:complexType>
                                 </xs:element>
 																<xs:element name="Rules" minOccurs="0">
 																	<xs:complexType>
 																		<xs:sequence>
-																			<xs:element name="Signature" type="mstns:KeyRules" minOccurs="0"/>
-																			<xs:element name="Name" minOccurs="0">
+																			<xs:element name="Signature" type="mstns:EqualityAndOrSimilarityAbsoluteAndOrRelativeRules" minOccurs="0" maxOccurs="4"/>
+																			<xs:element name="Name" minOccurs="0" maxOccurs="4">
 																				<xs:complexType>
 																					<xs:complexContent>
-																						<xs:extension base="mstns:KeyRules">
+																						<xs:extension base="mstns:EqualityAndOrSimilarityAbsoluteAndOrRelativeRules">
 																							<xs:attribute name="conventionPattern" type="xs:string" use="optional"/>
 																						</xs:extension>
 																					</xs:complexContent>
 																				</xs:complexType>
 																			</xs:element>
                                       <xs:element name="Hint" type="mstns:SuitabilityRule" minOccurs="0"/>
+                                      <xs:element name="Compatibility" minOccurs="0">
+                                        <xs:complexType>
+                                          <xs:choice minOccurs="0" maxOccurs="unbounded">
+                                            <xs:element name="Exclusive" minOccurs="0">
+                                              <xs:complexType>
+                                                <xs:attribute name="mutually" type="xs:boolean" use="optional" default="false"/>
+                                                <xs:attribute name="with" type="xs:string" use="required"/>
+                                              </xs:complexType>
+                                            </xs:element>
+                                          </xs:choice>
+                                        </xs:complexType>
+                                      </xs:element>
                                       <xs:element name="Pairwise" type="mstns:PairwiseRules" minOccurs="0"/>
                                       <xs:element name="Topology" type="mstns:TopologyRules" minOccurs="0"/>
 																		</xs:sequence>
-																		<xs:attribute name="essential" type="xs:boolean" use="optional"/>
+																		<xs:attribute name="essential" type="xs:boolean" use="optional" default="false"/>
                                     <xs:attribute name="collection" type="xs:boolean" use="optional" default="false"/>
                                     <xs:attribute name="eventuallyCollection" type="xs:boolean" use="optional" default="false"/>
 																	</xs:complexType>
@@ -115,7 +121,7 @@
 															<xs:attribute name="kind" use="required">
 																<xs:simpleType>
 																	<xs:restriction base="xs:string">
-																		<xs:enumeration value="Expression"/>
+																		<xs:enumeration value="Node"/>
 																		<xs:enumeration value="Token"/>
 																	</xs:restriction>
 																</xs:simpleType>
@@ -153,20 +159,60 @@
                         <xs:sequence>
                           <xs:element name="Type" type="mstns:TypeLabelOption" minOccurs="0" maxOccurs="unbounded"/>
                         </xs:sequence>
-                        <xs:attribute name="exclusive" type="xs:boolean" use="optional"/>
+                        <xs:attribute name="exclusive" type="xs:boolean" use="optional" default="false"/>
                       </xs:complexType>
                     </xs:element>
 										<xs:element name="Rules" minOccurs="0">
 											<xs:complexType>
 												<xs:sequence>
-													<xs:element name="Signature" type="mstns:KeyRules" minOccurs="0"/>
-													<xs:element name="Name" type="mstns:KeyRules" minOccurs="0"/>
+													<xs:element name="Signature" type="mstns:EqualityAndOrSimilarityAbsoluteAndOrRelativeRules" minOccurs="0"/>
+													<xs:element name="Name" type="mstns:EqualityAndOrSimilarityAbsoluteAndOrRelativeRules" minOccurs="0"/>
                           <xs:element name="Hint" type="mstns:SuitabilityRule" minOccurs="0"/>
-                          <xs:element name="Alias" type="mstns:CaseRules" minOccurs="0" maxOccurs="unbounded"/>
-                          <xs:element name="Compatibility" type="mstns:CaseRules" minOccurs="0" maxOccurs="unbounded"/>
+                          <!--<xs:element name="Alias" type="mstns:CaseRules" minOccurs="0" maxOccurs="unbounded"/>-->
+                          <xs:element name="Compatibility" minOccurs="0">
+                            <xs:complexType>
+                              <xs:choice minOccurs="0" maxOccurs="unbounded">
+                                <xs:element name="Signature" minOccurs="0">
+                                  <xs:complexType>
+                                    <xs:complexContent>
+                                      <xs:extension base="mstns:EqualityAndOrSimilarityAbsoluteAndOrRelativeRules">
+                                        <xs:group ref="CaseRules" maxOccurs="unbounded"></xs:group>
+                                        <xs:attributeGroup ref="CompatibilityAttributes"/>
+                                      </xs:extension>
+                                    </xs:complexContent>
+                                  </xs:complexType>
+                                </xs:element>
+                                <xs:element name="Name" minOccurs="0">
+                                  <xs:complexType>
+                                    <xs:complexContent>
+                                      <xs:extension base="mstns:EqualityAndOrSimilarityAbsoluteAndOrRelativeRules">
+                                        <xs:group ref="CaseRules" maxOccurs="unbounded"></xs:group>
+                                        <xs:attributeGroup ref="CompatibilityAttributes"/>
+                                      </xs:extension>
+                                    </xs:complexContent>
+                                  </xs:complexType>
+                                </xs:element>
+                                <xs:element name="Hint" minOccurs="0">
+                                  <xs:complexType>
+                                    <xs:complexContent>
+                                      <xs:extension base="mstns:SuitabilityRule">
+                                        <xs:attributeGroup ref="CompatibilityAttributes"/>
+                                      </xs:extension>
+                                    </xs:complexContent>
+                                  </xs:complexType>
+                                </xs:element>
+                                <xs:element name="Alias" minOccurs="0">
+                                  <xs:complexType>
+                                    <xs:group ref="CaseRules" maxOccurs="unbounded"></xs:group>
+                                    <xs:attributeGroup ref="CompatibilityAttributes"/>
+                                  </xs:complexType>
+                                </xs:element>
+                              </xs:choice>
+                            </xs:complexType>
+                          </xs:element>
 													<xs:element name="Granularity" minOccurs="0">
 														<xs:complexType>
-															<xs:attribute name="fine" type="xs:boolean" use="optional"/>
+															<xs:attribute name="fine" type="xs:boolean" use="optional" default="false"/>
 															<xs:attribute name="coarse" type="xs:boolean" use="required"/>
 														</xs:complexType>
 													</xs:element>

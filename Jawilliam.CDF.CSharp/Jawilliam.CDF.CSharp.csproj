@@ -152,6 +152,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>NameServices.tt</DependentUpon>
     </Compile>
+    <Compile Include="Awareness\NameServices.Custom.MemberAccessExpressionServiceProvider.cs" />
     <Compile Include="Awareness\PairwiseServices.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
