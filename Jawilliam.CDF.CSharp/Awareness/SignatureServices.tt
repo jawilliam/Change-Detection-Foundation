@@ -90,17 +90,17 @@ using System.Xml.Linq;
 BeginNamespace(namespaceName, code);
 
 #>
-partial class SyntaxTokenServiceProvider : INameEqualityCriterion<SyntaxNodeOrToken?, SyntaxToken, SyntaxToken>
+partial class SyntaxTokenServiceProvider : ISignatureEqualityCriterion<SyntaxNodeOrToken?, SyntaxToken, SyntaxToken>
 {
     /// <summary>
-    /// Determines if two elements are name-based exactly equal.
+    /// Determines if two elements are signature-based exactly equal.
     /// </summary>
     /// <param name="original">the original version.</param>
     /// <param name="modified">the modified version.</param>
     /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-    /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
-    /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description.</param>
-    public virtual bool NameEqualityMatch(SyntaxToken original, SyntaxToken modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+    /// <returns>true if the given elements are signature-based exactly equal, otherwise returns false.</returns>
+    /// <param name="matchingDescription">in case the given elements are signature-based exactly equal, this parameter will contain the corresponding matching description.</param>
+    public virtual bool SignatureEqualityMatch(SyntaxToken original, SyntaxToken modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     {
 		matchingDescription = null;
 
@@ -122,16 +122,16 @@ partial class SyntaxTokenServiceProvider : INameEqualityCriterion<SyntaxNodeOrTo
 partial class LanguageServiceProvider
 {
 	/// <summary>
-    /// Determines if two elements are name-based exactly equal.
+    /// Determines if two elements are signature-based exactly equal.
     /// </summary>
     /// <param name="original">the original version.</param>
     /// <param name="modified">the modified version.</param>
     /// <param name="context">the context wherein certain matching criterion is currently running.</param>
     /// <typeparam name="TOriginal">Specific type of the original element.</typeparam>
     /// <typeparam name="TModified">Specific type of the modified element.</typeparam>
-    /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
-    /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description.</param>
-    protected virtual bool NameEqualityMatch<TOriginal, TModified>(IEnumerable<TOriginal> original, IEnumerable<TModified> modified, Func<TOriginal, TModified, bool> equal, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+    /// <returns>true if the given elements are signature-based exactly equal, otherwise returns false.</returns>
+    /// <param name="matchingDescription">in case the given elements are signature-based exactly equal, this parameter will contain the corresponding matching description.</param>
+    protected virtual bool SignatureEqualityMatch<TOriginal, TModified>(IEnumerable<TOriginal> original, IEnumerable<TModified> modified, Func<TOriginal, TModified, bool> equal, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     where TOriginal : SyntaxNode where TModified : SyntaxNode
     {
 		matchingDescription = null;
@@ -147,7 +147,7 @@ partial class LanguageServiceProvider
 
         if (originalList.Select((o, i) => equal(o, modifiedList[i])).All(r => r))
         {
-            matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original as SyntaxNode, Modified = modified as SyntaxNode };
+            matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.SignatureEquality) { Original = original as SyntaxNode, Modified = modified as SyntaxNode };
             return true;
         }
 
@@ -166,54 +166,54 @@ partial class LanguageServiceProvider
 		if (originalList.Count() != modifiedList.Count())
             return false;
         
-		matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original as SyntaxNode, Modified = modified as SyntaxNode };
+		matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.SignatureEquality) { Original = original as SyntaxNode, Modified = modified as SyntaxNode };
     	return true;
 	}
 
 	/// <summary>
-    /// Determines if two elements are name-based exactly equal.
+    /// Determines if two elements are signature-based exactly equal.
     /// </summary>
     /// <param name="original">the original version.</param>
     /// <param name="modified">the modified version.</param>
     /// <param name="context">the context wherein certain matching criterion is currently running.</param>
     /// <typeparam name="TOriginal">Specific type of the original element.</typeparam>
     /// <typeparam name="TModified">Specific type of the modified element.</typeparam>
-    /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
-    /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description.</param>
-    public virtual bool NameEqualityMatch<TOriginal, TModified>(SeparatedSyntaxList<TOriginal> original, SeparatedSyntaxList<TModified> modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+    /// <returns>true if the given elements are signature-based exactly equal, otherwise returns false.</returns>
+    /// <param name="matchingDescription">in case the given elements are signature-based exactly equal, this parameter will contain the corresponding matching description.</param>
+    public virtual bool SignatureEqualityMatch<TOriginal, TModified>(SeparatedSyntaxList<TOriginal> original, SeparatedSyntaxList<TModified> modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     where TOriginal : SyntaxNode where TModified : SyntaxNode
     {
-		return this.NameEqualityMatch(original, modified, (o, m) => this.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", o, m, context), context, out matchingDescription);
+		return this.SignatureEqualityMatch(original, modified, (o, m) => this.MatchBy(typeof(ISignatureEqualityCriterion<,,>), "SignatureEquality", o, m, context), context, out matchingDescription);
 	}		
 
 	/// <summary>
-    /// Determines if two elements are name-based exactly equal.
+    /// Determines if two elements are signature-based exactly equal.
     /// </summary>
     /// <param name="original">the original version.</param>
     /// <param name="modified">the modified version.</param>
     /// <param name="context">the context wherein certain matching criterion is currently running.</param>
     /// <typeparam name="TOriginal">Specific type of the original element.</typeparam>
     /// <typeparam name="TModified">Specific type of the modified element.</typeparam>
-    /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
-    /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description.</param>
-    public virtual bool NameEqualityMatch<TOriginal, TModified>(SyntaxList<TOriginal> original, SyntaxList<TModified> modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+    /// <returns>true if the given elements are signature-based exactly equal, otherwise returns false.</returns>
+    /// <param name="matchingDescription">in case the given elements are signature-based exactly equal, this parameter will contain the corresponding matching description.</param>
+    public virtual bool SignatureEqualityMatch<TOriginal, TModified>(SyntaxList<TOriginal> original, SyntaxList<TModified> modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     where TOriginal : SyntaxNode where TModified : SyntaxNode
     {
-		return this.NameEqualityMatch(original, modified, (o, m) => this.MatchBy(typeof(INameEqualityCriterion<,,>), "NameEquality", o, m, context), context, out matchingDescription);
+		return this.SignatureEqualityMatch(original, modified, (o, m) => this.MatchBy(typeof(ISignatureEqualityCriterion<,,>), "SignatureEquality", o, m, context), context, out matchingDescription);
 	}
 }
-
-partial class OmittedTypeArgumentServiceProvider : INameEqualityCriterion<SyntaxNodeOrToken?, OmittedTypeArgumentSyntax, OmittedTypeArgumentSyntax>
+/*
+partial class OmittedTypeArgumentServiceProvider : ISignatureEqualityCriterion<SyntaxNodeOrToken?, OmittedTypeArgumentSyntax, OmittedTypeArgumentSyntax>
 {
     /// <summary>
-    /// Determines if two elements are name-based exactly equal.
+    /// Determines if two elements are signature-based exactly equal.
     /// </summary>
     /// <param name="original">the original version.</param>
     /// <param name="modified">the modified version.</param>
     /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-    /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
-    /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description.</param>
-    public virtual bool NameEqualityMatch(OmittedTypeArgumentSyntax original, OmittedTypeArgumentSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+    /// <returns>true if the given elements are signature-based exactly equal, otherwise returns false.</returns>
+    /// <param name="matchingDescription">in case the given elements are signature-based exactly equal, this parameter will contain the corresponding matching description.</param>
+    public virtual bool SignatureEqualityMatch(OmittedTypeArgumentSyntax original, OmittedTypeArgumentSyntax modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
     {
         if (original == null || modified == null)
         {
@@ -221,14 +221,14 @@ partial class OmittedTypeArgumentServiceProvider : INameEqualityCriterion<Syntax
             return false;
         }
 
-        matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
+        matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.SignatureEquality) { Original = original, Modified = modified };
     	return true;
     }
-}
+}*/
 
 <#
 var nameProviders = xSyntaxTypeSystem.Nodes.Type
-	.Where(t => !t.@abstract && t.Properties.Property.Any(p => p.Rules?.Name.Any(n => n.equality && n.absolute) ?? false))
+	.Where(t => !t.@abstract && t.Properties.Property.Any(p => p.Rules?.Signature.Any(n => n.equality && n.absolute) ?? false))
 	.ToList();
 
 foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
@@ -242,7 +242,7 @@ foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
 		continue;
 
 	var keyProperties = xSyntaxNodeType.Properties.Property
-		.Where(p => p.Rules?.Name.Any(n => n.equality && n.absolute) ?? false)
+		.Where(p => p.Rules?.Signature.Any(n => n.equality && n.absolute) ?? false)
 		.ToList();
 
 	if(!keyProperties.Any()) 
@@ -276,56 +276,56 @@ foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
 
 	if(xSyntaxNodeType != null)
 	{
-		var compatibilityRules = xSyntaxNodeType.Rules?.Compatibility?.Name.Where(n => n.equality && n.absolute).ToArray();
+		var compatibilityRules = xSyntaxNodeType.Rules?.Compatibility?.Signature.Where(n => n.equality && n.absolute).ToArray();
 		var reversedCompatibilityRules = nameProviders
-			.Where(np => np.Rules?.Compatibility?.Name.Any(n => n.equality && n.absolute && n.type == xSyntaxNodeType.name && n.twoWay) ?? false)
-			.SelectMany(np => np.Rules?.Compatibility?.Name
+			.Where(np => np.Rules?.Compatibility?.Signature.Any(n => n.equality && n.absolute && n.type == xSyntaxNodeType.name && n.twoWay) ?? false)
+			.SelectMany(np => np.Rules?.Compatibility?.Signature
 							 .Where(n => n.equality && n.absolute && n.type == xSyntaxNodeType.name && n.twoWay)
 							 .Select(n => new {Type = np, Rule = n}))
 		.ToArray();
 
 		var compatibleInterfaces = compatibilityRules?.Aggregate("", (prev, cr) => prev + 
-			$", INameEqualityCriterion<SyntaxNodeOrToken?, {code.Escape(syntaxNode.Root.Label.ToString())}, {code.Escape(cr.type)}>")
+			$", ISignatureEqualityCriterion<SyntaxNodeOrToken?, {code.Escape(syntaxNode.Root.Label.ToString())}, {code.Escape(cr.type)}>")
 		?? "";
 		compatibleInterfaces += reversedCompatibilityRules?.Aggregate("", (prev, cr) => prev + 
-			$", INameEqualityCriterion<SyntaxNodeOrToken?, {code.Escape(syntaxNode.Root.Label.ToString())}, {code.Escape(cr.Type.name)}>")
+			$", ISignatureEqualityCriterion<SyntaxNodeOrToken?, {code.Escape(syntaxNode.Root.Label.ToString())}, {code.Escape(cr.Type.name)}>")
 		?? "";
 #>
-public <#= xSyntaxNodeType.@abstract ? "abstract " : "" #>partial class <#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>ServiceProvider : INameEqualityCriterion<SyntaxNodeOrToken?, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>><#= compatibleInterfaces #>
+public <#= xSyntaxNodeType.@abstract ? "abstract " : "" #>partial class <#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>ServiceProvider : ISignatureEqualityCriterion<SyntaxNodeOrToken?, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>><#= compatibleInterfaces #>
 {
 	/// <summary>
-    /// Method hook for implementing logic to execute before the <see cref="NameEqualityMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/>.
+    /// Method hook for implementing logic to execute before the <see cref="SignatureEqualityMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/>.
     /// </summary>
     /// <param name="original">the original version.</param>
     /// <param name="modified">the modified version.</param>
     /// <param name="context">the context wherein certain matching criterion is currently running.</param>
     /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-    /// <param name="result">Mechanism to modify the result of <see cref="NameEqualityMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/>.</param>
-    /// <param name="ignoreCore">If true, the <see cref="NameEqualityMatchCore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/> is not executed and <see cref="NameEqualityMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
-    /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-    partial void NameEqualityMatchBefore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= code.Escape(syntaxNode.Root.Label.ToString()) #> modified, MatchingContext<SyntaxNodeOrToken?> context, ref MatchInfo<SyntaxNodeOrToken?> matchingDescription, ref bool result, ref bool ignoreCore);
+    /// <param name="result">Mechanism to modify the result of <see cref="SignatureEqualityMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/>.</param>
+    /// <param name="ignoreCore">If true, the <see cref="SignatureEqualityMatchCore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/> is not executed and <see cref="SignatureEqualityMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+    /// <param name="matchingDescription">in case the given elements are signature-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
+    partial void SignatureEqualityMatchBefore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= code.Escape(syntaxNode.Root.Label.ToString()) #> modified, MatchingContext<SyntaxNodeOrToken?> context, ref MatchInfo<SyntaxNodeOrToken?> matchingDescription, ref bool result, ref bool ignoreCore);
     
     /// <summary>
-    /// Method hook for implementing logic to execute after the <see cref="NameEqualityMatchCore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>, MatchingContext{SyntaxNodeOrToken?})"/>.
+    /// Method hook for implementing logic to execute after the <see cref="SignatureEqualityMatchCore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>, MatchingContext{SyntaxNodeOrToken?})"/>.
     /// </summary>
     /// <param name="original">the original version.</param>
     /// <param name="modified">the modified version.</param>
     /// <param name="context">the context wherein certain matching criterion is currently running.</param>
     /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-    /// <param name="result">Mechanism to modify the result of <see cref="NameEqualityMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/>.</param>
-    /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-    partial void NameEqualityMatchAfter(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= code.Escape(syntaxNode.Root.Label.ToString()) #> modified, MatchingContext<SyntaxNodeOrToken?> context, ref MatchInfo<SyntaxNodeOrToken?> matchingDescription, ref bool result);
+    /// <param name="result">Mechanism to modify the result of <see cref="SignatureEqualityMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/>.</param>
+    /// <param name="matchingDescription">in case the given elements are signature-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
+    partial void SignatureEqualityMatchAfter(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= code.Escape(syntaxNode.Root.Label.ToString()) #> modified, MatchingContext<SyntaxNodeOrToken?> context, ref MatchInfo<SyntaxNodeOrToken?> matchingDescription, ref bool result);
 
     /// <summary>
-    /// Determines if two elements are name-based exactly equal.
+    /// Determines if two elements are signature-based exactly equal.
     /// </summary>
     /// <param name="original">the original version.</param>
     /// <param name="modified">the modified version.</param>
     /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-    /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
-    /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-    /// <remarks>This is the default implementation for <see cref="NameEqualityMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/>.</remarks>
-    protected virtual bool NameEqualityMatchCore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= code.Escape(syntaxNode.Root.Label.ToString()) #> modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+    /// <returns>true if the given elements are signature-based exactly equal, otherwise returns false.</returns>
+    /// <param name="matchingDescription">in case the given elements are signature-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
+    /// <remarks>This is the default implementation for <see cref="SignatureEqualityMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/>.</remarks>
+    protected virtual bool SignatureEqualityMatchCore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= code.Escape(syntaxNode.Root.Label.ToString()) #> modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
 	{
 		if(original == null || modified == null) 
 		{
@@ -347,7 +347,7 @@ public <#= xSyntaxNodeType.@abstract ? "abstract " : "" #>partial class <#= code
 		              (keyProperties.Count > 1 ? ")" : "") + 
 		              (keyProperties.Count > 1 && i != (keyProperties.Count - 1) ? (currentPropertiesMetadata.Where(p => keyProperties.Any(kp => kp.name == p.Item2.name)).All(kp => kp.Item2.optional) ? " ||" : " &&") : "") + 
 					  (i == (keyProperties.Count - 1) ? ")" : "");
-		line += $"this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), \"NameEquality\", original.{keyProperty.Item2.name}, modified.{keyProperty.Item2.name}, context)";
+		line += $"this.LanguageServiceProvider.MatchBy(typeof(ISignatureEqualityCriterion<,,>), \"SignatureEquality\", original.{keyProperty.Item2.name}, modified.{keyProperty.Item2.name}, context)";
 		 
 		line += postfix;
 #>
@@ -356,7 +356,7 @@ public <#= xSyntaxNodeType.@abstract ? "abstract " : "" #>partial class <#= code
 	}
 #>
 		{
-			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
+			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.SignatureEquality) { Original = original, Modified = modified };
 			return true;
 		}
 <#
@@ -387,7 +387,7 @@ public <#= xSyntaxNodeType.@abstract ? "abstract " : "" #>partial class <#= code
 						(remainingKeyProperties.Count > 1 ? ")" : "") + 
 						(remainingKeyProperties.Count > 1 && i != (remainingKeyProperties.Count - 1) ? (currentPropertiesMetadata.Where(p => remainingKeyProperties.Any(kp => kp.name == p.Item2.name)).All(kp => kp.Item2.optional) ? " ||" : " &&") : "") + 
 						(i == (remainingKeyProperties.Count - 1) ? ")" : "");
-			line += $"this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), \"NameEquality\", original.{keyProperty.Item2.name}, modified.{(otherProperty != null ? otherProperty : keyProperty).Item2.name}, context)";
+			line += $"this.LanguageServiceProvider.MatchBy(typeof(ISignatureEqualityCriterion<,,>), \"SignatureEquality\", original.{keyProperty.Item2.name}, modified.{(otherProperty != null ? otherProperty : keyProperty).Item2.name}, context)";
 		 
 			line += postfix;
 #>
@@ -396,7 +396,7 @@ public <#= xSyntaxNodeType.@abstract ? "abstract " : "" #>partial class <#= code
 		}
 #>
 		{
-			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
+			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.SignatureEquality) { Original = original, Modified = modified };
 			return true;
 		}
 <#
@@ -420,7 +420,7 @@ public <#= xSyntaxNodeType.@abstract ? "abstract " : "" #>partial class <#= code
 							(remainingKeyProperties.Count > 1 ? ")" : "") + 
 							(remainingKeyProperties.Count > 1 && i != (remainingKeyProperties.Count - 1) ? (currentPropertiesMetadata.Where(p => remainingKeyProperties.Any(kp => kp.name == p.Item2.name)).All(kp => kp.Item2.optional) ? " ||" : " &&") : "") + 
 							(i == (remainingKeyProperties.Count - 1) ? ")" : "");
-				line += $"this.LanguageServiceProvider.MatchBy(typeof(INameEqualityCriterion<,,>), \"NameEquality\", original.{(otherProperty != null ? otherProperty : keyProperty).Item2.name}, modified.{keyProperty.Item2.name}, context)";
+				line += $"this.LanguageServiceProvider.MatchBy(typeof(ISignatureEqualityCriterion<,,>), \"SignatureEquality\", original.{(otherProperty != null ? otherProperty : keyProperty).Item2.name}, modified.{keyProperty.Item2.name}, context)";
 		 
 				line += postfix;
 #>
@@ -429,7 +429,7 @@ public <#= xSyntaxNodeType.@abstract ? "abstract " : "" #>partial class <#= code
 			}
 #>
 		{
-			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
+			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.SignatureEquality) { Original = original, Modified = modified };
 			return true;
 		}
 <#
@@ -442,24 +442,24 @@ public <#= xSyntaxNodeType.@abstract ? "abstract " : "" #>partial class <#= code
 	}
 
     /// <summary>
-    /// Determines if two elements are name-based exactly equal.
+    /// Determines if two elements are signature-based exactly equal.
     /// </summary>
     /// <param name="original">the original version.</param>
     /// <param name="modified">the modified version.</param>
     /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-    /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
-    /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-    public virtual bool NameEqualityMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= code.Escape(syntaxNode.Root.Label.ToString()) #> modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+    /// <returns>true if the given elements are signature-based exactly equal, otherwise returns false.</returns>
+    /// <param name="matchingDescription">in case the given elements are signature-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
+    public virtual bool SignatureEqualityMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= code.Escape(syntaxNode.Root.Label.ToString()) #> modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
 	{
 		bool result = false;
 		var ignoreCore = false;
 		matchingDescription = null;
-		NameEqualityMatchBefore(original, modified, context, ref matchingDescription, ref result, ref ignoreCore);
+		SignatureEqualityMatchBefore(original, modified, context, ref matchingDescription, ref result, ref ignoreCore);
 		if(ignoreCore) 
 			return result;
 		
-		result = this.NameEqualityMatchCore(original, modified, context, out matchingDescription);
-		NameEqualityMatchAfter(original, modified, context, ref matchingDescription, ref result);
+		result = this.SignatureEqualityMatchCore(original, modified, context, out matchingDescription);
+		SignatureEqualityMatchAfter(original, modified, context, ref matchingDescription, ref result);
 		return result;
 	}
 <#
@@ -471,38 +471,38 @@ public <#= xSyntaxNodeType.@abstract ? "abstract " : "" #>partial class <#= code
 #>
 
 	/// <summary>
-    /// Method hook for implementing logic to execute before the <see cref="NameEqualityMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= rule.type #>, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/>.
+    /// Method hook for implementing logic to execute before the <see cref="SignatureEqualityMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= rule.type #>, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/>.
     /// </summary>
     /// <param name="original">the original version.</param>
     /// <param name="modified">the modified version.</param>
     /// <param name="context">the context wherein certain matching criterion is currently running.</param>
     /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-    /// <param name="result">Mechanism to modify the result of <see cref="NameEqualityMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= rule.type #>, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/>.</param>
-    /// <param name="ignoreCore">If true, the <see cref="NameEqualityMatchCore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= rule.type #>, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/> is not executed and <see cref="NameEqualityMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= rule.type #>, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
-    /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description.</param>
-    partial void NameEqualityMatchBefore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= rule.type #> modified, MatchingContext<SyntaxNodeOrToken?> context, ref MatchInfo<SyntaxNodeOrToken?> matchingDescription, ref bool result, ref bool ignoreCore);
+    /// <param name="result">Mechanism to modify the result of <see cref="SignatureEqualityMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= rule.type #>, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/>.</param>
+    /// <param name="ignoreCore">If true, the <see cref="SignatureEqualityMatchCore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= rule.type #>, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/> is not executed and <see cref="SignatureEqualityMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= rule.type #>, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+    /// <param name="matchingDescription">in case the given elements are signature-based exactly equal, this parameter will contain the corresponding matching description.</param>
+    partial void SignatureEqualityMatchBefore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= rule.type #> modified, MatchingContext<SyntaxNodeOrToken?> context, ref MatchInfo<SyntaxNodeOrToken?> matchingDescription, ref bool result, ref bool ignoreCore);
     
     /// <summary>
-    /// Method hook for implementing logic to execute after the <see cref="NameEqualityMatchCore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= rule.type #>, MatchingContext{SyntaxNodeOrToken?})"/>.
+    /// Method hook for implementing logic to execute after the <see cref="SignatureEqualityMatchCore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= rule.type #>, MatchingContext{SyntaxNodeOrToken?})"/>.
     /// </summary>
     /// <param name="original">the original version.</param>
     /// <param name="modified">the modified version.</param>
     /// <param name="context">the context wherein certain matching criterion is currently running.</param>
     /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-    /// <param name="result">Mechanism to modify the result of <see cref="NameEqualityMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= rule.type #>, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/>.</param>
-    /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description.</param>
-    partial void NameEqualityMatchAfter(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= rule.type #> modified, MatchingContext<SyntaxNodeOrToken?> context, ref MatchInfo<SyntaxNodeOrToken?> matchingDescription, ref bool result);
+    /// <param name="result">Mechanism to modify the result of <see cref="SignatureEqualityMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= rule.type #>, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/>.</param>
+    /// <param name="matchingDescription">in case the given elements are signature-based exactly equal, this parameter will contain the corresponding matching description.</param>
+    partial void SignatureEqualityMatchAfter(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= rule.type #> modified, MatchingContext<SyntaxNodeOrToken?> context, ref MatchInfo<SyntaxNodeOrToken?> matchingDescription, ref bool result);
 
     /// <summary>
-    /// Determines if two elements are name-based exactly equal.
+    /// Determines if two elements are signature-based exactly equal.
     /// </summary>
     /// <param name="original">the original version.</param>
     /// <param name="modified">the modified version.</param>
     /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-    /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
-    /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description.</param>
-    /// <remarks>This is the default implementation for <see cref="NameEqualityMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= rule.type #>, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/>.</remarks>
-    protected virtual bool NameEqualityMatchCore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= rule.type #> modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+    /// <returns>true if the given elements are signature-based exactly equal, otherwise returns false.</returns>
+    /// <param name="matchingDescription">in case the given elements are signature-based exactly equal, this parameter will contain the corresponding matching description.</param>
+    /// <remarks>This is the default implementation for <see cref="SignatureEqualityMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= rule.type #>, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/>.</remarks>
+    protected virtual bool SignatureEqualityMatchCore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= rule.type #> modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
 	{
 		if(original == null) 
 			throw new ArgumentNullException(nameof(original));
@@ -515,7 +515,7 @@ public <#= xSyntaxNodeType.@abstract ? "abstract " : "" #>partial class <#= code
 
 		for(int j = 0; j < conditions.Count(); j++)
 		{
-			var condition = conditions[j] as Syntax.NodesLocalType.TypeLocalType.RulesLocalType.CompatibilityLocalType.NameLocalType.ConditionLocalType;
+			var condition = conditions[j] as Syntax.NodesLocalType.TypeLocalType.RulesLocalType.CompatibilityLocalType.SignatureLocalType.ConditionLocalType;
 			if(condition != null)
 			{
 				@case.AppendLine((j == 0 ? "if(" : "           && ") + 
@@ -527,7 +527,7 @@ public <#= xSyntaxNodeType.@abstract ? "abstract " : "" #>partial class <#= code
 		}
 #>		
 		<#= @case.ToString() #>		{		
-			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
+			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.SignatureEquality) { Original = original, Modified = modified };
 			return true;
 		}
 
@@ -536,24 +536,24 @@ public <#= xSyntaxNodeType.@abstract ? "abstract " : "" #>partial class <#= code
 	}
 
     /// <summary>
-    /// Determines if two elements are name-based exactly equal.
+    /// Determines if two elements are signature-based exactly equal.
     /// </summary>
     /// <param name="original">the original version.</param>
     /// <param name="modified">the modified version.</param>
     /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-    /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
-    /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description.</param>
-    public virtual bool NameEqualityMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= rule.type #> modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+    /// <returns>true if the given elements are signature-based exactly equal, otherwise returns false.</returns>
+    /// <param name="matchingDescription">in case the given elements are signature-based exactly equal, this parameter will contain the corresponding matching description.</param>
+    public virtual bool SignatureEqualityMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= rule.type #> modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
 	{
 		bool result = false;
 		var ignoreCore = false;
 		matchingDescription = null;
-		NameEqualityMatchBefore(original, modified, context, ref matchingDescription, ref result, ref ignoreCore);
+		SignatureEqualityMatchBefore(original, modified, context, ref matchingDescription, ref result, ref ignoreCore);
 		if(ignoreCore) 
 			return result;
 		
-		result = this.NameEqualityMatchCore(original, modified, context, out matchingDescription);
-		NameEqualityMatchAfter(original, modified, context, ref matchingDescription, ref result);
+		result = this.SignatureEqualityMatchCore(original, modified, context, out matchingDescription);
+		SignatureEqualityMatchAfter(original, modified, context, ref matchingDescription, ref result);
 		return result;
 	}
 <#
@@ -567,38 +567,38 @@ public <#= xSyntaxNodeType.@abstract ? "abstract " : "" #>partial class <#= code
 #>
 
 	/// <summary>
-    /// Method hook for implementing logic to execute before the <see cref="NameEqualityMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= rule.Type.name #>, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/>.
+    /// Method hook for implementing logic to execute before the <see cref="SignatureEqualityMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= rule.Type.name #>, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/>.
     /// </summary>
     /// <param name="original">the original version.</param>
     /// <param name="modified">the modified version.</param>
     /// <param name="context">the context wherein certain matching criterion is currently running.</param>
     /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-    /// <param name="result">Mechanism to modify the result of <see cref="NameEqualityMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= rule.Type.name #>, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/>.</param>
-    /// <param name="ignoreCore">If true, the <see cref="NameEqualityMatchCore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= rule.Type.name #>, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/> is not executed and <see cref="NameEqualityMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= rule.Type.name #>, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
-    /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description.</param>
-    partial void NameEqualityMatchBefore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= rule.Type.name #> modified, MatchingContext<SyntaxNodeOrToken?> context, ref MatchInfo<SyntaxNodeOrToken?> matchingDescription, ref bool result, ref bool ignoreCore);
+    /// <param name="result">Mechanism to modify the result of <see cref="SignatureEqualityMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= rule.Type.name #>, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/>.</param>
+    /// <param name="ignoreCore">If true, the <see cref="SignatureEqualityMatchCore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= rule.Type.name #>, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/> is not executed and <see cref="SignatureEqualityMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= rule.Type.name #>, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
+    /// <param name="matchingDescription">in case the given elements are signature-based exactly equal, this parameter will contain the corresponding matching description.</param>
+    partial void SignatureEqualityMatchBefore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= rule.Type.name #> modified, MatchingContext<SyntaxNodeOrToken?> context, ref MatchInfo<SyntaxNodeOrToken?> matchingDescription, ref bool result, ref bool ignoreCore);
     
     /// <summary>
-    /// Method hook for implementing logic to execute after the <see cref="NameEqualityMatchCore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= rule.Type.name #>, MatchingContext{SyntaxNodeOrToken?})"/>.
+    /// Method hook for implementing logic to execute after the <see cref="SignatureEqualityMatchCore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= rule.Type.name #>, MatchingContext{SyntaxNodeOrToken?})"/>.
     /// </summary>
     /// <param name="original">the original version.</param>
     /// <param name="modified">the modified version.</param>
     /// <param name="context">the context wherein certain matching criterion is currently running.</param>
     /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-    /// <param name="result">Mechanism to modify the result of <see cref="NameEqualityMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= rule.Type.name #>, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/>.</param>
-    /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
-    partial void NameEqualityMatchAfter(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= rule.Type.name #> modified, MatchingContext<SyntaxNodeOrToken?> context, ref MatchInfo<SyntaxNodeOrToken?> matchingDescription, ref bool result);
+    /// <param name="result">Mechanism to modify the result of <see cref="SignatureEqualityMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= rule.Type.name #>, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/>.</param>
+    /// <param name="matchingDescription">in case the given elements are signature-based exactly equal, this parameter will contain the corresponding matching description. It should be actually an "out" parameter, but partial methods do not support "out" parameters.</param>
+    partial void SignatureEqualityMatchAfter(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= rule.Type.name #> modified, MatchingContext<SyntaxNodeOrToken?> context, ref MatchInfo<SyntaxNodeOrToken?> matchingDescription, ref bool result);
 
     /// <summary>
-    /// Determines if two elements are name-based exactly equal.
+    /// Determines if two elements are signature-based exactly equal.
     /// </summary>
     /// <param name="original">the original version.</param>
     /// <param name="modified">the modified version.</param>
     /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-    /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
-    /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description.</param>
-    /// <remarks>This is the default implementation for <see cref="NameEqualityMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= rule.Type.name #>, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/>.</remarks>
-    protected virtual bool NameEqualityMatchCore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= rule.Type.name #> modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+    /// <returns>true if the given elements are signature-based exactly equal, otherwise returns false.</returns>
+    /// <param name="matchingDescription">in case the given elements are signature-based exactly equal, this parameter will contain the corresponding matching description.</param>
+    /// <remarks>This is the default implementation for <see cref="SignatureEqualityMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= rule.Type.name #>, MatchingContext{SyntaxNodeOrToken?}, ref MatchInfo{SyntaxNodeOrToken?})"/>.</remarks>
+    protected virtual bool SignatureEqualityMatchCore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= rule.Type.name #> modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
 	{
 		if(original == null) 
 			throw new ArgumentNullException(nameof(original));
@@ -611,7 +611,7 @@ public <#= xSyntaxNodeType.@abstract ? "abstract " : "" #>partial class <#= code
 
 		for(int j = 0; j < conditions.Count(); j++)
 		{
-			var condition = conditions[j] as Syntax.NodesLocalType.TypeLocalType.RulesLocalType.CompatibilityLocalType.NameLocalType.ConditionLocalType;
+			var condition = conditions[j] as Syntax.NodesLocalType.TypeLocalType.RulesLocalType.CompatibilityLocalType.SignatureLocalType.ConditionLocalType;
 			if(condition != null)
 			{
 				@case.AppendLine((j == 0 ? "if(" : "           && ") + 
@@ -623,7 +623,7 @@ public <#= xSyntaxNodeType.@abstract ? "abstract " : "" #>partial class <#= code
 		}
 #>		
 		<#= @case.ToString() #>		{		
-			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.NameEquality) { Original = original, Modified = modified };
+			matchingDescription = new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.SignatureEquality) { Original = original, Modified = modified };
 			return true;
 		}
 
@@ -632,24 +632,24 @@ public <#= xSyntaxNodeType.@abstract ? "abstract " : "" #>partial class <#= code
 	}
 
     /// <summary>
-    /// Determines if two elements are name-based exactly equal.
+    /// Determines if two elements are signature-based exactly equal.
     /// </summary>
     /// <param name="original">the original version.</param>
     /// <param name="modified">the modified version.</param>
     /// <param name="context">the context wherein certain matching criterion is currently running.</param>
-    /// <returns>true if the given elements are name-based exactly equal, otherwise returns false.</returns>
-    /// <param name="matchingDescription">in case the given elements are name-based exactly equal, this parameter will contain the corresponding matching description.</param>
-    public virtual bool NameEqualityMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= rule.Type.name #> modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
+    /// <returns>true if the given elements are signature-based exactly equal, otherwise returns false.</returns>
+    /// <param name="matchingDescription">in case the given elements are signature-based exactly equal, this parameter will contain the corresponding matching description.</param>
+    public virtual bool SignatureEqualityMatch(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= rule.Type.name #> modified, MatchingContext<SyntaxNodeOrToken?> context, out MatchInfo<SyntaxNodeOrToken?> matchingDescription)
 	{
 		bool result = false;
 		var ignoreCore = false;
 		matchingDescription = null;
-		NameEqualityMatchBefore(original, modified, context, ref matchingDescription, ref result, ref ignoreCore);
+		SignatureEqualityMatchBefore(original, modified, context, ref matchingDescription, ref result, ref ignoreCore);
 		if(ignoreCore) 
 			return result;
 		
-		result = this.NameEqualityMatchCore(original, modified, context, out matchingDescription);
-		NameEqualityMatchAfter(original, modified, context, ref matchingDescription, ref result);
+		result = this.SignatureEqualityMatchCore(original, modified, context, out matchingDescription);
+		SignatureEqualityMatchAfter(original, modified, context, ref matchingDescription, ref result);
 		return result;
 	}
 <#

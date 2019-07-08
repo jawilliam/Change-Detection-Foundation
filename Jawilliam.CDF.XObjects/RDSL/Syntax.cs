@@ -3982,6 +3982,28 @@ namespace Jawilliam.CDF.XObjects.RDSL
             }
         }
 
+        /// <summary>
+        /// <para>
+        /// Occurrence: optional
+        /// </para>
+        /// </summary>
+        public System.Nullable<byte> priority
+        {
+            get
+            {
+                XAttribute x = this.Attribute(XName.Get("priority", ""));
+                if ((x == null))
+                {
+                    return null;
+                }
+                return XTypedServices.ParseValue<byte>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.UnsignedByte).Datatype);
+            }
+            set
+            {
+                this.SetAttribute(XName.Get("priority", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.UnsignedByte).Datatype);
+            }
+        }
+
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         XName IXMetaData.SchemaName
         {

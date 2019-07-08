@@ -1079,9 +1079,9 @@ namespace Jawilliam.CDF.Labs
                 MillisecondsTimeout = 600000
             };
 
-            foreach (var project in Projects.Skip(79))
+            foreach (var project in Projects.Skip(92))
             {
-                foreach (var configuration in configurations.Where(c => project.Name == "PTVS" ? (int)c.Backward.Approach >= 24 : true))
+                foreach (var configuration in configurations.Where(c => project.Name == "SparkleShare" ? (int)c.Backward.Approach >= 24 : true))
                 {
                     var dbRepository = new GitRepository(project.Name) { Name = project.Name };
                     ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 600;
@@ -1109,13 +1109,13 @@ namespace Jawilliam.CDF.Labs
                     //}
 
                     ///TODO: Hay que repetir el experimento para AzureSdkForNet
-                    if (!(project.Name == "PTVS" && (int)configuration.Backward.Approach == 24))
-                    {
+                    //if (!(project.Name == "SparkleShare" && (int)configuration.Backward.Approach == 25))
+                    //{
                         analyzer.InverseNativeGumTreeDiff(gumTree, interopArgs, configuration.Backward.Approach, null, null);
                         //analyzer.InverseNativeGumTreeDiff(gumTree, interopArgs, gumTreeApproach, skipThese, cleaner);
                         System.IO.File.AppendAllText($@"D:\ExperimentLogs\{configuration.Backward.Name}.txt",
                             $"{Environment.NewLine}{Environment.NewLine}GumTreefied RoslynML (collection) completed {DateTime.Now.ToString("F", CultureInfo.InvariantCulture)} - {project.Name}");
-                    }
+                    //}
 
                     recognizer.ConfigForwardVsBackward((configuration.Forward.Approach, configuration.Forward.Name), (configuration.Backward.Approach, configuration.Backward.Name));
                     recognizer.SqlRepository = dbRepository;

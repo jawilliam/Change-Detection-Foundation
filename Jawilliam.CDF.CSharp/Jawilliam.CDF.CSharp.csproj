@@ -147,6 +147,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Awareness\SignatureServices.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SignatureServices.tt</DependentUpon>
+    </Compile>
     <Compile Include="Awareness\NameServices.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -239,6 +244,10 @@
     <Content Include="Awareness\AliasServices.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>AliasServices.cs</LastGenOutput>
+    </Content>
+    <Content Include="Awareness\SignatureServices.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>SignatureServices.cs</LastGenOutput>
     </Content>
     <Content Include="Awareness\NameServices.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

@@ -4,7 +4,7 @@
   <Nodes>
     <!--ExpressionSyntax - Level 0-->
     <Type name="ExpressionSyntax" abstract="true"/>
-    <Type name="ParenthesizedExpressionSyntax" base="ExpressionSyntax">
+    <Type name="ParenthesizedExpressionSyntax" base="ExpressionSyntax" hashtags="#Expression #expression #parenthesized">
       <Properties>
         <Property name="OpenParenToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -24,7 +24,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="PrefixUnaryExpressionSyntax" base="ExpressionSyntax" operator="true">
+    <Type name="PrefixUnaryExpressionSyntax" base="ExpressionSyntax" operator="true" hashtags="#Expression #expression #unary">
       <Properties>
         <Property name="OperatorToken" kind="Token" index="0" readOnly="true" optional="false" changepoint="true" multiplicity="Single" operator="true">
           <Options exclusive="true" labeling="true">            
@@ -53,7 +53,7 @@
         <Annotation context="Suppress" role="Kind"/>
       </Annotations>
     </Type>
-    <Type name="AwaitExpressionSyntax" base="ExpressionSyntax" operator="true">
+    <Type name="AwaitExpressionSyntax" base="ExpressionSyntax" operator="true" hashtags="#Expression #expression">
       <Properties>
         <Property name="AwaitKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
           <Rules>
@@ -68,7 +68,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="PostfixUnaryExpressionSyntax" base="ExpressionSyntax" operator="true">
+    <Type name="PostfixUnaryExpressionSyntax" base="ExpressionSyntax" operator="true" hashtags="#Expression #expression #unary">
       <Properties>
         <Property name="OperatorToken" kind="Token" index="1" readOnly="true" optional="false" changepoint="true" multiplicity="Single" operator="true">
           <Options exclusive="true" labeling="true">
@@ -90,8 +90,9 @@
       <Annotations>
         <Annotation context="Suppress" role="Kind"/>
       </Annotations>
+      <!--prefix unary compatible?-->
     </Type>
-    <Type name="MemberAccessExpressionSyntax" base="ExpressionSyntax" operator="true">
+    <Type name="MemberAccessExpressionSyntax" base="ExpressionSyntax" operator="true" hashtags="#Expression #expression #member #access">
       <Properties>
         <Property name="Expression" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Single">
           <Rules>
@@ -123,7 +124,7 @@
         <Annotation context="Suppress" role="Kind"/>
       </Annotations>
     </Type>
-    <Type name="ConditionalAccessExpressionSyntax" base="ExpressionSyntax" operator="true">
+    <Type name="ConditionalAccessExpressionSyntax" base="ExpressionSyntax" operator="true" hashtags="#Expression #expression #access #conditional">
       <Properties>
         <Property name="Expression" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Single">
           <Rules>
@@ -142,7 +143,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="MemberBindingExpressionSyntax" base="ExpressionSyntax">
+    <Type name="MemberBindingExpressionSyntax" base="ExpressionSyntax" hashtags="#Expression #expression #member">
       <Properties>
         <Property name="OperatorToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" operator="true">
           <Rules>
@@ -161,7 +162,7 @@
         <Name equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="ElementBindingExpressionSyntax" base="ExpressionSyntax">
+    <Type name="ElementBindingExpressionSyntax" base="ExpressionSyntax" hashtags="#Expression #expression #element">
       <Properties>
         <Property name="ArgumentList" kind="Node" index="1" optional="false" changepoint="true" multiplicity="Single">
           <Rules collection="true">
@@ -172,7 +173,7 @@
       </Properties>
       <Rules collection="true"/>
     </Type>
-    <Type name="ImplicitElementAccessSyntax" base="ExpressionSyntax">
+    <Type name="ImplicitElementAccessSyntax" base="ExpressionSyntax" hashtags="#Expression #element #access #implicit">
       <Properties>
         <Property name="ArgumentList" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Single">
           <Rules collection="true">
@@ -183,7 +184,7 @@
       </Properties>
       <Rules collection="true"/>
     </Type>
-    <Type name="BinaryExpressionSyntax" base="ExpressionSyntax" operator="true">
+    <Type name="BinaryExpressionSyntax" base="ExpressionSyntax" operator="true" hashtags="#Expression #expression">
       <Properties>
         <Property name="Left" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Single">
           <Rules>
@@ -229,7 +230,7 @@
         <Annotation context="Suppress" role="Kind"/>
       </Annotations>
     </Type>
-    <Type name="AssignmentExpressionSyntax" base="ExpressionSyntax" operator="true">
+    <Type name="AssignmentExpressionSyntax" base="ExpressionSyntax" operator="true" hashtags="#Expression #expression">
       <Properties>
         <Property name="Left" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Single">
           <Rules>
@@ -265,7 +266,7 @@
         <Annotation context="Suppress" role="Kind"/>
       </Annotations>
     </Type>
-    <Type name="ConditionalExpressionSyntax" base="ExpressionSyntax" operator="true">
+    <Type name="ConditionalExpressionSyntax" base="ExpressionSyntax" operator="true" hashtags="#Expression #expression #conditional">
       <Properties>
         <Property name="Condition" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Single">
           <Rules>
@@ -296,7 +297,7 @@
     </Type>
     <!--ExpressionSyntax$InstanceExpressionSyntax-->
     <Type name="InstanceExpressionSyntax" abstract="true" base="ExpressionSyntax"/>
-    <Type name="ThisExpressionSyntax" base="InstanceExpressionSyntax" token="true" readonly="true">
+    <Type name="ThisExpressionSyntax" base="InstanceExpressionSyntax" token="true" readonly="true" hashtags="#Expression #expression #Expression#Instance">
       <Properties>
         <Property name="Token" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
           <Rules>
@@ -305,7 +306,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="BaseExpressionSyntax" base="InstanceExpressionSyntax" token="true" readonly="true">
+    <Type name="BaseExpressionSyntax" base="InstanceExpressionSyntax" token="true" readonly="true" hashtags="#Expression #expression #Expression#Instance #base">
       <Properties>
         <Property name="Token" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
           <Rules>
@@ -315,7 +316,7 @@
       </Properties>
     </Type>
     <!--ExpressionSyntax-->
-    <Type name="LiteralExpressionSyntax" base="ExpressionSyntax">
+    <Type name="LiteralExpressionSyntax" base="ExpressionSyntax" hashtags="#Expression #expression">
       <Properties>
         <Property name="Token" kind="Token" index="0" optional="false" changepoint="true" multiplicity="Single">
           <Options exclusive="true" labeling="true">
@@ -339,7 +340,7 @@
         <Annotation context="Suppress" role="Kind"/>
       </Annotations>
     </Type>
-    <Type name="MakeRefExpressionSyntax" base="ExpressionSyntax">
+    <Type name="MakeRefExpressionSyntax" base="ExpressionSyntax" hashtags="#Expression #expression #ref">
       <Properties>
         <Property name="Keyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
           <Rules>
@@ -364,7 +365,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="RefTypeExpressionSyntax" base="ExpressionSyntax">
+    <Type name="RefTypeExpressionSyntax" base="ExpressionSyntax" hashtags="#Expression #expression #type #ref">
       <Properties>
         <Property name="Keyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
           <Rules>
@@ -389,7 +390,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="RefValueExpressionSyntax" base="ExpressionSyntax">
+    <Type name="RefValueExpressionSyntax" base="ExpressionSyntax" hashtags="#Expression #expression #ref">
       <Properties>
         <Property name="Keyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
           <Rules>
@@ -423,7 +424,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="CheckedExpressionSyntax" base="ExpressionSyntax" operator="true">
+    <Type name="CheckedExpressionSyntax" base="ExpressionSyntax" operator="true" hashtags="#Expression #expression #checked">
       <Properties>
         <Property name="Keyword" kind="Token" index="0" readOnly="true" optional="false" changepoint="true" multiplicity="Single" keyword="true">
           <Options exclusive="true" labeling="true">            
@@ -455,7 +456,7 @@
         <Annotation context="Suppress" role="Kind"/>
       </Annotations>
     </Type>
-    <Type name="DefaultExpressionSyntax" base="ExpressionSyntax" operator="true">
+    <Type name="DefaultExpressionSyntax" base="ExpressionSyntax" operator="true" hashtags="#Expression #expression">
       <Properties>
         <Property name="Keyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
           <Rules>
@@ -480,7 +481,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="TypeOfExpressionSyntax" base="ExpressionSyntax" operator="true">
+    <Type name="TypeOfExpressionSyntax" base="ExpressionSyntax" operator="true" hashtags="#Expression #expression #type">
       <Properties>
         <Property name="Keyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
           <Rules>
@@ -505,7 +506,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="SizeOfExpressionSyntax" base="ExpressionSyntax" operator="true">
+    <Type name="SizeOfExpressionSyntax" base="ExpressionSyntax" operator="true" hashtags="#Expression #expression">
       <Properties>
         <Property name="Keyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
           <Rules>
@@ -530,7 +531,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="InvocationExpressionSyntax" base="ExpressionSyntax" operator="true">
+    <Type name="InvocationExpressionSyntax" base="ExpressionSyntax" operator="true" hashtags="#Expression #expression">
       <Properties>
         <Property name="Expression" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Single">
           <Rules>
@@ -544,7 +545,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="ElementAccessExpressionSyntax" base="ExpressionSyntax" operator="true">
+    <Type name="ElementAccessExpressionSyntax" base="ExpressionSyntax" operator="true" hashtags="#Expression #expression #element #access">
       <Properties>
         <Property name="Expression" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Single">
           <Rules>
@@ -558,7 +559,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="CastExpressionSyntax" base="ExpressionSyntax" operator="true">
+    <Type name="CastExpressionSyntax" base="ExpressionSyntax" operator="true" hashtags="#Expression #expression">
       <Properties>
         <Property name="OpenParenToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -594,7 +595,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="AnonymousMethodExpressionSyntax" base="AnonymousFunctionExpressionSyntax" operator="true">
+    <Type name="AnonymousMethodExpressionSyntax" base="AnonymousFunctionExpressionSyntax" operator="true" hashtags="#Expression #expression #anonymous #Expression#AnonymousFunction #DECLARATION#FUNCTION">
       <Properties>
         <Property name="AsyncKeyword" kind="Token" index="0" readOnly="true" optional="true" changepoint="true" inherited="true" multiplicity="Single" keyword="true">
           <Rules>
@@ -629,7 +630,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="SimpleLambdaExpressionSyntax" base="LambdaExpressionSyntax" operator="true">
+    <Type name="SimpleLambdaExpressionSyntax" base="LambdaExpressionSyntax" operator="true" hashtags="#Expression #expression #ANONYMOUS #Expression#AnonymousFunction #Expression#AnonymousFunction#Lambda #DECLARATION#FUNCTION">
       <Properties>
         <Property name="AsyncKeyword" kind="Token" index="0" readOnly="true" optional="true" changepoint="true" inherited="true" multiplicity="Single" keyword="true">
           <Rules>
@@ -659,7 +660,7 @@
         <Name equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="ParenthesizedLambdaExpressionSyntax" base="LambdaExpressionSyntax" operator="true">
+    <Type name="ParenthesizedLambdaExpressionSyntax" base="LambdaExpressionSyntax" operator="true" hashtags="#Expression #expression #ANONYMOUS #Expression#AnonymousFunction #Expression#AnonymousFunction#Lambda #parenthesized #DECLARATION#FUNCTION">
       <Properties>
         <Property name="AsyncKeyword" kind="Token" index="0" readOnly="true" optional="true" changepoint="true" inherited="true" multiplicity="Single" keyword="true">
           <Rules>
@@ -688,7 +689,7 @@
       </Rules>
     </Type>
     <!--ExpressionSyntax-->
-    <Type name="InitializerExpressionSyntax" base="ExpressionSyntax">
+    <Type name="InitializerExpressionSyntax" base="ExpressionSyntax" hashtags="#Expression #expression #initializer">
       <Properties>
         <Property name="OpenBraceToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -718,7 +719,7 @@
         <Annotation context="Suppress" role="Kind"/>
       </Annotations>
     </Type>
-    <Type name="ObjectCreationExpressionSyntax" base="ExpressionSyntax" operator="true">
+    <Type name="ObjectCreationExpressionSyntax" base="ExpressionSyntax" operator="true" hashtags="#Expression #expression #creation #object">
       <Properties>
         <Property name="NewKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
           <Rules>
@@ -742,7 +743,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="AnonymousObjectCreationExpressionSyntax" base="ExpressionSyntax" operator="true">
+    <Type name="AnonymousObjectCreationExpressionSyntax" base="ExpressionSyntax" operator="true" hashtags="#Expression #expression #anonymous #creation #object">
       <Properties>
         <Property name="NewKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
           <Rules>
@@ -768,7 +769,7 @@
       </Properties>
       <Rules collection="true"/>
     </Type>
-    <Type name="ArrayCreationExpressionSyntax" base="ExpressionSyntax" operator="true">
+    <Type name="ArrayCreationExpressionSyntax" base="ExpressionSyntax" operator="true" hashtags="#Expression #expression #array #creation">
       <Properties>
         <Property name="NewKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
           <Rules>
@@ -787,7 +788,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="ImplicitArrayCreationExpressionSyntax" base="ExpressionSyntax" operator="true">
+    <Type name="ImplicitArrayCreationExpressionSyntax" base="ExpressionSyntax" operator="true" hashtags="#Expression #expression #array #creation #implicit">
       <Properties>
         <Property name="NewKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
           <Rules>
@@ -817,7 +818,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="StackAllocArrayCreationExpressionSyntax" base="ExpressionSyntax">
+    <Type name="StackAllocArrayCreationExpressionSyntax" base="ExpressionSyntax" hashtags="#Expression #expression #array #creation">
       <Properties>
         <Property name="StackAllocKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
           <Rules>
@@ -832,7 +833,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="QueryExpressionSyntax" base="ExpressionSyntax">
+    <Type name="QueryExpressionSyntax" base="ExpressionSyntax" hashtags="#Expression #expression #query">
       <Properties>
         <Property name="FromClause" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Single">
           <Rules>
@@ -850,7 +851,7 @@
         <Name equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="InterpolatedStringExpressionSyntax" base="ExpressionSyntax">
+    <Type name="InterpolatedStringExpressionSyntax" base="ExpressionSyntax" hashtags="#Expression #expression">
       <Properties>
         <Property name="StringStartToken" kind="Token" index="0" optional="false" multiplicity="Single" puntuaction="true">
           <Options exclusive="true">
@@ -878,7 +879,7 @@
     </Type>
     <!--And Related-->
     <Type name="InterpolatedStringContentSyntax" abstract="true"/>
-    <Type name="InterpolatedStringTextSyntax" base="InterpolatedStringContentSyntax">
+    <Type name="InterpolatedStringTextSyntax" base="InterpolatedStringContentSyntax" hashtags="#INTERPOLATION#STRING #INTERPOLATION#STRING#Content #text">
       <Properties>
         <Property name="TextToken" kind="Token" index="0" optional="false" changepoint="true" multiplicity="Single">
           <Rules>
@@ -888,7 +889,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="InterpolationSyntax" base="InterpolatedStringContentSyntax">
+    <Type name="InterpolationSyntax" base="InterpolatedStringContentSyntax" hashtags="#interpolation #INTERPOLATION#STRING#Content">
       <Properties>
         <Property name="OpenBraceToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -917,7 +918,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="InterpolationAlignmentClauseSyntax">
+    <Type name="InterpolationAlignmentClauseSyntax" hashtags="#clause #interpolation">
       <Properties>
         <Property name="CommaToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -932,7 +933,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="InterpolationFormatClauseSyntax">
+    <Type name="InterpolationFormatClauseSyntax" hashtags="#clause #interpolation">
       <Properties>
         <Property name="ColonToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -955,7 +956,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="ArgumentListSyntax" base="BaseArgumentListSyntax">
+    <Type name="ArgumentListSyntax" base="BaseArgumentListSyntax" hashtags="#LIST#Argument #argument #list">
       <Properties>
         <Property name="OpenParenToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -977,7 +978,7 @@
       </Properties>
       <Rules collection="true"/>
     </Type>
-    <Type name="BracketedArgumentListSyntax" base="BaseArgumentListSyntax">
+    <Type name="BracketedArgumentListSyntax" base="BaseArgumentListSyntax" hashtags="#LIST#Argument #argument #list #bracketed">
       <Properties>
         <Property name="OpenBracketToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -999,7 +1000,7 @@
       <Rules collection="true"/>
     </Type>
     <!--And Related-->
-    <Type name="ArgumentSyntax" base="ExpressionSyntax">
+    <Type name="ArgumentSyntax" hashtags="#argument">
       <Properties>
         <Property name="NameColon" kind="Node" index="0" optional="true" changepoint="true" multiplicity="Single">
           <Rules>
@@ -1027,7 +1028,7 @@
         <Name equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="NameColonSyntax" base="ExpressionSyntax">
+    <Type name="NameColonSyntax" hashtags="#IDENTIFIER#WRAPPER #name #equals">
       <Properties>
         <Property name="Name" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Single">
           <Rules>
@@ -1050,7 +1051,7 @@
         </Compatibility>
       </Rules>
     </Type>
-    <Type name="NameEqualsSyntax" base="ExpressionSyntax">
+    <Type name="NameEqualsSyntax" hashtags="#IDENTIFIER#WRAPPER #name #equals">
       <Properties>
         <Property name="Name" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Single">
           <Rules>
@@ -1066,7 +1067,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="AnonymousObjectMemberDeclaratorSyntax">
+    <Type name="AnonymousObjectMemberDeclaratorSyntax" hashtags="#member #anonymous #DECLARATION #object #declarator">
       <Properties>
         <Property name="NameEquals" kind="Node" index="0" optional="true" changepoint="true" multiplicity="Single">
           <Rules>
@@ -1083,8 +1084,9 @@
       <Rules>
         <Name equality="true" absolute="true"/>
       </Rules>
+      <!--Field, Property, and Variable Compatible-->
     </Type>
-    <Type name="QueryBodySyntax">
+    <Type name="QueryBodySyntax" hashtags="#query">
       <Properties>
         <Property name="Clauses" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Collection" collectionType="QueryClauseSyntax">
           <Rules collection="true">
@@ -1109,7 +1111,7 @@
     </Type>
     <!--And Related$QueryClauseSyntax-->
     <Type name="QueryClauseSyntax" abstract="true"/>
-    <Type name="FromClauseSyntax" base="QueryClauseSyntax">
+    <Type name="FromClauseSyntax" base="QueryClauseSyntax" hashtags="#QUERY#Clause #clause">
       <Properties>
         <Property name="FromKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
           <Rules>
@@ -1143,7 +1145,7 @@
         <Name equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="LetClauseSyntax" base="QueryClauseSyntax">
+    <Type name="LetClauseSyntax" base="QueryClauseSyntax" hashtags="#clause #QUERY#Clause">
       <Properties>
         <Property name="LetKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
           <Rules>
@@ -1173,7 +1175,7 @@
         <Name equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="JoinClauseSyntax" base="QueryClauseSyntax">
+    <Type name="JoinClauseSyntax" base="QueryClauseSyntax" hashtags="#clause #QUERY#Clause #join">
       <Properties>
         <Property name="JoinKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
           <Rules>
@@ -1224,6 +1226,7 @@
         </Property>
         <Property name="Into" kind="Node" index="9" optional="true" changepoint="true" multiplicity="Single">
           <Rules>
+            <Name equality="true" absolute="true" priority="1"/>
             <Topology relevant="true"/>
           </Rules>
         </Property>
@@ -1232,7 +1235,7 @@
         <Name equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="JoinIntoClauseSyntax">
+    <Type name="JoinIntoClauseSyntax" hashtags="#QUERY #join #clause">
       <Properties>
         <Property name="IntoKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
           <Rules>
@@ -1251,7 +1254,7 @@
         <Name equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="WhereClauseSyntax" base="QueryClauseSyntax">
+    <Type name="WhereClauseSyntax" base="QueryClauseSyntax" hashtags="#clause #QUERY#Clause">
       <Properties>
         <Property name="WhereKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
           <Rules>
@@ -1266,7 +1269,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="OrderByClauseSyntax" base="QueryClauseSyntax">
+    <Type name="OrderByClauseSyntax" base="QueryClauseSyntax" hashtags="#clause #ORDERBY #QUERY#Clause">
       <Properties>
         <Property name="OrderByKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
           <Rules>
@@ -1282,7 +1285,7 @@
       </Properties>
       <Rules collection="true"/>
     </Type>
-    <Type name="OrderingSyntax">
+    <Type name="OrderingSyntax" hashtags="#ORDERBY">
       <Properties>
         <Property name="Expression" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Single">
           <Rules>
@@ -1307,7 +1310,7 @@
     </Type>
     <!--And Related$SelectOrGroupClauseSyntax-->
     <Type name="SelectOrGroupClauseSyntax" abstract="true"/>
-    <Type name="SelectClauseSyntax" base="SelectOrGroupClauseSyntax">
+    <Type name="SelectClauseSyntax" base="SelectOrGroupClauseSyntax" hashtags="#clause #QUERY#CLAUSE#SelectOrGroup">
       <Properties>
         <Property name="SelectKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
           <Rules>
@@ -1322,7 +1325,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="GroupClauseSyntax" base="SelectOrGroupClauseSyntax">
+    <Type name="GroupClauseSyntax" base="SelectOrGroupClauseSyntax" hashtags="#clause #QUERY#CLAUSE#SelectOrGroup">
       <Properties>
         <Property name="GroupKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
           <Rules>
@@ -1346,7 +1349,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="QueryContinuationSyntax">
+    <Type name="QueryContinuationSyntax" hashtags="#query">
       <Properties>
         <Property name="IntoKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
           <Rules>
@@ -1374,7 +1377,7 @@
 
     <!--ExpressionSyntax$TypeSyntax - Level 0-->
     <Type name="TypeSyntax" abstract="true" base="ExpressionSyntax"/>
-    <Type name="PredefinedTypeSyntax" base="TypeSyntax" readonly="true">
+    <Type name="PredefinedTypeSyntax" base="TypeSyntax" readonly="true" hashtags="#Expression #Expression#Type #type">
       <Properties>
         <Property name="Keyword" kind="Token" index="0" readOnly="true" optional="false" changepoint="true" multiplicity="Single" keyword="true">
           <Options exclusive="true">            
@@ -1541,7 +1544,7 @@
         </Compatibility>
       </Rules>
     </Type>
-    <Type name="ArrayTypeSyntax" base="TypeSyntax">
+    <Type name="ArrayTypeSyntax" base="TypeSyntax" hashtags="#Expression #array #Expression#Type #type">
       <Properties>
         <Property name="ElementType" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Single">
           <Rules>
@@ -1555,7 +1558,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="PointerTypeSyntax" base="TypeSyntax">
+    <Type name="PointerTypeSyntax" base="TypeSyntax" hashtags="#Expression #Expression#Type #type">
       <Properties>
         <Property name="ElementType" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Single">
           <Rules>
@@ -1570,7 +1573,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="NullableTypeSyntax" base="TypeSyntax">
+    <Type name="NullableTypeSyntax" base="TypeSyntax" hashtags="#Expression #Expression#Type #type">
       <Properties>
         <Property name="ElementType" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Single">
           <Rules>
@@ -1585,7 +1588,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="OmittedTypeArgumentSyntax" base="TypeSyntax" readonly="true" symbolic="true">
+    <Type name="OmittedTypeArgumentSyntax" base="TypeSyntax" readonly="true" symbolic="true" hashtags="#Expression #Expression#Type #type#argument #omitted #argument #type">
       <Properties>
         <Property name="OmittedTypeArgumentToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" symbolic="true">
           <Rules>
@@ -1596,10 +1599,11 @@
     </Type>
     <!--ExpressionSyntax$TypeSyntax$NameSyntax-->
     <Type name="NameSyntax" abstract="true" base="TypeSyntax"/>
-    <Type name="QualifiedNameSyntax" base="NameSyntax">
+    <Type name="QualifiedNameSyntax" base="NameSyntax" hashtags="#Expression #Expression#Type #Expression#Type#Name #qualified #name">
       <Properties>
         <Property name="Left" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Single">
           <Rules>
+            <Name equality="true" absolute="true"/>
             <Topology relevant="true"/>
           </Rules>
         </Property>
@@ -1610,11 +1614,13 @@
         </Property>
         <Property name="Right" kind="Node" index="2" optional="false" changepoint="true" multiplicity="Single">
           <Rules>
+            <Name equality="true" absolute="true"/>
             <Topology relevant="true"/>
           </Rules>
         </Property>
       </Properties>
       <Rules>
+        <Name equality="true" absolute="true"/>
         <Compatibility>
           <Alias type="IdentifierNameSyntax" twoWay="true">
             <Condition code="({0}.Left as IdentifierNameSyntax)?.Identifier.ValueText == &quot;System&quot;"/>
@@ -1694,7 +1700,7 @@
         </Compatibility>
       </Rules>
     </Type>
-    <Type name="AliasQualifiedNameSyntax" base="NameSyntax">
+    <Type name="AliasQualifiedNameSyntax" base="NameSyntax" hashtags="#Expression #Expression#Type #Expression#Type#Name #qualified #alias #name">
       <Properties>
         <Property name="Alias" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Single">
           <Rules>
@@ -1732,7 +1738,7 @@
         <Name equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="IdentifierNameSyntax" base="SimpleNameSyntax">
+    <Type name="IdentifierNameSyntax" base="SimpleNameSyntax" hashtags="#Expression #Expression#Type #Expression#Type#Name #Expression#Type#Name#Simple #name">
       <Properties>
         <Property name="Identifier" kind="Token" index="0" optional="false" changepoint="true" inherited="true" multiplicity="Single">
           <Options exclusive="true">
@@ -1750,7 +1756,7 @@
         <Name equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="GenericNameSyntax" base="SimpleNameSyntax">
+    <Type name="GenericNameSyntax" base="SimpleNameSyntax" hashtags="#Expression #Expression#Type #Expression#Type#Name #Expression#Type#Name#Simple #name">
       <Properties>
         <Property name="Identifier" kind="Token" index="0" optional="false" changepoint="true" inherited="true" multiplicity="Single">
           <Rules>
@@ -1771,7 +1777,7 @@
       </Rules>
     </Type>
     <!--And Related-->
-    <Type name="TypeArgumentListSyntax">
+    <Type name="TypeArgumentListSyntax" hashtags="#list #argument #type #type#argument">
       <Properties>
         <Property name="LessThanToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -1780,7 +1786,7 @@
         </Property>
         <Property name="Arguments" kind="Node" index="1" optional="false" multiplicity="Collection" collectionType="TypeSyntax" collectionSeparator=",">
           <Rules collection="true">
-            <Name equality="true" absolute="true"/>
+            <!--<Name equality="true" absolute="true"/>-->
             <Pairwise discriminant="true"/>
             <Topology relevant="true"/>
           </Rules>
@@ -1793,7 +1799,7 @@
       </Properties>
       <Rules collection="true"/>
     </Type>
-    <Type name="ArrayRankSpecifierSyntax">
+    <Type name="ArrayRankSpecifierSyntax" hashtags="#array #specifier">
       <Properties>
         <Property name="OpenBracketToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -1814,7 +1820,7 @@
       </Properties>
       <Rules collection="true"/>
     </Type>
-    <Type name="OmittedArraySizeExpressionSyntax" base="ExpressionSyntax" readonly="true" symbolic="true">
+    <Type name="OmittedArraySizeExpressionSyntax" base="ExpressionSyntax" readonly="true" symbolic="true" hashtags="#Expression #expression #array #omitted">
       <Properties>
         <Property name="OmittedArraySizeExpressionToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" symbolic="true">
           <Rules>
@@ -1826,7 +1832,7 @@
 
     <!--StatementSyntax \ {GlobalStatementSyntax in fact inherits from member declaration} - Level 1-->
     <Type name="StatementSyntax" abstract="true"/>
-    <Type name="BlockSyntax" base="StatementSyntax">
+    <Type name="BlockSyntax" base="StatementSyntax" hashtags="#Statement">
       <Properties>
         <Property name="OpenBraceToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -1847,7 +1853,7 @@
       </Properties>
       <Rules collection="true"/>
     </Type>
-    <Type name="LocalDeclarationStatementSyntax" base="StatementSyntax">
+    <Type name="LocalDeclarationStatementSyntax" base="StatementSyntax" hashtags="#Statement #statement #declaration #DECLARATION#LOCAL #DECLARATION#VARIABLE"><!--declaration-->
       <Properties>
         <Property name="Modifiers" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Collection">
           <Rules collection="true">
@@ -1870,7 +1876,7 @@
         <Name equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="ExpressionStatementSyntax" base="StatementSyntax">
+    <Type name="ExpressionStatementSyntax" base="StatementSyntax" hashtags="#Statement #statement #expression #EXPRESSION#WRAPPER">
       <Properties>
         <Property name="Expression" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Single">
           <Rules>
@@ -1885,7 +1891,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="EmptyStatementSyntax" base="StatementSyntax" readonly="true">
+    <Type name="EmptyStatementSyntax" base="StatementSyntax" readonly="true" hashtags="#Statement #statement">
       <Properties>
         <Property name="SemicolonToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -1894,7 +1900,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="LabeledStatementSyntax" base="StatementSyntax">
+    <Type name="LabeledStatementSyntax" base="StatementSyntax" hashtags="#Statement #statement #label">
       <Properties>
         <Property name="Identifier" kind="Token" index="0" optional="false" changepoint="true" multiplicity="Single">
           <Rules>
@@ -1919,7 +1925,7 @@
         <Name equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="GotoStatementSyntax" base="StatementSyntax">
+    <Type name="GotoStatementSyntax" base="StatementSyntax" hashtags="#Statement #statement">
       <Properties>
         <Property name="GotoKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
           <Rules>
@@ -1953,7 +1959,7 @@
         <Annotation context="Suppress" role="Kind"/>
       </Annotations>
     </Type>
-    <Type name="BreakStatementSyntax" base="StatementSyntax" readonly="true">
+    <Type name="BreakStatementSyntax" base="StatementSyntax" readonly="true" hashtags="#Statement #statement">
       <Properties>
         <Property name="BreakKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
           <Rules>
@@ -1967,7 +1973,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="ContinueStatementSyntax" base="StatementSyntax" readonly="true">
+    <Type name="ContinueStatementSyntax" base="StatementSyntax" readonly="true" hashtags="#Statement #statement">
       <Properties>
         <Property name="ContinueKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
           <Rules>
@@ -1981,7 +1987,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="ReturnStatementSyntax" base="StatementSyntax">
+    <Type name="ReturnStatementSyntax" base="StatementSyntax" hashtags="#Statement #statement">
       <Properties>
         <Property name="ReturnKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
           <Rules>
@@ -2001,7 +2007,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="ThrowStatementSyntax" base="StatementSyntax">
+    <Type name="ThrowStatementSyntax" base="StatementSyntax" hashtags="#Statement #statement #throw">
       <Properties>
         <Property name="ThrowKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
           <Rules>
@@ -2021,7 +2027,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="YieldStatementSyntax" base="StatementSyntax">
+    <Type name="YieldStatementSyntax" base="StatementSyntax" hashtags="#Statement #statement">
       <Properties>
         <Property name="YieldKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
           <Rules>
@@ -2053,7 +2059,7 @@
         <Annotation context="Suppress" role="Kind"/>
       </Annotations>
     </Type>
-    <Type name="WhileStatementSyntax" base="StatementSyntax">
+    <Type name="WhileStatementSyntax" base="StatementSyntax" hashtags="#Statement #statement #WHILE">
       <Properties>
         <Property name="WhileKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
           <Rules>
@@ -2082,7 +2088,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="DoStatementSyntax" base="StatementSyntax">
+    <Type name="DoStatementSyntax" base="StatementSyntax" hashtags="#Statement #statement #WHILE">
       <Properties>
         <Property name="DoKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
           <Rules>
@@ -2120,8 +2126,9 @@
           </Rules>
         </Property>
       </Properties>
+      <!--While compatible-->
     </Type>
-    <Type name="ForStatementSyntax" base="StatementSyntax">
+    <Type name="ForStatementSyntax" base="StatementSyntax" hashtags="#Statement #statement #for">
       <Properties>
         <Property name="ForKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
           <Rules>
@@ -2179,7 +2186,7 @@
         <Name equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="ForEachStatementSyntax" base="CommonForEachStatementSyntax">
+    <Type name="ForEachStatementSyntax" base="CommonForEachStatementSyntax" hashtags="#Statement #statement #Statement#ForEach #for">
       <Properties>
         <Property name="ForEachKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" inherited="true" keyword="true">
           <Rules>
@@ -2227,8 +2234,9 @@
       <Rules>
         <Name equality="true" absolute="true"/>
       </Rules>
+      <!--for compatible-->
     </Type>
-    <Type name="UsingStatementSyntax" base="StatementSyntax">
+    <Type name="UsingStatementSyntax" base="StatementSyntax" hashtags="#Statement #statement">
       <Properties>
         <Property name="UsingKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
           <Rules>
@@ -2266,7 +2274,7 @@
         <Name equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="FixedStatementSyntax" base="StatementSyntax">
+    <Type name="FixedStatementSyntax" base="StatementSyntax" hashtags="#Statement #statement">
       <Properties>
         <Property name="FixedKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
           <Rules>
@@ -2299,7 +2307,7 @@
         <Name equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="CheckedStatementSyntax" base="StatementSyntax" operator="true">
+    <Type name="CheckedStatementSyntax" base="StatementSyntax" operator="true" hashtags="#Statement #statement #checked">
       <Properties>
         <Property name="Keyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
           <Options exclusive="true" labeling="true">
@@ -2321,8 +2329,9 @@
       <Annotations>
         <Annotation context="Suppress" role="Kind"/>
       </Annotations>
+      <!--Checked expression compatible?-->
     </Type>
-    <Type name="UnsafeStatementSyntax" base="StatementSyntax">
+    <Type name="UnsafeStatementSyntax" base="StatementSyntax" hashtags="#Statement #statement">
       <Properties>
         <Property name="UnsafeKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
           <Rules>
@@ -2338,7 +2347,7 @@
       </Properties>
       <Rules collection="true"/>
     </Type>
-    <Type name="LockStatementSyntax" base="StatementSyntax">
+    <Type name="LockStatementSyntax" base="StatementSyntax" hashtags="#Statement #statement">
       <Properties>
         <Property name="LockKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
           <Rules>
@@ -2367,7 +2376,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="IfStatementSyntax" base="StatementSyntax">
+    <Type name="IfStatementSyntax" base="StatementSyntax" hashtags="#Statement #statement #if">
       <Properties>
         <Property name="IfKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
           <Rules>
@@ -2400,8 +2409,9 @@
           </Rules>
         </Property>
       </Properties>
+      <!--Conditional expression compatible-->
     </Type>
-    <Type name="SwitchStatementSyntax" base="StatementSyntax">
+    <Type name="SwitchStatementSyntax" base="StatementSyntax" hashtags="#Statement #statement #switch">
       <Properties>
         <Property name="SwitchKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
           <Rules>
@@ -2440,7 +2450,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="TryStatementSyntax" base="StatementSyntax">
+    <Type name="TryStatementSyntax" base="StatementSyntax" hashtags="#Statement #statement">
       <Properties>
         <Property name="TryKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
           <Rules>
@@ -2465,7 +2475,7 @@
       </Properties>
     </Type>
     <!--And Variable (by Local Declaration) Related-->
-    <Type name="VariableDeclarationSyntax">
+    <Type name="VariableDeclarationSyntax" hashtags="#declaration #variable #VARIABLE #DECLARATION">
       <Properties>
         <Property name="Type" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Single">
           <Rules>
@@ -2483,7 +2493,7 @@
         <Name equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="VariableDeclaratorSyntax">
+    <Type name="VariableDeclaratorSyntax" hashtags="#variable #declarator #VARIABLE #DECLARATION">
       <Properties>
         <Property name="Identifier" kind="Token" index="0" optional="false" changepoint="true" multiplicity="Single">
           <Rules>
@@ -2507,7 +2517,7 @@
         <Name equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="EqualsValueClauseSyntax">
+    <Type name="EqualsValueClauseSyntax" hashtags="#VALUE#WRAPPER #clause">
       <Properties>
         <Property name="EqualsToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -2523,7 +2533,7 @@
       </Properties>
     </Type>
     <!--And If Related-->
-    <Type name="ElseClauseSyntax">
+    <Type name="ElseClauseSyntax" hashtags="#IF #clause">
       <Properties>
         <Property name="ElseKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
           <Rules>
@@ -2538,7 +2548,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="SwitchSectionSyntax">
+    <Type name="SwitchSectionSyntax" hashtags="#switch">
       <Properties>
         <Property name="Labels" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Collection" collectionType="SwitchLabelSyntax">
           <Rules collection="true">
@@ -2552,7 +2562,7 @@
         </Property>
       </Properties>
     </Type>
-    <!--And Switch Related$SwitchLabelSyntax-->
+    <!--And switch Related$SwitchLabelSyntax-->
     <Type name="SwitchLabelSyntax" abstract="true">
       <Properties>
         <Property name="Keyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
@@ -2561,7 +2571,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="CaseSwitchLabelSyntax" base="SwitchLabelSyntax">
+    <Type name="CaseSwitchLabelSyntax" base="SwitchLabelSyntax" hashtags="#switch #label #SWITCH#Label">
       <Properties>
         <Property name="Keyword" kind="Token" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single" keyword="true">
           <Rules>
@@ -2581,7 +2591,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="DefaultSwitchLabelSyntax" base="SwitchLabelSyntax" readonly="true">
+    <Type name="DefaultSwitchLabelSyntax" base="SwitchLabelSyntax" readonly="true" hashtags="#switch #label #SWITCH#Label">
       <Properties>
         <Property name="Keyword" kind="Token" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single" keyword="true">
           <Rules>
@@ -2596,7 +2606,7 @@
       </Properties>
     </Type>
     <!--And Try Related$-->
-    <Type name="CatchClauseSyntax">
+    <Type name="CatchClauseSyntax" hashtags="#TRY #clause #catch">
       <Properties>
         <Property name="CatchKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
           <Rules>
@@ -2624,7 +2634,8 @@
         <Name equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="CatchDeclarationSyntax">
+    <Type name="CatchDeclarationSyntax" hashtags="#declaration #VARIABLE#DECLARATOR #catch"><!--variable-->
+      <!--declaration-->
       <Properties>
         <Property name="OpenParenToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -2654,7 +2665,7 @@
         <Name equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="CatchFilterClauseSyntax">
+    <Type name="CatchFilterClauseSyntax" hashtags="#catch #clause">
       <Properties>
         <Property name="WhenKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
           <Rules>
@@ -2679,7 +2690,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="FinallyClauseSyntax">
+    <Type name="FinallyClauseSyntax" hashtags="#TRY #clause">
       <Properties>
         <Property name="FinallyKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
           <Rules>
@@ -2698,7 +2709,7 @@
 
     <!--Member Declarations - Level 3-->
     <Type name="MemberDeclarationSyntax" abstract="true"/>
-    <Type name="IncompleteMemberSyntax" base="MemberDeclarationSyntax">
+    <Type name="IncompleteMemberSyntax" base="MemberDeclarationSyntax" hashtags="#DECLARATION#Member #member">
       <Properties>
         <Property name="AttributeLists" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Collection" collectionType="AttributeListSyntax">
           <Rules collection="true">
@@ -2717,7 +2728,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="GlobalStatementSyntax" base="MemberDeclarationSyntax">
+    <Type name="GlobalStatementSyntax" base="MemberDeclarationSyntax" hashtags="#DECLARATION#Member #STATEMENT#WRAPPER #statement">
       <Properties>
         <Property name="Statement" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Single">
           <Rules>
@@ -2728,7 +2739,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="DelegateDeclarationSyntax" base="MemberDeclarationSyntax">
+    <Type name="DelegateDeclarationSyntax" base="MemberDeclarationSyntax" hashtags="#declaration #DECLARATION#Member">
       <Properties>
         <Property name="AttributeLists" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Collection" collectionType="AttributeListSyntax">
           <Rules collection="true">
@@ -2820,7 +2831,7 @@
         <Name equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="EnumDeclarationSyntax" base="BaseTypeDeclarationSyntax">
+    <Type name="EnumDeclarationSyntax" base="BaseTypeDeclarationSyntax" hashtags="#declaration #DECLARATION#Member #DECLARATION#Member#Type #enum">
       <Properties>
         <Property name="AttributeLists" kind="Node" index="0" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="AttributeListSyntax">
           <Rules collection="true">
@@ -2900,7 +2911,7 @@
         <Signature equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="ClassDeclarationSyntax" base="TypeDeclarationSyntax">
+    <Type name="ClassDeclarationSyntax" base="TypeDeclarationSyntax" hashtags="#declaration #DECLARATION#Member#Type #DECLARATION#Member">
       <Properties>
         <Property name="AttributeLists" kind="Node" index="0" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="AttributeListSyntax">
           <Rules collection="true">
@@ -2967,7 +2978,7 @@
         <Name equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="StructDeclarationSyntax" base="TypeDeclarationSyntax">
+    <Type name="StructDeclarationSyntax" base="TypeDeclarationSyntax" hashtags="#declaration #DECLARATION#Member#Type #DECLARATION#Member">
       <Properties>
         <Property name="AttributeLists" kind="Node" index="0" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="AttributeListSyntax">
           <Rules collection="true">
@@ -3034,7 +3045,7 @@
         <Name equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="InterfaceDeclarationSyntax" base="TypeDeclarationSyntax">
+    <Type name="InterfaceDeclarationSyntax" base="TypeDeclarationSyntax" hashtags="#declaration #DECLARATION#Member#Type #DECLARATION#Member">
       <Properties>
         <Property name="AttributeLists" kind="Node" index="0" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="AttributeListSyntax">
           <Rules collection="true">
@@ -3102,7 +3113,7 @@
       </Rules>
     </Type>
     <!--And Related-->
-    <Type name="EnumMemberDeclarationSyntax" base="MemberDeclarationSyntax">
+    <Type name="EnumMemberDeclarationSyntax" base="MemberDeclarationSyntax" hashtags="#declaration #DECLARATION#Member #member #enum#member">
       <Properties>
         <Property name="AttributeLists" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Collection" collectionType="AttributeListSyntax">
           <Rules collection="true">
@@ -3127,7 +3138,7 @@
       </Rules>
     </Type>
     <!--And Related$TypeParameterListSyntax-->
-    <Type name="TypeParameterListSyntax">
+    <Type name="TypeParameterListSyntax" hashtags="#list #type #type#parameter #parameter">
       <Properties>
         <Property name="LessThanToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -3137,7 +3148,7 @@
         <Property name="Parameters" kind="Node" index="1" optional="false" changepoint="true" multiplicity="Collection" collectionType="TypeParameterSyntax" collectionSeparator=",">
           <Rules collection="true">
             <Signature equality="true" absolute="true"/>
-            <Name equality="true" absolute="true"/>
+            <!--<Name equality="true" absolute="true"/>-->
             <Pairwise discriminant="true"/>
             <Topology relevant="true"/>
           </Rules>
@@ -3150,7 +3161,7 @@
       </Properties>
       <Rules collection="true"/>
     </Type>
-    <Type name="TypeParameterSyntax">
+    <Type name="TypeParameterSyntax" hashtags="#type #type#parameter #parameter #DECLARATION">
       <Properties>
         <Property name="AttributeLists" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Collection" collectionType="AttributeListSyntax">
           <Rules collection="true">
@@ -3180,7 +3191,7 @@
         <Name equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="TypeParameterConstraintClauseSyntax">
+    <Type name="TypeParameterConstraintClauseSyntax" hashtags="#Type#Parameter#Constraint #clause #type #type#parameter #parameter #constraint">
       <Properties>
         <Property name="WhereKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
           <Rules>
@@ -3210,7 +3221,7 @@
     </Type>
     <!--And Related$TypeParameterConstraintSyntax-->
     <Type name="TypeParameterConstraintSyntax" abstract="true"/>
-    <Type name="TypeConstraintSyntax" base="TypeParameterConstraintSyntax">
+    <Type name="TypeConstraintSyntax" base="TypeParameterConstraintSyntax" hashtags="#Type#Parameter#Constraint #type #constraint">
       <Properties>
         <Property name="Type" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Single">
           <Rules>
@@ -3220,7 +3231,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="ConstructorConstraintSyntax" base="TypeParameterConstraintSyntax" readonly="true">
+    <Type name="ConstructorConstraintSyntax" base="TypeParameterConstraintSyntax" readonly="true" hashtags="#Type#Parameter#Constraint #constructor #constraint">
       <Properties>
         <Property name="NewKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
           <Rules>
@@ -3239,7 +3250,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="ClassOrStructConstraintSyntax" base="TypeParameterConstraintSyntax" readonly="true">
+    <Type name="ClassOrStructConstraintSyntax" base="TypeParameterConstraintSyntax" readonly="true" hashtags="#Type#Parameter#Constraint #constraint">
       <Properties>
         <Property name="ClassOrStructKeyword" kind="Token" index="0" readOnly="true" optional="false" changepoint="true" multiplicity="Single" keyword="true">
           <Options exclusive="true" labeling="true">
@@ -3256,7 +3267,7 @@
       </Annotations>
     </Type>
     <!--And Related$BaseTypeSyntax-->
-    <Type name="BaseListSyntax">
+    <Type name="BaseListSyntax" hashtags="#list #base #TYPE#BASE"><!--BaseTypeList-->
       <Properties>
         <Property name="ColonToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -3281,7 +3292,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="SimpleBaseTypeSyntax" base="BaseTypeSyntax">
+    <Type name="SimpleBaseTypeSyntax" base="BaseTypeSyntax" hashtags="#type #base #TYPE#BASE">
       <Properties>
         <Property name="Type" kind="Node" index="0" optional="false" changepoint="true" inherited="true" multiplicity="Single">
           <Rules>
@@ -3317,7 +3328,7 @@
         <Name equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="FieldDeclarationSyntax" base="BaseFieldDeclarationSyntax">
+    <Type name="FieldDeclarationSyntax" base="BaseFieldDeclarationSyntax" hashtags="#declaration #DECLARATION#Member#Field #DECLARATION#Member">
       <Properties>
         <Property name="AttributeLists" kind="Node" index="0" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="AttributeListSyntax">
           <Rules collection="true">
@@ -3345,7 +3356,7 @@
         <Name equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="EventFieldDeclarationSyntax" base="BaseFieldDeclarationSyntax">
+    <Type name="EventFieldDeclarationSyntax" base="BaseFieldDeclarationSyntax" hashtags="#declaration #DECLARATION#Member#Field #event #DECLARATION#Member">
       <Properties>
         <Property name="AttributeLists" kind="Node" index="0" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="AttributeListSyntax">
           <Rules collection="true">
@@ -3379,7 +3390,7 @@
       </Rules>
     </Type>
     <!--And Related-->
-    <Type name="ExplicitInterfaceSpecifierSyntax">
+    <Type name="ExplicitInterfaceSpecifierSyntax" hashtags="#specifier">
       <Properties>
         <Property name="Name" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Single">
           <Rules>
@@ -3419,7 +3430,7 @@
         <Signature equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="MethodDeclarationSyntax" base="BaseMethodDeclarationSyntax">
+    <Type name="MethodDeclarationSyntax" base="BaseMethodDeclarationSyntax" hashtags="#declaration #DECLARATION#Member #DECLARATION#Member#Method">
       <Properties>
         <Property name="AttributeLists" kind="Node" index="0" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="AttributeListSyntax">
           <Rules collection="true">
@@ -3489,7 +3500,7 @@
         <Name equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="OperatorDeclarationSyntax" base="BaseMethodDeclarationSyntax">
+    <Type name="OperatorDeclarationSyntax" base="BaseMethodDeclarationSyntax" hashtags="#declaration #operator #DECLARATION#Member #DECLARATION#Member#Method">
       <Properties>
         <Property name="AttributeLists" kind="Node" index="0" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="AttributeListSyntax">
           <Rules collection="true">
@@ -3571,7 +3582,7 @@
         <Name equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="ConversionOperatorDeclarationSyntax" base="BaseMethodDeclarationSyntax">
+    <Type name="ConversionOperatorDeclarationSyntax" base="BaseMethodDeclarationSyntax" hashtags="#declaration #operator #DECLARATION#Member #DECLARATION#Member#Method #conversion">
       <Properties>
         <Property name="AttributeLists" kind="Node" index="0" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="AttributeListSyntax">
           <Rules collection="true">
@@ -3600,7 +3611,7 @@
         <Property name="Type" kind="Node" index="4" optional="false" changepoint="true" multiplicity="Single">
           <Rules>
             <Signature equality="true" absolute="true"/>
-            <Name equality="true" absolute="true"/>
+            <!--<Name equality="true" absolute="true"/>-->
             <Topology relevant="true"/>
           </Rules>
         </Property>
@@ -3630,7 +3641,7 @@
         <Signature equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="ConstructorDeclarationSyntax" base="BaseMethodDeclarationSyntax">
+    <Type name="ConstructorDeclarationSyntax" base="BaseMethodDeclarationSyntax" hashtags="#declaration #constructor #DECLARATION#Member #DECLARATION#Member#Method">
       <Properties>
         <Property name="AttributeLists" kind="Node" index="0" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="AttributeListSyntax">
           <Rules collection="true">
@@ -3677,7 +3688,7 @@
         <Name equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="ConstructorInitializerSyntax">
+    <Type name="ConstructorInitializerSyntax" hashtags="#constructor #initializer">
       <Properties>
         <Property name="ColonToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -3691,7 +3702,7 @@
           </Options>
           <Rules>
             <Signature equality="true" absolute="true"/>
-            <Name equality="true" absolute="true"/>
+            <!--<Name equality="true" absolute="true"/> It can be identified by the kind-->
             <Pairwise tunneling="true"/>
             <!--<Topology relevant="true"/>-->
             <!--should be this property a key or priorized pairwise change detection?-->
@@ -3711,7 +3722,7 @@
         <Annotation context="Suppress" role="Kind"/>
       </Annotations>
     </Type>
-    <Type name="DestructorDeclarationSyntax" base="BaseMethodDeclarationSyntax">
+    <Type name="DestructorDeclarationSyntax" base="BaseMethodDeclarationSyntax" hashtags="#declaration #DECLARATION#Member #DECLARATION#Member#Method">
       <Properties>
         <Property name="AttributeLists" kind="Node" index="0" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="AttributeListSyntax">
           <Rules collection="true">
@@ -3776,7 +3787,7 @@
         <Name equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="PropertyDeclarationSyntax" base="BasePropertyDeclarationSyntax">
+    <Type name="PropertyDeclarationSyntax" base="BasePropertyDeclarationSyntax" hashtags="#declaration #DECLARATION#Member#Property #DECLARATION#Member">
       <Properties>
         <Property name="AttributeLists" kind="Node" index="0" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="AttributeListSyntax">
           <Rules collection="true">
@@ -3831,7 +3842,7 @@
         <Name equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="ArrowExpressionClauseSyntax">
+    <Type name="ArrowExpressionClauseSyntax" hashtags="#expression #VALUE#WRAPPER #clause">
       <Properties>
         <Property name="ArrowToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -3846,7 +3857,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="EventDeclarationSyntax" base="BasePropertyDeclarationSyntax">
+    <Type name="EventDeclarationSyntax" base="BasePropertyDeclarationSyntax" hashtags="#declaration #DECLARATION#Member#Property #event #DECLARATION#Member">
       <Properties>
         <Property name="AttributeLists" kind="Node" index="0" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="AttributeListSyntax">
           <Rules collection="true">
@@ -3894,7 +3905,7 @@
         <Name equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="IndexerDeclarationSyntax" base="BasePropertyDeclarationSyntax">
+    <Type name="IndexerDeclarationSyntax" base="BasePropertyDeclarationSyntax" hashtags="#declaration #DECLARATION#Member#Property #DECLARATION#Member #indexer">
       <Properties>
         <Property name="AttributeLists" kind="Node" index="0" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="AttributeListSyntax">
           <Rules collection="true">
@@ -3952,7 +3963,7 @@
         <Name equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="AccessorListSyntax">
+    <Type name="AccessorListSyntax" hashtags="#list #accessor">
       <Properties>
         <Property name="OpenBraceToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -3973,7 +3984,7 @@
       </Properties>
       <Rules collection="true"/>
     </Type>
-    <Type name="AccessorDeclarationSyntax">
+    <Type name="AccessorDeclarationSyntax" hashtags="#declaration #DECLARATION #accessor">
       <Properties>
         <Property name="AttributeLists" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Collection" collectionType="AttributeListSyntax">
           <Rules collection="true">
@@ -3994,7 +4005,7 @@
             <Kind name="IdentifierToken" type="UnknownAccessorDeclaration" identifier="true" readonly="false"/>
           </Options>
           <Rules>
-            <Name equality="true" absolute="true"/>
+            <!--<Name equality="true" absolute="true"/> It can be identified by the kind--> 
             <Pairwise tunneling="true"/>
           </Rules>
         </Property>
@@ -4027,7 +4038,7 @@
         <Signature equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="ParameterListSyntax" base="BaseParameterListSyntax">
+    <Type name="ParameterListSyntax" base="BaseParameterListSyntax" hashtags="#LIST#Parameter #list #parameter">
       <Properties>
         <Property name="OpenParenToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -4051,7 +4062,7 @@
         <Signature equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="BracketedParameterListSyntax" base="BaseParameterListSyntax">
+    <Type name="BracketedParameterListSyntax" base="BaseParameterListSyntax" hashtags="#LIST#Parameter #list #parameter #bracketed">
       <Properties>
         <Property name="OpenBracketToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -4075,7 +4086,7 @@
         <Signature equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="ParameterSyntax">
+    <Type name="ParameterSyntax" hashtags="#parameter #DECLARATION">
       <Properties>
         <Property name="AttributeLists" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Collection" collectionType="AttributeListSyntax">
           <Rules collection="true">
@@ -4119,7 +4130,7 @@
 
     <!--StructuredTriviaSyntax-->
     <Type name="StructuredTriviaSyntax" abstract="true"/>
-    <Type name="SkippedTokensTriviaSyntax" base="StructuredTriviaSyntax">
+    <Type name="SkippedTokensTriviaSyntax" base="StructuredTriviaSyntax" hashtags="#TRIVIA#Structured #trivia">
       <Properties>
         <Property name="Tokens" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Collection">
           <Rules collection="true">
@@ -4130,7 +4141,7 @@
       </Properties>
       <Rules collection="true"/>
     </Type>
-    <Type name="DocumentationCommentTriviaSyntax" base="StructuredTriviaSyntax">
+    <Type name="DocumentationCommentTriviaSyntax" base="StructuredTriviaSyntax" hashtags="#TRIVIA#Structured #trivia #comment">
       <Properties>
         <Property name="Content" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Collection" collectionType="XmlNodeSyntax">
           <Rules collection="true">
@@ -4162,7 +4173,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="EndIfDirectiveTriviaSyntax" base="DirectiveTriviaSyntax" readonly="true">
+    <Type name="EndIfDirectiveTriviaSyntax" base="DirectiveTriviaSyntax" readonly="true" hashtags="#TRIVIA#Structured #trivia #directive #TRIVIA#Structured#Directive #if #end">
       <Properties>
         <Property name="HashToken" kind="Token" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -4181,7 +4192,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="RegionDirectiveTriviaSyntax" base="DirectiveTriviaSyntax" readonly="true">
+    <Type name="RegionDirectiveTriviaSyntax" base="DirectiveTriviaSyntax" readonly="true" hashtags="#TRIVIA#Structured #trivia #directive #TRIVIA#Structured#Directive #region">
       <Properties>
         <Property name="HashToken" kind="Token" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -4200,7 +4211,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="EndRegionDirectiveTriviaSyntax" base="DirectiveTriviaSyntax" readonly="true">
+    <Type name="EndRegionDirectiveTriviaSyntax" base="DirectiveTriviaSyntax" readonly="true" hashtags="#TRIVIA#Structured #trivia #directive #TRIVIA#Structured#Directive #end #region">
       <Properties>
         <Property name="HashToken" kind="Token" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -4219,7 +4230,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="ErrorDirectiveTriviaSyntax" base="DirectiveTriviaSyntax" readonly="true">
+    <Type name="ErrorDirectiveTriviaSyntax" base="DirectiveTriviaSyntax" readonly="true" hashtags="#TRIVIA#Structured #trivia #directive #TRIVIA#Structured#Directive">
       <Properties>
         <Property name="HashToken" kind="Token" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -4238,7 +4249,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="WarningDirectiveTriviaSyntax" base="DirectiveTriviaSyntax" readonly="true">
+    <Type name="WarningDirectiveTriviaSyntax" base="DirectiveTriviaSyntax" readonly="true" hashtags="#TRIVIA#Structured #trivia #directive #TRIVIA#Structured#Directive #warning">
       <Properties>
         <Property name="HashToken" kind="Token" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -4257,7 +4268,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="BadDirectiveTriviaSyntax" base="DirectiveTriviaSyntax">
+    <Type name="BadDirectiveTriviaSyntax" base="DirectiveTriviaSyntax" hashtags="#TRIVIA#Structured #trivia #directive #TRIVIA#Structured#Directive">
       <Properties>
         <Property name="HashToken" kind="Token" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -4281,7 +4292,7 @@
         <Name equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="DefineDirectiveTriviaSyntax" base="DirectiveTriviaSyntax">
+    <Type name="DefineDirectiveTriviaSyntax" base="DirectiveTriviaSyntax" hashtags="#TRIVIA#Structured #trivia #directive #TRIVIA#Structured#Directive">
       <Properties>
         <Property name="HashToken" kind="Token" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -4310,7 +4321,7 @@
         <Name equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="UndefDirectiveTriviaSyntax" base="DirectiveTriviaSyntax">
+    <Type name="UndefDirectiveTriviaSyntax" base="DirectiveTriviaSyntax" hashtags="#TRIVIA#Structured #trivia #directive #TRIVIA#Structured#Directive">
       <Properties>
         <Property name="HashToken" kind="Token" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -4339,7 +4350,7 @@
         <Name equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="LineDirectiveTriviaSyntax" base="DirectiveTriviaSyntax">
+    <Type name="LineDirectiveTriviaSyntax" base="DirectiveTriviaSyntax" hashtags="#TRIVIA#Structured #trivia #directive #TRIVIA#Structured#Directive">
       <Properties>
         <Property name="HashToken" kind="Token" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -4375,7 +4386,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="PragmaWarningDirectiveTriviaSyntax" base="DirectiveTriviaSyntax">
+    <Type name="PragmaWarningDirectiveTriviaSyntax" base="DirectiveTriviaSyntax" hashtags="#TRIVIA#Structured #trivia #directive #TRIVIA#Structured#Directive #warning #pragma">
       <Properties>
         <Property name="HashToken" kind="Token" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -4416,7 +4427,7 @@
       </Properties>
       <Rules collection="true"/>
     </Type>
-    <Type name="PragmaChecksumDirectiveTriviaSyntax" base="DirectiveTriviaSyntax">
+    <Type name="PragmaChecksumDirectiveTriviaSyntax" base="DirectiveTriviaSyntax" hashtags="#TRIVIA#Structured #trivia #directive #TRIVIA#Structured#Directive #pragma">
       <Properties>
         <Property name="HashToken" kind="Token" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -4458,7 +4469,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="ReferenceDirectiveTriviaSyntax" base="DirectiveTriviaSyntax">
+    <Type name="ReferenceDirectiveTriviaSyntax" base="DirectiveTriviaSyntax" hashtags="#TRIVIA#Structured #trivia #directive #TRIVIA#Structured#Directive">
       <Properties>
         <Property name="HashToken" kind="Token" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -4483,7 +4494,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="LoadDirectiveTriviaSyntax" base="DirectiveTriviaSyntax">
+    <Type name="LoadDirectiveTriviaSyntax" base="DirectiveTriviaSyntax" hashtags="#TRIVIA#Structured #trivia #directive #TRIVIA#Structured#Directive">
       <Properties>
         <Property name="HashToken" kind="Token" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -4508,7 +4519,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="ShebangDirectiveTriviaSyntax" base="DirectiveTriviaSyntax" readonly="true">
+    <Type name="ShebangDirectiveTriviaSyntax" base="DirectiveTriviaSyntax" readonly="true" hashtags="#TRIVIA#Structured #trivia #directive #TRIVIA#Structured#Directive">
       <Properties>
         <Property name="HashToken" kind="Token" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -4529,7 +4540,7 @@
     </Type>
     <!--StructuredTriviaSyntax$DirectiveTriviaSyntax$BranchingDirectiveTriviaSyntax-->
     <Type name="BranchingDirectiveTriviaSyntax" abstract="true" base="DirectiveTriviaSyntax"/>
-    <Type name="ElseDirectiveTriviaSyntax" base="BranchingDirectiveTriviaSyntax" readonly="true">
+    <Type name="ElseDirectiveTriviaSyntax" base="BranchingDirectiveTriviaSyntax" readonly="true" hashtags="#TRIVIA#Structured #trivia #directive #TRIVIA#Structured#Directive#Branching #TRIVIA#Structured#Directive">
       <Properties>
         <Property name="HashToken" kind="Token" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -4558,7 +4569,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="IfDirectiveTriviaSyntax" base="ConditionalDirectiveTriviaSyntax">
+    <Type name="IfDirectiveTriviaSyntax" base="ConditionalDirectiveTriviaSyntax" hashtags="#TRIVIA#Structured #trivia #directive #TRIVIA#Structured#Directive#Branching #TRIVIA#Structured#Directive#Branching#Conditional #TRIVIA#Structured#Directive #if">
       <Properties>
         <Property name="HashToken" kind="Token" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -4583,7 +4594,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="ElifDirectiveTriviaSyntax" base="ConditionalDirectiveTriviaSyntax">
+    <Type name="ElifDirectiveTriviaSyntax" base="ConditionalDirectiveTriviaSyntax" hashtags="#trivia #directive #TRIVIA#Structured#Directive#Branching #TRIVIA#Structured#Directive#Branching#Conditional #TRIVIA#Structured#Directive">
       <Properties>
         <Property name="HashToken" kind="Token" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -4613,7 +4624,7 @@
     <!--An Related-->
     <!--An Related$CrefSyntax-->
     <Type name="CrefSyntax" abstract="true"/>
-    <Type name="TypeCrefSyntax" base="CrefSyntax">
+    <Type name="TypeCrefSyntax" base="CrefSyntax" hashtags="#cref #DECLARATION#MEMBER#TYPE #Cref #type">
       <Properties>
         <Property name="Type" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Single">
           <Rules>
@@ -4623,7 +4634,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="QualifiedCrefSyntax" base="CrefSyntax">
+    <Type name="QualifiedCrefSyntax" base="CrefSyntax" hashtags="#cref #qualified #Cref">
       <Properties>
         <Property name="Container" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Single">
           <Rules>
@@ -4643,7 +4654,7 @@
       </Properties>
     </Type>
     <Type name="MemberCrefSyntax" abstract="true" base="CrefSyntax"/>
-    <Type name="NameMemberCrefSyntax" base="MemberCrefSyntax">
+    <Type name="NameMemberCrefSyntax" base="MemberCrefSyntax" hashtags="#cref #Cref#Member #DECLARATION#MEMBER #Cref #name #member">
       <Properties>
         <Property name="Name" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Single">
           <Rules>
@@ -4664,7 +4675,7 @@
         <Name equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="IndexerMemberCrefSyntax" base="MemberCrefSyntax">
+    <Type name="IndexerMemberCrefSyntax" base="MemberCrefSyntax" hashtags="#Cref #Cref#Member #cref #member #indexer">
       <Properties>
         <Property name="ThisKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
           <Rules>
@@ -4686,7 +4697,7 @@
         <Name equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="OperatorMemberCrefSyntax" base="MemberCrefSyntax">
+    <Type name="OperatorMemberCrefSyntax" base="MemberCrefSyntax" hashtags="#Cref #Cref#Member #cref #member #operator ">
       <Properties>
         <Property name="OperatorKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
           <Rules>
@@ -4738,7 +4749,7 @@
         <Name equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="ConversionOperatorMemberCrefSyntax" base="MemberCrefSyntax">
+    <Type name="ConversionOperatorMemberCrefSyntax" base="MemberCrefSyntax" hashtags="#Cref #Cref#Member #cref #member #operator #conversion">
       <Properties>
         <Property name="ImplicitOrExplicitKeyword" kind="Token" index="0" optional="false" changepoint="true" multiplicity="Single" keyword="true">
           <Options exclusive="true">
@@ -4785,7 +4796,7 @@
         <Signature equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="CrefParameterListSyntax" base="BaseCrefParameterListSyntax">
+    <Type name="CrefParameterListSyntax" base="BaseCrefParameterListSyntax" hashtags="#LIST#CrefParameter #parameter #list #cref">
       <Properties>
         <Property name="OpenParenToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -4809,7 +4820,7 @@
         <Signature equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="CrefBracketedParameterListSyntax" base="BaseCrefParameterListSyntax">
+    <Type name="CrefBracketedParameterListSyntax" base="BaseCrefParameterListSyntax" hashtags="#LIST#CrefParameter #parameter #list #cref #bracketed">
       <Properties>
         <Property name="OpenBracketToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -4833,7 +4844,7 @@
         <Signature equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="CrefParameterSyntax">
+    <Type name="CrefParameterSyntax" hashtags="#cref #parameter">
       <Properties>
         <Property name="RefKindKeyword" kind="Token" index="0" optional="true" changepoint="true" multiplicity="Single" keyword="true">
           <Options exclusive="true">
@@ -4856,11 +4867,12 @@
     </Type>
     <!--An Related$XmlNodeSyntax-->
     <Type name="XmlNodeSyntax" abstract="true"/>
-    <Type name="XmlElementSyntax" base="XmlNodeSyntax">
+    <Type name="XmlElementSyntax" base="XmlNodeSyntax" hashtags="#xml #XML#Node #element">
       <Properties>
         <Property name="StartTag" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Single">
           <Rules>
             <Name equality="true" absolute="true"/>
+            <Pairwise tunneling="true"/>
             <Topology relevant="true"/>
           </Rules>
         </Property>
@@ -4871,6 +4883,8 @@
         </Property>
         <Property name="EndTag" kind="Node" index="2" optional="false" changepoint="true" multiplicity="Single">
           <Rules>
+            <Name equality="true" absolute="true"/>
+            <Pairwise tunneling="true"/>
             <Topology relevant="true"/>
           </Rules>
         </Property>
@@ -4879,7 +4893,7 @@
         <Name equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="XmlElementStartTagSyntax">
+    <Type name="XmlElementStartTagSyntax" hashtags="#xml #tag #element">
       <Properties>
         <Property name="LessThanToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -4907,7 +4921,7 @@
         <Name equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="XmlElementEndTagSyntax">
+    <Type name="XmlElementEndTagSyntax" hashtags="#xml #tag #element #end">
       <Properties>
         <Property name="LessThanSlashToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -4931,7 +4945,7 @@
         <Name equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="XmlEmptyElementSyntax" base="XmlNodeSyntax">
+    <Type name="XmlEmptyElementSyntax" base="XmlNodeSyntax" hashtags="#xml #XML#Node #element">
       <Properties>
         <Property name="LessThanToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -4959,7 +4973,7 @@
         <Name equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="XmlNameSyntax">
+    <Type name="XmlNameSyntax" hashtags="#xml #name">
       <Properties>
         <Property name="Prefix" kind="Node" index="0" optional="true" changepoint="true" multiplicity="Single">
           <Rules>
@@ -4980,7 +4994,7 @@
         <Name equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="XmlPrefixSyntax">
+    <Type name="XmlPrefixSyntax" hashtags="#xml">
       <Properties>
         <Property name="Prefix" kind="Token" index="0" optional="false" changepoint="true" multiplicity="Single">
           <Rules>
@@ -5019,7 +5033,7 @@
         <Name equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="XmlTextAttributeSyntax" base="XmlAttributeSyntax">
+    <Type name="XmlTextAttributeSyntax" base="XmlAttributeSyntax" hashtags="#xml #XML#Attribute #attribute #text">
       <Properties>
         <Property name="Name" kind="Node" index="0" optional="false" changepoint="true" inherited="true" multiplicity="Single">
           <Rules>
@@ -5062,7 +5076,7 @@
         <Name equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="XmlCrefAttributeSyntax" base="XmlAttributeSyntax">
+    <Type name="XmlCrefAttributeSyntax" base="XmlAttributeSyntax" hashtags="#xml #XML#Attribute #cref #attribute">
       <Properties>
         <Property name="Name" kind="Node" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single">
           <Rules>
@@ -5105,7 +5119,7 @@
         <Name equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="XmlNameAttributeSyntax" base="XmlAttributeSyntax">
+    <Type name="XmlNameAttributeSyntax" base="XmlAttributeSyntax" hashtags="#xml #XML#Attribute #PARAMETER #name #attribute">
       <Properties>
         <Property name="Name" kind="Node" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single">
           <Rules>
@@ -5148,7 +5162,7 @@
         <Name equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="XmlTextSyntax" base="XmlNodeSyntax">
+    <Type name="XmlTextSyntax" base="XmlNodeSyntax" hashtags="#xml #XML#Node #text">
       <Properties>
         <Property name="TextTokens" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Collection">
           <Rules collection="true">
@@ -5159,7 +5173,7 @@
       </Properties>
       <Rules collection="true"/>
     </Type>
-    <Type name="XmlCDataSectionSyntax" base="XmlNodeSyntax">
+    <Type name="XmlCDataSectionSyntax" base="XmlNodeSyntax" hashtags="#xml #XML#Node">
       <Properties>
         <Property name="StartCDataToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -5180,7 +5194,7 @@
       </Properties>
       <Rules collection="true"/>
     </Type>
-    <Type name="XmlProcessingInstructionSyntax" base="XmlNodeSyntax">
+    <Type name="XmlProcessingInstructionSyntax" base="XmlNodeSyntax" hashtags="#xml #XML#Node">
       <Properties>
         <Property name="StartProcessingInstructionToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -5208,7 +5222,7 @@
         <Name equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="XmlCommentSyntax" base="XmlNodeSyntax">
+    <Type name="XmlCommentSyntax" base="XmlNodeSyntax" hashtags="#xml #XML#Node #comment">
       <Properties>
         <Property name="LessThanExclamationMinusMinusToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -5260,7 +5274,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="ExternAliasDirectiveSyntax">
+    <Type name="ExternAliasDirectiveSyntax" hashtags="#directive #alias">
       <Properties>
         <Property name="ExternKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
           <Rules>
@@ -5289,7 +5303,7 @@
         <Name equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="UsingDirectiveSyntax">
+    <Type name="UsingDirectiveSyntax" hashtags="#directive">
       <Properties>
         <Property name="UsingKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
           <Rules>
@@ -5323,7 +5337,7 @@
         <Name equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="NamespaceDeclarationSyntax" base="MemberDeclarationSyntax">
+    <Type name="NamespaceDeclarationSyntax" base="MemberDeclarationSyntax" hashtags="#declaration #DECLARATION#Member">
       <Properties>
         <Property name="NamespaceKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
           <Rules>
@@ -5371,7 +5385,7 @@
         <Name equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="AttributeListSyntax">
+    <Type name="AttributeListSyntax" hashtags="#list #attribute">
       <Properties>
         <Property name="OpenBracketToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -5380,13 +5394,13 @@
         </Property>
         <Property name="Target" kind="Node" index="1" optional="true" changepoint="true" multiplicity="Single">
           <Rules>
-            <Name equality="true" absolute="true"/>
+            <!--<Name equality="true" absolute="true"/>-->
             <Topology relevant="true"/>
           </Rules>
         </Property>
         <Property name="Attributes" kind="Node" index="2" optional="false" changepoint="true" multiplicity="Collection" collectionType="AttributeSyntax" collectionSeparator=",">
           <Rules collection="true">
-            <Name equality="true" absolute="true"/>
+            <!--<Name equality="true" absolute="true"/>-->
             <Topology relevant="true"/>
           </Rules>
         </Property>
@@ -5397,14 +5411,14 @@
         </Property>
       </Properties>
       <Rules>
-        <Name equality="true" absolute="true"/>
+        <!--<Name equality="true" absolute="true"/>-->
       </Rules>
     </Type>
-    <Type name="AttributeTargetSpecifierSyntax">
+    <Type name="AttributeTargetSpecifierSyntax" hashtags="#attribute #specifier">
       <Properties>
         <Property name="Identifier" kind="Token" index="0" optional="false" changepoint="true" multiplicity="Single">
           <Rules>
-            <Name equality="true" absolute="true"/>
+            <!--<Name equality="true" absolute="true"/>-->
             <Pairwise tunneling="true"/>
             <Topology relevant="true"/>
           </Rules>
@@ -5416,10 +5430,10 @@
         </Property>
       </Properties>
       <Rules>
-        <Name equality="true" absolute="true"/>
+        <!--<Name equality="true" absolute="true"/>-->
       </Rules>
     </Type>
-    <Type name="AttributeSyntax">
+    <Type name="AttributeSyntax" hashtags="#attribute #DECLARATION">
       <Properties>
         <Property name="Name" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Single">
           <Rules>
@@ -5437,7 +5451,7 @@
         <Name equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="AttributeArgumentListSyntax">
+    <Type name="AttributeArgumentListSyntax" hashtags="#list #attribute #attribute#argument #argument">
       <Properties>
         <Property name="OpenParenToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -5458,7 +5472,7 @@
       </Properties>
       <Rules collection="true"/>
     </Type>
-    <Type name="AttributeArgumentSyntax">
+    <Type name="AttributeArgumentSyntax" hashtags="#attribute#argument #attribute #argument">
       <Properties>
         <Property name="NameEquals" kind="Node" index="0" optional="true" changepoint="true" multiplicity="Single">
           <Rules>
@@ -5487,7 +5501,7 @@
     </Type>
 
     <!--New ones for C# 7.x-->
-    <Type name="WhenClauseSyntax" base="CSharpSyntaxNode">
+    <Type name="WhenClauseSyntax" base="CSharpSyntaxNode" hashtags="#SWITCH #SWITCH#LABEL #CATCH #clause">
       <Properties>
         <Property name="WhenKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
           <Rules>
@@ -5502,7 +5516,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="TupleTypeSyntax" base="TypeSyntax">
+    <Type name="TupleTypeSyntax" base="TypeSyntax" hashtags="#Expression #Expression#Type #tuple #type">
       <Properties>
         <Property name="OpenParenToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -5523,7 +5537,7 @@
       </Properties>
       <Rules collection="true"/>
     </Type>
-    <Type name="TupleExpressionSyntax" base="ExpressionSyntax">
+    <Type name="TupleExpressionSyntax" base="ExpressionSyntax" hashtags="#Expression #expression #tuple">
       <Properties>
         <Property name="OpenParenToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -5544,7 +5558,7 @@
       </Properties>
       <Rules collection="true"/>
     </Type>
-    <Type name="TupleElementSyntax" base="CSharpSyntaxNode">
+    <Type name="TupleElementSyntax" base="CSharpSyntaxNode" hashtags="#tuple #element">
       <Properties>
         <Property name="Type" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Single">
           <Rules>
@@ -5564,7 +5578,7 @@
         <Name equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="ThrowExpressionSyntax" base="ExpressionSyntax">
+    <Type name="ThrowExpressionSyntax" base="ExpressionSyntax" hashtags="#Expression #expression #throw">
       <Properties>
         <Property name="ThrowKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
           <Rules>
@@ -5581,7 +5595,8 @@
     </Type>
 
     <Type name="VariableDesignationSyntax" base="CSharpSyntaxNode" abstract="true"/>
-    <Type name="SingleVariableDesignationSyntax" base="VariableDesignationSyntax">
+    <Type name="SingleVariableDesignationSyntax" base="VariableDesignationSyntax" hashtags="#variable #VARIABLE#Designation">
+      <!--declaration-->
       <Properties>
         <Property name="Identifier" kind="Token" index="0" optional="false" changepoint="true" multiplicity="Single">
           <Rules>
@@ -5595,7 +5610,7 @@
         <Name equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="DiscardDesignationSyntax" base="VariableDesignationSyntax" readonly="true">
+    <Type name="DiscardDesignationSyntax" base="VariableDesignationSyntax" readonly="true" hashtags="#VARIABLE#Designation">
       <Properties>
         <Property name="UnderscoreToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -5604,7 +5619,8 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="ParenthesizedVariableDesignationSyntax" base="VariableDesignationSyntax">
+    <Type name="ParenthesizedVariableDesignationSyntax" base="VariableDesignationSyntax" hashtags="#variable #VARIABLE#Designation #parenthesized">
+      <!--declaration-->
       <Properties>
         <Property name="OpenParenToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" puntuaction="true">
           <Rules>
@@ -5626,7 +5642,7 @@
       <Rules collection="true"/>
     </Type>
 
-    <Type name="RefExpressionSyntax" base="ExpressionSyntax">
+    <Type name="RefExpressionSyntax" base="ExpressionSyntax" hashtags="#Expression #expression #ref">
       <Properties>
         <Property name="RefKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" keyword="true">
           <Rules>
@@ -5642,7 +5658,7 @@
       </Properties>
     </Type>
 
-    <Type name="CasePatternSwitchLabelSyntax" base="SwitchLabelSyntax">
+    <Type name="CasePatternSwitchLabelSyntax" base="SwitchLabelSyntax" hashtags="#switch #SWITCH#Label #pattern #label">
       <Properties>
         <Property name="Keyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" inherited="true" keyword="true">
           <Rules>
@@ -5666,7 +5682,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="IsPatternExpressionSyntax" base="ExpressionSyntax">
+    <Type name="IsPatternExpressionSyntax" base="ExpressionSyntax" hashtags="#Expression #expression #pattern">
       <Properties>
         <Property name="Expression" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Single">
           <Rules>
@@ -5685,7 +5701,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="DeclarationExpressionSyntax" base="ExpressionSyntax">
+    <Type name="DeclarationExpressionSyntax" base="ExpressionSyntax" hashtags="#Expression #expression #declaration #VARIABLE #DECLARATION"><!--variable-->
       <Properties>
         <Property name="Type" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Single">
           <Rules>
@@ -5714,8 +5730,10 @@
         <Property name="Statement" kind="Node" index="5" optional="false" changepoint="true" multiplicity="Single">
         </Property>
       </Properties>
+      <!--For compatibility-->
     </Type>
-    <Type name="ForEachVariableStatementSyntax" base="CommonForEachStatementSyntax">
+    <Type name="ForEachVariableStatementSyntax" base="CommonForEachStatementSyntax" hashtags="#Statement #statement #Statement#ForEach #for #variable">
+      <!--declaration-->
       <Properties>
         <Property name="ForEachKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" inherited="true" keyword="true">
           <Rules>
@@ -5756,7 +5774,8 @@
     </Type>
 
     <Type name="PatternSyntax" base="CSharpSyntaxNode" abstract="true"/>
-    <Type name="DeclarationPatternSyntax" base="PatternSyntax">
+    <Type name="DeclarationPatternSyntax" base="PatternSyntax" hashtags="#Pattern #declaration #VARIABLE#DECLARATOR #pattern"><!--variable-->
+      <!--declaration-->
       <Properties>
         <Property name="Type" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Single">
           <Rules>
@@ -5774,7 +5793,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="ConstantPatternSyntax" base="PatternSyntax">
+    <Type name="ConstantPatternSyntax" base="PatternSyntax" hashtags="#Pattern #pattern">
       <Properties>
         <Property name="Expression" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Single">
           <Rules>
@@ -5785,7 +5804,7 @@
       </Properties>
     </Type>
 
-    <Type name="LocalFunctionStatementSyntax" base="StatementSyntax">
+    <Type name="LocalFunctionStatementSyntax" base="StatementSyntax" hashtags="#Statement #statement #DECLARATION#LOCAL #DECLARATION#FUNCTION">
       <Properties>
         <Property name="Modifiers" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Collection">
           <Rules collection="true">
@@ -5842,8 +5861,9 @@
         <Signature equality="true" absolute="true"/>
         <Name equality="true" absolute="true"/>
       </Rules>
+      <!--Method compatibility-->
     </Type>
-    <Type name="RefTypeSyntax" base="TypeSyntax">
+    <Type name="RefTypeSyntax" base="TypeSyntax" hashtags="#Expression #Expression#Type #ref #type">
       <Properties>
         <Property name="RefKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" inherited="true" keyword="true">
           <Rules>

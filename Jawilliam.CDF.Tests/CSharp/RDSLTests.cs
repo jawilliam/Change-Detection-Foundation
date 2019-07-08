@@ -6,6 +6,7 @@ using System.Linq;
 using Jawilliam.CDF.XObjects.RDSL;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis;
+using System.Text.RegularExpressions;
 
 namespace Jawilliam.CDF.Tests.CSharp
 {
@@ -376,9 +377,9 @@ namespace Jawilliam.CDF.Tests.CSharp
                                    select t).ToArray();
 
             var expectedCollectionTypes = (from t in concreteTypes
-                                           where t.name == "VariableDeclarationSyntax" || 
+                                           where t.name == "VariableDeclarationSyntax" ||
                                                  (t.Properties?.Property.Any(pi => (pi.Rules?.collection ?? false) &&
-                                                                                   (t.Properties?.Property.All(pj => pi == pj || pj.puntuaction || pj.keyword) ?? false)) 
+                                                                                   (t.Properties?.Property.All(pj => pi == pj || pj.puntuaction || pj.keyword) ?? false))
                                                   ?? false)
                                            select t).ToArray();
             Assert.AreEqual(expectedCollectionTypes.Except(collectionTypes).ToArray().Length, 0);
@@ -386,39 +387,138 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
+        public void DefinitionOfExprDeclStatmnt()
+        {
+            var rdsl = Syntax.Load(@"..\..\..\Jawilliam.CDF.CSharp\RDSL.xml");
+            var concreteTypes = rdsl.Nodes.Type.Where(n => !n.@abstract).ToArray();
+
+            var declarationTypes = (from t in concreteTypes
+                                    where t.name.Contains("Declaration")
+                                    select t).ToArray();
+
+            var statementTypes = (from t in concreteTypes
+                                    where t.name.Contains("Statement")
+                                    select t).ToArray();
+
+            var expressionTypes = (from t in concreteTypes
+                                    where t.name.Contains("Expression")
+                                    select t).ToArray();
+
+            var a = declarationTypes.Intersect(statementTypes).ToArray();
+            var b = declarationTypes.Intersect(expressionTypes).ToArray();
+            var c = statementTypes.Intersect(expressionTypes).ToArray();
+        }
+
+        //[TestMethod]
+        //public void DefinitionOf()
+        //{
+        //    var rdsl = Syntax.Load(@"..\..\..\Jawilliam.CDF.CSharp\RDSL.xml");
+        //    var concreteTypes = rdsl.Nodes.Type.Where(n => !n.@abstract).ToArray();
+
+        //    var typeInfos = concreteTypes.Select(t => new
+        //    {
+        //        Class = typeof(Microsoft.CodeAnalysis.CSharp.CSharpSyntaxNode).Assembly.GetType("Microsoft.CodeAnalysis.CSharp.Syntax." + t.name),
+        //        Type = t
+        //    })
+        //    .ToDictionary(m => m.Type.name);
+
+        //    var allProperties = (from t in concreteTypes
+        //                         from p in t.Properties?.Property
+        //                         select new { Type = t, Property = p }).ToArray();
+
+        //    var allNames = allProperties.Select(p => p.Property.name).Distinct();
+
+        //    var nameFrequencies = (from n in allNames
+        //                          let c = allProperties.Count(p => p.Property.name == n)
+        //                          orderby c descending
+        //                          select new { Name = n, Count = c }).ToArray();
+        //    StringBuilder sb = new StringBuilder();
+        //    foreach (var nf in nameFrequencies)
+        //    {
+        //        int i = 0;
+        //        foreach (var prop in allProperties.Where(p => p.Property.name == nf.Name))
+        //        {
+        //            sb.AppendLine($"#{++i} {prop.Property.name} in {prop.Type.name}");
+        //        }
+
+        //    }
+        //    System.IO.File.WriteAllText(@"D:\Reports\Temp.txt", sb.ToString());
+
+        //}
+
+        [TestMethod]
         public void DefinitionOf()
         {
             var rdsl = Syntax.Load(@"..\..\..\Jawilliam.CDF.CSharp\RDSL.xml");
             var concreteTypes = rdsl.Nodes.Type.Where(n => !n.@abstract).ToArray();
 
-            var typeInfos = concreteTypes.Select(t => new
+            var typeInfos = rdsl.Nodes.Type.Select(t => new
             {
                 Class = typeof(Microsoft.CodeAnalysis.CSharp.CSharpSyntaxNode).Assembly.GetType("Microsoft.CodeAnalysis.CSharp.Syntax." + t.name),
                 Type = t
             })
             .ToDictionary(m => m.Type.name);
 
-            var allProperties = (from t in concreteTypes
-                                 from p in t.Properties?.Property
-                                 select new { Type = t, Property = p }).ToArray();
+            //var words = (from t in concreteTypes
+            //             from word in Regex.Split(t.name, @"(?<!^)(?=[A-Z])")
+            //             select word).Distinct().ToArray();
 
-            var allNames = allProperties.Select(p => p.Property.name).Distinct();
+            ////var allNames = allProperties.Select(p => p.Property.name).Distinct();
 
-            var nameFrequencies = (from n in allNames
-                                  let c = allProperties.Count(p => p.Property.name == n)
-                                  orderby c descending
-                                  select new { Name = n, Count = c }).ToArray();
+            //var wordFrequencies = (from w in words
+            //                       where w != "Syntax" && w != "C"
+            //                       let c = concreteTypes.Count(t => t.name.Contains(w))
+            //                       orderby c descending
+            //                       select new { Word = w, Count = c }).ToArray();
+
+            var words = (from t in concreteTypes
+                         //from word in Regex.Split(t.name, @"(?<!^)(?=[A-Z])")
+                         select Regex.Split(t.name, @"(?<!^)(?=[A-Z])").Where(s => s != "Syntax")).ToArray();
             StringBuilder sb = new StringBuilder();
-            foreach (var nf in nameFrequencies)
+            //foreach (var wf in wordFrequencies)
+            //{
+            //    int i = 0;
+            //    foreach (var type in concreteTypes.Where(t => t.name.Contains(wf.Word)))
+            //    {
+            //        sb.AppendLine($"#{++i} {wf.Word} in {type.name}");
+            //    }
+            //}
+            foreach (var wf in words)
             {
-                int i = 0;
-                foreach (var prop in allProperties.Where(p => p.Property.name == nf.Name))
-                {
-                    sb.AppendLine($"#{++i} {prop.Property.name} in {prop.Type.name}");
-                }
-                
+                sb.AppendLine(wf.Aggregate("", (acc, s) => acc == "" ? s : $"{acc} {s}"));
             }
-            System.IO.File.WriteAllText(@"D:\Reports\Temp.txt", sb.ToString());
+            System.IO.File.WriteAllText(@"D:\Reports\TypeNameWordsForWordsCloud.txt", sb.ToString());
+
+            //var declarationTypes = (from t in concreteTypes
+            //                        let typeInfo = typeInfos.Single(ti => ti.Value.Type == t)
+            //                        where typeof(declara)
+            //                        select t).ToArray();
+
+            //var abstractTypeFrequencies = (from t in rdsl.Nodes.Type.Where(t1 => t1.@abstract).Select(t1 => typeInfos.Single(ti => ti.Value.Type == t1))
+            //                               let descendants = typeInfos.Values.Where(v => !v.Type.@abstract && t.Value.Class.IsAssignableFrom(v.Class)).ToArray()
+            //                               orderby descendants.Length descending
+            //                               select new { AbstractType = t, Descendants = descendants}).ToArray();
+            //StringBuilder sb = new StringBuilder();
+            //foreach (var atf in abstractTypeFrequencies)
+            //{
+            //    int i = 0;
+            //    foreach (var type in atf.Descendants)
+            //    {
+            //        sb.AppendLine($"#{++i} {atf.AbstractType.Value.Class.Name} ---- {type.Class.Name}");
+            //    }
+
+            //}
+            //System.IO.File.WriteAllText(@"D:\Reports\DescendantTypesPerAbstractTypes.txt", sb.ToString());
+
+            //var statementTypes = (from t in concreteTypes
+            //                      let typeInfo = typeInfos.Single(ti => ti.Value.Type == t)
+            //                      where typeof(StatementSyntax).IsAssignableFrom(typeInfo.Value.Class)
+            //                      select t).ToArray();
+
+            //var expressionTypes = (from t in concreteTypes
+            //                       let typeInfo = typeInfos.Single(ti => ti.Value.Type == t)
+            //                       where typeof(ExpressionSyntax).IsAssignableFrom(typeInfo.Value.Class)
+            //                       select t).ToArray();
 
         }
     }

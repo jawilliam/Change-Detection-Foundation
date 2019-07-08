@@ -4,6 +4,17 @@
   <xs:complexType name="TypeLabelOption">
     <xs:attribute name="name" type="xs:string"/>
   </xs:complexType>
+  <xs:simpleType name="propertyHashtags">
+    <xs:list>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="#KEYWORD"/>
+          <xs:enumeration value="#OPERATOR"/>
+          <xs:enumeration value="#PUNTUACTION"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:list>
+  </xs:simpleType>
   <xs:complexType name="PropertyLabelOption">
     <xs:complexContent>
       <xs:extension base="mstns:TypeLabelOption">
@@ -15,6 +26,7 @@
         <xs:attribute name="literal" type="xs:boolean" use="optional" default="false"/>
         <xs:attribute name="identifier" type="xs:boolean" use="optional" default="false"/>
         <xs:attribute name="readonly" type="xs:boolean" use="optional" default="true"/>
+        <xs:attribute name="hashtags" type="mstns:propertyHashtags" use="optional" default=""/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
@@ -23,6 +35,7 @@
     <xs:attribute name="similarity" type="xs:boolean" use="optional" default="false"/>
 		<xs:attribute name="absolute" type="xs:boolean" use="optional" default="false"/>
 		<xs:attribute name="relative" type="xs:boolean" use="optional" default="false"/>
+    <xs:attribute name="priority" type="xs:unsignedByte" use="optional"/>
 	</xs:complexType>
   <xs:complexType name="SuitabilityRule">
     <xs:attribute name="suitable" type="xs:boolean" use="optional" default="false"/>
@@ -145,6 +158,7 @@
 															</xs:attribute>
 															<xs:attribute name="collectionType" type="xs:string" use="optional"/>
                               <xs:attribute name="collectionSeparator" type="xs:string" use="optional"/>
+                              <xs:attribute name="hashtags" type="mstns:propertyHashtags" use="optional" default=""/>
                               <xs:attribute name="keyword" type="xs:boolean" use="optional" default="false"/>
                               <xs:attribute name="operator" type="xs:boolean" use="optional" default="false"/>
                               <xs:attribute name="puntuaction" type="xs:boolean" use="optional" default="false"/>
@@ -222,8 +236,8 @@
 										</xs:element>
 										<xs:element name="Annotations" minOccurs="0">
 											<xs:complexType>
-												<xs:sequence maxOccurs="unbounded">
-													<xs:element name="Annotation">
+												<xs:sequence>
+													<xs:element name="Annotation" maxOccurs="unbounded">
 														<xs:complexType>
 															<xs:attribute name="context" type="xs:string" use="required"/>
 															<xs:attribute name="role" type="xs:string" use="required"/>
@@ -240,6 +254,179 @@
                   <xs:attribute name="operator" type="xs:boolean" use="optional" default="false"/>
                   <xs:attribute name="readonly" type="xs:boolean" use="optional" default="false"/>
                   <xs:attribute name="symbolic" type="xs:boolean" use="optional" default="false"/>
+                  <xs:attribute name="hashtags" use="optional">
+                    <xs:simpleType>
+                      <xs:list>
+                        <xs:simpleType>
+                          <xs:restriction base="xs:string">
+                            <xs:enumeration value="#declaration"/>
+                            <!--MemberDeclarationSyntax inheritors-->
+                            <xs:enumeration value="#DECLARATION#Member"/>
+                            <xs:enumeration value="#DECLARATION#MEMBER"/>
+                            <!--BaseMethodDeclarationSyntax : MemberDeclarationSyntax inheritors-->
+                            <xs:enumeration value="#DECLARATION#Member#Method"/>
+                            <!--BaseTypeDeclarationSyntax : MemberDeclarationSyntax inheritors-->
+                            <xs:enumeration value="#DECLARATION#Member#Type"/>
+                            <xs:enumeration value="#DECLARATION#MEMBER#TYPE"/>
+                            <!--BasePropertyDeclarationSyntax : MemberDeclarationSyntax inheritors-->
+                            <xs:enumeration value="#DECLARATION#Member#Property"/>
+                            <!--BaseFieldDeclarationSyntax : MemberDeclarationSyntax inheritors-->
+                            <xs:enumeration value="#DECLARATION#Member#Field"/>
+                            <xs:enumeration value="#DECLARATION#LOCAL"/>
+                            <xs:enumeration value="#DECLARATION#VARIABLE"/>
+                            <xs:enumeration value="#DECLARATION#FUNCTION"/>
+                            <xs:enumeration value="#DECLARATION"/> <!--attribute, accessor, parameter, type parameter-->
+                            
+                            <!--StatementSyntax inheritors-->
+                            <xs:enumeration value="#Statement"/>
+                            <!--CommonForEachStatementSyntax : StatementSyntax inheritors-->
+                            <xs:enumeration value="#Statement#ForEach"/>
+                            <xs:enumeration value="#statement"/>
+                            <xs:enumeration value="#switch"/>
+                            <xs:enumeration value="#SWITCH"/>
+                            <!--SwitchLabelSyntax inheritors-->
+                            <xs:enumeration value="#SWITCH#Label"/>
+                            <xs:enumeration value="#SWITCH#LABEL"/>
+                            <xs:enumeration value="#STATEMENT#WRAPPER"/>
+                            
+                            <!--ExpressionSyntax inheritors-->
+                            <xs:enumeration value="#Expression"/>
+                            <!--TypeSyntax : ExpressionSyntax-->                            
+                            <xs:enumeration value="#Expression#Type"/>  
+                            <!--NameSyntax : TypeSyntax : ExpressionSyntax-->                            
+                            <xs:enumeration value="#Expression#Type#Name"/>  
+                            <!-- SimpleNameSyntax : NameSyntax : TypeSyntax : ExpressionSyntax-->                            
+                            <xs:enumeration value="#Expression#Type#Name#Simple"/>                              
+                            <xs:enumeration value="#IDENTIFIER#WRAPPER"/>  
+                            <!--AnonymousFunctionExpressionSyntax : ExpressionSyntax-->                            
+                            <xs:enumeration value="#Expression#AnonymousFunction"/>  
+                            <!--LambdaExpressionSyntax : AnonymousFunctionExpressionSyntax : ExpressionSyntax-->                            
+                            <xs:enumeration value="#Expression#AnonymousFunction#Lambda"/>  
+                            <!--InstanceExpressionSyntax : ExpressionSyntax-->                            
+                            <xs:enumeration value="#Expression#Instance"/>
+                            <xs:enumeration value="#expression"/>
+                            <xs:enumeration value="#EXPRESSION#WRAPPER"/>                              
+                            <xs:enumeration value="#VALUE#WRAPPER"/>             
+                                                               
+                            <xs:enumeration value="#trivia"/>
+                            <!--StructuredTriviaSyntax inheritors-->
+                            <xs:enumeration value="#TRIVIA#Structured"/>
+                            <!--DirectiveTriviaSyntax : StructuredTriviaSyntax inheritors-->
+                            <xs:enumeration value="#TRIVIA#Structured#Directive"/>
+                            <!--BranchingTriviaSyntax : DirectiveTriviaSyntax : StructuredTriviaSyntax inheritors-->
+                            <xs:enumeration value="#TRIVIA#Structured#Directive#Branching"/>
+                            <!-- ConditionalDirectiveTriviaSyntax : BranchingTriviaSyntax : DirectiveTriviaSyntax : StructuredTriviaSyntax inheritors-->
+                            <xs:enumeration value="#TRIVIA#Structured#Directive#Branching#Conditional"/>
+                            <xs:enumeration value="#directive"/>                                                                            
+                            
+                            <xs:enumeration value="#cref"/>
+                            <!--CrefSyntax inheritors-->
+                            <xs:enumeration value="#Cref"/>
+                            <!--MemberCrefSyntax inheritors-->
+                            <xs:enumeration value="#Cref#Member"/>
+                            
+                            <xs:enumeration value="#xml"/>
+                            <!--XmlNodeSyntax inheritors-->
+                            <xs:enumeration value="#XML#Node"/>
+                            <!--XmlAttributeSyntax inheritors-->
+                            <xs:enumeration value="#XML#Attribute"/>                                                     
+                                                
+                            <!--PatternSyntax inheritors-->
+                            <xs:enumeration value="#Pattern"/> 
+                            
+                            <xs:enumeration value="#clause"/>
+                            <xs:enumeration value="#list"/>
+                            <!--BaseArgumentListSyntax inheritors-->
+                            <xs:enumeration value="#LIST#Argument"/>
+                            <!--BaseParameterListSyntax inheritors-->
+                            <xs:enumeration value="#LIST#Parameter"/>
+                            <!--BaseCrefParameterListSyntax inheritors-->
+                            <xs:enumeration value="#LIST#CrefParameter"/>
+                            <xs:enumeration value="#type"/>
+                            <xs:enumeration value="#type#argument"/>
+                            <xs:enumeration value="#type#parameter"/>
+                            <xs:enumeration value="#Type#Parameter#Constraint"/>
+                            <xs:enumeration value="#TYPE#BASE"/>
+                            <xs:enumeration value="#name"/> 
+                            <xs:enumeration value="#member"/>
+                            <xs:enumeration value="#parameter"/>
+                            <xs:enumeration value="#PARAMETER"/>
+                            <xs:enumeration value="#element"/>
+                            <xs:enumeration value="#attribute"/>
+                            <xs:enumeration value="#attribute#argument"/>
+                            <xs:enumeration value="#argument"/>
+                            <xs:enumeration value="#access"/>
+                            <xs:enumeration value="#ref"/> 
+                            <xs:enumeration value="#array"/>
+                            <xs:enumeration value="#creation"/>
+                            <xs:enumeration value="#for"/>
+                            <xs:enumeration value="#variable"/>
+                            <xs:enumeration value="#VARIABLE"/>
+                            <!--VariableDesignationSyntax inheritors-->
+                            <xs:enumeration value="#VARIABLE#Designation"/>
+                            <xs:enumeration value="#VARIABLE#DECLARATOR"/>
+                            <xs:enumeration value="#label"/>
+                            <xs:enumeration value="#constraint"/>
+                            <xs:enumeration value="#operator"/>
+                            <xs:enumeration value="#pattern"/>
+                            <xs:enumeration value="#parenthesized"/>
+                            <xs:enumeration value="#anonymous"/>
+                            <xs:enumeration value="#ANONYMOUS"/>
+                            <xs:enumeration value="#base"/>
+                            <xs:enumeration value="#object"/>                            
+                            <xs:enumeration value="#query"/>                            
+                            <xs:enumeration value="#QUERY"/>
+                            <!--QueryClauseSyntax inheritors-->
+                            <xs:enumeration value="#QUERY#Clause"/>                           
+                            <!--QueryClauseSyntax inheritors-->
+                            <xs:enumeration value="#QUERY#CLAUSE#SelectOrGroup"/> 
+                            <xs:enumeration value="#text"/>
+                            <xs:enumeration value="#interpolation"/>
+                            <xs:enumeration value="#INTERPOLATION#STRING"/>
+                            <!-- InterpolatedStringContentSyntax-->
+                            <xs:enumeration value="#INTERPOLATION#STRING#Content"/>                            
+                            <xs:enumeration value="#bracketed"/>  
+                            <xs:enumeration value="#qualified"/>
+                            <xs:enumeration value="#specifier"/> 
+                            <xs:enumeration value="#if"/>      
+                            <xs:enumeration value="#IF"/>
+                            <xs:enumeration value="#TRY"/>                            
+                            <xs:enumeration value="#catch"/>
+                            <xs:enumeration value="#CATCH"/>
+                            <xs:enumeration value="#constructor"/>
+                            <xs:enumeration value="#end"/>                        
+                            <xs:enumeration value="#tuple"/>                          
+                            <xs:enumeration value="#unary"/>                           
+                            <xs:enumeration value="#conditional"/> 
+                            <xs:enumeration value="#binding"/> 
+                            <xs:enumeration value="#implicit"/> 
+                            <xs:enumeration value="#checked"/> 
+                            <xs:enumeration value="#method"/>                        
+                            <xs:enumeration value="#initializer"/>                        
+                            <xs:enumeration value="#equals"/>                             
+                            <xs:enumeration value="#declarator"/>   
+                            <xs:enumeration value="#join"/>                            
+                            <xs:enumeration value="#ORDERBY"/>   
+                            <xs:enumeration value="#omitted"/>                          
+                            <xs:enumeration value="#alias"/>                           
+                            <xs:enumeration value="#throw"/>                         
+                            <xs:enumeration value="#WHILE"/>                           
+                            <xs:enumeration value="#enum"/>
+                            <xs:enumeration value="#enum#member"/>
+                            <xs:enumeration value="#event"/>                              
+                            <xs:enumeration value="#conversion"/>                              
+                            <xs:enumeration value="#indexer"/>                               
+                            <xs:enumeration value="#accessor"/>                                                           
+                            <xs:enumeration value="#region"/>                               
+                            <xs:enumeration value="#warning"/>                               
+                            <xs:enumeration value="#pragma"/>
+                            <xs:enumeration value="#tag"/>
+                            <xs:enumeration value="#comment"/>
+                          </xs:restriction>
+                        </xs:simpleType>
+                      </xs:list>
+                    </xs:simpleType>
+                  </xs:attribute>
 								</xs:complexType>
 							</xs:element>
 						</xs:sequence>

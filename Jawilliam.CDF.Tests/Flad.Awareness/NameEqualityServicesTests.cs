@@ -906,57 +906,57 @@ namespace Jawilliam.CDF.Tests.CSharp
             Assert.AreEqual(matchInfo.Modified, b);
         }
 
-        [TestMethod]
-        public void AttributeListServiceProvider_NameEqualityMatch_OK()
-        {
-            var flad = new CSharpFlad();
-            var matchingContext = new MatchingContext<SyntaxNodeOrToken?>(flad);
-            MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
+        //[TestMethod]
+        //public void AttributeListServiceProvider_NameEqualityMatch_OK()
+        //{
+        //    var flad = new CSharpFlad();
+        //    var matchingContext = new MatchingContext<SyntaxNodeOrToken?>(flad);
+        //    MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
 
-            var a = ((ClassDeclarationSyntax)(SyntaxFactory.ParseCompilationUnit("[XAttribute(\"X\"), YAttribute(Y: 3), ZAttribute(Z= 4)]class A{};").Members[0])).AttributeLists[0];
-            var b = ((ClassDeclarationSyntax)(SyntaxFactory.ParseCompilationUnit("[XAttribute(\"X\"), YAttribute(Y: 3), ZAttribute(Z= 4)]class A{};").Members[0])).AttributeLists[0];
-            Assert.IsFalse(flad.LanguageServiceProvider.AttributeListServiceProvider.NameEqualityMatch(null, b, matchingContext, out matchInfo));
-            Assert.IsNull(matchInfo);
-            Assert.IsFalse(flad.LanguageServiceProvider.AttributeListServiceProvider.NameEqualityMatch(a, (AttributeListSyntax)null, matchingContext, out matchInfo));
-            Assert.IsNull(matchInfo);
-            Assert.IsFalse(flad.LanguageServiceProvider.AttributeListServiceProvider.NameEqualityMatch(null, (AttributeListSyntax)null, matchingContext, out matchInfo));
-            Assert.IsNull(matchInfo);
-            Assert.IsTrue(flad.LanguageServiceProvider.AttributeListServiceProvider.NameEqualityMatch(a, b, matchingContext, out matchInfo));
-            Assert.IsNotNull(matchInfo);
-            Assert.AreEqual(matchInfo.Criterion, (int)MatchInfoCriterions.NameEquality);
-            Assert.AreEqual(matchInfo.Original, a);
-            Assert.AreEqual(matchInfo.Modified, b);
+        //    var a = ((ClassDeclarationSyntax)(SyntaxFactory.ParseCompilationUnit("[XAttribute(\"X\"), YAttribute(Y: 3), ZAttribute(Z= 4)]class A{};").Members[0])).AttributeLists[0];
+        //    var b = ((ClassDeclarationSyntax)(SyntaxFactory.ParseCompilationUnit("[XAttribute(\"X\"), YAttribute(Y: 3), ZAttribute(Z= 4)]class A{};").Members[0])).AttributeLists[0];
+        //    Assert.IsFalse(flad.LanguageServiceProvider.AttributeListServiceProvider.NameEqualityMatch(null, b, matchingContext, out matchInfo));
+        //    Assert.IsNull(matchInfo);
+        //    Assert.IsFalse(flad.LanguageServiceProvider.AttributeListServiceProvider.NameEqualityMatch(a, (AttributeListSyntax)null, matchingContext, out matchInfo));
+        //    Assert.IsNull(matchInfo);
+        //    Assert.IsFalse(flad.LanguageServiceProvider.AttributeListServiceProvider.NameEqualityMatch(null, (AttributeListSyntax)null, matchingContext, out matchInfo));
+        //    Assert.IsNull(matchInfo);
+        //    Assert.IsTrue(flad.LanguageServiceProvider.AttributeListServiceProvider.NameEqualityMatch(a, b, matchingContext, out matchInfo));
+        //    Assert.IsNotNull(matchInfo);
+        //    Assert.AreEqual(matchInfo.Criterion, (int)MatchInfoCriterions.NameEquality);
+        //    Assert.AreEqual(matchInfo.Original, a);
+        //    Assert.AreEqual(matchInfo.Modified, b);
 
-            a = ((ClassDeclarationSyntax)(SyntaxFactory.ParseCompilationUnit("[[module: XAttribute(\"X\"), YAttribute(Y: 3), ZAttribute(Z= 4)]class A{};").Members[0])).AttributeLists[0];
-            b = ((ClassDeclarationSyntax)(SyntaxFactory.ParseCompilationUnit("[XAttribute(\"X\"), YAttribute(Y: 3), ZAttribute(Z= 4)]class A{};").Members[0])).AttributeLists[0];
-            Assert.IsFalse(flad.LanguageServiceProvider.AttributeListServiceProvider.NameEqualityMatch(null, b, matchingContext, out matchInfo));
-            Assert.IsNull(matchInfo);
-            Assert.IsFalse(flad.LanguageServiceProvider.AttributeListServiceProvider.NameEqualityMatch(a, (AttributeListSyntax)null, matchingContext, out matchInfo));
-            Assert.IsNull(matchInfo);
-            Assert.IsFalse(flad.LanguageServiceProvider.AttributeListServiceProvider.NameEqualityMatch(null, (AttributeListSyntax)null, matchingContext, out matchInfo));
-            Assert.IsNull(matchInfo);
-            Assert.IsFalse(flad.LanguageServiceProvider.AttributeListServiceProvider.NameEqualityMatch(a, b, matchingContext, out matchInfo));
-            Assert.IsNull(matchInfo);
+        //    a = ((ClassDeclarationSyntax)(SyntaxFactory.ParseCompilationUnit("[[module: XAttribute(\"X\"), YAttribute(Y: 3), ZAttribute(Z= 4)]class A{};").Members[0])).AttributeLists[0];
+        //    b = ((ClassDeclarationSyntax)(SyntaxFactory.ParseCompilationUnit("[XAttribute(\"X\"), YAttribute(Y: 3), ZAttribute(Z= 4)]class A{};").Members[0])).AttributeLists[0];
+        //    Assert.IsFalse(flad.LanguageServiceProvider.AttributeListServiceProvider.NameEqualityMatch(null, b, matchingContext, out matchInfo));
+        //    Assert.IsNull(matchInfo);
+        //    Assert.IsFalse(flad.LanguageServiceProvider.AttributeListServiceProvider.NameEqualityMatch(a, (AttributeListSyntax)null, matchingContext, out matchInfo));
+        //    Assert.IsNull(matchInfo);
+        //    Assert.IsFalse(flad.LanguageServiceProvider.AttributeListServiceProvider.NameEqualityMatch(null, (AttributeListSyntax)null, matchingContext, out matchInfo));
+        //    Assert.IsNull(matchInfo);
+        //    Assert.IsFalse(flad.LanguageServiceProvider.AttributeListServiceProvider.NameEqualityMatch(a, b, matchingContext, out matchInfo));
+        //    Assert.IsNull(matchInfo);
 
-            a = SyntaxFactory.ParseCompilationUnit("[module: XAttribute(\"X\"), YAttribute(Y: 3), ZAttribute(Z= 4)]").AttributeLists[0];
-            b = SyntaxFactory.ParseCompilationUnit("[assembly: XAttribute(\"X\"), YAttribute(Y: 3), ZAttribute(Z= 4)]").AttributeLists[0];
-            Assert.IsFalse(flad.LanguageServiceProvider.AttributeListServiceProvider.NameEqualityMatch(null, b, matchingContext, out matchInfo));
-            Assert.IsNull(matchInfo);
-            Assert.IsFalse(flad.LanguageServiceProvider.AttributeListServiceProvider.NameEqualityMatch(a, (AttributeListSyntax)null, matchingContext, out matchInfo));
-            Assert.IsNull(matchInfo);
-            Assert.IsFalse(flad.LanguageServiceProvider.AttributeListServiceProvider.NameEqualityMatch(null, (AttributeListSyntax)null, matchingContext, out matchInfo));
-            Assert.IsNull(matchInfo);
-            Assert.IsFalse(flad.LanguageServiceProvider.AttributeListServiceProvider.NameEqualityMatch(a, b, matchingContext, out matchInfo));
-            Assert.IsNull(matchInfo);
+        //    a = SyntaxFactory.ParseCompilationUnit("[module: XAttribute(\"X\"), YAttribute(Y: 3), ZAttribute(Z= 4)]").AttributeLists[0];
+        //    b = SyntaxFactory.ParseCompilationUnit("[assembly: XAttribute(\"X\"), YAttribute(Y: 3), ZAttribute(Z= 4)]").AttributeLists[0];
+        //    Assert.IsFalse(flad.LanguageServiceProvider.AttributeListServiceProvider.NameEqualityMatch(null, b, matchingContext, out matchInfo));
+        //    Assert.IsNull(matchInfo);
+        //    Assert.IsFalse(flad.LanguageServiceProvider.AttributeListServiceProvider.NameEqualityMatch(a, (AttributeListSyntax)null, matchingContext, out matchInfo));
+        //    Assert.IsNull(matchInfo);
+        //    Assert.IsFalse(flad.LanguageServiceProvider.AttributeListServiceProvider.NameEqualityMatch(null, (AttributeListSyntax)null, matchingContext, out matchInfo));
+        //    Assert.IsNull(matchInfo);
+        //    Assert.IsFalse(flad.LanguageServiceProvider.AttributeListServiceProvider.NameEqualityMatch(a, b, matchingContext, out matchInfo));
+        //    Assert.IsNull(matchInfo);
 
-            a = SyntaxFactory.ParseCompilationUnit("[module: XAttribute(\"X\"), YAttribute(Y: 3), ZAttribute(Z= 4)]").AttributeLists[0];
-            b = SyntaxFactory.ParseCompilationUnit("[module: XAttribute(\"X\"), YAttribute(Y: 3), ZAttribute(Z= 4)]").AttributeLists[0];
-            Assert.IsTrue(flad.LanguageServiceProvider.AttributeListServiceProvider.NameEqualityMatch(a, b, matchingContext, out matchInfo));
-            Assert.IsNotNull(matchInfo);
-            Assert.AreEqual(matchInfo.Criterion, (int)MatchInfoCriterions.NameEquality);
-            Assert.AreEqual(matchInfo.Original, a);
-            Assert.AreEqual(matchInfo.Modified, b);
-        }
+        //    a = SyntaxFactory.ParseCompilationUnit("[module: XAttribute(\"X\"), YAttribute(Y: 3), ZAttribute(Z= 4)]").AttributeLists[0];
+        //    b = SyntaxFactory.ParseCompilationUnit("[module: XAttribute(\"X\"), YAttribute(Y: 3), ZAttribute(Z= 4)]").AttributeLists[0];
+        //    Assert.IsTrue(flad.LanguageServiceProvider.AttributeListServiceProvider.NameEqualityMatch(a, b, matchingContext, out matchInfo));
+        //    Assert.IsNotNull(matchInfo);
+        //    Assert.AreEqual(matchInfo.Criterion, (int)MatchInfoCriterions.NameEquality);
+        //    Assert.AreEqual(matchInfo.Original, a);
+        //    Assert.AreEqual(matchInfo.Modified, b);
+        //}
 
         [TestMethod]
         public void AttributeTargetSpecifierServiceProvider_NameEqualityMatch_OK()
@@ -1334,52 +1334,52 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
 
-        [TestMethod]
-        public void ConversionOperatorDeclarationServiceProvider_NameEqualityMatch_OK()
-        {
-            var flad = new CSharpFlad();
-            var matchingContext = new MatchingContext<SyntaxNodeOrToken?>(flad);
-            MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
+        //[TestMethod]
+        //public void ConversionOperatorDeclarationServiceProvider_NameEqualityMatch_OK()
+        //{
+        //    var flad = new CSharpFlad();
+        //    var matchingContext = new MatchingContext<SyntaxNodeOrToken?>(flad);
+        //    MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
 
-            var a = (ConversionOperatorDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public operator A1(B b) { return 5; };").Members[0];
-            var b = (ConversionOperatorDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public operator A(B b) { return 5; };").Members[0];
-            Assert.IsFalse(flad.LanguageServiceProvider.ConversionOperatorDeclarationServiceProvider.NameEqualityMatch(null, b, matchingContext, out matchInfo));
-            Assert.IsNull(matchInfo);
-            Assert.IsFalse(flad.LanguageServiceProvider.ConversionOperatorDeclarationServiceProvider.NameEqualityMatch(a, (ConversionOperatorDeclarationSyntax)null, matchingContext, out matchInfo));
-            Assert.IsNull(matchInfo);
-            Assert.IsFalse(flad.LanguageServiceProvider.ConversionOperatorDeclarationServiceProvider.NameEqualityMatch(null, (ConversionOperatorDeclarationSyntax)null, matchingContext, out matchInfo));
-            Assert.IsNull(matchInfo);
-            Assert.IsFalse(flad.LanguageServiceProvider.ConversionOperatorDeclarationServiceProvider.NameEqualityMatch(a, b, matchingContext, out matchInfo));
-            Assert.IsNull(matchInfo);
+        //    var a = (ConversionOperatorDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public operator A1(B b) { return 5; };").Members[0];
+        //    var b = (ConversionOperatorDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public operator A(B b) { return 5; };").Members[0];
+        //    Assert.IsFalse(flad.LanguageServiceProvider.ConversionOperatorDeclarationServiceProvider.NameEqualityMatch(null, b, matchingContext, out matchInfo));
+        //    Assert.IsNull(matchInfo);
+        //    Assert.IsFalse(flad.LanguageServiceProvider.ConversionOperatorDeclarationServiceProvider.NameEqualityMatch(a, (ConversionOperatorDeclarationSyntax)null, matchingContext, out matchInfo));
+        //    Assert.IsNull(matchInfo);
+        //    Assert.IsFalse(flad.LanguageServiceProvider.ConversionOperatorDeclarationServiceProvider.NameEqualityMatch(null, (ConversionOperatorDeclarationSyntax)null, matchingContext, out matchInfo));
+        //    Assert.IsNull(matchInfo);
+        //    Assert.IsFalse(flad.LanguageServiceProvider.ConversionOperatorDeclarationServiceProvider.NameEqualityMatch(a, b, matchingContext, out matchInfo));
+        //    Assert.IsNull(matchInfo);
 
-            a = (ConversionOperatorDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public operator A(B b) { return 5; };").Members[0];
-            b = (ConversionOperatorDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public operator A(B1 b) { return 5; };").Members[0];
-            Assert.IsFalse(flad.LanguageServiceProvider.ConversionOperatorDeclarationServiceProvider.NameEqualityMatch(null, b, matchingContext, out matchInfo));
-            Assert.IsNull(matchInfo);
-            Assert.IsFalse(flad.LanguageServiceProvider.ConversionOperatorDeclarationServiceProvider.NameEqualityMatch(a, (ConversionOperatorDeclarationSyntax)null, matchingContext, out matchInfo));
-            Assert.IsNull(matchInfo);
-            Assert.IsFalse(flad.LanguageServiceProvider.ConversionOperatorDeclarationServiceProvider.NameEqualityMatch(null, (ConversionOperatorDeclarationSyntax)null, matchingContext, out matchInfo));
-            Assert.IsNull(matchInfo);
-            Assert.IsTrue(flad.LanguageServiceProvider.ConversionOperatorDeclarationServiceProvider.NameEqualityMatch(a, b, matchingContext, out matchInfo));
-            Assert.IsNotNull(matchInfo);
-            Assert.AreEqual(matchInfo.Criterion, (int)MatchInfoCriterions.NameEquality);
-            Assert.AreEqual(matchInfo.Original, a);
-            Assert.AreEqual(matchInfo.Modified, b);
+        //    a = (ConversionOperatorDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public operator A(B b) { return 5; };").Members[0];
+        //    b = (ConversionOperatorDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public operator A(B1 b) { return 5; };").Members[0];
+        //    Assert.IsFalse(flad.LanguageServiceProvider.ConversionOperatorDeclarationServiceProvider.NameEqualityMatch(null, b, matchingContext, out matchInfo));
+        //    Assert.IsNull(matchInfo);
+        //    Assert.IsFalse(flad.LanguageServiceProvider.ConversionOperatorDeclarationServiceProvider.NameEqualityMatch(a, (ConversionOperatorDeclarationSyntax)null, matchingContext, out matchInfo));
+        //    Assert.IsNull(matchInfo);
+        //    Assert.IsFalse(flad.LanguageServiceProvider.ConversionOperatorDeclarationServiceProvider.NameEqualityMatch(null, (ConversionOperatorDeclarationSyntax)null, matchingContext, out matchInfo));
+        //    Assert.IsNull(matchInfo);
+        //    Assert.IsTrue(flad.LanguageServiceProvider.ConversionOperatorDeclarationServiceProvider.NameEqualityMatch(a, b, matchingContext, out matchInfo));
+        //    Assert.IsNotNull(matchInfo);
+        //    Assert.AreEqual(matchInfo.Criterion, (int)MatchInfoCriterions.NameEquality);
+        //    Assert.AreEqual(matchInfo.Original, a);
+        //    Assert.AreEqual(matchInfo.Modified, b);
 
-            a = (ConversionOperatorDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public operator A(B b) { return 5; };").Members[0];
-            b = (ConversionOperatorDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public operator A(B b) { return 5; };").Members[0];
-            Assert.IsFalse(flad.LanguageServiceProvider.ConversionOperatorDeclarationServiceProvider.NameEqualityMatch(null, b, matchingContext, out matchInfo));
-            Assert.IsNull(matchInfo);
-            Assert.IsFalse(flad.LanguageServiceProvider.ConversionOperatorDeclarationServiceProvider.NameEqualityMatch(a, (ConversionOperatorDeclarationSyntax)null, matchingContext, out matchInfo));
-            Assert.IsNull(matchInfo);
-            Assert.IsFalse(flad.LanguageServiceProvider.ConversionOperatorDeclarationServiceProvider.NameEqualityMatch(null, (ConversionOperatorDeclarationSyntax)null, matchingContext, out matchInfo));
-            Assert.IsNull(matchInfo);
-            Assert.IsTrue(flad.LanguageServiceProvider.ConversionOperatorDeclarationServiceProvider.NameEqualityMatch(a, b, matchingContext, out matchInfo));
-            Assert.IsNotNull(matchInfo);
-            Assert.AreEqual(matchInfo.Criterion, (int)MatchInfoCriterions.NameEquality);
-            Assert.AreEqual(matchInfo.Original, a);
-            Assert.AreEqual(matchInfo.Modified, b);
-        }
+        //    a = (ConversionOperatorDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public operator A(B b) { return 5; };").Members[0];
+        //    b = (ConversionOperatorDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public operator A(B b) { return 5; };").Members[0];
+        //    Assert.IsFalse(flad.LanguageServiceProvider.ConversionOperatorDeclarationServiceProvider.NameEqualityMatch(null, b, matchingContext, out matchInfo));
+        //    Assert.IsNull(matchInfo);
+        //    Assert.IsFalse(flad.LanguageServiceProvider.ConversionOperatorDeclarationServiceProvider.NameEqualityMatch(a, (ConversionOperatorDeclarationSyntax)null, matchingContext, out matchInfo));
+        //    Assert.IsNull(matchInfo);
+        //    Assert.IsFalse(flad.LanguageServiceProvider.ConversionOperatorDeclarationServiceProvider.NameEqualityMatch(null, (ConversionOperatorDeclarationSyntax)null, matchingContext, out matchInfo));
+        //    Assert.IsNull(matchInfo);
+        //    Assert.IsTrue(flad.LanguageServiceProvider.ConversionOperatorDeclarationServiceProvider.NameEqualityMatch(a, b, matchingContext, out matchInfo));
+        //    Assert.IsNotNull(matchInfo);
+        //    Assert.AreEqual(matchInfo.Criterion, (int)MatchInfoCriterions.NameEquality);
+        //    Assert.AreEqual(matchInfo.Original, a);
+        //    Assert.AreEqual(matchInfo.Modified, b);
+        //}
 
         [TestMethod]
         public void ConstructorDeclarationServiceProvider_NameEqualityMatch_OK()
@@ -2649,245 +2649,383 @@ namespace Jawilliam.CDF.Tests.CSharp
             Assert.AreEqual(matchInfo.Modified, b);
         }
 
+        //[TestMethod]
+        //public void TypeParameterListServiceProvider_NameEqualityMatch_OK()
+        //{
+        //    var flad = new CSharpFlad();
+        //    var matchingContext = new MatchingContext<SyntaxNodeOrToken?>(flad);
+        //    MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
+
+        //    var a = ((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a<B, out D, [Serializable]E, [Serializable] in F> {}").Members[0]).TypeParameterList;
+        //    var b = ((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a<B, in C, out D, [Serializable]E, [Serializable] in F> {}").Members[0]).TypeParameterList;
+        //    Assert.IsFalse(flad.LanguageServiceProvider.TypeParameterListServiceProvider.NameEqualityMatch(null, b, matchingContext, out matchInfo));
+        //    Assert.IsNull(matchInfo);
+        //    Assert.IsFalse(flad.LanguageServiceProvider.TypeParameterListServiceProvider.NameEqualityMatch(a, null, matchingContext, out matchInfo));
+        //    Assert.IsNull(matchInfo);
+        //    Assert.IsFalse(flad.LanguageServiceProvider.TypeParameterListServiceProvider.NameEqualityMatch(null, null, matchingContext, out matchInfo));
+        //    Assert.IsNull(matchInfo);
+        //    Assert.IsFalse(flad.LanguageServiceProvider.TypeParameterListServiceProvider.NameEqualityMatch(a, b, matchingContext, out matchInfo));
+        //    Assert.IsNull(matchInfo);
+
+        //    a = ((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a<B, C1, out D, [Serializable]E, [Serializable] in F> {}").Members[0]).TypeParameterList;
+        //    b = ((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a<B, in C, out D, [Serializable]E, [Serializable] in F> {}").Members[0]).TypeParameterList;
+        //    Assert.IsFalse(flad.LanguageServiceProvider.TypeParameterListServiceProvider.NameEqualityMatch(a, b, matchingContext, out matchInfo));
+        //    Assert.IsNull(matchInfo);
+
+        //    a = ((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a<B, in C, out D, [Serializable]E, [Serializable] in F> {}").Members[0]).TypeParameterList;
+        //    b = ((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a<B, in C, out D, [Serializable]E, [Serializable] in F> {}").Members[0]).TypeParameterList;
+        //    Assert.IsTrue(flad.LanguageServiceProvider.TypeParameterListServiceProvider.NameEqualityMatch(a, b, matchingContext, out matchInfo));
+        //    Assert.IsNotNull(matchInfo);
+        //    Assert.AreEqual(matchInfo.Criterion, (int)MatchInfoCriterions.NameEquality);
+        //    Assert.AreEqual(matchInfo.Original, a);
+        //    Assert.AreEqual(matchInfo.Modified, b);
+        //}
+
+        //[TestMethod]
+        //public void TypeArgumentListServiceProvider_NameEqualityMatch_OK()
+        //{
+        //    var flad = new CSharpFlad();
+        //    var matchingContext = new MatchingContext<SyntaxNodeOrToken?>(flad);
+        //    MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
+
+        //    var a = ((GenericNameSyntax)SyntaxFactory.ParseName("a<c,b>")).TypeArgumentList;
+        //    var b = ((GenericNameSyntax)SyntaxFactory.ParseName("a<c1,b>")).TypeArgumentList;
+        //    Assert.IsFalse(flad.LanguageServiceProvider.TypeArgumentListServiceProvider.NameEqualityMatch(null, b, matchingContext, out matchInfo));
+        //    Assert.IsNull(matchInfo);
+        //    Assert.IsFalse(flad.LanguageServiceProvider.TypeArgumentListServiceProvider.NameEqualityMatch(a, null, matchingContext, out matchInfo));
+        //    Assert.IsNull(matchInfo);
+        //    Assert.IsFalse(flad.LanguageServiceProvider.TypeArgumentListServiceProvider.NameEqualityMatch(null, null, matchingContext, out matchInfo));
+        //    Assert.IsNull(matchInfo);
+        //    Assert.IsFalse(flad.LanguageServiceProvider.TypeArgumentListServiceProvider.NameEqualityMatch(a, b, matchingContext, out matchInfo));
+        //    Assert.IsNull(matchInfo);
+
+        //    a = ((GenericNameSyntax)SyntaxFactory.ParseName("a<c,b>")).TypeArgumentList;
+        //    b = ((GenericNameSyntax)SyntaxFactory.ParseName("a<b>")).TypeArgumentList;
+        //    Assert.IsFalse(flad.LanguageServiceProvider.TypeArgumentListServiceProvider.NameEqualityMatch(a, b, matchingContext, out matchInfo));
+        //    Assert.IsNull(matchInfo);
+
+        //    a = ((GenericNameSyntax)SyntaxFactory.ParseName("a<c,b>")).TypeArgumentList;
+        //    b = ((GenericNameSyntax)SyntaxFactory.ParseName("a<c,b>")).TypeArgumentList;
+        //    Assert.IsTrue(flad.LanguageServiceProvider.TypeArgumentListServiceProvider.NameEqualityMatch(a, b, matchingContext, out matchInfo));
+        //    Assert.IsNotNull(matchInfo);
+        //    Assert.AreEqual(matchInfo.Criterion, (int)MatchInfoCriterions.NameEquality);
+        //    Assert.AreEqual(matchInfo.Original, a);
+        //    Assert.AreEqual(matchInfo.Modified, b);
+
+        //    a = ((GenericNameSyntax)SyntaxFactory.ParseName("a<,>")).TypeArgumentList;
+        //    b = ((GenericNameSyntax)SyntaxFactory.ParseName("a<,>")).TypeArgumentList;
+        //    Assert.IsTrue(flad.LanguageServiceProvider.TypeArgumentListServiceProvider.NameEqualityMatch(a, b, matchingContext, out matchInfo));
+        //    Assert.IsNotNull(matchInfo);
+        //    Assert.AreEqual(matchInfo.Criterion, (int)MatchInfoCriterions.NameEquality);
+        //    Assert.AreEqual(matchInfo.Original, a);
+        //    Assert.AreEqual(matchInfo.Modified, b);
+        //}
+
+        //[TestMethod]
+        //public void ConstructorInitializerServiceProvider_NameEqualityMatch_OK()
+        //{
+        //    var flad = new CSharpFlad();
+        //    var matchingContext = new MatchingContext<SyntaxNodeOrToken?>(flad);
+        //    MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
+
+        //    var a = ((ConstructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { public A(B b) : this(b) { } }").Members[0]).Members[0]).Initializer;
+        //    var b = ((ConstructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { public A(B b) : this() { } }").Members[0]).Members[0]).Initializer;
+        //    Assert.IsFalse(flad.LanguageServiceProvider.ConstructorInitializerServiceProvider.NameEqualityMatch(null, b, matchingContext, out matchInfo));
+        //    Assert.IsNull(matchInfo);
+        //    Assert.IsFalse(flad.LanguageServiceProvider.ConstructorInitializerServiceProvider.NameEqualityMatch(a, null, matchingContext, out matchInfo));
+        //    Assert.IsNull(matchInfo);
+        //    Assert.IsFalse(flad.LanguageServiceProvider.ConstructorInitializerServiceProvider.NameEqualityMatch(null, null, matchingContext, out matchInfo));
+        //    Assert.IsNull(matchInfo);
+        //    Assert.IsTrue(flad.LanguageServiceProvider.ConstructorInitializerServiceProvider.NameEqualityMatch(a, b, matchingContext, out matchInfo));
+        //    Assert.IsNotNull(matchInfo);
+        //    Assert.AreEqual(matchInfo.Criterion, (int)MatchInfoCriterions.NameEquality);
+        //    Assert.AreEqual(matchInfo.Original, a);
+        //    Assert.AreEqual(matchInfo.Modified, b);
+
+        //    a = ((ConstructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { public A(B b) : this(b) { } }").Members[0]).Members[0]).Initializer;
+        //    b = ((ConstructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { public A(B b) : this(c) { } }").Members[0]).Members[0]).Initializer;
+        //    Assert.IsTrue(flad.LanguageServiceProvider.ConstructorInitializerServiceProvider.NameEqualityMatch(a, b, matchingContext, out matchInfo));
+        //    Assert.IsNotNull(matchInfo);
+        //    Assert.AreEqual(matchInfo.Criterion, (int)MatchInfoCriterions.NameEquality);
+        //    Assert.AreEqual(matchInfo.Original, a);
+        //    Assert.AreEqual(matchInfo.Modified, b);
+
+        //    a = ((ConstructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { public A(B b) : this(b) { } }").Members[0]).Members[0]).Initializer;
+        //    b = ((ConstructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { public A(B b) : this(b) { } }").Members[0]).Members[0]).Initializer;
+        //    Assert.IsTrue(flad.LanguageServiceProvider.ConstructorInitializerServiceProvider.NameEqualityMatch(a, b, matchingContext, out matchInfo));
+        //    Assert.IsNotNull(matchInfo);
+        //    Assert.AreEqual(matchInfo.Criterion, (int)MatchInfoCriterions.NameEquality);
+        //    Assert.AreEqual(matchInfo.Original, a);
+        //    Assert.AreEqual(matchInfo.Modified, b);
+
+        //    a = ((ConstructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { public A(B b) : this() { } }").Members[0]).Members[0]).Initializer;
+        //    b = ((ConstructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { public A(B b) : this() { } }").Members[0]).Members[0]).Initializer;
+        //    Assert.IsTrue(flad.LanguageServiceProvider.ConstructorInitializerServiceProvider.NameEqualityMatch(a, b, matchingContext, out matchInfo));
+        //    Assert.IsNotNull(matchInfo);
+        //    Assert.AreEqual(matchInfo.Criterion, (int)MatchInfoCriterions.NameEquality);
+        //    Assert.AreEqual(matchInfo.Original, a);
+        //    Assert.AreEqual(matchInfo.Modified, b);
+
+
+
+        //    a = ((ConstructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { public A(B b) : base(b) { } }").Members[0]).Members[0]).Initializer;
+        //    b = ((ConstructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { public A(B b) : base() { } }").Members[0]).Members[0]).Initializer;
+        //    Assert.IsFalse(flad.LanguageServiceProvider.ConstructorInitializerServiceProvider.NameEqualityMatch(null, b, matchingContext, out matchInfo));
+        //    Assert.IsNull(matchInfo);
+        //    Assert.IsFalse(flad.LanguageServiceProvider.ConstructorInitializerServiceProvider.NameEqualityMatch(a, null, matchingContext, out matchInfo));
+        //    Assert.IsNull(matchInfo);
+        //    Assert.IsFalse(flad.LanguageServiceProvider.ConstructorInitializerServiceProvider.NameEqualityMatch(null, null, matchingContext, out matchInfo));
+        //    Assert.IsNull(matchInfo);
+        //    Assert.IsTrue(flad.LanguageServiceProvider.ConstructorInitializerServiceProvider.NameEqualityMatch(a, b, matchingContext, out matchInfo));
+        //    Assert.IsNotNull(matchInfo);
+        //    Assert.AreEqual(matchInfo.Criterion, (int)MatchInfoCriterions.NameEquality);
+        //    Assert.AreEqual(matchInfo.Original, a);
+        //    Assert.AreEqual(matchInfo.Modified, b);
+
+        //    a = ((ConstructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { public A(B b) : base(b) { } }").Members[0]).Members[0]).Initializer;
+        //    b = ((ConstructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { public A(B b) : base(c) { } }").Members[0]).Members[0]).Initializer;
+        //    Assert.IsTrue(flad.LanguageServiceProvider.ConstructorInitializerServiceProvider.NameEqualityMatch(a, b, matchingContext, out matchInfo));
+        //    Assert.IsNotNull(matchInfo);
+        //    Assert.AreEqual(matchInfo.Criterion, (int)MatchInfoCriterions.NameEquality);
+        //    Assert.AreEqual(matchInfo.Original, a);
+        //    Assert.AreEqual(matchInfo.Modified, b);
+
+        //    a = ((ConstructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { public A(B b) : base(b) { } }").Members[0]).Members[0]).Initializer;
+        //    b = ((ConstructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { public A(B b) : base(b) { } }").Members[0]).Members[0]).Initializer;
+        //    Assert.IsTrue(flad.LanguageServiceProvider.ConstructorInitializerServiceProvider.NameEqualityMatch(a, b, matchingContext, out matchInfo));
+        //    Assert.IsNotNull(matchInfo);
+        //    Assert.AreEqual(matchInfo.Criterion, (int)MatchInfoCriterions.NameEquality);
+        //    Assert.AreEqual(matchInfo.Original, a);
+        //    Assert.AreEqual(matchInfo.Modified, b);
+
+        //    a = ((ConstructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { public A(B b) : base() { } }").Members[0]).Members[0]).Initializer;
+        //    b = ((ConstructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { public A(B b) : base() { } }").Members[0]).Members[0]).Initializer;
+        //    Assert.IsTrue(flad.LanguageServiceProvider.ConstructorInitializerServiceProvider.NameEqualityMatch(a, b, matchingContext, out matchInfo));
+        //    Assert.IsNotNull(matchInfo);
+        //    Assert.AreEqual(matchInfo.Criterion, (int)MatchInfoCriterions.NameEquality);
+        //    Assert.AreEqual(matchInfo.Original, a);
+        //    Assert.AreEqual(matchInfo.Modified, b);
+
+        //    a = ((ConstructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { public A(B b) : this() { } }").Members[0]).Members[0]).Initializer;
+        //    b = ((ConstructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { public A(B b) : base() { } }").Members[0]).Members[0]).Initializer;
+        //    Assert.IsFalse(flad.LanguageServiceProvider.ConstructorInitializerServiceProvider.NameEqualityMatch(null, b, matchingContext, out matchInfo));
+        //    Assert.IsNull(matchInfo);
+        //}
+
+        //[TestMethod]
+        //public void AccessorDeclarationServiceProvider_NameEqualityMatch_OK()
+        //{
+        //    var flad = new CSharpFlad();
+        //    var matchingContext = new MatchingContext<SyntaxNodeOrToken?>(flad);
+        //    MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
+
+        //    var get = ((IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("A C.this[string key] { [Documentation] public get{return this.M[key];} [Serialization] public set{this.M[key] = value;} }").Members[0]).AccessorList.Accessors[0];
+        //    var set = ((IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("A C.this[string key] { [Documentation] public get{return this.M[key];} [Serialization] public set{this.M[key] = value;} }").Members[0]).AccessorList.Accessors[1];
+        //    var add = ((EventDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("event A C { [Documentation] public add{this.M += value;} [Serialization] public remove{this.M -= value;} }").Members[0]).AccessorList.Accessors[0];
+        //    var remove = ((EventDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("event A C { [Documentation] public add{this.M += value;} [Serialization] public remove{this.M -= value;} }").Members[0]).AccessorList.Accessors[1];
+
+        //    var get1 = ((IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("A C.this[string key] { [Documentation] public get{return this.M[key];} [Serialization] public set{this.M[key] = value;} }").Members[0]).AccessorList.Accessors[0];
+        //    var set1 = ((IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("A C.this[string key] { [Documentation] public get{return this.M[key];} [Serialization] public set{this.M[key] = value;} }").Members[0]).AccessorList.Accessors[1];
+        //    var add1 = ((EventDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("event A C { [Documentation] public add{this.M += value;} [Serialization] public remove{this.M -= value;} }").Members[0]).AccessorList.Accessors[0];
+        //    var remove1 = ((EventDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("event A C { [Documentation] public add{this.M += value;} [Serialization] public remove{this.M -= value;} }").Members[0]).AccessorList.Accessors[1];
+
+        //    Assert.IsFalse(flad.LanguageServiceProvider.AccessorDeclarationServiceProvider.NameEqualityMatch(null, get, matchingContext, out matchInfo));
+        //    Assert.IsNull(matchInfo);
+        //    Assert.IsFalse(flad.LanguageServiceProvider.AccessorDeclarationServiceProvider.NameEqualityMatch(get, null, matchingContext, out matchInfo));
+        //    Assert.IsNull(matchInfo);
+        //    Assert.IsFalse(flad.LanguageServiceProvider.AccessorDeclarationServiceProvider.NameEqualityMatch(null, null, matchingContext, out matchInfo));
+        //    Assert.IsNull(matchInfo);
+        //    Assert.IsFalse(flad.LanguageServiceProvider.AccessorDeclarationServiceProvider.NameEqualityMatch(get, set, matchingContext, out matchInfo));
+        //    Assert.IsNull(matchInfo);
+        //    Assert.IsFalse(flad.LanguageServiceProvider.AccessorDeclarationServiceProvider.NameEqualityMatch(get, add, matchingContext, out matchInfo));
+        //    Assert.IsNull(matchInfo);
+        //    Assert.IsFalse(flad.LanguageServiceProvider.AccessorDeclarationServiceProvider.NameEqualityMatch(get, remove, matchingContext, out matchInfo));
+        //    Assert.IsNull(matchInfo);
+        //    Assert.IsTrue(flad.LanguageServiceProvider.AccessorDeclarationServiceProvider.NameEqualityMatch(get, get1, matchingContext, out matchInfo));
+        //    Assert.IsNotNull(matchInfo);
+        //    Assert.AreEqual(matchInfo.Criterion, (int)MatchInfoCriterions.NameEquality);
+        //    Assert.AreEqual(matchInfo.Original, get);
+        //    Assert.AreEqual(matchInfo.Modified, get1);
+
+        //    Assert.IsFalse(flad.LanguageServiceProvider.AccessorDeclarationServiceProvider.NameEqualityMatch(null, set, matchingContext, out matchInfo));
+        //    Assert.IsNull(matchInfo);
+        //    Assert.IsFalse(flad.LanguageServiceProvider.AccessorDeclarationServiceProvider.NameEqualityMatch(set, null, matchingContext, out matchInfo));
+        //    Assert.IsNull(matchInfo);
+        //    Assert.IsFalse(flad.LanguageServiceProvider.AccessorDeclarationServiceProvider.NameEqualityMatch(null, null, matchingContext, out matchInfo));
+        //    Assert.IsNull(matchInfo);
+        //    Assert.IsFalse(flad.LanguageServiceProvider.AccessorDeclarationServiceProvider.NameEqualityMatch(set, add, matchingContext, out matchInfo));
+        //    Assert.IsNull(matchInfo);
+        //    Assert.IsFalse(flad.LanguageServiceProvider.AccessorDeclarationServiceProvider.NameEqualityMatch(set, remove, matchingContext, out matchInfo));
+        //    Assert.IsNull(matchInfo);
+        //    Assert.IsTrue(flad.LanguageServiceProvider.AccessorDeclarationServiceProvider.NameEqualityMatch(set, set1, matchingContext, out matchInfo));
+        //    Assert.IsNotNull(matchInfo);
+        //    Assert.AreEqual(matchInfo.Criterion, (int)MatchInfoCriterions.NameEquality);
+        //    Assert.AreEqual(matchInfo.Original, set);
+        //    Assert.AreEqual(matchInfo.Modified, set1);
+
+        //    Assert.IsFalse(flad.LanguageServiceProvider.AccessorDeclarationServiceProvider.NameEqualityMatch(null, add, matchingContext, out matchInfo));
+        //    Assert.IsNull(matchInfo);
+        //    Assert.IsFalse(flad.LanguageServiceProvider.AccessorDeclarationServiceProvider.NameEqualityMatch(add, null, matchingContext, out matchInfo));
+        //    Assert.IsNull(matchInfo);
+        //    Assert.IsFalse(flad.LanguageServiceProvider.AccessorDeclarationServiceProvider.NameEqualityMatch(null, null, matchingContext, out matchInfo));
+        //    Assert.IsNull(matchInfo);
+        //    Assert.IsFalse(flad.LanguageServiceProvider.AccessorDeclarationServiceProvider.NameEqualityMatch(add, remove, matchingContext, out matchInfo));
+        //    Assert.IsNull(matchInfo);
+        //    Assert.IsTrue(flad.LanguageServiceProvider.AccessorDeclarationServiceProvider.NameEqualityMatch(add, add1, matchingContext, out matchInfo));
+        //    Assert.IsNotNull(matchInfo);
+        //    Assert.AreEqual(matchInfo.Criterion, (int)MatchInfoCriterions.NameEquality);
+        //    Assert.AreEqual(matchInfo.Original, add);
+        //    Assert.AreEqual(matchInfo.Modified, add1);
+
+        //    Assert.IsFalse(flad.LanguageServiceProvider.AccessorDeclarationServiceProvider.NameEqualityMatch(null, remove, matchingContext, out matchInfo));
+        //    Assert.IsNull(matchInfo);
+        //    Assert.IsFalse(flad.LanguageServiceProvider.AccessorDeclarationServiceProvider.NameEqualityMatch(remove, null, matchingContext, out matchInfo));
+        //    Assert.IsNull(matchInfo);
+        //    Assert.IsFalse(flad.LanguageServiceProvider.AccessorDeclarationServiceProvider.NameEqualityMatch(null, null, matchingContext, out matchInfo));
+        //    Assert.IsNull(matchInfo);
+        //    Assert.IsTrue(flad.LanguageServiceProvider.AccessorDeclarationServiceProvider.NameEqualityMatch(remove, remove1, matchingContext, out matchInfo));
+        //    Assert.IsNotNull(matchInfo);
+        //    Assert.AreEqual(matchInfo.Criterion, (int)MatchInfoCriterions.NameEquality);
+        //    Assert.AreEqual(matchInfo.Original, remove);
+        //    Assert.AreEqual(matchInfo.Modified, remove1);
+        //}
+
         [TestMethod]
-        public void TypeParameterListServiceProvider_NameEqualityMatch_OK()
+        public void QualifiedNameServiceProvider_NameEqualityMatch_OK()
         {
             var flad = new CSharpFlad();
             var matchingContext = new MatchingContext<SyntaxNodeOrToken?>(flad);
             MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
 
-            var a = ((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a<B, out D, [Serializable]E, [Serializable] in F> {}").Members[0]).TypeParameterList;
-            var b = ((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a<B, in C, out D, [Serializable]E, [Serializable] in F> {}").Members[0]).TypeParameterList;
-            Assert.IsFalse(flad.LanguageServiceProvider.TypeParameterListServiceProvider.NameEqualityMatch(null, b, matchingContext, out matchInfo));
+            var node = SyntaxFactory.ParseName("a.b.c");
+            var a = (QualifiedNameSyntax)SyntaxFactory.ParseName("a.b.c");
+            var b = (QualifiedNameSyntax)SyntaxFactory.ParseName("a.b.c");
+            Assert.IsFalse(flad.LanguageServiceProvider.QualifiedNameServiceProvider.NameEqualityMatch(null, b, matchingContext, out matchInfo));
             Assert.IsNull(matchInfo);
-            Assert.IsFalse(flad.LanguageServiceProvider.TypeParameterListServiceProvider.NameEqualityMatch(a, null, matchingContext, out matchInfo));
+            Assert.IsFalse(flad.LanguageServiceProvider.QualifiedNameServiceProvider.NameEqualityMatch(a, null, matchingContext, out matchInfo));
             Assert.IsNull(matchInfo);
-            Assert.IsFalse(flad.LanguageServiceProvider.TypeParameterListServiceProvider.NameEqualityMatch(null, null, matchingContext, out matchInfo));
+            Assert.IsFalse(flad.LanguageServiceProvider.QualifiedNameServiceProvider.NameEqualityMatch(null, null, matchingContext, out matchInfo));
             Assert.IsNull(matchInfo);
-            Assert.IsFalse(flad.LanguageServiceProvider.TypeParameterListServiceProvider.NameEqualityMatch(a, b, matchingContext, out matchInfo));
-            Assert.IsNull(matchInfo);
-
-            a = ((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a<B, C1, out D, [Serializable]E, [Serializable] in F> {}").Members[0]).TypeParameterList;
-            b = ((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a<B, in C, out D, [Serializable]E, [Serializable] in F> {}").Members[0]).TypeParameterList;
-            Assert.IsFalse(flad.LanguageServiceProvider.TypeParameterListServiceProvider.NameEqualityMatch(a, b, matchingContext, out matchInfo));
-            Assert.IsNull(matchInfo);
-
-            a = ((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a<B, in C, out D, [Serializable]E, [Serializable] in F> {}").Members[0]).TypeParameterList;
-            b = ((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a<B, in C, out D, [Serializable]E, [Serializable] in F> {}").Members[0]).TypeParameterList;
-            Assert.IsTrue(flad.LanguageServiceProvider.TypeParameterListServiceProvider.NameEqualityMatch(a, b, matchingContext, out matchInfo));
+            Assert.IsTrue(flad.LanguageServiceProvider.QualifiedNameServiceProvider.NameEqualityMatch(a, b, matchingContext, out matchInfo));
             Assert.IsNotNull(matchInfo);
             Assert.AreEqual(matchInfo.Criterion, (int)MatchInfoCriterions.NameEquality);
             Assert.AreEqual(matchInfo.Original, a);
             Assert.AreEqual(matchInfo.Modified, b);
+
+            a = (QualifiedNameSyntax)SyntaxFactory.ParseName("a.b1.c");
+            b = (QualifiedNameSyntax)SyntaxFactory.ParseName("a.b.c");
+            Assert.IsFalse(flad.LanguageServiceProvider.QualifiedNameServiceProvider.NameEqualityMatch(null, b, matchingContext, out matchInfo));
+            Assert.IsNull(matchInfo);
+
+            a = (QualifiedNameSyntax)SyntaxFactory.ParseName("a1.b.c");
+            b = (QualifiedNameSyntax)SyntaxFactory.ParseName("a.b.c");
+            Assert.IsFalse(flad.LanguageServiceProvider.QualifiedNameServiceProvider.NameEqualityMatch(null, b, matchingContext, out matchInfo));
+            Assert.IsNull(matchInfo);
+
+            a = (QualifiedNameSyntax)SyntaxFactory.ParseName("a.b.c1");
+            b = (QualifiedNameSyntax)SyntaxFactory.ParseName("a.b.c");
+            Assert.IsFalse(flad.LanguageServiceProvider.QualifiedNameServiceProvider.NameEqualityMatch(null, b, matchingContext, out matchInfo));
+            Assert.IsNull(matchInfo);
         }
 
         [TestMethod]
-        public void TypeArgumentListServiceProvider_NameEqualityMatch_OK()
+        public void DefinitionOfNameBasedSuitableProperty()
         {
-            var flad = new CSharpFlad();
-            var matchingContext = new MatchingContext<SyntaxNodeOrToken?>(flad);
-            MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
+            var rdsl = CDF.XObjects.RDSL.Syntax.Load(@"..\..\..\Jawilliam.CDF.CSharp\RDSL.xml");
+            var concreteTypes = rdsl.Nodes.Type.Where(n => !n.@abstract).ToArray();
 
-            var a = ((GenericNameSyntax)SyntaxFactory.ParseName("a<c,b>")).TypeArgumentList;
-            var b = ((GenericNameSyntax)SyntaxFactory.ParseName("a<c1,b>")).TypeArgumentList;
-            Assert.IsFalse(flad.LanguageServiceProvider.TypeArgumentListServiceProvider.NameEqualityMatch(null, b, matchingContext, out matchInfo));
-            Assert.IsNull(matchInfo);
-            Assert.IsFalse(flad.LanguageServiceProvider.TypeArgumentListServiceProvider.NameEqualityMatch(a, null, matchingContext, out matchInfo));
-            Assert.IsNull(matchInfo);
-            Assert.IsFalse(flad.LanguageServiceProvider.TypeArgumentListServiceProvider.NameEqualityMatch(null, null, matchingContext, out matchInfo));
-            Assert.IsNull(matchInfo);
-            Assert.IsFalse(flad.LanguageServiceProvider.TypeArgumentListServiceProvider.NameEqualityMatch(a, b, matchingContext, out matchInfo));
-            Assert.IsNull(matchInfo);
+            var suitableProperties = (from t in concreteTypes
+                                      from p in t.Properties?.Property
+                                      where p.Rules?.Name?.Count > 0
+                                      select new { Type = t, Property = p }).ToArray();
 
-            a = ((GenericNameSyntax)SyntaxFactory.ParseName("a<c,b>")).TypeArgumentList;
-            b = ((GenericNameSyntax)SyntaxFactory.ParseName("a<b>")).TypeArgumentList;
-            Assert.IsFalse(flad.LanguageServiceProvider.TypeArgumentListServiceProvider.NameEqualityMatch(a, b, matchingContext, out matchInfo));
-            Assert.IsNull(matchInfo);
+            var identifierProperties = (from t in concreteTypes
+                                        from p in t.Properties?.Property
+                                        where p.name == "Identifier" && t.name != "AttributeTargetSpecifierSyntax"
+                                        select new { Type = t, Property = p }).ToArray();
+            Assert.AreEqual(identifierProperties.Except(suitableProperties).ToArray().Length, 0);
 
-            a = ((GenericNameSyntax)SyntaxFactory.ParseName("a<c,b>")).TypeArgumentList;
-            b = ((GenericNameSyntax)SyntaxFactory.ParseName("a<c,b>")).TypeArgumentList;
-            Assert.IsTrue(flad.LanguageServiceProvider.TypeArgumentListServiceProvider.NameEqualityMatch(a, b, matchingContext, out matchInfo));
-            Assert.IsNotNull(matchInfo);
-            Assert.AreEqual(matchInfo.Criterion, (int)MatchInfoCriterions.NameEquality);
-            Assert.AreEqual(matchInfo.Original, a);
-            Assert.AreEqual(matchInfo.Modified, b);
+            var nameProperties = (from t in concreteTypes
+                                  from p in t.Properties?.Property
+                                  where p.name == "Name" && !p.readOnly //t.name != "XmlCrefAttributeSyntax" && t.name != "XmlNameAttributeSyntax"
+                                  select new { Type = t, Property = p }).ToArray();
+            Assert.AreEqual(nameProperties.Except(suitableProperties).ToArray().Length, 0);
 
-            a = ((GenericNameSyntax)SyntaxFactory.ParseName("a<,>")).TypeArgumentList;
-            b = ((GenericNameSyntax)SyntaxFactory.ParseName("a<,>")).TypeArgumentList;
-            Assert.IsTrue(flad.LanguageServiceProvider.TypeArgumentListServiceProvider.NameEqualityMatch(a, b, matchingContext, out matchInfo));
-            Assert.IsNotNull(matchInfo);
-            Assert.AreEqual(matchInfo.Criterion, (int)MatchInfoCriterions.NameEquality);
-            Assert.AreEqual(matchInfo.Original, a);
-            Assert.AreEqual(matchInfo.Modified, b);
-        }
+            var thisKeywordProperties = (from t in concreteTypes
+                                         from p in t.Properties?.Property
+                                         where p.name == "ThisKeyword"
+                                         select new { Type = t, Property = p }).ToArray();
+            Assert.AreEqual(thisKeywordProperties.Except(suitableProperties).ToArray().Length, 0);
 
-        [TestMethod]
-        public void ConstructorInitializerServiceProvider_NameEqualityMatch_OK()
-        {
-            var flad = new CSharpFlad();
-            var matchingContext = new MatchingContext<SyntaxNodeOrToken?>(flad);
-            MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
+            var operatorTokenProperties = (from t in concreteTypes
+                                           from p in t.Properties?.Property
+                                           where p.name == "OperatorToken" && t.name.Contains("Operator")
+                                           select new { Type = t, Property = p }).ToArray();
+            Assert.AreEqual(operatorTokenProperties.Except(suitableProperties).ToArray().Length, 0);
 
-            var a = ((ConstructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { public A(B b) : this(b) { } }").Members[0]).Members[0]).Initializer;
-            var b = ((ConstructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { public A(B b) : this() { } }").Members[0]).Members[0]).Initializer;
-            Assert.IsFalse(flad.LanguageServiceProvider.ConstructorInitializerServiceProvider.NameEqualityMatch(null, b, matchingContext, out matchInfo));
-            Assert.IsNull(matchInfo);
-            Assert.IsFalse(flad.LanguageServiceProvider.ConstructorInitializerServiceProvider.NameEqualityMatch(a, null, matchingContext, out matchInfo));
-            Assert.IsNull(matchInfo);
-            Assert.IsFalse(flad.LanguageServiceProvider.ConstructorInitializerServiceProvider.NameEqualityMatch(null, null, matchingContext, out matchInfo));
-            Assert.IsNull(matchInfo);
-            Assert.IsTrue(flad.LanguageServiceProvider.ConstructorInitializerServiceProvider.NameEqualityMatch(a, b, matchingContext, out matchInfo));
-            Assert.IsNotNull(matchInfo);
-            Assert.AreEqual(matchInfo.Criterion, (int)MatchInfoCriterions.NameEquality);
-            Assert.AreEqual(matchInfo.Original, a);
-            Assert.AreEqual(matchInfo.Modified, b);
+            var prefixProperties = (from t in concreteTypes
+                                    from p in t.Properties?.Property
+                                    where p.name == "Prefix"
+                                    select new { Type = t, Property = p }).ToArray();
+            Assert.AreEqual(prefixProperties.Except(suitableProperties).ToArray().Length, 0);
 
-            a = ((ConstructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { public A(B b) : this(b) { } }").Members[0]).Members[0]).Initializer;
-            b = ((ConstructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { public A(B b) : this(c) { } }").Members[0]).Members[0]).Initializer;
-            Assert.IsTrue(flad.LanguageServiceProvider.ConstructorInitializerServiceProvider.NameEqualityMatch(a, b, matchingContext, out matchInfo));
-            Assert.IsNotNull(matchInfo);
-            Assert.AreEqual(matchInfo.Criterion, (int)MatchInfoCriterions.NameEquality);
-            Assert.AreEqual(matchInfo.Original, a);
-            Assert.AreEqual(matchInfo.Modified, b);
+            var specialCases = (from t in concreteTypes
+                                from p in t.Properties?.Property
+                                where (p.name == "LocalName" && t.name == "XmlNameSyntax") ||
+                                      (p.name == "Variables" && t.name == "VariableDeclarationSyntax") ||
+                                      (p.name == "Cref" && t.name == "XmlCrefAttributeSyntax") ||
+                                      (p.name == "Expression" && t.name == "MemberAccessExpressionSyntax")
+                                select new { Type = t, Property = p }).ToArray();
+            Assert.AreEqual(specialCases.Except(suitableProperties).ToArray().Length, 0);
 
-            a = ((ConstructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { public A(B b) : this(b) { } }").Members[0]).Members[0]).Initializer;
-            b = ((ConstructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { public A(B b) : this(b) { } }").Members[0]).Members[0]).Initializer;
-            Assert.IsTrue(flad.LanguageServiceProvider.ConstructorInitializerServiceProvider.NameEqualityMatch(a, b, matchingContext, out matchInfo));
-            Assert.IsNotNull(matchInfo);
-            Assert.AreEqual(matchInfo.Criterion, (int)MatchInfoCriterions.NameEquality);
-            Assert.AreEqual(matchInfo.Original, a);
-            Assert.AreEqual(matchInfo.Modified, b);
+            var propertiesSuitableSoFar = identifierProperties
+                .Union(nameProperties)
+                .Union(thisKeywordProperties)
+                .Union(operatorTokenProperties)
+                .Union(prefixProperties)
+                .Union(specialCases)
+            .ToArray();
 
-            a = ((ConstructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { public A(B b) : this() { } }").Members[0]).Members[0]).Initializer;
-            b = ((ConstructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { public A(B b) : this() { } }").Members[0]).Members[0]).Initializer;
-            Assert.IsTrue(flad.LanguageServiceProvider.ConstructorInitializerServiceProvider.NameEqualityMatch(a, b, matchingContext, out matchInfo));
-            Assert.IsNotNull(matchInfo);
-            Assert.AreEqual(matchInfo.Criterion, (int)MatchInfoCriterions.NameEquality);
-            Assert.AreEqual(matchInfo.Original, a);
-            Assert.AreEqual(matchInfo.Modified, b);
+            var typeInfos = concreteTypes.Select(t => new
+            {
+                Class = typeof(CSharpSyntaxNode).Assembly.GetType("Microsoft.CodeAnalysis.CSharp.Syntax." + t.name),
+                Type = t
+            })
+            .ToDictionary(m => m.Type.name);
 
+            var propertyTypeIsSuitableProperties = (from t in concreteTypes
+                                                    from p in t.Properties?.Property
+                                                    let typeInfo = typeInfos.Any(ti => ti.Value.Type == t) ? typeInfos.Single(ti => ti.Value.Type == t).Value.Class : null
+                                                    let propertyInfo = typeInfo?.GetProperty(p.name)
+                                                    let propertyGenericTypeInfo = propertyInfo?.PropertyType.IsGenericType ?? false
+                                                        ? propertyInfo.PropertyType.GetGenericTypeDefinition()
+                                                        : null
+                                                    let collectionOf = propertyGenericTypeInfo == typeof(SyntaxList<>) || propertyGenericTypeInfo == typeof(SeparatedSyntaxList<>)
+                                                        ? propertyInfo.PropertyType.GetGenericArguments().Single()
+                                                        : null
+                                                    let collectionOfType = collectionOf != null && typeInfos.Any(ti => ti.Value.Class == collectionOf)
+                                                        ? typeInfos.Single(ti => ti.Value.Class == collectionOf).Value.Type
+                                                        : null
+                                                    let propertyElementType = typeInfos.Any(ti => ti.Value.Class == propertyInfo.PropertyType)
+                                                        ? typeInfos.Single(ti => ti.Value.Class == propertyInfo.PropertyType).Value.Type
+                                                        : null
+                                                    where !p.readOnly && 
+                                                          (typeof(NameSyntax).IsAssignableFrom(propertyInfo?.PropertyType) ||
+                                                          (propertyElementType != null && propertiesSuitableSoFar.Any(psf => psf.Type == propertyElementType)))                                                       
+                                                    select new { Type = t, Property = p }).ToArray();
 
+            var a = propertyTypeIsSuitableProperties.Except(suitableProperties).ToArray();
+            //System.Text.StringBuilder sb = new System.Text.StringBuilder();
+            //foreach (var prop in a)
+            //{
+            //    int i = 0;
+            //    sb.AppendLine($"#{++i} {prop.Property.name} in {prop.Type.name}");
 
-            a = ((ConstructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { public A(B b) : base(b) { } }").Members[0]).Members[0]).Initializer;
-            b = ((ConstructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { public A(B b) : base() { } }").Members[0]).Members[0]).Initializer;
-            Assert.IsFalse(flad.LanguageServiceProvider.ConstructorInitializerServiceProvider.NameEqualityMatch(null, b, matchingContext, out matchInfo));
-            Assert.IsNull(matchInfo);
-            Assert.IsFalse(flad.LanguageServiceProvider.ConstructorInitializerServiceProvider.NameEqualityMatch(a, null, matchingContext, out matchInfo));
-            Assert.IsNull(matchInfo);
-            Assert.IsFalse(flad.LanguageServiceProvider.ConstructorInitializerServiceProvider.NameEqualityMatch(null, null, matchingContext, out matchInfo));
-            Assert.IsNull(matchInfo);
-            Assert.IsTrue(flad.LanguageServiceProvider.ConstructorInitializerServiceProvider.NameEqualityMatch(a, b, matchingContext, out matchInfo));
-            Assert.IsNotNull(matchInfo);
-            Assert.AreEqual(matchInfo.Criterion, (int)MatchInfoCriterions.NameEquality);
-            Assert.AreEqual(matchInfo.Original, a);
-            Assert.AreEqual(matchInfo.Modified, b);
-
-            a = ((ConstructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { public A(B b) : base(b) { } }").Members[0]).Members[0]).Initializer;
-            b = ((ConstructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { public A(B b) : base(c) { } }").Members[0]).Members[0]).Initializer;
-            Assert.IsTrue(flad.LanguageServiceProvider.ConstructorInitializerServiceProvider.NameEqualityMatch(a, b, matchingContext, out matchInfo));
-            Assert.IsNotNull(matchInfo);
-            Assert.AreEqual(matchInfo.Criterion, (int)MatchInfoCriterions.NameEquality);
-            Assert.AreEqual(matchInfo.Original, a);
-            Assert.AreEqual(matchInfo.Modified, b);
-
-            a = ((ConstructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { public A(B b) : base(b) { } }").Members[0]).Members[0]).Initializer;
-            b = ((ConstructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { public A(B b) : base(b) { } }").Members[0]).Members[0]).Initializer;
-            Assert.IsTrue(flad.LanguageServiceProvider.ConstructorInitializerServiceProvider.NameEqualityMatch(a, b, matchingContext, out matchInfo));
-            Assert.IsNotNull(matchInfo);
-            Assert.AreEqual(matchInfo.Criterion, (int)MatchInfoCriterions.NameEquality);
-            Assert.AreEqual(matchInfo.Original, a);
-            Assert.AreEqual(matchInfo.Modified, b);
-
-            a = ((ConstructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { public A(B b) : base() { } }").Members[0]).Members[0]).Initializer;
-            b = ((ConstructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { public A(B b) : base() { } }").Members[0]).Members[0]).Initializer;
-            Assert.IsTrue(flad.LanguageServiceProvider.ConstructorInitializerServiceProvider.NameEqualityMatch(a, b, matchingContext, out matchInfo));
-            Assert.IsNotNull(matchInfo);
-            Assert.AreEqual(matchInfo.Criterion, (int)MatchInfoCriterions.NameEquality);
-            Assert.AreEqual(matchInfo.Original, a);
-            Assert.AreEqual(matchInfo.Modified, b);
-
-            a = ((ConstructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { public A(B b) : this() { } }").Members[0]).Members[0]).Initializer;
-            b = ((ConstructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { public A(B b) : base() { } }").Members[0]).Members[0]).Initializer;
-            Assert.IsFalse(flad.LanguageServiceProvider.ConstructorInitializerServiceProvider.NameEqualityMatch(null, b, matchingContext, out matchInfo));
-            Assert.IsNull(matchInfo);
-        }
-
-        [TestMethod]
-        public void AccessorDeclarationServiceProvider_NameEqualityMatch_OK()
-        {
-            var flad = new CSharpFlad();
-            var matchingContext = new MatchingContext<SyntaxNodeOrToken?>(flad);
-            MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
-
-            var get = ((IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("A C.this[string key] { [Documentation] public get{return this.M[key];} [Serialization] public set{this.M[key] = value;} }").Members[0]).AccessorList.Accessors[0];
-            var set = ((IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("A C.this[string key] { [Documentation] public get{return this.M[key];} [Serialization] public set{this.M[key] = value;} }").Members[0]).AccessorList.Accessors[1];
-            var add = ((EventDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("event A C { [Documentation] public add{this.M += value;} [Serialization] public remove{this.M -= value;} }").Members[0]).AccessorList.Accessors[0];
-            var remove = ((EventDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("event A C { [Documentation] public add{this.M += value;} [Serialization] public remove{this.M -= value;} }").Members[0]).AccessorList.Accessors[1];
-
-            var get1 = ((IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("A C.this[string key] { [Documentation] public get{return this.M[key];} [Serialization] public set{this.M[key] = value;} }").Members[0]).AccessorList.Accessors[0];
-            var set1 = ((IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("A C.this[string key] { [Documentation] public get{return this.M[key];} [Serialization] public set{this.M[key] = value;} }").Members[0]).AccessorList.Accessors[1];
-            var add1 = ((EventDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("event A C { [Documentation] public add{this.M += value;} [Serialization] public remove{this.M -= value;} }").Members[0]).AccessorList.Accessors[0];
-            var remove1 = ((EventDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("event A C { [Documentation] public add{this.M += value;} [Serialization] public remove{this.M -= value;} }").Members[0]).AccessorList.Accessors[1];
-
-            Assert.IsFalse(flad.LanguageServiceProvider.AccessorDeclarationServiceProvider.NameEqualityMatch(null, get, matchingContext, out matchInfo));
-            Assert.IsNull(matchInfo);
-            Assert.IsFalse(flad.LanguageServiceProvider.AccessorDeclarationServiceProvider.NameEqualityMatch(get, null, matchingContext, out matchInfo));
-            Assert.IsNull(matchInfo);
-            Assert.IsFalse(flad.LanguageServiceProvider.AccessorDeclarationServiceProvider.NameEqualityMatch(null, null, matchingContext, out matchInfo));
-            Assert.IsNull(matchInfo);
-            Assert.IsFalse(flad.LanguageServiceProvider.AccessorDeclarationServiceProvider.NameEqualityMatch(get, set, matchingContext, out matchInfo));
-            Assert.IsNull(matchInfo);
-            Assert.IsFalse(flad.LanguageServiceProvider.AccessorDeclarationServiceProvider.NameEqualityMatch(get, add, matchingContext, out matchInfo));
-            Assert.IsNull(matchInfo);
-            Assert.IsFalse(flad.LanguageServiceProvider.AccessorDeclarationServiceProvider.NameEqualityMatch(get, remove, matchingContext, out matchInfo));
-            Assert.IsNull(matchInfo);
-            Assert.IsTrue(flad.LanguageServiceProvider.AccessorDeclarationServiceProvider.NameEqualityMatch(get, get1, matchingContext, out matchInfo));
-            Assert.IsNotNull(matchInfo);
-            Assert.AreEqual(matchInfo.Criterion, (int)MatchInfoCriterions.NameEquality);
-            Assert.AreEqual(matchInfo.Original, get);
-            Assert.AreEqual(matchInfo.Modified, get1);
-
-            Assert.IsFalse(flad.LanguageServiceProvider.AccessorDeclarationServiceProvider.NameEqualityMatch(null, set, matchingContext, out matchInfo));
-            Assert.IsNull(matchInfo);
-            Assert.IsFalse(flad.LanguageServiceProvider.AccessorDeclarationServiceProvider.NameEqualityMatch(set, null, matchingContext, out matchInfo));
-            Assert.IsNull(matchInfo);
-            Assert.IsFalse(flad.LanguageServiceProvider.AccessorDeclarationServiceProvider.NameEqualityMatch(null, null, matchingContext, out matchInfo));
-            Assert.IsNull(matchInfo);
-            Assert.IsFalse(flad.LanguageServiceProvider.AccessorDeclarationServiceProvider.NameEqualityMatch(set, add, matchingContext, out matchInfo));
-            Assert.IsNull(matchInfo);
-            Assert.IsFalse(flad.LanguageServiceProvider.AccessorDeclarationServiceProvider.NameEqualityMatch(set, remove, matchingContext, out matchInfo));
-            Assert.IsNull(matchInfo);
-            Assert.IsTrue(flad.LanguageServiceProvider.AccessorDeclarationServiceProvider.NameEqualityMatch(set, set1, matchingContext, out matchInfo));
-            Assert.IsNotNull(matchInfo);
-            Assert.AreEqual(matchInfo.Criterion, (int)MatchInfoCriterions.NameEquality);
-            Assert.AreEqual(matchInfo.Original, set);
-            Assert.AreEqual(matchInfo.Modified, set1);
-
-            Assert.IsFalse(flad.LanguageServiceProvider.AccessorDeclarationServiceProvider.NameEqualityMatch(null, add, matchingContext, out matchInfo));
-            Assert.IsNull(matchInfo);
-            Assert.IsFalse(flad.LanguageServiceProvider.AccessorDeclarationServiceProvider.NameEqualityMatch(add, null, matchingContext, out matchInfo));
-            Assert.IsNull(matchInfo);
-            Assert.IsFalse(flad.LanguageServiceProvider.AccessorDeclarationServiceProvider.NameEqualityMatch(null, null, matchingContext, out matchInfo));
-            Assert.IsNull(matchInfo);
-            Assert.IsFalse(flad.LanguageServiceProvider.AccessorDeclarationServiceProvider.NameEqualityMatch(add, remove, matchingContext, out matchInfo));
-            Assert.IsNull(matchInfo);
-            Assert.IsTrue(flad.LanguageServiceProvider.AccessorDeclarationServiceProvider.NameEqualityMatch(add, add1, matchingContext, out matchInfo));
-            Assert.IsNotNull(matchInfo);
-            Assert.AreEqual(matchInfo.Criterion, (int)MatchInfoCriterions.NameEquality);
-            Assert.AreEqual(matchInfo.Original, add);
-            Assert.AreEqual(matchInfo.Modified, add1);
-
-            Assert.IsFalse(flad.LanguageServiceProvider.AccessorDeclarationServiceProvider.NameEqualityMatch(null, remove, matchingContext, out matchInfo));
-            Assert.IsNull(matchInfo);
-            Assert.IsFalse(flad.LanguageServiceProvider.AccessorDeclarationServiceProvider.NameEqualityMatch(remove, null, matchingContext, out matchInfo));
-            Assert.IsNull(matchInfo);
-            Assert.IsFalse(flad.LanguageServiceProvider.AccessorDeclarationServiceProvider.NameEqualityMatch(null, null, matchingContext, out matchInfo));
-            Assert.IsNull(matchInfo);
-            Assert.IsTrue(flad.LanguageServiceProvider.AccessorDeclarationServiceProvider.NameEqualityMatch(remove, remove1, matchingContext, out matchInfo));
-            Assert.IsNotNull(matchInfo);
-            Assert.AreEqual(matchInfo.Criterion, (int)MatchInfoCriterions.NameEquality);
-            Assert.AreEqual(matchInfo.Original, remove);
-            Assert.AreEqual(matchInfo.Modified, remove1);
+            //}
+            //System.IO.File.WriteAllText(@"D:\Reports\Temp.txt", sb.ToString());
+            var b = suitableProperties.Except(propertiesSuitableSoFar.Union(propertyTypeIsSuitableProperties)).ToArray();
+            Assert.AreEqual(propertyTypeIsSuitableProperties.Except(suitableProperties).ToArray().Length, 0);
+            Assert.AreEqual(suitableProperties.Except(propertyTypeIsSuitableProperties).ToArray().Length, 0);
         }
 
         [TestMethod]

@@ -473,6 +473,21 @@ namespace tempuri.org.XNodeTypeSystem.xsd {
                     }
                 }
                 
+                /// <summary>
+                /// <para>
+                /// Occurrence: optional
+                /// </para>
+                /// </summary>
+                public IList<string> hashtags {
+                    get {
+                        XAttribute x = this.Attribute(XName.Get("hashtags", ""));
+                        return XTypedServices.ParseListValue<string>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String).Datatype);
+                    }
+                    set {
+                        this.SetListAttribute(XName.Get("hashtags", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String).Datatype);
+                    }
+                }
+                
                 [DebuggerBrowsable(DebuggerBrowsableState.Never)]
                 Dictionary<XName, System.Type> IXMetaData.LocalElementsDictionary {
                     get {
@@ -2837,7 +2852,7 @@ namespace tempuri.org.XNodeTypeSystem.xsd {
                 
                 /// <summary>
                 /// <para>
-                /// Regular expression: (Annotation)+
+                /// Regular expression: (Annotation+)
                 /// </para>
                 /// </summary>
                 public partial class AnnotationsLocalType : XTypedElement, IXMetaData {
@@ -2848,15 +2863,19 @@ namespace tempuri.org.XNodeTypeSystem.xsd {
                     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
                     static Dictionary<XName, System.Type> localElementDictionary = new Dictionary<XName, System.Type>();
                     
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private static ContentModelEntity contentModel;
+                    
          public static explicit operator AnnotationsLocalType(XElement xe) { return XTypedServices.ToXTypedElement<AnnotationsLocalType>(xe,LinqToXsdTypeManager.Instance as ILinqToXsdTypeManager); }
                     
                     static AnnotationsLocalType() {
                         BuildElementDictionary();
+                        contentModel = new SequenceContentModelEntity(new NamedContentModelEntity(XName.Get("Annotation", "http://tempuri.org/XNodeTypeSystem.xsd")));
                     }
                     
                     /// <summary>
                     /// <para>
-                    /// Regular expression: (Annotation)+
+                    /// Regular expression: (Annotation+)
                     /// </para>
                     /// </summary>
                     public AnnotationsLocalType() {
@@ -2864,10 +2883,10 @@ namespace tempuri.org.XNodeTypeSystem.xsd {
                     
                     /// <summary>
                     /// <para>
-                    /// Occurrence: required
+                    /// Occurrence: required, repeating
                     /// </para>
                     /// <para>
-                    /// Regular expression: (Annotation)+
+                    /// Regular expression: (Annotation+)
                     /// </para>
                     /// </summary>
                     public IList<tempuri.org.XNodeTypeSystem.xsd.Syntax.NodesLocalType.TypeLocalType.AnnotationsLocalType.AnnotationLocalType> Annotation {
@@ -2929,7 +2948,7 @@ namespace tempuri.org.XNodeTypeSystem.xsd {
                     }
                     
                     ContentModelEntity IXMetaData.GetContentModel() {
-                        return ContentModelEntity.Default;
+                        return contentModel;
                     }
                     
                     public partial class AnnotationLocalType : XTypedElement, IXMetaData {
@@ -3309,6 +3328,24 @@ namespace tempuri.org.XNodeTypeSystem.xsd {
             }
             set {
                 this.SetAttribute(XName.Get("relative", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
+            }
+        }
+        
+        /// <summary>
+        /// <para>
+        /// Occurrence: optional
+        /// </para>
+        /// </summary>
+        public System.Nullable<byte> priority {
+            get {
+                XAttribute x = this.Attribute(XName.Get("priority", ""));
+                if ((x == null)) {
+                    return null;
+                }
+                return XTypedServices.ParseValue<byte>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.UnsignedByte).Datatype);
+            }
+            set {
+                this.SetAttribute(XName.Get("priority", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.UnsignedByte).Datatype);
             }
         }
         
