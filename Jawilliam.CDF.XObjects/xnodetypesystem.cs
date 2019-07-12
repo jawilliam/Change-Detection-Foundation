@@ -267,13 +267,14 @@ namespace tempuri.org.XNodeTypeSystem.xsd {
                 private static bool tokenDefaultValue = System.Xml.XmlConvert.ToBoolean("false");
                 
                 [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                private static bool @operatorDefaultValue = System.Xml.XmlConvert.ToBoolean("false");
-                
-                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
                 private static bool @readonlyDefaultValue = System.Xml.XmlConvert.ToBoolean("false");
                 
                 [DebuggerBrowsable(DebuggerBrowsableState.Never)]
                 private static bool symbolicDefaultValue = System.Xml.XmlConvert.ToBoolean("false");
+                
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private static IList<string> hashtagsDefaultValue = new string[] {
+                        ""};
                 
                 [DebuggerBrowsable(DebuggerBrowsableState.Never)]
                 static Dictionary<XName, System.Type> localElementDictionary = new Dictionary<XName, System.Type>();
@@ -433,21 +434,6 @@ namespace tempuri.org.XNodeTypeSystem.xsd {
                 /// Occurrence: optional
                 /// </para>
                 /// </summary>
-                public bool @operator {
-                    get {
-                        XAttribute x = this.Attribute(XName.Get("operator", ""));
-                        return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype, @operatorDefaultValue);
-                    }
-                    set {
-                        this.SetAttribute(XName.Get("operator", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
-                    }
-                }
-                
-                /// <summary>
-                /// <para>
-                /// Occurrence: optional
-                /// </para>
-                /// </summary>
                 public bool @readonly {
                     get {
                         XAttribute x = this.Attribute(XName.Get("readonly", ""));
@@ -481,7 +467,7 @@ namespace tempuri.org.XNodeTypeSystem.xsd {
                 public IList<string> hashtags {
                     get {
                         XAttribute x = this.Attribute(XName.Get("hashtags", ""));
-                        return XTypedServices.ParseListValue<string>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String).Datatype);
+                        return XTypedServices.ParseListValue<string>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String).Datatype, hashtagsDefaultValue);
                     }
                     set {
                         this.SetListAttribute(XName.Get("hashtags", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String).Datatype);
@@ -655,16 +641,8 @@ namespace tempuri.org.XNodeTypeSystem.xsd {
                         private static string multiplicityDefaultValue = "Single";
                         
                         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                        private static bool keywordDefaultValue = System.Xml.XmlConvert.ToBoolean("false");
-                        
-                        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                        private static bool @operatorDefaultValue = System.Xml.XmlConvert.ToBoolean("false");
-                        
-                        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                        private static bool puntuactionDefaultValue = System.Xml.XmlConvert.ToBoolean("false");
-                        
-                        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                        private static bool symbolicDefaultValue = System.Xml.XmlConvert.ToBoolean("false");
+                        private static IList<string> hashtagsDefaultValue = new string[] {
+                                ""};
                         
                         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
                         static Dictionary<XName, System.Type> localElementDictionary = new Dictionary<XName, System.Type>();
@@ -878,58 +856,13 @@ namespace tempuri.org.XNodeTypeSystem.xsd {
                         /// Occurrence: optional
                         /// </para>
                         /// </summary>
-                        public bool keyword {
+                        public IList<string> hashtags {
                             get {
-                                XAttribute x = this.Attribute(XName.Get("keyword", ""));
-                                return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype, keywordDefaultValue);
+                                XAttribute x = this.Attribute(XName.Get("hashtags", ""));
+                                return XTypedServices.ParseListValue<string>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String).Datatype, hashtagsDefaultValue);
                             }
                             set {
-                                this.SetAttribute(XName.Get("keyword", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
-                            }
-                        }
-                        
-                        /// <summary>
-                        /// <para>
-                        /// Occurrence: optional
-                        /// </para>
-                        /// </summary>
-                        public bool @operator {
-                            get {
-                                XAttribute x = this.Attribute(XName.Get("operator", ""));
-                                return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype, @operatorDefaultValue);
-                            }
-                            set {
-                                this.SetAttribute(XName.Get("operator", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
-                            }
-                        }
-                        
-                        /// <summary>
-                        /// <para>
-                        /// Occurrence: optional
-                        /// </para>
-                        /// </summary>
-                        public bool puntuaction {
-                            get {
-                                XAttribute x = this.Attribute(XName.Get("puntuaction", ""));
-                                return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype, puntuactionDefaultValue);
-                            }
-                            set {
-                                this.SetAttribute(XName.Get("puntuaction", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
-                            }
-                        }
-                        
-                        /// <summary>
-                        /// <para>
-                        /// Occurrence: optional
-                        /// </para>
-                        /// </summary>
-                        public bool symbolic {
-                            get {
-                                XAttribute x = this.Attribute(XName.Get("symbolic", ""));
-                                return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype, symbolicDefaultValue);
-                            }
-                            set {
-                                this.SetAttribute(XName.Get("symbolic", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
+                                this.SetListAttribute(XName.Get("hashtags", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String).Datatype);
                             }
                         }
                         
@@ -1377,7 +1310,7 @@ namespace tempuri.org.XNodeTypeSystem.xsd {
                                 return contentModel;
                             }
                             
-                            public partial class NameLocalType : global::tempuri.org.XNodeTypeSystem.xsd.EqualityAndOrSimilarityAbsoluteAndOrRelativeRules, IXMetaData {
+                            public partial class NameLocalType : global::tempuri.org.XNodeTypeSystem.xsd.NameRules, IXMetaData {
                                 
          public static explicit operator NameLocalType(XElement xe) { return XTypedServices.ToXTypedElement<NameLocalType>(xe,LinqToXsdTypeManager.Instance as ILinqToXsdTypeManager); }
                                 
@@ -1777,10 +1710,10 @@ namespace tempuri.org.XNodeTypeSystem.xsd {
                     /// Regular expression: (Signature?, Name?, Hint?, Compatibility?, Granularity?)
                     /// </para>
                     /// </summary>
-                    public EqualityAndOrSimilarityAbsoluteAndOrRelativeRules Name {
+                    public NameRules Name {
                         get {
                             XElement x = this.GetElement(XName.Get("Name", "http://tempuri.org/XNodeTypeSystem.xsd"));
-                            return ((EqualityAndOrSimilarityAbsoluteAndOrRelativeRules)(x));
+                            return ((NameRules)(x));
                         }
                         set {
                             this.SetElement(XName.Get("Name", "http://tempuri.org/XNodeTypeSystem.xsd"), value);
@@ -1890,7 +1823,7 @@ namespace tempuri.org.XNodeTypeSystem.xsd {
                     
                     private static void BuildElementDictionary() {
                         localElementDictionary.Add(XName.Get("Signature", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(EqualityAndOrSimilarityAbsoluteAndOrRelativeRules));
-                        localElementDictionary.Add(XName.Get("Name", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(EqualityAndOrSimilarityAbsoluteAndOrRelativeRules));
+                        localElementDictionary.Add(XName.Get("Name", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(NameRules));
                         localElementDictionary.Add(XName.Get("Hint", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(SuitabilityRule));
                         localElementDictionary.Add(XName.Get("Compatibility", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(CompatibilityLocalType));
                         localElementDictionary.Add(XName.Get("Granularity", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(GranularityLocalType));
@@ -3074,6 +3007,20 @@ namespace tempuri.org.XNodeTypeSystem.xsd {
         }
     }
     
+    public sealed class optionHashtags {
+        
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        public static Xml.Schema.Linq.SimpleTypeValidator TypeDefinition = new Xml.Schema.Linq.ListSimpleTypeValidator(XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String), null, new Xml.Schema.Linq.AtomicSimpleTypeValidator(XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String), new Xml.Schema.Linq.RestrictionFacets(((Xml.Schema.Linq.RestrictionFlags)(16)), new object[] {
+                            "#KEYWORD",
+                            "#OPERATOR",
+                            "#PUNTUACTION",
+                            "#SYMBOLIC",
+                            "#IDENTIFIER"}, 0, 0, null, null, 0, null, null, 0, null, 0, XmlSchemaWhiteSpace.Preserve)));
+        
+        private optionHashtags() {
+        }
+    }
+    
     public partial class PropertyLabelOption : global::tempuri.org.XNodeTypeSystem.xsd.TypeLabelOption, IXMetaData {
         
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -3096,6 +3043,10 @@ namespace tempuri.org.XNodeTypeSystem.xsd {
         
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private static bool @readonlyDefaultValue = System.Xml.XmlConvert.ToBoolean("true");
+        
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static IList<string> hashtagsDefaultValue = new string[] {
+                ""};
         
          public static explicit operator PropertyLabelOption(XElement xe) { return XTypedServices.ToXTypedElement<PropertyLabelOption>(xe,LinqToXsdTypeManager.Instance as ILinqToXsdTypeManager); }
         
@@ -3219,6 +3170,21 @@ namespace tempuri.org.XNodeTypeSystem.xsd {
             }
             set {
                 this.SetAttribute(XName.Get("readonly", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
+            }
+        }
+        
+        /// <summary>
+        /// <para>
+        /// Occurrence: optional
+        /// </para>
+        /// </summary>
+        public IList<string> hashtags {
+            get {
+                XAttribute x = this.Attribute(XName.Get("hashtags", ""));
+                return XTypedServices.ParseListValue<string>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String).Datatype, hashtagsDefaultValue);
+            }
+            set {
+                this.SetListAttribute(XName.Get("hashtags", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String).Datatype);
             }
         }
         
@@ -3683,6 +3649,58 @@ namespace tempuri.org.XNodeTypeSystem.xsd {
         }
     }
     
+    public partial class NameRules : global::tempuri.org.XNodeTypeSystem.xsd.EqualityAndOrSimilarityAbsoluteAndOrRelativeRules, IXMetaData {
+        
+         public static explicit operator NameRules(XElement xe) { return XTypedServices.ToXTypedElement<NameRules>(xe,LinqToXsdTypeManager.Instance as ILinqToXsdTypeManager); }
+        
+        public NameRules() {
+        }
+        
+        /// <summary>
+        /// <para>
+        /// Occurrence: optional
+        /// </para>
+        /// </summary>
+        public string suitability {
+            get {
+                XAttribute x = this.Attribute(XName.Get("suitability", ""));
+                return XTypedServices.ParseValue<string>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String).Datatype);
+            }
+            set {
+                this.SetAttribute(XName.Get("suitability", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String).Datatype);
+            }
+        }
+        
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        XName IXMetaData.SchemaName {
+            get {
+                return XName.Get("NameRules", "http://tempuri.org/XNodeTypeSystem.xsd");
+            }
+        }
+        
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        SchemaOrigin IXMetaData.TypeOrigin {
+            get {
+                return SchemaOrigin.Fragment;
+            }
+        }
+        
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        ILinqToXsdTypeManager IXMetaData.TypeManager {
+            get {
+                return LinqToXsdTypeManager.Instance;
+            }
+        }
+        
+        public override XTypedElement Clone() {
+            return XTypedServices.CloneXTypedElement<NameRules>(this);
+        }
+        
+        ContentModelEntity IXMetaData.GetContentModel() {
+            return ContentModelEntity.Default;
+        }
+    }
+    
     public class LinqToXsdTypeManager : ILinqToXsdTypeManager {
         
         static Dictionary<XName, System.Type> typeDictionary = new Dictionary<XName, System.Type>();
@@ -3744,6 +3762,7 @@ namespace tempuri.org.XNodeTypeSystem.xsd {
             typeDictionary.Add(XName.Get("PairwiseRules", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(global::tempuri.org.XNodeTypeSystem.xsd.PairwiseRules));
             typeDictionary.Add(XName.Get("TopologyRules", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(global::tempuri.org.XNodeTypeSystem.xsd.TopologyRules));
             typeDictionary.Add(XName.Get("JoinCase", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(global::tempuri.org.XNodeTypeSystem.xsd.JoinCase));
+            typeDictionary.Add(XName.Get("NameRules", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(global::tempuri.org.XNodeTypeSystem.xsd.NameRules));
         }
         
         private static void BuildElementDictionary() {

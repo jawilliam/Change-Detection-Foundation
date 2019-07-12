@@ -7,6 +7,7 @@ using Jawilliam.CDF.XObjects.RDSL;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis;
 using System.Text.RegularExpressions;
+using Microsoft.CodeAnalysis.CSharp;
 
 namespace Jawilliam.CDF.Tests.CSharp
 {
@@ -24,7 +25,7 @@ namespace Jawilliam.CDF.Tests.CSharp
 
             var keywordProperties = (from t in concreteTypes
                                      from p in t.Properties?.Property
-                                     where p.keyword
+                                     where p.hashtags.Contains("#KEYWORD")
                                      select new { Type = t, Property = p }).ToArray();
 
             var keywordTermProperties = (from t in concreteTypes
@@ -48,13 +49,13 @@ namespace Jawilliam.CDF.Tests.CSharp
 
             var operatorProperties = (from t in concreteTypes
                                       from p in t.Properties?.Property
-                                      where p.@operator
+                                      where p.hashtags.Contains("#OPERATOR")
                                       select new { Type = t, Property = p }).ToArray();
 
             var operatorTermProperties = (from t in concreteTypes
                                           from p in t.Properties?.Property
                                           where p.name.Contains("Operator") &&
-                                                !p.keyword &&
+                                                !p.hashtags.Contains("#KEYWORD") &&
                                                 !(p.name == "OperatorToken" && t.name == "OperatorDeclarationSyntax") &&
                                                 !(p.name == "OperatorToken" && t.name == "OperatorMemberCrefSyntax")
                                           select new { Type = t, Property = p }).ToArray();
@@ -71,7 +72,7 @@ namespace Jawilliam.CDF.Tests.CSharp
 
             var symbolicTypes = (from t in concreteTypes
                                  from p in t.Properties?.Property
-                                 where p.symbolic
+                                 where p.hashtags.Contains("#SYMBOLIC")
                                  select new { Type = t, Property = p }).ToArray();
 
             Assert.AreEqual(symbolicTypes.Length, 2);
@@ -89,15 +90,15 @@ namespace Jawilliam.CDF.Tests.CSharp
 
             var punctuationProperties = (from t in concreteTypes
                                          from p in t.Properties?.Property
-                                         where p.puntuaction
+                                         where p.hashtags.Contains("#PUNTUACTION")
                                          select new { Type = t, Property = p }).ToArray();
 
             var punctuationTermProperties = (from t in concreteTypes
                                              from p in t.Properties?.Property
                                              where (p.kind == "Token" && p.readOnly &&
-                                                   !p.keyword &&
-                                                   !p.@operator &&
-                                                   !p.symbolic &&
+                                                   !p.hashtags.Contains("#KEYWORD") &&
+                                                   !p.hashtags.Contains("#OPERATOR") &&
+                                                   !p.hashtags.Contains("#SYMBOLIC") &&
                                                    !(p.name == "OperatorToken" && t.name == "OperatorDeclarationSyntax")) ||
                                                    p.name == "StartQuoteToken" ||
                                                    p.name == "EndQuoteToken" ||
@@ -121,13 +122,13 @@ namespace Jawilliam.CDF.Tests.CSharp
 
             var containsOrTermProperties = (from t in concreteTypes
                                             from p in t.Properties?.Property
-                                            where p.keyword && p.name.Contains("Or") && !p.name.StartsWith("Or")
+                                            where p.hashtags.Contains("#KEYWORD") && p.name.Contains("Or") && !p.name.StartsWith("Or")
                                             select new { Type = t, Property = p }).ToArray();
             Assert.AreEqual(containsOrTermProperties.Except(enumerationProperties).Count(), 0);
 
             var operatorsProperties = (from t in concreteTypes
                                        from p in t.Properties?.Property
-                                       where p.@operator &&
+                                       where p.hashtags.Contains("#OPERATOR") &&
                                              !(p.name == "OperatorToken" && t.name == "ConditionalAccessExpressionSyntax") &&
                                              !(p.name == "OperatorToken" && t.name == "MemberBindingExpressionSyntax")
                                        select new { Type = t, Property = p }).ToArray();
@@ -136,8 +137,8 @@ namespace Jawilliam.CDF.Tests.CSharp
             var operatorDeclarationProperties = (from t in concreteTypes
                                                  from p in t.Properties?.Property
                                                  where p.name.Contains("Operator") &&
-                                                       !p.keyword &&
-                                                       !p.@operator
+                                                       !p.hashtags.Contains("#KEYWORD") &&
+                                                       !p.hashtags.Contains("#OPERATOR")
                                                  select new { Type = t, Property = p }).ToArray();
             Assert.AreEqual(operatorDeclarationProperties.Except(enumerationProperties).Count(), 0);
 
@@ -228,26 +229,26 @@ namespace Jawilliam.CDF.Tests.CSharp
             // all the not enumerated keywords, except 1 case.
             var allKeywordsExceptThese6 = (from t in concreteTypes
                                            from p in t.Properties?.Property
-                                           where (p.keyword && !p.Enumeration()) ||
+                                           where (p.hashtags.Contains("#KEYWORD") && !p.Enumeration()) ||
                                                  (p.name == "Keyword" && t.name == "PredefinedTypeSyntax")
                                            select new { Type = t, Property = p }).ToArray();
             Assert.AreEqual(allKeywordsExceptThese6.Except(readOnlyProperties).ToArray().Length, 0);
 
             var operators = (from t in concreteTypes
                              from p in t.Properties?.Property
-                             where p.@operator
+                             where p.hashtags.Contains("#OPERATOR")
                              select new { Type = t, Property = p }).ToArray();
             Assert.AreEqual(operators.Except(readOnlyProperties).ToArray().Length, 0);
 
             var allNotEnumeratedPunctuation = (from t in concreteTypes
                                                from p in t.Properties?.Property
-                                               where p.puntuaction && !p.Enumeration() //p.name != "StartQuoteToken" && p.name != "EndQuoteToken" //&& !p.Enumeration()
+                                               where p.hashtags.Contains("#PUNTUACTION") && !p.Enumeration() //p.name != "StartQuoteToken" && p.name != "EndQuoteToken" //&& !p.Enumeration()
                                                select new { Type = t, Property = p }).ToArray();
             //Assert.AreEqual(allNotEnumeratedPunctuation.Except(readOnlyProperties).ToArray().Length, 0);
 
             var symbolicProperties = (from t in concreteTypes
                                       from p in t.Properties?.Property
-                                      where p.symbolic
+                                      where p.hashtags.Contains("#SYMBOLIC")
                                       select new { Type = t, Property = p }).ToArray();
             Assert.AreEqual(symbolicProperties.Except(readOnlyProperties).ToArray().Length, 0);
 
@@ -292,10 +293,10 @@ namespace Jawilliam.CDF.Tests.CSharp
 
             var theseProperties = (from t in concreteTypes
                                    from p in t.Properties?.Property
-                                   where (!p.keyword || (p.name == "DisableOrRestoreKeyword" && t.name == "PragmaWarningDirectiveTriviaSyntax")) &&
-                                         !p.puntuaction &&
-                                         !p.@operator &&
-                                         !p.symbolic
+                                   where (!p.hashtags.Contains("#KEYWORD") || (p.name == "DisableOrRestoreKeyword" && t.name == "PragmaWarningDirectiveTriviaSyntax")) &&
+                                         !p.hashtags.Contains("#PUNTUACTION") &&
+                                         !p.hashtags.Contains("#OPERATOR") &&
+                                         !p.hashtags.Contains("#SYMBOLIC")
                                    select new { Type = t, Property = p }).ToArray();
             Assert.AreEqual(theseProperties.Except(topologicallyRelevantProperties).ToArray().Length, 0);
             Assert.AreEqual(topologicallyRelevantProperties.Except(theseProperties).ToArray().Length, 0);
@@ -379,7 +380,7 @@ namespace Jawilliam.CDF.Tests.CSharp
             var expectedCollectionTypes = (from t in concreteTypes
                                            where t.name == "VariableDeclarationSyntax" ||
                                                  (t.Properties?.Property.Any(pi => (pi.Rules?.collection ?? false) &&
-                                                                                   (t.Properties?.Property.All(pj => pi == pj || pj.puntuaction || pj.keyword) ?? false))
+                                                                                   (t.Properties?.Property.All(pj => pi == pj || pj.hashtags.Contains("#PUNTUACTION") || pj.hashtags.Contains("#KEYWORD")) ?? false))
                                                   ?? false)
                                            select t).ToArray();
             Assert.AreEqual(expectedCollectionTypes.Except(collectionTypes).ToArray().Length, 0);
@@ -447,7 +448,7 @@ namespace Jawilliam.CDF.Tests.CSharp
         //}
 
         [TestMethod]
-        public void DefinitionOf()
+        public void CommonTermsInElementTypeNames()
         {
             var rdsl = Syntax.Load(@"..\..\..\Jawilliam.CDF.CSharp\RDSL.xml");
             var concreteTypes = rdsl.Nodes.Type.Where(n => !n.@abstract).ToArray();
@@ -459,45 +460,33 @@ namespace Jawilliam.CDF.Tests.CSharp
             })
             .ToDictionary(m => m.Type.name);
 
-            //var words = (from t in concreteTypes
-            //             from word in Regex.Split(t.name, @"(?<!^)(?=[A-Z])")
-            //             select word).Distinct().ToArray();
-
-            ////var allNames = allProperties.Select(p => p.Property.name).Distinct();
-
-            //var wordFrequencies = (from w in words
-            //                       where w != "Syntax" && w != "C"
-            //                       let c = concreteTypes.Count(t => t.name.Contains(w))
-            //                       orderby c descending
-            //                       select new { Word = w, Count = c }).ToArray();
-
             var words = (from t in concreteTypes
-                         //from word in Regex.Split(t.name, @"(?<!^)(?=[A-Z])")
                          select Regex.Split(t.name, @"(?<!^)(?=[A-Z])").Where(s => s != "Syntax")).ToArray();
-            StringBuilder sb = new StringBuilder();
-            //foreach (var wf in wordFrequencies)
+            //StringBuilder sb = new StringBuilder();
+            //foreach (var wf in words)
             //{
-            //    int i = 0;
-            //    foreach (var type in concreteTypes.Where(t => t.name.Contains(wf.Word)))
-            //    {
-            //        sb.AppendLine($"#{++i} {wf.Word} in {type.name}");
-            //    }
+            //    sb.AppendLine(wf.Aggregate("", (acc, s) => acc == "" ? s : $"{acc} {s}"));
             //}
-            foreach (var wf in words)
+            //System.IO.File.WriteAllText(@"D:\Reports\TypeNameWordsForWordsCloud.txt", sb.ToString());
+        }
+
+        [TestMethod]
+        public void InheritanceRelationsAmongElementTypes()
+        {
+            var rdsl = Syntax.Load(@"..\..\..\Jawilliam.CDF.CSharp\RDSL.xml");
+            var concreteTypes = rdsl.Nodes.Type.Where(n => !n.@abstract).ToArray();
+
+            var typeInfos = rdsl.Nodes.Type.Select(t => new
             {
-                sb.AppendLine(wf.Aggregate("", (acc, s) => acc == "" ? s : $"{acc} {s}"));
-            }
-            System.IO.File.WriteAllText(@"D:\Reports\TypeNameWordsForWordsCloud.txt", sb.ToString());
+                Class = typeof(Microsoft.CodeAnalysis.CSharp.CSharpSyntaxNode).Assembly.GetType("Microsoft.CodeAnalysis.CSharp.Syntax." + t.name),
+                Type = t
+            })
+            .ToDictionary(m => m.Type.name);
 
-            //var declarationTypes = (from t in concreteTypes
-            //                        let typeInfo = typeInfos.Single(ti => ti.Value.Type == t)
-            //                        where typeof(declara)
-            //                        select t).ToArray();
-
-            //var abstractTypeFrequencies = (from t in rdsl.Nodes.Type.Where(t1 => t1.@abstract).Select(t1 => typeInfos.Single(ti => ti.Value.Type == t1))
-            //                               let descendants = typeInfos.Values.Where(v => !v.Type.@abstract && t.Value.Class.IsAssignableFrom(v.Class)).ToArray()
-            //                               orderby descendants.Length descending
-            //                               select new { AbstractType = t, Descendants = descendants}).ToArray();
+            var abstractTypeFrequencies = (from t in rdsl.Nodes.Type.Where(t1 => t1.@abstract).Select(t1 => typeInfos.Single(ti => ti.Value.Type == t1))
+                                           let descendants = typeInfos.Values.Where(v => !v.Type.@abstract && t.Value.Class.IsAssignableFrom(v.Class)).ToArray()
+                                           orderby descendants.Length descending
+                                           select new { AbstractType = t, Descendants = descendants }).ToArray();
             //StringBuilder sb = new StringBuilder();
             //foreach (var atf in abstractTypeFrequencies)
             //{
@@ -509,17 +498,492 @@ namespace Jawilliam.CDF.Tests.CSharp
 
             //}
             //System.IO.File.WriteAllText(@"D:\Reports\DescendantTypesPerAbstractTypes.txt", sb.ToString());
-
-            //var statementTypes = (from t in concreteTypes
-            //                      let typeInfo = typeInfos.Single(ti => ti.Value.Type == t)
-            //                      where typeof(StatementSyntax).IsAssignableFrom(typeInfo.Value.Class)
-            //                      select t).ToArray();
-
-            //var expressionTypes = (from t in concreteTypes
-            //                       let typeInfo = typeInfos.Single(ti => ti.Value.Type == t)
-            //                       where typeof(ExpressionSyntax).IsAssignableFrom(typeInfo.Value.Class)
-            //                       select t).ToArray();
-
         }
+
+        [TestMethod]
+        public void InPersuitOfMeaningfulElementPropertyDefinitions()
+        {
+            var rdsl = Syntax.Load(@"..\..\..\Jawilliam.CDF.CSharp\RDSL.xml");
+            var concreteTypes = rdsl.Nodes.Type.Where(n => !n.@abstract).ToArray();
+
+            var typeInfos = rdsl.Nodes.Type.Select(t => new
+            {
+                Class = typeof(Microsoft.CodeAnalysis.CSharp.CSharpSyntaxNode).Assembly.GetType("Microsoft.CodeAnalysis.CSharp.Syntax." + t.name),
+                Type = t
+            })
+            .ToDictionary(m => m.Type.name);
+
+            var typesAndProperties = (from t in concreteTypes
+                                      from p in t.Properties?.Property
+                                      let typeInfo = typeInfos.Single(ti => ti.Value.Type == t).Value.Class
+                                      select new
+                                      {
+                                          Type = t,
+                                          Property = p,
+                                          TypeInfo = typeInfo,
+                                          PropertyInfo = typeInfo.GetProperty(p.name)
+                                      }).ToArray();
+
+            var meaningfulProperties = (from t in typesAndProperties
+                                        let propertyGenericTypeInfo = t.PropertyInfo.PropertyType.IsGenericType
+                                                    ? t.PropertyInfo.PropertyType.GetGenericTypeDefinition()
+                                                    : null
+                                        let propertyElementType = typeInfos.Any(ti => ti.Value.Class == t.PropertyInfo.PropertyType)
+                                                    ? typeInfos.Single(ti => ti.Value.Class == t.PropertyInfo.PropertyType).Value.Type
+                                                    : null
+                                        where t.PropertyInfo.PropertyType != typeof(SyntaxToken) &&
+                                              t.PropertyInfo.PropertyType != typeof(CSharpSyntaxNode) &&
+                                              t.PropertyInfo.PropertyType != typeof(ExpressionSyntax) &&
+                                              propertyGenericTypeInfo != typeof(SyntaxList<>) &&
+                                              propertyGenericTypeInfo != typeof(SeparatedSyntaxList<>) &&
+                                              (!propertyElementType?.hashtags.Contains("#list") ?? false)
+                                        select t).ToArray();
+
+            StringBuilder sb = new StringBuilder();
+            foreach (var mp in meaningfulProperties)
+            {
+                sb.AppendLine($"{mp.Property.name} ({mp.PropertyInfo.PropertyType.Name}) ---- {mp.Type.name}");
+            }
+            System.IO.File.WriteAllText(@"D:\Reports\MeaningfulElementPropertyDefinitions.txt", sb.ToString());
+
+            sb = new StringBuilder();
+            foreach (var mp in meaningfulProperties.OrderBy(m => m.Property.name))
+            {
+                sb.AppendLine($"{mp.Property.name} ({mp.PropertyInfo.PropertyType.Name}) ---- {mp.Type.name}");
+            }
+            System.IO.File.WriteAllText(@"D:\Reports\MeaningfulElementPropertyDefinitions2.txt", sb.ToString());
+
+            sb = new StringBuilder();
+            foreach (var mp in meaningfulProperties.OrderBy(m => m.PropertyInfo.PropertyType.Name))
+            {
+                sb.AppendLine($"{mp.Property.name} ({mp.PropertyInfo.PropertyType.Name}) ---- {mp.Type.name}");
+            }
+            System.IO.File.WriteAllText(@"D:\Reports\MeaningfulElementPropertyDefinitions3.txt", sb.ToString());
+        }
+
+        private void ReportSuitableProperties(
+            Func<Syntax.NodesLocalType.TypeLocalType, bool> suitableType,
+            Func<Syntax.NodesLocalType.TypeLocalType.PropertiesLocalType.PropertyLocalType, bool> suitableProperty,
+            string reportName)
+        {
+            var rdsl = Syntax.Load(@"..\..\..\Jawilliam.CDF.CSharp\RDSL.xml");
+            var concreteTypes = rdsl.Nodes.Type.Where(n => !n.@abstract).ToArray();
+
+            var typeInfos = rdsl.Nodes.Type.Select(t => new
+            {
+                Class = typeof(Microsoft.CodeAnalysis.CSharp.CSharpSyntaxNode).Assembly.GetType("Microsoft.CodeAnalysis.CSharp.Syntax." + t.name),
+                Type = t
+            })
+            .ToDictionary(m => m.Type.name);
+
+            var existingProperties = (from t in concreteTypes
+                                      from p in t.Properties?.Property
+                                      select new { Type = t, Property = p }).ToArray();
+
+            var suitableTypes = (from info in concreteTypes
+                                 where suitableType(info)
+                                 select info).ToArray();
+
+            var suitableProperties = (from info in existingProperties
+                                      where suitableProperty(info.Property)
+                                      select info).ToArray();
+
+            var candidateHashtagsForProperties = suitableProperties.SelectMany(info => info.Property.hashtags).Where(ht => ht != "").Distinct().ToArray();
+            var candidateHashtagsForTypes = suitableProperties.SelectMany(info => info.Property.hashtags).Where(ht => ht != "").Distinct().ToArray();
+
+            var sb = new StringBuilder();
+            var lineBuilder = new StringBuilder();
+            lineBuilder.Append("Property;Type");
+            foreach (var candidateHashtag in candidateHashtagsForProperties)
+            {
+                lineBuilder.Append($";{candidateHashtag}");
+            }
+            foreach (var candidateHashtag in candidateHashtagsForTypes)
+            {
+                lineBuilder.Append($";T{candidateHashtag}");
+            }
+            lineBuilder.Append(";SUITABLE");
+            sb.AppendLine(lineBuilder.ToString());
+
+            foreach (var info in existingProperties)
+            {
+                lineBuilder = new StringBuilder();
+                lineBuilder.Append($"{info.Property.name};{info.Type.name}");
+                foreach (var candidateHashtag in candidateHashtagsForProperties)
+                {
+                    lineBuilder.Append(info.Property.hashtags.Contains(candidateHashtag) ? ";t" : ";f");
+                }
+                foreach (var candidateHashtag in candidateHashtagsForTypes)
+                {
+                    lineBuilder.Append(info.Type.hashtags.Contains(candidateHashtag) ? ";t" : ";f");
+                }
+                lineBuilder.Append(suitableProperties.Any(i => i == info) ? ";t" : ";f");
+                sb.AppendLine(lineBuilder.ToString());
+            }
+            System.IO.File.WriteAllText($@"D:\Reports\{reportName}.csv", sb.ToString());
+        }
+
+        [TestMethod]
+        public void ReportForNameBasedSuitableProperties()
+        {           
+            this.ReportSuitableProperties(t => t.Rules?.Name?.suitability == "Key", 
+                                          p => (p.Rules?.Name?.Count(n => n.suitability == "Key") ?? 0) > 0,
+                                          "NameBasedSuitableProperties");
+        }
+
+        [TestMethod]
+        public void DefinitionOf_IDENTIFIER_Property()
+        {
+            var rdsl = CDF.XObjects.RDSL.Syntax.Load(@"..\..\..\Jawilliam.CDF.CSharp\RDSL.xml");
+            var concreteTypes = rdsl.Nodes.Type.Where(n => !n.@abstract).ToArray();
+
+            var suitableProperties = (from t in concreteTypes
+                                      from p in t.Properties?.Property
+                                      where p.hashtags.Contains("#IDENTIFIER")
+                                      select new { Type = t, Property = p }).ToArray();
+
+            var identifierProperties = (from t in concreteTypes
+                                        from p in t.Properties?.Property
+                                        where p.name == "Identifier" && t.name != "AttributeTargetSpecifierSyntax"
+                                        select new { Type = t, Property = p }).ToArray();
+            Assert.AreEqual(identifierProperties.Except(suitableProperties).ToArray().Length, 0);
+
+            //var nameProperties = (from t in concreteTypes
+            //                      from p in t.Properties?.Property
+            //                      where p.name == "Name" && !p.readOnly //t.name != "XmlCrefAttributeSyntax" && t.name != "XmlNameAttributeSyntax"
+            //                      select new { Type = t, Property = p }).ToArray();
+            //Assert.AreEqual(nameProperties.Except(suitableProperties).ToArray().Length, 0);
+
+            var thisKeywordProperties = (from t in concreteTypes
+                                         from p in t.Properties?.Property
+                                         where p.name == "ThisKeyword"
+                                         select new { Type = t, Property = p }).ToArray();
+            Assert.AreEqual(thisKeywordProperties.Except(suitableProperties).ToArray().Length, 0);
+
+            var operatorTokenProperties = (from t in concreteTypes
+                                           from p in t.Properties?.Property
+                                           where p.name == "OperatorToken" && t.name.Contains("Operator")
+                                           select new { Type = t, Property = p }).ToArray();
+            Assert.AreEqual(operatorTokenProperties.Except(suitableProperties).ToArray().Length, 0);
+
+            var nameProperties = (from t in concreteTypes
+                                                    from p in t.Properties?.Property
+                                                    where p.name == "NameEquals" || 
+                                                          p.name == "NameColon" || 
+                                                          (p.name == "Name" && t.name == "AttributeSyntax")
+                                                    select new { Type = t, Property = p }).ToArray();
+            Assert.AreEqual(thisKeywordProperties.Except(suitableProperties).ToArray().Length, 0);
+
+            //var prefixProperties = (from t in concreteTypes
+            //                        from p in t.Properties?.Property
+            //                        where p.name == "Prefix"
+            //                        select new { Type = t, Property = p }).ToArray();
+            //Assert.AreEqual(prefixProperties.Except(suitableProperties).ToArray().Length, 0);
+
+            //var specialCases = (from t in concreteTypes
+            //                    from p in t.Properties?.Property
+            //                    where (p.name == "LocalName" && t.name == "XmlNameSyntax") ||
+            //                          (p.name == "Variables" && t.name == "VariableDeclarationSyntax") ||
+            //                          (p.name == "Cref" && t.name == "XmlCrefAttributeSyntax") ||
+            //                          (p.name == "Expression" && t.name == "MemberAccessExpressionSyntax")
+            //                    select new { Type = t, Property = p }).ToArray();
+            //Assert.AreEqual(specialCases.Except(suitableProperties).ToArray().Length, 0);
+
+            var propertiesSuitableSoFar = identifierProperties
+                //.Union(nameProperties)
+                .Union(thisKeywordProperties)
+                .Union(operatorTokenProperties)
+                .Union(nameProperties)
+                //.Union(prefixProperties)
+                //.Union(specialCases)
+            .ToArray();
+
+            var b1 = propertiesSuitableSoFar.Except(suitableProperties).ToArray();
+            var b2 = suitableProperties.Except(propertiesSuitableSoFar).ToArray();
+
+            var typeInfos = concreteTypes.Select(t => new
+            {
+                Class = typeof(CSharpSyntaxNode).Assembly.GetType("Microsoft.CodeAnalysis.CSharp.Syntax." + t.name),
+                Type = t
+            })
+            .ToDictionary(m => m.Type.name);
+
+            var propertyTypeIsSuitableProperties = (from t in concreteTypes
+                                                    from p in t.Properties?.Property
+                                                    let typeInfo = typeInfos.Any(ti => ti.Value.Type == t) ? typeInfos.Single(ti => ti.Value.Type == t).Value.Class : null
+                                                    let propertyInfo = typeInfo?.GetProperty(p.name)
+                                                    let propertyGenericTypeInfo = propertyInfo?.PropertyType.IsGenericType ?? false
+                                                        ? propertyInfo.PropertyType.GetGenericTypeDefinition()
+                                                        : null
+                                                    let collectionOf = propertyGenericTypeInfo == typeof(SyntaxList<>) || propertyGenericTypeInfo == typeof(SeparatedSyntaxList<>)
+                                                        ? propertyInfo.PropertyType.GetGenericArguments().Single()
+                                                        : null
+                                                    let collectionOfType = collectionOf != null && typeInfos.Any(ti => ti.Value.Class == collectionOf)
+                                                        ? typeInfos.Single(ti => ti.Value.Class == collectionOf).Value.Type
+                                                        : null
+                                                    let propertyElementType = typeInfos.Any(ti => ti.Value.Class == propertyInfo.PropertyType)
+                                                        ? typeInfos.Single(ti => ti.Value.Class == propertyInfo.PropertyType).Value.Type
+                                                        : null
+                                                    where !p.readOnly &&
+                                                          (typeof(NameSyntax).IsAssignableFrom(propertyInfo?.PropertyType) ||
+                                                          (propertyElementType != null && propertiesSuitableSoFar.Any(psf => psf.Type == propertyElementType)))
+                                                    select new { Type = t, Property = p }).ToArray();
+
+            var a = propertyTypeIsSuitableProperties.Except(suitableProperties).ToArray();
+            //System.Text.StringBuilder sb = new System.Text.StringBuilder();
+            //foreach (var prop in suitableProperties)
+            //{
+            //    int i = 0;
+            //    sb.AppendLine($"#{++i} {prop.Property.name} in {prop.Type.name}");
+
+            //}
+            //System.IO.File.WriteAllText(@"D:\Reports\Temp.txt", sb.ToString());
+            var b = suitableProperties.Except(propertiesSuitableSoFar.Union(propertyTypeIsSuitableProperties)).ToArray();
+            Assert.AreEqual(propertyTypeIsSuitableProperties.Except(suitableProperties).ToArray().Length, 0);
+            Assert.AreEqual(suitableProperties.Except(propertyTypeIsSuitableProperties).ToArray().Length, 0);
+        }
+
+        [TestMethod]
+        public void NameBasedSuitableProperties()
+        {
+            var rdsl = CDF.XObjects.RDSL.Syntax.Load(@"..\..\..\Jawilliam.CDF.CSharp\RDSL.xml");
+            var concreteTypes = rdsl.Nodes.Type.Where(n => !n.@abstract).ToArray();
+
+            var existingProperties = (from t in concreteTypes
+                                      from p in t.Properties?.Property
+                                      select new { Type = t, Property = p }).ToArray();
+
+            var suitableProperties = (from info in existingProperties
+                                      where (info.Property.Rules?.Name?.Count(n => n.suitability == "Key") ?? 0) > 0
+                                      select info).ToArray();
+
+            var declarationIdentifiers = (from info in existingProperties
+                                          where info.Property.hashtags.Contains("#IDENTIFIER") && info.Type.hashtags.Contains("#DECLARATION#Member")
+                                          select info).ToArray();
+            var d1 = declarationIdentifiers.Except(suitableProperties).ToArray();
+            var d2 = suitableProperties.Except(declarationIdentifiers).ToArray();
+            Assert.IsTrue(suitableProperties.Count() > suitableProperties.Except(declarationIdentifiers).Count());
+
+            var explicitInterfaceSpecifiers = (from info in existingProperties
+                                               where info.Property.name == "ExplicitInterfaceSpecifier"
+                                               select info).ToArray();
+            var discoveredProperties1 = declarationIdentifiers.Union(explicitInterfaceSpecifiers).ToArray();
+            var d3 = discoveredProperties1.Except(suitableProperties).ToArray();
+            var d4 = suitableProperties.Except(discoveredProperties1).ToArray();
+            Assert.IsTrue(suitableProperties.Except(declarationIdentifiers).Count() > suitableProperties.Except(discoveredProperties1).Count());
+
+            var DECLARATIONIdentifiers = (from info in existingProperties
+                                          where info.Property.hashtags.Contains("#IDENTIFIER") && info.Type.hashtags.Contains("#DECLARATION")
+                                          select info).ToArray();
+            var discoveredProperties2 = discoveredProperties1.Union(DECLARATIONIdentifiers).ToArray();
+            var d5 = discoveredProperties2.Except(suitableProperties).ToArray();
+            var d6 = suitableProperties.Except(discoveredProperties2).ToArray();
+            Assert.IsTrue(suitableProperties.Except(discoveredProperties1).Count() > suitableProperties.Except(discoveredProperties2).Count());
+
+            var directiveIdentifiers = (from info in existingProperties
+                                          where info.Property.hashtags.Contains("#IDENTIFIER") && info.Type.hashtags.Contains("#directive")
+                                          select info).ToArray();
+            var discoveredProperties3 = discoveredProperties2.Union(directiveIdentifiers).ToArray();
+            var d7 = discoveredProperties3.Except(suitableProperties).ToArray();
+            var d8 = suitableProperties.Except(discoveredProperties3).ToArray();
+            Assert.IsTrue(suitableProperties.Except(discoveredProperties2).Count() > suitableProperties.Except(discoveredProperties3).Count());
+
+
+            var nameLogicProperties = (from t in concreteTypes
+                                       from p in t.Properties?.Property
+                                       where (p.Rules?.Name?.Count() ?? 0) > 0
+                                       select new { Type = t, Property = p }).ToArray();
+
+            // Name logic is a superset of name-based suitable.
+            Assert.AreEqual(suitableProperties.Except(nameLogicProperties).ToArray().Length, 0);
+
+            var identifierOfNameProperties = (from info in nameLogicProperties
+                                              where info.Property.hashtags.Contains("#IDENTIFIER") ||
+                                                    info.Property.name == "ExplicitInterfaceSpecifier"
+                                              select info).ToArray();
+            var b1 = nameLogicProperties.Except(identifierOfNameProperties).ToArray();
+            var b13 = suitableProperties.Except(identifierOfNameProperties).ToArray();
+
+            var declarationVariableOfNameProperties = (from info in nameLogicProperties
+                                                       where info.Property.hashtags.Contains("#DECLARATION#Variable")
+                                                       select info).ToArray();
+            var accumulatedProperties = identifierOfNameProperties.Union(declarationVariableOfNameProperties).ToArray();
+            Assert.IsTrue(suitableProperties.Except(identifierOfNameProperties).Count() > suitableProperties.Except(accumulatedProperties).Count());
+            var b2 = nameLogicProperties.Except(accumulatedProperties).ToArray();
+            var b23 = suitableProperties.Except(accumulatedProperties).ToArray();
+
+
+
+
+            var identifierProperties = (from t in concreteTypes
+                                        from p in t.Properties?.Property
+                                        where p.hashtags.Contains("#IDENTIFIER") && !t.hashtags.Contains("#Expression#Type") //&& !p.hashtags.Contains("#DECLARATION#VARIABLE#IDENTIFIER")
+                                        select new { Type = t, Property = p }).ToArray();
+
+            var explicitInterfaceSpecifierProperties = (from t in concreteTypes
+                                                        from p in t.Properties?.Property
+                                                        where p.hashtags.Contains("#SPECIFIER#INTERFACE#Explicit")
+                                                        select new { Type = t, Property = p }).ToArray();
+
+            //var identifierPropertiesInMemberDeclarations = (from t in concreteTypes
+            //                                                from p in t.Properties?.Property
+            //                                                where p.hashtags.Contains("#IDENTIFIER") && t.hashtags.Contains("#Expression#Type") && !p.hashtags.Contains("#DECLARATION#VARIABLE#IDENTIFIER")
+            //                                                select new { Type = t, Property = p }).ToArray();
+            var c1 = nameLogicProperties.Except(suitableProperties).ToArray();
+            var c2 = suitableProperties.Except(nameLogicProperties).ToArray();
+
+            var b20 = identifierProperties.Union(explicitInterfaceSpecifierProperties).Except(suitableProperties).ToArray();
+            var b30 = suitableProperties.Except(identifierProperties.Union(explicitInterfaceSpecifierProperties)).ToArray();
+            System.Text.StringBuilder sb = new System.Text.StringBuilder();
+            foreach (var prop in nameLogicProperties)
+            {
+                int i = 0;
+                sb.AppendLine($"#{++i} {prop.Property.name} in {prop.Type.name}");
+
+            }
+            System.IO.File.WriteAllText(@"D:\Reports\Temp.txt", sb.ToString());
+
+            var identifierPropertiesInQueryClauses = (from t in concreteTypes
+                                                      from p in t.Properties?.Property
+                                                      where p.hashtags.Contains("#IDENTIFIER") && !t.hashtags.Contains("#Expression#Type") && !p.hashtags.Contains("#DECLARATION#VARIABLE#IDENTIFIER")
+                                                      select new { Type = t, Property = p }).ToArray();
+
+            
+
+            var b11 = explicitInterfaceSpecifierProperties.Except(nameLogicProperties).ToArray();
+
+            Assert.AreEqual(identifierProperties.Except(nameLogicProperties).ToArray().Length, 0);
+
+            var propertiesSuitableSoFar = identifierProperties.ToArray();
+
+            var typeInfos = concreteTypes.Select(t => new
+            {
+                Class = typeof(CSharpSyntaxNode).Assembly.GetType("Microsoft.CodeAnalysis.CSharp.Syntax." + t.name),
+                Type = t
+            })
+            .ToDictionary(m => m.Type.name);
+
+            var propertyTypeIsSuitableProperties = (from t in concreteTypes
+                                                    from p in t.Properties?.Property
+                                                    let typeInfo = typeInfos.Any(ti => ti.Value.Type == t) ? typeInfos.Single(ti => ti.Value.Type == t).Value.Class : null
+                                                    let propertyInfo = typeInfo?.GetProperty(p.name)
+                                                    let propertyGenericTypeInfo = propertyInfo?.PropertyType.IsGenericType ?? false
+                                                        ? propertyInfo.PropertyType.GetGenericTypeDefinition()
+                                                        : null
+                                                    let collectionOf = propertyGenericTypeInfo == typeof(SyntaxList<>) || propertyGenericTypeInfo == typeof(SeparatedSyntaxList<>)
+                                                        ? propertyInfo.PropertyType.GetGenericArguments().Single()
+                                                        : null
+                                                    let collectionOfType = collectionOf != null && typeInfos.Any(ti => ti.Value.Class == collectionOf)
+                                                        ? typeInfos.Single(ti => ti.Value.Class == collectionOf).Value.Type
+                                                        : null
+                                                    let propertyElementType = typeInfos.Any(ti => ti.Value.Class == propertyInfo.PropertyType)
+                                                        ? typeInfos.Single(ti => ti.Value.Class == propertyInfo.PropertyType).Value.Type
+                                                        : null
+                                                    where /*!p.readOnly &&*/
+                                                          (/*typeof(NameSyntax).IsAssignableFrom(propertyInfo?.PropertyType) ||*/
+                                                          (propertyElementType != null && propertiesSuitableSoFar.Any(psf => psf.Type == propertyElementType)))
+                                                    select new { Type = t, Property = p }).ToArray();
+
+            var a = propertyTypeIsSuitableProperties.Except(nameLogicProperties).ToArray();
+            //System.Text.StringBuilder sb = new System.Text.StringBuilder();
+            //foreach (var prop in a)
+            //{
+            //    int i = 0;
+            //    sb.AppendLine($"#{++i} {prop.Property.name} in {prop.Type.name}");
+
+            //}
+            //System.IO.File.WriteAllText(@"D:\Reports\Temp.txt", sb.ToString());
+            var b = nameLogicProperties.Except(propertiesSuitableSoFar.Union(propertyTypeIsSuitableProperties)).ToArray();
+            Assert.AreEqual(propertyTypeIsSuitableProperties.Except(nameLogicProperties).ToArray().Length, 0);
+            Assert.AreEqual(nameLogicProperties.Except(propertyTypeIsSuitableProperties).ToArray().Length, 0);
+
+            //var propertiesSuitableSoFar = identifierProperties
+            //    .Union(nameProperties)
+            //    .Union(thisKeywordProperties)
+            //    .Union(operatorTokenProperties)
+            //    .Union(prefixProperties)
+            //    .Union(specialCases)
+            //.ToArray();
+
+            //var b = suitableProperties.Except(propertiesSuitableSoFar.Union(propertyTypeIsSuitableProperties)).ToArray();
+            //Assert.AreEqual(propertyTypeIsSuitableProperties.Except(suitableProperties).ToArray().Length, 0);
+            //Assert.AreEqual(suitableProperties.Except(propertyTypeIsSuitableProperties).ToArray().Length, 0);
+        }
+
+        //[TestMethod]
+        //public void DefinitionOf()
+        //{
+        //    var rdsl = Syntax.Load(@"..\..\..\Jawilliam.CDF.CSharp\RDSL.xml");
+        //    var concreteTypes = rdsl.Nodes.Type.Where(n => !n.@abstract).ToArray();
+
+        //    var typeInfos = rdsl.Nodes.Type.Select(t => new
+        //    {
+        //        Class = typeof(Microsoft.CodeAnalysis.CSharp.CSharpSyntaxNode).Assembly.GetType("Microsoft.CodeAnalysis.CSharp.Syntax." + t.name),
+        //        Type = t
+        //    })
+        //    .ToDictionary(m => m.Type.name);
+
+        //    //var words = (from t in concreteTypes
+        //    //             from word in Regex.Split(t.name, @"(?<!^)(?=[A-Z])")
+        //    //             select word).Distinct().ToArray();
+
+        //    ////var allNames = allProperties.Select(p => p.Property.name).Distinct();
+
+        //    //var wordFrequencies = (from w in words
+        //    //                       where w != "Syntax" && w != "C"
+        //    //                       let c = concreteTypes.Count(t => t.name.Contains(w))
+        //    //                       orderby c descending
+        //    //                       select new { Word = w, Count = c }).ToArray();
+
+        //    var words = (from t in concreteTypes
+        //                 //from word in Regex.Split(t.name, @"(?<!^)(?=[A-Z])")
+        //                 select Regex.Split(t.name, @"(?<!^)(?=[A-Z])").Where(s => s != "Syntax")).ToArray();
+        //    StringBuilder sb = new StringBuilder();
+        //    //foreach (var wf in wordFrequencies)
+        //    //{
+        //    //    int i = 0;
+        //    //    foreach (var type in concreteTypes.Where(t => t.name.Contains(wf.Word)))
+        //    //    {
+        //    //        sb.AppendLine($"#{++i} {wf.Word} in {type.name}");
+        //    //    }
+        //    //}
+        //    foreach (var wf in words)
+        //    {
+        //        sb.AppendLine(wf.Aggregate("", (acc, s) => acc == "" ? s : $"{acc} {s}"));
+        //    }
+        //    System.IO.File.WriteAllText(@"D:\Reports\TypeNameWordsForWordsCloud.txt", sb.ToString());
+
+        //    //var declarationTypes = (from t in concreteTypes
+        //    //                        let typeInfo = typeInfos.Single(ti => ti.Value.Type == t)
+        //    //                        where typeof(declara)
+        //    //                        select t).ToArray();
+
+        //    //var abstractTypeFrequencies = (from t in rdsl.Nodes.Type.Where(t1 => t1.@abstract).Select(t1 => typeInfos.Single(ti => ti.Value.Type == t1))
+        //    //                               let descendants = typeInfos.Values.Where(v => !v.Type.@abstract && t.Value.Class.IsAssignableFrom(v.Class)).ToArray()
+        //    //                               orderby descendants.Length descending
+        //    //                               select new { AbstractType = t, Descendants = descendants}).ToArray();
+        //    //StringBuilder sb = new StringBuilder();
+        //    //foreach (var atf in abstractTypeFrequencies)
+        //    //{
+        //    //    int i = 0;
+        //    //    foreach (var type in atf.Descendants)
+        //    //    {
+        //    //        sb.AppendLine($"#{++i} {atf.AbstractType.Value.Class.Name} ---- {type.Class.Name}");
+        //    //    }
+
+        //    //}
+        //    //System.IO.File.WriteAllText(@"D:\Reports\DescendantTypesPerAbstractTypes.txt", sb.ToString());
+
+        //    //var statementTypes = (from t in concreteTypes
+        //    //                      let typeInfo = typeInfos.Single(ti => ti.Value.Type == t)
+        //    //                      where typeof(StatementSyntax).IsAssignableFrom(typeInfo.Value.Class)
+        //    //                      select t).ToArray();
+
+        //    //var expressionTypes = (from t in concreteTypes
+        //    //                       let typeInfo = typeInfos.Single(ti => ti.Value.Type == t)
+        //    //                       where typeof(ExpressionSyntax).IsAssignableFrom(typeInfo.Value.Class)
+        //    //                       select t).ToArray();
+
+        //}
     }
 }

@@ -671,7 +671,7 @@ namespace Jawilliam.CDF.Labs
 
             var puntuactionProperties = from t in nonAbstractTypes
                                         from p in t.Properties.Property
-                                        where p.kind == "Token" && p.keyword && p.Rules.Name == null && p.Rules.Signature == null
+                                        where p.kind == "Token" && p.hashtags.Contains("#KEYWORD") && p.Rules.Name == null && p.Rules.Signature == null
                                         select new { Type = t, Property = p };
             sb = new StringBuilder();
             foreach (var mp in operatorProperties)
@@ -681,7 +681,7 @@ namespace Jawilliam.CDF.Labs
             System.IO.File.WriteAllText(@"D:\Reports\Punctuation Properties.txt", sb.ToString());
 
             var testProperties = operatorProperties.Except(from t in nonAbstractTypes from p in t.Properties.Property where p.kind == "Token" select new { Type = t, Property = p });
-            var testProperties2 = (from t in nonAbstractTypes from p in t.Properties.Property where p.kind == "Token" && p.keyword select new { Type = t, Property = p }).Except(operatorProperties);
+            var testProperties2 = (from t in nonAbstractTypes from p in t.Properties.Property where p.kind == "Token" && p.hashtags.Contains("#KEYWORD") select new { Type = t, Property = p }).Except(operatorProperties);
 
             sb.Clear();
             foreach (var mp in testProperties2)

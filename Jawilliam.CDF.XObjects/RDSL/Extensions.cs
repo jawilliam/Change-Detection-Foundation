@@ -41,7 +41,7 @@ namespace Jawilliam.CDF.XObjects.RDSL
         /// <returns>true if the given element type is a symbolic one, otherwise it returns false.</returns>
         public static bool Symbolic(this RDSL.Syntax.NodesLocalType.TypeLocalType type)
         {
-            return type.Properties?.Property?.All(p => p.symbolic) ?? false;
+            return type.Properties?.Property?.All(p => p.hashtags.Contains("#SYMBOLIC")) ?? false;
         }
 
         ///// <summary>
