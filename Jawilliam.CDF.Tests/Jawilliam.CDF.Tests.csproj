@@ -194,6 +194,7 @@
     <Compile Include="CSharp\RoslynMLTests.ExpressionSyntaxes.cs" />
     <Compile Include="CSharp\RoslynMLTests.NameSyntaxTypes.cs" />
     <Compile Include="Evaluation\RedundancyFinderTests.cs" />
+    <Compile Include="Flad.Awareness\TopologyTests.cs" />
     <Compile Include="Labs\BetweenComparisonTests.cs.cs" />
     <Compile Include="Metrics\RelativeThresholdTest.cs" />
     <Compile Include="Miscellaneus.cs" />

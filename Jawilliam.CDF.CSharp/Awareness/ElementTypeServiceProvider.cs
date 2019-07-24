@@ -1,11 +1,13 @@
-﻿using System;
+﻿using Jawilliam.CDF.Approach.Services;
+using Jawilliam.CDF.Approach.Services.Impl;
+using System;
 
 namespace Jawilliam.CDF.CSharp.Awareness
 {
     /// <summary>
     /// Base class for implementations of <see cref="IElementTypeServiceProvider"/>. 
     /// </summary>
-    public abstract class ElementTypeServiceProvider : Jawilliam.CDF.Approach.Services.Impl.ElementTypeServiceProvider
+    public abstract class ElementTypeServiceProvider : Service, IElementTypeServiceProvider
     {
         /// <summary>
         /// Initializes the instance.

@@ -141,11 +141,18 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AliasServices.tt</DependentUpon>
     </Compile>
+    <Compile Include="Awareness\Flad.cs" />
     <Compile Include="Awareness\Extensions.cs" />
+    <Compile Include="Awareness\TopologicalAbstraction.cs" />
     <Compile Include="Awareness\LanguageServiceProvider.cs">
       <DependentUpon>LanguageServiceProvider.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Awareness\Topology.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Topology.tt</DependentUpon>
     </Compile>
     <Compile Include="Awareness\SignatureServices.cs">
       <AutoGen>True</AutoGen>
@@ -179,7 +186,7 @@
     <Compile Include="Flad\InterfaceDeclarationServiceProvider.Partial.cs" />
     <Compile Include="Flad\StructDeclarationServiceProvider.Partial.cs" />
     <Compile Include="Flad\ClassDeclarationServiceProvider.Partial.cs" />
-    <Compile Include="Flad\CSharpFlad.cs" />
+    <Compile Include="Flad\BaseFlad.cs" />
     <Compile Include="Flad\CSharpNameEqualityChoice.cs" />
     <Compile Include="Flad\CSharpSignatureEqualityChoice.cs" />
     <Compile Include="CSharpFladStepInfo.cs" />
@@ -244,6 +251,10 @@
     <Content Include="Awareness\AliasServices.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>AliasServices.cs</LastGenOutput>
+    </Content>
+    <Content Include="Awareness\Topology.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Topology.cs</LastGenOutput>
     </Content>
     <Content Include="Awareness\SignatureServices.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

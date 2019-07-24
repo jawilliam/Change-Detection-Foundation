@@ -47,10 +47,29 @@
     <xs:attribute name="discriminant" type="xs:boolean" use="optional" default="false"/>
     <xs:attribute name="priority" type="xs:unsignedByte" use="optional"/>
   </xs:complexType>
+  <xs:attributeGroup name="TopologyLeafAttribute">
+    <xs:attribute name="leaf" use="optional" default="Rarely">
+      <xs:simpleType>
+        <xs:list>
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:enumeration value="Rarely"/>
+              <xs:enumeration value="Eventually"/>
+              <xs:enumeration value="Likely"/>
+              <xs:enumeration value="Tiny"/>
+              <xs:enumeration value="Terminal"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:list>
+      </xs:simpleType>
+    </xs:attribute>
+  </xs:attributeGroup>
+  
   <xs:complexType name="TopologyRules">
     <xs:attribute name="relevant" type="xs:boolean" use="optional" default="false"/>
     <xs:attribute name="relevancy" type="xs:unsignedByte" use="optional" default="0"/>
-    <xs:attribute name="leaf" type="xs:boolean" use="optional" default="false"/>
+    <xs:attributeGroup ref="mstns:TopologyLeafAttribute"/>
+    <xs:attribute name="descendant" type="xs:boolean" use="optional"/>
   </xs:complexType>  
   <xs:complexType name="JoinCase">
     <xs:attribute name="leftPath" type="xs:string"/>
@@ -184,7 +203,9 @@
                                         <xs:enumeration value="#PUNTUACTION"/>
                                         <xs:enumeration value="#SYMBOLIC"/>
                                         <xs:enumeration value="#IDENTIFIER"/>
-                                        
+
+                                        <!--ExpressionSyntax-->
+                                        <xs:enumeration value="#Expression"/>
                                         <!--TypeSyntax : ExpressionSyntax-->
                                         <xs:enumeration value="#Expression#Type"/>
                                         <!--: ArrayTypeSyntax : TypeSyntax : ExpressionSyntax-->
@@ -209,8 +230,12 @@
                                         <xs:enumeration value="#CLAUSE#Finally"/>
                                         <!--: WhenClauseSyntax-->
                                         <xs:enumeration value="#CLAUSE#When"/>
+                                        <!--QueryClauseSyntax-->
+                                        <xs:enumeration value="#QUERY#Clause"/>
                                         <!--: FromClauseSyntax: QueryClauseSyntax-->
-                                        <xs:enumeration value="#CLAUSE#Query#From"/>
+                                        <xs:enumeration value="=#QUERY#Clause#From"/>
+                                        <!--OrderingSyntax-->
+                                        <xs:enumeration value="=#QUERY#Ordering"/>
                                         <!--: EqualsValueClauseSyntax-->
                                         <xs:enumeration value="#CLAUSE#VALUE#Equals"/>
                                         <!--: InterpolationAlignmentClauseSyntax-->
@@ -218,19 +243,31 @@
                                         <!--: InterpolationFormatClauseSyntax-->
                                         <xs:enumeration value="#CLAUSE#INTERPOLATION#Format"/>
                                         <!--: JoinIntoClauseSyntax-->
-                                        <xs:enumeration value="#CLAUSE#JOIN#Into"/>
-                                        <!--: AttributeTargetSpecifierSyntax-->
-                                        <xs:enumeration value="#ATTRIBUTE#TARGET#Specifier"/>
+                                        <xs:enumeration value="=#CLAUSE#JOIN#Into"/>
+                                        <!--: CatchClauseSyntax-->
+                                        <xs:enumeration value="=#CLAUSE#Catch"/>
+                                        <!--TypeParameterConstraintClauseSyntax-->
+                                        <xs:enumeration value="=#CLAUSE#TYPE#PARAMETER#Constraint"/>
+                                        <!--TypeParameterConstraintSyntax-->
+                                        <xs:enumeration value="=#TYPE#PARAMETER#Constraint"/>
                                         <!--: StatementSyntax-->
                                         <xs:enumeration value="#Statement"/>
                                         <!--: BlockSyntax : StatementSyntax-->
                                         <xs:enumeration value="#Statement#Block"/>
+                                        <!--SwitchSectionSyntax-->
+                                        <xs:enumeration value="=#SWITCH#Section"/>
+                                        <!--: SwitchSectionSyntax-->
+                                        <xs:enumeration value="#SWITCH#Label"/>
                                         <!--: CatchDeclarationSyntax-->
                                         <xs:enumeration value="#DECLARATION#Catch"/>
                                         <!--: CatchFilterClauseSyntax-->
                                         <xs:enumeration value="#DECLARATION#CATCH#Filter"/>
-                                        <!--: ParameterSyntax-->
-                                        <xs:enumeration value="#DECLARATION#Parameter"/>
+                                        <!--ParameterSyntax-->
+                                        <xs:enumeration value="=#DECLARATION#Parameter"/>
+                                        <!--AttributeSyntax-->
+                                        <xs:enumeration value="=#DECLARATION#Attribute"/>
+                                        <!--AttributeArgumentSyntax-->
+                                        <xs:enumeration value="=#ATTRIBUTE#Argument"/>
                                         <!--: VariableDeclarationSyntax-->
                                         <xs:enumeration value="#DECLARATION#Variable"/>
                                         <xs:enumeration value="#DECLARATION#VARIABLE"/>
@@ -238,6 +275,16 @@
                                         <xs:enumeration value="#DECLARATION#VARIABLE#Designation"/>
                                         <xs:enumeration value="#DECLARATION#VARIABLE#TYPE"/>
                                         <xs:enumeration value="#DECLARATION#VARIABLE#IDENTIFIER"/>
+                                        <!--EnumMemberDeclarationSyntax-->
+                                        <xs:enumeration value="=#DECLARATION#ENUM#Member"/>
+                                        <!--MemberDeclarationSyntax inheritors-->
+                                        <xs:enumeration value="#DECLARATION#Member"/>
+                                        <!--AccessorDeclarationSyntax-->
+                                        <xs:enumeration value="=#DECLARATION#Accessor"/>
+                                        <!--AnonymousObjectMemberDeclaratorSyntax-->
+                                        <xs:enumeration value="=#DECLARATOR#OBJECT#Member"/>
+                                        <!--VariableDeclaratorSyntax-->
+                                        <xs:enumeration value="=#DECLARATOR#Variable"/>
                                         <!--PatternSyntax inheritors-->
                                         <xs:enumeration value="#Pattern"/>
                                         <!--: ConstructorInitializerSyntax-->
@@ -246,14 +293,22 @@
                                         <xs:enumeration value="#Cref"/>
                                         <!--: MemberCrefSyntax : CrefSyntax-->
                                         <xs:enumeration value="#Cref#Member"/>
-                                        <!--: ExplicitInterfaceSpecifierSyntax-->
-                                        <xs:enumeration value="#SPECIFIER#INTERFACE#Explicit"/>
+                                        <!--ExplicitInterfaceSpecifierSyntax-->
+                                        <xs:enumeration value="=#SPECIFIER#INTERFACE#Explicit"/>
+                                        <!--ArrayRankSpecifierSyntax-->
+                                        <xs:enumeration value="=#SPECIFIER#ARRAY#Rank"/>
+                                        <!--AttributeTargetSpecifierSyntax-->
+                                        <xs:enumeration value="=#SPECIFIER#ATTRIBUTE#Target"/>
                                         <!--QueryBodySyntax inheritors-->
                                         <xs:enumeration value="#QUERY#Body"/>
-                                        <!--QueryContinuationSyntax inheritors-->
-                                        <xs:enumeration value="#QUERY#Continuation"/>
-                                        <!--SelectOrGroupClauseSyntax inheritors-->
+                                        <!--QueryContinuationSyntax-->
+                                        <xs:enumeration value="=#QUERY#Continuation"/>
+                                        <!--: SelectOrGroupClauseSyntax inheritors-->
                                         <xs:enumeration value="#QUERY#CLAUSE#SelectOrGroup"/>
+                                        <!--XmlNodeSyntax inheritors-->
+                                        <xs:enumeration value="#XML#Node"/>
+                                        <!--XmlAttributeSyntax inheritors-->
+                                        <xs:enumeration value="#XML#Attribute"/>
                                         <!--XmlNameSyntax inheritors-->
                                         <xs:enumeration value="#XML#Name"/>
                                         <!--XmlPrefixSyntax inheritors-->
@@ -262,6 +317,46 @@
                                         <xs:enumeration value="#XML#TAG#End"/>
                                         <!--XmlElementStartTagSyntax inheritors-->
                                         <xs:enumeration value="#XML#TAG#Start"/>
+
+                                        <!--InterpolatedStringContentSyntax-->
+                                        <xs:enumeration value="#INTERPOLATION#STRING#Content"/>
+                                        <!--ArgumentSyntax-->
+                                        <xs:enumeration value="=#Argument"/>
+                                        <!--BaseArgumentListSyntax inheritors-->
+                                        <xs:enumeration value="#LIST#Argument"/>
+                                        <!--BracketedParameterListSyntax inheritors-->
+                                        <xs:enumeration value="=#LIST#PARAMETER#Bracketed"/>
+                                        <!--BaseParameterListSyntax inheritors-->
+                                        <xs:enumeration value="#LIST#Parameter"/>
+                                        <!--BracketedArgumentListSyntax-->
+                                        <xs:enumeration value="=#LIST#ARGUMENT#Bracketed"/>
+                                        <!--BracketedTypeParameterListSyntax-->
+                                        <xs:enumeration value="=#LIST#TYPE#Parameter"/>
+                                        <!--AttributeListSyntax-->
+                                        <xs:enumeration value="=#LIST#Attribute"/>
+                                        <!--AttributeArgumentListSyntax-->
+                                        <xs:enumeration value="=#LIST#ATTRIBUTE#Argument"/>
+                                        <!--AccessorListSyntax-->
+                                        <xs:enumeration value="=#LIST#Accessor"/>
+                                        <!--TypeArgumentListSyntax...-->
+                                        <xs:enumeration value="=#LIST#TYPE#Argument"/>
+                                        <!--BaseListSyntax...-->
+                                        <xs:enumeration value="=#LIST#TYPE#Base"/>
+                                        <!--TypeParameterSyntax-->
+                                        <xs:enumeration value="=#TYPE#Parameter"/>
+                                        <xs:enumeration value="=#TYPE#Base"/>
+                                        <!--TupleElementSyntax-->
+                                        <xs:enumeration value="=#TYPE#TUPLE#Element"/>
+                                        <!--TypeArgumentSyntax-->
+                                        <xs:enumeration value="=#TYPE#Argument"/>
+                                        <!--CrefParameterSyntax-->
+                                        <xs:enumeration value="=#CREF#Parameter"/>
+                                        <!--ExternAliasDirectiveSyntax-->
+                                        <xs:enumeration value="=#DIRECTIVE#ExternAlias"/>
+                                        <!--UsingDirectiveSyntax-->
+                                        <xs:enumeration value="=#DIRECTIVE#Using"/>
+                                        <!--VariableDesignationSyntax inheritors<xs:enumeration value="#VARIABLE#Designation"/>-->
+                                        
                                       </xs:restriction>
                                     </xs:simpleType>
                                   </xs:list>
@@ -283,6 +378,11 @@
 										<xs:element name="Rules" minOccurs="0">
 											<xs:complexType>
 												<xs:sequence>
+                          <xs:element name="Topology" minOccurs="0" maxOccurs="1">
+                            <xs:complexType>
+                              <xs:attributeGroup ref="mstns:TopologyLeafAttribute"/>
+                            </xs:complexType>
+                          </xs:element>
 													<xs:element name="Signature" type="mstns:EqualityAndOrSimilarityAbsoluteAndOrRelativeRules" minOccurs="0"/>
                           <xs:element name="Name" type="mstns:NameRules" minOccurs="0"/>
                           <xs:element name="Hint" type="mstns:SuitabilityRule" minOccurs="0"/>
@@ -377,6 +477,9 @@
                             <xs:enumeration value="#DECLARATION#Member#Field"/>
                             <xs:enumeration value="#DECLARATION#LOCAL"/>
                             <xs:enumeration value="#DECLARATION#VARIABLE"/>
+                            <!--VariableDesignationSyntax inheritors-->
+                            <xs:enumeration value="#DECLARATION#VARIABLE#Designation"/>
+                            <xs:enumeration value="#DECLARATION#VARIABLE#DECLARATOR"/>
                             <xs:enumeration value="#DECLARATION#FUNCTION"/>
                             <xs:enumeration value="#DECLARATION"/> <!--attribute, accessor, parameter, type parameter-->
                             
@@ -387,7 +490,7 @@
                             <xs:enumeration value="#statement"/>
                             <xs:enumeration value="#switch"/>
                             <xs:enumeration value="#SWITCH"/>
-                            <!--SwitchLabelSyntax inheritors-->
+                            <!--SwitchSectionSyntax-->
                             <xs:enumeration value="#SWITCH#Label"/>
                             <xs:enumeration value="#SWITCH#LABEL"/>
                             <xs:enumeration value="#STATEMENT#WRAPPER"/>
@@ -448,7 +551,8 @@
                             <xs:enumeration value="#type"/>
                             <xs:enumeration value="#type#argument"/>
                             <xs:enumeration value="#type#parameter"/>
-                            <xs:enumeration value="#Type#Parameter#Constraint"/>
+                            <xs:enumeration value="#TYPE#PARAMETER#Constraint"/>
+                            <xs:enumeration value="#TYPE#PARAMETER#CONSTRAINT"/>
                             <xs:enumeration value="#TYPE#BASE"/>
                             <xs:enumeration value="#name"/> 
                             <xs:enumeration value="#member"/>
@@ -464,10 +568,6 @@
                             <xs:enumeration value="#creation"/>
                             <xs:enumeration value="#for"/>
                             <xs:enumeration value="#variable"/>
-                            <xs:enumeration value="#VARIABLE"/>
-                            <!--VariableDesignationSyntax inheritors-->
-                            <xs:enumeration value="#VARIABLE#Designation"/>
-                            <xs:enumeration value="#VARIABLE#DECLARATOR"/>
                             <xs:enumeration value="#label"/>
                             <xs:enumeration value="#constraint"/>
                             <xs:enumeration value="#operator"/>
@@ -526,6 +626,71 @@
                             <xs:enumeration value="#pragma"/>
                             <xs:enumeration value="#tag"/>
                             <xs:enumeration value="#comment"/>
+                            <!--OrderingSyntax-->
+                            <xs:enumeration value="=#QUERY#Ordering"/>
+                            <!--: CatchClauseSyntax-->
+                            <xs:enumeration value="=#CLAUSE#Catch"/>
+                            <!--TypeParameterConstraintClauseSyntax-->
+                            <xs:enumeration value="=#CLAUSE#TYPE#PARAMETER#Constraint"/>
+                            <!--AttributeTargetSpecifierSyntax-->
+                            <xs:enumeration value="=#SPECIFIER#ATTRIBUTE#Target"/>
+                            <!--AnonymousObjectMemberDeclaratorSyntax-->
+                            <xs:enumeration value="=#DECLARATOR#OBJECT#Member"/>
+                            <!--SwitchSectionSyntax-->
+                            <xs:enumeration value="=#SWITCH#Section"/>
+                            <!--ParameterSyntax-->
+                            <xs:enumeration value="=#DECLARATION#Parameter"/>
+                            <!--AttributeSyntax-->
+                            <xs:enumeration value="=#DECLARATION#Attribute"/>
+                            <!--AttributeArgumentSyntax-->
+                            <xs:enumeration value="=#ATTRIBUTE#Argument"/>
+                            <!--ArgumentSyntax-->
+                            <xs:enumeration value="=#Argument"/>
+                            <!--EnumMemberDeclarationSyntax-->
+                            <xs:enumeration value="=#DECLARATION#ENUM#Member"/>
+                            <!--AccessorDeclarationSyntax-->
+                            <xs:enumeration value="=#DECLARATION#Accessor"/>
+                            <!--AnonymousObjectMemberDeclaratorSyntax-->
+                            <xs:enumeration value="=#DECLARATOR#OBJECT#Member"/>
+                            <!--VariableDeclaratorSyntax-->
+                            <xs:enumeration value="=#DECLARATOR#Variable"/>
+                            <!--ArrayRankSpecifierSyntax-->
+                            <xs:enumeration value="=#SPECIFIER#ARRAY#Rank"/>
+                            <!--AttributeListSyntax-->
+                            <xs:enumeration value="=#LIST#Attribute"/>
+                            <!--TypeParameterSyntax-->
+                            <xs:enumeration value="=#TYPE#Parameter"/>
+                            <xs:enumeration value="=#TYPE#Base"/>
+                            <!--TupleElementSyntax-->
+                            <xs:enumeration value="=#TYPE#TUPLE#Element"/>
+                            <!--CrefParameterSyntax-->
+                            <xs:enumeration value="=#CREF#Parameter"/>
+                            <!--ExternAliasDirectiveSyntax-->
+                            <xs:enumeration value="=#DIRECTIVE#ExternAlias"/>
+                            <!--UsingDirectiveSyntax-->
+                            <xs:enumeration value="=#DIRECTIVE#Using"/>
+
+
+                            <!--BracketedParameterListSyntax inheritors-->
+                            <xs:enumeration value="=#LIST#PARAMETER#Bracketed"/>
+                            <!--BracketedArgumentListSyntax-->
+                            <xs:enumeration value="=#LIST#ARGUMENT#Bracketed"/>
+                            <!--TypeParameterListSyntax-->
+                            <xs:enumeration value="=#LIST#TYPE#Parameter"/>
+                            <!--AttributeArgumentListSyntax..-->
+                            <xs:enumeration value="=#LIST#ATTRIBUTE#Argument"/>
+                            <!--AccessorListSyntax-->
+                            <xs:enumeration value="=#LIST#Accessor"/>
+                            <!--TypeArgumentListSyntax...-->
+                            <xs:enumeration value="=#LIST#TYPE#Argument"/>
+                            <!--BaseListSyntax...-->
+                            <xs:enumeration value="=#LIST#TYPE#Base"/>
+                            <!--FromClauseSyntax: QueryClauseSyntax-->
+                            <xs:enumeration value="=#QUERY#Clause#From"/>
+                            <!--JoinIntoClauseSyntax-->
+                            <xs:enumeration value="=#CLAUSE#JOIN#Into"/>
+                            <!--QueryContinuationSyntax-->
+                            <xs:enumeration value="=#QUERY#Continuation"/>
                           </xs:restriction>
                         </xs:simpleType>
                       </xs:list>

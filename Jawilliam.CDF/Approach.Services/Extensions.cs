@@ -91,13 +91,15 @@ namespace Jawilliam.CDF.Approach.Services
         /// <typeparam name="TElement">Type of the supported elements.</typeparam>
         /// <param name="serviceLocator">the context wherein dynamically loading any required service.</param>
         /// <param name="getServiceOrThrowsException">if true and the requested service does not exist, it throws an exception.</param>
+        /// <param name="full">Indicates if the abstraction is basically hierarchical (true) or topological (false)</param>
         /// <returns>the service supporting functionalities for handling the hierarchical nature of the supported elements. </returns>
-        public static IHierarchicalAbstractionService<TElement> HierarchicalAbstraction<TElement>(this IServiceLocator serviceLocator, bool getServiceOrThrowsException = true)
+        public static IHierarchicalAbstractionService<TElement> HierarchicalAbstraction<TElement>(this IServiceLocator serviceLocator, bool full = false, bool getServiceOrThrowsException = true)
         {
             Debug.Assert(serviceLocator != null);
+            var serviceId = full ? ServiceId.HierarchicalAbstraction : ServiceId.TopologicalAbstraction;
             return getServiceOrThrowsException
-                ? serviceLocator.GetServiceOrThrowsException<IHierarchicalAbstractionService<TElement>>((int)ServiceId.HierarchicalAbstraction)
-                : serviceLocator.GetService<IHierarchicalAbstractionService<TElement>>((int)ServiceId.HierarchicalAbstraction);
+                ? serviceLocator.GetServiceOrThrowsException<IHierarchicalAbstractionService<TElement>>((int)serviceId)
+                : serviceLocator.GetService<IHierarchicalAbstractionService<TElement>>((int)serviceId);
         }
 
         /// <summary>
@@ -106,10 +108,11 @@ namespace Jawilliam.CDF.Approach.Services
         /// <typeparam name="TElement">Type of the supported elements.</typeparam>
         /// <param name="approach">the context wherein dynamically loading any required service.</param>
         /// <param name="getServiceOrThrowsException">if true and the requested service does not exist, it throws an exception.</param>
+        /// <param name="full">Indicates if the abstraction is basically hierarchical (true) or topological (false)</param>
         /// <returns>the service supporting functionalities for handling the hierarchical nature of the supported elements. </returns>
-        public static IHierarchicalAbstractionService<TElement> HierarchicalAbstraction<TElement>(this IApproach<TElement> approach, bool getServiceOrThrowsException = true)
+        public static IHierarchicalAbstractionService<TElement> HierarchicalAbstraction<TElement>(this IApproach<TElement> approach, bool full = false, bool getServiceOrThrowsException = true)
         {
-            return HierarchicalAbstraction<TElement>((IServiceLocator)approach, getServiceOrThrowsException);
+            return HierarchicalAbstraction<TElement>((IServiceLocator)approach, full, getServiceOrThrowsException);
         }
 
         /// <summary>
@@ -296,6 +299,31 @@ namespace Jawilliam.CDF.Approach.Services
             return VectorComponents.ByTermExistence(firstSequence, secondSequence, 
                 new MatchEqualityComparer<TElement, TAnnotation, IServiceLocator>(serviceLocator), 
                 out firstResult, out secondResult, serviceLocator._TermSelector<TElement, TAnnotation>);
+        }
+
+        /// <summary>
+        /// Exposes the entry point to language-aware providers per element type. 
+        /// </summary>
+        /// <param name="serviceLocator">the context wherein dynamically loading any required service.</param>
+        /// <param name="getServiceOrThrowsException">if true and the requested service does not exist, it throws an exception.</param>
+        /// <returns>the service through which to access the language-aware providers per element type.</returns>
+        public static ILanguageServiceProvider LanguageProvider(this IServiceLocator serviceLocator, bool getServiceOrThrowsException = true)
+        {
+            Debug.Assert(serviceLocator != null);
+            return getServiceOrThrowsException
+                ? serviceLocator.GetServiceOrThrowsException<ILanguageServiceProvider>((int)ServiceId.LanguageProvider)
+                : serviceLocator.GetService<ILanguageServiceProvider>((int)ServiceId.LanguageProvider);
+        }
+
+        /// <summary>
+        /// Exposes the entry point to language-aware providers per element type. 
+        /// </summary>
+        /// <param name="serviceLocator">the context wherein dynamically loading any required service.</param>
+        /// <param name="getServiceOrThrowsException">if true and the requested service does not exist, it throws an exception.</param>
+        /// <returns>the service through which to access the language-aware providers per element type.</returns>
+        public static T LanguageProvider<T>(this IServiceLocator serviceLocator, bool getServiceOrThrowsException = true) where T : ILanguageServiceProvider
+        {
+            return (T)LanguageProvider(serviceLocator);
         }
     }
 }

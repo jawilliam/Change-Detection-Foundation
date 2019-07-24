@@ -14,9 +14,9 @@ namespace Jawilliam.CDF.CSharp.Awareness
     /// <summary>
     /// Provides C#-specific information for source code change detection. 
     /// </summary>
-    public partial class LanguageServiceProvider :  Jawilliam.CDF.Approach.Services.ILanguageServiceProvider
+    public partial class LanguageServiceProvider :  Approach.Services.Impl.Service, Jawilliam.CDF.Approach.Services.ILanguageServiceProvider
     {
-        /// <summary>
+        /*/// <summary>
         /// Initializes the instance.
         /// </summary>
         /// <param name="approach">the solution wherein the current procedure is being called.</param>
@@ -246,280 +246,295 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			case "DefaultSwitchLabel": return this.DefaultSwitchLabelServiceProvider;
     			default: return null;//throw new ArgumentException(nameof(type));
     		}
-    	}
+    	}*/
     
     	/// <summary>
         /// Gets the <see cref="IElementTypeServiceProvider"/> to provide information for the requested element type.
         /// </summary>
         /// <param name="type">requested element type.</param>
-        /// <param name="kind">optionally the element type can be refined to an specific subtype.</param>
         /// <returns><see cref="IElementTypeServiceProvider"/> implementation intended to provide information for the requested element type.</returns>
-        public virtual  Jawilliam.CDF.Approach.Services.IElementTypeServiceProvider GetElementTypeServiceProvider(SyntaxKind type, string subtype = null)
+        public virtual  Jawilliam.CDF.Approach.Services.IElementTypeServiceProvider GetElementTypeServiceProvider(SyntaxKind type)
     	{
     		switch(type)
     		{
-    			case SyntaxKind.AttributeArgument: return this.AttributeArgumentServiceProvider;
-    			case SyntaxKind.NameEquals: return this.NameEqualsServiceProvider;
-    			case SyntaxKind.TypeParameterList: return this.TypeParameterListServiceProvider;
-    			case SyntaxKind.TypeParameter: return this.TypeParameterServiceProvider;
-    			case SyntaxKind.BaseList: return this.BaseListServiceProvider;
-    			case SyntaxKind.TypeParameterConstraintClause: return this.TypeParameterConstraintClauseServiceProvider;
-    			case SyntaxKind.ExplicitInterfaceSpecifier: return this.ExplicitInterfaceSpecifierServiceProvider;
+    			case SyntaxKind.AttributeArgument: return this.AttributeArgumentServiceProvider;	
+    			case SyntaxKind.NameEquals: return this.NameEqualsServiceProvider;	
+    			case SyntaxKind.TypeParameterList: return this.TypeParameterListServiceProvider;	
+    			case SyntaxKind.TypeParameter: return this.TypeParameterServiceProvider;	
+    			case SyntaxKind.BaseList: return this.BaseListServiceProvider;	
+    			case SyntaxKind.TypeParameterConstraintClause: return this.TypeParameterConstraintClauseServiceProvider;	
+    			case SyntaxKind.ExplicitInterfaceSpecifier: return this.ExplicitInterfaceSpecifierServiceProvider;	
     			case SyntaxKind.BaseConstructorInitializer:
     			case SyntaxKind.ThisConstructorInitializer: return this.ConstructorInitializerServiceProvider;
-    			case SyntaxKind.ArrowExpressionClause: return this.ArrowExpressionClauseServiceProvider;
-    			case SyntaxKind.AccessorList: return this.AccessorListServiceProvider;
+    			case SyntaxKind.ArrowExpressionClause: return this.ArrowExpressionClauseServiceProvider;	
+    			case SyntaxKind.AccessorList: return this.AccessorListServiceProvider;	
+    			case SyntaxKind.GetAccessorDeclaration:
+    			case SyntaxKind.SetAccessorDeclaration:
     			case SyntaxKind.AddAccessorDeclaration:
     			case SyntaxKind.RemoveAccessorDeclaration:
-    			case SyntaxKind.GetAccessorDeclaration:
-    			case SyntaxKind.SetAccessorDeclaration: return this.AccessorDeclarationServiceProvider;
-    			case SyntaxKind.Parameter: return this.ParameterServiceProvider;
-    			case SyntaxKind.CrefParameter: return this.CrefParameterServiceProvider;
-    			case SyntaxKind.XmlElementStartTag: return this.XmlElementStartTagServiceProvider;
-    			case SyntaxKind.XmlElementEndTag: return this.XmlElementEndTagServiceProvider;
-    			case SyntaxKind.XmlName: return this.XmlNameServiceProvider;
-    			case SyntaxKind.XmlPrefix: return this.XmlPrefixServiceProvider;
-    			case SyntaxKind.TypeArgumentList: return this.TypeArgumentListServiceProvider;
-    			case SyntaxKind.ArrayRankSpecifier: return this.ArrayRankSpecifierServiceProvider;
-    			case SyntaxKind.TupleElement: return this.TupleElementServiceProvider;
-    			case SyntaxKind.Argument: return this.ArgumentServiceProvider;
-    			case SyntaxKind.NameColon: return this.NameColonServiceProvider;
-    			case SyntaxKind.AnonymousObjectMemberDeclarator: return this.AnonymousObjectMemberDeclaratorServiceProvider;
-    			case SyntaxKind.QueryBody: return this.QueryBodyServiceProvider;
-    			case SyntaxKind.JoinIntoClause: return this.JoinIntoClauseServiceProvider;
+    			case SyntaxKind.UnknownAccessorDeclaration: return this.AccessorDeclarationServiceProvider;
+    			case SyntaxKind.Parameter: return this.ParameterServiceProvider;	
+    			case SyntaxKind.CrefParameter: return this.CrefParameterServiceProvider;	
+    			case SyntaxKind.XmlElementStartTag: return this.XmlElementStartTagServiceProvider;	
+    			case SyntaxKind.XmlElementEndTag: return this.XmlElementEndTagServiceProvider;	
+    			case SyntaxKind.XmlName: return this.XmlNameServiceProvider;	
+    			case SyntaxKind.XmlPrefix: return this.XmlPrefixServiceProvider;	
+    			case SyntaxKind.TypeArgumentList: return this.TypeArgumentListServiceProvider;	
+    			case SyntaxKind.ArrayRankSpecifier: return this.ArrayRankSpecifierServiceProvider;	
+    			case SyntaxKind.TupleElement: return this.TupleElementServiceProvider;	
+    			case SyntaxKind.Argument: return this.ArgumentServiceProvider;	
+    			case SyntaxKind.NameColon: return this.NameColonServiceProvider;	
+    			case SyntaxKind.AnonymousObjectMemberDeclarator: return this.AnonymousObjectMemberDeclaratorServiceProvider;	
+    			case SyntaxKind.QueryBody: return this.QueryBodyServiceProvider;	
+    			case SyntaxKind.JoinIntoClause: return this.JoinIntoClauseServiceProvider;	
     			case SyntaxKind.AscendingOrdering:
     			case SyntaxKind.DescendingOrdering: return this.OrderingServiceProvider;
-    			case SyntaxKind.QueryContinuation: return this.QueryContinuationServiceProvider;
-    			case SyntaxKind.WhenClause: return this.WhenClauseServiceProvider;
-    			case SyntaxKind.InterpolationAlignmentClause: return this.InterpolationAlignmentClauseServiceProvider;
-    			case SyntaxKind.InterpolationFormatClause: return this.InterpolationFormatClauseServiceProvider;
-    			case SyntaxKind.VariableDeclaration: return this.VariableDeclarationServiceProvider;
-    			case SyntaxKind.VariableDeclarator: return this.VariableDeclaratorServiceProvider;
-    			case SyntaxKind.EqualsValueClause: return this.EqualsValueClauseServiceProvider;
-    			case SyntaxKind.ElseClause: return this.ElseClauseServiceProvider;
-    			case SyntaxKind.SwitchSection: return this.SwitchSectionServiceProvider;
-    			case SyntaxKind.CatchClause: return this.CatchClauseServiceProvider;
-    			case SyntaxKind.CatchDeclaration: return this.CatchDeclarationServiceProvider;
-    			case SyntaxKind.CatchFilterClause: return this.CatchFilterClauseServiceProvider;
-    			case SyntaxKind.FinallyClause: return this.FinallyClauseServiceProvider;
-    			case SyntaxKind.CompilationUnit: return this.CompilationUnitServiceProvider;
-    			case SyntaxKind.ExternAliasDirective: return this.ExternAliasDirectiveServiceProvider;
-    			case SyntaxKind.UsingDirective: return this.UsingDirectiveServiceProvider;
-    			case SyntaxKind.AttributeList: return this.AttributeListServiceProvider;
-    			case SyntaxKind.AttributeTargetSpecifier: return this.AttributeTargetSpecifierServiceProvider;
-    			case SyntaxKind.Attribute: return this.AttributeServiceProvider;
-    			case SyntaxKind.AttributeArgumentList: return this.AttributeArgumentListServiceProvider;
-    			case SyntaxKind.DelegateDeclaration: return this.DelegateDeclarationServiceProvider;
-    			case SyntaxKind.EnumMemberDeclaration: return this.EnumMemberDeclarationServiceProvider;
-    			case SyntaxKind.IncompleteMember: return this.IncompleteMemberServiceProvider;
-    			case SyntaxKind.GlobalStatement: return this.GlobalStatementServiceProvider;
-    			case SyntaxKind.NamespaceDeclaration: return this.NamespaceDeclarationServiceProvider;
-    			case SyntaxKind.EnumDeclaration: return this.EnumDeclarationServiceProvider;
-    			case SyntaxKind.ClassDeclaration: return this.ClassDeclarationServiceProvider;
-    			case SyntaxKind.StructDeclaration: return this.StructDeclarationServiceProvider;
-    			case SyntaxKind.InterfaceDeclaration: return this.InterfaceDeclarationServiceProvider;
-    			case SyntaxKind.FieldDeclaration: return this.FieldDeclarationServiceProvider;
-    			case SyntaxKind.EventFieldDeclaration: return this.EventFieldDeclarationServiceProvider;
-    			case SyntaxKind.MethodDeclaration: return this.MethodDeclarationServiceProvider;
-    			case SyntaxKind.OperatorDeclaration: return this.OperatorDeclarationServiceProvider;
-    			case SyntaxKind.ConversionOperatorDeclaration: return this.ConversionOperatorDeclarationServiceProvider;
-    			case SyntaxKind.ConstructorDeclaration: return this.ConstructorDeclarationServiceProvider;
-    			case SyntaxKind.DestructorDeclaration: return this.DestructorDeclarationServiceProvider;
-    			case SyntaxKind.PropertyDeclaration: return this.PropertyDeclarationServiceProvider;
-    			case SyntaxKind.EventDeclaration: return this.EventDeclarationServiceProvider;
-    			case SyntaxKind.IndexerDeclaration: return this.IndexerDeclarationServiceProvider;
-    			case SyntaxKind.SimpleBaseType: return this.SimpleBaseTypeServiceProvider;
-    			case SyntaxKind.ConstructorConstraint: return this.ConstructorConstraintServiceProvider;
+    			case SyntaxKind.QueryContinuation: return this.QueryContinuationServiceProvider;	
+    			case SyntaxKind.WhenClause: return this.WhenClauseServiceProvider;	
+    			case SyntaxKind.InterpolationAlignmentClause: return this.InterpolationAlignmentClauseServiceProvider;	
+    			case SyntaxKind.InterpolationFormatClause: return this.InterpolationFormatClauseServiceProvider;	
+    			case SyntaxKind.VariableDeclaration: return this.VariableDeclarationServiceProvider;	
+    			case SyntaxKind.VariableDeclarator: return this.VariableDeclaratorServiceProvider;	
+    			case SyntaxKind.EqualsValueClause: return this.EqualsValueClauseServiceProvider;	
+    			case SyntaxKind.ElseClause: return this.ElseClauseServiceProvider;	
+    			case SyntaxKind.SwitchSection: return this.SwitchSectionServiceProvider;	
+    			case SyntaxKind.CatchClause: return this.CatchClauseServiceProvider;	
+    			case SyntaxKind.CatchDeclaration: return this.CatchDeclarationServiceProvider;	
+    			case SyntaxKind.CatchFilterClause: return this.CatchFilterClauseServiceProvider;	
+    			case SyntaxKind.FinallyClause: return this.FinallyClauseServiceProvider;	
+    			case SyntaxKind.CompilationUnit: return this.CompilationUnitServiceProvider;	
+    			case SyntaxKind.ExternAliasDirective: return this.ExternAliasDirectiveServiceProvider;	
+    			case SyntaxKind.UsingDirective: return this.UsingDirectiveServiceProvider;	
+    			case SyntaxKind.AttributeList: return this.AttributeListServiceProvider;	
+    			case SyntaxKind.AttributeTargetSpecifier: return this.AttributeTargetSpecifierServiceProvider;	
+    			case SyntaxKind.Attribute: return this.AttributeServiceProvider;	
+    			case SyntaxKind.AttributeArgumentList: return this.AttributeArgumentListServiceProvider;	
+    			case SyntaxKind.DelegateDeclaration: return this.DelegateDeclarationServiceProvider;	
+    			case SyntaxKind.EnumMemberDeclaration: return this.EnumMemberDeclarationServiceProvider;	
+    			case SyntaxKind.IncompleteMember: return this.IncompleteMemberServiceProvider;	
+    			case SyntaxKind.GlobalStatement: return this.GlobalStatementServiceProvider;	
+    			case SyntaxKind.NamespaceDeclaration: return this.NamespaceDeclarationServiceProvider;	
+    			case SyntaxKind.EnumDeclaration: return this.EnumDeclarationServiceProvider;	
+    			case SyntaxKind.ClassDeclaration: return this.ClassDeclarationServiceProvider;	
+    			case SyntaxKind.StructDeclaration: return this.StructDeclarationServiceProvider;	
+    			case SyntaxKind.InterfaceDeclaration: return this.InterfaceDeclarationServiceProvider;	
+    			case SyntaxKind.FieldDeclaration: return this.FieldDeclarationServiceProvider;	
+    			case SyntaxKind.EventFieldDeclaration: return this.EventFieldDeclarationServiceProvider;	
+    			case SyntaxKind.MethodDeclaration: return this.MethodDeclarationServiceProvider;	
+    			case SyntaxKind.OperatorDeclaration: return this.OperatorDeclarationServiceProvider;	
+    			case SyntaxKind.ConversionOperatorDeclaration: return this.ConversionOperatorDeclarationServiceProvider;	
+    			case SyntaxKind.ConstructorDeclaration: return this.ConstructorDeclarationServiceProvider;	
+    			case SyntaxKind.DestructorDeclaration: return this.DestructorDeclarationServiceProvider;	
+    			case SyntaxKind.PropertyDeclaration: return this.PropertyDeclarationServiceProvider;	
+    			case SyntaxKind.EventDeclaration: return this.EventDeclarationServiceProvider;	
+    			case SyntaxKind.IndexerDeclaration: return this.IndexerDeclarationServiceProvider;	
+    			case SyntaxKind.SimpleBaseType: return this.SimpleBaseTypeServiceProvider;	
+    			case SyntaxKind.ConstructorConstraint: return this.ConstructorConstraintServiceProvider;	
     			case SyntaxKind.ClassConstraint:
     			case SyntaxKind.StructConstraint: return this.ClassOrStructConstraintServiceProvider;
-    			case SyntaxKind.TypeConstraint: return this.TypeConstraintServiceProvider;
-    			case SyntaxKind.ParameterList: return this.ParameterListServiceProvider;
-    			case SyntaxKind.BracketedParameterList: return this.BracketedParameterListServiceProvider;
-    			case SyntaxKind.SkippedTokensTrivia: return this.SkippedTokensTriviaServiceProvider;
+    			case SyntaxKind.TypeConstraint: return this.TypeConstraintServiceProvider;	
+    			case SyntaxKind.ParameterList: return this.ParameterListServiceProvider;	
+    			case SyntaxKind.BracketedParameterList: return this.BracketedParameterListServiceProvider;	
+    			case SyntaxKind.SkippedTokensTrivia: return this.SkippedTokensTriviaServiceProvider;	
     			case SyntaxKind.SingleLineDocumentationCommentTrivia:
-    			case SyntaxKind.MultiLineDocumentationCommentTrivia:  return this.DocumentationCommentTriviaServiceProvider;
-    			case SyntaxKind.EndIfDirectiveTrivia: return this.EndIfDirectiveTriviaServiceProvider;
-    			case SyntaxKind.RegionDirectiveTrivia: return this.RegionDirectiveTriviaServiceProvider;
-    			case SyntaxKind.EndRegionDirectiveTrivia: return this.EndRegionDirectiveTriviaServiceProvider;
-    			case SyntaxKind.ErrorDirectiveTrivia: return this.ErrorDirectiveTriviaServiceProvider;
-    			case SyntaxKind.WarningDirectiveTrivia: return this.WarningDirectiveTriviaServiceProvider;
-    			case SyntaxKind.BadDirectiveTrivia: return this.BadDirectiveTriviaServiceProvider;
-    			case SyntaxKind.DefineDirectiveTrivia: return this.DefineDirectiveTriviaServiceProvider;
-    			case SyntaxKind.UndefDirectiveTrivia: return this.UndefDirectiveTriviaServiceProvider;
-    			case SyntaxKind.LineDirectiveTrivia: return this.LineDirectiveTriviaServiceProvider;
-    			case SyntaxKind.PragmaWarningDirectiveTrivia: return this.PragmaWarningDirectiveTriviaServiceProvider;
-    			case SyntaxKind.PragmaChecksumDirectiveTrivia: return this.PragmaChecksumDirectiveTriviaServiceProvider;
-    			case SyntaxKind.ReferenceDirectiveTrivia: return this.ReferenceDirectiveTriviaServiceProvider;
-    			case SyntaxKind.LoadDirectiveTrivia: return this.LoadDirectiveTriviaServiceProvider;
-    			case SyntaxKind.ShebangDirectiveTrivia: return this.ShebangDirectiveTriviaServiceProvider;
-    			case SyntaxKind.ElseDirectiveTrivia: return this.ElseDirectiveTriviaServiceProvider;
-    			case SyntaxKind.IfDirectiveTrivia: return this.IfDirectiveTriviaServiceProvider;
-    			case SyntaxKind.ElifDirectiveTrivia: return this.ElifDirectiveTriviaServiceProvider;
-    			case SyntaxKind.TypeCref: return this.TypeCrefServiceProvider;
-    			case SyntaxKind.QualifiedCref: return this.QualifiedCrefServiceProvider;
-    			case SyntaxKind.NameMemberCref: return this.NameMemberCrefServiceProvider;
-    			case SyntaxKind.IndexerMemberCref: return this.IndexerMemberCrefServiceProvider;
-    			case SyntaxKind.OperatorMemberCref: return this.OperatorMemberCrefServiceProvider;
-    			case SyntaxKind.ConversionOperatorMemberCref: return this.ConversionOperatorMemberCrefServiceProvider;
-    			case SyntaxKind.CrefParameterList: return this.CrefParameterListServiceProvider;
-    			case SyntaxKind.CrefBracketedParameterList: return this.CrefBracketedParameterListServiceProvider;
-    			case SyntaxKind.XmlElement: return this.XmlElementServiceProvider;
-    			case SyntaxKind.XmlEmptyElement: return this.XmlEmptyElementServiceProvider;
-    			case SyntaxKind.XmlText: return this.XmlTextServiceProvider;
-    			case SyntaxKind.XmlCDataSection: return this.XmlCDataSectionServiceProvider;
-    			case SyntaxKind.XmlProcessingInstruction: return this.XmlProcessingInstructionServiceProvider;
-    			case SyntaxKind.XmlComment: return this.XmlCommentServiceProvider;
-    			case SyntaxKind.XmlTextAttribute: return this.XmlTextAttributeServiceProvider;
-    			case SyntaxKind.XmlCrefAttribute: return this.XmlCrefAttributeServiceProvider;
-    			case SyntaxKind.XmlNameAttribute: return this.XmlNameAttributeServiceProvider;
-    			case SyntaxKind.ParenthesizedExpression: return this.ParenthesizedExpressionServiceProvider;
-    			case SyntaxKind.TupleExpression: return this.TupleExpressionServiceProvider;
+    			case SyntaxKind.MultiLineDocumentationCommentTrivia: return this.DocumentationCommentTriviaServiceProvider;
+    			case SyntaxKind.EndIfDirectiveTrivia: return this.EndIfDirectiveTriviaServiceProvider;	
+    			case SyntaxKind.RegionDirectiveTrivia: return this.RegionDirectiveTriviaServiceProvider;	
+    			case SyntaxKind.EndRegionDirectiveTrivia: return this.EndRegionDirectiveTriviaServiceProvider;	
+    			case SyntaxKind.ErrorDirectiveTrivia: return this.ErrorDirectiveTriviaServiceProvider;	
+    			case SyntaxKind.WarningDirectiveTrivia: return this.WarningDirectiveTriviaServiceProvider;	
+    			case SyntaxKind.BadDirectiveTrivia: return this.BadDirectiveTriviaServiceProvider;	
+    			case SyntaxKind.DefineDirectiveTrivia: return this.DefineDirectiveTriviaServiceProvider;	
+    			case SyntaxKind.UndefDirectiveTrivia: return this.UndefDirectiveTriviaServiceProvider;	
+    			case SyntaxKind.LineDirectiveTrivia: return this.LineDirectiveTriviaServiceProvider;	
+    			case SyntaxKind.PragmaWarningDirectiveTrivia: return this.PragmaWarningDirectiveTriviaServiceProvider;	
+    			case SyntaxKind.PragmaChecksumDirectiveTrivia: return this.PragmaChecksumDirectiveTriviaServiceProvider;	
+    			case SyntaxKind.ReferenceDirectiveTrivia: return this.ReferenceDirectiveTriviaServiceProvider;	
+    			case SyntaxKind.LoadDirectiveTrivia: return this.LoadDirectiveTriviaServiceProvider;	
+    			case SyntaxKind.ShebangDirectiveTrivia: return this.ShebangDirectiveTriviaServiceProvider;	
+    			case SyntaxKind.ElseDirectiveTrivia: return this.ElseDirectiveTriviaServiceProvider;	
+    			case SyntaxKind.IfDirectiveTrivia: return this.IfDirectiveTriviaServiceProvider;	
+    			case SyntaxKind.ElifDirectiveTrivia: return this.ElifDirectiveTriviaServiceProvider;	
+    			case SyntaxKind.TypeCref: return this.TypeCrefServiceProvider;	
+    			case SyntaxKind.QualifiedCref: return this.QualifiedCrefServiceProvider;	
+    			case SyntaxKind.NameMemberCref: return this.NameMemberCrefServiceProvider;	
+    			case SyntaxKind.IndexerMemberCref: return this.IndexerMemberCrefServiceProvider;	
+    			case SyntaxKind.OperatorMemberCref: return this.OperatorMemberCrefServiceProvider;	
+    			case SyntaxKind.ConversionOperatorMemberCref: return this.ConversionOperatorMemberCrefServiceProvider;	
+    			case SyntaxKind.CrefParameterList: return this.CrefParameterListServiceProvider;	
+    			case SyntaxKind.CrefBracketedParameterList: return this.CrefBracketedParameterListServiceProvider;	
+    			case SyntaxKind.XmlElement: return this.XmlElementServiceProvider;	
+    			case SyntaxKind.XmlEmptyElement: return this.XmlEmptyElementServiceProvider;	
+    			case SyntaxKind.XmlText: return this.XmlTextServiceProvider;	
+    			case SyntaxKind.XmlCDataSection: return this.XmlCDataSectionServiceProvider;	
+    			case SyntaxKind.XmlProcessingInstruction: return this.XmlProcessingInstructionServiceProvider;	
+    			case SyntaxKind.XmlComment: return this.XmlCommentServiceProvider;	
+    			case SyntaxKind.XmlTextAttribute: return this.XmlTextAttributeServiceProvider;	
+    			case SyntaxKind.XmlCrefAttribute: return this.XmlCrefAttributeServiceProvider;	
+    			case SyntaxKind.XmlNameAttribute: return this.XmlNameAttributeServiceProvider;	
+    			case SyntaxKind.ParenthesizedExpression: return this.ParenthesizedExpressionServiceProvider;	
+    			case SyntaxKind.TupleExpression: return this.TupleExpressionServiceProvider;	
     			case SyntaxKind.UnaryPlusExpression:
-                case SyntaxKind.UnaryMinusExpression:
-                case SyntaxKind.BitwiseNotExpression:
-                case SyntaxKind.LogicalNotExpression:
-                case SyntaxKind.PreIncrementExpression:
-                case SyntaxKind.PreDecrementExpression:
-                case SyntaxKind.AddressOfExpression:
-                case SyntaxKind.PointerIndirectionExpression: return this.PrefixUnaryExpressionServiceProvider;
-    			case SyntaxKind.AwaitExpression: return this.AwaitExpressionServiceProvider;
+    			case SyntaxKind.UnaryMinusExpression:
+    			case SyntaxKind.BitwiseNotExpression:
+    			case SyntaxKind.LogicalNotExpression:
+    			case SyntaxKind.PreIncrementExpression:
+    			case SyntaxKind.PreDecrementExpression:
+    			case SyntaxKind.AddressOfExpression:
+    			case SyntaxKind.PointerIndirectionExpression: return this.PrefixUnaryExpressionServiceProvider;
+    			case SyntaxKind.AwaitExpression: return this.AwaitExpressionServiceProvider;	
     			case SyntaxKind.PostIncrementExpression:
-                case SyntaxKind.PostDecrementExpression: return this.PostfixUnaryExpressionServiceProvider;
+    			case SyntaxKind.PostDecrementExpression: return this.PostfixUnaryExpressionServiceProvider;
     			case SyntaxKind.SimpleMemberAccessExpression:
-                case SyntaxKind.PointerMemberAccessExpression: return this.MemberAccessExpressionServiceProvider;
-    			case SyntaxKind.ConditionalAccessExpression: return this.ConditionalAccessExpressionServiceProvider;
-    			case SyntaxKind.MemberBindingExpression: return this.MemberBindingExpressionServiceProvider;
-    			case SyntaxKind.ElementBindingExpression: return this.ElementBindingExpressionServiceProvider;
-    			case SyntaxKind.ImplicitElementAccess: return this.ImplicitElementAccessServiceProvider;
+    			case SyntaxKind.PointerMemberAccessExpression: return this.MemberAccessExpressionServiceProvider;
+    			case SyntaxKind.ConditionalAccessExpression: return this.ConditionalAccessExpressionServiceProvider;	
+    			case SyntaxKind.MemberBindingExpression: return this.MemberBindingExpressionServiceProvider;	
+    			case SyntaxKind.ElementBindingExpression: return this.ElementBindingExpressionServiceProvider;	
+    			case SyntaxKind.ImplicitElementAccess: return this.ImplicitElementAccessServiceProvider;	
     			case SyntaxKind.AddExpression:
-                case SyntaxKind.SubtractExpression:
-                case SyntaxKind.MultiplyExpression:
-                case SyntaxKind.DivideExpression:
-                case SyntaxKind.ModuloExpression:
-                case SyntaxKind.LeftShiftExpression:
-                case SyntaxKind.RightShiftExpression:
-                case SyntaxKind.LogicalOrExpression:
-                case SyntaxKind.LogicalAndExpression:
-                case SyntaxKind.BitwiseOrExpression:
-                case SyntaxKind.BitwiseAndExpression:
-                case SyntaxKind.ExclusiveOrExpression:
-                case SyntaxKind.EqualsExpression:
-                case SyntaxKind.NotEqualsExpression:
-                case SyntaxKind.LessThanExpression:
-                case SyntaxKind.LessThanOrEqualExpression:
-                case SyntaxKind.GreaterThanExpression:
-                case SyntaxKind.GreaterThanOrEqualExpression:
-                case SyntaxKind.IsExpression:
-                case SyntaxKind.AsExpression:
-                case SyntaxKind.CoalesceExpression: return this.BinaryExpressionServiceProvider;
+    			case SyntaxKind.SubtractExpression:
+    			case SyntaxKind.MultiplyExpression:
+    			case SyntaxKind.DivideExpression:
+    			case SyntaxKind.ModuloExpression:
+    			case SyntaxKind.LeftShiftExpression:
+    			case SyntaxKind.RightShiftExpression:
+    			case SyntaxKind.LogicalOrExpression:
+    			case SyntaxKind.LogicalAndExpression:
+    			case SyntaxKind.BitwiseOrExpression:
+    			case SyntaxKind.BitwiseAndExpression:
+    			case SyntaxKind.ExclusiveOrExpression:
+    			case SyntaxKind.EqualsExpression:
+    			case SyntaxKind.NotEqualsExpression:
+    			case SyntaxKind.LessThanExpression:
+    			case SyntaxKind.LessThanOrEqualExpression:
+    			case SyntaxKind.GreaterThanExpression:
+    			case SyntaxKind.GreaterThanOrEqualExpression:
+    			case SyntaxKind.IsExpression:
+    			case SyntaxKind.AsExpression:
+    			case SyntaxKind.CoalesceExpression: return this.BinaryExpressionServiceProvider;
     			case SyntaxKind.SimpleAssignmentExpression:
-                case SyntaxKind.AddAssignmentExpression:
-                case SyntaxKind.SubtractAssignmentExpression:
-                case SyntaxKind.MultiplyAssignmentExpression:
-                case SyntaxKind.DivideAssignmentExpression:
-                case SyntaxKind.ModuloAssignmentExpression:
-                case SyntaxKind.AndAssignmentExpression:
-                case SyntaxKind.ExclusiveOrAssignmentExpression:
-                case SyntaxKind.OrAssignmentExpression:
-                case SyntaxKind.LeftShiftAssignmentExpression:
-                case SyntaxKind.RightShiftAssignmentExpression: return this.AssignmentExpressionServiceProvider;
-    			case SyntaxKind.ConditionalExpression: return this.ConditionalExpressionServiceProvider;
+    			case SyntaxKind.AddAssignmentExpression:
+    			case SyntaxKind.SubtractAssignmentExpression:
+    			case SyntaxKind.MultiplyAssignmentExpression:
+    			case SyntaxKind.DivideAssignmentExpression:
+    			case SyntaxKind.ModuloAssignmentExpression:
+    			case SyntaxKind.AndAssignmentExpression:
+    			case SyntaxKind.ExclusiveOrAssignmentExpression:
+    			case SyntaxKind.OrAssignmentExpression:
+    			case SyntaxKind.LeftShiftAssignmentExpression:
+    			case SyntaxKind.RightShiftAssignmentExpression: return this.AssignmentExpressionServiceProvider;
+    			case SyntaxKind.ConditionalExpression: return this.ConditionalExpressionServiceProvider;	
     			case SyntaxKind.ArgListExpression:
-                case SyntaxKind.NumericLiteralExpression:
-                case SyntaxKind.StringLiteralExpression:
-                case SyntaxKind.CharacterLiteralExpression:
-                case SyntaxKind.TrueLiteralExpression:
-                case SyntaxKind.FalseLiteralExpression:
-                case SyntaxKind.NullLiteralExpression: return this.LiteralExpressionServiceProvider;
-    			case SyntaxKind.MakeRefExpression: return this.MakeRefExpressionServiceProvider;
-    			case SyntaxKind.RefTypeExpression: return this.RefTypeExpressionServiceProvider;
-    			case SyntaxKind.RefValueExpression: return this.RefValueExpressionServiceProvider;
-    			case SyntaxKind.CheckedExpression: return this.CheckedExpressionServiceProvider;
-    			case SyntaxKind.DefaultExpression: return this.DefaultExpressionServiceProvider;
-    			case SyntaxKind.TypeOfExpression: return this.TypeOfExpressionServiceProvider;
-    			case SyntaxKind.SizeOfExpression: return this.SizeOfExpressionServiceProvider;
-    			case SyntaxKind.InvocationExpression: return this.InvocationExpressionServiceProvider;
-    			case SyntaxKind.ElementAccessExpression: return this.ElementAccessExpressionServiceProvider;
-    			case SyntaxKind.DeclarationExpression: return this.DeclarationExpressionServiceProvider;
-    			case SyntaxKind.CastExpression: return this.CastExpressionServiceProvider;
-    			case SyntaxKind.RefExpression: return this.RefExpressionServiceProvider;
+    			case SyntaxKind.NumericLiteralExpression:
+    			case SyntaxKind.StringLiteralExpression:
+    			case SyntaxKind.CharacterLiteralExpression:
+    			case SyntaxKind.TrueLiteralExpression:
+    			case SyntaxKind.FalseLiteralExpression:
+    			case SyntaxKind.NullLiteralExpression:
+    			case SyntaxKind.DefaultLiteralExpression: return this.LiteralExpressionServiceProvider;
+    			case SyntaxKind.MakeRefExpression: return this.MakeRefExpressionServiceProvider;	
+    			case SyntaxKind.RefTypeExpression: return this.RefTypeExpressionServiceProvider;	
+    			case SyntaxKind.RefValueExpression: return this.RefValueExpressionServiceProvider;	
+    			case SyntaxKind.CheckedExpression:
+    			case SyntaxKind.UncheckedExpression: return this.CheckedExpressionServiceProvider;
+    			case SyntaxKind.DefaultExpression: return this.DefaultExpressionServiceProvider;	
+    			case SyntaxKind.TypeOfExpression: return this.TypeOfExpressionServiceProvider;	
+    			case SyntaxKind.SizeOfExpression: return this.SizeOfExpressionServiceProvider;	
+    			case SyntaxKind.InvocationExpression: return this.InvocationExpressionServiceProvider;	
+    			case SyntaxKind.ElementAccessExpression: return this.ElementAccessExpressionServiceProvider;	
+    			case SyntaxKind.DeclarationExpression: return this.DeclarationExpressionServiceProvider;	
+    			case SyntaxKind.CastExpression: return this.CastExpressionServiceProvider;	
+    			case SyntaxKind.RefExpression: return this.RefExpressionServiceProvider;	
     			case SyntaxKind.ObjectInitializerExpression:
-                case SyntaxKind.CollectionInitializerExpression:
-                case SyntaxKind.ArrayInitializerExpression:
-                case SyntaxKind.ComplexElementInitializerExpression: return this.InitializerExpressionServiceProvider;
-    			case SyntaxKind.ObjectCreationExpression: return this.ObjectCreationExpressionServiceProvider;
-    			case SyntaxKind.AnonymousObjectCreationExpression: return this.AnonymousObjectCreationExpressionServiceProvider;
-    			case SyntaxKind.ArrayCreationExpression: return this.ArrayCreationExpressionServiceProvider;
-    			case SyntaxKind.ImplicitArrayCreationExpression: return this.ImplicitArrayCreationExpressionServiceProvider;
-    			case SyntaxKind.StackAllocArrayCreationExpression: return this.StackAllocArrayCreationExpressionServiceProvider;
-    			case SyntaxKind.QueryExpression: return this.QueryExpressionServiceProvider;
-    			case SyntaxKind.OmittedArraySizeExpression: return this.OmittedArraySizeExpressionServiceProvider;
-    			case SyntaxKind.InterpolatedStringExpression: return this.InterpolatedStringExpressionServiceProvider;
-    			case SyntaxKind.IsPatternExpression: return this.IsPatternExpressionServiceProvider;
-    			case SyntaxKind.ThrowExpression: return this.ThrowExpressionServiceProvider;
-    			case SyntaxKind.PredefinedType: return this.PredefinedTypeServiceProvider;
-    			case SyntaxKind.ArrayType: return this.ArrayTypeServiceProvider;
-    			case SyntaxKind.PointerType: return this.PointerTypeServiceProvider;
-    			case SyntaxKind.NullableType: return this.NullableTypeServiceProvider;
-    			case SyntaxKind.TupleType: return this.TupleTypeServiceProvider;
-    			case SyntaxKind.OmittedTypeArgument: return this.OmittedTypeArgumentServiceProvider;
-    			case SyntaxKind.RefType: return this.RefTypeServiceProvider;
-    			case SyntaxKind.QualifiedName: return this.QualifiedNameServiceProvider;
-    			case SyntaxKind.AliasQualifiedName: return this.AliasQualifiedNameServiceProvider;
-    			case SyntaxKind.IdentifierName: return this.IdentifierNameServiceProvider;
-    			case SyntaxKind.GenericName: return this.GenericNameServiceProvider;
-    			case SyntaxKind.ThisExpression: return this.ThisExpressionServiceProvider;
-    			case SyntaxKind.BaseExpression: return this.BaseExpressionServiceProvider;
-    			case SyntaxKind.AnonymousMethodExpression: return this.AnonymousMethodExpressionServiceProvider;
-    			case SyntaxKind.SimpleLambdaExpression: return this.SimpleLambdaExpressionServiceProvider;
-    			case SyntaxKind.ParenthesizedLambdaExpression: return this.ParenthesizedLambdaExpressionServiceProvider;
-    			case SyntaxKind.ArgumentList: return this.ArgumentListServiceProvider;
-    			case SyntaxKind.BracketedArgumentList: return this.BracketedArgumentListServiceProvider;
-    			case SyntaxKind.FromClause: return this.FromClauseServiceProvider;
-    			case SyntaxKind.LetClause: return this.LetClauseServiceProvider;
-    			case SyntaxKind.JoinClause: return this.JoinClauseServiceProvider;
-    			case SyntaxKind.WhereClause: return this.WhereClauseServiceProvider;
-    			case SyntaxKind.OrderByClause: return this.OrderByClauseServiceProvider;
-    			case SyntaxKind.SelectClause: return this.SelectClauseServiceProvider;
-    			case SyntaxKind.GroupClause: return this.GroupClauseServiceProvider;
-    			case SyntaxKind.DeclarationPattern: return this.DeclarationPatternServiceProvider;
-    			case SyntaxKind.ConstantPattern: return this.ConstantPatternServiceProvider;
-    			case SyntaxKind.InterpolatedStringText: return this.InterpolatedStringTextServiceProvider;
-    			case SyntaxKind.Interpolation: return this.InterpolationServiceProvider;
-    			case SyntaxKind.Block: return this.BlockServiceProvider;
-    			case SyntaxKind.LocalFunctionStatement: return this.LocalFunctionStatementServiceProvider;
-    			case SyntaxKind.LocalDeclarationStatement: return this.LocalDeclarationStatementServiceProvider;
-    			case SyntaxKind.ExpressionStatement: return this.ExpressionStatementServiceProvider;
-    			case SyntaxKind.EmptyStatement: return this.EmptyStatementServiceProvider;
-    			case SyntaxKind.LabeledStatement: return this.LabeledStatementServiceProvider;
-    			case SyntaxKind.GotoStatement: return this.GotoStatementServiceProvider;
-    			case SyntaxKind.BreakStatement: return this.BreakStatementServiceProvider;
-    			case SyntaxKind.ContinueStatement: return this.ContinueStatementServiceProvider;
-    			case SyntaxKind.ReturnStatement: return this.ReturnStatementServiceProvider;
-    			case SyntaxKind.ThrowStatement: return this.ThrowStatementServiceProvider;
+    			case SyntaxKind.CollectionInitializerExpression:
+    			case SyntaxKind.ArrayInitializerExpression:
+    			case SyntaxKind.ComplexElementInitializerExpression: return this.InitializerExpressionServiceProvider;
+    			case SyntaxKind.ObjectCreationExpression: return this.ObjectCreationExpressionServiceProvider;	
+    			case SyntaxKind.AnonymousObjectCreationExpression: return this.AnonymousObjectCreationExpressionServiceProvider;	
+    			case SyntaxKind.ArrayCreationExpression: return this.ArrayCreationExpressionServiceProvider;	
+    			case SyntaxKind.ImplicitArrayCreationExpression: return this.ImplicitArrayCreationExpressionServiceProvider;	
+    			case SyntaxKind.StackAllocArrayCreationExpression: return this.StackAllocArrayCreationExpressionServiceProvider;	
+    			case SyntaxKind.QueryExpression: return this.QueryExpressionServiceProvider;	
+    			case SyntaxKind.OmittedArraySizeExpression: return this.OmittedArraySizeExpressionServiceProvider;	
+    			case SyntaxKind.InterpolatedStringExpression: return this.InterpolatedStringExpressionServiceProvider;	
+    			case SyntaxKind.IsPatternExpression: return this.IsPatternExpressionServiceProvider;	
+    			case SyntaxKind.ThrowExpression: return this.ThrowExpressionServiceProvider;	
+    			case SyntaxKind.PredefinedType: return this.PredefinedTypeServiceProvider;	
+    			case SyntaxKind.ArrayType: return this.ArrayTypeServiceProvider;	
+    			case SyntaxKind.PointerType: return this.PointerTypeServiceProvider;	
+    			case SyntaxKind.NullableType: return this.NullableTypeServiceProvider;	
+    			case SyntaxKind.TupleType: return this.TupleTypeServiceProvider;	
+    			case SyntaxKind.OmittedTypeArgument: return this.OmittedTypeArgumentServiceProvider;	
+    			case SyntaxKind.RefType: return this.RefTypeServiceProvider;	
+    			case SyntaxKind.QualifiedName: return this.QualifiedNameServiceProvider;	
+    			case SyntaxKind.AliasQualifiedName: return this.AliasQualifiedNameServiceProvider;	
+    			case SyntaxKind.IdentifierName: return this.IdentifierNameServiceProvider;	
+    			case SyntaxKind.GenericName: return this.GenericNameServiceProvider;	
+    			case SyntaxKind.ThisExpression: return this.ThisExpressionServiceProvider;	
+    			case SyntaxKind.BaseExpression: return this.BaseExpressionServiceProvider;	
+    			case SyntaxKind.AnonymousMethodExpression: return this.AnonymousMethodExpressionServiceProvider;	
+    			case SyntaxKind.SimpleLambdaExpression: return this.SimpleLambdaExpressionServiceProvider;	
+    			case SyntaxKind.ParenthesizedLambdaExpression: return this.ParenthesizedLambdaExpressionServiceProvider;	
+    			case SyntaxKind.ArgumentList: return this.ArgumentListServiceProvider;	
+    			case SyntaxKind.BracketedArgumentList: return this.BracketedArgumentListServiceProvider;	
+    			case SyntaxKind.FromClause: return this.FromClauseServiceProvider;	
+    			case SyntaxKind.LetClause: return this.LetClauseServiceProvider;	
+    			case SyntaxKind.JoinClause: return this.JoinClauseServiceProvider;	
+    			case SyntaxKind.WhereClause: return this.WhereClauseServiceProvider;	
+    			case SyntaxKind.OrderByClause: return this.OrderByClauseServiceProvider;	
+    			case SyntaxKind.SelectClause: return this.SelectClauseServiceProvider;	
+    			case SyntaxKind.GroupClause: return this.GroupClauseServiceProvider;	
+    			case SyntaxKind.DeclarationPattern: return this.DeclarationPatternServiceProvider;	
+    			case SyntaxKind.ConstantPattern: return this.ConstantPatternServiceProvider;	
+    			case SyntaxKind.InterpolatedStringText: return this.InterpolatedStringTextServiceProvider;	
+    			case SyntaxKind.Interpolation: return this.InterpolationServiceProvider;	
+    			case SyntaxKind.Block: return this.BlockServiceProvider;	
+    			case SyntaxKind.LocalFunctionStatement: return this.LocalFunctionStatementServiceProvider;	
+    			case SyntaxKind.LocalDeclarationStatement: return this.LocalDeclarationStatementServiceProvider;	
+    			case SyntaxKind.ExpressionStatement: return this.ExpressionStatementServiceProvider;	
+    			case SyntaxKind.EmptyStatement: return this.EmptyStatementServiceProvider;	
+    			case SyntaxKind.LabeledStatement: return this.LabeledStatementServiceProvider;	
+    			case SyntaxKind.GotoStatement:
+    			case SyntaxKind.GotoCaseStatement:
+    			case SyntaxKind.GotoDefaultStatement: return this.GotoStatementServiceProvider;
+    			case SyntaxKind.BreakStatement: return this.BreakStatementServiceProvider;	
+    			case SyntaxKind.ContinueStatement: return this.ContinueStatementServiceProvider;	
+    			case SyntaxKind.ReturnStatement: return this.ReturnStatementServiceProvider;	
+    			case SyntaxKind.ThrowStatement: return this.ThrowStatementServiceProvider;	
     			case SyntaxKind.YieldReturnStatement:
-                case SyntaxKind.YieldBreakStatement: return this.YieldStatementServiceProvider;
-    			case SyntaxKind.WhileStatement: return this.WhileStatementServiceProvider;
-    			case SyntaxKind.DoStatement: return this.DoStatementServiceProvider;
-    			case SyntaxKind.ForStatement: return this.ForStatementServiceProvider;
-    			case SyntaxKind.UsingStatement: return this.UsingStatementServiceProvider;
-    			case SyntaxKind.FixedStatement: return this.FixedStatementServiceProvider;
-    			case SyntaxKind.CheckedStatement: return this.CheckedStatementServiceProvider;
-    			case SyntaxKind.UnsafeStatement: return this.UnsafeStatementServiceProvider;
-    			case SyntaxKind.LockStatement: return this.LockStatementServiceProvider;
-    			case SyntaxKind.IfStatement: return this.IfStatementServiceProvider;
-    			case SyntaxKind.SwitchStatement: return this.SwitchStatementServiceProvider;
-    			case SyntaxKind.TryStatement: return this.TryStatementServiceProvider;
-    			case SyntaxKind.ForEachStatement: return this.ForEachStatementServiceProvider;
-    			case SyntaxKind.ForEachVariableStatement: return this.ForEachVariableStatementServiceProvider;
-    			case SyntaxKind.SingleVariableDesignation: return this.SingleVariableDesignationServiceProvider;
-    			case SyntaxKind.DiscardDesignation: return this.DiscardDesignationServiceProvider;
-    			case SyntaxKind.ParenthesizedVariableDesignation: return this.ParenthesizedVariableDesignationServiceProvider;
-    			case SyntaxKind.CasePatternSwitchLabel: return this.CasePatternSwitchLabelServiceProvider;
-    			case SyntaxKind.CaseSwitchLabel: return this.CaseSwitchLabelServiceProvider;
-    			case SyntaxKind.DefaultSwitchLabel: return this.DefaultSwitchLabelServiceProvider;
+    			case SyntaxKind.YieldBreakStatement: return this.YieldStatementServiceProvider;
+    			case SyntaxKind.WhileStatement: return this.WhileStatementServiceProvider;	
+    			case SyntaxKind.DoStatement: return this.DoStatementServiceProvider;	
+    			case SyntaxKind.ForStatement: return this.ForStatementServiceProvider;	
+    			case SyntaxKind.UsingStatement: return this.UsingStatementServiceProvider;	
+    			case SyntaxKind.FixedStatement: return this.FixedStatementServiceProvider;	
+    			case SyntaxKind.CheckedStatement:
+    			case SyntaxKind.UncheckedStatement: return this.CheckedStatementServiceProvider;
+    			case SyntaxKind.UnsafeStatement: return this.UnsafeStatementServiceProvider;	
+    			case SyntaxKind.LockStatement: return this.LockStatementServiceProvider;	
+    			case SyntaxKind.IfStatement: return this.IfStatementServiceProvider;	
+    			case SyntaxKind.SwitchStatement: return this.SwitchStatementServiceProvider;	
+    			case SyntaxKind.TryStatement: return this.TryStatementServiceProvider;	
+    			case SyntaxKind.ForEachStatement: return this.ForEachStatementServiceProvider;	
+    			case SyntaxKind.ForEachVariableStatement: return this.ForEachVariableStatementServiceProvider;	
+    			case SyntaxKind.SingleVariableDesignation: return this.SingleVariableDesignationServiceProvider;	
+    			case SyntaxKind.DiscardDesignation: return this.DiscardDesignationServiceProvider;	
+    			case SyntaxKind.ParenthesizedVariableDesignation: return this.ParenthesizedVariableDesignationServiceProvider;	
+    			case SyntaxKind.CasePatternSwitchLabel: return this.CasePatternSwitchLabelServiceProvider;	
+    			case SyntaxKind.CaseSwitchLabel: return this.CaseSwitchLabelServiceProvider;	
+    			case SyntaxKind.DefaultSwitchLabel: return this.DefaultSwitchLabelServiceProvider;	
     			default: throw new ArgumentException(nameof(type));
     		}
+    	}	
+    
+        /// <summary>
+        /// Gets the <see cref="IElementTypeServiceProvider"/> to provide information for a given element.
+        /// </summary>
+        /// <param name="elementType">given element.</param>
+        /// <returns><see cref="IElementTypeServiceProvider"/> implementation intended to provide information for the given element.</returns>
+        public virtual IElementTypeServiceProvider GetElementTypeServiceProvider(object elementType)
+    	{
+    		return this.GetElementTypeServiceProvider(((SyntaxNodeOrToken?)elementType).Value.Kind());
     	}
     
         /// <summary>

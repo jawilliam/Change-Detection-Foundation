@@ -36,18 +36,28 @@
         HierarchicalAbstraction = 1060,
 
         /// <summary>
+        /// Supports the hierarchical handling of the elements.
+        /// </summary>
+        TopologicalAbstraction = 1070,
+
+        /// <summary>
         /// Supports the textual handling of the elements.
         /// </summary>
-        TextualAbstraction = 1070,
+        TextualAbstraction = 1080,
 
         /// <summary>
         /// <see cref="IEditScriptService{TElement}"/>.
         /// </summary>
-        EditScript = 1080,
+        EditScript = 1090,
 
         /// <summary>
         /// Supports the semantic handling of the elements.
         /// </summary>
-        SemanticAbstraction = 1090,
+        SemanticAbstraction = 1100,
+
+        /// <summary>
+        /// Entry point to language-aware providers per element type.
+        /// </summary>
+        LanguageProvider = 1110,
     }
 }

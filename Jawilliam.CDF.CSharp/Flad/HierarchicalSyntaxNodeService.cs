@@ -130,6 +130,7 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Implements the hierarchical abstraction level of a <see cref="SyntaxNode"/> element.
     /// </summary>
+    /// <typeparam name="TAnnotation">Type of the information to store for each element.</typeparam>
     public class HierarchicalSyntaxNodeService<TAnnotation> : ServiceWithDependencies<IApproach<SyntaxNodeOrToken?>>, IHierarchicalAbstractionService<SyntaxNodeOrToken?>, IBeginDetection
          where TAnnotation : IHashingAnnotation, IHierarchicalAbstractionAnnotation, new()
     {
@@ -202,7 +203,8 @@ namespace Jawilliam.CDF.CSharp.Flad
             var originals = this.ServiceLocator.Originals<SyntaxNodeOrToken?, TAnnotation>();
             var modifieds = this.ServiceLocator.Modifieds<SyntaxNodeOrToken?, TAnnotation>();
 
-            var hierarchicalAbstraction = this.ServiceLocator.HierarchicalAbstraction();
+            var hierarchicalAbstraction = this.ServiceLocator.HierarchicalAbstraction(full: true);
+            var topologicalAbstraction = this.ServiceLocator.HierarchicalAbstraction(full: false);
 
             int i = 0;
             foreach (var original in this.ServiceLocator.Result.Original.PostOrder(hierarchicalAbstraction.Children))
@@ -214,8 +216,8 @@ namespace Jawilliam.CDF.CSharp.Flad
                 ((IElementAnnotation<SyntaxNodeOrToken?>)this.ServiceLocator.Modified<SyntaxNodeOrToken?, TAnnotation>(modified)).Id = i++;
             }
 
-            this.ComputeSize(this.ServiceLocator.Result.Original, originals, hierarchicalAbstraction);
-            this.ComputeSize(this.ServiceLocator.Result.Modified, modifieds, hierarchicalAbstraction);
+            this.ComputeSize(this.ServiceLocator.Result.Original, originals, topologicalAbstraction);
+            this.ComputeSize(this.ServiceLocator.Result.Modified, modifieds, topologicalAbstraction);
 
             var fullContentHasher = this.ServiceLocator.FullContentHasher<SyntaxNodeOrToken?, TAnnotation>(false);
             if (fullContentHasher != null)

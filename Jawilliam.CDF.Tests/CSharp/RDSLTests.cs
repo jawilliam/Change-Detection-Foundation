@@ -788,126 +788,50 @@ namespace Jawilliam.CDF.Tests.CSharp
             var d8 = suitableProperties.Except(discoveredProperties3).ToArray();
             Assert.IsTrue(suitableProperties.Except(discoveredProperties2).Count() > suitableProperties.Except(discoveredProperties3).Count());
 
+            var QUERYIdentifiers = (from info in existingProperties
+                                    where info.Property.hashtags.Contains("#IDENTIFIER") && info.Type.hashtags.Contains("#QUERY")
+                                    select info).ToArray();
+            var discoveredProperties4 = discoveredProperties3.Union(QUERYIdentifiers).ToArray();
+            var d9 = discoveredProperties4.Except(suitableProperties).ToArray();
+            var d10 = suitableProperties.Except(discoveredProperties4).ToArray();
+            Assert.IsTrue(suitableProperties.Except(discoveredProperties3).Count() > suitableProperties.Except(discoveredProperties4).Count());
 
-            var nameLogicProperties = (from t in concreteTypes
-                                       from p in t.Properties?.Property
-                                       where (p.Rules?.Name?.Count() ?? 0) > 0
-                                       select new { Type = t, Property = p }).ToArray();
+            var crefIdentifiers = (from info in existingProperties
+                                               where info.Property.hashtags.Contains("#IDENTIFIER") && info.Type.hashtags.Contains("#Cref")
+                                               select info).ToArray();
+            var discoveredProperties5 = discoveredProperties4.Union(crefIdentifiers).ToArray();
+            var d11 = discoveredProperties5.Except(suitableProperties).ToArray();
+            var d12 = suitableProperties.Except(discoveredProperties5).ToArray();
+            Assert.IsTrue(suitableProperties.Except(discoveredProperties4).Count() > suitableProperties.Except(discoveredProperties5).Count());
 
-            // Name logic is a superset of name-based suitable.
-            Assert.AreEqual(suitableProperties.Except(nameLogicProperties).ToArray().Length, 0);
+            var XMLIdentifiers = (from info in existingProperties
+                                   where info.Property.hashtags.Contains("#IDENTIFIER") && info.Type.hashtags.Contains("#xml")
+                                   select info).ToArray();
+            var discoveredProperties6 = discoveredProperties5.Union(XMLIdentifiers).ToArray();
+            var d13 = discoveredProperties6.Except(suitableProperties).ToArray();
+            var d14 = suitableProperties.Except(discoveredProperties6).ToArray();
+            Assert.IsTrue(suitableProperties.Except(discoveredProperties5).Count() > suitableProperties.Except(discoveredProperties6).Count());
 
-            var identifierOfNameProperties = (from info in nameLogicProperties
-                                              where info.Property.hashtags.Contains("#IDENTIFIER") ||
-                                                    info.Property.name == "ExplicitInterfaceSpecifier"
-                                              select info).ToArray();
-            var b1 = nameLogicProperties.Except(identifierOfNameProperties).ToArray();
-            var b13 = suitableProperties.Except(identifierOfNameProperties).ToArray();
+            var argumentIdentifiers = (from info in existingProperties
+                                  where info.Property.hashtags.Contains("#IDENTIFIER") && info.Type.hashtags.Contains("#argument")
+                                  select info).ToArray();
+            var discoveredProperties7 = discoveredProperties6.Union(argumentIdentifiers).ToArray();
+            var d15 = discoveredProperties7.Except(suitableProperties).ToArray();
+            var d16 = suitableProperties.Except(discoveredProperties7).ToArray();
+            Assert.IsTrue(suitableProperties.Except(discoveredProperties6).Count() > suitableProperties.Except(discoveredProperties7).Count());
 
-            var declarationVariableOfNameProperties = (from info in nameLogicProperties
-                                                       where info.Property.hashtags.Contains("#DECLARATION#Variable")
-                                                       select info).ToArray();
-            var accumulatedProperties = identifierOfNameProperties.Union(declarationVariableOfNameProperties).ToArray();
-            Assert.IsTrue(suitableProperties.Except(identifierOfNameProperties).Count() > suitableProperties.Except(accumulatedProperties).Count());
-            var b2 = nameLogicProperties.Except(accumulatedProperties).ToArray();
-            var b23 = suitableProperties.Except(accumulatedProperties).ToArray();
+            var specialCases = (from info in existingProperties
+                                where //(info.Property.name == "Continuation" && info.Property.name == "QueryBodySyntax") &&
+                                      (info.Property.hashtags.Contains("#IDENTIFIER") && info.Type.name == "TupleElementSyntax") ||
+                                      (info.Property.hashtags.Contains("#IDENTIFIER") && info.Type.name == "SingleVariableDesignationSyntax")
+                                select info).ToArray();
+            var discoveredProperties8 = discoveredProperties7.Union(specialCases).ToArray();
+            var d17 = discoveredProperties8.Except(suitableProperties).ToArray();
+            var d18 = suitableProperties.Except(discoveredProperties8).ToArray();
+            Assert.IsTrue(suitableProperties.Except(discoveredProperties7).Count() > suitableProperties.Except(discoveredProperties8).Count());
 
-
-
-
-            var identifierProperties = (from t in concreteTypes
-                                        from p in t.Properties?.Property
-                                        where p.hashtags.Contains("#IDENTIFIER") && !t.hashtags.Contains("#Expression#Type") //&& !p.hashtags.Contains("#DECLARATION#VARIABLE#IDENTIFIER")
-                                        select new { Type = t, Property = p }).ToArray();
-
-            var explicitInterfaceSpecifierProperties = (from t in concreteTypes
-                                                        from p in t.Properties?.Property
-                                                        where p.hashtags.Contains("#SPECIFIER#INTERFACE#Explicit")
-                                                        select new { Type = t, Property = p }).ToArray();
-
-            //var identifierPropertiesInMemberDeclarations = (from t in concreteTypes
-            //                                                from p in t.Properties?.Property
-            //                                                where p.hashtags.Contains("#IDENTIFIER") && t.hashtags.Contains("#Expression#Type") && !p.hashtags.Contains("#DECLARATION#VARIABLE#IDENTIFIER")
-            //                                                select new { Type = t, Property = p }).ToArray();
-            var c1 = nameLogicProperties.Except(suitableProperties).ToArray();
-            var c2 = suitableProperties.Except(nameLogicProperties).ToArray();
-
-            var b20 = identifierProperties.Union(explicitInterfaceSpecifierProperties).Except(suitableProperties).ToArray();
-            var b30 = suitableProperties.Except(identifierProperties.Union(explicitInterfaceSpecifierProperties)).ToArray();
-            System.Text.StringBuilder sb = new System.Text.StringBuilder();
-            foreach (var prop in nameLogicProperties)
-            {
-                int i = 0;
-                sb.AppendLine($"#{++i} {prop.Property.name} in {prop.Type.name}");
-
-            }
-            System.IO.File.WriteAllText(@"D:\Reports\Temp.txt", sb.ToString());
-
-            var identifierPropertiesInQueryClauses = (from t in concreteTypes
-                                                      from p in t.Properties?.Property
-                                                      where p.hashtags.Contains("#IDENTIFIER") && !t.hashtags.Contains("#Expression#Type") && !p.hashtags.Contains("#DECLARATION#VARIABLE#IDENTIFIER")
-                                                      select new { Type = t, Property = p }).ToArray();
-
-            
-
-            var b11 = explicitInterfaceSpecifierProperties.Except(nameLogicProperties).ToArray();
-
-            Assert.AreEqual(identifierProperties.Except(nameLogicProperties).ToArray().Length, 0);
-
-            var propertiesSuitableSoFar = identifierProperties.ToArray();
-
-            var typeInfos = concreteTypes.Select(t => new
-            {
-                Class = typeof(CSharpSyntaxNode).Assembly.GetType("Microsoft.CodeAnalysis.CSharp.Syntax." + t.name),
-                Type = t
-            })
-            .ToDictionary(m => m.Type.name);
-
-            var propertyTypeIsSuitableProperties = (from t in concreteTypes
-                                                    from p in t.Properties?.Property
-                                                    let typeInfo = typeInfos.Any(ti => ti.Value.Type == t) ? typeInfos.Single(ti => ti.Value.Type == t).Value.Class : null
-                                                    let propertyInfo = typeInfo?.GetProperty(p.name)
-                                                    let propertyGenericTypeInfo = propertyInfo?.PropertyType.IsGenericType ?? false
-                                                        ? propertyInfo.PropertyType.GetGenericTypeDefinition()
-                                                        : null
-                                                    let collectionOf = propertyGenericTypeInfo == typeof(SyntaxList<>) || propertyGenericTypeInfo == typeof(SeparatedSyntaxList<>)
-                                                        ? propertyInfo.PropertyType.GetGenericArguments().Single()
-                                                        : null
-                                                    let collectionOfType = collectionOf != null && typeInfos.Any(ti => ti.Value.Class == collectionOf)
-                                                        ? typeInfos.Single(ti => ti.Value.Class == collectionOf).Value.Type
-                                                        : null
-                                                    let propertyElementType = typeInfos.Any(ti => ti.Value.Class == propertyInfo.PropertyType)
-                                                        ? typeInfos.Single(ti => ti.Value.Class == propertyInfo.PropertyType).Value.Type
-                                                        : null
-                                                    where /*!p.readOnly &&*/
-                                                          (/*typeof(NameSyntax).IsAssignableFrom(propertyInfo?.PropertyType) ||*/
-                                                          (propertyElementType != null && propertiesSuitableSoFar.Any(psf => psf.Type == propertyElementType)))
-                                                    select new { Type = t, Property = p }).ToArray();
-
-            var a = propertyTypeIsSuitableProperties.Except(nameLogicProperties).ToArray();
-            //System.Text.StringBuilder sb = new System.Text.StringBuilder();
-            //foreach (var prop in a)
-            //{
-            //    int i = 0;
-            //    sb.AppendLine($"#{++i} {prop.Property.name} in {prop.Type.name}");
-
-            //}
-            //System.IO.File.WriteAllText(@"D:\Reports\Temp.txt", sb.ToString());
-            var b = nameLogicProperties.Except(propertiesSuitableSoFar.Union(propertyTypeIsSuitableProperties)).ToArray();
-            Assert.AreEqual(propertyTypeIsSuitableProperties.Except(nameLogicProperties).ToArray().Length, 0);
-            Assert.AreEqual(nameLogicProperties.Except(propertyTypeIsSuitableProperties).ToArray().Length, 0);
-
-            //var propertiesSuitableSoFar = identifierProperties
-            //    .Union(nameProperties)
-            //    .Union(thisKeywordProperties)
-            //    .Union(operatorTokenProperties)
-            //    .Union(prefixProperties)
-            //    .Union(specialCases)
-            //.ToArray();
-
-            //var b = suitableProperties.Except(propertiesSuitableSoFar.Union(propertyTypeIsSuitableProperties)).ToArray();
-            //Assert.AreEqual(propertyTypeIsSuitableProperties.Except(suitableProperties).ToArray().Length, 0);
-            //Assert.AreEqual(suitableProperties.Except(propertyTypeIsSuitableProperties).ToArray().Length, 0);
+            Assert.AreEqual(discoveredProperties8.Except(suitableProperties).ToArray().Length, 0);
+            Assert.AreEqual(suitableProperties.Except(discoveredProperties8).ToArray().Length, 0);
         }
 
         //[TestMethod]

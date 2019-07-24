@@ -1079,9 +1079,9 @@ namespace Jawilliam.CDF.Labs
                 MillisecondsTimeout = 600000
             };
 
-            foreach (var project in Projects.Skip(92))
+            foreach (var project in Projects.Skip(96))
             {
-                foreach (var configuration in configurations.Where(c => project.Name == "SparkleShare" ? (int)c.Backward.Approach >= 24 : true))
+                foreach (var configuration in configurations/*.Where(c => project.Name == "SparkleShare" ? (int)c.Backward.Approach >= 24 : true)*/)
                 {
                     var dbRepository = new GitRepository(project.Name) { Name = project.Name };
                     ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 600;

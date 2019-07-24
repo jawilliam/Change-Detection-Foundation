@@ -1,5 +1,4 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<!-- Created with Liquid Studio 2019 (https://www.liquid-technologies.com) -->
 <Syntax xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" language="C#" xmlns="http://tempuri.org/XNodeTypeSystem.xsd">
   <Nodes>
     <!--ExpressionSyntax - Level 0-->
@@ -118,6 +117,7 @@
         </Property>
       </Properties>
       <Rules>
+        <Topology leaf="Tiny"/>
         <Name equality="true" absolute="true"/>
       </Rules>
       <Annotations>
@@ -142,6 +142,9 @@
           </Rules>
         </Property>
       </Properties>
+      <Rules>
+        <Topology leaf="Tiny"/>
+      </Rules>
     </Type>
     <Type name="MemberBindingExpressionSyntax" base="ExpressionSyntax" hashtags="#Expression #expression #member">
       <Properties>
@@ -159,30 +162,35 @@
         </Property>
       </Properties>
       <Rules>
+        <Topology leaf="Tiny"/>
         <Name equality="true" absolute="true"/>
       </Rules>
     </Type>
     <Type name="ElementBindingExpressionSyntax" base="ExpressionSyntax" hashtags="#Expression #expression #element">
       <Properties>
-        <Property name="ArgumentList" kind="Node" index="1" optional="false" changepoint="true" multiplicity="Single">
+        <Property name="ArgumentList" kind="Node" index="1" optional="false" changepoint="true" multiplicity="Single" hashtags="#LIST#Argument =#LIST#ARGUMENT#Bracketed =#Argument">
           <Rules collection="true">
             <Pairwise discriminant="true"/>
             <Topology relevant="true"/>
           </Rules>
         </Property>
       </Properties>
-      <Rules collection="true"/>
+      <Rules collection="true">
+        <Topology leaf="Tiny"/>
+      </Rules>
     </Type>
     <Type name="ImplicitElementAccessSyntax" base="ExpressionSyntax" hashtags="#Expression #element #access #implicit">
       <Properties>
-        <Property name="ArgumentList" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Single">
+        <Property name="ArgumentList" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Single" hashtags="#LIST#Argument =#LIST#ARGUMENT#Bracketed =#Argument">
           <Rules collection="true">
             <Pairwise discriminant="true"/>
             <Topology relevant="true"/>
           </Rules>
         </Property>
       </Properties>
-      <Rules collection="true"/>
+      <Rules collection="true">
+        <Topology leaf="Tiny"/>
+      </Rules>
     </Type>
     <Type name="BinaryExpressionSyntax" base="ExpressionSyntax" hashtags="#Expression #expression #OPERATOR">
       <Properties>
@@ -305,6 +313,9 @@
           </Rules>
         </Property>
       </Properties>
+      <Rules>
+        <Topology leaf="Terminal Tiny"/>
+      </Rules>
     </Type>
     <Type name="BaseExpressionSyntax" base="InstanceExpressionSyntax" token="true" readonly="true" hashtags="#Expression #expression #Expression#Instance #base">
       <Properties>
@@ -314,6 +325,9 @@
           </Rules>
         </Property>
       </Properties>
+      <Rules>
+        <Topology leaf="Terminal Tiny"/>
+      </Rules>
     </Type>
     <!--ExpressionSyntax-->
     <Type name="LiteralExpressionSyntax" base="ExpressionSyntax" hashtags="#Expression #expression">
@@ -336,6 +350,9 @@
           </Rules>
         </Property>
       </Properties>
+      <Rules>
+        <Topology leaf="Terminal Tiny"/>
+      </Rules>
       <Annotations>
         <Annotation context="Suppress" role="Kind"/>
       </Annotations>
@@ -480,6 +497,9 @@
           </Rules>
         </Property>
       </Properties>
+      <Rules>
+        <Topology leaf="Likely"/>
+      </Rules>
     </Type>
     <Type name="TypeOfExpressionSyntax" base="ExpressionSyntax" hashtags="#Expression #expression #type #OPERATOR">
       <Properties>
@@ -505,6 +525,9 @@
           </Rules>
         </Property>
       </Properties>
+      <Rules>
+        <Topology leaf="Likely"/>
+      </Rules>
     </Type>
     <Type name="SizeOfExpressionSyntax" base="ExpressionSyntax" hashtags="#Expression #expression #OPERATOR">
       <Properties>
@@ -530,6 +553,9 @@
           </Rules>
         </Property>
       </Properties>
+      <Rules>
+        <Topology leaf="Likely"/>
+      </Rules>
     </Type>
     <Type name="InvocationExpressionSyntax" base="ExpressionSyntax" hashtags="#Expression #expression #OPERATOR">
       <Properties>
@@ -538,12 +564,15 @@
             <Topology relevant="true"/>
           </Rules>
         </Property>
-        <Property name="ArgumentList" kind="Node" index="1" optional="false" changepoint="true" multiplicity="Single">
+        <Property name="ArgumentList" kind="Node" index="1" optional="false" changepoint="true" multiplicity="Single" hashtags="=#Argument #LIST#Argument">
           <Rules collection="true">
             <Topology relevant="true"/>
           </Rules>
         </Property>
       </Properties>
+      <Rules>
+        <Topology leaf="Likely"/>
+      </Rules>
     </Type>
     <Type name="ElementAccessExpressionSyntax" base="ExpressionSyntax" hashtags="#Expression #expression #element #access #OPERATOR">
       <Properties>
@@ -552,7 +581,7 @@
             <Topology relevant="true"/>
           </Rules>
         </Property>
-        <Property name="ArgumentList" kind="Node" index="1" optional="false" changepoint="true" multiplicity="Single">
+        <Property name="ArgumentList" kind="Node" index="1" optional="false" changepoint="true" multiplicity="Single" hashtags="=#Argument =#LIST#ARGUMENT#Bracketed">
           <Rules collection="true">
             <Topology relevant="true"/>
           </Rules>
@@ -578,7 +607,7 @@
         </Property>
         <Property name="Expression" kind="Node" index="3" optional="false" changepoint="true" multiplicity="Single">
           <Rules>
-            <Topology relevant="true"/>
+            <Topology relevant="true" leaf="Likely"/>
           </Rules>
         </Property>
       </Properties>
@@ -607,7 +636,7 @@
             <Pairwise tunneling="true"/>
           </Rules>
         </Property>
-        <Property name="ParameterList" kind="Node" index="2" optional="true" changepoint="true" multiplicity="Single">
+        <Property name="ParameterList" kind="Node" index="2" optional="true" changepoint="true" multiplicity="Single" hashtags="=#DECLARATION#Parameter #LIST#Parameter">
           <Rules collection="true">
             <Signature equality="true" absolute="true"/>
             <Topology relevant="true"/>
@@ -637,7 +666,7 @@
             <Pairwise tunneling="true"/>
           </Rules>
         </Property>
-        <Property name="Parameter" kind="Node" index="1" optional="false" changepoint="true" multiplicity="Single" hashtags="#DECLARATION#Parameter #DECLARATION#VARIABLE">
+        <Property name="Parameter" kind="Node" index="1" optional="false" changepoint="true" multiplicity="Single" hashtags="=#DECLARATION#Parameter #DECLARATION#VARIABLE">
           <Rules>
             <Signature equality="true" absolute="true"/>
             <Name suitability="Hint" equality="true" absolute="true"/>
@@ -667,7 +696,7 @@
             <Pairwise tunneling="true"/>
           </Rules>
         </Property>
-        <Property name="ParameterList" kind="Node" index="1" optional="false" changepoint="true" multiplicity="Single" hashtags="#DECLARATION#VARIABLE">
+        <Property name="ParameterList" kind="Node" index="1" optional="false" changepoint="true" multiplicity="Single" hashtags="#DECLARATION#VARIABLE #LIST#Parameter =#DECLARATION#Parameter">
           <Rules collection="true">
             <Signature equality="true" absolute="true"/>
             <Topology relevant="true"/>
@@ -696,7 +725,7 @@
             <Pairwise tunneling="true"/>
           </Rules>
         </Property>
-        <Property name="Expressions" kind="Node" index="1" optional="false" changepoint="true" multiplicity="Collection" collectionType="ExpressionSyntax" collectionSeparator=",">
+        <Property name="Expressions" kind="Node" index="1" optional="false" changepoint="true" multiplicity="Collection" collectionType="ExpressionSyntax" collectionSeparator="," hashtags="#Expression">
           <Rules collection="true">
             <Pairwise discriminant="true"/>
             <Topology relevant="true"/>
@@ -731,7 +760,7 @@
             <Topology relevant="true"/>
           </Rules>
         </Property>
-        <Property name="ArgumentList" kind="Node" index="2" optional="true" changepoint="true" multiplicity="Single">
+        <Property name="ArgumentList" kind="Node" index="2" optional="true" changepoint="true" multiplicity="Single" hashtags="#LIST#Argument =#Argument">
           <Rules collection="true">
             <Topology relevant="true"/>
           </Rules>
@@ -755,7 +784,7 @@
             <Pairwise tunneling="true"/>
           </Rules>
         </Property>
-        <Property name="Initializers" kind="Node" index="2" optional="false" changepoint="true" multiplicity="Collection" collectionType="AnonymousObjectMemberDeclaratorSyntax" collectionSeparator=",">
+        <Property name="Initializers" kind="Node" index="2" optional="false" changepoint="true" multiplicity="Collection" collectionType="AnonymousObjectMemberDeclaratorSyntax" collectionSeparator="," hashtags="=#DECLARATOR#OBJECT#Member">
           <Rules collection="true">
             <Pairwise discriminant="true"/>
             <Topology relevant="true"/>
@@ -832,10 +861,13 @@
           </Rules>
         </Property>
       </Properties>
+      <Rules>
+        <Topology leaf="Likely"/>
+      </Rules>
     </Type>
-    <Type name="QueryExpressionSyntax" base="ExpressionSyntax" hashtags="#Expression #expression #query">
+    <Type name="QueryExpressionSyntax" base="ExpressionSyntax" hashtags="#Expression #expression #QUERY #query">
       <Properties>
-        <Property name="FromClause" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Single" hashtags="#CLAUSE#Query#From">
+        <Property name="FromClause" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Single" hashtags="=#QUERY#Clause#From">
           <Rules>
             <Name suitability="Hint" equality="true" absolute="true"/>
             <Topology relevant="true"/>
@@ -863,7 +895,7 @@
           </Rules>
           <!-- readOnly="true"-->
         </Property>
-        <Property name="Contents" kind="Node" index="1" optional="false" changepoint="true" multiplicity="Collection" collectionType="InterpolatedStringContentSyntax">
+        <Property name="Contents" kind="Node" index="1" optional="false" changepoint="true" multiplicity="Collection" collectionType="InterpolatedStringContentSyntax" hashtags="#INTERPOLATION#STRING#Content">
           <Rules collection="true">
             <Pairwise discriminant="true"/>
             <Topology relevant="true"/>
@@ -888,6 +920,9 @@
           </Rules>
         </Property>
       </Properties>
+      <Rules>
+        <Topology leaf="Terminal"/>
+      </Rules>
     </Type>
     <Type name="InterpolationSyntax" base="InterpolatedStringContentSyntax" hashtags="#interpolation #INTERPOLATION#STRING#Content">
       <Properties>
@@ -963,7 +998,7 @@
             <Pairwise tunneling="true"/>
           </Rules>
         </Property>
-        <Property name="Arguments" kind="Node" index="1" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="ArgumentSyntax" collectionSeparator=",">
+        <Property name="Arguments" kind="Node" index="1" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="ArgumentSyntax" collectionSeparator="," hashtags="=#Argument">
           <Rules collection="true">
             <!--<Name equality="true" absolute="true"/>-->
             <Pairwise discriminant="true"/>
@@ -978,14 +1013,14 @@
       </Properties>
       <Rules collection="true"/>
     </Type>
-    <Type name="BracketedArgumentListSyntax" base="BaseArgumentListSyntax" hashtags="#LIST#Argument #argument #list #bracketed">
+    <Type name="BracketedArgumentListSyntax" base="BaseArgumentListSyntax" hashtags="#LIST#Argument #argument #list #bracketed =#LIST#ARGUMENT#Bracketed">
       <Properties>
         <Property name="OpenBracketToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" hashtags="#PUNTUACTION">
           <Rules>
             <Pairwise tunneling="true"/>
           </Rules>
         </Property>
-        <Property name="Arguments" kind="Node" index="1" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="ArgumentSyntax" collectionSeparator=",">
+        <Property name="Arguments" kind="Node" index="1" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="ArgumentSyntax" collectionSeparator="," hashtags="=#Argument">
           <Rules collection="true">
             <Pairwise discriminant="true"/>
             <Topology relevant="true"/>
@@ -1000,7 +1035,7 @@
       <Rules collection="true"/>
     </Type>
     <!--And Related-->
-    <Type name="ArgumentSyntax" hashtags="#argument">
+    <Type name="ArgumentSyntax" hashtags="#argument =#Argument">
       <Properties>
         <Property name="NameColon" kind="Node" index="0" optional="true" changepoint="true" multiplicity="Single" hashtags="#EXPRESSION#TYPE#NAME#SIMPLE#IDENTIFIER#Colon #IDENTIFIER">
           <Rules>
@@ -1044,6 +1079,7 @@
         </Property>
       </Properties>
       <Rules>
+        <Topology leaf="Tiny"/>
         <Compatibility>
           <Name equality="true" absolute="true" type="NameEqualsSyntax" twoWay="true">
             <Condition code="{0}.Name.Identifier.ValueText == {1}.Name.Identifier.ValueText"/>
@@ -1066,8 +1102,11 @@
           </Rules>
         </Property>
       </Properties>
+      <Rules>
+        <Topology leaf="Tiny"/>
+      </Rules>
     </Type>
-    <Type name="AnonymousObjectMemberDeclaratorSyntax" hashtags="#member #anonymous #DECLARATION #object #declarator">
+    <Type name="AnonymousObjectMemberDeclaratorSyntax" hashtags="#member #anonymous #DECLARATION #object #declarator =#DECLARATOR#OBJECT#Member">
       <Properties>
         <Property name="NameEquals" kind="Node" index="0" optional="true" changepoint="true" multiplicity="Single" hashtags="#EXPRESSION#TYPE#NAME#SIMPLE#IDENTIFIER#Equals #IDENTIFIER">
           <Rules>
@@ -1082,13 +1121,14 @@
         </Property>
       </Properties>
       <Rules>
+        <Topology leaf="Likely"/>
         <Name suitability="Key" equality="true" absolute="true"/>
       </Rules>
       <!--Field, Property, and Variable Compatible-->
     </Type>
-    <Type name="QueryBodySyntax" hashtags="#query">
+    <Type name="QueryBodySyntax" hashtags="#QUERY #query">
       <Properties>
-        <Property name="Clauses" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Collection" collectionType="QueryClauseSyntax">
+        <Property name="Clauses" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Collection" collectionType="QueryClauseSyntax" hashtags="#QUERY#Clause">
           <Rules collection="true">
             <Topology relevant="true"/>
           </Rules>
@@ -1098,7 +1138,7 @@
             <Topology relevant="true"/>
           </Rules>
         </Property>
-        <Property name="Continuation" kind="Node" index="2" optional="true" changepoint="true" multiplicity="Single" hashtags="#QUERY#Continuation">
+        <Property name="Continuation" kind="Node" index="2" optional="true" changepoint="true" multiplicity="Single" hashtags="=#QUERY#Continuation #IDENTIFIER">
           <Rules>
             <Name suitability="Key" equality="true" absolute="true"/>
             <Topology relevant="true"/>
@@ -1111,7 +1151,7 @@
     </Type>
     <!--And Related$QueryClauseSyntax-->
     <Type name="QueryClauseSyntax" abstract="true"/>
-    <Type name="FromClauseSyntax" base="QueryClauseSyntax" hashtags="#QUERY#Clause #clause">
+    <Type name="FromClauseSyntax" base="QueryClauseSyntax" hashtags="#QUERY #QUERY#Clause #clause =#QUERY#Clause#From">
       <Properties>
         <Property name="FromKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" hashtags="#KEYWORD">
           <Rules>
@@ -1145,7 +1185,7 @@
         <Name suitability="Key" equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="LetClauseSyntax" base="QueryClauseSyntax" hashtags="#clause #QUERY#Clause">
+    <Type name="LetClauseSyntax" base="QueryClauseSyntax" hashtags="#clause #QUERY #QUERY#Clause">
       <Properties>
         <Property name="LetKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" hashtags="#KEYWORD">
           <Rules>
@@ -1175,7 +1215,7 @@
         <Name suitability="Key" equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="JoinClauseSyntax" base="QueryClauseSyntax" hashtags="#clause #QUERY#Clause #join">
+    <Type name="JoinClauseSyntax" base="QueryClauseSyntax" hashtags="#clause #QUERY #QUERY#Clause #join">
       <Properties>
         <Property name="JoinKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" hashtags="#KEYWORD">
           <Rules>
@@ -1224,7 +1264,7 @@
             <Topology relevant="true"/>
           </Rules>
         </Property>
-        <Property name="Into" kind="Node" index="9" optional="true" changepoint="true" multiplicity="Single" hashtags="#CLAUSE#JOIN#Into #DECLARATION#VARIABLE">
+        <Property name="Into" kind="Node" index="9" optional="true" changepoint="true" multiplicity="Single" hashtags="=#CLAUSE#JOIN#Into #DECLARATION#VARIABLE #IDENTIFIER">
           <Rules>
             <Name suitability="Key" equality="true" absolute="true" priority="1"/>
             <Topology relevant="true"/>
@@ -1235,7 +1275,7 @@
         <Name suitability="Key" equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="JoinIntoClauseSyntax" hashtags="#QUERY #join #clause">
+    <Type name="JoinIntoClauseSyntax" hashtags="#QUERY #join #clause =#CLAUSE#JOIN#Into">
       <Properties>
         <Property name="IntoKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" hashtags="#KEYWORD">
           <Rules>
@@ -1254,7 +1294,7 @@
         <Name equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="WhereClauseSyntax" base="QueryClauseSyntax" hashtags="#clause #QUERY#Clause">
+    <Type name="WhereClauseSyntax" base="QueryClauseSyntax" hashtags="#clause #QUERY #QUERY#Clause">
       <Properties>
         <Property name="WhereKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" hashtags="#KEYWORD">
           <Rules>
@@ -1269,14 +1309,14 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="OrderByClauseSyntax" base="QueryClauseSyntax" hashtags="#clause #ORDERBY #QUERY#Clause">
+    <Type name="OrderByClauseSyntax" base="QueryClauseSyntax" hashtags="#clause #ORDERBY #QUERY #QUERY#Clause">
       <Properties>
         <Property name="OrderByKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" hashtags="#KEYWORD">
           <Rules>
             <Pairwise tunneling="true"/>
           </Rules>
         </Property>
-        <Property name="Orderings" kind="Node" index="0" optional="false" multiplicity="Collection" collectionType="OrderingSyntax" collectionSeparator=",">
+        <Property name="Orderings" kind="Node" index="0" optional="false" multiplicity="Collection" collectionType="OrderingSyntax" collectionSeparator="," hashtags="=#QUERY#Ordering">
           <Rules collection="true">
             <Pairwise discriminant="true"/>
             <Topology relevant="true"/>
@@ -1285,7 +1325,7 @@
       </Properties>
       <Rules collection="true"/>
     </Type>
-    <Type name="OrderingSyntax" hashtags="#ORDERBY">
+    <Type name="OrderingSyntax" hashtags="#ORDERBY #QUERY =#QUERY#Ordering">
       <Properties>
         <Property name="Expression" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Single">
           <Rules>
@@ -1310,7 +1350,7 @@
     </Type>
     <!--And Related$SelectOrGroupClauseSyntax-->
     <Type name="SelectOrGroupClauseSyntax" abstract="true"/>
-    <Type name="SelectClauseSyntax" base="SelectOrGroupClauseSyntax" hashtags="#clause #QUERY#CLAUSE#SelectOrGroup">
+    <Type name="SelectClauseSyntax" base="SelectOrGroupClauseSyntax" hashtags="#clause #QUERY #QUERY#CLAUSE#SelectOrGroup">
       <Properties>
         <Property name="SelectKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" hashtags="#KEYWORD">
           <Rules>
@@ -1325,7 +1365,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="GroupClauseSyntax" base="SelectOrGroupClauseSyntax" hashtags="#clause #QUERY#CLAUSE#SelectOrGroup">
+    <Type name="GroupClauseSyntax" base="SelectOrGroupClauseSyntax" hashtags="#clause #QUERY #QUERY#CLAUSE#SelectOrGroup">
       <Properties>
         <Property name="GroupKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" hashtags="#KEYWORD">
           <Rules>
@@ -1349,7 +1389,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="QueryContinuationSyntax" hashtags="#query">
+    <Type name="QueryContinuationSyntax" hashtags="#QUERY #query =#QUERY#Continuation">
       <Properties>
         <Property name="IntoKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" hashtags="#KEYWORD">
           <Rules>
@@ -1405,6 +1445,7 @@
         </Property>
       </Properties>
       <Rules>
+        <Topology leaf="Terminal Tiny"/>
         <Compatibility>
           <Alias type="IdentifierNameSyntax" twoWay="true">
             <Condition code="{0}.Keyword.RawKind == (int)Microsoft.CodeAnalysis.CSharp.SyntaxKind.BoolKeyword"/>
@@ -1551,7 +1592,7 @@
             <Topology relevant="true"/>
           </Rules>
         </Property>
-        <Property name="RankSpecifiers" kind="Node" index="1" optional="false" changepoint="true" multiplicity="Collection" collectionType="ArrayRankSpecifierSyntax">
+        <Property name="RankSpecifiers" kind="Node" index="1" optional="false" changepoint="true" multiplicity="Collection" collectionType="ArrayRankSpecifierSyntax" hashtags="=#SPECIFIER#ARRAY#Rank">
           <Rules collection="true">
             <Topology relevant="true"/>
           </Rules>
@@ -1597,6 +1638,9 @@
           </Rules>
         </Property>
       </Properties>
+      <Rules>
+        <Topology leaf="Terminal Tiny"/>
+      </Rules>
     </Type>
     <!--ExpressionSyntax$TypeSyntax$NameSyntax-->
     <Type name="NameSyntax" abstract="true" base="TypeSyntax"/>
@@ -1735,9 +1779,6 @@
           </Rules>
         </Property>
       </Properties>
-      <Rules>
-        <Name equality="true" absolute="true"/>
-      </Rules>
     </Type>
     <Type name="IdentifierNameSyntax" base="SimpleNameSyntax" hashtags="#Expression #Expression#Type #Expression#Type#Name #Expression#Type#Name#Simple #name">
       <Properties>
@@ -1749,11 +1790,12 @@
           <Rules>
             <Name equality="true" absolute="true"/>
             <Pairwise tunneling="true"/>
-            <Topology relevant="true"/>
+            <Topology relevant="true" descendant="false"/>
           </Rules>
         </Property>
       </Properties>
       <Rules>
+        <Topology leaf="Terminal Tiny"/>
         <Name equality="true" absolute="true"/>
       </Rules>
     </Type>
@@ -1766,7 +1808,7 @@
             <Topology relevant="true"/>
           </Rules>
         </Property>
-        <Property name="TypeArgumentList" kind="Node" index="1" optional="false" changepoint="true" multiplicity="Single">
+        <Property name="TypeArgumentList" kind="Node" index="1" optional="false" changepoint="true" multiplicity="Single" hashtags="=#LIST#TYPE#Argument =#TYPE#Argument">
           <Rules collection="true">
             <Pairwise discriminant="true" priority="1"/>
             <Topology relevant="true"/>
@@ -1778,14 +1820,14 @@
       </Rules>
     </Type>
     <!--And Related-->
-    <Type name="TypeArgumentListSyntax" hashtags="#list #argument #type #type#argument">
+    <Type name="TypeArgumentListSyntax" hashtags="#list #argument #type #type#argument =#LIST#TYPE#Argument">
       <Properties>
         <Property name="LessThanToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" hashtags="#PUNTUACTION">
           <Rules>
             <Pairwise tunneling="true"/>
           </Rules>
         </Property>
-        <Property name="Arguments" kind="Node" index="1" optional="false" multiplicity="Collection" collectionType="TypeSyntax" collectionSeparator=",">
+        <Property name="Arguments" kind="Node" index="1" optional="false" multiplicity="Collection" collectionType="TypeSyntax" collectionSeparator="," hashtags="#Expression#Type">
           <Rules collection="true">
             <!--<Name equality="true" absolute="true"/>-->
             <Pairwise discriminant="true"/>
@@ -1800,14 +1842,14 @@
       </Properties>
       <Rules collection="true"/>
     </Type>
-    <Type name="ArrayRankSpecifierSyntax" hashtags="#array #specifier">
+    <Type name="ArrayRankSpecifierSyntax" hashtags="#array #specifier =#SPECIFIER#ARRAY#Rank">
       <Properties>
         <Property name="OpenBracketToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" hashtags="#PUNTUACTION">
           <Rules>
             <Pairwise tunneling="true"/>
           </Rules>
         </Property>
-        <Property name="Sizes" kind="Node" index="1" optional="false" changepoint="true" multiplicity="Collection" collectionType="ExpressionSyntax" collectionSeparator=",">
+        <Property name="Sizes" kind="Node" index="1" optional="false" changepoint="true" multiplicity="Collection" collectionType="ExpressionSyntax" collectionSeparator="," hashtags="#Expression">
           <Rules collection="true">
             <Pairwise discriminant="true"/>
             <Topology relevant="true"/>
@@ -1829,6 +1871,9 @@
           </Rules>
         </Property>
       </Properties>
+      <Rules>
+        <Topology leaf="Terminal Tiny"/>
+      </Rules>
     </Type>
 
     <!--StatementSyntax \ {GlobalStatementSyntax in fact inherits from member declaration} - Level 1-->
@@ -1840,7 +1885,7 @@
             <Pairwise tunneling="true"/>
           </Rules>
         </Property>
-        <Property name="Statements" kind="Node" index="1" optional="false" changepoint="true" multiplicity="Collection" collectionType="StatementSyntax">
+        <Property name="Statements" kind="Node" index="1" optional="false" changepoint="true" multiplicity="Collection" collectionType="StatementSyntax" hashtags="#Statement">
           <Rules collection="true">
             <Pairwise discriminant="true"/>
             <Topology relevant="true"/>
@@ -1854,14 +1899,14 @@
       </Properties>
       <Rules collection="true"/>
     </Type>
-    <Type name="LocalDeclarationStatementSyntax" base="StatementSyntax" hashtags="#Statement #statement #declaration #DECLARATION#LOCAL #DECLARATION#VARIABLE"><!--declaration-->
+    <Type name="LocalDeclarationStatementSyntax" base="StatementSyntax" hashtags="#Statement #statement #declaration #DECLARATION #DECLARATION#LOCAL #DECLARATION#VARIABLE"><!--declaration-->
       <Properties>
         <Property name="Modifiers" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Collection">
           <Rules collection="true">
             <Topology relevant="true" relevancy="1"/>
           </Rules>
         </Property>
-        <Property name="Declaration" kind="Node" index="1" optional="false" changepoint="true" multiplicity="Single" hashtags="#DECLARATION#Variable #DECLARATION#VARIABLE">
+        <Property name="Declaration" kind="Node" index="1" optional="false" changepoint="true" multiplicity="Single" hashtags="#DECLARATION#Variable #DECLARATION#VARIABLE #IDENTIFIER">
           <Rules collection="true">
             <Name suitability="Key" equality="true" absolute="true"/>
             <Topology relevant="true"/>
@@ -1900,12 +1945,15 @@
           </Rules>
         </Property>
       </Properties>
+      <Rules>
+        <Topology leaf="Terminal"/>
+      </Rules>
     </Type>
     <Type name="LabeledStatementSyntax" base="StatementSyntax" hashtags="#Statement #statement #label">
       <Properties>
         <Property name="Identifier" kind="Token" index="0" optional="false" changepoint="true" multiplicity="Single" hashtags="#IDENTIFIER">
           <Rules>
-            <Name suitability="Key" equality="true" absolute="true"/>
+            <Name suitability="Hint" equality="true" absolute="true"/>
             <Pairwise tunneling="true" priority="0"/>
             <Topology relevant="true"/>
           </Rules>
@@ -1923,7 +1971,7 @@
         </Property>
       </Properties>
       <Rules>
-        <Name suitability="Key" equality="true" absolute="true"/>
+        <Name suitability="Hint" equality="true" absolute="true"/>
       </Rules>
     </Type>
     <Type name="GotoStatementSyntax" base="StatementSyntax" hashtags="#Statement #statement">
@@ -1956,6 +2004,9 @@
           </Rules>
         </Property>
       </Properties>
+      <Rules>
+        <Topology leaf="Likely"/>
+      </Rules>
       <Annotations>
         <Annotation context="Suppress" role="Kind"/>
       </Annotations>
@@ -1973,6 +2024,9 @@
           </Rules>
         </Property>
       </Properties>
+      <Rules>
+        <Topology leaf="Terminal"/>
+      </Rules>
     </Type>
     <Type name="ContinueStatementSyntax" base="StatementSyntax" readonly="true" hashtags="#Statement #statement">
       <Properties>
@@ -1987,6 +2041,9 @@
           </Rules>
         </Property>
       </Properties>
+      <Rules>
+        <Topology leaf="Terminal"/>
+      </Rules>
     </Type>
     <Type name="ReturnStatementSyntax" base="StatementSyntax" hashtags="#Statement #statement">
       <Properties>
@@ -2147,7 +2204,7 @@
             <Topology relevant="true"/>
           </Rules>
         </Property>
-        <Property name="Initializers" kind="Node" index="3" optional="false" changepoint="true" multiplicity="Collection" collectionType="ExpressionSyntax" collectionSeparator=",">
+        <Property name="Initializers" kind="Node" index="3" optional="false" changepoint="true" multiplicity="Collection" collectionType="ExpressionSyntax" collectionSeparator="," hashtags="#Expression">
           <Rules collection="true">
             <Topology relevant="true"/>
           </Rules>
@@ -2167,7 +2224,7 @@
             <Pairwise tunneling="true"/>
           </Rules>
         </Property>
-        <Property name="Incrementors" kind="Node" index="7" optional="false" changepoint="true" multiplicity="Collection" collectionType="ExpressionSyntax" collectionSeparator=",">
+        <Property name="Incrementors" kind="Node" index="7" optional="false" changepoint="true" multiplicity="Collection" collectionType="ExpressionSyntax" collectionSeparator="," hashtags="#Expression">
           <Rules collection="true">
             <Topology relevant="true"/>
           </Rules>
@@ -2439,7 +2496,7 @@
             <Pairwise tunneling="true"/>
           </Rules>
         </Property>
-        <Property name="Sections" kind="Node" index="5" optional="false" changepoint="true" multiplicity="Collection" collectionType="SwitchSectionSyntax">
+        <Property name="Sections" kind="Node" index="5" optional="false" changepoint="true" multiplicity="Collection" collectionType="SwitchSectionSyntax" hashtags="=#SWITCH#Section">
           <Rules collection="true">
             <Topology relevant="true"/>
           </Rules>
@@ -2463,7 +2520,7 @@
             <Topology relevant="true"/>
           </Rules>
         </Property>
-        <Property name="Catches" kind="Node" index="2" optional="false" changepoint="true" multiplicity="Collection" collectionType="CatchClauseSyntax">
+        <Property name="Catches" kind="Node" index="2" optional="false" changepoint="true" multiplicity="Collection" collectionType="CatchClauseSyntax" hashtags="=#CLAUSE#Catch">
           <Rules collection="true">
             <Topology relevant="true"/>
           </Rules>
@@ -2476,25 +2533,25 @@
       </Properties>
     </Type>
     <!--And Variable (by Local Declaration) Related-->
-    <Type name="VariableDeclarationSyntax" hashtags="#declaration #variable #VARIABLE #DECLARATION">
+    <Type name="VariableDeclarationSyntax" hashtags="#declaration #variable #DECLARATION#VARIABLE #DECLARATION">
       <Properties>
         <Property name="Type" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Single" hashtags="#Expression#Type #DECLARATION#VARIABLE#TYPE">
           <Rules>
             <Topology relevant="true"/>
           </Rules>
         </Property>
-        <Property name="Variables" kind="Node" index="1" optional="false" changepoint="true" multiplicity="Collection" collectionType="VariableDeclaratorSyntax" collectionSeparator=",">
+        <Property name="Variables" kind="Node" index="1" optional="false" changepoint="true" multiplicity="Collection" collectionType="VariableDeclaratorSyntax" collectionSeparator="," hashtags="=#DECLARATOR#Variable">
           <Rules collection="true">
-            <Name equality="true" absolute="true"/>
+            <Name suitability="Key" equality="true" absolute="true"/>
             <Topology relevant="true"/>
           </Rules>
         </Property>
       </Properties>
       <Rules collection="true">
-        <Name equality="true" absolute="true"/>
+        <!--<Name equality="true" absolute="true"/>-->
       </Rules>
     </Type>
-    <Type name="VariableDeclaratorSyntax" hashtags="#variable #declarator #VARIABLE #DECLARATION">
+    <Type name="VariableDeclaratorSyntax" hashtags="#variable #declarator #DECLARATION#VARIABLE #DECLARATION =#DECLARATOR#Variable">
       <Properties>
         <Property name="Identifier" kind="Token" index="0" optional="false" changepoint="true" multiplicity="Single" hashtags="#IDENTIFIER #DECLARATION#VARIABLE#IDENTIFIER">
           <Rules>
@@ -2503,7 +2560,7 @@
             <Topology relevant="true"/>
           </Rules>
         </Property>
-        <Property name="ArgumentList" kind="Node" index="1" optional="true" changepoint="true" multiplicity="Single">
+        <Property name="ArgumentList" kind="Node" index="1" optional="true" changepoint="true" multiplicity="Single" hashtags="=#LIST#ARGUMENT#Bracketed =#Argument">
           <Rules collection="true">
             <Topology relevant="true"/>
           </Rules>
@@ -2515,7 +2572,7 @@
         </Property>
       </Properties>
       <Rules>
-        <Name equality="true" absolute="true"/>
+        <!--<Name equality="true" absolute="true"/>-->
       </Rules>
     </Type>
     <Type name="EqualsValueClauseSyntax" hashtags="#VALUE#WRAPPER #clause">
@@ -2549,14 +2606,14 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="SwitchSectionSyntax" hashtags="#switch">
+    <Type name="SwitchSectionSyntax" hashtags="#switch =#SWITCH#Section">
       <Properties>
-        <Property name="Labels" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Collection" collectionType="SwitchLabelSyntax">
+        <Property name="Labels" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Collection" collectionType="SwitchLabelSyntax" hashtags="#SWITCH#Label">
           <Rules collection="true">
             <Topology relevant="true"/>
           </Rules>
         </Property>
-        <Property name="Statements" kind="Node" index="1" optional="false" changepoint="true" multiplicity="Collection" collectionType="StatementSyntax">
+        <Property name="Statements" kind="Node" index="1" optional="false" changepoint="true" multiplicity="Collection" collectionType="StatementSyntax" hashtags="#Statement">
           <Rules collection="true">
             <Topology relevant="true"/>
           </Rules>
@@ -2607,7 +2664,7 @@
       </Properties>
     </Type>
     <!--And Try Related$-->
-    <Type name="CatchClauseSyntax" hashtags="#TRY #clause #catch">
+    <Type name="CatchClauseSyntax" hashtags="#TRY #clause #catch =#CLAUSE#Catch">
       <Properties>
         <Property name="CatchKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" hashtags="#KEYWORD">
           <Rules>
@@ -2635,7 +2692,7 @@
         <Name suitability="Hint" equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="CatchDeclarationSyntax" hashtags="#declaration #VARIABLE#DECLARATOR #catch"><!--variable-->
+    <Type name="CatchDeclarationSyntax" hashtags="#declaration #DECLARATION#VARIABLE#DECLARATOR #catch"><!--variable-->
       <!--declaration-->
       <Properties>
         <Property name="OpenParenToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" hashtags="#PUNTUACTION">
@@ -2712,7 +2769,7 @@
     <Type name="MemberDeclarationSyntax" abstract="true"/>
     <Type name="IncompleteMemberSyntax" base="MemberDeclarationSyntax" hashtags="#DECLARATION#Member #member">
       <Properties>
-        <Property name="AttributeLists" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Collection" collectionType="AttributeListSyntax">
+        <Property name="AttributeLists" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Collection" collectionType="AttributeListSyntax" hashtags="=#LIST#Attribute">
           <Rules collection="true">
             <Topology relevant="true" relevancy="1"/>
           </Rules>
@@ -2742,7 +2799,7 @@
     </Type>
     <Type name="DelegateDeclarationSyntax" base="MemberDeclarationSyntax" hashtags="#declaration #DECLARATION#Member">
       <Properties>
-        <Property name="AttributeLists" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Collection" collectionType="AttributeListSyntax">
+        <Property name="AttributeLists" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Collection" collectionType="AttributeListSyntax" hashtags="=#LIST#Attribute">
           <Rules collection="true">
             <Topology relevant="true" relevancy="1"/>
           </Rules>
@@ -2770,19 +2827,19 @@
             <Topology relevant="true"/>
           </Rules>
         </Property>
-        <Property name="TypeParameterList" kind="Node" index="5" optional="true" changepoint="true" multiplicity="Single">
+        <Property name="TypeParameterList" kind="Node" index="5" optional="true" changepoint="true" multiplicity="Single" hashtags="=#LIST#TYPE#Parameter =#TYPE#Parameter">
           <Rules collection="true">
             <Signature equality="true" absolute="true"/>
             <Topology relevant="true"/>
           </Rules>
         </Property>
-        <Property name="ParameterList" kind="Node" index="6" optional="false" changepoint="true" multiplicity="Single">
+        <Property name="ParameterList" kind="Node" index="6" optional="false" changepoint="true" multiplicity="Single" hashtags="#LIST#Parameter =#DECLARATION#Parameter">
           <Rules collection="true">
             <Signature equality="true" absolute="true"/>
             <Topology relevant="true"/>
           </Rules>
         </Property>
-        <Property name="ConstraintClauses" kind="Node" index="7" optional="false" changepoint="true" multiplicity="Collection" collectionType="TypeParameterConstraintClauseSyntax">
+        <Property name="ConstraintClauses" kind="Node" index="7" optional="false" changepoint="true" multiplicity="Collection" collectionType="TypeParameterConstraintClauseSyntax" hashtags="=#CLAUSE#TYPE#PARAMETER#Constraint">
           <Rules collection="true">
             <Topology relevant="true"/>
           </Rules>
@@ -2834,7 +2891,7 @@
     </Type>
     <Type name="EnumDeclarationSyntax" base="BaseTypeDeclarationSyntax" hashtags="#declaration #DECLARATION#Member #DECLARATION#Member#Type #enum">
       <Properties>
-        <Property name="AttributeLists" kind="Node" index="0" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="AttributeListSyntax">
+        <Property name="AttributeLists" kind="Node" index="0" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="AttributeListSyntax" hashtags="=#LIST#Attribute">
           <Rules collection="true">
             <Topology relevant="true" relevancy="1"/>
           </Rules>
@@ -2856,7 +2913,7 @@
             <Topology relevant="true"/>
           </Rules>
         </Property>
-        <Property name="BaseList" kind="Node" index="4" optional="true" changepoint="true" inherited="true" multiplicity="Single">
+        <Property name="BaseList" kind="Node" index="4" optional="true" changepoint="true" inherited="true" multiplicity="Single" hashtags="=#LIST#TYPE#Base =#TYPE#Base">
           <Rules collection="true">
             <Topology relevant="true"/>
           </Rules>
@@ -2866,7 +2923,7 @@
             <Pairwise tunneling="true"/>
           </Rules>
         </Property>
-        <Property name="Members" kind="Node" index="6" optional="false" changepoint="true" multiplicity="Collection" collectionType="EnumMemberDeclarationSyntax" collectionSeparator=",">
+        <Property name="Members" kind="Node" index="6" optional="false" changepoint="true" multiplicity="Collection" collectionType="EnumMemberDeclarationSyntax" collectionSeparator="," hashtags="=#DECLARATION#ENUM#Member">
           <Rules collection="true">
             <Topology relevant="true"/>
           </Rules>
@@ -2914,7 +2971,7 @@
     </Type>
     <Type name="ClassDeclarationSyntax" base="TypeDeclarationSyntax" hashtags="#declaration #DECLARATION#Member#Type #DECLARATION#Member">
       <Properties>
-        <Property name="AttributeLists" kind="Node" index="0" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="AttributeListSyntax">
+        <Property name="AttributeLists" kind="Node" index="0" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="AttributeListSyntax" hashtags="=#LIST#Attribute">
           <Rules collection="true">
             <Topology relevant="true" relevancy="1"/>
           </Rules>
@@ -2937,18 +2994,18 @@
             <Topology relevant="true"/>
           </Rules>
         </Property>
-        <Property name="TypeParameterList" kind="Node" index="4" optional="true" changepoint="true" inherited="true" multiplicity="Single">
+        <Property name="TypeParameterList" kind="Node" index="4" optional="true" changepoint="true" inherited="true" multiplicity="Single" hashtags="=#LIST#TYPE#Parameter =#TYPE#Parameter">
           <Rules collection="true">
             <Signature equality="true" absolute="true"/>
             <Topology relevant="true"/>
           </Rules>
         </Property>
-        <Property name="BaseList" kind="Node" index="5" optional="true" changepoint="true" inherited="true" multiplicity="Single">
+        <Property name="BaseList" kind="Node" index="5" optional="true" changepoint="true" inherited="true" multiplicity="Single" hashtags="=#LIST#TYPE#Base =#TYPE#Base">
           <Rules collection="true">
             <Topology relevant="true"/>
           </Rules>
         </Property>
-        <Property name="ConstraintClauses" kind="Node" index="6" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="TypeParameterConstraintClauseSyntax">
+        <Property name="ConstraintClauses" kind="Node" index="6" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="TypeParameterConstraintClauseSyntax" hashtags="=#CLAUSE#TYPE#PARAMETER#Constraint">
           <Rules collection="true">
             <Topology relevant="true"/>
           </Rules>
@@ -2958,7 +3015,7 @@
             <Pairwise tunneling="true"/>
           </Rules>
         </Property>
-        <Property name="Members" kind="Node" index="8" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="MemberDeclarationSyntax">
+        <Property name="Members" kind="Node" index="8" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="MemberDeclarationSyntax" hashtags="#DECLARATION#Member">
           <Rules collection="true">
             <Topology relevant="true"/>
           </Rules>
@@ -2981,7 +3038,7 @@
     </Type>
     <Type name="StructDeclarationSyntax" base="TypeDeclarationSyntax" hashtags="#declaration #DECLARATION#Member#Type #DECLARATION#Member">
       <Properties>
-        <Property name="AttributeLists" kind="Node" index="0" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="AttributeListSyntax">
+        <Property name="AttributeLists" kind="Node" index="0" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="AttributeListSyntax" hashtags="=#LIST#Attribute">
           <Rules collection="true">
             <Topology relevant="true" relevancy="1"/>
           </Rules>
@@ -3004,18 +3061,18 @@
             <Topology relevant="true"/>
           </Rules>
         </Property>
-        <Property name="TypeParameterList" kind="Node" index="4" optional="true" changepoint="true" inherited="true" multiplicity="Single">
+        <Property name="TypeParameterList" kind="Node" index="4" optional="true" changepoint="true" inherited="true" multiplicity="Single" hashtags="=#LIST#TYPE#Parameter =#TYPE#Parameter">
           <Rules collection="true">
             <Signature equality="true" absolute="true"/>
             <Topology relevant="true"/>
           </Rules>
         </Property>
-        <Property name="BaseList" kind="Node" index="5" optional="true" changepoint="true" inherited="true" multiplicity="Single">
+        <Property name="BaseList" kind="Node" index="5" optional="true" changepoint="true" inherited="true" multiplicity="Single" hashtags="=#LIST#TYPE#Base =#TYPE#Base">
           <Rules collection="true">
             <Topology relevant="true"/>
           </Rules>
         </Property>
-        <Property name="ConstraintClauses" kind="Node" index="6" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="TypeParameterConstraintClauseSyntax">
+        <Property name="ConstraintClauses" kind="Node" index="6" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="TypeParameterConstraintClauseSyntax" hashtags="=#CLAUSE#TYPE#PARAMETER#Constraint">
           <Rules collection="true">
             <Topology relevant="true"/>
           </Rules>
@@ -3025,7 +3082,7 @@
             <Pairwise tunneling="true"/>
           </Rules>
         </Property>
-        <Property name="Members" kind="Node" index="8" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="MemberDeclarationSyntax">
+        <Property name="Members" kind="Node" index="8" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="MemberDeclarationSyntax" hashtags="#DECLARATION#Member">
           <Rules collection="true">
             <Topology relevant="true"/>
           </Rules>
@@ -3048,7 +3105,7 @@
     </Type>
     <Type name="InterfaceDeclarationSyntax" base="TypeDeclarationSyntax" hashtags="#declaration #DECLARATION#Member#Type #DECLARATION#Member">
       <Properties>
-        <Property name="AttributeLists" kind="Node" index="0" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="AttributeListSyntax">
+        <Property name="AttributeLists" kind="Node" index="0" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="AttributeListSyntax" hashtags="=#LIST#Attribute">
           <Rules collection="true">
             <Topology relevant="true" relevancy="1"/>
           </Rules>
@@ -3071,18 +3128,18 @@
             <Topology relevant="true"/>
           </Rules>
         </Property>
-        <Property name="TypeParameterList" kind="Node" index="4" optional="true" changepoint="true" inherited="true" multiplicity="Single">
+        <Property name="TypeParameterList" kind="Node" index="4" optional="true" changepoint="true" inherited="true" multiplicity="Single" hashtags="=#LIST#TYPE#Parameter =#TYPE#Parameter">
           <Rules collection="true">
             <Signature equality="true" absolute="true"/>
             <Topology relevant="true"/>
           </Rules>
         </Property>
-        <Property name="BaseList" kind="Node" index="5" optional="true" changepoint="true" inherited="true" multiplicity="Single">
+        <Property name="BaseList" kind="Node" index="5" optional="true" changepoint="true" inherited="true" multiplicity="Single" hashtags="=#LIST#TYPE#Base =#TYPE#Base">
           <Rules collection="true">
             <Topology relevant="true"/>
           </Rules>
         </Property>
-        <Property name="ConstraintClauses" kind="Node" index="6" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="TypeParameterConstraintClauseSyntax">
+        <Property name="ConstraintClauses" kind="Node" index="6" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="TypeParameterConstraintClauseSyntax" hashtags="=#CLAUSE#TYPE#PARAMETER#Constraint">
           <Rules collection="true">
             <Topology relevant="true"/>
           </Rules>
@@ -3092,7 +3149,7 @@
             <Pairwise tunneling="true"/>
           </Rules>
         </Property>
-        <Property name="Members" kind="Node" index="8" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="MemberDeclarationSyntax">
+        <Property name="Members" kind="Node" index="8" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="MemberDeclarationSyntax" hashtags="#DECLARATION#Member">
           <Rules collection="true">
             <Topology relevant="true"/>
           </Rules>
@@ -3114,9 +3171,9 @@
       </Rules>
     </Type>
     <!--And Related-->
-    <Type name="EnumMemberDeclarationSyntax" base="MemberDeclarationSyntax" hashtags="#declaration #DECLARATION#Member #member #enum#member">
+    <Type name="EnumMemberDeclarationSyntax" base="MemberDeclarationSyntax" hashtags="#declaration #DECLARATION#Member #member #enum#member =#DECLARATION#ENUM#Member">
       <Properties>
-        <Property name="AttributeLists" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Collection" collectionType="AttributeListSyntax">
+        <Property name="AttributeLists" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Collection" collectionType="AttributeListSyntax" hashtags="=#LIST#Attribute">
           <Rules collection="true">
             <Topology relevant="true" relevancy="1"/>
           </Rules>
@@ -3139,14 +3196,14 @@
       </Rules>
     </Type>
     <!--And Related$TypeParameterListSyntax-->
-    <Type name="TypeParameterListSyntax" hashtags="#list #type #type#parameter #parameter">
+    <Type name="TypeParameterListSyntax" hashtags="#list #type #type#parameter #parameter =#LIST#TYPE#Parameter">
       <Properties>
         <Property name="LessThanToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" hashtags="#PUNTUACTION">
           <Rules>
             <Pairwise tunneling="true"/>
           </Rules>
         </Property>
-        <Property name="Parameters" kind="Node" index="1" optional="false" changepoint="true" multiplicity="Collection" collectionType="TypeParameterSyntax" collectionSeparator=",">
+        <Property name="Parameters" kind="Node" index="1" optional="false" changepoint="true" multiplicity="Collection" collectionType="TypeParameterSyntax" collectionSeparator="," hashtags="=#TYPE#Parameter">
           <Rules collection="true">
             <Signature equality="true" absolute="true"/>
             <!--<Name equality="true" absolute="true"/>-->
@@ -3162,9 +3219,9 @@
       </Properties>
       <Rules collection="true"/>
     </Type>
-    <Type name="TypeParameterSyntax" hashtags="#type #type#parameter #parameter #DECLARATION">
+    <Type name="TypeParameterSyntax" hashtags="#type #type#parameter #parameter #DECLARATION =#TYPE#Parameter">
       <Properties>
-        <Property name="AttributeLists" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Collection" collectionType="AttributeListSyntax">
+        <Property name="AttributeLists" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Collection" collectionType="AttributeListSyntax" hashtags="=#LIST#Attribute">
           <Rules collection="true">
             <Pairwise discriminant="true"/>
             <Topology relevant="true" relevancy="1"/>
@@ -3192,14 +3249,14 @@
         <Name suitability="Key" equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="TypeParameterConstraintClauseSyntax" hashtags="#Type#Parameter#Constraint #clause #type #type#parameter #parameter #constraint">
+    <Type name="TypeParameterConstraintClauseSyntax" hashtags="#TYPE#PARAMETER#CONSTRAINT #clause #type #type#parameter #parameter #constraint #DECLARATION =#CLAUSE#TYPE#PARAMETER#Constraint">
       <Properties>
         <Property name="WhereKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" hashtags="#KEYWORD">
           <Rules>
             <Pairwise tunneling="true"/>
           </Rules>
         </Property>
-        <Property name="Name" kind="Node" index="1" optional="false" changepoint="true" multiplicity="Single" hashtags="#Expression#Type#Name#Simple#Identifier">
+        <Property name="Name" kind="Node" index="1" optional="false" changepoint="true" multiplicity="Single" hashtags="#Expression#Type#Name#Simple#Identifier #IDENTIFIER">
           <Rules>
             <Name suitability="Key" equality="true" absolute="true"/>
             <Topology relevant="true"/>
@@ -3210,7 +3267,7 @@
             <Pairwise tunneling="true"/>
           </Rules>
         </Property>
-        <Property name="Constraints" kind="Node" index="3" optional="false" changepoint="true" multiplicity="Collection" collectionType="TypeParameterConstraintSyntax" collectionSeparator=",">
+        <Property name="Constraints" kind="Node" index="3" optional="false" changepoint="true" multiplicity="Collection" collectionType="TypeParameterConstraintSyntax" collectionSeparator="," hashtags="=#TYPE#PARAMETER#Constraint">
           <Rules collection="true">
             <Topology relevant="true"/>
           </Rules>
@@ -3222,7 +3279,7 @@
     </Type>
     <!--And Related$TypeParameterConstraintSyntax-->
     <Type name="TypeParameterConstraintSyntax" abstract="true"/>
-    <Type name="TypeConstraintSyntax" base="TypeParameterConstraintSyntax" hashtags="#Type#Parameter#Constraint #type #constraint">
+    <Type name="TypeConstraintSyntax" base="TypeParameterConstraintSyntax" hashtags="#TYPE#PARAMETER#Constraint #type #constraint">
       <Properties>
         <Property name="Type" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Single" hashtags="#Expression#Type">
           <Rules>
@@ -3232,7 +3289,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="ConstructorConstraintSyntax" base="TypeParameterConstraintSyntax" readonly="true" hashtags="#Type#Parameter#Constraint #constructor #constraint">
+    <Type name="ConstructorConstraintSyntax" base="TypeParameterConstraintSyntax" readonly="true" hashtags="#TYPE#PARAMETER#Constraint #constructor #constraint">
       <Properties>
         <Property name="NewKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" hashtags="#KEYWORD">
           <Rules>
@@ -3251,7 +3308,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="ClassOrStructConstraintSyntax" base="TypeParameterConstraintSyntax" readonly="true" hashtags="#Type#Parameter#Constraint #constraint">
+    <Type name="ClassOrStructConstraintSyntax" base="TypeParameterConstraintSyntax" readonly="true" hashtags="#TYPE#PARAMETER#Constraint #constraint">
       <Properties>
         <Property name="ClassOrStructKeyword" kind="Token" index="0" readOnly="true" optional="false" changepoint="true" multiplicity="Single" hashtags="#KEYWORD">
           <Options exclusive="true" labeling="true">
@@ -3268,14 +3325,14 @@
       </Annotations>
     </Type>
     <!--And Related$BaseTypeSyntax-->
-    <Type name="BaseListSyntax" hashtags="#list #base #TYPE#BASE"><!--BaseTypeList-->
+    <Type name="BaseListSyntax" hashtags="#list #base #TYPE#BASE =#LIST#TYPE#Base"><!--BaseTypeList-->
       <Properties>
         <Property name="ColonToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" hashtags="#PUNTUACTION">
           <Rules>
             <Pairwise tunneling="true"/>
           </Rules>
         </Property>
-        <Property name="Types" kind="Node" index="1" optional="false" changepoint="true" multiplicity="Collection" collectionType="BaseTypeSyntax" collectionSeparator=",">
+        <Property name="Types" kind="Node" index="1" optional="false" changepoint="true" multiplicity="Collection" collectionType="BaseTypeSyntax" collectionSeparator="," hashtags="=#TYPE#Base">
           <Rules collection="true">
             <Pairwise discriminant="true"/>
             <Topology relevant="true"/>
@@ -3293,7 +3350,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="SimpleBaseTypeSyntax" base="BaseTypeSyntax" hashtags="#type #base #TYPE#BASE">
+    <Type name="SimpleBaseTypeSyntax" base="BaseTypeSyntax" hashtags="#type #base #TYPE#BASE =#TYPE#Base">
       <Properties>
         <Property name="Type" kind="Node" index="0" optional="false" changepoint="true" inherited="true" multiplicity="Single" hashtags="#Expression#Type">
           <Rules>
@@ -3331,7 +3388,7 @@
     </Type>
     <Type name="FieldDeclarationSyntax" base="BaseFieldDeclarationSyntax" hashtags="#declaration #DECLARATION#Member#Field #DECLARATION#Member">
       <Properties>
-        <Property name="AttributeLists" kind="Node" index="0" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="AttributeListSyntax">
+        <Property name="AttributeLists" kind="Node" index="0" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="AttributeListSyntax" hashtags="=#LIST#Attribute">
           <Rules collection="true">
             <Topology relevant="true" relevancy="1"/>
           </Rules>
@@ -3341,7 +3398,7 @@
             <Topology relevant="true" relevancy="2"/>
           </Rules>
         </Property>
-        <Property name="Declaration" kind="Node" index="2" optional="false" changepoint="true" inherited="true" multiplicity="Single" hashtags="#DECLARATION#Variable">
+        <Property name="Declaration" kind="Node" index="2" optional="false" changepoint="true" inherited="true" multiplicity="Single" hashtags="#DECLARATION#Variable #IDENTIFIER">
           <Rules collection="true">
             <Name suitability="Key" equality="true" absolute="true"/>
             <Topology relevant="true"/>
@@ -3359,7 +3416,7 @@
     </Type>
     <Type name="EventFieldDeclarationSyntax" base="BaseFieldDeclarationSyntax" hashtags="#declaration #DECLARATION#Member#Field #event #DECLARATION#Member">
       <Properties>
-        <Property name="AttributeLists" kind="Node" index="0" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="AttributeListSyntax">
+        <Property name="AttributeLists" kind="Node" index="0" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="AttributeListSyntax" hashtags="=#LIST#Attribute">
           <Rules collection="true">
             <Topology relevant="true" relevancy="1"/>
           </Rules>
@@ -3374,7 +3431,7 @@
             <Pairwise tunneling="true"/>
           </Rules>
         </Property>
-        <Property name="Declaration" kind="Node" index="3" optional="false" changepoint="true" inherited="true" multiplicity="Single" hashtags="#DECLARATION#Variable">
+        <Property name="Declaration" kind="Node" index="3" optional="false" changepoint="true" inherited="true" multiplicity="Single" hashtags="#DECLARATION#Variable #IDENTIFIER">
           <Rules collection="true">
             <Name suitability="Key" equality="true" absolute="true"/>
             <Topology relevant="true"/>
@@ -3393,7 +3450,7 @@
     <!--And Related-->
     <Type name="ExplicitInterfaceSpecifierSyntax" hashtags="#specifier">
       <Properties>
-        <Property name="Name" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Single" hashtags="#Expression#Type#Name">
+        <Property name="Name" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Single" hashtags="#Expression#Type#Name #IDENTIFIER">
           <Rules>
             <Name equality="true" absolute="true"/>
             <Pairwise discriminant="true"/>
@@ -3433,7 +3490,7 @@
     </Type>
     <Type name="MethodDeclarationSyntax" base="BaseMethodDeclarationSyntax" hashtags="#declaration #DECLARATION#Member #DECLARATION#Member#Method">
       <Properties>
-        <Property name="AttributeLists" kind="Node" index="0" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="AttributeListSyntax">
+        <Property name="AttributeLists" kind="Node" index="0" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="AttributeListSyntax" hashtags="=#LIST#Attribute">
           <Rules collection="true">
             <Topology relevant="true" relevancy="1"/>
           </Rules>
@@ -3448,7 +3505,7 @@
             <Topology relevant="true"/>
           </Rules>
         </Property>
-        <Property name="ExplicitInterfaceSpecifier" kind="Node" index="3" optional="true" changepoint="true" multiplicity="Single" hashtags="#SPECIFIER#INTERFACE#Explicit">
+        <Property name="ExplicitInterfaceSpecifier" kind="Node" index="3" optional="true" changepoint="true" multiplicity="Single" hashtags="=#SPECIFIER#INTERFACE#Explicit">
           <Rules>
             <Signature equality="true" absolute="true"/>
             <Name suitability="Key" equality="true" absolute="true"/>
@@ -3463,19 +3520,19 @@
             <Topology relevant="true"/>
           </Rules>
         </Property>
-        <Property name="TypeParameterList" kind="Node" index="5" optional="true" changepoint="true" multiplicity="Single">
+        <Property name="TypeParameterList" kind="Node" index="5" optional="true" changepoint="true" multiplicity="Single" hashtags="=#LIST#TYPE#Parameter =#TYPE#Parameter">
           <Rules collection="true">
             <Signature equality="true" absolute="true"/>
             <Topology relevant="true"/>
           </Rules>
         </Property>
-        <Property name="ParameterList" kind="Node" index="6" optional="false" changepoint="true" inherited="true" multiplicity="Single" hashtags="#DECLARATION#VARIABLE">
+        <Property name="ParameterList" kind="Node" index="6" optional="false" changepoint="true" inherited="true" multiplicity="Single" hashtags="#DECLARATION#VARIABLE #LIST#Parameter =#DECLARATION#Parameter">
           <Rules collection="true">
             <Signature equality="true" absolute="true"/>
             <Topology relevant="true"/>
           </Rules>
         </Property>
-        <Property name="ConstraintClauses" kind="Node" index="7" optional="false" changepoint="true" multiplicity="Collection" collectionType="TypeParameterConstraintClauseSyntax">
+        <Property name="ConstraintClauses" kind="Node" index="7" optional="false" changepoint="true" multiplicity="Collection" collectionType="TypeParameterConstraintClauseSyntax" hashtags="=#CLAUSE#TYPE#PARAMETER#Constraint">
           <Rules collection="true">
             <Topology relevant="true"/>
           </Rules>
@@ -3503,7 +3560,7 @@
     </Type>
     <Type name="OperatorDeclarationSyntax" base="BaseMethodDeclarationSyntax" hashtags="#declaration #operator #DECLARATION#Member #DECLARATION#Member#Method">
       <Properties>
-        <Property name="AttributeLists" kind="Node" index="0" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="AttributeListSyntax">
+        <Property name="AttributeLists" kind="Node" index="0" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="AttributeListSyntax" hashtags="=#LIST#Attribute">
           <Rules collection="true">
             <Topology relevant="true" relevancy="1"/>
           </Rules>
@@ -3556,7 +3613,7 @@
             <Topology relevant="true"/>
           </Rules>
         </Property>
-        <Property name="ParameterList" kind="Node" index="5" optional="false" changepoint="true" inherited="true" multiplicity="Single" hashtags="#DECLARATION#VARIABLE">
+        <Property name="ParameterList" kind="Node" index="5" optional="false" changepoint="true" inherited="true" multiplicity="Single" hashtags="#DECLARATION#VARIABLE #LIST#Parameter =#DECLARATION#Parameter">
           <Rules collection="true">
             <Signature equality="true" absolute="true"/>
             <Topology relevant="true"/>
@@ -3585,7 +3642,7 @@
     </Type>
     <Type name="ConversionOperatorDeclarationSyntax" base="BaseMethodDeclarationSyntax" hashtags="#declaration #operator #DECLARATION#Member #DECLARATION#Member#Method #conversion">
       <Properties>
-        <Property name="AttributeLists" kind="Node" index="0" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="AttributeListSyntax">
+        <Property name="AttributeLists" kind="Node" index="0" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="AttributeListSyntax" hashtags="=#LIST#Attribute">
           <Rules collection="true">
             <Topology relevant="true" relevancy="1"/>
           </Rules>
@@ -3616,7 +3673,7 @@
             <Topology relevant="true"/>
           </Rules>
         </Property>
-        <Property name="ParameterList" kind="Node" index="5" optional="false" changepoint="true" inherited="true" multiplicity="Single" hashtags="#DECLARATION#VARIABLE">
+        <Property name="ParameterList" kind="Node" index="5" optional="false" changepoint="true" inherited="true" multiplicity="Single" hashtags="#DECLARATION#VARIABLE #LIST#Parameter =#DECLARATION#Parameter">
           <Rules collection="true">
             <Signature equality="true" absolute="true"/>
             <Topology relevant="true"/>
@@ -3644,7 +3701,7 @@
     </Type>
     <Type name="ConstructorDeclarationSyntax" base="BaseMethodDeclarationSyntax" hashtags="#declaration #constructor #DECLARATION#Member #DECLARATION#Member#Method">
       <Properties>
-        <Property name="AttributeLists" kind="Node" index="0" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="AttributeListSyntax">
+        <Property name="AttributeLists" kind="Node" index="0" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="AttributeListSyntax" hashtags="=#LIST#Attribute">
           <Rules collection="true">
             <Topology relevant="true" relevancy="1"/>
           </Rules>
@@ -3662,7 +3719,7 @@
             <Topology relevant="true"/>
           </Rules>
         </Property>
-        <Property name="ParameterList" kind="Node" index="3" optional="false" changepoint="true" inherited="true" multiplicity="Single" hashtags="#DECLARATION#VARIABLE">
+        <Property name="ParameterList" kind="Node" index="3" optional="false" changepoint="true" inherited="true" multiplicity="Single" hashtags="#DECLARATION#VARIABLE #LIST#Parameter =#DECLARATION#Parameter">
           <Rules collection="true">
             <Signature equality="true" absolute="true"/>
             <Topology relevant="true"/>
@@ -3709,7 +3766,7 @@
             <!--should be this property a key or priorized pairwise change detection?-->
           </Rules>
         </Property>
-        <Property name="ArgumentList" kind="Node" index="2" optional="false" changepoint="true" multiplicity="Single">
+        <Property name="ArgumentList" kind="Node" index="2" optional="false" changepoint="true" multiplicity="Single" hashtags="#LIST#Argument =#Argument">
           <Rules collection="true">
             <Signature equality="true" absolute="true"/>
             <!--<Name equality="true" absolute="true"/>-->
@@ -3727,7 +3784,7 @@
     </Type>
     <Type name="DestructorDeclarationSyntax" base="BaseMethodDeclarationSyntax" hashtags="#declaration #DECLARATION#Member #DECLARATION#Member#Method">
       <Properties>
-        <Property name="AttributeLists" kind="Node" index="0" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="AttributeListSyntax">
+        <Property name="AttributeLists" kind="Node" index="0" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="AttributeListSyntax" hashtags="=#LIST#Attribute">
           <Rules collection="true">
             <Topology relevant="true" relevancy="1"/>
           </Rules>
@@ -3792,7 +3849,7 @@
     </Type>
     <Type name="PropertyDeclarationSyntax" base="BasePropertyDeclarationSyntax" hashtags="#declaration #DECLARATION#Member#Property #DECLARATION#Member">
       <Properties>
-        <Property name="AttributeLists" kind="Node" index="0" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="AttributeListSyntax">
+        <Property name="AttributeLists" kind="Node" index="0" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="AttributeListSyntax" hashtags="=#LIST#Attribute">
           <Rules collection="true">
             <Topology relevant="true" relevancy="1"/>
           </Rules>
@@ -3807,7 +3864,7 @@
             <Topology relevant="true"/>
           </Rules>
         </Property>
-        <Property name="ExplicitInterfaceSpecifier" kind="Node" index="3" optional="true" changepoint="true" inherited="true" multiplicity="Single" hashtags="#SPECIFIER#INTERFACE#Explicit">
+        <Property name="ExplicitInterfaceSpecifier" kind="Node" index="3" optional="true" changepoint="true" inherited="true" multiplicity="Single" hashtags="=#SPECIFIER#INTERFACE#Explicit">
           <Rules>
             <Name suitability="Key" equality="true" absolute="true"/>
             <Topology relevant="true"/>
@@ -3820,7 +3877,7 @@
             <Topology relevant="true"/>
           </Rules>
         </Property>
-        <Property name="AccessorList" kind="Node" index="5" optional="true" changepoint="true" inherited="true" multiplicity="Single">
+        <Property name="AccessorList" kind="Node" index="5" optional="true" changepoint="true" inherited="true" multiplicity="Single" hashtags="=#LIST#Accessor =#DECLARATION#Accessor">
           <Rules collection="true">
             <Topology relevant="true"/>
           </Rules>
@@ -3862,7 +3919,7 @@
     </Type>
     <Type name="EventDeclarationSyntax" base="BasePropertyDeclarationSyntax" hashtags="#declaration #DECLARATION#Member#Property #event #DECLARATION#Member">
       <Properties>
-        <Property name="AttributeLists" kind="Node" index="0" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="AttributeListSyntax">
+        <Property name="AttributeLists" kind="Node" index="0" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="AttributeListSyntax" hashtags="=#LIST#Attribute">
           <Rules collection="true">
             <Topology relevant="true" relevancy="1"/>
           </Rules>
@@ -3882,7 +3939,7 @@
             <Topology relevant="true"/>
           </Rules>
         </Property>
-        <Property name="ExplicitInterfaceSpecifier" kind="Node" index="4" optional="true" changepoint="true" inherited="true" multiplicity="Single" hashtags="#SPECIFIER#INTERFACE#Explicit">
+        <Property name="ExplicitInterfaceSpecifier" kind="Node" index="4" optional="true" changepoint="true" inherited="true" multiplicity="Single" hashtags="=#SPECIFIER#INTERFACE#Explicit">
           <Rules>
             <Signature equality="true" absolute="true"/>
             <Name suitability="Key" equality="true" absolute="true"/>
@@ -3897,7 +3954,7 @@
             <Topology relevant="true"/>
           </Rules>
         </Property>
-        <Property name="AccessorList" kind="Node" index="6" optional="false" changepoint="true" inherited="true" multiplicity="Single">
+        <Property name="AccessorList" kind="Node" index="6" optional="false" changepoint="true" inherited="true" multiplicity="Single" hashtags="=#LIST#Accessor =#DECLARATION#Accessor">
           <Rules collection="true">
             <Topology relevant="true"/>
           </Rules>
@@ -3910,7 +3967,7 @@
     </Type>
     <Type name="IndexerDeclarationSyntax" base="BasePropertyDeclarationSyntax" hashtags="#declaration #DECLARATION#Member#Property #DECLARATION#Member #indexer">
       <Properties>
-        <Property name="AttributeLists" kind="Node" index="0" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="AttributeListSyntax">
+        <Property name="AttributeLists" kind="Node" index="0" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="AttributeListSyntax" hashtags="=#LIST#Attribute">
           <Rules collection="true">
             <Topology relevant="true" relevancy="1"/>
           </Rules>
@@ -3925,7 +3982,7 @@
             <Topology relevant="true"/>
           </Rules>
         </Property>
-        <Property name="ExplicitInterfaceSpecifier" kind="Node" index="3" optional="true" changepoint="true" inherited="true" multiplicity="Single" hashtags="#SPECIFIER#INTERFACE#Explicit">
+        <Property name="ExplicitInterfaceSpecifier" kind="Node" index="3" optional="true" changepoint="true" inherited="true" multiplicity="Single" hashtags="=#SPECIFIER#INTERFACE#Explicit">
           <Rules>
             <Signature equality="true" absolute="true"/>
             <Name suitability="Key" equality="true" absolute="true"/>
@@ -3939,13 +3996,13 @@
             <Pairwise tunneling="true"/>
           </Rules>
         </Property>
-        <Property name="ParameterList" kind="Node" index="5" optional="false" changepoint="true" multiplicity="Single" hashtags="#DECLARATION#VARIABLE">
+        <Property name="ParameterList" kind="Node" index="5" optional="false" changepoint="true" multiplicity="Single" hashtags="#DECLARATION#VARIABLE #LIST#Parameter =#LIST#PARAMETER#Bracketed =#DECLARATION#Parameter">
           <Rules collection="true">
             <Signature equality="true" absolute="true"/>
             <Topology relevant="true"/>
           </Rules>
         </Property>
-        <Property name="AccessorList" kind="Node" index="6" optional="true" changepoint="true" inherited="true" multiplicity="Single">
+        <Property name="AccessorList" kind="Node" index="6" optional="true" changepoint="true" inherited="true" multiplicity="Single" hashtags="=#LIST#Accessor =#DECLARATION#Accessor">
           <Rules collection="true">
             <Topology relevant="true"/>
           </Rules>
@@ -3966,14 +4023,14 @@
         <Name suitability="Key" equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="AccessorListSyntax" hashtags="#list #accessor">
+    <Type name="AccessorListSyntax" hashtags="#list #accessor =#LIST#Accessor">
       <Properties>
         <Property name="OpenBraceToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" hashtags="#PUNTUACTION">
           <Rules>
             <Pairwise tunneling="true"/>
           </Rules>
         </Property>
-        <Property name="Accessors" kind="Node" index="1" optional="false" changepoint="true" multiplicity="Collection" collectionType="AccessorDeclarationSyntax">
+        <Property name="Accessors" kind="Node" index="1" optional="false" changepoint="true" multiplicity="Collection" collectionType="AccessorDeclarationSyntax" hashtags="=#DECLARATION#Accessor">
           <Rules collection="true">
             <Pairwise discriminant="true"/>
             <Topology relevant="true"/>
@@ -3987,9 +4044,9 @@
       </Properties>
       <Rules collection="true"/>
     </Type>
-    <Type name="AccessorDeclarationSyntax" hashtags="#declaration #DECLARATION #accessor">
+    <Type name="AccessorDeclarationSyntax" hashtags="#declaration #DECLARATION #accessor =#DECLARATION#Accessor">
       <Properties>
-        <Property name="AttributeLists" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Collection" collectionType="AttributeListSyntax">
+        <Property name="AttributeLists" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Collection" collectionType="AttributeListSyntax" hashtags="=#LIST#Attribute">
           <Rules collection="true">
             <Topology relevant="true" relevancy="1"/>
           </Rules>
@@ -4051,7 +4108,7 @@
             <Pairwise tunneling="true"/>
           </Rules>
         </Property>
-        <Property name="Parameters" kind="Node" index="1" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="ParameterSyntax" collectionSeparator=",">
+        <Property name="Parameters" kind="Node" index="1" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="ParameterSyntax" collectionSeparator="," hashtags="=#DECLARATION#Parameter">
           <Rules collection="true">
             <Signature equality="true" absolute="true"/>
             <Pairwise discriminant="true"/>
@@ -4068,14 +4125,14 @@
         <Signature equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="BracketedParameterListSyntax" base="BaseParameterListSyntax" hashtags="#LIST#Parameter #list #parameter #bracketed">
+    <Type name="BracketedParameterListSyntax" base="BaseParameterListSyntax" hashtags="#LIST#Parameter #list #parameter #bracketed =#LIST#PARAMETER#Bracketed">
       <Properties>
         <Property name="OpenBracketToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" hashtags="#PUNTUACTION">
           <Rules>
             <Pairwise tunneling="true"/>
           </Rules>
         </Property>
-        <Property name="Parameters" kind="Node" index="1" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="ParameterSyntax" collectionSeparator=",">
+        <Property name="Parameters" kind="Node" index="1" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="ParameterSyntax" collectionSeparator="," hashtags="=#DECLARATION#Parameter">
           <Rules collection="true">
             <Signature equality="true" absolute="true"/>
             <Pairwise discriminant="true"/>
@@ -4092,9 +4149,9 @@
         <Signature equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="ParameterSyntax" hashtags="#parameter #DECLARATION">
+    <Type name="ParameterSyntax" hashtags="#parameter #DECLARATION =#DECLARATION#Parameter">
       <Properties>
-        <Property name="AttributeLists" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Collection" collectionType="AttributeListSyntax">
+        <Property name="AttributeLists" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Collection" collectionType="AttributeListSyntax" hashtags="=#LIST#Attribute">
           <Rules collection="true">
             <Topology relevant="true" relevancy="1"/>
           </Rules>
@@ -4149,7 +4206,7 @@
     </Type>
     <Type name="DocumentationCommentTriviaSyntax" base="StructuredTriviaSyntax" hashtags="#TRIVIA#Structured #trivia #comment">
       <Properties>
-        <Property name="Content" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Collection" collectionType="XmlNodeSyntax">
+        <Property name="Content" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Collection" collectionType="XmlNodeSyntax" hashtags="#XML#Node">
           <Rules collection="true">
             <Pairwise discriminant="true"/>
             <Topology relevant="true"/>
@@ -4419,7 +4476,7 @@
             <Topology relevant="true"/>
           </Rules>
         </Property>
-        <Property name="ErrorCodes" kind="Node" index="4" optional="false" changepoint="true" multiplicity="Collection" collectionType="ExpressionSyntax" collectionSeparator=",">
+        <Property name="ErrorCodes" kind="Node" index="4" optional="false" changepoint="true" multiplicity="Collection" collectionType="ExpressionSyntax" collectionSeparator="," hashtags="#Expression">
           <Rules collection="true">
             <Pairwise discriminant="true"/>
             <Topology relevant="true"/>
@@ -4662,7 +4719,7 @@
     <Type name="MemberCrefSyntax" abstract="true" base="CrefSyntax"/>
     <Type name="NameMemberCrefSyntax" base="MemberCrefSyntax" hashtags="#cref #Cref#Member #DECLARATION#MEMBER #Cref #name #member">
       <Properties>
-        <Property name="Name" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Single" hashtags="#Expression#Type">
+        <Property name="Name" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Single" hashtags="#Expression#Type #IDENTIFIER">
           <Rules>
             <Signature equality="true" absolute="true"/>
             <Name suitability="Key" equality="true" absolute="true"/>
@@ -4809,7 +4866,7 @@
             <Pairwise tunneling="true"/>
           </Rules>
         </Property>
-        <Property name="Parameters" kind="Node" index="1" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="CrefParameterSyntax" collectionSeparator=",">
+        <Property name="Parameters" kind="Node" index="1" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="CrefParameterSyntax" collectionSeparator="," hashtags="=#CREF#Parameter">
           <Rules collection="true">
             <Signature equality="true" absolute="true"/>
             <Pairwise discriminant="true"/>
@@ -4833,7 +4890,7 @@
             <Pairwise tunneling="true"/>
           </Rules>
         </Property>
-        <Property name="Parameters" kind="Node" index="1" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="CrefParameterSyntax" collectionSeparator=",">
+        <Property name="Parameters" kind="Node" index="1" optional="false" changepoint="true" inherited="true" multiplicity="Collection" collectionType="CrefParameterSyntax" collectionSeparator="," hashtags="=#CREF#Parameter">
           <Rules collection="true">
             <Signature equality="true" absolute="true"/>
             <Pairwise discriminant="true"/>
@@ -4850,7 +4907,7 @@
         <Signature equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="CrefParameterSyntax" hashtags="#cref #parameter">
+    <Type name="CrefParameterSyntax" hashtags="#cref #parameter =#CREF#Parameter">
       <Properties>
         <Property name="RefKindKeyword" kind="Token" index="0" optional="true" changepoint="true" multiplicity="Single" hashtags="#KEYWORD">
           <Options exclusive="true">
@@ -4875,14 +4932,14 @@
     <Type name="XmlNodeSyntax" abstract="true"/>
     <Type name="XmlElementSyntax" base="XmlNodeSyntax" hashtags="#xml #XML#Node #element">
       <Properties>
-        <Property name="StartTag" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Single" hashtags="#XML#TAG#Start">
+        <Property name="StartTag" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Single" hashtags="#XML#TAG#Start #IDENTIFIER">
           <Rules>
             <Name suitability="Key" equality="true" absolute="true"/>
             <Pairwise tunneling="true"/>
             <Topology relevant="true"/>
           </Rules>
         </Property>
-        <Property name="Content" kind="Node" index="1" optional="false" changepoint="true" multiplicity="Collection" collectionType="XmlNodeSyntax">
+        <Property name="Content" kind="Node" index="1" optional="false" changepoint="true" multiplicity="Collection" collectionType="XmlNodeSyntax" hashtags="#XML#Node">
           <Rules collection="true">
             <Topology relevant="true"/>
           </Rules>
@@ -4912,7 +4969,7 @@
             <Topology relevant="true"/>
           </Rules>
         </Property>
-        <Property name="Attributes" kind="Node" index="2" optional="false" changepoint="true" multiplicity="Collection" collectionType="XmlAttributeSyntax">
+        <Property name="Attributes" kind="Node" index="2" optional="false" changepoint="true" multiplicity="Collection" collectionType="XmlAttributeSyntax" hashtags="#XML#Attribute">
           <Rules collection="true">
             <Topology relevant="true"/>
           </Rules>
@@ -4958,13 +5015,13 @@
             <Pairwise tunneling="true"/>
           </Rules>
         </Property>
-        <Property name="Name" kind="Node" index="1" optional="false" changepoint="true" multiplicity="Single" hashtags="#XML#Name">
+        <Property name="Name" kind="Node" index="1" optional="false" changepoint="true" multiplicity="Single" hashtags="#XML#Name #IDENTIFIER">
           <Rules>
             <Name suitability="Key" equality="true" absolute="true"/>
             <Topology relevant="true"/>
           </Rules>
         </Property>
-        <Property name="Attributes" kind="Node" index="2" optional="false" changepoint="true" multiplicity="Collection" collectionType="XmlAttributeSyntax">
+        <Property name="Attributes" kind="Node" index="2" optional="false" changepoint="true" multiplicity="Collection" collectionType="XmlAttributeSyntax" hashtags="#XML#Attribute">
           <Rules collection="true">
             <Topology relevant="true"/>
           </Rules>
@@ -5041,7 +5098,7 @@
     </Type>
     <Type name="XmlTextAttributeSyntax" base="XmlAttributeSyntax" hashtags="#xml #XML#Attribute #attribute #text">
       <Properties>
-        <Property name="Name" kind="Node" index="0" optional="false" changepoint="true" inherited="true" multiplicity="Single" hashtags="#XML#Name">
+        <Property name="Name" kind="Node" index="0" optional="false" changepoint="true" inherited="true" multiplicity="Single" hashtags="#XML#Name #IDENTIFIER">
           <Rules>
             <Name suitability="Key" equality="true" absolute="true"/>
             <Topology relevant="true"/>
@@ -5104,7 +5161,7 @@
           </Rules>
           <!-- readOnly="true"-->
         </Property>
-        <Property name="Cref" kind="Node" index="3" optional="false" changepoint="true" multiplicity="Single" hashtags="#Cref">
+        <Property name="Cref" kind="Node" index="3" optional="false" changepoint="true" multiplicity="Single" hashtags="#Cref #IDENTIFIER">
           <Rules>
             <Name suitability="Key" equality="true" absolute="true"/>
             <Topology relevant="true"/>
@@ -5207,7 +5264,7 @@
             <Pairwise tunneling="true"/>
           </Rules>
         </Property>
-        <Property name="Name" kind="Node" index="1" optional="false" changepoint="true" multiplicity="Single" hashtags="#XML#Name">
+        <Property name="Name" kind="Node" index="1" optional="false" changepoint="true" multiplicity="Single" hashtags="#XML#Name #IDENTIFIER">
           <Rules>
             <Name suitability="Key" equality="true" absolute="true"/>
             <Topology relevant="true"/>
@@ -5253,22 +5310,22 @@
     <!--CompilationUnitSyntax - Level 4-->
     <Type name="CompilationUnitSyntax">
       <Properties>
-        <Property name="Externs" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Collection" collectionType="ExternAliasDirectiveSyntax">
+        <Property name="Externs" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Collection" collectionType="ExternAliasDirectiveSyntax" hashtags="=#DIRECTIVE#ExternAlias">
           <Rules collection="true">
             <Topology relevant="true"/>
           </Rules>
         </Property>
-        <Property name="Usings" kind="Node" index="1" optional="false" changepoint="true" multiplicity="Collection" collectionType="UsingDirectiveSyntax">
+        <Property name="Usings" kind="Node" index="1" optional="false" changepoint="true" multiplicity="Collection" collectionType="UsingDirectiveSyntax" hashtags="=#DIRECTIVE#Using">
           <Rules collection="true">
             <Topology relevant="true"/>
           </Rules>
         </Property>
-        <Property name="AttributeLists" kind="Node" index="2" optional="false" changepoint="true" multiplicity="Collection" collectionType="AttributeListSyntax">
+        <Property name="AttributeLists" kind="Node" index="2" optional="false" changepoint="true" multiplicity="Collection" collectionType="AttributeListSyntax" hashtags="=#LIST#Attribute">
           <Rules collection="true">
             <Topology relevant="true"/>
           </Rules>
         </Property>
-        <Property name="Members" kind="Node" index="3" optional="false" changepoint="true" multiplicity="Collection" collectionType="MemberDeclarationSyntax">
+        <Property name="Members" kind="Node" index="3" optional="false" changepoint="true" multiplicity="Collection" collectionType="MemberDeclarationSyntax" hashtags="#DECLARATION#Member">
           <Rules collection="true">
             <Topology relevant="true"/>
           </Rules>
@@ -5280,7 +5337,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="ExternAliasDirectiveSyntax" hashtags="#directive #alias">
+    <Type name="ExternAliasDirectiveSyntax" hashtags="#directive #alias =#DIRECTIVE#ExternAlias">
       <Properties>
         <Property name="ExternKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" hashtags="#KEYWORD">
           <Rules>
@@ -5309,7 +5366,7 @@
         <Name suitability="Key" equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="UsingDirectiveSyntax" hashtags="#directive">
+    <Type name="UsingDirectiveSyntax" hashtags="#directive =#DIRECTIVE#Using">
       <Properties>
         <Property name="UsingKeyword" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" hashtags="#KEYWORD">
           <Rules>
@@ -5327,7 +5384,7 @@
             <Topology relevant="true"/>
           </Rules>
         </Property>
-        <Property name="Name" kind="Node" index="3" optional="false" changepoint="true" multiplicity="Single" hashtags="#Expression#Type#Name">
+        <Property name="Name" kind="Node" index="3" optional="false" changepoint="true" multiplicity="Single" hashtags="#Expression#Type#Name #IDENTIFIER">
           <Rules>
             <Name suitability="Key" equality="true" absolute="true"/>
             <Topology relevant="true"/>
@@ -5361,17 +5418,17 @@
             <Pairwise tunneling="true"/>
           </Rules>
         </Property>
-        <Property name="Externs" kind="Node" index="3" optional="false" changepoint="true" multiplicity="Collection" collectionType="ExternAliasDirectiveSyntax">
+        <Property name="Externs" kind="Node" index="3" optional="false" changepoint="true" multiplicity="Collection" collectionType="ExternAliasDirectiveSyntax" hashtags="=#DIRECTIVE#ExternAlias">
           <Rules collection="true">
             <Topology relevant="true"/>
           </Rules>
         </Property>
-        <Property name="Usings" kind="Node" index="4" optional="false" changepoint="true" multiplicity="Collection" collectionType="UsingDirectiveSyntax">
+        <Property name="Usings" kind="Node" index="4" optional="false" changepoint="true" multiplicity="Collection" collectionType="UsingDirectiveSyntax" hashtags="=#DIRECTIVE#Using">
           <Rules collection="true">
             <Topology relevant="true"/>
           </Rules>
         </Property>
-        <Property name="Members" kind="Node" index="5" optional="false" changepoint="true" multiplicity="Collection" collectionType="MemberDeclarationSyntax">
+        <Property name="Members" kind="Node" index="5" optional="false" changepoint="true" multiplicity="Collection" collectionType="MemberDeclarationSyntax" hashtags="#DECLARATION#Member">
           <Rules collection="true">
             <Topology relevant="true"/>
           </Rules>
@@ -5391,20 +5448,20 @@
         <Name suitability="Key" equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="AttributeListSyntax" hashtags="#list #attribute">
+    <Type name="AttributeListSyntax" hashtags="#list #attribute =#LIST#Attribute">
       <Properties>
         <Property name="OpenBracketToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" hashtags="#PUNTUACTION">
           <Rules>
             <Pairwise tunneling="true"/>
           </Rules>
         </Property>
-        <Property name="Target" kind="Node" index="1" optional="true" changepoint="true" multiplicity="Single">
+        <Property name="Target" kind="Node" index="1" optional="true" changepoint="true" multiplicity="Single" hashtags="=#SPECIFIER#ATTRIBUTE#Target">
           <Rules>
             <!--<Name equality="true" absolute="true"/>-->
             <Topology relevant="true"/>
           </Rules>
         </Property>
-        <Property name="Attributes" kind="Node" index="2" optional="false" changepoint="true" multiplicity="Collection" collectionType="AttributeSyntax" collectionSeparator=",">
+        <Property name="Attributes" kind="Node" index="2" optional="false" changepoint="true" multiplicity="Collection" collectionType="AttributeSyntax" collectionSeparator="," hashtags="=#DECLARATION#Attribute">
           <Rules collection="true">
             <!--<Name equality="true" absolute="true"/>-->
             <Topology relevant="true"/>
@@ -5420,7 +5477,7 @@
         <!--<Name equality="true" absolute="true"/>-->
       </Rules>
     </Type>
-    <Type name="AttributeTargetSpecifierSyntax" hashtags="#attribute #specifier">
+    <Type name="AttributeTargetSpecifierSyntax" hashtags="#attribute #specifier =#SPECIFIER#ATTRIBUTE#Target">
       <Properties>
         <Property name="Identifier" kind="Token" index="0" optional="false" changepoint="true" multiplicity="Single">
           <Rules>
@@ -5439,7 +5496,7 @@
         <!--<Name equality="true" absolute="true"/>-->
       </Rules>
     </Type>
-    <Type name="AttributeSyntax" hashtags="#attribute #DECLARATION">
+    <Type name="AttributeSyntax" hashtags="#attribute #DECLARATION =#DECLARATION#Attribute">
       <Properties>
         <Property name="Name" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Single" hashtags="#Expression#Type#Name #IDENTIFIER">
           <Rules>
@@ -5447,7 +5504,7 @@
             <Topology relevant="true"/>
           </Rules>
         </Property>
-        <Property name="ArgumentList" kind="Node" index="1" optional="true" changepoint="true" multiplicity="Single">
+        <Property name="ArgumentList" kind="Node" index="1" optional="true" changepoint="true" multiplicity="Single" hashtags="=#LIST#ATTRIBUTE#Argument =#ATTRIBUTE#Argument">
           <Rules collection="true">
             <Topology relevant="true"/>
           </Rules>
@@ -5457,14 +5514,14 @@
         <Name suitability="Key" equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="AttributeArgumentListSyntax" hashtags="#list #attribute #attribute#argument #argument">
+    <Type name="AttributeArgumentListSyntax" hashtags="#list #attribute #attribute#argument #argument =#LIST#ATTRIBUTE#Argument">
       <Properties>
         <Property name="OpenParenToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" hashtags="#PUNTUACTION">
           <Rules>
             <Pairwise tunneling="true"/>
           </Rules>
         </Property>
-        <Property name="Arguments" kind="Node" index="1" optional="false" changepoint="true" multiplicity="Collection" collectionType="AttributeArgumentSyntax" collectionSeparator=",">
+        <Property name="Arguments" kind="Node" index="1" optional="false" changepoint="true" multiplicity="Collection" collectionType="AttributeArgumentSyntax" collectionSeparator="," hashtags="=#ATTRIBUTE#Argument">
           <Rules collection="true">
             <Pairwise discriminant="true"/>
             <Topology relevant="true"/>
@@ -5478,7 +5535,7 @@
       </Properties>
       <Rules collection="true"/>
     </Type>
-    <Type name="AttributeArgumentSyntax" hashtags="#attribute#argument #attribute #argument">
+    <Type name="AttributeArgumentSyntax" hashtags="#attribute#argument #attribute #argument =#ATTRIBUTE#Argument">
       <Properties>
         <Property name="NameEquals" kind="Node" index="0" optional="true" changepoint="true" multiplicity="Single" hashtags="#EXPRESSION#TYPE#NAME#SIMPLE#IDENTIFIER#Equals #IDENTIFIER">
           <Rules>
@@ -5529,7 +5586,7 @@
             <Pairwise tunneling="true"/>
           </Rules>
         </Property>
-        <Property name="Elements" kind="Node" index="1" optional="false" changepoint="true" multiplicity="Collection" collectionType="TupleElementSyntax" collectionSeparator=",">
+        <Property name="Elements" kind="Node" index="1" optional="false" changepoint="true" multiplicity="Collection" collectionType="TupleElementSyntax" collectionSeparator="," hashtags="=#TYPE#TUPLE#Element">
           <Rules collection="true">
             <Pairwise discriminant="true"/>
             <Topology relevant="true"/>
@@ -5550,7 +5607,7 @@
             <Pairwise tunneling="true"/>
           </Rules>
         </Property>
-        <Property name="Arguments" kind="Node" index="1" optional="false" changepoint="true" multiplicity="Collection" collectionType="ArgumentSyntax" collectionSeparator=",">
+        <Property name="Arguments" kind="Node" index="1" optional="false" changepoint="true" multiplicity="Collection" collectionType="ArgumentSyntax" collectionSeparator="," hashtags="=#Argument">
           <Rules collection="true">
             <Pairwise discriminant="true"/>
             <Topology relevant="true"/>
@@ -5564,7 +5621,7 @@
       </Properties>
       <Rules collection="true"/>
     </Type>
-    <Type name="TupleElementSyntax" base="CSharpSyntaxNode" hashtags="#tuple #element">
+    <Type name="TupleElementSyntax" base="CSharpSyntaxNode" hashtags="#tuple #element =#TYPE#TUPLE#Element">
       <Properties>
         <Property name="Type" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Single" hashtags="#Expression#Type #DECLARATION#VARIABLE#TYPE">
           <Rules>
@@ -5601,7 +5658,7 @@
     </Type>
 
     <Type name="VariableDesignationSyntax" base="CSharpSyntaxNode" abstract="true"/>
-    <Type name="SingleVariableDesignationSyntax" base="VariableDesignationSyntax" hashtags="#variable #VARIABLE#Designation">
+    <Type name="SingleVariableDesignationSyntax" base="VariableDesignationSyntax" hashtags="#variable #DECLARATION#VARIABLE#Designation">
       <!--declaration-->
       <Properties>
         <Property name="Identifier" kind="Token" index="0" optional="false" changepoint="true" multiplicity="Single" hashtags="#IDENTIFIER #DECLARATION#VARIABLE#IDENTIFIER">
@@ -5616,7 +5673,7 @@
         <Name suitability="Key" equality="true" absolute="true"/>
       </Rules>
     </Type>
-    <Type name="DiscardDesignationSyntax" base="VariableDesignationSyntax" readonly="true" hashtags="#VARIABLE#Designation">
+    <Type name="DiscardDesignationSyntax" base="VariableDesignationSyntax" readonly="true" hashtags="#DECLARATION#VARIABLE#Designation">
       <Properties>
         <Property name="UnderscoreToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" hashtags="#PUNTUACTION">
           <Rules>
@@ -5625,7 +5682,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="ParenthesizedVariableDesignationSyntax" base="VariableDesignationSyntax" hashtags="#variable #VARIABLE#Designation #parenthesized">
+    <Type name="ParenthesizedVariableDesignationSyntax" base="VariableDesignationSyntax" hashtags="#variable #DECLARATION#VARIABLE#Designation #parenthesized">
       <!--declaration-->
       <Properties>
         <Property name="OpenParenToken" kind="Token" index="0" readOnly="true" optional="false" multiplicity="Single" hashtags="#PUNTUACTION">
@@ -5633,7 +5690,7 @@
             <Pairwise tunneling="true"/>
           </Rules>
         </Property>
-        <Property name="Variables" kind="Node" index="1" optional="false" changepoint="true" multiplicity="Collection" collectionType="VariableDesignationSyntax" collectionSeparator="," hashtags="#DECLARATION#VARIABLE">
+        <Property name="Variables" kind="Node" index="1" optional="false" changepoint="true" multiplicity="Collection" collectionType="VariableDesignationSyntax" collectionSeparator="," hashtags="#DECLARATION#VARIABLE #DECLARATION#VARIABLE#Designation">
           <Rules collection="true">
             <Pairwise discriminant="true"/>
             <Topology relevant="true"/>
@@ -5707,7 +5764,7 @@
         </Property>
       </Properties>
     </Type>
-    <Type name="DeclarationExpressionSyntax" base="ExpressionSyntax" hashtags="#Expression #expression #declaration #VARIABLE #DECLARATION"><!--variable-->
+    <Type name="DeclarationExpressionSyntax" base="ExpressionSyntax" hashtags="#Expression #expression #declaration #DECLARATION#VARIABLE #DECLARATION"><!--variable-->
       <Properties>
         <Property name="Type" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Single" hashtags="#Expression#Type #DECLARATION#VARIABLE#TYPE">
           <Rules>
@@ -5780,7 +5837,7 @@
     </Type>
 
     <Type name="PatternSyntax" base="CSharpSyntaxNode" abstract="true"/>
-    <Type name="DeclarationPatternSyntax" base="PatternSyntax" hashtags="#Pattern #declaration #VARIABLE#DECLARATOR #pattern"><!--variable-->
+    <Type name="DeclarationPatternSyntax" base="PatternSyntax" hashtags="#Pattern #declaration #DECLARATION#VARIABLE#DECLARATOR #pattern"><!--variable-->
       <!--declaration-->
       <Properties>
         <Property name="Type" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Single" hashtags="#Expression#Type #DECLARATION#VARIABLE#TYPE">
@@ -5810,7 +5867,7 @@
       </Properties>
     </Type>
 
-    <Type name="LocalFunctionStatementSyntax" base="StatementSyntax" hashtags="#Statement #statement #DECLARATION#LOCAL #DECLARATION#FUNCTION">
+    <Type name="LocalFunctionStatementSyntax" base="StatementSyntax" hashtags="#Statement #statement #DECLARATION #DECLARATION#LOCAL #DECLARATION#FUNCTION">
       <Properties>
         <Property name="Modifiers" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Collection">
           <Rules collection="true">
@@ -5830,19 +5887,19 @@
             <Topology relevant="true"/>
           </Rules>
         </Property>
-        <Property name="TypeParameterList" kind="Node" index="3" optional="true" changepoint="true" multiplicity="Single">
+        <Property name="TypeParameterList" kind="Node" index="3" optional="true" changepoint="true" multiplicity="Single" hashtags="=#LIST#TYPE#Parameter =#TYPE#Parameter">
           <Rules collection="true">
             <Signature equality="true" absolute="true"/>
             <Topology relevant="true"/>
           </Rules>
         </Property>
-        <Property name="ParameterList" kind="Node" index="4" optional="false" changepoint="true" multiplicity="Single" hashtags="#DECLARATION#VARIABLE">
+        <Property name="ParameterList" kind="Node" index="4" optional="false" changepoint="true" multiplicity="Single" hashtags="#DECLARATION#VARIABLE #LIST#Parameter =#DECLARATION#Parameter">
           <Rules collection="true">
             <Signature equality="true" absolute="true"/>
             <Topology relevant="true"/>
           </Rules>
         </Property>
-        <Property name="ConstraintClauses" kind="Node" index="5" optional="false" changepoint="true" multiplicity="Collection" collectionType="TypeParameterConstraintClauseSyntax">
+        <Property name="ConstraintClauses" kind="Node" index="5" optional="false" changepoint="true" multiplicity="Collection" collectionType="TypeParameterConstraintClauseSyntax" hashtags="=#CLAUSE#TYPE#PARAMETER#Constraint">
           <Rules collection="true">
             <Topology relevant="true"/>
           </Rules>

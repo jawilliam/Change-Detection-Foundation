@@ -127,13 +127,13 @@ namespace Jawilliam.CDF.CSharp.Flad
     /// <summary>
     /// Fully Language-Aware source code Deltas (for C#).
     /// </summary>
-    public class CSharpFlad : FladApproach<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>
+    public class BaseFlad : FladApproach<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>
     {
         /// <summary>
         /// Initializes the instance.
         /// </summary>
         /// <remarks>Sets up common services: <see cref="IAnnotationSetService{TElement, TAnnotation}"/>, <see cref="IMatchingSetService{TElement}"/>.</remarks>
-        public CSharpFlad()
+        public BaseFlad()
         {
             this.Services.Remove((int)ServiceId.OriginalAnnotationSet);
             this.Services.Add((int)ServiceId.OriginalAnnotationSet, new OriginalSetService<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>(this));
@@ -143,6 +143,7 @@ namespace Jawilliam.CDF.CSharp.Flad
 
             this.Services.Add((int)ServiceId.SemanticAbstraction, new SemanticAbstractionService { Id = (int)ServiceId.SemanticAbstraction });
             this.Services.Add((int)ServiceId.HierarchicalAbstraction, new HierarchicalSyntaxNodeService<Annotation<SyntaxNodeOrToken?>>(this) { Id = (int)ServiceId.HierarchicalAbstraction });
+            this.Services.Add((int)ServiceId.TopologicalAbstraction, new HierarchicalSyntaxNodeService<Annotation<SyntaxNodeOrToken?>>(this) { Id = (int)ServiceId.TopologicalAbstraction });
             this.Services.Add((int)ServiceId.TextualAbstraction, new TextualSyntaxNodeService { Id = (int)ServiceId.TextualAbstraction });
 
             this.Services.Add((int)ServiceId.FullContentHasher, new Md5HashingService<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>(this,
@@ -213,15 +214,15 @@ namespace Jawilliam.CDF.CSharp.Flad
             }
         }
 
-        /// <summary>
-        /// Stores the value of <see cref="LanguageServiceProvider"/>.
-        /// </summary>
-        private Awareness.LanguageServiceProvider languageServiceProvider;
+        ///// <summary>
+        ///// Stores the value of <see cref="LanguageServiceProvider"/>.
+        ///// </summary>
+        //private Awareness.LanguageServiceProvider languageServiceProvider;
 
-        /// <summary>
-        /// Gets the C#-specific information for source code change detection. 
-        /// </summary>
-        public virtual Awareness.LanguageServiceProvider LanguageServiceProvider => this.languageServiceProvider ?? (this.languageServiceProvider = new Awareness.LanguageServiceProvider(this));
+        ///// <summary>
+        ///// Gets the C#-specific information for source code change detection. 
+        ///// </summary>
+        //public virtual Awareness.LanguageServiceProvider LanguageServiceProvider => this.languageServiceProvider ?? (this.languageServiceProvider = new Awareness.LanguageServiceProvider(this));
 
         /// <summary>
         /// Loads the original and modified versions to compare. 

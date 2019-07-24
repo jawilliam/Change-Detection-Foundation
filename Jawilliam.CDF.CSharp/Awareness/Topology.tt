@@ -1,0 +1,449 @@
+<#@ template language="C#" debug="True" hostSpecific="true"#>
+<#@ output extension=".cs" #>
+<#@ include file="..\TemplateFileManagerV2.1.ttinclude" #>
+<#@ assembly name="$(SolutionDir)\packages\Microsoft.CodeAnalysis.Common.2.7.0\lib\netstandard1.3\Microsoft.CodeAnalysis.dll" #>
+<#@ assembly name="$(SolutionDir)\packages\Microsoft.CodeAnalysis.CSharp.2.7.0\lib\netstandard1.3\Microsoft.CodeAnalysis.CSharp.dll" #>
+<#@ assembly name="$(SolutionDir)\packages\CodePlex.LinqToXsd.2.0.2\lib\Xml.Schema.Linq.dll" #>
+<#@ assembly name="$(SolutionDir)\Jawilliam.CDF\bin\Debug\Jawilliam.CDF.dll" #>
+<#@ assembly name="$(SolutionDir)\Jawilliam.CDF.XObjects\bin\Debug\Jawilliam.CDF.XObjects.dll" #>
+<#@ assembly name="$(SolutionDir)\packages\System.Collections.Immutable.1.3.1\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll" #>
+<#@ assembly name="System.Runtime" #>
+<#@ assembly name="System.Linq" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.Reflection" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Collections" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Microsoft.CodeAnalysis.CSharp" #>
+<#@ import namespace="Jawilliam.CDF" #>
+<#@ import namespace="Jawilliam.CDF.GTED" #>
+<#@ import namespace="Jawilliam.CDF.XObjects.RDSL" #>
+<#
+// <copyright file="Topology.tt" company="Jasoco" author="Jawilliam">
+//  Copyright © . All Rights Reserved.
+// </copyright>
+
+Type csharpSyntaxVisitor = typeof(CSharpSyntaxVisitor);
+MethodInfo[] allMethods = csharpSyntaxVisitor.GetMembers().OfType<MethodInfo>().ToArray();
+
+// Filters to methods starting with 'Visit' prefix, except that being called just 'Visit'.
+MethodInfo[] visitMethods = allMethods.Where(m => m.Name.StartsWith("Visit") && m.Name != "Visit").ToArray();
+
+// This methods represents the case logic of CSharpSyntaxVisitor for each type of syntax node, then lets to collect all that syntax node types.
+List<Type> syntaxNodeTypes = visitMethods.Select(m => m.GetParameters().Single(p => p.Name == "node").ParameterType).Distinct().ToList();
+
+// Build up the class system of syntax node types by completing the total hierarchy. 
+List<Type> syntaxNodeSystem = new List<Type>(syntaxNodeTypes);
+List<Type> syntaxInnerNodes = new List<Type>(220);
+syntaxInnerNodes.AddRange(syntaxNodeSystem.Where(n => n.BaseType != typeof(object)).Select(n => n.BaseType).Distinct().Intersect(syntaxNodeSystem));
+List<Type> missingSyntaxTypes = syntaxNodeSystem.Where(n => n.BaseType != typeof(object)).Select(n => n.BaseType).Distinct().Except(syntaxNodeSystem).ToList();
+while (missingSyntaxTypes.Any())
+{
+    syntaxInnerNodes.AddRange(missingSyntaxTypes);
+    syntaxNodeSystem.AddRange(missingSyntaxTypes);
+    missingSyntaxTypes = syntaxNodeSystem.Where(n => n.BaseType != typeof(object)).Select(n => n.BaseType).Distinct().Except(syntaxNodeSystem).ToList();
+}
+
+var syntaxNodeViews = syntaxNodeSystem
+.Select(t => new
+{
+    Parent = t.BaseType.Name,
+    Child = new Tree { Root = new Node { Label = t.Name } }
+})
+.ToList();
+
+List<ITree> syntaxNodeHierarachies = new List<ITree>(220);
+foreach (var parentType in syntaxInnerNodes)
+{
+    var parent = syntaxNodeViews.First(n => object.Equals(n.Child.Root.Label, parentType.Name));
+    foreach (var child in syntaxNodeViews.Where(t => object.Equals(t.Parent, parent.Child.Root.Label)))
+    {
+        parent.Child.Children.Add(child.Child);
+        child.Child.Parent = parent.Child;
+    }
+}
+
+var syntaxSystemRoot = syntaxNodeViews.Where(t => t.Parent == typeof(object).Name).Single().Child;
+
+CodeGenerationTools code = new CodeGenerationTools(this);
+CodeRegion region = new CodeRegion(this, 1);
+string namespaceName = code.VsNamespaceSuggestion();
+
+var manager = TemplateFileManager.Create(this);
+
+// var xSyntaxTypeSystem = Jawilliam.CDF.XObjects.RDSL.Syntax.NodeTypes.Load(@"E:\Projects\Software Development Investigation\Jawilliam.Msr.Roslyn\CSharp\NodeTypeSystem.xml");
+var xSyntaxTypeSystem = Jawilliam.CDF.XObjects.RDSL.Syntax.Load(@"E:\MyRepositories\Change-Detection-Foundation\Jawilliam.CDF.CSharp\RDSL.xml");
+#>
+using Jawilliam.CDF.Approach.Awareness;
+using Jawilliam.CDF.Approach.Criterions;
+using Jawilliam.CDF.Approach.Flad;
+using Jawilliam.CDF.Approach.Services;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Xml.Linq;
+
+<#
+BeginNamespace(namespaceName, code);
+
+var topologyProviders = xSyntaxTypeSystem.Nodes.Type
+	.Where(t => !t.@abstract /*&& t.Properties.Property.Any(p => p.Rules?.Topology?.relevant ?? false)*/)
+	.ToList();
+
+foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
+.Where(n => !object.Equals(n.Root.Label, "SyntaxNode") && 
+            !object.Equals(n.Root.Label, "CSharpSyntaxNode")))
+{
+	var xSyntaxNodeType = xSyntaxTypeSystem.Nodes.Type.SingleOrDefault(n => n.name == syntaxNode.Root.Label.ToString());
+	if(xSyntaxNodeType == null) continue;
+
+	if(!topologyProviders.Any(t => t == xSyntaxNodeType)) 
+		continue;
+
+	var topologicalProperties = xSyntaxNodeType?.Properties?.Property?
+		//.Where(p => keyProperty.Item2.kind != "Token" && (p.Rules?.Topology?.relevant ?? false))
+		//.Where(p => p.kind != "Token")
+		.ToList() ?? (new List<Syntax.NodesLocalType.TypeLocalType.PropertiesLocalType.PropertyLocalType>(0));
+
+	if(!(topologicalProperties?.Any() ?? false)) 
+		continue;
+
+	var xSyntaxNodeBaseType = xSyntaxNodeType != null && xSyntaxNodeType.@base != null ?
+	 xSyntaxTypeSystem.Nodes.Type.SingleOrDefault(n => n.name == xSyntaxNodeType.@base) 
+	 : null;
+	
+	var isUpdatable = false;
+	if(xSyntaxNodeType != null && xSyntaxNodeType.Properties != null && xSyntaxNodeType.Properties.Property != null)
+		isUpdatable = xSyntaxNodeType.Properties.Property.Any(p => p.changepoint);
+
+	if(xSyntaxNodeType != null)
+    {
+		var xSyntaxNodeBaseTypeProperties = xSyntaxNodeBaseType != null && xSyntaxNodeBaseType.Properties != null && xSyntaxNodeBaseType.Properties.Property != null 
+				? xSyntaxNodeBaseType.Properties.Property
+				: new Syntax.NodesLocalType.TypeLocalType.PropertiesLocalType.PropertyLocalType[0];
+
+		var xSyntaxNodeProperties = xSyntaxNodeType.Properties != null && xSyntaxNodeType.Properties.Property != null 
+			? xSyntaxNodeType.Properties.Property
+			: new Syntax.NodesLocalType.TypeLocalType.PropertiesLocalType.PropertyLocalType[0];
+
+		var currentType = typeof(Microsoft.CodeAnalysis.CSharp.CSharpSyntaxNode)
+			.Assembly.GetType("Microsoft.CodeAnalysis.CSharp.Syntax." + code.Escape(syntaxNode.Root.Label.ToString()));
+		var currentPropertiesMetadata = currentType.GetMembers().OfType<PropertyInfo>()
+			.Where(p => xSyntaxNodeProperties.Any(n => n.name == p.Name))
+			.Select(p => new Tuple<PropertyInfo, Syntax.NodesLocalType.TypeLocalType.PropertiesLocalType.PropertyLocalType>(p, xSyntaxNodeProperties.Single(n => n.name == p.Name)))
+			.OrderBy(p => p.Item2.index)
+			.ToArray();
+
+	if(xSyntaxNodeType != null)
+	{
+#>
+public <#= xSyntaxNodeType.@abstract ? "abstract " : "" #>partial class <#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>ServiceProvider : IHierarchicalAbstractionService<SyntaxNodeOrToken?>
+{
+	/// <summary>
+    /// Method hook for implementing logic to execute before the <see cref="Children(SyntaxNodeOrToken?)"/>.
+    /// </summary>
+    /// <param name="node">node of interest.</param>
+    /// <param name="result">Mechanism to modify the result of <see cref="Children(SyntaxNodeOrToken?)"/>.</param>
+    /// <param name="ignoreCore">If true, the <see cref="ChildrenCore(SyntaxNodeOrToken?)"/> is not executed and <see cref="Children(SyntaxNodeOrToken?)"/> returns the current value of <paramref name="result"/>.</param>
+    partial void ChildrenBefore(SyntaxNodeOrToken? node, ref IEnumerable<SyntaxNodeOrToken?> result, ref bool ignoreCore);
+    
+    /// <summary>
+    /// Method hook for implementing logic to execute after the <see cref="ChildrenCore(SyntaxNodeOrToken?)"/>.
+    /// </summary>
+    /// <param name="node">node of interest.</param>
+    /// <param name="result">Mechanism to modify the result of <see cref="Children(SyntaxNodeOrToken?)"/>.</param>
+    partial void ChildrenAfter(SyntaxNodeOrToken? node, ref IEnumerable<SyntaxNodeOrToken?> result);
+
+    /// <summary>
+    /// Access to the children of a node.
+    /// </summary>
+    /// <param name="node">node of interest.</param>
+    /// <returns>the node's children.</returns>
+    /// <remarks>This is the default implementation for <see cref="Children(SyntaxNodeOrToken?)"/>.</remarks>
+    protected virtual IEnumerable<SyntaxNodeOrToken?> ChildrenCore(SyntaxNodeOrToken? node)
+	{
+		var n = node != null ? (<#= code.Escape(syntaxNode.Root.Label.ToString()) #>)node : throw new ArgumentNullException(nameof(node));
+<#
+		if(topologicalProperties.Count(p => p.Rules?.Topology?.relevant ?? false) == 0)
+		{
+#>
+		yield break;
+<#
+		}
+		else
+		{
+			for (int i = 0; i < topologicalProperties.Count; i++)
+			{
+				var keyProperty = currentPropertiesMetadata.Single(p => topologicalProperties[i].name == p.Item2.name);
+				if(keyProperty.Item2.Rules?.Topology?.relevant ?? false)
+				{
+					if(keyProperty.Item2.optional && keyProperty.Item2.multiplicity == "Collection")
+					{
+#>
+        if(n.<#= keyProperty.Item2.name #> != null) 
+		{
+			foreach (var e in n.<#= keyProperty.Item2.name #>)
+				yield return e;
+		}
+<# 
+					}
+					else if(!keyProperty.Item2.optional && keyProperty.Item2.multiplicity == "Collection")			
+					{
+#>
+        foreach (var e in n.<#= keyProperty.Item2.name #>)
+			yield return e;
+<# 
+					}
+					else if(keyProperty.Item2.optional)	
+					{
+#>
+        if(n.<#= keyProperty.Item2.name #> != null)
+			yield return n.<#= keyProperty.Item2.name #>;
+<# 
+					}
+					else
+					{
+#>
+        yield return n.<#= keyProperty.Item2.name #>;
+<# 
+					}
+				}
+			}
+		}
+#>
+	}
+
+    /// <summary>
+    /// Access to the children of a node.
+    /// </summary>
+    /// <param name="node">node of interest.</param>
+    /// <returns>the node's children.</returns>
+    public virtual IEnumerable<SyntaxNodeOrToken?> Children(SyntaxNodeOrToken? node)
+	{
+		IEnumerable<SyntaxNodeOrToken?> result = null;
+		var ignoreCore = false;
+		ChildrenBefore(node, ref result, ref ignoreCore);
+		if(ignoreCore) 
+			return result;
+		
+		result = this.ChildrenCore(node);
+		ChildrenAfter(node, ref result);
+		return result;
+	}
+
+	/// <summary>
+    /// Method hook for implementing logic to execute before the <see cref="Parent(SyntaxNodeOrToken?)"/>.
+    /// </summary>
+    /// <param name="node">node of interest.</param>
+    /// <param name="result">Mechanism to modify the result of <see cref="Parent(SyntaxNodeOrToken?)"/>.</param>
+    /// <param name="ignoreCore">If true, the <see cref="ParentCore(SyntaxNodeOrToken?)"/> is not executed and <see cref="Parent(SyntaxNodeOrToken?)"/> returns the current value of <paramref name="result"/>.</param>
+    partial void ParentBefore(SyntaxNodeOrToken? node, ref SyntaxNodeOrToken? result, ref bool ignoreCore);
+    
+    /// <summary>
+    /// Method hook for implementing logic to execute after the <see cref="ParentCore(SyntaxNodeOrToken?)"/>.
+    /// </summary>
+    /// <param name="node">node of interest.</param>
+    /// <param name="result">Mechanism to modify the result of <see cref="Parent(SyntaxNodeOrToken?)"/>.</param>
+    partial void ParentAfter(SyntaxNodeOrToken? node, ref SyntaxNodeOrToken? result);
+
+    /// <summary>
+    /// Access to the parent of a node.
+    /// </summary>
+    /// <param name="node">node of interest.</param>
+    /// <returns>the node's parent.</returns>
+    /// <remarks>This is the default implementation for <see cref="Parent(SyntaxNodeOrToken?)"/>.</remarks>
+    protected virtual SyntaxNodeOrToken? ParentCore(SyntaxNodeOrToken? node)
+	{
+		return node.Value.Parent;
+	}
+
+    /// <summary>
+    /// Access to the parent of a node.
+    /// </summary>
+    /// <param name="node">node of interest.</param>
+    /// <returns>the node's parent.</returns>
+    public virtual SyntaxNodeOrToken? Parent(SyntaxNodeOrToken? node)
+	{
+		SyntaxNodeOrToken? result = null;
+		var ignoreCore = false;
+		ParentBefore(node, ref result, ref ignoreCore);
+		if(ignoreCore) 
+			return result;
+		
+		result = this.ParentCore(node);
+		ParentAfter(node, ref result);
+		return result;
+	}
+
+	/// <summary>
+    /// Method hook for implementing logic to execute before the <see cref="Label(SyntaxNodeOrToken?)"/>.
+    /// </summary>
+    /// <param name="node">node of interest.</param>
+    /// <returns>the node's children.</returns>
+    /// <param name="result">Mechanism to modify the result of <see cref="Label(SyntaxNodeOrToken?)"/>.</param>
+    /// <param name="ignoreCore">If true, the <see cref="LabelCore(SyntaxNodeOrToken?)"/> is not executed and <see cref="Label(SyntaxNodeOrToken?)"/> returns the current value of <paramref name="result"/>.</param>
+    partial void LabelBefore(SyntaxNodeOrToken? node, ref int result, ref bool ignoreCore);
+    
+    /// <summary>
+    /// Method hook for implementing logic to execute after the <see cref="LabelCore(SyntaxNodeOrToken?)"/>.
+    /// </summary>
+    /// <param name="node">node of interest.</param>
+    /// <returns>the node's children.</returns>
+    /// <param name="result">Mechanism to modify the result of <see cref="Label(SyntaxNodeOrToken?)"/>.</param>
+    partial void LabelAfter(SyntaxNodeOrToken? node, ref int result);
+
+    /// <summary>
+    /// Access to the label of a node.
+    /// </summary>
+    /// <param name="node">node of interest.</param>
+    /// <returns>a numeric identifier of the node type.</returns>
+    /// <remarks>This is the default implementation for <see cref="Label(SyntaxNodeOrToken?)"/>.</remarks>
+    protected virtual int LabelCore(SyntaxNodeOrToken? node)
+	{
+		return node.Value.RawKind;
+	}
+
+    /// <summary>
+    /// Access to the label of a node.
+    /// </summary>
+    /// <param name="node">node of interest.</param>
+    /// <returns>a numeric identifier of the node type.</returns>
+    public virtual int Label(SyntaxNodeOrToken? node)
+	{
+		int result = -1;
+		var ignoreCore = false;
+		LabelBefore(node, ref result, ref ignoreCore);
+		if(ignoreCore) 
+			return result;
+		
+		result = this.LabelCore(node);
+		LabelAfter(node, ref result);
+		return result;
+	}
+
+	/// <summary>
+    /// Method hook for implementing logic to execute before the <see cref="Value(SyntaxNodeOrToken?)"/>.
+    /// </summary>
+    /// <param name="node">node of interest.</param>
+    /// <param name="result">Mechanism to modify the result of <see cref="Value(SyntaxNodeOrToken?)"/>.</param>
+    /// <param name="ignoreCore">If true, the <see cref="ValueCore(SyntaxNodeOrToken?)"/> is not executed and <see cref="Value(SyntaxNodeOrToken?)"/> returns the current value of <paramref name="result"/>.</param>
+    partial void ValueBefore(SyntaxNodeOrToken? node, ref object result, ref bool ignoreCore);
+    
+    /// <summary>
+    /// Method hook for implementing logic to execute after the <see cref="ValueCore(SyntaxNodeOrToken?)"/>.
+    /// </summary>
+    /// <param name="node">node of interest.</param>
+    /// <param name="result">Mechanism to modify the result of <see cref="Value(SyntaxNodeOrToken?)"/>.</param>
+    partial void ValueAfter(SyntaxNodeOrToken? node, ref object result);
+
+    /// <summary>
+    /// Access to the value of a node.
+    /// </summary>
+    /// <param name="node">node of interest.</param>
+    /// <returns>the value of the given node.</returns>
+    /// <remarks>This is the default implementation for <see cref="Value(SyntaxNodeOrToken?)"/>.</remarks>
+    protected virtual object ValueCore(SyntaxNodeOrToken? node)
+	{
+		return node != null && this.IsLeaf(node) ? node?.ToString() : null;
+	}
+
+    /// <summary>
+    /// Access to the value of a node.
+    /// </summary>
+    /// <param name="node">node of interest.</param>
+    /// <returns>the value of the given node.</returns>
+    public virtual object Value(SyntaxNodeOrToken? node)
+	{
+		object result = null;
+		var ignoreCore = false;
+		ValueBefore(node, ref result, ref ignoreCore);
+		if(ignoreCore) 
+			return result;
+		
+		result = this.ValueCore(node);
+		ValueAfter(node, ref result);
+		return result;
+	}
+
+	/// <summary>
+    /// Method hook for implementing logic to execute before the <see cref="IsLeaf(SyntaxNodeOrToken?)"/>.
+    /// </summary>
+    /// <param name="node">node of interest.</param>
+    /// <param name="result">Mechanism to modify the result of <see cref="IsLeaf(SyntaxNodeOrToken?)"/>.</param>
+    /// <param name="ignoreCore">If true, the <see cref="IsLeafCore(SyntaxNodeOrToken?)"/> is not executed and <see cref="IsLeaf(SyntaxNodeOrToken?)"/> returns the current value of <paramref name="result"/>.</param>
+    partial void IsLeafBefore(SyntaxNodeOrToken? node, ref bool result, ref bool ignoreCore);
+    
+    /// <summary>
+    /// Method hook for implementing logic to execute after the <see cref="IsLeafCore(SyntaxNodeOrToken?)"/>.
+    /// </summary>
+    /// <param name="node">node of interest.</param>
+    /// <param name="result">Mechanism to modify the result of <see cref="IsLeaf(SyntaxNodeOrToken?)"/>.</param>
+    partial void IsLeafAfter(SyntaxNodeOrToken? node, ref bool result);
+
+    /// <summary>
+    /// Access to the children of a node.
+    /// </summary>
+    /// <param name="node">node of interest.</param>
+    /// <returns>the node's children.</returns>
+    /// <remarks>This is the default implementation for <see cref="IsLeaf(SyntaxNodeOrToken?)"/>.</remarks>
+    protected virtual bool IsLeafCore(SyntaxNodeOrToken? node)
+	{
+		return this.Children(node.Value).Count() == 0;
+	}
+
+    /// <summary>
+    /// Access to the children of a node.
+    /// </summary>
+    /// <param name="node">node of interest.</param>
+    /// <returns>the node's children.</returns>
+    public virtual bool IsLeaf(SyntaxNodeOrToken? node)
+	{
+		bool result = false;
+		var ignoreCore = false;
+		IsLeafBefore(node, ref result, ref ignoreCore);
+		if(ignoreCore) 
+			return result;
+		
+		result = this.IsLeafCore(node);
+		IsLeafAfter(node, ref result);
+		return result;
+	}
+}
+
+<#
+	}
+ }
+}
+	
+EndNamespace(namespaceName);
+
+manager.Process();
+#>
+<#+ 
+void BeginNamespace(string namespaceName, CodeGenerationTools code)
+{
+    CodeRegion region = new CodeRegion(this);
+    if (!String.IsNullOrEmpty(namespaceName))
+    {
+#>
+namespace <#=code.EscapeNamespace(namespaceName)#>
+{
+<#+
+        PushIndent(CodeRegion.GetIndent(1));
+    }
+}
+
+void EndNamespace(string namespaceName)
+{
+    if (!String.IsNullOrEmpty(namespaceName))
+    {
+        PopIndent();
+#>
+}
+<#+
+    }
+}
+#>

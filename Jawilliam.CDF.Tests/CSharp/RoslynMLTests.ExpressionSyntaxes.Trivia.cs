@@ -299,7 +299,7 @@ namespace Jawilliam.CDF.Tests.CSharp
             xElement = converter.Visit(node.Content.OfType<XmlEmptyElementSyntax>().Single().Name.Prefix);
             Assert.AreEqual("<XmlPrefix startLine=\"1\" startColumn=\"5\" endLine=\"1\" endColumn=\"6\"><Token kind=\"IdentifierToken\" startLine=\"1\" startColumn=\"5\" endLine=\"1\" endColumn=\"5\" part=\"Prefix\">a</Token><Token kind=\"ColonToken\" Punctuation=\"true\" Language=\"true\" startLine=\"1\" startColumn=\"6\" endLine=\"1\" endColumn=\"6\" part=\"ColonToken\">:</Token></XmlPrefix>", xElement.ToString(SaveOptions.DisableFormatting));
         }
-
+   
         [TestMethod]
         public void XmlAttributeSyntax_XmlTextAttributeSyntax_RoslynMLFromRoslyn_OK()
         {
