@@ -606,7 +606,7 @@ namespace Jawilliam.CDF.Labs
             //}
             //RedundancyComparisonGumTreeWithMultipleConfigurations();
             
-                //--DetectingInverseOfNativeGumTreeWithGumtreefiedRoslynMLOnMultipleConfigurations();
+            //DetectingInverseOfNativeGumTreeWithGumtreefiedRoslynMLOnMultipleConfigurations();
             
             //ReviewRevisionPairs2(@"E:\Phd\Analysis\OriginalForReversibilityExample.cs", @"E:\Phd\Analysis\ModifiedForReversibilityExample.cs",
             //    ReviewKind.Ratio_LevenshteinGumTreeAdditions_LocalOutliers, ReviewRevisionPair/*,
@@ -834,7 +834,7 @@ namespace Jawilliam.CDF.Labs
             recognizer.ConfigLeftVsRight((ChangeDetectionApproaches.NativeGumTree, "GumTree"), (ChangeDetectionApproaches.NativeGumTreeWithChangeDistillerMatcher, "ChangeDistillerGumTree"));
             var connectionSettings = System.Configuration.ConfigurationManager.ConnectionStrings;
 
-            foreach (var project in Projects.Reverse().Skip(17).Take(27))
+            foreach (var project in Projects)
             {
                 //var connection = System.Configuration.ConfigurationManager.ConnectionStrings[project.Name];
                 //var connectionString = connection.ConnectionString.Replace("res://*/GitRepository", ".\\GitRepository");
@@ -968,25 +968,25 @@ namespace Jawilliam.CDF.Labs
             Console.Out.WriteLine($"BetweenMatchComparison_GT_RGT_Summary!!!");
         }
 
-        public static void StructureBetweenMatches()
-        {
-            var recognizer = new BetweenComparison() { MillisecondsTimeout = 600000 };
-            recognizer.ConfigGumTreeVsReversedGumTree();
-            //System.IO.File.WriteAllText($@"E:\SourceCode\BetweenMatchComparison_GT_RGT_Summary.txt", "Project;#Frps;#LRMatches;#LRFrps;%LRFrps;RLMatches;#RLFrps;%RLFrps;TotalMatches;#TotalFrps;%TotalFrps");
-            foreach (var project in Projects)
-            {
-                using (var dbRepository = new GitRepository(project.Name) { Name = project.Name })
-                {
-                    ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 600000;
-                    recognizer.SqlRepository = dbRepository;
-                    recognizer.Cancel = null;
-                    recognizer.ConnectMatchSymptoms();
+        //public static void StructureBetweenMatches()
+        //{
+        //    var recognizer = new BetweenComparison() { MillisecondsTimeout = 600000 };
+        //    recognizer.ConfigGumTreeVsReversedGumTree();
+        //    //System.IO.File.WriteAllText($@"E:\SourceCode\BetweenMatchComparison_GT_RGT_Summary.txt", "Project;#Frps;#LRMatches;#LRFrps;%LRFrps;RLMatches;#RLFrps;%RLFrps;TotalMatches;#TotalFrps;%TotalFrps");
+        //    foreach (var project in Projects)
+        //    {
+        //        using (var dbRepository = new GitRepository(project.Name) { Name = project.Name })
+        //        {
+        //            ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 600000;
+        //            recognizer.SqlRepository = dbRepository;
+        //            recognizer.Cancel = null;
+        //            recognizer.ConnectMatchSymptoms();
 
-                    Console.Out.WriteLine(project.Name);
-                }
-            }
-            Console.Out.WriteLine($"BetweenMatchComparison_GT_RGT_Summary!!!");
-        }
+        //            Console.Out.WriteLine(project.Name);
+        //        }
+        //    }
+        //    Console.Out.WriteLine($"BetweenMatchComparison_GT_RGT_Summary!!!");
+        //}
 
         //public static void SummarizeFileRevisionPairs()
         //{
@@ -1079,7 +1079,7 @@ namespace Jawilliam.CDF.Labs
                 MillisecondsTimeout = 600000
             };
 
-            foreach (var project in Projects.Skip(96))
+            foreach (var project in Projects)
             {
                 foreach (var configuration in configurations/*.Where(c => project.Name == "SparkleShare" ? (int)c.Backward.Approach >= 24 : true)*/)
                 {
@@ -1099,14 +1099,6 @@ namespace Jawilliam.CDF.Labs
                     };
 
                     interopArgs.GumTreePath = configuration.Path;
-                    //if (project.Name == "mono" && (int)configuration.Forward.Approach == 14)
-                    //{
-                    //    analyzer.NativeGumTreeDiff(gumTree, interopArgs, configuration.Forward.Approach, null, null);
-                    ////analyzer.InverseNativeGumTreeDiff(gumTree, interopArgs, gumTreeApproach, skipThese, cleaner);
-                    //System.IO.File.AppendAllText($@"D:\ExperimentLogs\{configuration.Backward.Name}.txt",
-                    //    $"{Environment.NewLine}{Environment.NewLine}GumTreefied RoslynML (forward collection) completed {DateTime.Now.ToString("F", CultureInfo.InvariantCulture)} - {project.Name}");
-                    //    analyzer.Warnings = new StringBuilder();
-                    //}
 
                     ///TODO: Hay que repetir el experimento para AzureSdkForNet
                     //if (!(project.Name == "SparkleShare" && (int)configuration.Backward.Approach == 25))
@@ -1120,9 +1112,6 @@ namespace Jawilliam.CDF.Labs
                     recognizer.ConfigForwardVsBackward((configuration.Forward.Approach, configuration.Forward.Name), (configuration.Backward.Approach, configuration.Backward.Name));
                     recognizer.SqlRepository = dbRepository;
                     recognizer.Cancel = null;
-                    //frp => dbRepository.Deltas.Any(d => d.RevisionPair.Id == frp.Id &&
-                    //                                                             d.Approach == ChangeDetectionApproaches.NativeGumTree &&
-                    //                                                             d.OriginalTree != null && d.ModifiedTree != null);
 
                     recognizer.Config.GetTree = delegate ((Delta Delta, FileRevisionPair Pair, bool TrueForOriginalOtherwiseModified) args)
                     {
@@ -1462,6 +1451,29 @@ namespace Jawilliam.CDF.Labs
             }
             Console.Out.WriteLine($"GumTree native collected!!!");
         }
+
+        //private static void ComparisonBetweenNativeGumTreeAndNativeGTtreefiedRoslynML()
+        //{
+        //    var recognizer = new BetweenComparison() { MillisecondsTimeout = 600000 };
+        //    recognizer.ConfigLeftVsRight((ChangeDetectionApproaches.NativeGumTree, "gumtree_srcml"),
+        //                                 (ChangeDetectionApproaches.NativeGTtreefiedRoslynML, "gumtree_roslynml"));
+        //    var connectionSettings = System.Configuration.ConfigurationManager.ConnectionStrings;
+
+        //    foreach (var project in Projects)
+        //    {
+        //        //var connection = System.Configuration.ConfigurationManager.ConnectionStrings[project.Name];
+        //        //var connectionString = connection.ConnectionString.Replace("res://*/GitRepository", ".\\GitRepository");
+        //        var dbRepository = new GitRepository(project.Name) { Name = project.Name };
+        //        ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 600;
+        //        recognizer.SqlRepository = dbRepository;
+        //        recognizer.Cancel = null;
+
+        //        recognizer.Warnings = new StringBuilder();
+        //        recognizer.Recognize();
+        //        System.IO.File.WriteAllText($@"E:\SourceCode\BetweenComparison_GT_RGT_{project.Name}.txt", recognizer.Warnings.ToString());
+        //    }
+        //    Console.Out.WriteLine($"GumTree native collected!!!");
+        //}
 
 
         private static void DetectingNotRealSourceCodeChanges()

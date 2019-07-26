@@ -1706,6 +1706,1831 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
         }
 
         [TestMethod]
+        public void ReturnStatementServiceProvider_TopologicalAbstraction_OK()
+        {
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
+
+            var node = (ReturnStatementSyntax)SyntaxFactory.ParseStatement("return 5;");
+
+            var hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 3);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.ReturnKeyword));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Expression));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.SemicolonToken));
+
+            var topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 1);
+            Assert.IsTrue(topologicalChildren.Contains(node.Expression));
+        }
+
+        [TestMethod]
+        public void ThrowStatementServiceProvider_TopologicalAbstraction_OK()
+        {
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
+
+            var node = (ThrowStatementSyntax)SyntaxFactory.ParseStatement("throw 5;");
+
+            var hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 3);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.ThrowKeyword));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Expression));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.SemicolonToken));
+
+            var topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 1);
+            Assert.IsTrue(topologicalChildren.Contains(node.Expression));
+        }
+
+        [TestMethod]
+        public void YieldStatementServiceProvider_TopologicalAbstraction_OK()
+        {
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
+
+            var node = (YieldStatementSyntax)SyntaxFactory.ParseStatement("yield return 5;");
+
+            var hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 4);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.YieldKeyword));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.ReturnOrBreakKeyword));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Expression));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.SemicolonToken));
+
+            var topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 1);
+            Assert.IsTrue(topologicalChildren.Contains(node.Expression));
+
+            node = (YieldStatementSyntax)SyntaxFactory.ParseStatement("yield break;");
+
+            hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 3);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.YieldKeyword));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.ReturnOrBreakKeyword));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.SemicolonToken));
+
+            topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 0);
+        }
+
+        [TestMethod]
+        public void WhileStatementServiceProvider_TopologicalAbstraction_OK()
+        {
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
+
+            var node = (WhileStatementSyntax)SyntaxFactory.ParseStatement("while (x < 0) x = 5;");
+
+            var hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 5);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.WhileKeyword));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.OpenParenToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Condition));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.CloseParenToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Statement));
+
+            var topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 2);
+            Assert.IsTrue(topologicalChildren.Contains(node.Condition));
+            Assert.IsTrue(topologicalChildren.Contains(node.Statement));
+        }
+
+        [TestMethod]
+        public void DoStatementServiceProvider_TopologicalAbstraction_OK()
+        {
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
+
+            var node = (DoStatementSyntax)SyntaxFactory.ParseStatement("do x = 5; while (x < 0);");
+
+            var hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 7);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.DoKeyword));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Statement));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.WhileKeyword));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.OpenParenToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Condition));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.CloseParenToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.SemicolonToken));
+
+            var topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 2);
+            Assert.IsTrue(topologicalChildren.Contains(node.Statement));
+            Assert.IsTrue(topologicalChildren.Contains(node.Condition));
+        }
+
+        [TestMethod]
+        public void ForStatementServiceProvider_TopologicalAbstraction_OK()
+        {
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
+
+            var node = (ForStatementSyntax)SyntaxFactory.ParseStatement("for(int a = 0, b = 4; a < 0; a++, --b);");
+
+            var hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 11);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.ForKeyword));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.OpenParenToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Declaration));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.FirstSemicolonToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Condition));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.SecondSemicolonToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Incrementors[0]));
+            Assert.IsTrue(hierarchicalChildren[7].Value.AsToken().Kind() == SyntaxKind.CommaToken);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Incrementors[1]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.CloseParenToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Statement));
+
+            var topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 5);
+            Assert.IsTrue(topologicalChildren.Contains(node.Declaration));
+            Assert.IsTrue(topologicalChildren.Contains(node.Condition));
+            Assert.IsTrue(topologicalChildren.Contains(node.Incrementors[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Incrementors[1]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Statement));
+
+            node = (ForStatementSyntax)SyntaxFactory.ParseStatement("for(a = 0, b = 4; a < 0; a++, --b);");
+
+            hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 13);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.ForKeyword));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.OpenParenToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Initializers[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Initializers[1]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.FirstSemicolonToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Condition));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.SecondSemicolonToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Incrementors[0]));
+            Assert.IsTrue(hierarchicalChildren[9].Value.AsToken().Kind() == SyntaxKind.CommaToken);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Incrementors[1]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.CloseParenToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Statement));
+
+            topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 6);
+            Assert.IsTrue(topologicalChildren.Contains(node.Initializers[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Initializers[1]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Condition));
+            Assert.IsTrue(topologicalChildren.Contains(node.Incrementors[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Incrementors[1]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Statement));
+
+            node = (ForStatementSyntax)SyntaxFactory.ParseStatement("for(; a < 0; a++, --b);");
+
+            hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 10);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.ForKeyword));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.OpenParenToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.FirstSemicolonToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Condition));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.SecondSemicolonToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Incrementors[0]));
+            Assert.IsTrue(hierarchicalChildren[6].Value.AsToken().Kind() == SyntaxKind.CommaToken);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Incrementors[1]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.CloseParenToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Statement));
+
+            topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 4);
+            Assert.IsTrue(topologicalChildren.Contains(node.Condition));
+            Assert.IsTrue(topologicalChildren.Contains(node.Incrementors[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Incrementors[1]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Statement));
+
+            node = (ForStatementSyntax)SyntaxFactory.ParseStatement("for(int a, b = 4; a < 0;);");
+
+            hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 8);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.ForKeyword));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.OpenParenToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Declaration));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.FirstSemicolonToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Condition));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.SecondSemicolonToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.CloseParenToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Statement));
+
+            topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 3);
+            Assert.IsTrue(topologicalChildren.Contains(node.Declaration));
+            Assert.IsTrue(topologicalChildren.Contains(node.Condition));
+            Assert.IsTrue(topologicalChildren.Contains(node.Statement));
+        }
+
+        [TestMethod]
+        public void ForEachStatementServiceProvider_TopologicalAbstraction_OK()
+        {
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
+
+            var node = (ForEachStatementSyntax)SyntaxFactory.ParseStatement("foreach(int a in ac);");
+
+            var hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 8);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.ForEachKeyword));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.OpenParenToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Type));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.InKeyword));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Expression));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.CloseParenToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Statement));
+
+            var topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 4);
+            Assert.IsTrue(topologicalChildren.Contains(node.Type));
+            Assert.IsTrue(topologicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(topologicalChildren.Contains(node.Expression));
+            Assert.IsTrue(topologicalChildren.Contains(node.Statement));
+        }
+
+        [TestMethod]
+        public void UsingStatementServiceProvider_TopologicalAbstraction_OK()
+        {
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
+
+            var node = (UsingStatementSyntax)SyntaxFactory.ParseStatement("using(int a, b = 4);");
+
+            var hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 5);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.UsingKeyword));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.OpenParenToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Declaration));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.CloseParenToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Statement));
+
+            var topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 2);
+            Assert.IsTrue(topologicalChildren.Contains(node.Declaration));
+            Assert.IsTrue(topologicalChildren.Contains(node.Statement));
+
+            node = (UsingStatementSyntax)SyntaxFactory.ParseStatement("using(a);");
+
+            hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 5);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.UsingKeyword));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.OpenParenToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Expression));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.CloseParenToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Statement));
+
+            topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 2);
+            Assert.IsTrue(topologicalChildren.Contains(node.Expression));
+            Assert.IsTrue(topologicalChildren.Contains(node.Statement));
+        }
+
+        [TestMethod]
+        public void FixedStatementServiceProvider_TopologicalAbstraction_OK()
+        {
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
+
+            var node = (FixedStatementSyntax)SyntaxFactory.ParseStatement("fixed(int a, b = 4);");
+
+            var hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 5);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.FixedKeyword));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.OpenParenToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Declaration));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.CloseParenToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Statement));
+
+            var topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 2);
+            Assert.IsTrue(topologicalChildren.Contains(node.Declaration));
+            Assert.IsTrue(topologicalChildren.Contains(node.Statement));
+        }
+
+        [TestMethod]
+        public void CheckedStatementServiceProvider_TopologicalAbstraction_OK()
+        {
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
+
+            var node = (CheckedStatementSyntax)SyntaxFactory.ParseStatement("checked { x = 5;}");
+
+            var hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 2);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Keyword));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Block));
+
+            var topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 1);
+            Assert.IsTrue(topologicalChildren.Contains(node.Block));
+        }
+
+       [TestMethod]
+        public void UnsafeStatementServiceProvider_TopologicalAbstraction_OK()
+        {
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
+
+            var node = (UnsafeStatementSyntax)SyntaxFactory.ParseStatement("unsafe { x = 5;}");
+
+            var hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 2);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.UnsafeKeyword));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Block));
+
+            var topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 1);
+            Assert.IsTrue(topologicalChildren.Contains(node.Block));
+        }
+
+        [TestMethod]
+        public void LockStatementServiceProvider_TopologicalAbstraction_OK()
+        {
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
+
+            var node = (LockStatementSyntax)SyntaxFactory.ParseStatement("lock(b = 4);");
+
+            var hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 5);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.LockKeyword));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.OpenParenToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Expression));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.CloseParenToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Statement));
+
+            var topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 2);
+            Assert.IsTrue(topologicalChildren.Contains(node.Expression));
+            Assert.IsTrue(topologicalChildren.Contains(node.Statement));
+        }
+
+        [TestMethod]
+        public void IfStatementServiceProvider_TopologicalAbstraction_OK()
+        {
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
+
+            var node = (IfStatementSyntax)SyntaxFactory.ParseStatement("if(b == 4);");
+
+            var hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 5);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.IfKeyword));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.OpenParenToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Condition));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.CloseParenToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Statement));
+
+            var topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 2);
+            Assert.IsTrue(topologicalChildren.Contains(node.Condition));
+            Assert.IsTrue(topologicalChildren.Contains(node.Statement));
+        }
+
+        [TestMethod]
+        public void SwitchStatementServiceProvider_TopologicalAbstraction_OK()
+        {
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
+
+            var node = (SwitchStatementSyntax)SyntaxFactory.ParseStatement("switch(b){ case default; }");
+
+            var hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 7);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.SwitchKeyword));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.OpenParenToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Expression));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.CloseParenToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.OpenBraceToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Sections[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.CloseBraceToken));
+
+            var topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 2);
+            Assert.IsTrue(topologicalChildren.Contains(node.Expression));
+            Assert.IsTrue(topologicalChildren.Contains(node.Sections[0]));
+
+            node = (SwitchStatementSyntax)SyntaxFactory.ParseStatement("switch(b){ }");
+
+            hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 6);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.SwitchKeyword));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.OpenParenToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Expression));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.CloseParenToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.OpenBraceToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.CloseBraceToken));
+
+            topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 1);
+            Assert.IsTrue(topologicalChildren.Contains(node.Expression));
+        }
+
+        [TestMethod]
+        public void TryStatementServiceProvider_TopologicalAbstraction_OK()
+        {
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
+
+            var node = (TryStatementSyntax)SyntaxFactory.ParseStatement("try{a + 5} catch(A1){a1 = \"Catch a1\";} catch(B1) when(e = 5) {b1 = \"Catch b1\";} finally{c1 = \"Finnally1\";}");
+
+            var hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 5);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.TryKeyword));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Block));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Catches[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Catches[1]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Finally));
+
+            var topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 4);
+            Assert.IsTrue(topologicalChildren.Contains(node.Block));
+            Assert.IsTrue(topologicalChildren.Contains(node.Catches[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Catches[1]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Finally));
+
+            node = (TryStatementSyntax)SyntaxFactory.ParseStatement("try{a + 5} finally{c1 = \"Finnally1\";}");
+
+            hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 3);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.TryKeyword));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Block));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Finally));
+
+            topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 2);
+            Assert.IsTrue(topologicalChildren.Contains(node.Block));
+            Assert.IsTrue(topologicalChildren.Contains(node.Finally));
+
+            node = (TryStatementSyntax)SyntaxFactory.ParseStatement("try{a + 5} catch(A1){a1 = \"Catch a1\";} catch(B1) when(e = 5) {b1 = \"Catch b1\";}");
+
+            hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 4);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.TryKeyword));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Block));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Catches[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Catches[1]));
+
+            topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 3);
+            Assert.IsTrue(topologicalChildren.Contains(node.Block));
+            Assert.IsTrue(topologicalChildren.Contains(node.Catches[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Catches[1]));
+        }
+
+        [TestMethod]
+        public void VariableDeclarationServiceProvider_TopologicalAbstraction_OK()
+        {
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
+
+            var node = ((FixedStatementSyntax)SyntaxFactory.ParseStatement("fixed(int a, b = 4);")).Declaration;
+
+            var hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 4);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Type));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Variables[0]));
+            Assert.IsTrue(hierarchicalChildren[2].Value.AsToken().Kind() == SyntaxKind.CommaToken);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Variables[1]));
+
+            var topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 3);
+            Assert.IsTrue(topologicalChildren.Contains(node.Type));
+            Assert.IsTrue(topologicalChildren.Contains(node.Variables[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Variables[1]));
+        }
+
+        [TestMethod]
+        public void VariableDeclaratorServiceProvider_TopologicalAbstraction_OK()
+        {
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
+
+            var node = ((FixedStatementSyntax)SyntaxFactory.ParseStatement("fixed(int a, b = 4);")).Declaration.Variables[0];
+
+            var hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 1);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Identifier));
+
+            var topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 1);
+            Assert.IsTrue(topologicalChildren.Contains(node.Identifier));
+
+            node = ((FixedStatementSyntax)SyntaxFactory.ParseStatement("fixed(int a = 2, b = 4);")).Declaration.Variables[0];
+
+            hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 2);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Initializer));
+
+            topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 2);
+            Assert.IsTrue(topologicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(topologicalChildren.Contains(node.Initializer));
+        }
+
+        [TestMethod]
+        public void EqualsValueClauseServiceProvider_TopologicalAbstraction_OK()
+        {
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
+
+            var node = ((FixedStatementSyntax)SyntaxFactory.ParseStatement("fixed(int a, b = 4);")).Declaration.Variables[1].Initializer;
+
+            var hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 2);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.EqualsToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Value));
+
+            var topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 1);
+            Assert.IsTrue(topologicalChildren.Contains(node.Value));
+        }
+
+        [TestMethod]
+        public void ElseClauseServiceProvider_TopologicalAbstraction_OK()
+        {
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
+
+            var node = ((IfStatementSyntax)SyntaxFactory.ParseStatement("if(b == 4); else;")).Else;
+
+            var hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 2);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.ElseKeyword));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Statement));
+
+            var topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 1);
+            Assert.IsTrue(topologicalChildren.Contains(node.Statement));
+        }
+
+        [TestMethod]
+        public void SwitchSectionServiceProvider_TopologicalAbstraction_OK()
+        {
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
+
+            var node = ((SwitchStatementSyntax)SyntaxFactory.ParseStatement("switch(b){ case default:; }")).Sections[0];
+
+            var hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 2);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Labels[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Statements[0]));
+
+            var topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 2);
+            Assert.IsTrue(topologicalChildren.Contains(node.Labels[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Statements[0]));
+        }
+
+        [TestMethod]
+        public void CaseSwitchLabelServiceProvider_TopologicalAbstraction_OK()
+        {
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
+
+            var node = (CaseSwitchLabelSyntax)((SwitchStatementSyntax)SyntaxFactory.ParseStatement("switch(b){ case 4: return 4; default: return 10; }")).Sections[0].Labels[0];
+
+            var hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 3);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Keyword));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Value));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.ColonToken));
+
+            var topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 1);
+            Assert.IsTrue(topologicalChildren.Contains(node.Value));
+        }
+
+        [TestMethod]
+        public void DefaultSwitchLabelServiceProvider_TopologicalAbstraction_OK()
+        {
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
+
+            var node = (DefaultSwitchLabelSyntax)((SwitchStatementSyntax)SyntaxFactory.ParseStatement("switch(b){ default:; }")).Sections[0].Labels[0];
+
+            var hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 2);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Keyword));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.ColonToken));
+
+            var topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 0);
+        }
+
+        [TestMethod]
+        public void CatchClauseServiceProvider_TopologicalAbstraction_OK()
+        {
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
+
+            var node = ((TryStatementSyntax)SyntaxFactory.ParseStatement("try{a + 5} catch(A1 a) when(e = 5) {a1 = \"Catch a1\";}")).Catches[0];
+
+            var hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 4);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.CatchKeyword));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Declaration));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Filter));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Block));
+
+            var topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 3);
+            Assert.IsTrue(topologicalChildren.Contains(node.Declaration));
+            Assert.IsTrue(topologicalChildren.Contains(node.Filter));
+            Assert.IsTrue(topologicalChildren.Contains(node.Block));
+
+            node = ((TryStatementSyntax)SyntaxFactory.ParseStatement("try{a + 5} catch(A1){a1 = \"Catch a1\";}")).Catches[0];
+
+            hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 3);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.CatchKeyword));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Declaration));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Block));
+
+            topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 2);
+            Assert.IsTrue(topologicalChildren.Contains(node.Declaration));
+            Assert.IsTrue(topologicalChildren.Contains(node.Block));
+
+            node = ((TryStatementSyntax)SyntaxFactory.ParseStatement("try{a + 5} catch {b1 = \"Catch b1\";}")).Catches[0];
+
+            hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 2);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.CatchKeyword));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Block));
+
+            topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 1);
+            Assert.IsTrue(topologicalChildren.Contains(node.Block));
+        }
+
+        [TestMethod]
+        public void CatchDeclarationServiceProvider_TopologicalAbstraction_OK()
+        {
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
+
+            var node = ((TryStatementSyntax)SyntaxFactory.ParseStatement("try{a + 5} catch(A1 a) when(e = 5) {a1 = \"Catch a1\";}")).Catches[0].Declaration;
+
+            var hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 4);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.OpenParenToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Type));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.CloseParenToken));
+
+            var topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 2);
+            Assert.IsTrue(topologicalChildren.Contains(node.Type));
+            Assert.IsTrue(topologicalChildren.Contains(node.Identifier));
+
+            node = ((TryStatementSyntax)SyntaxFactory.ParseStatement("try{a + 5} catch(A1){a1 = \"Catch a1\";}")).Catches[0].Declaration;
+
+            hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 3);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.OpenParenToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Type));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.CloseParenToken));
+
+            topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 1);
+            Assert.IsTrue(topologicalChildren.Contains(node.Type));
+        }
+
+        [TestMethod]
+        public void CatchFilterClauseServiceProvider_TopologicalAbstraction_OK()
+        {
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
+
+            var node = ((TryStatementSyntax)SyntaxFactory.ParseStatement("try{a + 5} catch(A1 a) when(e = 5) {a1 = \"Catch a1\";}")).Catches[0].Filter;
+
+            var hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 4);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.WhenKeyword));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.OpenParenToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.FilterExpression));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.CloseParenToken));
+
+            var topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 1);
+            Assert.IsTrue(topologicalChildren.Contains(node.FilterExpression));
+        }
+
+        [TestMethod]
+        public void FinallyClauseServiceProvider_TopologicalAbstraction_OK()
+        {
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
+
+            var node = ((TryStatementSyntax)SyntaxFactory.ParseStatement("try{a + 5} finally {a1 = \"Catch a1\";}")).Finally;
+
+            var hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 2);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.FinallyKeyword));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Block));
+
+            var topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 1);
+            Assert.IsTrue(topologicalChildren.Contains(node.Block));
+        }
+
+        [TestMethod]
+        public void IncompleteMemberServiceProvider_TopologicalAbstraction_OK()
+        {
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
+
+            var node = (IncompleteMemberSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public a").Members[0];
+
+            var hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 3);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Modifiers[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Type));
+
+            var topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 3);
+            Assert.IsTrue(topologicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Modifiers[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Type));
+
+            node = (IncompleteMemberSyntax)SyntaxFactory.ParseCompilationUnit("public a").Members[0];
+
+            hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 2);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Modifiers[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Type));
+
+            topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 2);
+            Assert.IsTrue(topologicalChildren.Contains(node.Modifiers[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Type));
+
+            node = (IncompleteMemberSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] a").Members[0];
+
+            hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 2);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Type));
+
+            topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 2);
+            Assert.IsTrue(topologicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Type));
+        }
+
+        [TestMethod]
+        public void GlobalStatementServiceProvider_TopologicalAbstraction_OK()
+        {
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
+
+            var node = Microsoft.CodeAnalysis.CSharp.SyntaxFactory.GlobalStatement(SyntaxFactory.ParseStatement("x++"));
+
+            var hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 1);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Statement));
+
+            var topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 1);
+            Assert.IsTrue(topologicalChildren.Contains(node.Statement));
+        }
+
+        [TestMethod]
+        public void DelegateDeclarationServiceProvider_TopologicalAbstraction_OK()
+        {
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
+
+            var node = (DelegateDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public delegate void Del<T>(string str) where T: I;").Members[0];
+
+            var hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 9);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Modifiers[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.DelegateKeyword));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.ReturnType));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.TypeParameterList));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.ParameterList));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.ConstraintClauses[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.SemicolonToken));
+
+            var topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 7);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Modifiers[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.ReturnType));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.TypeParameterList));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.ParameterList));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.ConstraintClauses[0]));
+
+            node = (DelegateDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public delegate void Del<T>(string str) where T: I;").Members[0];
+
+            hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 8);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Modifiers[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.DelegateKeyword));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.ReturnType));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.TypeParameterList));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.ParameterList));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.ConstraintClauses[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.SemicolonToken));
+
+            topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 6);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Modifiers[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.ReturnType));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.TypeParameterList));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.ParameterList));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.ConstraintClauses[0]));
+
+            node = (DelegateDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] delegate void Del<T>(string str) where T: I;").Members[0];
+
+            hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 8);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.DelegateKeyword));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.ReturnType));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.TypeParameterList));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.ParameterList));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.ConstraintClauses[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.SemicolonToken));
+
+            topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 6);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.ReturnType));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.TypeParameterList));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.ParameterList));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.ConstraintClauses[0]));
+
+            node = (DelegateDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public delegate void Del(string str) where T: I;").Members[0];
+
+            hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 8);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Modifiers[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.DelegateKeyword));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.ReturnType));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.ParameterList));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.ConstraintClauses[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.SemicolonToken));
+
+            topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 6);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Modifiers[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.ReturnType));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.ParameterList));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.ConstraintClauses[0]));
+
+            node = (DelegateDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public delegate void Del<T>(string str);").Members[0];
+
+            hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 8);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Modifiers[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.DelegateKeyword));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.ReturnType));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.TypeParameterList));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.ParameterList));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.SemicolonToken));
+
+            topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 6);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Modifiers[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.ReturnType));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.TypeParameterList));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.ParameterList));
+        }
+
+        [TestMethod]
+        public void EnumDeclarationServiceProvider_TopologicalAbstraction_OK()
+        {
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
+
+            var node = (EnumDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public enum a : byte {a1, a2 = 3};").Members[0];
+
+            var hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 11);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Modifiers[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.EnumKeyword));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.BaseList));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.OpenBraceToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Members[0]));
+            Assert.IsTrue(hierarchicalChildren[7].Value.AsToken().Kind() == SyntaxKind.CommaToken);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Members[1]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.CloseBraceToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.SemicolonToken));
+
+            var topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 6);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Modifiers[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.BaseList));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Members[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Members[1]));
+
+            node = (EnumDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public enum a : byte {a1, a2 = 3};").Members[0];
+
+            hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 10);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Modifiers[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.EnumKeyword));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.BaseList));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.OpenBraceToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Members[0]));
+            Assert.IsTrue(hierarchicalChildren[6].Value.AsToken().Kind() == SyntaxKind.CommaToken);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Members[1]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.CloseBraceToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.SemicolonToken));
+
+            topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 5);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Modifiers[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.BaseList));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Members[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Members[1]));
+
+            node = (EnumDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] enum a : byte {a1, a2 = 3};").Members[0];
+
+            hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 10);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.EnumKeyword));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.BaseList));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.OpenBraceToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Members[0]));
+            Assert.IsTrue(hierarchicalChildren[6].Value.AsToken().Kind() == SyntaxKind.CommaToken);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Members[1]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.CloseBraceToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.SemicolonToken));
+
+            topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 5);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.BaseList));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Members[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Members[1]));
+
+            node = (EnumDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public enum a {a1, a2 = 3};").Members[0];
+
+            hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 10);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Modifiers[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.EnumKeyword));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.OpenBraceToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Members[0]));
+            Assert.IsTrue(hierarchicalChildren[6].Value.AsToken().Kind() == SyntaxKind.CommaToken);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Members[1]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.CloseBraceToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.SemicolonToken));
+
+            topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 5);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Modifiers[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Members[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Members[1]));
+
+            node = (EnumDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public enum a : byte {a1, a2 = 3}").Members[0];
+
+            hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 10);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Modifiers[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.EnumKeyword));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.BaseList));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.OpenBraceToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Members[0]));
+            Assert.IsTrue(hierarchicalChildren[7].Value.AsToken().Kind() == SyntaxKind.CommaToken);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Members[1]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.CloseBraceToken));
+
+            topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 6);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Modifiers[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.BaseList));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Members[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Members[1]));
+        }
+
+        [TestMethod]
+        public void ClassDeclarationServiceProvider_TopologicalAbstraction_OK()
+        {
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
+
+            var node = (ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public class a<T> : byte where T : int  {X a1; Y a2 = 3;};").Members[0];
+
+            var hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 12);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Modifiers[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Keyword));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.TypeParameterList));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.BaseList));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.ConstraintClauses[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.OpenBraceToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Members[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Members[1]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.CloseBraceToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.SemicolonToken));
+
+            var topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 8);
+            Assert.IsTrue(topologicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Modifiers[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(topologicalChildren.Contains(node.TypeParameterList));
+            Assert.IsTrue(topologicalChildren.Contains(node.BaseList));
+            Assert.IsTrue(topologicalChildren.Contains(node.ConstraintClauses[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Members[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Members[1]));
+
+            node = (ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class a<T> : byte where T : int  {X a1; Y a2 = 3;};").Members[0];
+
+            hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 11);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Modifiers[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Keyword));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.TypeParameterList));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.BaseList));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.ConstraintClauses[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.OpenBraceToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Members[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Members[1]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.CloseBraceToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.SemicolonToken));
+
+            topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 7);
+            Assert.IsTrue(topologicalChildren.Contains(node.Modifiers[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(topologicalChildren.Contains(node.TypeParameterList));
+            Assert.IsTrue(topologicalChildren.Contains(node.BaseList));
+            Assert.IsTrue(topologicalChildren.Contains(node.ConstraintClauses[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Members[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Members[1]));
+
+            node = (ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] class a<T> : byte where T : int  {X a1; Y a2 = 3;};").Members[0];
+
+            hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 11);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Keyword));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.TypeParameterList));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.BaseList));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.ConstraintClauses[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.OpenBraceToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Members[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Members[1]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.CloseBraceToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.SemicolonToken));
+
+            topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 7);
+            Assert.IsTrue(topologicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(topologicalChildren.Contains(node.TypeParameterList));
+            Assert.IsTrue(topologicalChildren.Contains(node.BaseList));
+            Assert.IsTrue(topologicalChildren.Contains(node.ConstraintClauses[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Members[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Members[1]));
+
+            node = (ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public class a : byte where T : int  {X a1; Y a2 = 3;};").Members[0];
+
+            hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 11);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Modifiers[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Keyword));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.BaseList));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.ConstraintClauses[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.OpenBraceToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Members[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Members[1]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.CloseBraceToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.SemicolonToken));
+
+            topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 7);
+            Assert.IsTrue(topologicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Modifiers[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(topologicalChildren.Contains(node.BaseList));
+            Assert.IsTrue(topologicalChildren.Contains(node.ConstraintClauses[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Members[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Members[1]));
+
+            node = (ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public class a<T> where T : int  {X a1; Y a2 = 3;};").Members[0];
+
+            hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 11);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Modifiers[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Keyword));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.TypeParameterList));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.ConstraintClauses[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.OpenBraceToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Members[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Members[1]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.CloseBraceToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.SemicolonToken));
+
+            topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 7);
+            Assert.IsTrue(topologicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Modifiers[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(topologicalChildren.Contains(node.TypeParameterList));
+            Assert.IsTrue(topologicalChildren.Contains(node.ConstraintClauses[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Members[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Members[1]));
+
+            node = (ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public class a<T> : byte where T : int  {X a1; Y a2 = 3;}").Members[0];
+
+            hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 11);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Modifiers[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Keyword));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.TypeParameterList));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.BaseList));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.ConstraintClauses[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.OpenBraceToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Members[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Members[1]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.CloseBraceToken));
+
+            topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 8);
+            Assert.IsTrue(topologicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Modifiers[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(topologicalChildren.Contains(node.TypeParameterList));
+            Assert.IsTrue(topologicalChildren.Contains(node.BaseList));
+            Assert.IsTrue(topologicalChildren.Contains(node.ConstraintClauses[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Members[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Members[1]));
+        }
+
+        [TestMethod]
+        public void StructDeclarationServiceProvider_TopologicalAbstraction_OK()
+        {
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
+
+            var node = (StructDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public struct a<T> : byte where T : int  {X a1; Y a2 = 3;};").Members[0];
+
+            var hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 12);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Modifiers[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Keyword));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.TypeParameterList));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.BaseList));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.ConstraintClauses[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.OpenBraceToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Members[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Members[1]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.CloseBraceToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.SemicolonToken));
+
+            var topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 8);
+            Assert.IsTrue(topologicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Modifiers[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(topologicalChildren.Contains(node.TypeParameterList));
+            Assert.IsTrue(topologicalChildren.Contains(node.BaseList));
+            Assert.IsTrue(topologicalChildren.Contains(node.ConstraintClauses[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Members[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Members[1]));
+
+            node = (StructDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public struct a<T> : byte where T : int  {X a1; Y a2 = 3;};").Members[0];
+
+            hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 11);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Modifiers[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Keyword));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.TypeParameterList));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.BaseList));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.ConstraintClauses[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.OpenBraceToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Members[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Members[1]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.CloseBraceToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.SemicolonToken));
+
+            topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 7);
+            Assert.IsTrue(topologicalChildren.Contains(node.Modifiers[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(topologicalChildren.Contains(node.TypeParameterList));
+            Assert.IsTrue(topologicalChildren.Contains(node.BaseList));
+            Assert.IsTrue(topologicalChildren.Contains(node.ConstraintClauses[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Members[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Members[1]));
+
+            node = (StructDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] struct a<T> : byte where T : int  {X a1; Y a2 = 3;};").Members[0];
+
+            hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 11);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Keyword));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.TypeParameterList));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.BaseList));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.ConstraintClauses[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.OpenBraceToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Members[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Members[1]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.CloseBraceToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.SemicolonToken));
+
+            topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 7);
+            Assert.IsTrue(topologicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(topologicalChildren.Contains(node.TypeParameterList));
+            Assert.IsTrue(topologicalChildren.Contains(node.BaseList));
+            Assert.IsTrue(topologicalChildren.Contains(node.ConstraintClauses[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Members[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Members[1]));
+
+            node = (StructDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public struct a : byte where T : int  {X a1; Y a2 = 3;};").Members[0];
+
+            hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 11);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Modifiers[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Keyword));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.BaseList));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.ConstraintClauses[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.OpenBraceToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Members[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Members[1]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.CloseBraceToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.SemicolonToken));
+
+            topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 7);
+            Assert.IsTrue(topologicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Modifiers[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(topologicalChildren.Contains(node.BaseList));
+            Assert.IsTrue(topologicalChildren.Contains(node.ConstraintClauses[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Members[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Members[1]));
+
+            node = (StructDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public struct a<T> where T : int  {X a1; Y a2 = 3;};").Members[0];
+
+            hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 11);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Modifiers[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Keyword));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.TypeParameterList));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.ConstraintClauses[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.OpenBraceToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Members[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Members[1]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.CloseBraceToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.SemicolonToken));
+
+            topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 7);
+            Assert.IsTrue(topologicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Modifiers[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(topologicalChildren.Contains(node.TypeParameterList));
+            Assert.IsTrue(topologicalChildren.Contains(node.ConstraintClauses[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Members[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Members[1]));
+
+            node = (StructDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public struct a<T> : byte where T : int  {X a1; Y a2 = 3;}").Members[0];
+
+            hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 11);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Modifiers[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Keyword));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.TypeParameterList));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.BaseList));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.ConstraintClauses[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.OpenBraceToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Members[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Members[1]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.CloseBraceToken));
+
+            topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 8);
+            Assert.IsTrue(topologicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Modifiers[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(topologicalChildren.Contains(node.TypeParameterList));
+            Assert.IsTrue(topologicalChildren.Contains(node.BaseList));
+            Assert.IsTrue(topologicalChildren.Contains(node.ConstraintClauses[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Members[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Members[1]));
+        }
+
+        [TestMethod]
+        public void InterfaceDeclarationServiceProvider_TopologicalAbstraction_OK()
+        {
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
+
+            var node = (InterfaceDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public interface a<T> : byte where T : int  {X a1; Y a2 = 3;};").Members[0];
+
+            var hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 12);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Modifiers[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Keyword));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.TypeParameterList));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.BaseList));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.ConstraintClauses[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.OpenBraceToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Members[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Members[1]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.CloseBraceToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.SemicolonToken));
+
+            var topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 8);
+            Assert.IsTrue(topologicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Modifiers[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(topologicalChildren.Contains(node.TypeParameterList));
+            Assert.IsTrue(topologicalChildren.Contains(node.BaseList));
+            Assert.IsTrue(topologicalChildren.Contains(node.ConstraintClauses[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Members[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Members[1]));
+
+            node = (InterfaceDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public interface a<T> : byte where T : int  {X a1; Y a2 = 3;};").Members[0];
+
+            hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 11);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Modifiers[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Keyword));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.TypeParameterList));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.BaseList));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.ConstraintClauses[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.OpenBraceToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Members[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Members[1]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.CloseBraceToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.SemicolonToken));
+
+            topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 7);
+            Assert.IsTrue(topologicalChildren.Contains(node.Modifiers[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(topologicalChildren.Contains(node.TypeParameterList));
+            Assert.IsTrue(topologicalChildren.Contains(node.BaseList));
+            Assert.IsTrue(topologicalChildren.Contains(node.ConstraintClauses[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Members[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Members[1]));
+
+            node = (InterfaceDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] interface a<T> : byte where T : int  {X a1; Y a2 = 3;};").Members[0];
+
+            hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 11);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Keyword));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.TypeParameterList));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.BaseList));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.ConstraintClauses[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.OpenBraceToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Members[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Members[1]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.CloseBraceToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.SemicolonToken));
+
+            topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 7);
+            Assert.IsTrue(topologicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(topologicalChildren.Contains(node.TypeParameterList));
+            Assert.IsTrue(topologicalChildren.Contains(node.BaseList));
+            Assert.IsTrue(topologicalChildren.Contains(node.ConstraintClauses[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Members[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Members[1]));
+
+            node = (InterfaceDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public interface a : byte where T : int  {X a1; Y a2 = 3;};").Members[0];
+
+            hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 11);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Modifiers[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Keyword));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.BaseList));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.ConstraintClauses[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.OpenBraceToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Members[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Members[1]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.CloseBraceToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.SemicolonToken));
+
+            topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 7);
+            Assert.IsTrue(topologicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Modifiers[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(topologicalChildren.Contains(node.BaseList));
+            Assert.IsTrue(topologicalChildren.Contains(node.ConstraintClauses[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Members[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Members[1]));
+
+            node = (InterfaceDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public interface a<T> where T : int  {X a1; Y a2 = 3;};").Members[0];
+
+            hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 11);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Modifiers[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Keyword));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.TypeParameterList));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.ConstraintClauses[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.OpenBraceToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Members[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Members[1]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.CloseBraceToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.SemicolonToken));
+
+            topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 7);
+            Assert.IsTrue(topologicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Modifiers[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(topologicalChildren.Contains(node.TypeParameterList));
+            Assert.IsTrue(topologicalChildren.Contains(node.ConstraintClauses[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Members[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Members[1]));
+
+            node = (InterfaceDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public interface a<T> : byte where T : int  {X a1; Y a2 = 3;}").Members[0];
+
+            hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 11);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Modifiers[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Keyword));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.TypeParameterList));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.BaseList));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.ConstraintClauses[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.OpenBraceToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Members[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Members[1]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.CloseBraceToken));
+
+            topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 8);
+            Assert.IsTrue(topologicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Modifiers[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(topologicalChildren.Contains(node.TypeParameterList));
+            Assert.IsTrue(topologicalChildren.Contains(node.BaseList));
+            Assert.IsTrue(topologicalChildren.Contains(node.ConstraintClauses[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Members[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Members[1]));
+        }
+
+        [TestMethod]
+        public void EnumMemberDeclarationServiceProvider_TopologicalAbstraction_OK()
+        {
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
+
+            var node = ((EnumDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public enum a : byte {a1, [Serializable] a2 = 3};").Members[0]).Members[1];
+
+            var hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 3);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.EqualsValue));
+
+            var topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 3);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.EqualsValue));
+
+            node = ((EnumDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public enum a : byte {a1, a2 = 3};").Members[0]).Members[1];
+
+            hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 2);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.EqualsValue));
+
+            topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 2);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.EqualsValue));
+
+            node = ((EnumDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public enum a : byte {a1, [Serializable] a2};").Members[0]).Members[1];
+
+            hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 2);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Identifier));
+
+            topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 2);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Identifier));
+        }
+
+        [TestMethod]
+        public void TypeParameterListServiceProvider_TopologicalAbstraction_OK()
+        {
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
+
+            var node = ((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a<B, in C> {}").Members[0]).TypeParameterList;
+
+            var hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 5);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.LessThanToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Parameters[0]));
+            Assert.IsTrue(hierarchicalChildren[2].Value.AsToken().Kind() == SyntaxKind.CommaToken);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Parameters[1]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.GreaterThanToken));
+
+            var topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 2);
+            Assert.IsTrue(topologicalChildren.Contains(node.Parameters[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Parameters[1]));
+        }
+
+        [TestMethod]
+        public void TypeParameterServiceProvider_TopologicalAbstraction_OK()
+        {
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
+
+            var node = ((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a<[Serializable] in B, in C> {}").Members[0]).TypeParameterList.Parameters[0];
+
+            var hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 3);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.VarianceKeyword));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Identifier));
+
+            var topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 2);
+            Assert.IsTrue(topologicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Identifier));
+
+            node = ((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a<in B, in C> {}").Members[0]).TypeParameterList.Parameters[0];
+
+            hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 2);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.VarianceKeyword));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Identifier));
+
+            topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 1);
+            Assert.IsTrue(topologicalChildren.Contains(node.Identifier));
+        }
+
+        [TestMethod]
+        public void TypeParameterConstraintClauseServiceProvider_TopologicalAbstraction_OK()
+        {
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
+
+            var node = ((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a<T> : byte where T : new(), class {};").Members[0]).ConstraintClauses[0];
+
+            var hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 6);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.WhereKeyword));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Name));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.ColonToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Constraints[0]));
+            Assert.IsTrue(hierarchicalChildren[4].Value.AsToken().Kind() == SyntaxKind.CommaToken);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Constraints[1]));
+
+            var topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 3);
+            Assert.IsTrue(topologicalChildren.Contains(node.Name));
+            Assert.IsTrue(topologicalChildren.Contains(node.Constraints[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Constraints[1]));
+        }
+
+        [TestMethod]
+        public void TypeConstraintServiceProvider_TopologicalAbstraction_OK()
+        {
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
+
+            var node = (TypeConstraintSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a<T> : byte where T : A {};").Members[0]).ConstraintClauses[0].Constraints[0];
+
+            var hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 1);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Type));
+
+            var topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 1);
+            Assert.IsTrue(topologicalChildren.Contains(node.Type));
+        }
+
+        [TestMethod]
+        public void ConstructorConstraintServiceProvider_TopologicalAbstraction_OK()
+        {
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
+
+            var node = (ConstructorConstraintSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a<T> : byte where T : new() {};").Members[0]).ConstraintClauses[0].Constraints[0];
+
+            var hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 3);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.NewKeyword));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.OpenParenToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.CloseParenToken));
+
+            var topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 0);
+        }
+
+        [TestMethod]
+        public void ClassOrStructConstraintServiceProvider_TopologicalAbstraction_OK()
+        {
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
+
+            var node = (ClassOrStructConstraintSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a<T> : byte where T : class {};").Members[0]).ConstraintClauses[0].Constraints[0];
+
+            var hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 1);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.ClassOrStructKeyword));
+
+            var topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 0);
+
+            node = (ClassOrStructConstraintSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a<T> : byte where T : struct {};").Members[0]).ConstraintClauses[0].Constraints[0];
+
+            hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 1);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.ClassOrStructKeyword));
+
+            topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 0);
+        }
+
+        [TestMethod]
+        public void BaseListServiceProvider_TopologicalAbstraction_OK()
+        {
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
+
+            var node = ((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a<T> : A, I where T : A {};").Members[0]).BaseList;
+
+            var hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 4);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.ColonToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Types[0]));
+            Assert.IsTrue(hierarchicalChildren[2].Value.AsToken().Kind() == SyntaxKind.CommaToken);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Types[1]));
+
+            var topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 2);
+            Assert.IsTrue(topologicalChildren.Contains(node.Types[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Types[1]));
+        }
+
+        [TestMethod]
+        public void SimpleBaseTypeServiceProvider_TopologicalAbstraction_OK()
+        {
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
+
+            var node = ((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a<T> : A, I where T : A {};").Members[0]).BaseList.Types[0];
+
+            var hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 1);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Type));
+
+            var topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 1);
+            Assert.IsTrue(topologicalChildren.Contains(node.Type));
+        }
+
+        [TestMethod]
+        public void FieldDeclarationServiceProvider_TopologicalAbstraction_OK()
+        {
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
+
+            var node = (FieldDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a {[Serializable]public int df;}").Members[0]).Members[0];
+
+            var hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 4);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Modifiers[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Declaration));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.SemicolonToken));
+
+            var topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 3);
+            Assert.IsTrue(topologicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Modifiers[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Declaration));
+
+            node = (FieldDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a {public int df;}").Members[0]).Members[0];
+
+            hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 3);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Modifiers[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Declaration));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.SemicolonToken));
+
+            topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 2);
+            Assert.IsTrue(topologicalChildren.Contains(node.Modifiers[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Declaration));
+
+            node = (FieldDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a {[Serializable] int df;}").Members[0]).Members[0];
+
+            hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 3);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Declaration));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.SemicolonToken));
+
+            topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 2);
+            Assert.IsTrue(topologicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Declaration));
+        }
+
+        [TestMethod]
+        public void EventFieldDeclarationServiceProvider_TopologicalAbstraction_OK()
+        {
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
+
+            var node = (EventFieldDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a {[Serializable]public event int df;}").Members[0]).Members[0];
+
+            var hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 5);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Modifiers[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.EventKeyword));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Declaration));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.SemicolonToken));
+
+            var topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 3);
+            Assert.IsTrue(topologicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Modifiers[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Declaration));
+
+            node = (EventFieldDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a {public event int df;}").Members[0]).Members[0];
+
+            hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 4);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Modifiers[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.EventKeyword));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Declaration));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.SemicolonToken));
+
+            topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 2);
+            Assert.IsTrue(topologicalChildren.Contains(node.Modifiers[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Declaration));
+
+            node = (EventFieldDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a {[Serializable] event int df;}").Members[0]).Members[0];
+
+            hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 4);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.EventKeyword));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Declaration));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.SemicolonToken));
+
+            topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 2);
+            Assert.IsTrue(topologicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Declaration));
+        }
+
+        [TestMethod]
+        public void ExplicitInterfaceSpecifierServiceProvider_TopologicalAbstraction_OK()
+        {
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
+
+            var node = ((EventDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a {event B IA.a1{add; remove;}}").Members[0]).Members[0]).ExplicitInterfaceSpecifier;
+
+            var hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
+            Assert.AreEqual(hierarchicalChildren.Count(), 2);
+            Assert.IsTrue(hierarchicalChildren.Contains(node.DotToken));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Name));
+
+            var topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            Assert.AreEqual(topologicalChildren.Count(), 1);
+            Assert.IsTrue(topologicalChildren.Contains(node.Name));
+        }
+
+        [TestMethod]
         public void AllElementTypeSuitableFor_NameEqualityMatch_IsTested()
         {
             var rdsl = CDF.XObjects.RDSL.Syntax.Load(@"..\..\..\Jawilliam.CDF.CSharp\RDSL.xml");

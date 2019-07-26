@@ -141,6 +141,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AliasServices.tt</DependentUpon>
     </Compile>
+    <Compile Include="Awareness\CatchDeclarationServiceProvider.Custom.cs" />
     <Compile Include="Awareness\Flad.cs" />
     <Compile Include="Awareness\Extensions.cs" />
     <Compile Include="Awareness\TopologicalAbstraction.cs" />

@@ -263,15 +263,10 @@ namespace Jawilliam.CDF.Labs
         public virtual void InverseNativeGumTreeDiff(GumTreeNativeApproach gumTree, InteropArgs interopArgs, ChangeDetectionApproaches gumTreeApproach, Func<FileRevisionPair, bool> skipThese, SourceCodeCleaner cleaner = null)
         {
             this.Analyze(/*this.SqlRepository, f => f.Principal.Deltas.Any(d => d.Approach == gumTreeApproach),*/
-            f => f.Principal.Deltas.Any(d => d.Approach == ChangeDetectionApproaches.NativeGTtreefiedRoslynML) &&  /*||
-                  f.Principal.Deltas.Any(d => d.Approach == ChangeDetectionApproaches.InverseOfNativeGumTree) ||
-                  f.Principal.Deltas.Any(d => d.Approach == ChangeDetectionApproaches.NativeGumTreeWithChangeDistillerMatcher) ||
-                  f.Principal.Deltas.Any(d => d.Approach == ChangeDetectionApproaches.InverseOfNativeGumTreeWithChangeDistillerMatcher) ||
-                  f.Principal.Deltas.Any(d => d.Approach == ChangeDetectionApproaches.NativeGumTreeWithXyMatcher) ||
-                  f.Principal.Deltas.Any(d => d.Approach == ChangeDetectionApproaches.InverseOfNativeGumTreeWithXyMatcher)) &&*/
+            f =>  f.Principal.Deltas.Any(d => d.Approach == ChangeDetectionApproaches.NativeGTtreefiedRoslynML) &&
 
                  /*f.Principal.Deltas.All(d => d.Approach != gumTreeApproach) &&*///TODO: restore this
-                 f.Principal.Deltas.All(d => d.Approach != gumTreeApproach /*&& d.Report == null*/) &&
+                 f.Principal.Deltas.All(d =>  d.Approach != gumTreeApproach /*&& d.Report == null*/) &&
 
 
                  f.Principal.FromFileVersion.ContentSummary.TotalLines != null &&

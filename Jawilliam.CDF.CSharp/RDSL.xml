@@ -2589,6 +2589,9 @@
           </Rules>
         </Property>
       </Properties>
+      <Rules>
+        <Topology leaf="Tiny"/>
+      </Rules>
     </Type>
     <!--And If Related-->
     <Type name="ElseClauseSyntax" hashtags="#IF #clause">
@@ -2628,6 +2631,9 @@
         <Property name="ColonToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single">
         </Property>
       </Properties>
+      <Rules>
+        <Topology leaf="Tiny"/>
+      </Rules>
     </Type>
     <Type name="CaseSwitchLabelSyntax" base="SwitchLabelSyntax" hashtags="#switch #label #SWITCH#Label">
       <Properties>
@@ -2648,6 +2654,9 @@
           </Rules>
         </Property>
       </Properties>
+      <Rules>
+        <Topology leaf="Likely"/>
+      </Rules>
     </Type>
     <Type name="DefaultSwitchLabelSyntax" base="SwitchLabelSyntax" readonly="true" hashtags="#switch #label #SWITCH#Label">
       <Properties>
@@ -2662,6 +2671,9 @@
           </Rules>
         </Property>
       </Properties>
+      <Rules>
+        <Topology leaf="Likely"/>
+      </Rules>
     </Type>
     <!--And Try Related$-->
     <Type name="CatchClauseSyntax" hashtags="#TRY #clause #catch =#CLAUSE#Catch">
@@ -2720,6 +2732,7 @@
         </Property>
       </Properties>
       <Rules>
+        <Topology leaf="Likely"/>
         <Name equality="true" absolute="true"/>
       </Rules>
     </Type>
@@ -2747,6 +2760,9 @@
           </Rules>
         </Property>
       </Properties>
+      <Rules>
+        <Topology leaf="Likely"/>
+      </Rules>
     </Type>
     <Type name="FinallyClauseSyntax" hashtags="#TRY #clause">
       <Properties>
@@ -2785,6 +2801,9 @@
           </Rules>
         </Property>
       </Properties>
+      <Rules>
+        <Topology leaf="Eventually"/>
+      </Rules>
     </Type>
     <Type name="GlobalStatementSyntax" base="MemberDeclarationSyntax" hashtags="#DECLARATION#Member #STATEMENT#WRAPPER #statement">
       <Properties>
@@ -3246,6 +3265,7 @@
         </Property>
       </Properties>
       <Rules>
+        <Topology leaf="Likely"/>
         <Name suitability="Key" equality="true" absolute="true"/>
       </Rules>
     </Type>
@@ -3288,6 +3308,9 @@
           </Rules>
         </Property>
       </Properties>
+      <Rules>
+        <Topology leaf="Likely"/>
+      </Rules>
     </Type>
     <Type name="ConstructorConstraintSyntax" base="TypeParameterConstraintSyntax" readonly="true" hashtags="#TYPE#PARAMETER#Constraint #constructor #constraint">
       <Properties>
@@ -3307,6 +3330,9 @@
           </Rules>
         </Property>
       </Properties>
+      <Rules>
+        <Topology leaf="Likely"/>
+      </Rules>
     </Type>
     <Type name="ClassOrStructConstraintSyntax" base="TypeParameterConstraintSyntax" readonly="true" hashtags="#TYPE#PARAMETER#Constraint #constraint">
       <Properties>
@@ -3320,6 +3346,9 @@
           </Rules>
         </Property>
       </Properties>
+      <Rules>
+        <Topology leaf="Terminal Likely"/>
+      </Rules>
       <Annotations>
         <Annotation context="Suppress" role="Kind"/>
       </Annotations>
@@ -3359,6 +3388,9 @@
           </Rules>
         </Property>
       </Properties>
+      <Rules>
+        <Topology leaf="Likely"/>
+      </Rules>
     </Type>
     <!--And Related$BaseFieldDeclarationSyntax-->
     <Type name="BaseFieldDeclarationSyntax" abstract="true" base="MemberDeclarationSyntax">
@@ -3464,6 +3496,7 @@
         </Property>
       </Properties>
       <Rules>
+        <Topology leaf="Likely"/>
         <Name equality="true" absolute="true"/>
       </Rules>
     </Type>
