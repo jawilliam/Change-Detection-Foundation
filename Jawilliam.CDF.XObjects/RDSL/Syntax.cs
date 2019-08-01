@@ -1972,7 +1972,7 @@ namespace Jawilliam.CDF.XObjects.RDSL
 
                 /// <summary>
                 /// <para>
-                /// Regular expression: (Signature?, Name?, Hint?, Compatibility?, Granularity?)
+                /// Regular expression: (Topology?, Signature?, Name?, Hint?, Compatibility?, Granularity?)
                 /// </para>
                 /// </summary>
                 public partial class RulesLocalType : XTypedElement, IXMetaData
@@ -1992,12 +1992,12 @@ namespace Jawilliam.CDF.XObjects.RDSL
                     static RulesLocalType()
                     {
                         BuildElementDictionary();
-                        contentModel = new SequenceContentModelEntity(new NamedContentModelEntity(XName.Get("Signature", "http://tempuri.org/XNodeTypeSystem.xsd")), new NamedContentModelEntity(XName.Get("Name", "http://tempuri.org/XNodeTypeSystem.xsd")), new NamedContentModelEntity(XName.Get("Hint", "http://tempuri.org/XNodeTypeSystem.xsd")), new NamedContentModelEntity(XName.Get("Compatibility", "http://tempuri.org/XNodeTypeSystem.xsd")), new NamedContentModelEntity(XName.Get("Granularity", "http://tempuri.org/XNodeTypeSystem.xsd")));
+                        contentModel = new SequenceContentModelEntity(new NamedContentModelEntity(XName.Get("Topology", "http://tempuri.org/XNodeTypeSystem.xsd")), new NamedContentModelEntity(XName.Get("Signature", "http://tempuri.org/XNodeTypeSystem.xsd")), new NamedContentModelEntity(XName.Get("Name", "http://tempuri.org/XNodeTypeSystem.xsd")), new NamedContentModelEntity(XName.Get("Hint", "http://tempuri.org/XNodeTypeSystem.xsd")), new NamedContentModelEntity(XName.Get("Compatibility", "http://tempuri.org/XNodeTypeSystem.xsd")), new NamedContentModelEntity(XName.Get("Granularity", "http://tempuri.org/XNodeTypeSystem.xsd")));
                     }
 
                     /// <summary>
                     /// <para>
-                    /// Regular expression: (Signature?, Name?, Hint?, Compatibility?, Granularity?)
+                    /// Regular expression: (Topology?, Signature?, Name?, Hint?, Compatibility?, Granularity?)
                     /// </para>
                     /// </summary>
                     public RulesLocalType()
@@ -2009,7 +2009,28 @@ namespace Jawilliam.CDF.XObjects.RDSL
                     /// Occurrence: optional
                     /// </para>
                     /// <para>
-                    /// Regular expression: (Signature?, Name?, Hint?, Compatibility?, Granularity?)
+                    /// Regular expression: (Topology?, Signature?, Name?, Hint?, Compatibility?, Granularity?)
+                    /// </para>
+                    /// </summary>
+                    public TopologyLocalType Topology
+                    {
+                        get
+                        {
+                            XElement x = this.GetElement(XName.Get("Topology", "http://tempuri.org/XNodeTypeSystem.xsd"));
+                            return ((TopologyLocalType)(x));
+                        }
+                        set
+                        {
+                            this.SetElement(XName.Get("Topology", "http://tempuri.org/XNodeTypeSystem.xsd"), value);
+                        }
+                    }
+
+                    /// <summary>
+                    /// <para>
+                    /// Occurrence: optional
+                    /// </para>
+                    /// <para>
+                    /// Regular expression: (Topology?, Signature?, Name?, Hint?, Compatibility?, Granularity?)
                     /// </para>
                     /// </summary>
                     public EqualityAndOrSimilarityAbsoluteAndOrRelativeRules Signature
@@ -2030,7 +2051,7 @@ namespace Jawilliam.CDF.XObjects.RDSL
                     /// Occurrence: optional
                     /// </para>
                     /// <para>
-                    /// Regular expression: (Signature?, Name?, Hint?, Compatibility?, Granularity?)
+                    /// Regular expression: (Topology?, Signature?, Name?, Hint?, Compatibility?, Granularity?)
                     /// </para>
                     /// </summary>
                     public NameRules Name
@@ -2051,7 +2072,7 @@ namespace Jawilliam.CDF.XObjects.RDSL
                     /// Occurrence: optional
                     /// </para>
                     /// <para>
-                    /// Regular expression: (Signature?, Name?, Hint?, Compatibility?, Granularity?)
+                    /// Regular expression: (Topology?, Signature?, Name?, Hint?, Compatibility?, Granularity?)
                     /// </para>
                     /// </summary>
                     public SuitabilityRule Hint
@@ -2072,7 +2093,7 @@ namespace Jawilliam.CDF.XObjects.RDSL
                     /// Occurrence: optional
                     /// </para>
                     /// <para>
-                    /// Regular expression: (Signature?, Name?, Hint?, Compatibility?, Granularity?)
+                    /// Regular expression: (Topology?, Signature?, Name?, Hint?, Compatibility?, Granularity?)
                     /// </para>
                     /// </summary>
                     public CompatibilityLocalType Compatibility
@@ -2093,7 +2114,7 @@ namespace Jawilliam.CDF.XObjects.RDSL
                     /// Occurrence: optional
                     /// </para>
                     /// <para>
-                    /// Regular expression: (Signature?, Name?, Hint?, Compatibility?, Granularity?)
+                    /// Regular expression: (Topology?, Signature?, Name?, Hint?, Compatibility?, Granularity?)
                     /// </para>
                     /// </summary>
                     public GranularityLocalType Granularity
@@ -2170,6 +2191,7 @@ namespace Jawilliam.CDF.XObjects.RDSL
 
                     private static void BuildElementDictionary()
                     {
+                        localElementDictionary.Add(XName.Get("Topology", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(TopologyLocalType));
                         localElementDictionary.Add(XName.Get("Signature", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(EqualityAndOrSimilarityAbsoluteAndOrRelativeRules));
                         localElementDictionary.Add(XName.Get("Name", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(NameRules));
                         localElementDictionary.Add(XName.Get("Hint", "http://tempuri.org/XNodeTypeSystem.xsd"), typeof(SuitabilityRule));
@@ -2180,6 +2202,75 @@ namespace Jawilliam.CDF.XObjects.RDSL
                     ContentModelEntity IXMetaData.GetContentModel()
                     {
                         return contentModel;
+                    }
+
+                    public partial class TopologyLocalType : XTypedElement, IXMetaData
+                    {
+
+                        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                        private static IList<string> leafDefaultValue = new string[] {
+                                "Rarely"};
+
+                        public static explicit operator TopologyLocalType(XElement xe) { return XTypedServices.ToXTypedElement<TopologyLocalType>(xe, LinqToXsdTypeManager.Instance as ILinqToXsdTypeManager); }
+
+                        public TopologyLocalType()
+                        {
+                        }
+
+                        /// <summary>
+                        /// <para>
+                        /// Occurrence: optional
+                        /// </para>
+                        /// </summary>
+                        public IList<string> leaf
+                        {
+                            get
+                            {
+                                XAttribute x = this.Attribute(XName.Get("leaf", ""));
+                                return XTypedServices.ParseListValue<string>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String).Datatype, leafDefaultValue);
+                            }
+                            set
+                            {
+                                this.SetListAttribute(XName.Get("leaf", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String).Datatype);
+                            }
+                        }
+
+                        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                        XName IXMetaData.SchemaName
+                        {
+                            get
+                            {
+                                return XName.Get("Topology", "http://tempuri.org/XNodeTypeSystem.xsd");
+                            }
+                        }
+
+                        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                        SchemaOrigin IXMetaData.TypeOrigin
+                        {
+                            get
+                            {
+                                return SchemaOrigin.Fragment;
+                            }
+                        }
+
+                        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                        ILinqToXsdTypeManager IXMetaData.TypeManager
+                        {
+                            get
+                            {
+                                return LinqToXsdTypeManager.Instance;
+                            }
+                        }
+
+                        public override XTypedElement Clone()
+                        {
+                            return XTypedServices.CloneXTypedElement<TopologyLocalType>(this);
+                        }
+
+                        ContentModelEntity IXMetaData.GetContentModel()
+                        {
+                            return ContentModelEntity.Default;
+                        }
                     }
 
                     /// <summary>
@@ -4212,7 +4303,8 @@ namespace Jawilliam.CDF.XObjects.RDSL
         private static byte relevancyDefaultValue = System.Xml.XmlConvert.ToByte("0");
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private static bool leafDefaultValue = System.Xml.XmlConvert.ToBoolean("false");
+        private static IList<string> leafDefaultValue = new string[] {
+                "Rarely"};
 
         public static explicit operator TopologyRules(XElement xe) { return XTypedServices.ToXTypedElement<TopologyRules>(xe, LinqToXsdTypeManager.Instance as ILinqToXsdTypeManager); }
 
@@ -4243,6 +4335,24 @@ namespace Jawilliam.CDF.XObjects.RDSL
         /// Occurrence: optional
         /// </para>
         /// </summary>
+        public string relevantOnlyIf
+        {
+            get
+            {
+                XAttribute x = this.Attribute(XName.Get("relevantOnlyIf", ""));
+                return XTypedServices.ParseValue<string>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String).Datatype);
+            }
+            set
+            {
+                this.SetAttribute(XName.Get("relevantOnlyIf", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String).Datatype);
+            }
+        }
+
+        /// <summary>
+        /// <para>
+        /// Occurrence: optional
+        /// </para>
+        /// </summary>
         public byte relevancy
         {
             get
@@ -4261,16 +4371,38 @@ namespace Jawilliam.CDF.XObjects.RDSL
         /// Occurrence: optional
         /// </para>
         /// </summary>
-        public bool leaf
+        public IList<string> leaf
         {
             get
             {
                 XAttribute x = this.Attribute(XName.Get("leaf", ""));
-                return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype, leafDefaultValue);
+                return XTypedServices.ParseListValue<string>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String).Datatype, leafDefaultValue);
             }
             set
             {
-                this.SetAttribute(XName.Get("leaf", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
+                this.SetListAttribute(XName.Get("leaf", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String).Datatype);
+            }
+        }
+
+        /// <summary>
+        /// <para>
+        /// Occurrence: optional
+        /// </para>
+        /// </summary>
+        public System.Nullable<bool> descendant
+        {
+            get
+            {
+                XAttribute x = this.Attribute(XName.Get("descendant", ""));
+                if ((x == null))
+                {
+                    return null;
+                }
+                return XTypedServices.ParseValue<bool>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
+            }
+            set
+            {
+                this.SetAttribute(XName.Get("descendant", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.Boolean).Datatype);
             }
         }
 

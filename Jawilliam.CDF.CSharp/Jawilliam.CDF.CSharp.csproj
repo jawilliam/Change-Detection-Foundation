@@ -141,7 +141,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AliasServices.tt</DependentUpon>
     </Compile>
-    <Compile Include="Awareness\CatchDeclarationServiceProvider.Custom.cs" />
+    <Compile Include="Awareness\Custom.AccessorDeclarationServiceProvider.cs" />
+    <Compile Include="Awareness\Custom.CatchDeclarationServiceProvider.cs" />
+    <Compile Include="Awareness\Custom.DocumentationCommentTriviaServiceProvider.cs" />
+    <Compile Include="Awareness\Custom.TupleElementServiceProvider.cs" />
     <Compile Include="Awareness\Flad.cs" />
     <Compile Include="Awareness\Extensions.cs" />
     <Compile Include="Awareness\TopologicalAbstraction.cs" />
@@ -165,7 +168,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>NameServices.tt</DependentUpon>
     </Compile>
-    <Compile Include="Awareness\NameServices.Custom.MemberAccessExpressionServiceProvider.cs" />
+    <Compile Include="Awareness\Custom.MemberAccessExpressionServiceProvider.cs" />
     <Compile Include="Awareness\PairwiseServices.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -220,6 +223,12 @@
       <DependentUpon>MutableNodes.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RoslynML\RoslynMLPruner.Custom.cs" />
+    <Compile Include="RoslynML\RoslynMLPruner.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RoslynMLPruner.tt</DependentUpon>
+    </Compile>
     <Compile Include="RoslynML\RoslynML.cs">
       <DependentUpon>RoslynML.tt</DependentUpon>
       <DesignTime>True</DesignTime>
@@ -284,6 +293,10 @@
     <Content Include="Awareness\ElementTypeServiceProviders.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ElementTypeServiceProviders.cs</LastGenOutput>
+    </Content>
+    <Content Include="RoslynML\RoslynMLPruner.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>RoslynMLPruner.cs</LastGenOutput>
     </Content>
     <Content Include="RoslynML\RoslynML.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

@@ -11,24 +11,20 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
     /// Summary description for TopologyTests
     /// </summary>
     [TestClass]
-    public class TopologyTests
+    public class RoslynMLTopologyTests
     {
         [TestMethod]
-        public void ParenthesizedExpressionServiceProvider_TopologicalAbstraction_OK()
+        public void ParenthesizedExpressionServiceProvider_RoslynMLTopologicalAbstraction_OK()
         {
-            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
+            var converter = new CDF.CSharp.RoslynML.RoslynMLPruner();
 
             var node = (ParenthesizedExpressionSyntax)SyntaxFactory.ParseExpression("(3)");
+            var xElement = converter.Visit(node);
+            converter.Prune(xElement);
 
-            var hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
-            Assert.AreEqual(hierarchicalChildren.Count(), 3);
-            Assert.IsTrue(hierarchicalChildren.Contains(node.OpenParenToken));
-            Assert.IsTrue(hierarchicalChildren.Contains(node.Expression));
-            Assert.IsTrue(hierarchicalChildren.Contains(node.CloseParenToken));
-
-            var topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
+            var topologicalChildren = xElement.Elements().ToArray();
             Assert.AreEqual(topologicalChildren.Count(), 1);
-            Assert.IsTrue(topologicalChildren.Contains(node.Expression));
+            Assert.IsTrue(topologicalChildren[0].Name.LocalName == converter.Visit(node.Expression).Name.LocalName);
         }
 
         [TestMethod]

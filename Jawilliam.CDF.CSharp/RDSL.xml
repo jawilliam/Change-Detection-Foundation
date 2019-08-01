@@ -2722,7 +2722,7 @@
           <Rules>
             <Name equality="true" absolute="true"/>
             <Pairwise tunneling="true" priority="0"/>
-            <Topology relevant="true"/>
+            <Topology relevant="true" relevantOnlyIf="{0}.Identifier.RawKind != (int)SyntaxKind.None"/>
           </Rules>
         </Property>
         <Property name="CloseParenToken" kind="Token" index="3" readOnly="true" optional="false" multiplicity="Single" hashtags="#PUNTUACTION">
@@ -3809,6 +3809,7 @@
         </Property>
       </Properties>
       <Rules collection="true">
+        <Topology leaf="Likely"/>
         <Name suitability="Key" equality="true" absolute="true"/>
       </Rules>
       <Annotations>
@@ -3949,6 +3950,9 @@
           </Rules>
         </Property>
       </Properties>
+      <Rules>
+        <Topology leaf="Likely"/>
+      </Rules>
     </Type>
     <Type name="EventDeclarationSyntax" base="BasePropertyDeclarationSyntax" hashtags="#declaration #DECLARATION#Member#Property #event #DECLARATION#Member">
       <Properties>
@@ -4098,8 +4102,9 @@
             <Kind name="IdentifierToken" type="UnknownAccessorDeclaration" identifier="true" readonly="false"/>
           </Options>
           <Rules>
-            <!--<Name equality="true" absolute="true"/> It can be identified by the kind--> 
+            <!--<Name equality="true" absolute="true"/> It can be identified by the kind-->
             <Pairwise tunneling="true"/>
+            <Topology relevant="true" relevantOnlyIf="{0}.RawKind == (int)SyntaxKind.UnknownAccessorDeclaration"/>
           </Rules>
         </Property>
         <Property name="Body" kind="Node" index="3" optional="true" changepoint="true" multiplicity="Single" hashtags="#Statement#Block">
@@ -4155,6 +4160,7 @@
         </Property>
       </Properties>
       <Rules collection="true">
+        <Topology leaf="Likely"/>
         <Signature equality="true" absolute="true"/>
       </Rules>
     </Type>
@@ -4219,6 +4225,7 @@
         </Property>
       </Properties>
       <Rules>
+        <Topology leaf="Likely"/>
         <Signature equality="true" absolute="true"/>
         <Name suitability="Key" equality="true" absolute="true"/>
       </Rules>
@@ -4235,14 +4242,16 @@
           </Rules>
         </Property>
       </Properties>
-      <Rules collection="true"/>
+      <Rules collection="true">
+        <Topology leaf="Likely"/>
+      </Rules>
     </Type>
     <Type name="DocumentationCommentTriviaSyntax" base="StructuredTriviaSyntax" hashtags="#TRIVIA#Structured #trivia #comment">
       <Properties>
         <Property name="Content" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Collection" collectionType="XmlNodeSyntax" hashtags="#XML#Node">
           <Rules collection="true">
             <Pairwise discriminant="true"/>
-            <Topology relevant="true"/>
+            <Topology relevant="true" relevantOnlyIf=".Where(c => !(c is XmlTextSyntax text &amp;&amp; (string.IsNullOrEmpty(text.ToFullString()) || string.IsNullOrWhiteSpace(text.ToFullString()) || text.ToFullString().Trim(' ') == &quot;///&quot;)))"/>
           </Rules>
         </Property>
         <Property name="EndOfComment" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single" hashtags="#PUNTUACTION">
@@ -4287,6 +4296,9 @@
           </Rules>
         </Property>
       </Properties>
+      <Rules>
+        <Topology leaf="Likely"/>
+      </Rules>
     </Type>
     <Type name="RegionDirectiveTriviaSyntax" base="DirectiveTriviaSyntax" readonly="true" hashtags="#TRIVIA#Structured #trivia #directive #TRIVIA#Structured#Directive #region">
       <Properties>
@@ -4306,6 +4318,9 @@
           </Rules>
         </Property>
       </Properties>
+      <Rules>
+        <Topology leaf="Likely"/>
+      </Rules>
     </Type>
     <Type name="EndRegionDirectiveTriviaSyntax" base="DirectiveTriviaSyntax" readonly="true" hashtags="#TRIVIA#Structured #trivia #directive #TRIVIA#Structured#Directive #end #region">
       <Properties>
@@ -4325,6 +4340,9 @@
           </Rules>
         </Property>
       </Properties>
+      <Rules>
+        <Topology leaf="Likely"/>
+      </Rules>
     </Type>
     <Type name="ErrorDirectiveTriviaSyntax" base="DirectiveTriviaSyntax" readonly="true" hashtags="#TRIVIA#Structured #trivia #directive #TRIVIA#Structured#Directive">
       <Properties>
@@ -4344,6 +4362,9 @@
           </Rules>
         </Property>
       </Properties>
+      <Rules>
+        <Topology leaf="Likely"/>
+      </Rules>
     </Type>
     <Type name="WarningDirectiveTriviaSyntax" base="DirectiveTriviaSyntax" readonly="true" hashtags="#TRIVIA#Structured #trivia #directive #TRIVIA#Structured#Directive #warning">
       <Properties>
@@ -4363,6 +4384,9 @@
           </Rules>
         </Property>
       </Properties>
+      <Rules>
+        <Topology leaf="Likely"/>
+      </Rules>
     </Type>
     <Type name="BadDirectiveTriviaSyntax" base="DirectiveTriviaSyntax" hashtags="#TRIVIA#Structured #trivia #directive #TRIVIA#Structured#Directive">
       <Properties>
@@ -4385,6 +4409,7 @@
         </Property>
       </Properties>
       <Rules>
+        <Topology leaf="Likely"/>
         <Name suitability="Key" equality="true" absolute="true"/>
       </Rules>
     </Type>
@@ -4414,6 +4439,7 @@
         </Property>
       </Properties>
       <Rules>
+        <Topology leaf="Likely"/>
         <Name suitability="Key" equality="true" absolute="true"/>
       </Rules>
     </Type>
@@ -4443,6 +4469,7 @@
         </Property>
       </Properties>
       <Rules>
+        <Topology leaf="Likely"/>
         <Name suitability="Key" equality="true" absolute="true"/>
       </Rules>
     </Type>
@@ -4481,6 +4508,9 @@
           </Rules>
         </Property>
       </Properties>
+      <Rules>
+        <Topology leaf="Likely"/>
+      </Rules>
     </Type>
     <Type name="PragmaWarningDirectiveTriviaSyntax" base="DirectiveTriviaSyntax" hashtags="#TRIVIA#Structured #trivia #directive #TRIVIA#Structured#Directive #warning #pragma">
       <Properties>
@@ -4518,6 +4548,7 @@
         <Property name="EndOfDirectiveToken" kind="Token" index="5" readOnly="true" optional="false" inherited="true" multiplicity="Single" hashtags="#PUNTUACTION">
           <Rules>
             <Pairwise tunneling="true"/>
+            <Topology leaf="Likely"/>
           </Rules>
         </Property>
       </Properties>
@@ -4564,6 +4595,9 @@
           </Rules>
         </Property>
       </Properties>
+      <Rules>
+        <Topology leaf="Likely"/>
+      </Rules>
     </Type>
     <Type name="ReferenceDirectiveTriviaSyntax" base="DirectiveTriviaSyntax" hashtags="#TRIVIA#Structured #trivia #directive #TRIVIA#Structured#Directive">
       <Properties>
@@ -4589,6 +4623,9 @@
           </Rules>
         </Property>
       </Properties>
+      <Rules>
+        <Topology leaf="Likely"/>
+      </Rules>
     </Type>
     <Type name="LoadDirectiveTriviaSyntax" base="DirectiveTriviaSyntax" hashtags="#TRIVIA#Structured #trivia #directive #TRIVIA#Structured#Directive">
       <Properties>
@@ -4614,6 +4651,9 @@
           </Rules>
         </Property>
       </Properties>
+      <Rules>
+        <Topology leaf="Likely"/>
+      </Rules>
     </Type>
     <Type name="ShebangDirectiveTriviaSyntax" base="DirectiveTriviaSyntax" readonly="true" hashtags="#TRIVIA#Structured #trivia #directive #TRIVIA#Structured#Directive">
       <Properties>
@@ -4633,6 +4673,9 @@
           </Rules>
         </Property>
       </Properties>
+      <Rules>
+        <Topology leaf="Likely"/>
+      </Rules>
     </Type>
     <!--StructuredTriviaSyntax$DirectiveTriviaSyntax$BranchingDirectiveTriviaSyntax-->
     <Type name="BranchingDirectiveTriviaSyntax" abstract="true" base="DirectiveTriviaSyntax"/>
@@ -4654,6 +4697,9 @@
           </Rules>
         </Property>
       </Properties>
+      <Rules>
+        <Topology leaf="Likely"/>
+      </Rules>
     </Type>
     <!--StructuredTriviaSyntax$DirectiveTriviaSyntax$BranchingDirectiveTriviaSyntax$ConditionalDirectiveTriviaSyntax-->
     <Type name="ConditionalDirectiveTriviaSyntax" abstract="true" base="BranchingDirectiveTriviaSyntax">
@@ -4689,6 +4735,9 @@
           </Rules>
         </Property>
       </Properties>
+      <Rules>
+        <Topology leaf="Likely"/>
+      </Rules>
     </Type>
     <Type name="ElifDirectiveTriviaSyntax" base="ConditionalDirectiveTriviaSyntax" hashtags="#trivia #directive #TRIVIA#Structured#Directive#Branching #TRIVIA#Structured#Directive#Branching#Conditional #TRIVIA#Structured#Directive">
       <Properties>
@@ -4714,8 +4763,10 @@
           </Rules>
         </Property>
       </Properties>
+      <Rules>
+        <Topology leaf="Likely"/>
+      </Rules>
     </Type>
-
 
     <!--An Related-->
     <!--An Related$CrefSyntax-->
@@ -4729,6 +4780,9 @@
           </Rules>
         </Property>
       </Properties>
+      <Rules>
+        <Topology leaf="Likely"/>
+      </Rules>
     </Type>
     <Type name="QualifiedCrefSyntax" base="CrefSyntax" hashtags="#cref #qualified #Cref">
       <Properties>
@@ -4748,6 +4802,9 @@
           </Rules>
         </Property>
       </Properties>
+      <Rules>
+        <Topology leaf="Likely"/>
+      </Rules>
     </Type>
     <Type name="MemberCrefSyntax" abstract="true" base="CrefSyntax"/>
     <Type name="NameMemberCrefSyntax" base="MemberCrefSyntax" hashtags="#cref #Cref#Member #DECLARATION#MEMBER #Cref #name #member">
@@ -4767,6 +4824,7 @@
         </Property>
       </Properties>
       <Rules>
+        <Topology leaf="Likely"/>
         <Signature equality="true" absolute="true"/>
         <Name suitability="Key" equality="true" absolute="true"/>
       </Rules>
@@ -4789,6 +4847,7 @@
         </Property>
       </Properties>
       <Rules collection="true">
+        <Topology leaf="Likely"/>
         <Signature equality="true" absolute="true"/>
         <Name suitability="Key" equality="true" absolute="true"/>
       </Rules>
@@ -4841,6 +4900,7 @@
         </Property>
       </Properties>
       <Rules>
+        <Topology leaf="Likely"/>
         <Signature equality="true" absolute="true"/>
         <Name suitability="Key" equality="true" absolute="true"/>
       </Rules>
@@ -4875,6 +4935,7 @@
         </Property>
       </Properties>
       <Rules>
+        <Topology leaf="Likely"/>
         <Signature equality="true" absolute="true"/>
       </Rules>
     </Type>
@@ -4960,6 +5021,9 @@
           </Rules>
         </Property>
       </Properties>
+      <Rules>
+        <Topology leaf="Likely"/>
+      </Rules>
     </Type>
     <!--An Related$XmlNodeSyntax-->
     <Type name="XmlNodeSyntax" abstract="true"/>
@@ -4986,6 +5050,7 @@
         </Property>
       </Properties>
       <Rules>
+        <Topology leaf="Likely"/>
         <Name suitability="Key" equality="true" absolute="true"/>
       </Rules>
     </Type>
@@ -5014,6 +5079,7 @@
         </Property>
       </Properties>
       <Rules>
+        <Topology leaf="Tiny"/>
         <Name equality="true" absolute="true"/>
       </Rules>
     </Type>
@@ -5038,6 +5104,7 @@
         </Property>
       </Properties>
       <Rules>
+        <Topology leaf="Tiny"/>
         <Name equality="true" absolute="true"/>
       </Rules>
     </Type>
@@ -5066,6 +5133,7 @@
         </Property>
       </Properties>
       <Rules>
+        <Topology leaf="Likely"/>
         <Name suitability="Key" equality="true" absolute="true"/>
       </Rules>
     </Type>
@@ -5087,6 +5155,7 @@
         </Property>
       </Properties>
       <Rules>
+        <Topology leaf="Tiny"/>
         <Name equality="true" absolute="true"/>
       </Rules>
     </Type>
@@ -5106,6 +5175,7 @@
         </Property>
       </Properties>
       <Rules>
+        <Topology leaf="Tiny"/>
         <Name equality="true" absolute="true"/>
       </Rules>
     </Type>
@@ -5169,15 +5239,16 @@
         </Property>
       </Properties>
       <Rules>
+        <Topology leaf="Likely Tiny"/>
         <Name suitability="Key" equality="true" absolute="true"/>
       </Rules>
     </Type>
     <Type name="XmlCrefAttributeSyntax" base="XmlAttributeSyntax" hashtags="#xml #XML#Attribute #cref #attribute">
       <Properties>
         <Property name="Name" kind="Node" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single" hashtags="#XML#Name">
-          <Rules>
+          <!--<Rules>
             <Topology relevant="true"/>
-          </Rules>
+          </Rules>-->
         </Property>
         <Property name="EqualsToken" kind="Token" index="1" readOnly="true" optional="false" inherited="true" multiplicity="Single" hashtags="#PUNTUACTION">
           <Rules>
@@ -5212,15 +5283,16 @@
         </Property>
       </Properties>
       <Rules>
+        <Topology leaf="Likely Tiny"/>
         <Name suitability="Key" equality="true" absolute="true"/>
       </Rules>
     </Type>
     <Type name="XmlNameAttributeSyntax" base="XmlAttributeSyntax" hashtags="#xml #XML#Attribute #PARAMETER #name #attribute">
       <Properties>
         <Property name="Name" kind="Node" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single" hashtags="#XML#Name">
-          <Rules>
+          <!--<Rules>
             <Topology relevant="true"/>
-          </Rules>
+          </Rules>-->
         </Property>
         <Property name="EqualsToken" kind="Token" index="1" readOnly="true" optional="false" inherited="true" multiplicity="Single" hashtags="#PUNTUACTION">
           <Rules>
@@ -5255,6 +5327,7 @@
         </Property>
       </Properties>
       <Rules>
+        <Topology leaf="Likely Tiny"/>
         <Name suitability="Key" equality="true" absolute="true"/>
       </Rules>
     </Type>
@@ -5267,7 +5340,9 @@
           </Rules>
         </Property>
       </Properties>
-      <Rules collection="true"/>
+      <Rules collection="true">
+        <Topology leaf="Terminal Tiny"/>
+      </Rules>
     </Type>
     <Type name="XmlCDataSectionSyntax" base="XmlNodeSyntax" hashtags="#xml #XML#Node">
       <Properties>
@@ -5288,7 +5363,9 @@
           </Rules>
         </Property>
       </Properties>
-      <Rules collection="true"/>
+      <Rules collection="true">
+        <Topology leaf="Terminal Likely"/>
+      </Rules>
     </Type>
     <Type name="XmlProcessingInstructionSyntax" base="XmlNodeSyntax" hashtags="#xml #XML#Node">
       <Properties>
@@ -5315,6 +5392,7 @@
         </Property>
       </Properties>
       <Rules>
+        <Topology leaf="Terminal Likely"/>
         <Name suitability="Key" equality="true" absolute="true"/>
       </Rules>
     </Type>
@@ -5337,7 +5415,9 @@
           </Rules>
         </Property>
       </Properties>
-      <Rules collection="true"/>
+      <Rules collection="true">
+        <Topology leaf="Terminal Likely"/>
+      </Rules>
     </Type>
 
     <!--CompilationUnitSyntax - Level 4-->
@@ -5396,6 +5476,7 @@
         </Property>
       </Properties>
       <Rules>
+        <Topology leaf="Likely"/>
         <Name suitability="Key" equality="true" absolute="true"/>
       </Rules>
     </Type>
@@ -5430,6 +5511,7 @@
         </Property>
       </Properties>
       <Rules>
+        <Topology leaf="Likely"/>
         <Name suitability="Key" equality="true" absolute="true"/>
       </Rules>
     </Type>
@@ -5526,6 +5608,7 @@
         </Property>
       </Properties>
       <Rules>
+        <Topology leaf="Terminal Tiny"/>
         <!--<Name equality="true" absolute="true"/>-->
       </Rules>
     </Type>
@@ -5544,6 +5627,7 @@
         </Property>
       </Properties>
       <Rules>
+        <Topology leaf="Likely"/>
         <Name suitability="Key" equality="true" absolute="true"/>
       </Rules>
     </Type>
@@ -5592,6 +5676,7 @@
         </Property>
       </Properties>
       <Rules>
+        <Topology leaf="Likely"/>
         <Name suitability="Key" equality="true" absolute="true"/>
       </Rules>
     </Type>
@@ -5611,6 +5696,9 @@
           </Rules>
         </Property>
       </Properties>
+      <Rules>
+        <Topology leaf="Tiny"/>
+      </Rules>
     </Type>
     <Type name="TupleTypeSyntax" base="TypeSyntax" hashtags="#Expression #Expression#Type #tuple #type">
       <Properties>
@@ -5631,7 +5719,9 @@
           </Rules>
         </Property>
       </Properties>
-      <Rules collection="true"/>
+      <Rules collection="true">
+        <Topology leaf="Tiny"/>
+      </Rules>
     </Type>
     <Type name="TupleExpressionSyntax" base="ExpressionSyntax" hashtags="#Expression #expression #tuple">
       <Properties>
@@ -5652,7 +5742,9 @@
           </Rules>
         </Property>
       </Properties>
-      <Rules collection="true"/>
+      <Rules collection="true">
+        <Topology leaf="Likely"/>
+      </Rules>
     </Type>
     <Type name="TupleElementSyntax" base="CSharpSyntaxNode" hashtags="#tuple #element =#TYPE#TUPLE#Element">
       <Properties>
@@ -5666,11 +5758,12 @@
           <Rules>
             <Name suitability="Key" equality="true" absolute="true"/>
             <Pairwise tunneling="true" priority="0"/>
-            <Topology relevant="true"/>
+            <Topology relevant="true" relevantOnlyIf="{0}.Identifier.ValueText != null"/>
           </Rules>
         </Property>
       </Properties>
       <Rules>
+        <Topology leaf="Likely"/>
         <Name suitability="Key" equality="true" absolute="true"/>
       </Rules>
     </Type>
@@ -5688,6 +5781,9 @@
           </Rules>
         </Property>
       </Properties>
+      <Rules>
+        <Topology leaf="Likely"/>
+      </Rules>
     </Type>
 
     <Type name="VariableDesignationSyntax" base="CSharpSyntaxNode" abstract="true"/>
@@ -5703,6 +5799,7 @@
         </Property>
       </Properties>
       <Rules>
+        <Topology leaf="Likely"/>
         <Name suitability="Key" equality="true" absolute="true"/>
       </Rules>
     </Type>
@@ -5714,6 +5811,9 @@
           </Rules>
         </Property>
       </Properties>
+      <Rules>
+        <Topology leaf="Likely Tiny"/>
+      </Rules>
     </Type>
     <Type name="ParenthesizedVariableDesignationSyntax" base="VariableDesignationSyntax" hashtags="#variable #DECLARATION#VARIABLE#Designation #parenthesized">
       <!--declaration-->
@@ -5752,6 +5852,9 @@
           </Rules>
         </Property>
       </Properties>
+      <Rules>
+        <Topology leaf="Likely"/>
+      </Rules>
     </Type>
 
     <Type name="CasePatternSwitchLabelSyntax" base="SwitchLabelSyntax" hashtags="#switch #SWITCH#Label #pattern #label">
@@ -5777,6 +5880,9 @@
           </Rules>
         </Property>
       </Properties>
+      <Rules>
+        <Topology leaf="Likely"/>
+      </Rules>
     </Type>
     <Type name="IsPatternExpressionSyntax" base="ExpressionSyntax" hashtags="#Expression #expression #pattern">
       <Properties>
@@ -5796,6 +5902,10 @@
           </Rules>
         </Property>
       </Properties>
+      <!--Compatibility with is and as-->
+      <Rules>
+        <Topology leaf="Likely"/>
+      </Rules>
     </Type>
     <Type name="DeclarationExpressionSyntax" base="ExpressionSyntax" hashtags="#Expression #expression #declaration #DECLARATION#VARIABLE #DECLARATION"><!--variable-->
       <Properties>
@@ -5810,6 +5920,9 @@
           </Rules>
         </Property>
       </Properties>
+      <Rules>
+        <Topology leaf="Likely"/>
+      </Rules>
     </Type>
     <Type name="CommonForEachStatementSyntax" base="StatementSyntax" abstract="true">
       <Properties>
@@ -5888,6 +6001,9 @@
           </Rules>
         </Property>
       </Properties>
+      <Rules>
+        <Topology leaf="Likely Tiny"/>
+      </Rules>
     </Type>
     <Type name="ConstantPatternSyntax" base="PatternSyntax" hashtags="#Pattern #pattern">
       <Properties>
@@ -5898,6 +6014,9 @@
           </Rules>
         </Property>
       </Properties>
+      <Rules>
+        <Topology leaf="Likely Tiny"/>
+      </Rules>
     </Type>
 
     <Type name="LocalFunctionStatementSyntax" base="StatementSyntax" hashtags="#Statement #statement #DECLARATION #DECLARATION#LOCAL #DECLARATION#FUNCTION">
@@ -5978,6 +6097,9 @@
           </Rules>
         </Property>
       </Properties>
+      <Rules>
+        <Topology leaf="Likely"/>
+      </Rules>
     </Type>
   </Nodes>
 </Syntax>

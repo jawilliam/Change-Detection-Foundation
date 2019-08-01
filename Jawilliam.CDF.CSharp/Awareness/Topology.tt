@@ -104,8 +104,6 @@ foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
 		continue;
 
 	var topologicalProperties = xSyntaxNodeType?.Properties?.Property?
-		//.Where(p => keyProperty.Item2.kind != "Token" && (p.Rules?.Topology?.relevant ?? false))
-		//.Where(p => p.kind != "Token")
 		.ToList() ?? (new List<Syntax.NodesLocalType.TypeLocalType.PropertiesLocalType.PropertyLocalType>(0));
 
 	if(!(topologicalProperties?.Any() ?? false)) 
@@ -185,7 +183,7 @@ public <#= xSyntaxNodeType.@abstract ? "abstract " : "" #>partial class <#= code
 #>
         if(n.<#= keyProperty.Item2.name #> != null) 
 		{
-			foreach (var e in n.<#= keyProperty.Item2.name #>)
+			foreach (var e in n.<#= keyProperty.Item2.name #><#= keyProperty.Item2.Rules.Topology.relevantOnlyIf != null ? string.Format(keyProperty.Item2.Rules.Topology.relevantOnlyIf, "n") : "" #>)
 				yield return e;
 		}
 <# 
@@ -193,14 +191,21 @@ public <#= xSyntaxNodeType.@abstract ? "abstract " : "" #>partial class <#= code
 					else if(!keyProperty.Item2.optional && keyProperty.Item2.multiplicity == "Collection")			
 					{
 #>
-        foreach (var e in n.<#= keyProperty.Item2.name #>)
+        foreach (var e in n.<#= keyProperty.Item2.name #><#= keyProperty.Item2.Rules.Topology.relevantOnlyIf != null ? string.Format(keyProperty.Item2.Rules.Topology.relevantOnlyIf, "n") : "" #>)
 			yield return e;
 <# 
 					}
 					else if(keyProperty.Item2.optional)	
 					{
 #>
-        if(n.<#= keyProperty.Item2.name #> != null)
+        if(n.<#= keyProperty.Item2.name #> != null<#= keyProperty.Item2.Rules.Topology.relevantOnlyIf != null ? (" && " + string.Format(keyProperty.Item2.Rules.Topology.relevantOnlyIf, "n")) : "" #>)
+			yield return n.<#= keyProperty.Item2.name #>;
+<# 
+					}
+					else if(keyProperty.Item2.Rules.Topology.relevantOnlyIf != null)
+					{
+#>
+		if(<#= string.Format(keyProperty.Item2.Rules.Topology.relevantOnlyIf, "n") #>)
 			yield return n.<#= keyProperty.Item2.name #>;
 <# 
 					}

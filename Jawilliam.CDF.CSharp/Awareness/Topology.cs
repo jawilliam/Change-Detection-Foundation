@@ -2314,6 +2314,8 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			yield return e;
             foreach (var e in n.Modifiers)
     			yield return e;
+    		if(n.RawKind == (int)SyntaxKind.UnknownAccessorDeclaration)
+    			yield return n.Keyword;
             if(n.Body != null)
     			yield return n.Body;
     	}
@@ -4364,7 +4366,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     	{
     		var n = node != null ? (TupleElementSyntax)node : throw new ArgumentNullException(nameof(node));
             yield return n.Type;
-            if(n.Identifier != null)
+            if(n.Identifier != null && n.Identifier.ValueText != null)
     			yield return n.Identifier;
     	}
     
@@ -8230,7 +8232,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     	{
     		var n = node != null ? (CatchDeclarationSyntax)node : throw new ArgumentNullException(nameof(node));
             yield return n.Type;
-            if(n.Identifier != null)
+            if(n.Identifier != null && n.Identifier.RawKind != (int)SyntaxKind.None)
     			yield return n.Identifier;
     	}
     
@@ -16545,7 +16547,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         protected virtual IEnumerable<SyntaxNodeOrToken?> ChildrenCore(SyntaxNodeOrToken? node)
     	{
     		var n = node != null ? (DocumentationCommentTriviaSyntax)node : throw new ArgumentNullException(nameof(node));
-            foreach (var e in n.Content)
+            foreach (var e in n.Content.Where(c => !(c is XmlTextSyntax text && (string.IsNullOrEmpty(text.ToFullString()) || string.IsNullOrWhiteSpace(text.ToFullString()) || text.ToFullString().Trim(' ') == "///"))))
     			yield return e;
     	}
     
@@ -24032,7 +24034,6 @@ namespace Jawilliam.CDF.CSharp.Awareness
         protected virtual IEnumerable<SyntaxNodeOrToken?> ChildrenCore(SyntaxNodeOrToken? node)
     	{
     		var n = node != null ? (XmlCrefAttributeSyntax)node : throw new ArgumentNullException(nameof(node));
-            yield return n.Name;
             yield return n.Cref;
     	}
     
@@ -24259,7 +24260,6 @@ namespace Jawilliam.CDF.CSharp.Awareness
         protected virtual IEnumerable<SyntaxNodeOrToken?> ChildrenCore(SyntaxNodeOrToken? node)
     	{
     		var n = node != null ? (XmlNameAttributeSyntax)node : throw new ArgumentNullException(nameof(node));
-            yield return n.Name;
             yield return n.Identifier;
     	}
     

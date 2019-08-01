@@ -67,6 +67,7 @@
   
   <xs:complexType name="TopologyRules">
     <xs:attribute name="relevant" type="xs:boolean" use="optional" default="false"/>
+    <xs:attribute name="relevantOnlyIf" type="xs:string" use="optional"/>
     <xs:attribute name="relevancy" type="xs:unsignedByte" use="optional" default="0"/>
     <xs:attributeGroup ref="mstns:TopologyLeafAttribute"/>
     <xs:attribute name="descendant" type="xs:boolean" use="optional"/>

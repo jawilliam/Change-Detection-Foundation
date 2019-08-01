@@ -740,12 +740,12 @@ namespace Jawilliam.CDF.CSharp.RoslynML
         public override XElement VisitCrefParameter(Microsoft.CodeAnalysis.CSharp.Syntax.CrefParameterSyntax node)
         {
     		var result = new XElement("CrefParameter");
-    		//RefOrOutKeyword
-    		if(node.RefOrOutKeyword != null && node.RefOrOutKeyword.Kind() != SyntaxKind.None)
+    		//RefKindKeyword
+    		if(node.RefKindKeyword != null && node.RefKindKeyword.Kind() != SyntaxKind.None)
     		{
-    			var xRefOrOutKeyword = this.Visit(node.RefOrOutKeyword);
-    			xRefOrOutKeyword.Add(new XAttribute("part", "RefOrOutKeyword"));
-    			result.Add(xRefOrOutKeyword);
+    			var xRefKindKeyword = this.Visit(node.RefKindKeyword);
+    			xRefKindKeyword.Add(new XAttribute("part", "RefKindKeyword"));
+    			result.Add(xRefKindKeyword);
     		}
     		//Type
     		var xType = this.Visit(node.Type);
@@ -992,12 +992,12 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			xNameColon.Add(new XAttribute("part", "NameColon"));
     			result.Add(xNameColon);
     		}
-    		//RefOrOutKeyword
-    		if(node.RefOrOutKeyword != null && node.RefOrOutKeyword.Kind() != SyntaxKind.None)
+    		//RefKindKeyword
+    		if(node.RefKindKeyword != null && node.RefKindKeyword.Kind() != SyntaxKind.None)
     		{
-    			var xRefOrOutKeyword = this.Visit(node.RefOrOutKeyword);
-    			xRefOrOutKeyword.Add(new XAttribute("part", "RefOrOutKeyword"));
-    			result.Add(xRefOrOutKeyword);
+    			var xRefKindKeyword = this.Visit(node.RefKindKeyword);
+    			xRefKindKeyword.Add(new XAttribute("part", "RefKindKeyword"));
+    			result.Add(xRefKindKeyword);
     		}
     		//Expression
     		var xExpression = this.Visit(node.Expression);
