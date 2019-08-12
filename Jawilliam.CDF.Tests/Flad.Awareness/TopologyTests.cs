@@ -871,15 +871,15 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             var hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
             Assert.AreEqual(hierarchicalChildren.Count(), 5);
             Assert.IsTrue(hierarchicalChildren.Contains(node.OpenParenToken));
-            Assert.IsTrue(hierarchicalChildren.Contains(hierarchicalChildren[1]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Arguments[0]));
             Assert.IsTrue(hierarchicalChildren[2].Value.AsToken().Kind() == SyntaxKind.CommaToken);
-            Assert.IsTrue(hierarchicalChildren.Contains(hierarchicalChildren[3]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Arguments[1]));
             Assert.IsTrue(hierarchicalChildren.Contains(node.CloseParenToken));
 
             var topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
             Assert.AreEqual(topologicalChildren.Count(), 2);
-            Assert.IsTrue(topologicalChildren.Contains(hierarchicalChildren[1]));
-            Assert.IsTrue(topologicalChildren.Contains(hierarchicalChildren[3]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Arguments[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Arguments[1]));
         }
 
         [TestMethod]
@@ -892,15 +892,15 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             var hierarchicalChildren = flad.HierarchicalAbstraction(full: true).Children(node).ToArray();
             Assert.AreEqual(hierarchicalChildren.Count(), 5);
             Assert.IsTrue(hierarchicalChildren.Contains(node.OpenBracketToken));
-            Assert.IsTrue(hierarchicalChildren.Contains(hierarchicalChildren[1]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Arguments[0]));
             Assert.IsTrue(hierarchicalChildren[2].Value.AsToken().Kind() == SyntaxKind.CommaToken);
-            Assert.IsTrue(hierarchicalChildren.Contains(hierarchicalChildren[3]));
+            Assert.IsTrue(hierarchicalChildren.Contains(node.Arguments[1]));
             Assert.IsTrue(hierarchicalChildren.Contains(node.CloseBracketToken));
 
             var topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
             Assert.AreEqual(topologicalChildren.Count(), 2);
-            Assert.IsTrue(topologicalChildren.Contains(hierarchicalChildren[1]));
-            Assert.IsTrue(topologicalChildren.Contains(hierarchicalChildren[3]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Arguments[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Arguments[1]));
         }
 
         [TestMethod]
@@ -2486,13 +2486,13 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
 
             var topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
             Assert.AreEqual(topologicalChildren.Count(), 7);
-            Assert.IsTrue(hierarchicalChildren.Contains(node.AttributeLists[0]));
-            Assert.IsTrue(hierarchicalChildren.Contains(node.Modifiers[0]));
-            Assert.IsTrue(hierarchicalChildren.Contains(node.ReturnType));
-            Assert.IsTrue(hierarchicalChildren.Contains(node.Identifier));
-            Assert.IsTrue(hierarchicalChildren.Contains(node.TypeParameterList));
-            Assert.IsTrue(hierarchicalChildren.Contains(node.ParameterList));
-            Assert.IsTrue(hierarchicalChildren.Contains(node.ConstraintClauses[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Modifiers[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.ReturnType));
+            Assert.IsTrue(topologicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(topologicalChildren.Contains(node.TypeParameterList));
+            Assert.IsTrue(topologicalChildren.Contains(node.ParameterList));
+            Assert.IsTrue(topologicalChildren.Contains(node.ConstraintClauses[0]));
 
             node = (DelegateDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public delegate void Del<T>(string str) where T: I;").Members[0];
 
@@ -2509,12 +2509,12 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
 
             topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
             Assert.AreEqual(topologicalChildren.Count(), 6);
-            Assert.IsTrue(hierarchicalChildren.Contains(node.Modifiers[0]));
-            Assert.IsTrue(hierarchicalChildren.Contains(node.ReturnType));
-            Assert.IsTrue(hierarchicalChildren.Contains(node.Identifier));
-            Assert.IsTrue(hierarchicalChildren.Contains(node.TypeParameterList));
-            Assert.IsTrue(hierarchicalChildren.Contains(node.ParameterList));
-            Assert.IsTrue(hierarchicalChildren.Contains(node.ConstraintClauses[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Modifiers[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.ReturnType));
+            Assert.IsTrue(topologicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(topologicalChildren.Contains(node.TypeParameterList));
+            Assert.IsTrue(topologicalChildren.Contains(node.ParameterList));
+            Assert.IsTrue(topologicalChildren.Contains(node.ConstraintClauses[0]));
 
             node = (DelegateDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] delegate void Del<T>(string str) where T: I;").Members[0];
 
@@ -2531,12 +2531,12 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
 
             topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
             Assert.AreEqual(topologicalChildren.Count(), 6);
-            Assert.IsTrue(hierarchicalChildren.Contains(node.AttributeLists[0]));
-            Assert.IsTrue(hierarchicalChildren.Contains(node.ReturnType));
-            Assert.IsTrue(hierarchicalChildren.Contains(node.Identifier));
-            Assert.IsTrue(hierarchicalChildren.Contains(node.TypeParameterList));
-            Assert.IsTrue(hierarchicalChildren.Contains(node.ParameterList));
-            Assert.IsTrue(hierarchicalChildren.Contains(node.ConstraintClauses[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.ReturnType));
+            Assert.IsTrue(topologicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(topologicalChildren.Contains(node.TypeParameterList));
+            Assert.IsTrue(topologicalChildren.Contains(node.ParameterList));
+            Assert.IsTrue(topologicalChildren.Contains(node.ConstraintClauses[0]));
 
             node = (DelegateDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public delegate void Del(string str) where T: I;").Members[0];
 
@@ -2553,12 +2553,12 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
 
             topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
             Assert.AreEqual(topologicalChildren.Count(), 6);
-            Assert.IsTrue(hierarchicalChildren.Contains(node.AttributeLists[0]));
-            Assert.IsTrue(hierarchicalChildren.Contains(node.Modifiers[0]));
-            Assert.IsTrue(hierarchicalChildren.Contains(node.ReturnType));
-            Assert.IsTrue(hierarchicalChildren.Contains(node.Identifier));
-            Assert.IsTrue(hierarchicalChildren.Contains(node.ParameterList));
-            Assert.IsTrue(hierarchicalChildren.Contains(node.ConstraintClauses[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Modifiers[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.ReturnType));
+            Assert.IsTrue(topologicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(topologicalChildren.Contains(node.ParameterList));
+            Assert.IsTrue(topologicalChildren.Contains(node.ConstraintClauses[0]));
 
             node = (DelegateDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public delegate void Del<T>(string str);").Members[0];
 
@@ -2575,12 +2575,12 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
 
             topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
             Assert.AreEqual(topologicalChildren.Count(), 6);
-            Assert.IsTrue(hierarchicalChildren.Contains(node.AttributeLists[0]));
-            Assert.IsTrue(hierarchicalChildren.Contains(node.Modifiers[0]));
-            Assert.IsTrue(hierarchicalChildren.Contains(node.ReturnType));
-            Assert.IsTrue(hierarchicalChildren.Contains(node.Identifier));
-            Assert.IsTrue(hierarchicalChildren.Contains(node.TypeParameterList));
-            Assert.IsTrue(hierarchicalChildren.Contains(node.ParameterList));
+            Assert.IsTrue(topologicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Modifiers[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.ReturnType));
+            Assert.IsTrue(topologicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(topologicalChildren.Contains(node.TypeParameterList));
+            Assert.IsTrue(topologicalChildren.Contains(node.ParameterList));
         }
 
         [TestMethod]
@@ -2606,12 +2606,12 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
 
             var topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
             Assert.AreEqual(topologicalChildren.Count(), 6);
-            Assert.IsTrue(hierarchicalChildren.Contains(node.AttributeLists[0]));
-            Assert.IsTrue(hierarchicalChildren.Contains(node.Modifiers[0]));
-            Assert.IsTrue(hierarchicalChildren.Contains(node.Identifier));
-            Assert.IsTrue(hierarchicalChildren.Contains(node.BaseList));
-            Assert.IsTrue(hierarchicalChildren.Contains(node.Members[0]));
-            Assert.IsTrue(hierarchicalChildren.Contains(node.Members[1]));
+            Assert.IsTrue(topologicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Modifiers[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(topologicalChildren.Contains(node.BaseList));
+            Assert.IsTrue(topologicalChildren.Contains(node.Members[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Members[1]));
 
             node = (EnumDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public enum a : byte {a1, a2 = 3};").Members[0];
 
@@ -2630,11 +2630,11 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
 
             topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
             Assert.AreEqual(topologicalChildren.Count(), 5);
-            Assert.IsTrue(hierarchicalChildren.Contains(node.Modifiers[0]));
-            Assert.IsTrue(hierarchicalChildren.Contains(node.Identifier));
-            Assert.IsTrue(hierarchicalChildren.Contains(node.BaseList));
-            Assert.IsTrue(hierarchicalChildren.Contains(node.Members[0]));
-            Assert.IsTrue(hierarchicalChildren.Contains(node.Members[1]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Modifiers[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(topologicalChildren.Contains(node.BaseList));
+            Assert.IsTrue(topologicalChildren.Contains(node.Members[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Members[1]));
 
             node = (EnumDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] enum a : byte {a1, a2 = 3};").Members[0];
 
@@ -2653,11 +2653,11 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
 
             topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
             Assert.AreEqual(topologicalChildren.Count(), 5);
-            Assert.IsTrue(hierarchicalChildren.Contains(node.AttributeLists[0]));
-            Assert.IsTrue(hierarchicalChildren.Contains(node.Identifier));
-            Assert.IsTrue(hierarchicalChildren.Contains(node.BaseList));
-            Assert.IsTrue(hierarchicalChildren.Contains(node.Members[0]));
-            Assert.IsTrue(hierarchicalChildren.Contains(node.Members[1]));
+            Assert.IsTrue(topologicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(topologicalChildren.Contains(node.BaseList));
+            Assert.IsTrue(topologicalChildren.Contains(node.Members[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Members[1]));
 
             node = (EnumDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public enum a {a1, a2 = 3};").Members[0];
 
@@ -2676,11 +2676,11 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
 
             topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
             Assert.AreEqual(topologicalChildren.Count(), 5);
-            Assert.IsTrue(hierarchicalChildren.Contains(node.AttributeLists[0]));
-            Assert.IsTrue(hierarchicalChildren.Contains(node.Modifiers[0]));
-            Assert.IsTrue(hierarchicalChildren.Contains(node.Identifier));
-            Assert.IsTrue(hierarchicalChildren.Contains(node.Members[0]));
-            Assert.IsTrue(hierarchicalChildren.Contains(node.Members[1]));
+            Assert.IsTrue(topologicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Modifiers[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(topologicalChildren.Contains(node.Members[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Members[1]));
 
             node = (EnumDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public enum a : byte {a1, a2 = 3}").Members[0];
 
@@ -2699,12 +2699,12 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
 
             topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
             Assert.AreEqual(topologicalChildren.Count(), 6);
-            Assert.IsTrue(hierarchicalChildren.Contains(node.AttributeLists[0]));
-            Assert.IsTrue(hierarchicalChildren.Contains(node.Modifiers[0]));
-            Assert.IsTrue(hierarchicalChildren.Contains(node.Identifier));
-            Assert.IsTrue(hierarchicalChildren.Contains(node.BaseList));
-            Assert.IsTrue(hierarchicalChildren.Contains(node.Members[0]));
-            Assert.IsTrue(hierarchicalChildren.Contains(node.Members[1]));
+            Assert.IsTrue(topologicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Modifiers[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(topologicalChildren.Contains(node.BaseList));
+            Assert.IsTrue(topologicalChildren.Contains(node.Members[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Members[1]));
         }
 
         [TestMethod]
@@ -3217,9 +3217,9 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
 
             var topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
             Assert.AreEqual(topologicalChildren.Count(), 3);
-            Assert.IsTrue(hierarchicalChildren.Contains(node.AttributeLists[0]));
-            Assert.IsTrue(hierarchicalChildren.Contains(node.Identifier));
-            Assert.IsTrue(hierarchicalChildren.Contains(node.EqualsValue));
+            Assert.IsTrue(topologicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(topologicalChildren.Contains(node.EqualsValue));
 
             node = ((EnumDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public enum a : byte {a1, a2 = 3};").Members[0]).Members[1];
 
@@ -3230,8 +3230,8 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
 
             topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
             Assert.AreEqual(topologicalChildren.Count(), 2);
-            Assert.IsTrue(hierarchicalChildren.Contains(node.Identifier));
-            Assert.IsTrue(hierarchicalChildren.Contains(node.EqualsValue));
+            Assert.IsTrue(topologicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(topologicalChildren.Contains(node.EqualsValue));
 
             node = ((EnumDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public enum a : byte {a1, [Serializable] a2};").Members[0]).Members[1];
 
@@ -3242,8 +3242,8 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
 
             topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
             Assert.AreEqual(topologicalChildren.Count(), 2);
-            Assert.IsTrue(hierarchicalChildren.Contains(node.AttributeLists[0]));
-            Assert.IsTrue(hierarchicalChildren.Contains(node.Identifier));
+            Assert.IsTrue(topologicalChildren.Contains(node.AttributeLists[0]));
+            Assert.IsTrue(topologicalChildren.Contains(node.Identifier));
         }
 
         [TestMethod]
@@ -3938,7 +3938,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             Assert.IsTrue(topologicalChildren.Contains(node.Modifiers[0]));
             Assert.IsTrue(topologicalChildren.Contains(node.Modifiers[1]));
             Assert.IsTrue(topologicalChildren.Contains(node.ReturnType));
-            Assert.IsTrue(hierarchicalChildren.Contains(node.OperatorToken));
+            Assert.IsTrue(topologicalChildren.Contains(node.OperatorToken));
             Assert.IsTrue(topologicalChildren.Contains(node.ParameterList));
             Assert.IsTrue(topologicalChildren.Contains(node.ExpressionBody));
 
@@ -3982,7 +3982,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             Assert.IsTrue(topologicalChildren.Contains(node.Modifiers[0]));
             Assert.IsTrue(topologicalChildren.Contains(node.Modifiers[1]));
             Assert.IsTrue(topologicalChildren.Contains(node.ReturnType));
-            Assert.IsTrue(hierarchicalChildren.Contains(node.OperatorToken));
+            Assert.IsTrue(topologicalChildren.Contains(node.OperatorToken));
             Assert.IsTrue(topologicalChildren.Contains(node.ParameterList));
             Assert.IsTrue(topologicalChildren.Contains(node.ExpressionBody));
 
@@ -4026,7 +4026,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             Assert.IsTrue(topologicalChildren.Contains(node.AttributeLists[0]));
             Assert.IsTrue(topologicalChildren.Contains(node.Modifiers[0]));
             Assert.IsTrue(topologicalChildren.Contains(node.ReturnType));
-            Assert.IsTrue(hierarchicalChildren.Contains(node.OperatorToken));
+            Assert.IsTrue(topologicalChildren.Contains(node.OperatorToken));
             Assert.IsTrue(topologicalChildren.Contains(node.ParameterList));
             Assert.IsTrue(topologicalChildren.Contains(node.ExpressionBody));
 
@@ -4101,7 +4101,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             Assert.IsTrue(topologicalChildren.Contains(node.AttributeLists[0]));
             Assert.IsTrue(topologicalChildren.Contains(node.Modifiers[0]));
             Assert.IsTrue(topologicalChildren.Contains(node.Modifiers[1]));
-            Assert.IsTrue(hierarchicalChildren.Contains(node.Type));
+            Assert.IsTrue(topologicalChildren.Contains(node.Type));
             Assert.IsTrue(topologicalChildren.Contains(node.ParameterList));
             Assert.IsTrue(topologicalChildren.Contains(node.ExpressionBody));
 
@@ -4143,7 +4143,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             Assert.AreEqual(topologicalChildren.Count(), 5);
             Assert.IsTrue(topologicalChildren.Contains(node.Modifiers[0]));
             Assert.IsTrue(topologicalChildren.Contains(node.Modifiers[1]));
-            Assert.IsTrue(hierarchicalChildren.Contains(node.Type));
+            Assert.IsTrue(topologicalChildren.Contains(node.Type));
             Assert.IsTrue(topologicalChildren.Contains(node.ParameterList));
             Assert.IsTrue(topologicalChildren.Contains(node.ExpressionBody));
 
@@ -4185,7 +4185,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             Assert.AreEqual(topologicalChildren.Count(), 5);
             Assert.IsTrue(topologicalChildren.Contains(node.AttributeLists[0]));
             Assert.IsTrue(topologicalChildren.Contains(node.Modifiers[0]));
-            Assert.IsTrue(hierarchicalChildren.Contains(node.Type));
+            Assert.IsTrue(topologicalChildren.Contains(node.Type));
             Assert.IsTrue(topologicalChildren.Contains(node.ParameterList));
             Assert.IsTrue(topologicalChildren.Contains(node.ExpressionBody));
 
@@ -4227,7 +4227,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             Assert.AreEqual(topologicalChildren.Count(), 5);
             Assert.IsTrue(topologicalChildren.Contains(node.AttributeLists[0]));
             Assert.IsTrue(topologicalChildren.Contains(node.Modifiers[0]));
-            Assert.IsTrue(hierarchicalChildren.Contains(node.Type));
+            Assert.IsTrue(topologicalChildren.Contains(node.Type));
             Assert.IsTrue(topologicalChildren.Contains(node.ParameterList));
             Assert.IsTrue(topologicalChildren.Contains(node.ExpressionBody));
 

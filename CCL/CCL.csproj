@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <RootNamespace>Jawilliam.Tools.CCL</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\Jawilliam.CDF.Labs\bin\Debug\GitRepository.csdl" Link="GitRepository.csdl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Jawilliam.CDF.Labs\bin\Debug\GitRepository.msl" Link="GitRepository.msl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Jawilliam.CDF.Labs\bin\Debug\GitRepository.ssdl" Link="GitRepository.ssdl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommandDotNet" Version="2.8.1" />
+    <PackageReference Include="EntityFramework" Version="6.2.0" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.5.0" />
+    <PackageReference Include="System.Data.Common" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Jawilliam.CDF.Labs\Jawilliam.CDF.Labs.csproj" />
+  </ItemGroup>
+
+</Project>

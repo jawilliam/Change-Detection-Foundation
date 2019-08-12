@@ -9,7 +9,8 @@ using System.Data.Entity;
 using System.Globalization;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using Jawilliam.CDF.Approach.GumTree;
+using System.Xml.Linq;
 
 namespace CDF_Labs_Console
 {
@@ -50,6 +51,12 @@ namespace CDF_Labs_Console
                             else
                                 GetFileRevisionPairCommand(options: command.Skip(1).ToArray());
                             break;
+                        case "SaveTrees":
+                            if (command.Length < 7)
+                                Console.WriteLine("SaveTrees command takes, at least, 6 arguments (Project name or ALL, original path, modified path, gumtree approach, file format kind, and prune selector, and optionally --IncludeTrivia).");
+                            else
+                                SaveTreesCommand(options: command.Skip(1).ToArray());
+                            break;
                         default:
                             Console.WriteLine("Unknown command.");
                             break;
@@ -57,7 +64,6 @@ namespace CDF_Labs_Console
                 }
             }
         }
-
 
         /// <summary>
         /// Handles the RoslynML command.
@@ -71,6 +77,22 @@ namespace CDF_Labs_Console
                 var xElement = loader.Load(fullPath, true);
 
                 var opts = options ?? new string[0];
+
+                var pruningOpt = opts.FirstOrDefault(o => o.StartsWith("-pruning"));
+                if (pruningOpt != null)
+                {
+                    string pruningType = pruningOpt?.Replace("-pruning=", "") ?? "";
+                    Func<XElement, bool> pruneSelector = null;
+                    switch (pruningType)
+                    {
+                        case "Basic":
+                            var selector = new RoslynMLPruneSelector();
+                            pruneSelector = e => selector.PruneSelector(e);
+                            break;
+                        default: throw new ArgumentException(pruningType);
+                    }
+                    loader.Prune(xElement, pruneSelector);
+                }
 
                 if (opts.Any(o => o == "-gumtreefy"))
                     xElement = loader.Gumtreefy(xElement);
@@ -239,6 +261,85 @@ namespace CDF_Labs_Console
                         System.IO.File.WriteAllText($"{path}Modified.cs", modified.ToFullString(), Encoding.Default);
 
                     }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// Handles the GetFileRevisionPair command.
+        /// </summary>
+        /// <remarks>e.g., SaveTrees ALL E:\SourceCode\O01.cs E:\SourceCode\M02.cs 10 13 Basic</remarks>
+        private static void SaveTreesCommand(params string[] options)
+        {
+            Func<XElement, bool> pruneSelector = null;
+            switch (options[5])
+            {
+                case "Basic":
+                    var selector = new RoslynMLPruneSelector();
+                    pruneSelector = e => selector.PruneSelector(e);
+                    break;
+                default: throw new ArgumentException(options[5]);
+            }
+            var Info = new Func<string[], (string ProjectName, 
+                                           string Original, 
+                                           string Modified, 
+                                           ChangeDetectionApproaches GumTreeApproach,
+                                           FileFormatKind FileFormatKind,
+                                           Func<XElement, bool> PruneSelector, 
+                                           bool IncludeTrivia)> (
+                o => (o[0], o[1], o[2],
+                      (ChangeDetectionApproaches)Enum.Parse(typeof(ChangeDetectionApproaches), o[3]),
+                      (FileFormatKind)Enum.Parse(typeof(FileFormatKind), o[4]), pruneSelector,
+                      o.Any(o1 => o1 == "--IncludeTrivia"))
+            );
+
+            var info = Info(options);
+            try
+            {
+                var analyzer = new NativeGumTreeCollector { MillisecondsTimeout = 300000 };
+                var gumTree = new GumTreeNativeApproach();
+                if (info.ProjectName == "ALL")
+                {
+                    foreach (var p in Projects)
+                    {
+                        var pOptions = (string[])options.Clone();
+                        pOptions[0] = p.Name;
+                        SaveProjectTreesCommand(p, analyzer, gumTree, Info(pOptions));
+                    }
+                }
+                else
+                {
+                    SaveProjectTreesCommand(Projects.Single(p => p.Name == info.ProjectName), analyzer, gumTree, Info(options));
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// Handles the GetFileRevisionPair command.
+        /// </summary>
+        private static void SaveProjectTreesCommand((string Path, string Name) project, NativeGumTreeCollector analyzer, GumTreeNativeApproach gumTree, 
+          (string ProjectName, string Original, string Modified, 
+           ChangeDetectionApproaches GumTreeApproach, FileFormatKind FileFormatKind, Func<XElement, bool> PruneSelector, bool IncludeTrivia) info)
+        {
+            var interopArgs = new InteropArgs() { GumTreePath = null, Original = info.Original, Modified = info.Modified };
+            try
+            {
+                analyzer.Warnings = new StringBuilder();
+                using (var dbRepository = new GitRepository(project.Name) { Name = project.Name })
+                {
+                    ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 600000;
+                    analyzer.SqlRepository = dbRepository;
+                    analyzer.SaveRoslynMLTrees(gumTree, interopArgs, info.GumTreeApproach, 
+                                               null, info.FileFormatKind, null, info.PruneSelector,
+                                               info.IncludeTrivia);
                 }
             }
             catch (Exception ex)

@@ -179,20 +179,15 @@ namespace Jawilliam.CDF.Labs
         /// <param name="gumTreeApproach"></param>
         /// <param name="skipThese">local criterion for determining elements that should be ignored.</param>
         /// <param name="cleaner">A preprocessor for the source code in case it is desired.</param>
-        public virtual void NativeGumTreeDiff(GumTreeNativeApproach gumTree, InteropArgs interopArgs, ChangeDetectionApproaches gumTreeApproach, Func<FileRevisionPair, bool> skipThese, SourceCodeCleaner cleaner = null)
+        public virtual void NativeGumTreeDiff(GumTreeNativeApproach gumTree, InteropArgs interopArgs, 
+            ChangeDetectionApproaches gumTreeApproach, Func<FileRevisionPair, bool> skipThese, 
+            SourceCodeCleaner cleaner = null, ChangeDetectionApproaches refApproach = ChangeDetectionApproaches.NativeGTtreefiedRoslynML)
         {
-            this.Analyze(/*this.SqlRepository, f => f.Principal.Deltas.Any(d => d.Approach == ChangeDetectionApproaches.NativeGTtreefiedRoslynML),*/
-            f => f.Principal.Deltas.Any(d => d.Approach == ChangeDetectionApproaches.NativeGTtreefiedRoslynML) && /*||
-                  f.Principal.Deltas.Any(d => d.Approach == ChangeDetectionApproaches.InverseOfNativeGumTree) ||
-                  f.Principal.Deltas.Any(d => d.Approach == ChangeDetectionApproaches.NativeGumTreeWithChangeDistillerMatcher) ||
-                  f.Principal.Deltas.Any(d => d.Approach == ChangeDetectionApproaches.InverseOfNativeGumTreeWithChangeDistillerMatcher) ||
-                  f.Principal.Deltas.Any(d => d.Approach == ChangeDetectionApproaches.NativeGumTreeWithXyMatcher) ||
-                  f.Principal.Deltas.Any(d => d.Approach == ChangeDetectionApproaches.InverseOfNativeGumTreeWithXyMatcher)) &&*/
-                 f.Principal.Deltas.All(d => d.Approach != gumTreeApproach) &&
+            this.Analyze(f =>
+                 f.Principal.Deltas.Any(d => d.Approach == refApproach && d.Report == null) &&
                  f.Principal.FromFileVersion.ContentSummary.TotalLines != null && 
-                 f.Principal.FileVersion.ContentSummary.TotalLines != null/*&& 
-                 f.Deltas.All(d => d.Approach != gumTreeApproach), // I am running Levenshtein before, so the longer cases have been already rejected.
-            */, delegate (FileRevisionPair repositoryObject, SyntaxNode original, SyntaxNode modified, CancellationToken token)
+                 f.Principal.FileVersion.ContentSummary.TotalLines != null
+            , delegate (FileRevisionPair repositoryObject, SyntaxNode original, SyntaxNode modified, CancellationToken token)
             {
                 if (!repositoryObject.Principal.XAnnotations.SourceCodeChanges ||
                     (skipThese?.Invoke(repositoryObject) ?? false))
@@ -260,75 +255,71 @@ namespace Jawilliam.CDF.Labs
         /// <param name="gumTreeApproach"></param>
         /// <param name="skipThese">local criterion for determining elements that should be ignored.</param>
         /// <param name="cleaner">A preprocessor for the source code in case it is desired.</param>
-        public virtual void InverseNativeGumTreeDiff(GumTreeNativeApproach gumTree, InteropArgs interopArgs, ChangeDetectionApproaches gumTreeApproach, Func<FileRevisionPair, bool> skipThese, SourceCodeCleaner cleaner = null)
+        public virtual void InverseNativeGumTreeDiff(GumTreeNativeApproach gumTree, InteropArgs interopArgs, 
+            ChangeDetectionApproaches gumTreeApproach, Func<FileRevisionPair, bool> skipThese, 
+            SourceCodeCleaner cleaner = null, ChangeDetectionApproaches refApproach = ChangeDetectionApproaches.NativeGTtreefiedRoslynML)
         {
-            this.Analyze(/*this.SqlRepository, f => f.Principal.Deltas.Any(d => d.Approach == gumTreeApproach),*/
-            f =>  f.Principal.Deltas.Any(d => d.Approach == ChangeDetectionApproaches.NativeGTtreefiedRoslynML) &&
-
-                 /*f.Principal.Deltas.All(d => d.Approach != gumTreeApproach) &&*///TODO: restore this
-                 f.Principal.Deltas.All(d =>  d.Approach != gumTreeApproach /*&& d.Report == null*/) &&
-
-
+            this.Analyze(f =>
+                 f.Principal.Deltas.Any(d => d.Approach == refApproach && d.Report == null) &&
                  f.Principal.FromFileVersion.ContentSummary.TotalLines != null &&
-                 f.Principal.FileVersion.ContentSummary.TotalLines != null /*&& 
-                 f.Deltas.All(d => d.Approach != gumTreeApproach), // I am running Levenshtein before, so the longer cases have been already rejected.
-            */, delegate (FileRevisionPair repositoryObject, SyntaxNode original, SyntaxNode modified, CancellationToken token)
-              {
-                  if (!repositoryObject.Principal.XAnnotations.SourceCodeChanges ||
-                      (skipThese?.Invoke(repositoryObject) ?? false))
-                      return;
+                 f.Principal.FileVersion.ContentSummary.TotalLines != null,
+            delegate (FileRevisionPair repositoryObject, SyntaxNode original, SyntaxNode modified, CancellationToken token)
+            {
+                if (!repositoryObject.Principal.XAnnotations.SourceCodeChanges ||
+                    (skipThese?.Invoke(repositoryObject) ?? false))
+                    return;
 
-                  this.SqlRepository.Deltas.Where(d => d.RevisionPair.Id == repositoryObject.Principal.Id && d.Approach == gumTreeApproach)
-                      .Load();
+                this.SqlRepository.Deltas.Where(d => d.RevisionPair.Id == repositoryObject.Principal.Id && d.Approach == gumTreeApproach)
+                    .Load();
 
-                  var delta = repositoryObject.Principal.Deltas.SingleOrDefault(d => d.Approach == gumTreeApproach);
-                  //if (delta != null) return;
-                  if (delta == null)
-                  {
-                      delta = new Delta { Id = Guid.NewGuid(), Approach = gumTreeApproach };
-                      repositoryObject.Principal.Deltas.Add(delta);
-                  }
+                var delta = repositoryObject.Principal.Deltas.SingleOrDefault(d => d.Approach == gumTreeApproach);
+                //if (delta != null) return;
+                if (delta == null)
+                {
+                    delta = new Delta { Id = Guid.NewGuid(), Approach = gumTreeApproach };
+                    repositoryObject.Principal.Deltas.Add(delta);
+                }
 
-                  var preprocessedOriginal = cleaner != null ? cleaner.Clean(original) : original;
-                  var preprocessedModified = cleaner != null ? cleaner.Clean(modified) : modified;
-                  System.IO.File.WriteAllText(interopArgs.Modified, preprocessedOriginal.ToFullString());
-                  System.IO.File.WriteAllText(interopArgs.Original, preprocessedModified.ToFullString());
+                var preprocessedOriginal = cleaner != null ? cleaner.Clean(original) : original;
+                var preprocessedModified = cleaner != null ? cleaner.Clean(modified) : modified;
+                System.IO.File.WriteAllText(interopArgs.Modified, preprocessedOriginal.ToFullString());
+                System.IO.File.WriteAllText(interopArgs.Original, preprocessedModified.ToFullString());
 
-                  try
-                  {
-                      var annotations = delta.XAnnotations;
-                      var start = Environment.TickCount;
-                      gumTree.Run(interopArgs);
-                      annotations.RunTime = (Environment.TickCount - start).ToString(CultureInfo.InvariantCulture);
-                      delta.XAnnotations = annotations;
-                  }
-                  catch (Exception e)
-                  {
-                      if (string.IsNullOrEmpty(gumTree.Result.Error))
-                          gumTree.Result.Error = e.Message;
+                try
+                {
+                    var annotations = delta.XAnnotations;
+                    var start = Environment.TickCount;
+                    gumTree.Run(interopArgs);
+                    annotations.RunTime = (Environment.TickCount - start).ToString(CultureInfo.InvariantCulture);
+                    delta.XAnnotations = annotations;
+                }
+                catch (Exception e)
+                {
+                    if (string.IsNullOrEmpty(gumTree.Result.Error))
+                        gumTree.Result.Error = e.Message;
 
-                      throw;
-                  }
-                  finally
-                  {
-                      var writeXmlColumn = gumTree.Result.WriteXmlColumn();
-                      XElement result = XElement.Parse(writeXmlColumn.Replace("﻿<?xml version=\"1.0\" encoding=\"utf-16\"?>", ""));
-                      delta.Matching = new XDocument(result.Element("Matches")).ToString()
-                              .Replace("\r\n", "")
-                              .Replace(" />  <", "/><")
-                              .Replace(">  <", "><");
-                      delta.Differencing = new XDocument(result.Element("Actions")).ToString()
-                              .Replace("\r\n", "")
-                              .Replace(" />  <", "/><")
-                              .Replace(">  <", "><");
+                    throw;
+                }
+                finally
+                {
+                    var writeXmlColumn = gumTree.Result.WriteXmlColumn();
+                    XElement result = XElement.Parse(writeXmlColumn.Replace("﻿<?xml version=\"1.0\" encoding=\"utf-16\"?>", ""));
+                    delta.Matching = new XDocument(result.Element("Matches")).ToString()
+                            .Replace("\r\n", "")
+                            .Replace(" />  <", "/><")
+                            .Replace(">  <", "><");
+                    delta.Differencing = new XDocument(result.Element("Actions")).ToString()
+                            .Replace("\r\n", "")
+                            .Replace(" />  <", "/><")
+                            .Replace(">  <", "><");
 
-                      if (!string.IsNullOrEmpty(gumTree.Result?.Error))
-                          delta.Report = result.ToString()
-                              .Replace("\r\n", "")
-                              .Replace(" />  <", "/><")
-                              .Replace(">  <", "><");
-                  }
-              }, true,
+                    if (!string.IsNullOrEmpty(gumTree.Result?.Error))
+                        delta.Report = result.ToString()
+                            .Replace("\r\n", "")
+                            .Replace(" />  <", "/><")
+                            .Replace(">  <", "><");
+                }
+            }, true,
             "Principal.FileVersion.Content", "Principal.FromFileVersion.Content");
         }
 

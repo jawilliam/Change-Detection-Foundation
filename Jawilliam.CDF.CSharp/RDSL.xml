@@ -314,7 +314,7 @@
         </Property>
       </Properties>
       <Rules>
-        <Topology leaf="Terminal Tiny"/>
+        <Topology leaf="Terminal Tiny Likely"/>
       </Rules>
     </Type>
     <Type name="BaseExpressionSyntax" base="InstanceExpressionSyntax" token="true" readonly="true" hashtags="#Expression #expression #Expression#Instance #base">
@@ -326,7 +326,7 @@
         </Property>
       </Properties>
       <Rules>
-        <Topology leaf="Terminal Tiny"/>
+        <Topology leaf="Terminal Tiny Likely"/>
       </Rules>
     </Type>
     <!--ExpressionSyntax-->
@@ -351,7 +351,7 @@
         </Property>
       </Properties>
       <Rules>
-        <Topology leaf="Terminal Tiny"/>
+        <Topology leaf="Terminal Tiny Likely"/>
       </Rules>
       <Annotations>
         <Annotation context="Suppress" role="Kind"/>
@@ -587,6 +587,9 @@
           </Rules>
         </Property>
       </Properties>
+      <Rules>
+        <Topology leaf="Likely"/>
+      </Rules>
     </Type>
     <Type name="CastExpressionSyntax" base="ExpressionSyntax" hashtags="#Expression #expression #OPERATOR">
       <Properties>
@@ -611,6 +614,9 @@
           </Rules>
         </Property>
       </Properties>
+      <Rules>
+        <Topology leaf="Likely"/>
+      </Rules>
     </Type>
     <!--ExpressionSyntax$AnonymousFunctionExpressionSyntax-->
     <Type name="AnonymousFunctionExpressionSyntax" abstract="true" base="ExpressionSyntax">
@@ -1079,7 +1085,7 @@
         </Property>
       </Properties>
       <Rules>
-        <Topology leaf="Tiny"/>
+        <Topology leaf="Tiny Terminal"/>
         <Compatibility>
           <Name equality="true" absolute="true" type="NameEqualsSyntax" twoWay="true">
             <Condition code="{0}.Name.Identifier.ValueText == {1}.Name.Identifier.ValueText"/>
@@ -1103,7 +1109,7 @@
         </Property>
       </Properties>
       <Rules>
-        <Topology leaf="Tiny"/>
+        <Topology leaf="Tiny Terminal"/>
       </Rules>
     </Type>
     <Type name="AnonymousObjectMemberDeclaratorSyntax" hashtags="#member #anonymous #DECLARATION #object #declarator =#DECLARATOR#OBJECT#Member">
@@ -1291,6 +1297,7 @@
         </Property>
       </Properties>
       <Rules>
+        <Topology leaf="Terminal"/>
         <Name equality="true" absolute="true"/>
       </Rules>
     </Type>
@@ -1439,8 +1446,8 @@
             <Kind name="VoidKeyword" hashtags="#KEYWORD"/>
           </Options>
           <Rules>
-            <Pairwise tunneling="true"/>
-            <!--<Topology relevant="true"/>-->
+            <Pairwise tunneling="true" discriminant="true"/>
+            <Topology relevant="true"/><!---->
           </Rules>
         </Property>
       </Properties>
@@ -2631,9 +2638,6 @@
         <Property name="ColonToken" kind="Token" index="1" readOnly="true" optional="false" multiplicity="Single">
         </Property>
       </Properties>
-      <Rules>
-        <Topology leaf="Tiny"/>
-      </Rules>
     </Type>
     <Type name="CaseSwitchLabelSyntax" base="SwitchLabelSyntax" hashtags="#switch #label #SWITCH#Label">
       <Properties>
@@ -2672,7 +2676,7 @@
         </Property>
       </Properties>
       <Rules>
-        <Topology leaf="Likely"/>
+        <Topology leaf="Likely Terminal"/>
       </Rules>
     </Type>
     <!--And Try Related$-->
@@ -3211,6 +3215,7 @@
         </Property>
       </Properties>
       <Rules>
+        <Topology leaf="Eventually"/>
         <Name suitability="Key" equality="true" absolute="true"/>
       </Rules>
     </Type>
@@ -3331,7 +3336,7 @@
         </Property>
       </Properties>
       <Rules>
-        <Topology leaf="Likely"/>
+        <Topology leaf="Terminal Likely"/>
       </Rules>
     </Type>
     <Type name="ClassOrStructConstraintSyntax" base="TypeParameterConstraintSyntax" readonly="true" hashtags="#TYPE#PARAMETER#Constraint #constraint">
@@ -3951,7 +3956,7 @@
         </Property>
       </Properties>
       <Rules>
-        <Topology leaf="Likely"/>
+        <Topology leaf="Eventually"/>
       </Rules>
     </Type>
     <Type name="EventDeclarationSyntax" base="BasePropertyDeclarationSyntax" hashtags="#declaration #DECLARATION#Member#Property #event #DECLARATION#Member">
@@ -4297,7 +4302,7 @@
         </Property>
       </Properties>
       <Rules>
-        <Topology leaf="Likely"/>
+        <Topology leaf="Terminal Likely"/>
       </Rules>
     </Type>
     <Type name="RegionDirectiveTriviaSyntax" base="DirectiveTriviaSyntax" readonly="true" hashtags="#TRIVIA#Structured #trivia #directive #TRIVIA#Structured#Directive #region">
@@ -4319,7 +4324,7 @@
         </Property>
       </Properties>
       <Rules>
-        <Topology leaf="Likely"/>
+        <Topology leaf="Likely Terminal"/>
       </Rules>
     </Type>
     <Type name="EndRegionDirectiveTriviaSyntax" base="DirectiveTriviaSyntax" readonly="true" hashtags="#TRIVIA#Structured #trivia #directive #TRIVIA#Structured#Directive #end #region">
@@ -4341,7 +4346,7 @@
         </Property>
       </Properties>
       <Rules>
-        <Topology leaf="Likely"/>
+        <Topology leaf="Likely Terminal"/>
       </Rules>
     </Type>
     <Type name="ErrorDirectiveTriviaSyntax" base="DirectiveTriviaSyntax" readonly="true" hashtags="#TRIVIA#Structured #trivia #directive #TRIVIA#Structured#Directive">
@@ -4363,7 +4368,7 @@
         </Property>
       </Properties>
       <Rules>
-        <Topology leaf="Likely"/>
+        <Topology leaf="Likely Terminal"/>
       </Rules>
     </Type>
     <Type name="WarningDirectiveTriviaSyntax" base="DirectiveTriviaSyntax" readonly="true" hashtags="#TRIVIA#Structured #trivia #directive #TRIVIA#Structured#Directive #warning">
@@ -4385,7 +4390,7 @@
         </Property>
       </Properties>
       <Rules>
-        <Topology leaf="Likely"/>
+        <Topology leaf="Likely Terminal"/>
       </Rules>
     </Type>
     <Type name="BadDirectiveTriviaSyntax" base="DirectiveTriviaSyntax" hashtags="#TRIVIA#Structured #trivia #directive #TRIVIA#Structured#Directive">
@@ -4409,7 +4414,7 @@
         </Property>
       </Properties>
       <Rules>
-        <Topology leaf="Likely"/>
+        <Topology leaf="Likely Terminal"/>
         <Name suitability="Key" equality="true" absolute="true"/>
       </Rules>
     </Type>
@@ -4439,7 +4444,7 @@
         </Property>
       </Properties>
       <Rules>
-        <Topology leaf="Likely"/>
+        <Topology leaf="Likely"/><!-- Eventually Terminal?-->
         <Name suitability="Key" equality="true" absolute="true"/>
       </Rules>
     </Type>
@@ -4469,7 +4474,7 @@
         </Property>
       </Properties>
       <Rules>
-        <Topology leaf="Likely"/>
+        <Topology leaf="Likely"/><!-- Eventually Terminal?-->
         <Name suitability="Key" equality="true" absolute="true"/>
       </Rules>
     </Type>
@@ -4509,7 +4514,7 @@
         </Property>
       </Properties>
       <Rules>
-        <Topology leaf="Likely"/>
+        <Topology leaf="Likely Terminal"/>
       </Rules>
     </Type>
     <Type name="PragmaWarningDirectiveTriviaSyntax" base="DirectiveTriviaSyntax" hashtags="#TRIVIA#Structured #trivia #directive #TRIVIA#Structured#Directive #warning #pragma">
@@ -4548,7 +4553,7 @@
         <Property name="EndOfDirectiveToken" kind="Token" index="5" readOnly="true" optional="false" inherited="true" multiplicity="Single" hashtags="#PUNTUACTION">
           <Rules>
             <Pairwise tunneling="true"/>
-            <Topology leaf="Likely"/>
+            <Topology leaf="Likely"/><!-- Eventually Terminal?-->
           </Rules>
         </Property>
       </Properties>
@@ -4596,7 +4601,7 @@
         </Property>
       </Properties>
       <Rules>
-        <Topology leaf="Likely"/>
+        <Topology leaf="Likely Terminal"/>
       </Rules>
     </Type>
     <Type name="ReferenceDirectiveTriviaSyntax" base="DirectiveTriviaSyntax" hashtags="#TRIVIA#Structured #trivia #directive #TRIVIA#Structured#Directive">
@@ -4624,7 +4629,7 @@
         </Property>
       </Properties>
       <Rules>
-        <Topology leaf="Likely"/>
+        <Topology leaf="Likely Terminal"/>
       </Rules>
     </Type>
     <Type name="LoadDirectiveTriviaSyntax" base="DirectiveTriviaSyntax" hashtags="#TRIVIA#Structured #trivia #directive #TRIVIA#Structured#Directive">
@@ -4652,7 +4657,7 @@
         </Property>
       </Properties>
       <Rules>
-        <Topology leaf="Likely"/>
+        <Topology leaf="Likely Terminal"/>
       </Rules>
     </Type>
     <Type name="ShebangDirectiveTriviaSyntax" base="DirectiveTriviaSyntax" readonly="true" hashtags="#TRIVIA#Structured #trivia #directive #TRIVIA#Structured#Directive">
@@ -4674,7 +4679,7 @@
         </Property>
       </Properties>
       <Rules>
-        <Topology leaf="Likely"/>
+        <Topology leaf="Likely Terminal"/>
       </Rules>
     </Type>
     <!--StructuredTriviaSyntax$DirectiveTriviaSyntax$BranchingDirectiveTriviaSyntax-->
@@ -4698,7 +4703,7 @@
         </Property>
       </Properties>
       <Rules>
-        <Topology leaf="Likely"/>
+        <Topology leaf="Likely Terminal"/>
       </Rules>
     </Type>
     <!--StructuredTriviaSyntax$DirectiveTriviaSyntax$BranchingDirectiveTriviaSyntax$ConditionalDirectiveTriviaSyntax-->
@@ -4736,7 +4741,7 @@
         </Property>
       </Properties>
       <Rules>
-        <Topology leaf="Likely"/>
+        <Topology leaf="Likely"/><!--Eventually terminal?-->
       </Rules>
     </Type>
     <Type name="ElifDirectiveTriviaSyntax" base="ConditionalDirectiveTriviaSyntax" hashtags="#trivia #directive #TRIVIA#Structured#Directive#Branching #TRIVIA#Structured#Directive#Branching#Conditional #TRIVIA#Structured#Directive">
@@ -4764,7 +4769,7 @@
         </Property>
       </Properties>
       <Rules>
-        <Topology leaf="Likely"/>
+        <Topology leaf="Likely"/><!--Eventually terminal?-->
       </Rules>
     </Type>
 
@@ -4781,7 +4786,7 @@
         </Property>
       </Properties>
       <Rules>
-        <Topology leaf="Likely"/>
+        <Topology leaf="Likely"/><!--Eventually terminal?-->
       </Rules>
     </Type>
     <Type name="QualifiedCrefSyntax" base="CrefSyntax" hashtags="#cref #qualified #Cref">
@@ -5155,7 +5160,7 @@
         </Property>
       </Properties>
       <Rules>
-        <Topology leaf="Tiny"/>
+        <Topology leaf="Tiny Terminal"/>
         <Name equality="true" absolute="true"/>
       </Rules>
     </Type>
@@ -5175,7 +5180,7 @@
         </Property>
       </Properties>
       <Rules>
-        <Topology leaf="Tiny"/>
+        <Topology leaf="Tiny Terminal"/>
         <Name equality="true" absolute="true"/>
       </Rules>
     </Type>
@@ -5233,13 +5238,13 @@
             <Kind name="DoubleQuoteToken" hashtags="#PUNTUACTION"/>
           </Options>
           <Rules>
-            <Pairwise tunneling="true"/>
+            <Pairwise tunneling="true"/>         
           </Rules>
           <!-- readOnly="true"-->
         </Property>
       </Properties>
       <Rules>
-        <Topology leaf="Likely Tiny"/>
+        <Topology leaf="Likely Tiny"/><!--<Topology leaf="Eventually Terminal"/>-->   
         <Name suitability="Key" equality="true" absolute="true"/>
       </Rules>
     </Type>
@@ -5327,7 +5332,7 @@
         </Property>
       </Properties>
       <Rules>
-        <Topology leaf="Likely Tiny"/>
+        <Topology leaf="Likely Tiny Terminal"/>
         <Name suitability="Key" equality="true" absolute="true"/>
       </Rules>
     </Type>
@@ -5341,7 +5346,7 @@
         </Property>
       </Properties>
       <Rules collection="true">
-        <Topology leaf="Terminal Tiny"/>
+        <Topology leaf="Tiny"/><!--<Topology leaf="Eventually Terminal"/>-->
       </Rules>
     </Type>
     <Type name="XmlCDataSectionSyntax" base="XmlNodeSyntax" hashtags="#xml #XML#Node">
@@ -5364,7 +5369,7 @@
         </Property>
       </Properties>
       <Rules collection="true">
-        <Topology leaf="Terminal Likely"/>
+        <Topology leaf="Likely"/><!--<Topology leaf="Eventually Terminal"/>-->
       </Rules>
     </Type>
     <Type name="XmlProcessingInstructionSyntax" base="XmlNodeSyntax" hashtags="#xml #XML#Node">
@@ -5392,7 +5397,7 @@
         </Property>
       </Properties>
       <Rules>
-        <Topology leaf="Terminal Likely"/>
+        <Topology leaf="Likely"/><!--<Topology leaf="Eventually Terminal"/>-->
         <Name suitability="Key" equality="true" absolute="true"/>
       </Rules>
     </Type>
@@ -5416,7 +5421,7 @@
         </Property>
       </Properties>
       <Rules collection="true">
-        <Topology leaf="Terminal Likely"/>
+        <Topology leaf="Likely"/><!--<Topology leaf="Eventually Terminal"/>-->
       </Rules>
     </Type>
 
@@ -5476,7 +5481,7 @@
         </Property>
       </Properties>
       <Rules>
-        <Topology leaf="Likely"/>
+        <Topology leaf="Likely Terminal"/>
         <Name suitability="Key" equality="true" absolute="true"/>
       </Rules>
     </Type>
@@ -5799,7 +5804,7 @@
         </Property>
       </Properties>
       <Rules>
-        <Topology leaf="Likely"/>
+        <Topology leaf="Likely Terminal"/>
         <Name suitability="Key" equality="true" absolute="true"/>
       </Rules>
     </Type>
@@ -5812,7 +5817,7 @@
         </Property>
       </Properties>
       <Rules>
-        <Topology leaf="Likely Tiny"/>
+        <Topology leaf="Likely Tiny Terminal"/>
       </Rules>
     </Type>
     <Type name="ParenthesizedVariableDesignationSyntax" base="VariableDesignationSyntax" hashtags="#variable #DECLARATION#VARIABLE#Designation #parenthesized">

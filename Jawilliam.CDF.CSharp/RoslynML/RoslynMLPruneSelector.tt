@@ -83,17 +83,35 @@ using System.Xml.Linq;
 <#
 BeginNamespace(namespaceName, code);
 #>
-public partial class RoslynMLPruner : RoslynML
+public partial class RoslynMLPruneSelector
 {
 	/// <summary>
-    /// Gets the <see cref="IElementTypeServiceProvider"/> to provide information for the requested element type.
+    /// Method hook for implementing logic to execute before the <see cref="PruneSelector(XElement)"/>.
     /// </summary>
-    /// <param name="type">requested element type.</param>
-    /// <param name="kind">optionally the element type can be refined to an specific subtype.</param>
-    /// <returns><see cref="IElementTypeServiceProvider"/> implementation intended to provide information for the requested element type.</returns>
-    public virtual void PruneSelector(XElement source)
+    /// <param name="property">the property being questioned.</param>
+    /// <param name="result">Mechanism to modify the result of <see cref="PruneSelector(XElement)"/>.</param>
+    /// <param name="ignoreCore">If true, the <see cref="PruneSelectorCore(XElement)"/> is not executed and <see cref="PruneSelector(XElement)"/> returns the current value of <paramref name="result"/>.</param>
+    partial void PruneSelectorBefore(XElement property, ref bool result, ref bool ignoreCore);
+    
+    /// <summary>
+    /// Method hook for implementing logic to execute after the <see cref="PruneSelectorCore(XElement)"/>.
+    /// </summary>
+    /// <param name="property">the property being questioned.</param>
+    /// <param name="result">Mechanism to modify the result of <see cref="PruneSelectorCore(XElement)"/>.</param>
+    partial void PruneSelectorAfter(XElement property, ref bool result);
+
+	/// <summary>
+    /// Determines which properties should remain (true) or which properties should not remain (false) according to the type of parent element.
+    /// </summary>
+    /// <param name="property">the property being questioned.</param>
+    /// <returns>true if the property would remain, false otherwise.</returns>
+    /// <remarks>This is the default implementation for <see cref="PruneSelector(XElement)"/>.</remarks>
+    public virtual bool PruneSelectorCore(XElement property)
 	{
-		switch(source.Name.LocalName)
+		if(property.Parent == null)
+			return true;
+
+		switch(property.Parent.Name.LocalName)
 		{
 <#
 
@@ -124,14 +142,32 @@ foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
 	if(xSyntaxNodeType != null && !isAbstract)
 	{
 #>
-			case "<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>": this.Prune<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>Selector(source); break;
+			case "<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>": return this.Prune<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>Selector(property);
 <#
 	}
  }
 }
 #>
-			default: throw new ArgumentException(source.Name.LocalName);
+			default: return true;//throw new ArgumentException($"The type {property.Parent.Name.LocalName} has not been found.");
 		}
+	}		
+	
+    /// <summary>
+    /// Determines which properties should remain (true) or which properties should not remain (false) according to the type of parent element.
+    /// </summary>
+    /// <param name="property">the property being questioned.</param>
+    /// <returns>true if the property would remain, false otherwise.</returns>
+    public virtual bool PruneSelector(XElement property)
+	{
+		bool result = true;
+		var ignoreCore = false;
+		PruneSelectorBefore(property, ref result, ref ignoreCore);
+		if(ignoreCore) 
+			return result;
+		
+		result = this.PruneSelectorCore(property);
+		PruneSelectorAfter(property, ref result);
+		return result;
 	}
 
 <#
@@ -182,28 +218,28 @@ foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
 	/// <summary>
     /// Method hook for implementing logic to execute before the <see cref="Prune<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>Selector(XElement)"/>.
     /// </summary>
-    /// <param name="source">the element to prune.</param>
-    /// <param name="result">Mechanism to modify the result of <see cref="Children(SyntaxNodeOrToken?)"/>Selector.</param>
-    /// <param name="ignoreCore">If true, the <see cref="PruneCore<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>Selector(XElement)"/> is not executed and <see cref="Prune<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>Selector(XElement)"/> returns the current value of <paramref name="result"/>.</param>
-    partial void PruneBefore<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>Selector(XElement source, ref bool result, ref bool ignoreCore);
+    /// <param name="property">the property being questioned.</param>
+    /// <param name="result">Mechanism to modify the result of <see cref="Prune<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>Selector(XElement)"/>.</param>
+    /// <param name="ignoreCore">If true, the <see cref="Prune<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>SelectorCore(XElement)"/> is not executed and <see cref="Prune<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>Selector(XElement)"/> returns the current value of <paramref name="result"/>.</param>
+    partial void Prune<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>SelectorBefore(XElement property, ref bool result, ref bool ignoreCore);
     
     /// <summary>
-    /// Method hook for implementing logic to execute after the <see cref="PruneCore<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>Selector(XElement)"/>.
+    /// Method hook for implementing logic to execute after the <see cref="Prune<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>SelectorCore(XElement)"/>.
     /// </summary>
-    /// <param name="source">the element to prune.</param>
-    /// <param name="result">Mechanism to modify the result of <see cref="Children(SyntaxNodeOrToken?)"/>.</param>
-    partial void PruneAfter<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>Selector(XElement source, ref bool result);
+    /// <param name="property">the property being questioned.</param>
+    /// <param name="result">Mechanism to modify the result of <see cref="Prune<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>SelectorCore(XElement)"/>.</param>
+    partial void Prune<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>SelectorAfter(XElement property, ref bool result);
 
 	/// <summary>
-    /// Determines what element types remain (true) or not (false). 
+    /// Determines which properties should remain (true) or which properties should not remain (false) according to the type of parent element.
     /// </summary>
-    /// <param name="source">the element to prune.</param>
-    /// <returns>true if the element would remain, false otherwise.</returns>
+    /// <param name="property">the property being questioned.</param>
+    /// <returns>true if the property would remain, false otherwise.</returns>
     /// <remarks>This is the default implementation for <see cref="Prune<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>Selector(XElement)"/>.</remarks>
-    public virtual bool PruneCore<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>Selector(XElement source)
+    public virtual bool Prune<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>SelectorCore(XElement property)
     {
-		if(source != null)
-			throw new ArgumentNullException(nameof(source));
+		if(property == null)
+			throw new ArgumentNullException(nameof(property));
 
 <#
 		if(!filterOutTheseProperties.Any())
@@ -215,7 +251,7 @@ foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
 		{
 			foreach(var p in filterOutTheseProperties)
 			{
-#>		if(source.Name.LocalName == "<#= p #>")
+#>		if(property.Attribute("part")?.Value == "<#= p #>")
 			return false;
 <#
 			}
@@ -227,20 +263,20 @@ foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
     }	
 	
     /// <summary>
-    /// Determines what element types remain (true) or not (false). 
+    /// Determines which properties should remain (true) or which properties should not remain (false) according to the type of parent element.
     /// </summary>
-    /// <param name="source">the element to prune.</param>
-    /// <returns>true if the element would remain, false otherwise.</returns>
-    public virtual bool Prune<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>Selector(XElement source)
+    /// <param name="property">the property being questioned.</param>
+    /// <returns>true if the property would remain, false otherwise.</returns>
+    public virtual bool Prune<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>Selector(XElement property)
 	{
 		bool result = true;
 		var ignoreCore = false;
-		PruneBefore<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>Selector(source, ref result, ref ignoreCore);
+		Prune<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>SelectorBefore(property, ref result, ref ignoreCore);
 		if(ignoreCore) 
 			return result;
 		
-		result = this.PruneCore<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>Selector(source);
-		PruneAfter<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>Selector(source, ref result);
+		result = this.Prune<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>SelectorCore(property);
+		Prune<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>SelectorAfter(property, ref result);
 		return result;
 	}
 

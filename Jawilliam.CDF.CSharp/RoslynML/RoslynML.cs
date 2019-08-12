@@ -1,6 +1,7 @@
 
 using Microsoft.CodeAnalysis.CSharp;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
@@ -291,13 +292,237 @@ namespace Jawilliam.CDF.CSharp.RoslynML
         }
     
         /// <summary>
+        /// Annotates an element with syntax metadata.
+        /// </summary>
+        /// <param name="element">the XML element being serialized.</param>
+        /// <param name="node">the trivia being represented by the serializing XML element.</param>
+        protected virtual void Annotate(XElement element, Microsoft.CodeAnalysis.SyntaxTrivia node)
+        {
+            element.Add(new XAttribute("kind", Enum.GetName(typeof (SyntaxKind), node.Kind())));
+            //if (SyntaxFacts.IsAliasQualifier(node))
+            //{
+            //    element.Add(new XAttribute("Keyword", true));
+            //}
+        	//
+            if (SyntaxFacts.IsKeywordKind(node.Kind()))
+            {
+                element.Add(new XAttribute("Keyword", true));
+            }
+        
+            //if (SyntaxFacts.IsReservedKeyword(node.Kind()))
+            //{
+            //    element.Add(new XAttribute("ReservedKeyword", true));
+            //}
+        	//
+            //if (SyntaxFacts.IsAttributeTargetSpecifier(node.Kind()))
+            //{
+            //    element.Add(new XAttribute("AttributeTargetSpecifier", true));
+            //}
+        	
+            //if (SyntaxFacts.IsAccessibilityModifier(node.Kind()))
+            //{
+            //    element.Add(new XAttribute("AccessibilityModifier", true));
+            //}
+        
+            //if (SyntaxFacts.IsPreprocessorKeyword(node.Kind()))
+            //{
+            //    element.Add(new XAttribute("PreprocessorKeyword", true));
+            //}        
+        
+            if (SyntaxFacts.IsTrivia(node.Kind()))
+            {
+                element.Add(new XAttribute("Trivia", true));
+            }
+        
+            if (SyntaxFacts.IsPreprocessorDirective(node.Kind()))
+            {
+                element.Add(new XAttribute("PreprocessorDirective", true));
+            }
+        
+            if (SyntaxFacts.IsName(node.Kind()))
+            {
+                element.Add(new XAttribute("Name", true));
+            }
+        
+            if (SyntaxFacts.IsPredefinedType(node.Kind()))
+            {
+                element.Add(new XAttribute("PredefinedType", true));
+            }
+        
+            if (SyntaxFacts.IsTypeSyntax(node.Kind()))
+            {
+                element.Add(new XAttribute("TypeSyntax", true));
+            }
+        
+            if (SyntaxFacts.IsTypeDeclaration(node.Kind()))
+            {
+                element.Add(new XAttribute("TypeDeclaration", true));
+            }
+        
+            // if (SyntaxFacts.IsAssignmentExpression(node.Kind()))
+            // {
+            //     element.Add(new XAttribute("AssignmentExpression", true));
+            // }       
+        
+            if (SyntaxFacts.IsDocumentationCommentTrivia(node.Kind()))
+            {
+                element.Add(new XAttribute("DocumentationCommentTrivia", true));
+            }		
+    
+    		if(node.ToString() != "")
+    		{
+    			element.Add(new XAttribute("startLine", node.GetLocation().GetLineSpan().StartLinePosition.Line + 1));
+    			element.Add(new XAttribute("startColumn", node.GetLocation().GetLineSpan().StartLinePosition.Character + 1));
+    			element.Add(new XAttribute("endLine", node.GetLocation().GetLineSpan().EndLinePosition.Line + 1));
+    			element.Add(new XAttribute("endColumn", node.GetLocation().GetLineSpan().EndLinePosition.Character));
+    		}
+        }
+    
+        /// <summary>
         /// Called when the visitor visits a AttributeArgumentListSyntax node.
         /// </summary>
         public virtual XElement Visit(Microsoft.CodeAnalysis.SyntaxToken node)
         {
     		var result = new XElement("Token");
             result.Add(new XText(node.ValueText));
-    		this.Annotate(result, node);
+            this.Annotate(result, node);
+    
+        	var leadingTrivia = this.VisitLeadingTrivia(node).ToArray();
+            var trailingTrivia = this.VisitTrailingTrivia(node).ToArray();
+    		if(leadingTrivia.Any() || trailingTrivia.Any())
+    		{
+    			result.AddAnnotation((leading: leadingTrivia, trailingTrivia: trailingTrivia));
+    		}
+    
+            return result;
+        }
+    
+        private Hashtable VisitedTrivia = new Hashtable();
+    
+        /// <summary>
+        /// Visits each trivia that appears before the given node.
+        /// </summary>
+        /// <param name="node">node of reference</param>
+        /// <returns>the XML-like representation of each of the found trivia.</returns>
+        public virtual IEnumerable<XElement> VisitLeadingTrivia(Microsoft.CodeAnalysis.SyntaxNode node)
+        {
+            if (node.HasLeadingTrivia)
+            {
+                foreach (var tr in node.GetLeadingTrivia())
+                {
+                    if (this.VisitedTrivia.Contains(tr))
+                        continue;
+    
+                    var result = this.VisitTrivia(tr);
+                    this.VisitedTrivia.Add(tr, tr);
+                    if (result != null)
+                        yield return result;
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Visits each trivia that appears after the given node.
+        /// </summary>
+        /// <param name="node">node of reference</param>
+        /// <returns>the XML-like representation of each of the found trivia.</returns>
+        public virtual IEnumerable<XElement> VisitTrailingTrivia(Microsoft.CodeAnalysis.SyntaxNode node)
+        {
+            if (node.HasTrailingTrivia)
+            {
+                foreach (var tr in node.GetTrailingTrivia())
+                {
+                    if (this.VisitedTrivia.Contains(tr))
+                        continue;
+    
+                    var result = this.VisitTrivia(tr);
+                    this.VisitedTrivia.Add(tr, tr);
+                    if (result != null)
+                        yield return result;
+                }
+            }
+        }	
+    
+        /// <summary>
+        /// Visits each trivia that appears before the given token.
+        /// </summary>
+        /// <param name="node">token of reference</param>
+        /// <returns>the XML-like representation of each of the found trivia.</returns>
+        public virtual IEnumerable<XElement> VisitLeadingTrivia(Microsoft.CodeAnalysis.SyntaxToken token)
+        {
+            if (token.HasLeadingTrivia)
+            {
+                foreach (var tr in token.LeadingTrivia)
+                {
+                    if (this.VisitedTrivia.Contains(tr))
+                        continue;
+    
+                    var result = this.VisitTrivia(tr);
+                    this.VisitedTrivia.Add(tr, tr);
+                    if (result != null)
+                        yield return result;
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Visits each trivia that appears after the given token.
+        /// </summary>
+        /// <param name="node">token of reference</param>
+        /// <returns>the XML-like representation of each of the found trivia.</returns>
+        public virtual IEnumerable<XElement> VisitTrailingTrivia(Microsoft.CodeAnalysis.SyntaxToken token)
+        {
+            if (token.HasTrailingTrivia)
+            {
+                foreach (var tr in token.TrailingTrivia)
+                {
+                    if (this.VisitedTrivia.Contains(tr))
+                        continue;
+    
+                    var result = this.VisitTrivia(tr);
+                    this.VisitedTrivia.Add(tr, tr);
+                    if (result != null)
+                        yield return result;
+                }
+            }
+        }
+    
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="trivia"></param>
+        /// <returns></returns>
+        public virtual XElement VisitTrivia(Microsoft.CodeAnalysis.SyntaxTrivia trivia)
+        {
+    		if(!trivia.HasStructure && 
+               trivia.Kind() != SyntaxKind.SingleLineCommentTrivia &&
+               trivia.Kind() != SyntaxKind.MultiLineCommentTrivia) 
+    			return null;
+    
+    		return trivia.HasStructure
+    			? this.Visit((CSharpSyntaxNode)trivia.GetStructure())
+    			: this.VisitCommentTrivia(trivia);
+        }
+    
+    	private void AnnotateTrivia(Microsoft.CodeAnalysis.SyntaxNode node, XElement xElement)
+    	{		
+            var leadingTrivia = this.VisitLeadingTrivia(node).ToArray();
+            var trailingTrivia = this.VisitTrailingTrivia(node).ToArray();
+        	if(leadingTrivia.Any() || trailingTrivia.Any())
+        	{
+        		xElement.AddAnnotation((leading: leadingTrivia, trailingTrivia: trailingTrivia));
+        	}
+    	}
+    
+        /// <summary>
+        /// Called when the visitor visits a comment node.
+        /// </summary>
+        public virtual XElement VisitCommentTrivia(Microsoft.CodeAnalysis.SyntaxTrivia node)
+        {
+            var result = new XElement("CommentTrivia");
+            result.Add(new XText(node.ToFullString()));
+            this.Annotate(result, node);
+    
             return result;
         }
     
@@ -330,7 +555,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -354,7 +581,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -379,6 +608,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xParameters.Add(xElement);
     			}
+    			this.FixListTrivia(xParameters);
     			result.Add(xParameters);
     		}
     		//GreaterThanToken
@@ -390,7 +620,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -411,6 +643,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xAttributeLists.Add(xElement);
     			}
+    			this.FixListTrivia(xAttributeLists);
     			result.Add(xAttributeLists);
     		}
     		//VarianceKeyword
@@ -429,7 +662,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -454,6 +689,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xTypes.Add(xElement);
     			}
+    			this.FixListTrivia(xTypes);
     			result.Add(xTypes);
     		}
     
@@ -461,7 +697,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -494,6 +732,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xConstraints.Add(xElement);
     			}
+    			this.FixListTrivia(xConstraints);
     			result.Add(xConstraints);
     		}
     
@@ -501,7 +740,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -525,7 +766,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -553,7 +796,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -577,7 +822,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -602,6 +849,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xAccessors.Add(xElement);
     			}
+    			this.FixListTrivia(xAccessors);
     			result.Add(xAccessors);
     		}
     		//CloseBraceToken
@@ -613,7 +861,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -634,6 +884,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xAttributeLists.Add(xElement);
     			}
+    			this.FixListTrivia(xAttributeLists);
     			result.Add(xAttributeLists);
     		}
     		//Modifiers
@@ -646,6 +897,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xModifiers.Add(xElement);
     			}
+    			this.FixListTrivia(xModifiers);
     			result.Add(xModifiers);
     		}
     		//Keyword
@@ -671,7 +923,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -692,6 +946,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xAttributeLists.Add(xElement);
     			}
+    			this.FixListTrivia(xAttributeLists);
     			result.Add(xAttributeLists);
     		}
     		//Modifiers
@@ -704,6 +959,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xModifiers.Add(xElement);
     			}
+    			this.FixListTrivia(xModifiers);
     			result.Add(xModifiers);
     		}
     		//Type
@@ -729,7 +985,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -756,7 +1014,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -785,6 +1045,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xAttributes.Add(xElement);
     			}
+    			this.FixListTrivia(xAttributes);
     			result.Add(xAttributes);
     		}
     		//GreaterThanToken
@@ -796,7 +1057,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -824,7 +1087,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -851,7 +1116,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -875,7 +1142,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -900,6 +1169,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xArguments.Add(xElement);
     			}
+    			this.FixListTrivia(xArguments);
     			result.Add(xArguments);
     		}
     		//GreaterThanToken
@@ -911,7 +1181,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -936,6 +1208,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xSizes.Add(xElement);
     			}
+    			this.FixListTrivia(xSizes);
     			result.Add(xSizes);
     		}
     		//CloseBracketToken
@@ -947,7 +1220,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -974,7 +1249,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -1008,7 +1285,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -1032,7 +1311,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -1059,7 +1340,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -1080,6 +1363,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xClauses.Add(xElement);
     			}
+    			this.FixListTrivia(xClauses);
     			result.Add(xClauses);
     		}
     		//SelectOrGroup
@@ -1098,7 +1382,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -1122,7 +1408,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -1149,7 +1437,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -1177,7 +1467,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -1201,7 +1493,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -1225,7 +1519,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -1249,7 +1545,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -1274,6 +1572,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xVariables.Add(xElement);
     			}
+    			this.FixListTrivia(xVariables);
     			result.Add(xVariables);
     		}
     
@@ -1281,7 +1580,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -1315,7 +1616,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -1339,7 +1642,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -1363,7 +1668,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -1384,6 +1691,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xLabels.Add(xElement);
     			}
+    			this.FixListTrivia(xLabels);
     			result.Add(xLabels);
     		}
     		//Statements
@@ -1396,6 +1704,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xStatements.Add(xElement);
     			}
+    			this.FixListTrivia(xStatements);
     			result.Add(xStatements);
     		}
     
@@ -1403,7 +1712,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -1441,7 +1752,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -1476,7 +1789,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -1508,7 +1823,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -1532,7 +1849,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -1553,6 +1872,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xExterns.Add(xElement);
     			}
+    			this.FixListTrivia(xExterns);
     			result.Add(xExterns);
     		}
     		//Usings
@@ -1565,6 +1885,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xUsings.Add(xElement);
     			}
+    			this.FixListTrivia(xUsings);
     			result.Add(xUsings);
     		}
     		//AttributeLists
@@ -1577,6 +1898,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xAttributeLists.Add(xElement);
     			}
+    			this.FixListTrivia(xAttributeLists);
     			result.Add(xAttributeLists);
     		}
     		//Members
@@ -1589,6 +1911,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xMembers.Add(xElement);
     			}
+    			this.FixListTrivia(xMembers);
     			result.Add(xMembers);
     		}
     		//EndOfFileToken
@@ -1600,7 +1923,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -1632,7 +1957,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -1674,7 +2001,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -1706,6 +2035,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xAttributes.Add(xElement);
     			}
+    			this.FixListTrivia(xAttributes);
     			result.Add(xAttributes);
     		}
     		//CloseBracketToken
@@ -1717,7 +2047,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -1741,7 +2073,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -1768,7 +2102,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -1793,6 +2129,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xArguments.Add(xElement);
     			}
+    			this.FixListTrivia(xArguments);
     			result.Add(xArguments);
     		}
     		//CloseParenToken
@@ -1804,7 +2141,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -1825,6 +2164,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xAttributeLists.Add(xElement);
     			}
+    			this.FixListTrivia(xAttributeLists);
     			result.Add(xAttributeLists);
     		}
     		//Modifiers
@@ -1837,6 +2177,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xModifiers.Add(xElement);
     			}
+    			this.FixListTrivia(xModifiers);
     			result.Add(xModifiers);
     		}
     		//DelegateKeyword
@@ -1872,6 +2213,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xConstraintClauses.Add(xElement);
     			}
+    			this.FixListTrivia(xConstraintClauses);
     			result.Add(xConstraintClauses);
     		}
     		//SemicolonToken
@@ -1883,7 +2225,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -1904,6 +2248,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xAttributeLists.Add(xElement);
     			}
+    			this.FixListTrivia(xAttributeLists);
     			result.Add(xAttributeLists);
     		}
     		//Identifier
@@ -1922,7 +2267,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -1943,6 +2290,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xAttributeLists.Add(xElement);
     			}
+    			this.FixListTrivia(xAttributeLists);
     			result.Add(xAttributeLists);
     		}
     		//Modifiers
@@ -1955,6 +2303,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xModifiers.Add(xElement);
     			}
+    			this.FixListTrivia(xModifiers);
     			result.Add(xModifiers);
     		}
     		//Type
@@ -1969,7 +2318,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -1989,7 +2340,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -2022,6 +2375,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xExterns.Add(xElement);
     			}
+    			this.FixListTrivia(xExterns);
     			result.Add(xExterns);
     		}
     		//Usings
@@ -2034,6 +2388,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xUsings.Add(xElement);
     			}
+    			this.FixListTrivia(xUsings);
     			result.Add(xUsings);
     		}
     		//Members
@@ -2046,6 +2401,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xMembers.Add(xElement);
     			}
+    			this.FixListTrivia(xMembers);
     			result.Add(xMembers);
     		}
     		//CloseBraceToken
@@ -2064,7 +2420,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -2085,6 +2443,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xAttributeLists.Add(xElement);
     			}
+    			this.FixListTrivia(xAttributeLists);
     			result.Add(xAttributeLists);
     		}
     		//Modifiers
@@ -2097,6 +2456,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xModifiers.Add(xElement);
     			}
+    			this.FixListTrivia(xModifiers);
     			result.Add(xModifiers);
     		}
     		//EnumKeyword
@@ -2128,6 +2488,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xMembers.Add(xElement);
     			}
+    			this.FixListTrivia(xMembers);
     			result.Add(xMembers);
     		}
     		//CloseBraceToken
@@ -2146,7 +2507,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -2167,6 +2530,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xAttributeLists.Add(xElement);
     			}
+    			this.FixListTrivia(xAttributeLists);
     			result.Add(xAttributeLists);
     		}
     		//Modifiers
@@ -2179,6 +2543,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xModifiers.Add(xElement);
     			}
+    			this.FixListTrivia(xModifiers);
     			result.Add(xModifiers);
     		}
     		//Keyword
@@ -2213,6 +2578,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xConstraintClauses.Add(xElement);
     			}
+    			this.FixListTrivia(xConstraintClauses);
     			result.Add(xConstraintClauses);
     		}
     		//OpenBraceToken
@@ -2229,6 +2595,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xMembers.Add(xElement);
     			}
+    			this.FixListTrivia(xMembers);
     			result.Add(xMembers);
     		}
     		//CloseBraceToken
@@ -2247,7 +2614,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -2268,6 +2637,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xAttributeLists.Add(xElement);
     			}
+    			this.FixListTrivia(xAttributeLists);
     			result.Add(xAttributeLists);
     		}
     		//Modifiers
@@ -2280,6 +2650,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xModifiers.Add(xElement);
     			}
+    			this.FixListTrivia(xModifiers);
     			result.Add(xModifiers);
     		}
     		//Keyword
@@ -2314,6 +2685,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xConstraintClauses.Add(xElement);
     			}
+    			this.FixListTrivia(xConstraintClauses);
     			result.Add(xConstraintClauses);
     		}
     		//OpenBraceToken
@@ -2330,6 +2702,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xMembers.Add(xElement);
     			}
+    			this.FixListTrivia(xMembers);
     			result.Add(xMembers);
     		}
     		//CloseBraceToken
@@ -2348,7 +2721,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -2369,6 +2744,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xAttributeLists.Add(xElement);
     			}
+    			this.FixListTrivia(xAttributeLists);
     			result.Add(xAttributeLists);
     		}
     		//Modifiers
@@ -2381,6 +2757,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xModifiers.Add(xElement);
     			}
+    			this.FixListTrivia(xModifiers);
     			result.Add(xModifiers);
     		}
     		//Keyword
@@ -2415,6 +2792,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xConstraintClauses.Add(xElement);
     			}
+    			this.FixListTrivia(xConstraintClauses);
     			result.Add(xConstraintClauses);
     		}
     		//OpenBraceToken
@@ -2431,6 +2809,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xMembers.Add(xElement);
     			}
+    			this.FixListTrivia(xMembers);
     			result.Add(xMembers);
     		}
     		//CloseBraceToken
@@ -2449,7 +2828,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -2470,6 +2851,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xAttributeLists.Add(xElement);
     			}
+    			this.FixListTrivia(xAttributeLists);
     			result.Add(xAttributeLists);
     		}
     		//Modifiers
@@ -2482,6 +2864,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xModifiers.Add(xElement);
     			}
+    			this.FixListTrivia(xModifiers);
     			result.Add(xModifiers);
     		}
     		//Declaration
@@ -2497,7 +2880,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -2518,6 +2903,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xAttributeLists.Add(xElement);
     			}
+    			this.FixListTrivia(xAttributeLists);
     			result.Add(xAttributeLists);
     		}
     		//Modifiers
@@ -2530,6 +2916,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xModifiers.Add(xElement);
     			}
+    			this.FixListTrivia(xModifiers);
     			result.Add(xModifiers);
     		}
     		//EventKeyword
@@ -2549,7 +2936,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -2570,6 +2959,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xAttributeLists.Add(xElement);
     			}
+    			this.FixListTrivia(xAttributeLists);
     			result.Add(xAttributeLists);
     		}
     		//Modifiers
@@ -2582,6 +2972,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xModifiers.Add(xElement);
     			}
+    			this.FixListTrivia(xModifiers);
     			result.Add(xModifiers);
     		}
     		//ReturnType
@@ -2620,6 +3011,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xConstraintClauses.Add(xElement);
     			}
+    			this.FixListTrivia(xConstraintClauses);
     			result.Add(xConstraintClauses);
     		}
     		//Body
@@ -2648,7 +3040,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -2669,6 +3063,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xAttributeLists.Add(xElement);
     			}
+    			this.FixListTrivia(xAttributeLists);
     			result.Add(xAttributeLists);
     		}
     		//Modifiers
@@ -2681,6 +3076,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xModifiers.Add(xElement);
     			}
+    			this.FixListTrivia(xModifiers);
     			result.Add(xModifiers);
     		}
     		//ReturnType
@@ -2725,7 +3121,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -2746,6 +3144,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xAttributeLists.Add(xElement);
     			}
+    			this.FixListTrivia(xAttributeLists);
     			result.Add(xAttributeLists);
     		}
     		//Modifiers
@@ -2758,6 +3157,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xModifiers.Add(xElement);
     			}
+    			this.FixListTrivia(xModifiers);
     			result.Add(xModifiers);
     		}
     		//ImplicitOrExplicitKeyword
@@ -2802,7 +3202,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -2823,6 +3225,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xAttributeLists.Add(xElement);
     			}
+    			this.FixListTrivia(xAttributeLists);
     			result.Add(xAttributeLists);
     		}
     		//Modifiers
@@ -2835,6 +3238,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xModifiers.Add(xElement);
     			}
+    			this.FixListTrivia(xModifiers);
     			result.Add(xModifiers);
     		}
     		//Identifier
@@ -2871,7 +3275,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -2892,6 +3298,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xAttributeLists.Add(xElement);
     			}
+    			this.FixListTrivia(xAttributeLists);
     			result.Add(xAttributeLists);
     		}
     		//Modifiers
@@ -2904,6 +3311,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xModifiers.Add(xElement);
     			}
+    			this.FixListTrivia(xModifiers);
     			result.Add(xModifiers);
     		}
     		//TildeToken
@@ -2937,7 +3345,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -2958,6 +3368,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xAttributeLists.Add(xElement);
     			}
+    			this.FixListTrivia(xAttributeLists);
     			result.Add(xAttributeLists);
     		}
     		//Modifiers
@@ -2970,6 +3381,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xModifiers.Add(xElement);
     			}
+    			this.FixListTrivia(xModifiers);
     			result.Add(xModifiers);
     		}
     		//Type
@@ -3020,7 +3432,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -3041,6 +3455,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xAttributeLists.Add(xElement);
     			}
+    			this.FixListTrivia(xAttributeLists);
     			result.Add(xAttributeLists);
     		}
     		//Modifiers
@@ -3053,6 +3468,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xModifiers.Add(xElement);
     			}
+    			this.FixListTrivia(xModifiers);
     			result.Add(xModifiers);
     		}
     		//EventKeyword
@@ -3083,7 +3499,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -3104,6 +3522,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xAttributeLists.Add(xElement);
     			}
+    			this.FixListTrivia(xAttributeLists);
     			result.Add(xAttributeLists);
     		}
     		//Modifiers
@@ -3116,6 +3535,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xModifiers.Add(xElement);
     			}
+    			this.FixListTrivia(xModifiers);
     			result.Add(xModifiers);
     		}
     		//Type
@@ -3163,7 +3583,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -3183,7 +3605,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -3211,7 +3635,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -3231,7 +3657,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -3251,7 +3679,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -3276,6 +3706,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xParameters.Add(xElement);
     			}
+    			this.FixListTrivia(xParameters);
     			result.Add(xParameters);
     		}
     		//CloseParenToken
@@ -3287,7 +3718,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -3312,6 +3745,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xParameters.Add(xElement);
     			}
+    			this.FixListTrivia(xParameters);
     			result.Add(xParameters);
     		}
     		//CloseBracketToken
@@ -3323,7 +3757,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -3344,6 +3780,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xTokens.Add(xElement);
     			}
+    			this.FixListTrivia(xTokens);
     			result.Add(xTokens);
     		}
     
@@ -3351,7 +3788,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -3372,6 +3811,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xContent.Add(xElement);
     			}
+    			this.FixListTrivia(xContent);
     			result.Add(xContent);
     		}
     		//EndOfComment
@@ -3383,7 +3823,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -3411,7 +3853,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -3439,7 +3883,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -3467,7 +3913,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -3495,7 +3943,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -3523,7 +3973,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -3551,7 +4003,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -3583,7 +4037,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -3615,7 +4071,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -3654,7 +4112,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -3691,6 +4151,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xErrorCodes.Add(xElement);
     			}
+    			this.FixListTrivia(xErrorCodes);
     			result.Add(xErrorCodes);
     		}
     		//EndOfDirectiveToken
@@ -3702,7 +4163,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -3746,7 +4209,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -3778,7 +4243,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -3810,7 +4277,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -3838,7 +4307,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -3866,7 +4337,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -3898,7 +4371,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -3930,7 +4405,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -3950,7 +4427,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -3978,7 +4457,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -4005,7 +4486,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -4032,7 +4515,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -4063,7 +4548,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -4098,7 +4585,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -4123,6 +4612,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xParameters.Add(xElement);
     			}
+    			this.FixListTrivia(xParameters);
     			result.Add(xParameters);
     		}
     		//CloseParenToken
@@ -4134,7 +4624,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -4159,6 +4651,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xParameters.Add(xElement);
     			}
+    			this.FixListTrivia(xParameters);
     			result.Add(xParameters);
     		}
     		//CloseBracketToken
@@ -4170,7 +4663,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -4195,6 +4690,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xContent.Add(xElement);
     			}
+    			this.FixListTrivia(xContent);
     			result.Add(xContent);
     		}
     		//EndTag
@@ -4206,7 +4702,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -4235,6 +4733,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xAttributes.Add(xElement);
     			}
+    			this.FixListTrivia(xAttributes);
     			result.Add(xAttributes);
     		}
     		//SlashGreaterThanToken
@@ -4246,7 +4745,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -4267,6 +4768,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xTextTokens.Add(xElement);
     			}
+    			this.FixListTrivia(xTextTokens);
     			result.Add(xTextTokens);
     		}
     
@@ -4274,7 +4776,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -4299,6 +4803,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xTextTokens.Add(xElement);
     			}
+    			this.FixListTrivia(xTextTokens);
     			result.Add(xTextTokens);
     		}
     		//EndCDataToken
@@ -4310,7 +4815,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -4339,6 +4846,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xTextTokens.Add(xElement);
     			}
+    			this.FixListTrivia(xTextTokens);
     			result.Add(xTextTokens);
     		}
     		//EndProcessingInstructionToken
@@ -4350,7 +4858,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -4375,6 +4885,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xTextTokens.Add(xElement);
     			}
+    			this.FixListTrivia(xTextTokens);
     			result.Add(xTextTokens);
     		}
     		//MinusMinusGreaterThanToken
@@ -4386,7 +4897,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -4419,6 +4932,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xTextTokens.Add(xElement);
     			}
+    			this.FixListTrivia(xTextTokens);
     			result.Add(xTextTokens);
     		}
     		//EndQuoteToken
@@ -4430,7 +4944,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -4466,7 +4982,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -4502,7 +5020,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -4530,7 +5050,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -4555,6 +5077,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xArguments.Add(xElement);
     			}
+    			this.FixListTrivia(xArguments);
     			result.Add(xArguments);
     		}
     		//CloseParenToken
@@ -4566,7 +5089,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -4590,7 +5115,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -4614,7 +5141,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -4638,7 +5167,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -4666,7 +5197,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -4694,7 +5227,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -4718,7 +5253,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -4738,7 +5275,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -4758,7 +5297,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -4786,7 +5327,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -4814,7 +5357,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -4850,7 +5395,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -4870,7 +5417,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -4902,7 +5451,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -4934,7 +5485,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -4974,7 +5527,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -5006,7 +5561,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -5038,7 +5595,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -5070,7 +5629,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -5102,7 +5663,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -5126,7 +5689,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -5150,7 +5715,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -5174,7 +5741,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -5206,7 +5775,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -5230,7 +5801,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -5255,6 +5828,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xExpressions.Add(xElement);
     			}
+    			this.FixListTrivia(xExpressions);
     			result.Add(xExpressions);
     		}
     		//CloseBraceToken
@@ -5266,7 +5840,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -5304,7 +5880,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -5333,6 +5911,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xInitializers.Add(xElement);
     			}
+    			this.FixListTrivia(xInitializers);
     			result.Add(xInitializers);
     		}
     		//CloseBraceToken
@@ -5344,7 +5923,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -5375,7 +5956,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -5404,6 +5987,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xCommas.Add(xElement);
     			}
+    			this.FixListTrivia(xCommas);
     			result.Add(xCommas);
     		}
     		//CloseBracketToken
@@ -5419,7 +6003,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -5443,7 +6029,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -5467,7 +6055,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -5487,7 +6077,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -5512,6 +6104,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xContents.Add(xElement);
     			}
+    			this.FixListTrivia(xContents);
     			result.Add(xContents);
     		}
     		//StringEndToken
@@ -5523,7 +6116,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -5551,7 +6146,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -5575,7 +6172,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -5595,7 +6194,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -5620,6 +6221,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xRankSpecifiers.Add(xElement);
     			}
+    			this.FixListTrivia(xRankSpecifiers);
     			result.Add(xRankSpecifiers);
     		}
     
@@ -5627,7 +6229,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -5651,7 +6255,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -5675,7 +6281,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -5700,6 +6308,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xElements.Add(xElement);
     			}
+    			this.FixListTrivia(xElements);
     			result.Add(xElements);
     		}
     		//CloseParenToken
@@ -5711,7 +6320,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -5731,7 +6342,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -5762,7 +6375,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -5790,7 +6405,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -5821,7 +6438,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -5841,7 +6460,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -5865,7 +6486,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -5885,7 +6508,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -5905,7 +6530,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -5943,7 +6570,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -5978,7 +6607,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -6013,7 +6644,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -6038,6 +6671,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xArguments.Add(xElement);
     			}
+    			this.FixListTrivia(xArguments);
     			result.Add(xArguments);
     		}
     		//CloseParenToken
@@ -6049,7 +6683,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -6074,6 +6710,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xArguments.Add(xElement);
     			}
+    			this.FixListTrivia(xArguments);
     			result.Add(xArguments);
     		}
     		//CloseBracketToken
@@ -6085,7 +6722,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -6124,7 +6763,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -6156,7 +6797,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -6218,7 +6861,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -6242,7 +6887,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -6267,6 +6914,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xOrderings.Add(xElement);
     			}
+    			this.FixListTrivia(xOrderings);
     			result.Add(xOrderings);
     		}
     
@@ -6274,7 +6922,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -6298,7 +6948,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -6330,7 +6982,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -6354,7 +7008,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -6374,7 +7030,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -6394,7 +7052,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -6436,7 +7096,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -6461,6 +7123,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xStatements.Add(xElement);
     			}
+    			this.FixListTrivia(xStatements);
     			result.Add(xStatements);
     		}
     		//CloseBraceToken
@@ -6472,7 +7135,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -6493,6 +7158,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xModifiers.Add(xElement);
     			}
+    			this.FixListTrivia(xModifiers);
     			result.Add(xModifiers);
     		}
     		//ReturnType
@@ -6524,6 +7190,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xConstraintClauses.Add(xElement);
     			}
+    			this.FixListTrivia(xConstraintClauses);
     			result.Add(xConstraintClauses);
     		}
     		//Body
@@ -6552,7 +7219,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -6573,6 +7242,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xModifiers.Add(xElement);
     			}
+    			this.FixListTrivia(xModifiers);
     			result.Add(xModifiers);
     		}
     		//Declaration
@@ -6588,7 +7258,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -6612,7 +7284,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -6632,7 +7306,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -6660,7 +7336,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -6698,7 +7376,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -6722,7 +7402,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -6746,7 +7428,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -6777,7 +7461,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -6808,7 +7494,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -6843,7 +7531,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -6879,7 +7569,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -6923,7 +7615,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -6959,6 +7653,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xInitializers.Add(xElement);
     			}
+    			this.FixListTrivia(xInitializers);
     			result.Add(xInitializers);
     		}
     		//FirstSemicolonToken
@@ -6986,6 +7681,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xIncrementors.Add(xElement);
     			}
+    			this.FixListTrivia(xIncrementors);
     			result.Add(xIncrementors);
     		}
     		//CloseParenToken
@@ -7001,7 +7697,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -7047,7 +7745,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -7083,7 +7783,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -7107,7 +7809,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -7131,7 +7835,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -7167,7 +7873,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -7210,7 +7918,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -7251,6 +7961,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xSections.Add(xElement);
     			}
+    			this.FixListTrivia(xSections);
     			result.Add(xSections);
     		}
     		//CloseBraceToken
@@ -7262,7 +7973,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -7291,6 +8004,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xCatches.Add(xElement);
     			}
+    			this.FixListTrivia(xCatches);
     			result.Add(xCatches);
     		}
     		//Finally
@@ -7305,7 +8019,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -7353,7 +8069,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -7397,7 +8115,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -7417,7 +8137,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -7437,7 +8159,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -7462,6 +8186,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     				var xElement = this.Visit(x);
     				xVariables.Add(xElement);
     			}
+    			this.FixListTrivia(xVariables);
     			result.Add(xVariables);
     		}
     		//CloseParenToken
@@ -7473,7 +8198,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -7508,7 +8235,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -7536,7 +8265,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }
@@ -7560,7 +8291,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
         	var kindAttribute = result.Attribute("kind");
             if (kindAttribute?.Value == result.Name.LocalName)
-                kindAttribute.Remove();
+               kindAttribute.Remove();
+    
+    		this.AnnotateTrivia(node, result);
     
     		return result;
         }

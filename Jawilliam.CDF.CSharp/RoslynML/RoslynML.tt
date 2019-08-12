@@ -76,6 +76,7 @@ var xSyntaxTypeSystem = Jawilliam.CDF.XObjects.RDSL.Syntax.Load(@"E:\MyRepositor
 
 #>using Microsoft.CodeAnalysis.CSharp;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
@@ -367,13 +368,237 @@ public partial class RoslynML : CSharpSyntaxVisitor<XElement>
     }
 
     /// <summary>
+    /// Annotates an element with syntax metadata.
+    /// </summary>
+    /// <param name="element">the XML element being serialized.</param>
+    /// <param name="node">the trivia being represented by the serializing XML element.</param>
+    protected virtual void Annotate(XElement element, Microsoft.CodeAnalysis.SyntaxTrivia node)
+    {
+        element.Add(new XAttribute("kind", Enum.GetName(typeof (SyntaxKind), node.Kind())));
+        //if (SyntaxFacts.IsAliasQualifier(node))
+        //{
+        //    element.Add(new XAttribute("Keyword", true));
+        //}
+    	//
+        if (SyntaxFacts.IsKeywordKind(node.Kind()))
+        {
+            element.Add(new XAttribute("Keyword", true));
+        }
+    
+        //if (SyntaxFacts.IsReservedKeyword(node.Kind()))
+        //{
+        //    element.Add(new XAttribute("ReservedKeyword", true));
+        //}
+    	//
+        //if (SyntaxFacts.IsAttributeTargetSpecifier(node.Kind()))
+        //{
+        //    element.Add(new XAttribute("AttributeTargetSpecifier", true));
+        //}
+    	
+        //if (SyntaxFacts.IsAccessibilityModifier(node.Kind()))
+        //{
+        //    element.Add(new XAttribute("AccessibilityModifier", true));
+        //}
+    
+        //if (SyntaxFacts.IsPreprocessorKeyword(node.Kind()))
+        //{
+        //    element.Add(new XAttribute("PreprocessorKeyword", true));
+        //}        
+    
+        if (SyntaxFacts.IsTrivia(node.Kind()))
+        {
+            element.Add(new XAttribute("Trivia", true));
+        }
+    
+        if (SyntaxFacts.IsPreprocessorDirective(node.Kind()))
+        {
+            element.Add(new XAttribute("PreprocessorDirective", true));
+        }
+    
+        if (SyntaxFacts.IsName(node.Kind()))
+        {
+            element.Add(new XAttribute("Name", true));
+        }
+    
+        if (SyntaxFacts.IsPredefinedType(node.Kind()))
+        {
+            element.Add(new XAttribute("PredefinedType", true));
+        }
+    
+        if (SyntaxFacts.IsTypeSyntax(node.Kind()))
+        {
+            element.Add(new XAttribute("TypeSyntax", true));
+        }
+    
+        if (SyntaxFacts.IsTypeDeclaration(node.Kind()))
+        {
+            element.Add(new XAttribute("TypeDeclaration", true));
+        }
+    
+        // if (SyntaxFacts.IsAssignmentExpression(node.Kind()))
+        // {
+        //     element.Add(new XAttribute("AssignmentExpression", true));
+        // }       
+    
+        if (SyntaxFacts.IsDocumentationCommentTrivia(node.Kind()))
+        {
+            element.Add(new XAttribute("DocumentationCommentTrivia", true));
+        }		
+
+		if(node.ToString() != "")
+		{
+			element.Add(new XAttribute("startLine", node.GetLocation().GetLineSpan().StartLinePosition.Line + 1));
+			element.Add(new XAttribute("startColumn", node.GetLocation().GetLineSpan().StartLinePosition.Character + 1));
+			element.Add(new XAttribute("endLine", node.GetLocation().GetLineSpan().EndLinePosition.Line + 1));
+			element.Add(new XAttribute("endColumn", node.GetLocation().GetLineSpan().EndLinePosition.Character));
+		}
+    }
+
+    /// <summary>
     /// Called when the visitor visits a AttributeArgumentListSyntax node.
     /// </summary>
     public virtual XElement Visit(Microsoft.CodeAnalysis.SyntaxToken node)
     {
 		var result = new XElement("Token");
         result.Add(new XText(node.ValueText));
-		this.Annotate(result, node);
+        this.Annotate(result, node);
+
+    	var leadingTrivia = this.VisitLeadingTrivia(node).ToArray();
+        var trailingTrivia = this.VisitTrailingTrivia(node).ToArray();
+		if(leadingTrivia.Any() || trailingTrivia.Any())
+		{
+			result.AddAnnotation((leading: leadingTrivia, trailingTrivia: trailingTrivia));
+		}
+
+        return result;
+    }
+
+    private Hashtable VisitedTrivia = new Hashtable();
+
+    /// <summary>
+    /// Visits each trivia that appears before the given node.
+    /// </summary>
+    /// <param name="node">node of reference</param>
+    /// <returns>the XML-like representation of each of the found trivia.</returns>
+    public virtual IEnumerable<XElement> VisitLeadingTrivia(Microsoft.CodeAnalysis.SyntaxNode node)
+    {
+        if (node.HasLeadingTrivia)
+        {
+            foreach (var tr in node.GetLeadingTrivia())
+            {
+                if (this.VisitedTrivia.Contains(tr))
+                    continue;
+
+                var result = this.VisitTrivia(tr);
+                this.VisitedTrivia.Add(tr, tr);
+                if (result != null)
+                    yield return result;
+            }
+        }
+    }
+    
+    /// <summary>
+    /// Visits each trivia that appears after the given node.
+    /// </summary>
+    /// <param name="node">node of reference</param>
+    /// <returns>the XML-like representation of each of the found trivia.</returns>
+    public virtual IEnumerable<XElement> VisitTrailingTrivia(Microsoft.CodeAnalysis.SyntaxNode node)
+    {
+        if (node.HasTrailingTrivia)
+        {
+            foreach (var tr in node.GetTrailingTrivia())
+            {
+                if (this.VisitedTrivia.Contains(tr))
+                    continue;
+
+                var result = this.VisitTrivia(tr);
+                this.VisitedTrivia.Add(tr, tr);
+                if (result != null)
+                    yield return result;
+            }
+        }
+    }	
+
+    /// <summary>
+    /// Visits each trivia that appears before the given token.
+    /// </summary>
+    /// <param name="node">token of reference</param>
+    /// <returns>the XML-like representation of each of the found trivia.</returns>
+    public virtual IEnumerable<XElement> VisitLeadingTrivia(Microsoft.CodeAnalysis.SyntaxToken token)
+    {
+        if (token.HasLeadingTrivia)
+        {
+            foreach (var tr in token.LeadingTrivia)
+            {
+                if (this.VisitedTrivia.Contains(tr))
+                    continue;
+
+                var result = this.VisitTrivia(tr);
+                this.VisitedTrivia.Add(tr, tr);
+                if (result != null)
+                    yield return result;
+            }
+        }
+    }
+    
+    /// <summary>
+    /// Visits each trivia that appears after the given token.
+    /// </summary>
+    /// <param name="node">token of reference</param>
+    /// <returns>the XML-like representation of each of the found trivia.</returns>
+    public virtual IEnumerable<XElement> VisitTrailingTrivia(Microsoft.CodeAnalysis.SyntaxToken token)
+    {
+        if (token.HasTrailingTrivia)
+        {
+            foreach (var tr in token.TrailingTrivia)
+            {
+                if (this.VisitedTrivia.Contains(tr))
+                    continue;
+
+                var result = this.VisitTrivia(tr);
+                this.VisitedTrivia.Add(tr, tr);
+                if (result != null)
+                    yield return result;
+            }
+        }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="trivia"></param>
+    /// <returns></returns>
+    public virtual XElement VisitTrivia(Microsoft.CodeAnalysis.SyntaxTrivia trivia)
+    {
+		if(!trivia.HasStructure && 
+           trivia.Kind() != SyntaxKind.SingleLineCommentTrivia &&
+           trivia.Kind() != SyntaxKind.MultiLineCommentTrivia) 
+			return null;
+
+		return trivia.HasStructure
+			? this.Visit((CSharpSyntaxNode)trivia.GetStructure())
+			: this.VisitCommentTrivia(trivia);
+    }
+
+	private void AnnotateTrivia(Microsoft.CodeAnalysis.SyntaxNode node, XElement xElement)
+	{		
+        var leadingTrivia = this.VisitLeadingTrivia(node).ToArray();
+        var trailingTrivia = this.VisitTrailingTrivia(node).ToArray();
+    	if(leadingTrivia.Any() || trailingTrivia.Any())
+    	{
+    		xElement.AddAnnotation((leading: leadingTrivia, trailingTrivia: trailingTrivia));
+    	}
+	}
+
+    /// <summary>
+    /// Called when the visitor visits a comment node.
+    /// </summary>
+    public virtual XElement VisitCommentTrivia(Microsoft.CodeAnalysis.SyntaxTrivia node)
+    {
+        var result = new XElement("CommentTrivia");
+        result.Add(new XText(node.ToFullString()));
+        this.Annotate(result, node);
+
         return result;
     }
 
@@ -415,11 +640,6 @@ foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
 			.Select(p => new Tuple<PropertyInfo, Syntax.NodesLocalType.TypeLocalType.PropertiesLocalType.PropertyLocalType>(p, xSyntaxNodeProperties.Single(n => n.name == p.Name)))
 			.OrderBy(p => p.Item2.index)
 			.ToArray();
-
-		//foreach (var currentProperty in currentPropertiesMetadata.Where(p => p.Item2.inherited != true))
-		//{
-		//	string listType = currentProperty.Item2.collectionType;
-		//}
 
 	if(xSyntaxNodeType != null && !isAbstract)
 	{
@@ -476,6 +696,7 @@ foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
 				var xElement = this.Visit(x);
 				x<#= currentProperty.Item1.Name #>.Add(xElement);
 			}
+			this.FixListTrivia(x<#= currentProperty.Item1.Name #>);
 			result.Add(x<#= currentProperty.Item1.Name #>);
 <#
 			}
@@ -489,6 +710,7 @@ foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
 				var xElement = this.Visit(x);
 				x<#= currentProperty.Item1.Name #>.Add(xElement);
 			}
+			this.FixListTrivia(x<#= currentProperty.Item1.Name #>);
 			result.Add(x<#= currentProperty.Item1.Name #>);
 <#
 			}
@@ -512,7 +734,9 @@ foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
 
     	var kindAttribute = result.Attribute("kind");
         if (kindAttribute?.Value == result.Name.LocalName)
-            kindAttribute.Remove();
+           kindAttribute.Remove();
+
+		this.AnnotateTrivia(node, result);
 
 		return result;
     }

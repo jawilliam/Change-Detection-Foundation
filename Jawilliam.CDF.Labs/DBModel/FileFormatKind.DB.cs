@@ -17,6 +17,8 @@ namespace Jawilliam.CDF.Labs.DBModel
         Gumtreefied = 1,
         SrcML = 2,
         RoslynML = 4,
-        NONE = 0
+        NONE = 0,
+        BasicPruning = 8,
+        IncludeTrivia = 16
     }
 }

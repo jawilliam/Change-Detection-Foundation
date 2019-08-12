@@ -1480,6 +1480,8 @@
           <Member Name="InverseNativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1450" Value="25" />
           <Member Name="InverseNativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1675" Value="26" />
           <Member Name="InverseNativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1900" Value="27" />
+          <Member Name="NativeGTtreefiedRoslynMLWithBasicPruning" Value="28" />
+          <Member Name="InverseNativeGTtreefiedRoslynMLWithBasicPruning" Value="29" />
         </EnumType>
         <EnumType Name="CodeCategory" UnderlyingType="Int16" IsFlags="true">
           <Member Name="Maintained" Value="1" />
@@ -1744,6 +1746,8 @@
           <Member Name="SrcML" Value="2" />
           <Member Name="RoslynML" Value="4" />
           <Member Name="NONE" Value="0" />
+          <Member Name="BasicPruning" Value="8" />
+          <Member Name="IncludeTrivia" Value="16" />
         </EnumType>
         <EnumType Name="FileFormatError" UnderlyingType="Int64" IsFlags="true" />
         <Association Name="OneFileVersion_CanBeSeenFrom_MultipleFileFormat">

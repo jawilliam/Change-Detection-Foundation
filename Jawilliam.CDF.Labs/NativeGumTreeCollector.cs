@@ -24,12 +24,14 @@ namespace Jawilliam.CDF.Labs
         /// <param name="gumTree">the native approach based on the GumTree interoperability.</param>
         /// <param name="gumTreeApproach"></param>
         /// <param name="skipThese">local criterion for determining elements that should be ignored.</param>
-        /// <param name="cleaner">A preprocessor for the source code in case it is desired.</param>
+        /// <param name="cleaner">A preprocessor for the source code in case it is desired.</param> 
+        /// <param name="includeTrivia">informs whether the trivia should be included, or not.</param>
         public virtual void SaveRoslynMLTrees(GumTreeNativeApproach gumTree, InteropArgs interopArgs, ChangeDetectionApproaches gumTreeApproach, 
             Func<FileRevisionPair, bool> skipThese,
             FileFormatKind fileFormat,
             SourceCodeCleaner cleaner = null,
-            Func<XElement, bool> pruneSelector = null)
+            Func<XElement, bool> pruneSelector = null,
+            bool includeTrivia = false)
         {
             this.Analyze(f => f.Principal.Deltas.Any(d => d.Approach == gumTreeApproach/* &&
                                                d.Matching != null &&
@@ -61,9 +63,10 @@ namespace Jawilliam.CDF.Labs
                           var preprocessedOriginal = cleaner != null ? cleaner.Clean(original) : original;
                           System.IO.File.WriteAllText(interopArgs.Original, preprocessedOriginal.ToFullString());
 
-                          xElement = roslynMlServices.Load(interopArgs.Original, true);
-                          roslynMlServices.SetRoslynMLIDs(xElement);
-                          roslynMlServices.SetGumTreefiedIDs(xElement);
+                          xElement = roslynMlServices.GetTree(interopArgs.Original, true, includeTrivia);
+                          //xElement = roslynMlServices.Load(interopArgs.Original, true);
+                          //roslynMlServices.SetRoslynMLIDs(xElement);
+                          //roslynMlServices.SetGumTreefiedIDs(xElement);
                           if (pruneSelector != null)
                               roslynMlServices.Prune(xElement, pruneSelector);
                           originalFormat.XmlTree = xElement.ToString(SaveOptions.DisableFormatting);
