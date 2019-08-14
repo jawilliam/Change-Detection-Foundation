@@ -8,3 +8,6 @@ To execute srcml the command is "srcml filepath\filename"
 To execute gumtree in console
 a) cd {args.GumTreePath}\bin
 b) set PATH=%PATH%;C:\Program Files (x86)\srcML 0.9.5\bin 
+
+
+gumtree detect D:\ExperimentLogs\RunningOriginal.cs D:\ExperimentLogs\RunningModified.cs gumtree_RoslynML NativeGTtreefiedRoslynML -trace=D:\ExperimentLogs\gumtree_RoslynML_BasicPruning_NoTrivia.txt -runtime=D:\GT_Runtimes\gumtree_Roslynml_BasicPruning_NoTrivia -name:gumtree_RoslynML_BasicPruning_NoTrivia_forward -approach:NativeGTtreefiedRoslynMLWithBasicPruning -direction:Forward -runtime=D:\GT_Runtimes\gumtree_Roslynml_BasicPruning_NoTrivia -name:gumtree_RoslynML_BasicPruning_NoTrivia_backward -approach:InverseNativeGTtreefiedRoslynMLWithBasicPruning -direction:Backward

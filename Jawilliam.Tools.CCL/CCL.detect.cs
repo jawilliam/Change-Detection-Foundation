@@ -19,19 +19,7 @@ namespace Jawilliam.Tools.CCL
         public class GumTree
         {
             [ApplicationMetadata(Name = "detect", Description = "Detects ...")]
-            public virtual void Detect(DetectCommandArgs args/*
-                string originalPath,
-                string modifiedPath, 
-                string refName, 
-                string refApproach,
-                //[Option(ShortName = "skipThese")]string skipTheseFile,
-                [Option(ShortName = "trace")] string trace,
-                [Option(ShortName = "runtime")]List<string> runtimes,
-                [Option(ShortName = "name")]List<string> names,
-                [Option(ShortName = "approach")]List<string> approaches,
-                [Option(ShortName = "direction")]List<string> directions,
-                [Option(ShortName = "fromProject")]int fromProject = 1,
-                [Option(ShortName = "toProject")]int toProject = 107*/)
+            public virtual void Detect(DetectCommandArgs args)
             {
                 var configurations = args.Runtimes.Select((r, i) => new
                 {
@@ -52,8 +40,6 @@ namespace Jawilliam.Tools.CCL
                     Modified = args.ModifiedPath
                 };
 
-                //var xSkipThese = XSkipTheseFileRevisionPairs.Read(System.IO.File.ReadAllText(skipTheseFile), Encoding.Unicode);
-
                 foreach (var project in Projects.Skip(args.From - 1).Take(args.To - (args.From - 1)))
                 {
                     foreach (var configuration in configurations)
@@ -64,14 +50,6 @@ namespace Jawilliam.Tools.CCL
                         analyzer.Warnings = new StringBuilder();
                         analyzer.SqlRepository = dbRepository;
                         analyzer.Cancel = () => gumTree.Cancel();
-
-                        //Func<FileRevisionPair, bool> skipThese = delegate (FileRevisionPair pair)
-                        //{
-                        //    var anyOriginal = dbRepository.FileFormats.Any(ff => ff.FileVersion.Id == pair.Principal.FromFileVersion.Id);
-                        //    var anyModified = dbRepository.FileFormats.Any(ff => ff.FileVersion.Id == pair.Principal.FileVersion.Id);
-
-                        //    return !anyOriginal || !anyModified || (xSkipThese.Projects.Any(p => p.Name == project.Name && p.FileRevisionPairs.Any(frp => Guid.Parse(frp.Guid) == pair.Id)));
-                        //};
 
                         interopArgs.GumTreePath = configuration.Path;
                         var rApproach = (ChangeDetectionApproaches)Enum.Parse(typeof(ChangeDetectionApproaches), args.RefApproach);

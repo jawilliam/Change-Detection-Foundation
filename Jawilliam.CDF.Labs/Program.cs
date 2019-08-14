@@ -1594,36 +1594,6 @@ namespace Jawilliam.CDF.Labs
         /// <param name="gumTreeApproach"></param>
         /// <param name="skipThese"></param>
         /// <param name="cleaner">A preprocessor for the source code in case it is desired.</param>
-        private static void SaveRoslynMLTreesOfNativeGumTree(ChangeDetectionApproaches gumTreeApproach, Func<FileRevisionPair, bool> skipThese = null, SourceCodeCleaner cleaner = null)
-        {
-            var analyzer = new NativeGumTreeCollector { MillisecondsTimeout = 300000 };
-            var gumTree = new GumTreeNativeApproach();
-            var interopArgs = new InteropArgs()
-            {
-                GumTreePath = null,
-                Original = @"E:\SourceCode\O01.cs",//@"C:\CDF\O01.cs",
-                Modified = @"E:\SourceCode\M02.cs"
-            };
-
-            foreach (var project in Projects)
-            {
-                analyzer.Warnings = new StringBuilder();
-                var dbRepository = new GitRepository(project.Name) { Name = project.Name };
-                ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 600000;
-                analyzer.SqlRepository = dbRepository;
-                analyzer.SaveRoslynMLTrees(gumTree, interopArgs, gumTreeApproach, skipThese, FileFormatKind.Gumtreefied | FileFormatKind.RoslynML, cleaner);
-
-                //System.IO.File.WriteAllText($@"E:\Phd\Analysis\SaveNativeTrees33{project.Name}.txt", analyzer.Warnings.ToString());
-            }
-            Console.Out.WriteLine($"DONE!!!");
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="gumTreeApproach"></param>
-        /// <param name="skipThese"></param>
-        /// <param name="cleaner">A preprocessor for the source code in case it is desired.</param>
         private static void SaveNativeTreesOfNativeGumTree(ChangeDetectionApproaches gumTreeApproach, Func<FileRevisionPair, bool> skipThese = null, SourceCodeCleaner cleaner = null)
         {
             var analyzer = new FileRevisionPairAnalyzer { MillisecondsTimeout = 300000 };

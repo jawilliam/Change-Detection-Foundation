@@ -1302,7 +1302,8 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             Assert.IsTrue(hierarchicalChildren.Contains(node.Keyword));
 
             var topologicalChildren = flad.HierarchicalAbstraction(full: false).Children(node).ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 0);
+            Assert.AreEqual(topologicalChildren.Count(), 1);
+            Assert.IsTrue(topologicalChildren.Contains(node.Keyword));
         }
 
         [TestMethod]
@@ -7270,8 +7271,6 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             Assert.IsTrue(topologicalChildren.Contains(node.ConstraintClauses[0]));
             Assert.IsTrue(topologicalChildren.Contains(node.ExpressionBody));
         }
-
-
 
         [TestMethod]
         public void RefTypeServiceProvider_TopologicalAbstraction_OK()

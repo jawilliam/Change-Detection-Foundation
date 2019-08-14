@@ -32873,7 +32873,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         protected virtual IEnumerable<SyntaxNodeOrToken?> ChildrenCore(SyntaxNodeOrToken? node)
     	{
     		var n = node != null ? (PredefinedTypeSyntax)node : throw new ArgumentNullException(nameof(node));
-    		yield break;
+            yield return n.Keyword;
     	}
     
         /// <summary>

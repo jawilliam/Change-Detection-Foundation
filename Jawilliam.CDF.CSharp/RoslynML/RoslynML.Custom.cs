@@ -50,8 +50,6 @@ namespace Jawilliam.CDF.CSharp.RoslynML
 
                         foreach (var lt in leadingTrivia)
                         {
-                            //var parent = this.GetTriviaParentElement(xItem, lt.Value.Item2);
-                            //parent.AddBeforeSelf(lt.Value.Item1);
                             XElement xLocation = xItem;
                             while (!xLocation.ElementsBeforeSelf().OfType<XElement>().Any() &&
                                    ((xLocation.Parent?.Name.LocalName.EndsWith("List") ?? false) ||
@@ -67,8 +65,6 @@ namespace Jawilliam.CDF.CSharp.RoslynML
 
                         foreach (var tt in trailingTrivia)
                         {
-                            //var parent = this.GetTriviaParentElement(xItem, tt.Value.Item2);
-                            //parent.AddAfterSelf(tt.Value.Item1);
                             XElement xLocation = xItem;
                             while (!xLocation.ElementsAfterSelf().OfType<XElement>().Any() &&
                                    ((xLocation.Parent?.Name.LocalName.EndsWith("List") ?? false) ||
@@ -83,6 +79,13 @@ namespace Jawilliam.CDF.CSharp.RoslynML
                         }
 
                         xItem.RemoveAnnotations(typeof(((XElement, SyntaxNode)?[], (XElement, SyntaxNode)?[])));
+
+                        leadingTrivia.ToArray()
+                            .Where(lt => lt.Name.LocalName == "CommentTrivia")
+                            .ForEach(this.FixCommentTrivia);
+                        trailingTrivia.ToArray()
+                            .Where(tt => tt.Name.LocalName == "CommentTrivia")
+                            .ForEach(this.FixCommentTrivia);
                     }
                 }
             }
@@ -305,6 +308,61 @@ namespace Jawilliam.CDF.CSharp.RoslynML
                         lastChild.AddAnnotation((leadingTrivia, new XElement[0]));
                     }
                 }
+            }
+        }
+
+        private void FixCommentTrivia(XElement comment)
+        {
+            int startLine = int.Parse(comment.Attribute("startLine").Value, CultureInfo.InvariantCulture);
+            int startColumn = int.Parse(comment.Attribute("startColumn").Value, CultureInfo.InvariantCulture);
+            int endLine = int.Parse(comment.Attribute("endLine").Value, CultureInfo.InvariantCulture);
+            int endColumn = int.Parse(comment.Attribute("endColumn").Value, CultureInfo.InvariantCulture);
+
+            var context = comment.Ancestors().FirstOrDefault(delegate(XElement a)
+            {
+                if (a.Name.LocalName == "CompilationUnit")
+                    return true;
+
+                if (a.Name.LocalName.EndsWith("List") || a.Name.LocalName.StartsWith("List_of_") ||
+                    a.Name.LocalName.EndsWith("SeparatedList") || a.Name.LocalName.StartsWith("SeparatedList_of_") ||
+                    a.Name.LocalName.EndsWith("TokenList"))
+                    return false;
+
+                int xStartLine = int.Parse(a.Attribute("startLine").Value, CultureInfo.InvariantCulture);
+                int xStartColumn = int.Parse(a.Attribute("startColumn").Value, CultureInfo.InvariantCulture);
+                int xEndLine = int.Parse(a.Attribute("endLine").Value, CultureInfo.InvariantCulture);
+                int xEndColumn = int.Parse(a.Attribute("endColumn").Value, CultureInfo.InvariantCulture);
+
+                return (xStartLine < startLine || (xStartLine == startLine && xStartColumn < startColumn)) &&
+                       (endLine < xEndLine || (endLine == xEndLine && endColumn < xEndColumn));
+            });
+
+            var rightSibling = context?.DescendantsAndSelf().FirstOrDefault(delegate(XElement a)
+            {
+                if (a.Name.LocalName.EndsWith("List") || a.Name.LocalName.StartsWith("List_of_") ||
+                    a.Name.LocalName.EndsWith("SeparatedList") || a.Name.LocalName.StartsWith("SeparatedList_of_") ||
+                    a.Name.LocalName.EndsWith("TokenList") || 
+                    a.Attribute("startLine") == null ||
+                    a.Attribute("startColumn") == null ||
+                    a.Attribute("endLine") == null ||
+                    a.Attribute("endColumn") == null)
+                    return false;
+
+                int xStartLine = int.Parse(a.Attribute("startLine").Value, CultureInfo.InvariantCulture);
+                int xStartColumn = int.Parse(a.Attribute("startColumn").Value, CultureInfo.InvariantCulture);
+                int xEndLine = int.Parse(a.Attribute("endLine").Value, CultureInfo.InvariantCulture);
+                int xEndColumn = int.Parse(a.Attribute("endColumn").Value, CultureInfo.InvariantCulture);
+
+                return (xStartLine > endLine || (xStartLine == endLine && xStartColumn > endColumn));
+            }) /*?? (context.Elements().FirstOrDefault())*/;
+
+            if (rightSibling?.Name.LocalName == "CompilationUnit")
+                rightSibling = rightSibling.Elements().FirstOrDefault(e => e.Name.LocalName != "CommentTrivia");
+
+            if (rightSibling != null)
+            {
+                comment.Remove();
+                rightSibling.AddBeforeSelf(comment);
             }
         }
     }

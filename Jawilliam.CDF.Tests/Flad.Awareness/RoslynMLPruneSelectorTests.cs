@@ -39,7 +39,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             var node = (PrefixUnaryExpressionSyntax)SyntaxFactory.ParseExpression("++3");
             var xElement = converter.Visit(node);
             converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            Assert.AreEqual(xElement.Attribute("kind")?.Value, "PreIncrementExpression");
 
             var topologicalChildren = xElement.Elements().ToArray();
             Assert.AreEqual(topologicalChildren.Count(), 1);
@@ -71,7 +71,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             var node = (PostfixUnaryExpressionSyntax)SyntaxFactory.ParseExpression("3++");
             var xElement = converter.Visit(node);
             converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            Assert.AreEqual(xElement.Attribute("kind")?.Value, "PostIncrementExpression");
 
             var topologicalChildren = xElement.Elements().ToArray();
             Assert.AreEqual(topologicalChildren.Count(), 1);
@@ -87,7 +87,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             var node = (MemberAccessExpressionSyntax)SyntaxFactory.ParseExpression("x.r");
             var xElement = converter.Visit(node);
             converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            Assert.AreEqual(xElement.Attribute("kind")?.Value, "SimpleMemberAccessExpression");
 
             var topologicalChildren = xElement.Elements().ToArray();
             Assert.AreEqual(topologicalChildren.Count(), 2);
@@ -175,7 +175,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             var node = (BinaryExpressionSyntax)SyntaxFactory.ParseExpression("1 * 2");
             var xElement = converter.Visit(node);
             converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            Assert.AreEqual(xElement.Attribute("kind")?.Value, "MultiplyExpression");
 
             var topologicalChildren = xElement.Elements().ToArray();
             Assert.AreEqual(topologicalChildren.Count(), 2);
@@ -192,7 +192,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             var node = (AssignmentExpressionSyntax)SyntaxFactory.ParseExpression("x *= 2");
             var xElement = converter.Visit(node);
             converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            Assert.AreEqual(xElement.Attribute("kind")?.Value, "MultiplyAssignmentExpression");
 
             var topologicalChildren = xElement.Elements().ToArray();
             Assert.AreEqual(topologicalChildren.Count(), 2);
@@ -257,7 +257,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             var node = (LiteralExpressionSyntax)SyntaxFactory.ParseExpression("3");
             var xElement = converter.Visit(node);
             converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            Assert.AreEqual(xElement.Attribute("kind")?.Value, "NumericLiteralExpression");
 
             var topologicalChildren = xElement.Elements().ToArray();
             Assert.AreEqual(topologicalChildren.Count(), 1);
@@ -322,13 +322,16 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             var node = (CheckedExpressionSyntax)SyntaxFactory.ParseExpression("unchecked(y)");
             var xElement = converter.Visit(node);
             converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            Assert.AreEqual(xElement.Attribute("kind")?.Value, "UncheckedExpression");
 
             var topologicalChildren = xElement.Elements().ToArray();
             Assert.AreEqual(topologicalChildren.Count(), 1);
             Assert.IsTrue(topologicalChildren[0].Name.LocalName == converter.Visit(node.Expression).Name.LocalName);
 
             node = (CheckedExpressionSyntax)SyntaxFactory.ParseExpression("checked(y)");
+            xElement = converter.Visit(node);
+            converter.Prune(xElement, selector.PruneSelector);
+            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
 
             topologicalChildren = xElement.Elements().ToArray();
             Assert.AreEqual(topologicalChildren.Count(), 1);
@@ -503,7 +506,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             var node = ((ObjectCreationExpressionSyntax)SyntaxFactory.ParseExpression("new F { 4, 'r', \"hello world\" }")).Initializer;
             var xElement = converter.Visit(node);
             converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            Assert.AreEqual(xElement.Attribute("kind")?.Value, "CollectionInitializerExpression");
 
             var topologicalChildren = xElement.Elements().ToArray();
             Assert.AreEqual(topologicalChildren.Count(), 1);
@@ -514,7 +517,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             node = ((ArrayCreationExpressionSyntax)SyntaxFactory.ParseExpression("new object[] { 4, 'r', \"hello world\" }")).Initializer;
             xElement = converter.Visit(node);
             converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            Assert.AreEqual(xElement.Attribute("kind")?.Value, "ArrayInitializerExpression");
 
             topologicalChildren = xElement.Elements().ToArray();
             Assert.AreEqual(topologicalChildren.Count(), 1);
@@ -1037,7 +1040,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             var node = ((OrderByClauseSyntax)((QueryExpressionSyntax)SyntaxFactory.ParseExpression("from A f in s orderby f.y descending")).Body.Clauses[0]).Orderings[0];
             var xElement = converter.Visit(node);
             converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            Assert.AreEqual(xElement.Attribute("kind")?.Value, "DescendingOrdering");
 
             var topologicalChildren = xElement.Elements().ToArray();
             Assert.AreEqual(topologicalChildren.Count(), 1);
@@ -1046,7 +1049,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             node = ((OrderByClauseSyntax)((QueryExpressionSyntax)SyntaxFactory.ParseExpression("from A f in s orderby f.y ascending")).Body.Clauses[0]).Orderings[0];
             xElement = converter.Visit(node);
             converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            Assert.AreEqual(xElement.Attribute("kind")?.Value, "AscendingOrdering");
 
             topologicalChildren = xElement.Elements().ToArray();
             Assert.AreEqual(topologicalChildren.Count(), 1);
@@ -1055,7 +1058,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             node = ((OrderByClauseSyntax)((QueryExpressionSyntax)SyntaxFactory.ParseExpression("from A f in s orderby f.y")).Body.Clauses[0]).Orderings[0];
             xElement = converter.Visit(node);
             converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            Assert.AreEqual(xElement.Attribute("kind")?.Value, "AscendingOrdering");
 
             topologicalChildren = xElement.Elements().ToArray();
             Assert.AreEqual(topologicalChildren.Count(), 1);
@@ -1124,7 +1127,8 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
 
             var topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 0);
+            Assert.AreEqual(topologicalChildren.Count(), 1);
+            Assert.IsTrue(topologicalChildren[0].Name.LocalName == converter.Visit(node.Keyword).Name.LocalName);
         }
 
         [TestMethod]
@@ -1436,7 +1440,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             node = (GotoStatementSyntax)SyntaxFactory.ParseStatement("goto case l;");
             xElement = converter.Visit(node);
             converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            Assert.AreEqual(xElement.Attribute("kind")?.Value, "GotoCaseStatement");
 
             topologicalChildren = xElement.Elements().ToArray();
             Assert.AreEqual(topologicalChildren.Count(), 1);
@@ -1445,7 +1449,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             node = (GotoStatementSyntax)SyntaxFactory.ParseStatement("goto default;");
             xElement = converter.Visit(node);
             converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            Assert.AreEqual(xElement.Attribute("kind")?.Value, "GotoDefaultStatement");
 
             topologicalChildren = xElement.Elements().ToArray();
             Assert.AreEqual(topologicalChildren.Count(), 0);
@@ -1522,7 +1526,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             var node = (YieldStatementSyntax)SyntaxFactory.ParseStatement("yield return 5;");
             var xElement = converter.Visit(node);
             converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            Assert.AreEqual(xElement.Attribute("kind")?.Value, "YieldReturnStatement");
 
             var topologicalChildren = xElement.Elements().ToArray();
             Assert.AreEqual(topologicalChildren.Count(), 1);
@@ -1531,7 +1535,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             node = (YieldStatementSyntax)SyntaxFactory.ParseStatement("yield break;");
             xElement = converter.Visit(node);
             converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            Assert.AreEqual(xElement.Attribute("kind")?.Value, "YieldBreakStatement");
 
             topologicalChildren = xElement.Elements().ToArray();
             Assert.AreEqual(topologicalChildren.Count(), 0);
@@ -2684,7 +2688,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             var node = (ClassOrStructConstraintSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a<T> : byte where T : class {};").Members[0]).ConstraintClauses[0].Constraints[0];
             var xElement = converter.Visit(node);
             converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            Assert.AreEqual(xElement.Attribute("kind")?.Value, "ClassConstraint");
 
             var topologicalChildren = xElement.Elements().ToArray();
             Assert.AreEqual(topologicalChildren.Count(), 0);
@@ -2692,7 +2696,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             node = (ClassOrStructConstraintSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a<T> : byte where T : struct {};").Members[0]).ConstraintClauses[0].Constraints[0];
             xElement = converter.Visit(node);
             converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            Assert.AreEqual(xElement.Attribute("kind")?.Value, "StructConstraint");
 
             topologicalChildren = xElement.Elements().ToArray();
             Assert.AreEqual(topologicalChildren.Count(), 0);
@@ -3372,7 +3376,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             var node = ((ConstructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { [Documentation]public A(B b) : this(b) { }; }").Members[0]).Members[0]).Initializer;
             var xElement = converter.Visit(node);
             converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            Assert.AreEqual(xElement.Attribute("kind")?.Value, "ThisConstructorInitializer");
 
             var topologicalChildren = xElement.Elements().ToArray();
             Assert.AreEqual(topologicalChildren.Count(), 1);
@@ -3787,7 +3791,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             var node = ((IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("A C.this[string key] { [Serializable] private get{}; set; }").Members[0]).AccessorList.Accessors[0];
             var xElement = converter.Visit(node);
             converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            Assert.AreEqual(xElement.Attribute("kind")?.Value, "GetAccessorDeclaration");
 
             var topologicalChildren = xElement.Elements().ToArray();
             Assert.AreEqual(topologicalChildren.Count(), 3);
@@ -3798,7 +3802,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             node = ((IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("A C.this[string key] { private get{}; set; }").Members[0]).AccessorList.Accessors[0];
             xElement = converter.Visit(node);
             converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            Assert.AreEqual(xElement.Attribute("kind")?.Value, "GetAccessorDeclaration");
 
             topologicalChildren = xElement.Elements().ToArray();
             Assert.AreEqual(topologicalChildren.Count(), 2);
@@ -3808,7 +3812,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             node = ((IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("A C.this[string key] { [Serializable] get{}; set; }").Members[0]).AccessorList.Accessors[0];
             xElement = converter.Visit(node);
             converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            Assert.AreEqual(xElement.Attribute("kind")?.Value, "GetAccessorDeclaration");
 
             topologicalChildren = xElement.Elements().ToArray();
             Assert.AreEqual(topologicalChildren.Count(), 2);
@@ -3818,7 +3822,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             node = ((IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("A C.this[string key] { [Serializable] private get; set; }").Members[0]).AccessorList.Accessors[0];
             xElement = converter.Visit(node);
             converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            Assert.AreEqual(xElement.Attribute("kind")?.Value, "GetAccessorDeclaration");
 
             topologicalChildren = xElement.Elements().ToArray();
             Assert.AreEqual(topologicalChildren.Count(), 2);
@@ -3828,7 +3832,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             node = ((IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("A C.this[string key] { [Serializable] private get{} set; }").Members[0]).AccessorList.Accessors[0];
             xElement = converter.Visit(node);
             converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            Assert.AreEqual(xElement.Attribute("kind")?.Value, "GetAccessorDeclaration");
 
             topologicalChildren = xElement.Elements().ToArray();
             Assert.AreEqual(topologicalChildren.Count(), 3);
@@ -3839,7 +3843,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             node = ((IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("A C.this[string key] { [Serializable] private set{}; get; }").Members[0]).AccessorList.Accessors[0];
             xElement = converter.Visit(node);
             converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            Assert.AreEqual(xElement.Attribute("kind")?.Value, "SetAccessorDeclaration");
 
             topologicalChildren = xElement.Elements().ToArray();
             Assert.AreEqual(topologicalChildren.Count(), 3);
@@ -3850,7 +3854,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             node = ((IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("A C.this[string key] { private set{}; get; }").Members[0]).AccessorList.Accessors[0];
             xElement = converter.Visit(node);
             converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            Assert.AreEqual(xElement.Attribute("kind")?.Value, "SetAccessorDeclaration");
 
             topologicalChildren = xElement.Elements().ToArray();
             Assert.AreEqual(topologicalChildren.Count(), 2);
@@ -3860,7 +3864,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             node = ((IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("A C.this[string key] { [Serializable] set{}; get; }").Members[0]).AccessorList.Accessors[0];
             xElement = converter.Visit(node);
             converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            Assert.AreEqual(xElement.Attribute("kind")?.Value, "SetAccessorDeclaration");
 
             topologicalChildren = xElement.Elements().ToArray();
             Assert.AreEqual(topologicalChildren.Count(), 2);
@@ -3870,7 +3874,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             node = ((IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("A C.this[string key] { [Serializable] private set; get; }").Members[0]).AccessorList.Accessors[0];
             xElement = converter.Visit(node);
             converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            Assert.AreEqual(xElement.Attribute("kind")?.Value, "SetAccessorDeclaration");
 
             topologicalChildren = xElement.Elements().ToArray();
             Assert.AreEqual(topologicalChildren.Count(), 2);
@@ -3880,7 +3884,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             node = ((IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("A C.this[string key] { [Serializable] private set{} get; }").Members[0]).AccessorList.Accessors[0];
             xElement = converter.Visit(node);
             converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            Assert.AreEqual(xElement.Attribute("kind")?.Value, "SetAccessorDeclaration");
 
             topologicalChildren = xElement.Elements().ToArray();
             Assert.AreEqual(topologicalChildren.Count(), 3);
@@ -3891,7 +3895,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             node = ((EventDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual event A C.M { [Serializable] private add{}; remove; }").Members[0]).AccessorList.Accessors[0];
             xElement = converter.Visit(node);
             converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            Assert.AreEqual(xElement.Attribute("kind")?.Value, "AddAccessorDeclaration");
 
             topologicalChildren = xElement.Elements().ToArray();
             Assert.AreEqual(topologicalChildren.Count(), 3);
@@ -3902,7 +3906,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             node = ((EventDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual event A C.M { private add{}; remove; }").Members[0]).AccessorList.Accessors[0];
             xElement = converter.Visit(node);
             converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            Assert.AreEqual(xElement.Attribute("kind")?.Value, "AddAccessorDeclaration");
 
             topologicalChildren = xElement.Elements().ToArray();
             Assert.AreEqual(topologicalChildren.Count(), 2);
@@ -3912,7 +3916,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             node = ((EventDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual event A C.M { [Serializable] add{}; remove; }").Members[0]).AccessorList.Accessors[0];
             xElement = converter.Visit(node);
             converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            Assert.AreEqual(xElement.Attribute("kind")?.Value, "AddAccessorDeclaration");
 
             topologicalChildren = xElement.Elements().ToArray();
             Assert.AreEqual(topologicalChildren.Count(), 2);
@@ -3922,7 +3926,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             node = ((EventDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual event A C.M { [Serializable] private add; remove; }").Members[0]).AccessorList.Accessors[0];
             xElement = converter.Visit(node);
             converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            Assert.AreEqual(xElement.Attribute("kind")?.Value, "AddAccessorDeclaration");
 
             topologicalChildren = xElement.Elements().ToArray();
             Assert.AreEqual(topologicalChildren.Count(), 2);
@@ -3932,7 +3936,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             node = ((EventDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual event A C.M { [Serializable] private add{} remove; }").Members[0]).AccessorList.Accessors[0];
             xElement = converter.Visit(node);
             converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            Assert.AreEqual(xElement.Attribute("kind")?.Value, "AddAccessorDeclaration");
 
             topologicalChildren = xElement.Elements().ToArray();
             Assert.AreEqual(topologicalChildren.Count(), 3);
@@ -3943,7 +3947,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             node = ((EventDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual event A C.M { [Serializable] private remove{}; add; }").Members[0]).AccessorList.Accessors[0];
             xElement = converter.Visit(node);
             converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            Assert.AreEqual(xElement.Attribute("kind")?.Value, "RemoveAccessorDeclaration");
 
             topologicalChildren = xElement.Elements().ToArray();
             Assert.AreEqual(topologicalChildren.Count(), 3);
@@ -3954,7 +3958,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             node = ((EventDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual event A C.M { private remove{}; add; }").Members[0]).AccessorList.Accessors[0];
             xElement = converter.Visit(node);
             converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            Assert.AreEqual(xElement.Attribute("kind")?.Value, "RemoveAccessorDeclaration");
 
             topologicalChildren = xElement.Elements().ToArray();
             Assert.AreEqual(topologicalChildren.Count(), 2);
@@ -3964,7 +3968,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             node = ((EventDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual event A C.M { [Serializable] remove{}; add; }").Members[0]).AccessorList.Accessors[0];
             xElement = converter.Visit(node);
             converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            Assert.AreEqual(xElement.Attribute("kind")?.Value, "RemoveAccessorDeclaration");
 
             topologicalChildren = xElement.Elements().ToArray();
             Assert.AreEqual(topologicalChildren.Count(), 2);
@@ -3974,7 +3978,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             node = ((EventDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual event A C.M { [Serializable] private remove; add; }").Members[0]).AccessorList.Accessors[0];
             xElement = converter.Visit(node);
             converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            Assert.AreEqual(xElement.Attribute("kind")?.Value, "RemoveAccessorDeclaration");
 
             topologicalChildren = xElement.Elements().ToArray();
             Assert.AreEqual(topologicalChildren.Count(), 2);
@@ -3984,7 +3988,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             node = ((EventDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual event A C.M { [Serializable] private remove{} add; }").Members[0]).AccessorList.Accessors[0];
             xElement = converter.Visit(node);
             converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            Assert.AreEqual(xElement.Attribute("kind")?.Value, "RemoveAccessorDeclaration");
 
             topologicalChildren = xElement.Elements().ToArray();
             Assert.AreEqual(topologicalChildren.Count(), 3);
@@ -3995,7 +3999,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             node = ((IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("A C.this[string key] { [Serializable] private fg{}; get; }").Members[0]).AccessorList.Accessors[0];
             xElement = converter.Visit(node);
             converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            Assert.AreEqual(xElement.Attribute("kind")?.Value, "UnknownAccessorDeclaration");
 
             topologicalChildren = xElement.Elements().ToArray();
             Assert.AreEqual(topologicalChildren.Count(), 4);
@@ -4008,7 +4012,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             node = SyntaxFactory.AccessorDeclaration(SyntaxKind.UnknownAccessorDeclaration, node.AttributeLists, node.Modifiers, SyntaxFactory.Identifier("fg"), node.Body, node.ExpressionBody, node.SemicolonToken);
             xElement = converter.Visit(node);
             converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            Assert.AreEqual(xElement.Attribute("kind")?.Value, "UnknownAccessorDeclaration");
 
             topologicalChildren = xElement.Elements().ToArray();
             Assert.AreEqual(topologicalChildren.Count(), 3);
@@ -4019,7 +4023,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             node = ((IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("A C.this[string key] { [Serializable] fg{}; get; }").Members[0]).AccessorList.Accessors[0];
             xElement = converter.Visit(node);
             converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            Assert.AreEqual(xElement.Attribute("kind")?.Value, "UnknownAccessorDeclaration");
 
             topologicalChildren = xElement.Elements().ToArray();
             Assert.AreEqual(topologicalChildren.Count(), 3);
@@ -4030,7 +4034,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             node = ((IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("A C.this[string key] { [Serializable] private fg; get; }").Members[0]).AccessorList.Accessors[0];
             xElement = converter.Visit(node);
             converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            Assert.AreEqual(xElement.Attribute("kind")?.Value, "UnknownAccessorDeclaration");
 
             topologicalChildren = xElement.Elements().ToArray();
             Assert.AreEqual(topologicalChildren.Count(), 3);
@@ -4041,7 +4045,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             node = ((IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("A C.this[string key] { [Serializable] private fg{} get; }").Members[0]).AccessorList.Accessors[0];
             xElement = converter.Visit(node);
             converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            Assert.AreEqual(xElement.Attribute("kind")?.Value, "UnknownAccessorDeclaration");
 
             topologicalChildren = xElement.Elements().ToArray();
             Assert.AreEqual(topologicalChildren.Count(), 4);
@@ -4167,27 +4171,43 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             var node = (DocumentationCommentTriviaSyntax)SyntaxFactory.ParseSyntaxTree("///<foo />").GetCompilationUnitRoot().EndOfFileToken.LeadingTrivia.Single().GetStructure();
             var xElement = converter.Visit(node);
             converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            Assert.AreEqual(xElement.Attribute("kind")?.Value, "SingleLineDocumentationCommentTrivia");
 
             var topologicalChildren = xElement.Elements().ToArray();
             Assert.AreEqual(topologicalChildren.Count(), 1);
             Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Content[0]).Name.LocalName);
 
-            node = (DocumentationCommentTriviaSyntax)SyntaxFactory.ParseSyntaxTree(@"/// <summary>" + 
-                                                                                    "/// Method hook for implementing logic to execute after the <see cref=\"ChildrenCore(SyntaxNodeOrToken ?)\"/>." + 
-                                                                                    "/// </summary>" + 
-                                                                                    "/// <param name=\"node\">node of interest.</param>" +
+            node = (DocumentationCommentTriviaSyntax)SyntaxFactory.ParseSyntaxTree(@"/// <summary>" + Environment.NewLine +
+                                                                                    "/// Method hook for implementing logic to execute after the <see cref=\"ChildrenCore(SyntaxNodeOrToken ?)\"/>." + Environment.NewLine +
+                                                                                    "/// </summary>" + Environment.NewLine +
+                                                                                    "/// <param name=\"node\">node of interest.</param>" + Environment.NewLine +
                                                                                     "/// <param name=\"result\">Mechanism to modify the result of <see cref=\"Children(SyntaxNodeOrToken?)\"/>.</param>")
                                                                                     .GetCompilationUnitRoot().EndOfFileToken.LeadingTrivia.Single().GetStructure();
             xElement = converter.Visit(node);
             converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            Assert.AreEqual(xElement.Attribute("kind")?.Value, "SingleLineDocumentationCommentTrivia");
 
             topologicalChildren = xElement.Elements().ToArray();
             Assert.AreEqual(topologicalChildren.Count(), 1);
             Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Content[1]).Name.LocalName);
             Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Content[3]).Name.LocalName);
             Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[2].Name.LocalName == converter.Visit(node.Content[5]).Name.LocalName);
+
+            //node = (DocumentationCommentTriviaSyntax)SyntaxFactory.ParseSyntaxTree(@"/** <summary>" + Environment.NewLine +
+            //                                                                        "* Method hook for implementing logic to execute after the <see cref=\"ChildrenCore(SyntaxNodeOrToken ?)\"/>." + Environment.NewLine +
+            //                                                                        "* </summary>" + Environment.NewLine +
+            //                                                                        "* <param name=\"node\">node of interest.</param>" + Environment.NewLine +
+            //                                                                        "*/ <param name=\"result\">Mechanism to modify the result of <see cref=\"Children(SyntaxNodeOrToken?)\"/>.</param>")
+            //                                                                        .GetCompilationUnitRoot().EndOfFileToken.LeadingTrivia.Single().GetStructure();
+            //xElement = converter.Visit(node);
+            //converter.Prune(xElement, selector.PruneSelector);
+            //Assert.AreEqual(xElement.Attribute("kind")?.Value, "MultiLineDocumentationCommentTrivia");
+
+            //topologicalChildren = xElement.Elements().ToArray();
+            //Assert.AreEqual(topologicalChildren.Count(), 1);
+            //Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Content[1]).Name.LocalName);
+            //Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Content[3]).Name.LocalName);
+            //Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[2].Name.LocalName == converter.Visit(node.Content[5]).Name.LocalName);
         }
 
         [TestMethod]
@@ -5715,7 +5735,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
         }
 
         [TestMethod]
-        public void fddf()
+        public void RoslynMLBasicTopologicalAbstractionPlusTrivia_RoslynMLBasicTopologicalAbstractionPlusNoTrivia_OK()
         {
             var d = CSharpParseOptions.Default;
             //d = d.WithDocumentationMode(Microsoft.CodeAnalysis.DocumentationMode.Diagnose);
@@ -5743,9 +5763,9 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
 
             var commentElements = n.DescendantNodesAndSelf().OfType<XElement>().Where(d1 => d1.Name.LocalName == "CommentTrivia").ToArray();
             Assert.AreEqual(commentElements.Count(), 2);
-            Assert.AreEqual(commentElements[0].Parent.Name.LocalName, "Block");
+            Assert.AreEqual(commentElements[0].Parent.Name.LocalName, "List_of_Statement");
             Assert.AreEqual(commentElements[0].Value, "//1111; 2222  ");
-            Assert.AreEqual(commentElements[1].Parent.Name.LocalName, "Block");
+            Assert.AreEqual(commentElements[1].Parent.Name.LocalName, "SeparatedList_of_VariableDeclarator");
             Assert.AreEqual(commentElements[1].Value, "/*1111; 2222*/");
 
             var n1 = new CDF.CSharp.RoslynML.RoslynML().GetTree(content, path: false, includeTrivia: false);
