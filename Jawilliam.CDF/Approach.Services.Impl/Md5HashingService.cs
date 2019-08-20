@@ -37,10 +37,12 @@ namespace Jawilliam.CDF.Approach.Services.Impl
         /// <summary>
         /// Computes the hash of a text.
         /// </summary>
-        /// <param name="text">text to get the hash for.</param>
+        /// <param name="element">node to get the hash for.</param>
+        /// <param name="annotationSet">the corresponding annotation set.</param>
         /// <returns>the corresponding hash.</returns>
-        protected override object ComputeHash(string text)
+        internal override object ComputeLeafHash(TElement element, IAnnotationSetService<TElement, TAnnotation> annotationSet)
         {
+            var text = this.ServiceLocator.TextualAbstraction().FullText(element);
             byte[] data;
             using (var md5 = System.Security.Cryptography.MD5.Create())
             {

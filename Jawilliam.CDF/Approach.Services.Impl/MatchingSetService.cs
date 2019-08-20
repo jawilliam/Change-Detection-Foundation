@@ -1,4 +1,5 @@
 ﻿using Jawilliam.CDF.Approach.Annotations;
+using Jawilliam.CDF.Approach.Criterions;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -11,13 +12,15 @@ namespace Jawilliam.CDF.Approach.Services.Impl
     /// </summary>
     /// <typeparam name="TElement">Type of the supported elements.</typeparam>
     /// <typeparam name="TAnnotation">Type of the information to store for each element.</typeparam>
-    public class MatchingSetService<TElement, TAnnotation> : ServiceWithDependencies, IMatchingSetService<TElement> where TAnnotation : IMatchingAnnotation<TElement>, new()
+    public class MatchingSetService<TElement, TAnnotation> : ServiceWithDependencies<IApproach<TElement>>
+        , IMatchingSetService<TElement> 
+        where TAnnotation : IMatchingAnnotation<TElement>, new()
     {
         /// <summary>
         /// Initializes the instance.
         /// </summary>
         /// <param name="serviceLocator">the mechanism for dynamically loading a typed service.</param>
-        public MatchingSetService(IServiceLocator serviceLocator) : base(serviceLocator)
+        public MatchingSetService(IApproach<TElement> serviceLocator) : base(serviceLocator)
         {
         }
 
@@ -89,23 +92,24 @@ namespace Jawilliam.CDF.Approach.Services.Impl
                 partners.Remove(target);
         }
 
-        /// <summary>
-        /// Notifies that, the two given versions have been definitively matched, which will be stored both in the <see cref="Originals"/> and in the <see cref="Modifieds"/>.
-        /// </summary>
-        /// <param name="original">original element.</param>
-        /// <param name="modified">modified element.</param>
-        public virtual void Partners(TElement original, TElement modified)
-        {
-            var originals = this.ServiceLocator.Originals<TElement, TAnnotation>();
-            var matchInfo = originals.Annotations[original].Candidates.SingleOrDefault(c => object.Equals(c.Original, original) && object.Equals(c.Modified, modified));
-            this.Partners(matchInfo ?? new MatchInfo<TElement>(default(int)) { Original = original, Modified = modified });
-        }
+        ///// <summary>
+        ///// Notifies that, the two given versions have been definitively matched, which will be stored both in the <see cref="Originals"/> and in the <see cref="Modifieds"/>.
+        ///// </summary>
+        ///// <param name="original">original element.</param>
+        ///// <param name="modified">modified element.</param>
+        //public virtual void Partners(TElement original, TElement modified)
+        //{
+        //    var originals = this.ServiceLocator.Originals<TElement, TAnnotation>();
+        //    var matchInfo = originals.Annotations[original].Candidates.SingleOrDefault(c => object.Equals(c.Original, original) && object.Equals(c.Modified, modified));
+        //    this.Partners(matchInfo ?? new MatchInfo<TElement>(default(int)) { Original = original, Modified = modified });
+        //}
 
         /// <summary>
         /// Notifies that, the two given versions have been definitively matched, which will be stored both in the <see cref="Originals"/> and in the <see cref="Modifieds"/>.
         /// </summary>
         /// <param name="matchInfo">the match.</param>
-        public virtual void Partners(MatchInfo<TElement> matchInfo)
+        /// <param name="raiseEvent">Enables (true) or disables (false) the <see cref="PartnersEvent"/> event.</param>
+        public virtual void Partners(MatchInfo<TElement> matchInfo, bool raiseEvent = true)
         {
             // logic for the original's annotations.
             var originals = this.ServiceLocator.Originals<TElement, TAnnotation>();
@@ -133,7 +137,21 @@ namespace Jawilliam.CDF.Approach.Services.Impl
             Debug.Assert(originals.Annotations[matchInfo.Original].Match == modifieds.Annotations[matchInfo.Modified].Match && originals.Annotations[matchInfo.Original].Match != null);
             Debug.Assert(object.Equals(originals.Annotations[matchInfo.Original].Match.Original, matchInfo.Original));
             Debug.Assert(object.Equals(originals.Annotations[matchInfo.Original].Match.Modified, matchInfo.Modified));
+
+            if(raiseEvent)
+                this.PartnersEvent?.Invoke(this.MatchingContext, matchInfo);
         }
+
+        private MatchingContext<TElement> _matchingContext;
+        private MatchingContext<TElement> MatchingContext
+        {
+            get { return this._matchingContext ?? (this._matchingContext = new MatchingContext<TElement>(this.ServiceLocator)); }
+        }
+
+        /// <summary>
+        /// Raises every time two given versions have been definitively matched
+        /// </summary>
+        public virtual event EventHandler<MatchingContext<TElement>, MatchInfo<TElement>> PartnersEvent;
 
         ///// <summary>
         ///// Informs if an original version has not (candidate) matches.

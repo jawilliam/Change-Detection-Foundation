@@ -39,9 +39,9 @@ namespace Jawilliam.CDF.CSharp.Awareness
         protected virtual IEnumerable<SyntaxNodeOrToken?> ChildrenCore(SyntaxNodeOrToken? node)
     	{
     		var n = node != null ? (AttributeArgumentSyntax)node : throw new ArgumentNullException(nameof(node));
-            if(n.NameEquals != null)
+            if(n.NameEquals != null && n.NameEquals.Kind() != SyntaxKind.None)
     			yield return n.NameEquals;
-            if(n.NameColon != null)
+            if(n.NameColon != null && n.NameColon.Kind() != SyntaxKind.None)
     			yield return n.NameColon;
             yield return n.Expression;
     	}
@@ -2316,7 +2316,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			yield return e;
     		if(n.RawKind == (int)SyntaxKind.UnknownAccessorDeclaration)
     			yield return n.Keyword;
-            if(n.Body != null)
+            if(n.Body != null && n.Body.Kind() != SyntaxKind.None)
     			yield return n.Body;
     	}
     
@@ -2547,10 +2547,10 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			yield return e;
             foreach (var e in n.Modifiers)
     			yield return e;
-            if(n.Type != null)
+            if(n.Type != null && n.Type.Kind() != SyntaxKind.None)
     			yield return n.Type;
             yield return n.Identifier;
-            if(n.Default != null)
+            if(n.Default != null && n.Default.Kind() != SyntaxKind.None)
     			yield return n.Default;
     	}
     
@@ -3457,7 +3457,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         protected virtual IEnumerable<SyntaxNodeOrToken?> ChildrenCore(SyntaxNodeOrToken? node)
     	{
     		var n = node != null ? (XmlNameSyntax)node : throw new ArgumentNullException(nameof(node));
-            if(n.Prefix != null)
+            if(n.Prefix != null && n.Prefix.Kind() != SyntaxKind.None)
     			yield return n.Prefix;
             yield return n.LocalName;
     	}
@@ -4366,7 +4366,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     	{
     		var n = node != null ? (TupleElementSyntax)node : throw new ArgumentNullException(nameof(node));
             yield return n.Type;
-            if(n.Identifier != null && n.Identifier.ValueText != null)
+            if(n.Identifier != null && n.Identifier.Kind() != SyntaxKind.None && n.Identifier.ValueText != null)
     			yield return n.Identifier;
     	}
     
@@ -4593,7 +4593,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         protected virtual IEnumerable<SyntaxNodeOrToken?> ChildrenCore(SyntaxNodeOrToken? node)
     	{
     		var n = node != null ? (ArgumentSyntax)node : throw new ArgumentNullException(nameof(node));
-            if(n.NameColon != null)
+            if(n.NameColon != null && n.NameColon.Kind() != SyntaxKind.None)
     			yield return n.NameColon;
             yield return n.Expression;
     	}
@@ -5047,7 +5047,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         protected virtual IEnumerable<SyntaxNodeOrToken?> ChildrenCore(SyntaxNodeOrToken? node)
     	{
     		var n = node != null ? (AnonymousObjectMemberDeclaratorSyntax)node : throw new ArgumentNullException(nameof(node));
-            if(n.NameEquals != null)
+            if(n.NameEquals != null && n.NameEquals.Kind() != SyntaxKind.None)
     			yield return n.NameEquals;
             yield return n.Expression;
     	}
@@ -5278,7 +5278,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
             foreach (var e in n.Clauses)
     			yield return e;
             yield return n.SelectOrGroup;
-            if(n.Continuation != null)
+            if(n.Continuation != null && n.Continuation.Kind() != SyntaxKind.None)
     			yield return n.Continuation;
     	}
     
@@ -7091,9 +7091,9 @@ namespace Jawilliam.CDF.CSharp.Awareness
     	{
     		var n = node != null ? (VariableDeclaratorSyntax)node : throw new ArgumentNullException(nameof(node));
             yield return n.Identifier;
-            if(n.ArgumentList != null)
+            if(n.ArgumentList != null && n.ArgumentList.Kind() != SyntaxKind.None)
     			yield return n.ArgumentList;
-            if(n.Initializer != null)
+            if(n.Initializer != null && n.Initializer.Kind() != SyntaxKind.None)
     			yield return n.Initializer;
     	}
     
@@ -8001,9 +8001,9 @@ namespace Jawilliam.CDF.CSharp.Awareness
         protected virtual IEnumerable<SyntaxNodeOrToken?> ChildrenCore(SyntaxNodeOrToken? node)
     	{
     		var n = node != null ? (CatchClauseSyntax)node : throw new ArgumentNullException(nameof(node));
-            if(n.Declaration != null)
+            if(n.Declaration != null && n.Declaration.Kind() != SyntaxKind.None)
     			yield return n.Declaration;
-            if(n.Filter != null)
+            if(n.Filter != null && n.Filter.Kind() != SyntaxKind.None)
     			yield return n.Filter;
             yield return n.Block;
     	}
@@ -8232,7 +8232,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     	{
     		var n = node != null ? (CatchDeclarationSyntax)node : throw new ArgumentNullException(nameof(node));
             yield return n.Type;
-            if(n.Identifier != null && n.Identifier.RawKind != (int)SyntaxKind.None)
+            if(n.Identifier != null && n.Identifier.Kind() != SyntaxKind.None && n.Identifier.RawKind != (int)SyntaxKind.None)
     			yield return n.Identifier;
     	}
     
@@ -9370,7 +9370,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         protected virtual IEnumerable<SyntaxNodeOrToken?> ChildrenCore(SyntaxNodeOrToken? node)
     	{
     		var n = node != null ? (UsingDirectiveSyntax)node : throw new ArgumentNullException(nameof(node));
-            if(n.Alias != null)
+            if(n.Alias != null && n.Alias.Kind() != SyntaxKind.None)
     			yield return n.Alias;
             yield return n.Name;
     	}
@@ -9598,7 +9598,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         protected virtual IEnumerable<SyntaxNodeOrToken?> ChildrenCore(SyntaxNodeOrToken? node)
     	{
     		var n = node != null ? (AttributeListSyntax)node : throw new ArgumentNullException(nameof(node));
-            if(n.Target != null)
+            if(n.Target != null && n.Target.Kind() != SyntaxKind.None)
     			yield return n.Target;
             foreach (var e in n.Attributes)
     			yield return e;
@@ -10054,7 +10054,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     	{
     		var n = node != null ? (AttributeSyntax)node : throw new ArgumentNullException(nameof(node));
             yield return n.Name;
-            if(n.ArgumentList != null)
+            if(n.ArgumentList != null && n.ArgumentList.Kind() != SyntaxKind.None)
     			yield return n.ArgumentList;
     	}
     
@@ -10514,7 +10514,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			yield return e;
             yield return n.ReturnType;
             yield return n.Identifier;
-            if(n.TypeParameterList != null)
+            if(n.TypeParameterList != null && n.TypeParameterList.Kind() != SyntaxKind.None)
     			yield return n.TypeParameterList;
             yield return n.ParameterList;
             foreach (var e in n.ConstraintClauses)
@@ -10747,7 +10747,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
             foreach (var e in n.AttributeLists)
     			yield return e;
             yield return n.Identifier;
-            if(n.EqualsValue != null)
+            if(n.EqualsValue != null && n.EqualsValue.Kind() != SyntaxKind.None)
     			yield return n.EqualsValue;
     	}
     
@@ -10978,7 +10978,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			yield return e;
             foreach (var e in n.Modifiers)
     			yield return e;
-            if(n.Type != null)
+            if(n.Type != null && n.Type.Kind() != SyntaxKind.None)
     			yield return n.Type;
     	}
     
@@ -11668,7 +11668,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
             foreach (var e in n.Modifiers)
     			yield return e;
             yield return n.Identifier;
-            if(n.BaseList != null)
+            if(n.BaseList != null && n.BaseList.Kind() != SyntaxKind.None)
     			yield return n.BaseList;
             foreach (var e in n.Members)
     			yield return e;
@@ -11902,9 +11902,9 @@ namespace Jawilliam.CDF.CSharp.Awareness
             foreach (var e in n.Modifiers)
     			yield return e;
             yield return n.Identifier;
-            if(n.TypeParameterList != null)
+            if(n.TypeParameterList != null && n.TypeParameterList.Kind() != SyntaxKind.None)
     			yield return n.TypeParameterList;
-            if(n.BaseList != null)
+            if(n.BaseList != null && n.BaseList.Kind() != SyntaxKind.None)
     			yield return n.BaseList;
             foreach (var e in n.ConstraintClauses)
     			yield return e;
@@ -12140,9 +12140,9 @@ namespace Jawilliam.CDF.CSharp.Awareness
             foreach (var e in n.Modifiers)
     			yield return e;
             yield return n.Identifier;
-            if(n.TypeParameterList != null)
+            if(n.TypeParameterList != null && n.TypeParameterList.Kind() != SyntaxKind.None)
     			yield return n.TypeParameterList;
-            if(n.BaseList != null)
+            if(n.BaseList != null && n.BaseList.Kind() != SyntaxKind.None)
     			yield return n.BaseList;
             foreach (var e in n.ConstraintClauses)
     			yield return e;
@@ -12378,9 +12378,9 @@ namespace Jawilliam.CDF.CSharp.Awareness
             foreach (var e in n.Modifiers)
     			yield return e;
             yield return n.Identifier;
-            if(n.TypeParameterList != null)
+            if(n.TypeParameterList != null && n.TypeParameterList.Kind() != SyntaxKind.None)
     			yield return n.TypeParameterList;
-            if(n.BaseList != null)
+            if(n.BaseList != null && n.BaseList.Kind() != SyntaxKind.None)
     			yield return n.BaseList;
             foreach (var e in n.ConstraintClauses)
     			yield return e;
@@ -13076,17 +13076,17 @@ namespace Jawilliam.CDF.CSharp.Awareness
             foreach (var e in n.Modifiers)
     			yield return e;
             yield return n.ReturnType;
-            if(n.ExplicitInterfaceSpecifier != null)
+            if(n.ExplicitInterfaceSpecifier != null && n.ExplicitInterfaceSpecifier.Kind() != SyntaxKind.None)
     			yield return n.ExplicitInterfaceSpecifier;
             yield return n.Identifier;
-            if(n.TypeParameterList != null)
+            if(n.TypeParameterList != null && n.TypeParameterList.Kind() != SyntaxKind.None)
     			yield return n.TypeParameterList;
             yield return n.ParameterList;
             foreach (var e in n.ConstraintClauses)
     			yield return e;
-            if(n.Body != null)
+            if(n.Body != null && n.Body.Kind() != SyntaxKind.None)
     			yield return n.Body;
-            if(n.ExpressionBody != null)
+            if(n.ExpressionBody != null && n.ExpressionBody.Kind() != SyntaxKind.None)
     			yield return n.ExpressionBody;
     	}
     
@@ -13320,9 +13320,9 @@ namespace Jawilliam.CDF.CSharp.Awareness
             yield return n.ReturnType;
             yield return n.OperatorToken;
             yield return n.ParameterList;
-            if(n.Body != null)
+            if(n.Body != null && n.Body.Kind() != SyntaxKind.None)
     			yield return n.Body;
-            if(n.ExpressionBody != null)
+            if(n.ExpressionBody != null && n.ExpressionBody.Kind() != SyntaxKind.None)
     			yield return n.ExpressionBody;
     	}
     
@@ -13555,9 +13555,9 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			yield return e;
             yield return n.Type;
             yield return n.ParameterList;
-            if(n.Body != null)
+            if(n.Body != null && n.Body.Kind() != SyntaxKind.None)
     			yield return n.Body;
-            if(n.ExpressionBody != null)
+            if(n.ExpressionBody != null && n.ExpressionBody.Kind() != SyntaxKind.None)
     			yield return n.ExpressionBody;
     	}
     
@@ -13790,9 +13790,9 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			yield return e;
             yield return n.Identifier;
             yield return n.ParameterList;
-            if(n.Initializer != null)
+            if(n.Initializer != null && n.Initializer.Kind() != SyntaxKind.None)
     			yield return n.Initializer;
-            if(n.Body != null)
+            if(n.Body != null && n.Body.Kind() != SyntaxKind.None)
     			yield return n.Body;
     	}
     
@@ -14025,7 +14025,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			yield return e;
             yield return n.Identifier;
             yield return n.ParameterList;
-            if(n.Body != null)
+            if(n.Body != null && n.Body.Kind() != SyntaxKind.None)
     			yield return n.Body;
     	}
     
@@ -14257,14 +14257,14 @@ namespace Jawilliam.CDF.CSharp.Awareness
             foreach (var e in n.Modifiers)
     			yield return e;
             yield return n.Type;
-            if(n.ExplicitInterfaceSpecifier != null)
+            if(n.ExplicitInterfaceSpecifier != null && n.ExplicitInterfaceSpecifier.Kind() != SyntaxKind.None)
     			yield return n.ExplicitInterfaceSpecifier;
             yield return n.Identifier;
-            if(n.AccessorList != null)
+            if(n.AccessorList != null && n.AccessorList.Kind() != SyntaxKind.None)
     			yield return n.AccessorList;
-            if(n.ExpressionBody != null)
+            if(n.ExpressionBody != null && n.ExpressionBody.Kind() != SyntaxKind.None)
     			yield return n.ExpressionBody;
-            if(n.Initializer != null)
+            if(n.Initializer != null && n.Initializer.Kind() != SyntaxKind.None)
     			yield return n.Initializer;
     	}
     
@@ -14496,7 +14496,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
             foreach (var e in n.Modifiers)
     			yield return e;
             yield return n.Type;
-            if(n.ExplicitInterfaceSpecifier != null)
+            if(n.ExplicitInterfaceSpecifier != null && n.ExplicitInterfaceSpecifier.Kind() != SyntaxKind.None)
     			yield return n.ExplicitInterfaceSpecifier;
             yield return n.Identifier;
             yield return n.AccessorList;
@@ -14730,12 +14730,12 @@ namespace Jawilliam.CDF.CSharp.Awareness
             foreach (var e in n.Modifiers)
     			yield return e;
             yield return n.Type;
-            if(n.ExplicitInterfaceSpecifier != null)
+            if(n.ExplicitInterfaceSpecifier != null && n.ExplicitInterfaceSpecifier.Kind() != SyntaxKind.None)
     			yield return n.ExplicitInterfaceSpecifier;
             yield return n.ParameterList;
-            if(n.AccessorList != null)
+            if(n.AccessorList != null && n.AccessorList.Kind() != SyntaxKind.None)
     			yield return n.AccessorList;
-            if(n.ExpressionBody != null)
+            if(n.ExpressionBody != null && n.ExpressionBody.Kind() != SyntaxKind.None)
     			yield return n.ExpressionBody;
     	}
     
@@ -18583,7 +18583,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     	{
     		var n = node != null ? (LineDirectiveTriviaSyntax)node : throw new ArgumentNullException(nameof(node));
             yield return n.Line;
-            if(n.File != null)
+            if(n.File != null && n.File.Kind() != SyntaxKind.None)
     			yield return n.File;
     	}
     
@@ -21076,7 +21076,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     	{
     		var n = node != null ? (NameMemberCrefSyntax)node : throw new ArgumentNullException(nameof(node));
             yield return n.Name;
-            if(n.Parameters != null)
+            if(n.Parameters != null && n.Parameters.Kind() != SyntaxKind.None)
     			yield return n.Parameters;
     	}
     
@@ -21303,7 +21303,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         protected virtual IEnumerable<SyntaxNodeOrToken?> ChildrenCore(SyntaxNodeOrToken? node)
     	{
     		var n = node != null ? (IndexerMemberCrefSyntax)node : throw new ArgumentNullException(nameof(node));
-            if(n.Parameters != null)
+            if(n.Parameters != null && n.Parameters.Kind() != SyntaxKind.None)
     			yield return n.Parameters;
     	}
     
@@ -21531,7 +21531,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     	{
     		var n = node != null ? (OperatorMemberCrefSyntax)node : throw new ArgumentNullException(nameof(node));
             yield return n.OperatorToken;
-            if(n.Parameters != null)
+            if(n.Parameters != null && n.Parameters.Kind() != SyntaxKind.None)
     			yield return n.Parameters;
     	}
     
@@ -21759,7 +21759,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     	{
     		var n = node != null ? (ConversionOperatorMemberCrefSyntax)node : throw new ArgumentNullException(nameof(node));
             yield return n.Type;
-            if(n.Parameters != null)
+            if(n.Parameters != null && n.Parameters.Kind() != SyntaxKind.None)
     			yield return n.Parameters;
     	}
     
@@ -30602,9 +30602,9 @@ namespace Jawilliam.CDF.CSharp.Awareness
     	{
     		var n = node != null ? (ObjectCreationExpressionSyntax)node : throw new ArgumentNullException(nameof(node));
             yield return n.Type;
-            if(n.ArgumentList != null)
+            if(n.ArgumentList != null && n.ArgumentList.Kind() != SyntaxKind.None)
     			yield return n.ArgumentList;
-            if(n.Initializer != null)
+            if(n.Initializer != null && n.Initializer.Kind() != SyntaxKind.None)
     			yield return n.Initializer;
     	}
     
@@ -31059,7 +31059,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     	{
     		var n = node != null ? (ArrayCreationExpressionSyntax)node : throw new ArgumentNullException(nameof(node));
             yield return n.Type;
-            if(n.Initializer != null)
+            if(n.Initializer != null && n.Initializer.Kind() != SyntaxKind.None)
     			yield return n.Initializer;
     	}
     
@@ -35817,7 +35817,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         protected virtual IEnumerable<SyntaxNodeOrToken?> ChildrenCore(SyntaxNodeOrToken? node)
     	{
     		var n = node != null ? (AnonymousMethodExpressionSyntax)node : throw new ArgumentNullException(nameof(node));
-            if(n.ParameterList != null)
+            if(n.ParameterList != null && n.ParameterList.Kind() != SyntaxKind.None)
     			yield return n.ParameterList;
             yield return n.Body;
     	}
@@ -36953,7 +36953,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         protected virtual IEnumerable<SyntaxNodeOrToken?> ChildrenCore(SyntaxNodeOrToken? node)
     	{
     		var n = node != null ? (FromClauseSyntax)node : throw new ArgumentNullException(nameof(node));
-            if(n.Type != null)
+            if(n.Type != null && n.Type.Kind() != SyntaxKind.None)
     			yield return n.Type;
             yield return n.Identifier;
             yield return n.Expression;
@@ -37409,13 +37409,13 @@ namespace Jawilliam.CDF.CSharp.Awareness
         protected virtual IEnumerable<SyntaxNodeOrToken?> ChildrenCore(SyntaxNodeOrToken? node)
     	{
     		var n = node != null ? (JoinClauseSyntax)node : throw new ArgumentNullException(nameof(node));
-            if(n.Type != null)
+            if(n.Type != null && n.Type.Kind() != SyntaxKind.None)
     			yield return n.Type;
             yield return n.Identifier;
             yield return n.InExpression;
             yield return n.LeftExpression;
             yield return n.RightExpression;
-            if(n.Into != null)
+            if(n.Into != null && n.Into.Kind() != SyntaxKind.None)
     			yield return n.Into;
     	}
     
@@ -39228,9 +39228,9 @@ namespace Jawilliam.CDF.CSharp.Awareness
     	{
     		var n = node != null ? (InterpolationSyntax)node : throw new ArgumentNullException(nameof(node));
             yield return n.Expression;
-            if(n.AlignmentClause != null)
+            if(n.AlignmentClause != null && n.AlignmentClause.Kind() != SyntaxKind.None)
     			yield return n.AlignmentClause;
-            if(n.FormatClause != null)
+            if(n.FormatClause != null && n.FormatClause.Kind() != SyntaxKind.None)
     			yield return n.FormatClause;
     	}
     
@@ -39688,14 +39688,14 @@ namespace Jawilliam.CDF.CSharp.Awareness
     			yield return e;
             yield return n.ReturnType;
             yield return n.Identifier;
-            if(n.TypeParameterList != null)
+            if(n.TypeParameterList != null && n.TypeParameterList.Kind() != SyntaxKind.None)
     			yield return n.TypeParameterList;
             yield return n.ParameterList;
             foreach (var e in n.ConstraintClauses)
     			yield return e;
-            if(n.Body != null)
+            if(n.Body != null && n.Body.Kind() != SyntaxKind.None)
     			yield return n.Body;
-            if(n.ExpressionBody != null)
+            if(n.ExpressionBody != null && n.ExpressionBody.Kind() != SyntaxKind.None)
     			yield return n.ExpressionBody;
     	}
     
@@ -40829,7 +40829,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         protected virtual IEnumerable<SyntaxNodeOrToken?> ChildrenCore(SyntaxNodeOrToken? node)
     	{
     		var n = node != null ? (GotoStatementSyntax)node : throw new ArgumentNullException(nameof(node));
-            if(n.Expression != null)
+            if(n.Expression != null && n.Expression.Kind() != SyntaxKind.None)
     			yield return n.Expression;
     	}
     
@@ -41508,7 +41508,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         protected virtual IEnumerable<SyntaxNodeOrToken?> ChildrenCore(SyntaxNodeOrToken? node)
     	{
     		var n = node != null ? (ReturnStatementSyntax)node : throw new ArgumentNullException(nameof(node));
-            if(n.Expression != null)
+            if(n.Expression != null && n.Expression.Kind() != SyntaxKind.None)
     			yield return n.Expression;
     	}
     
@@ -41735,7 +41735,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         protected virtual IEnumerable<SyntaxNodeOrToken?> ChildrenCore(SyntaxNodeOrToken? node)
     	{
     		var n = node != null ? (ThrowStatementSyntax)node : throw new ArgumentNullException(nameof(node));
-            if(n.Expression != null)
+            if(n.Expression != null && n.Expression.Kind() != SyntaxKind.None)
     			yield return n.Expression;
     	}
     
@@ -41962,7 +41962,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
         protected virtual IEnumerable<SyntaxNodeOrToken?> ChildrenCore(SyntaxNodeOrToken? node)
     	{
     		var n = node != null ? (YieldStatementSyntax)node : throw new ArgumentNullException(nameof(node));
-            if(n.Expression != null)
+            if(n.Expression != null && n.Expression.Kind() != SyntaxKind.None)
     			yield return n.Expression;
     	}
     
@@ -42643,11 +42643,11 @@ namespace Jawilliam.CDF.CSharp.Awareness
         protected virtual IEnumerable<SyntaxNodeOrToken?> ChildrenCore(SyntaxNodeOrToken? node)
     	{
     		var n = node != null ? (ForStatementSyntax)node : throw new ArgumentNullException(nameof(node));
-            if(n.Declaration != null)
+            if(n.Declaration != null && n.Declaration.Kind() != SyntaxKind.None)
     			yield return n.Declaration;
             foreach (var e in n.Initializers)
     			yield return e;
-            if(n.Condition != null)
+            if(n.Condition != null && n.Condition.Kind() != SyntaxKind.None)
     			yield return n.Condition;
             foreach (var e in n.Incrementors)
     			yield return e;
@@ -42877,9 +42877,9 @@ namespace Jawilliam.CDF.CSharp.Awareness
         protected virtual IEnumerable<SyntaxNodeOrToken?> ChildrenCore(SyntaxNodeOrToken? node)
     	{
     		var n = node != null ? (UsingStatementSyntax)node : throw new ArgumentNullException(nameof(node));
-            if(n.Declaration != null)
+            if(n.Declaration != null && n.Declaration.Kind() != SyntaxKind.None)
     			yield return n.Declaration;
-            if(n.Expression != null)
+            if(n.Expression != null && n.Expression.Kind() != SyntaxKind.None)
     			yield return n.Expression;
             yield return n.Statement;
     	}
@@ -44015,7 +44015,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     		var n = node != null ? (IfStatementSyntax)node : throw new ArgumentNullException(nameof(node));
             yield return n.Condition;
             yield return n.Statement;
-            if(n.Else != null)
+            if(n.Else != null && n.Else.Kind() != SyntaxKind.None)
     			yield return n.Else;
     	}
     
@@ -44473,7 +44473,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
             yield return n.Block;
             foreach (var e in n.Catches)
     			yield return e;
-            if(n.Finally != null)
+            if(n.Finally != null && n.Finally.Kind() != SyntaxKind.None)
     			yield return n.Finally;
     	}
     
@@ -45837,7 +45837,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
     	{
     		var n = node != null ? (CasePatternSwitchLabelSyntax)node : throw new ArgumentNullException(nameof(node));
             yield return n.Pattern;
-            if(n.WhenClause != null)
+            if(n.WhenClause != null && n.WhenClause.Kind() != SyntaxKind.None)
     			yield return n.WhenClause;
     	}
     

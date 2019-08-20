@@ -125,6 +125,7 @@
     <Compile Include="Approach.Criterions.Simetric\VectorSimetric.cs" />
     <Compile Include="Approach.Criterions\MatchingContext.cs" />
     <Compile Include="Approach.Impl\MyersLCS.cs" />
+    <Compile Include="Approach.Services.Impl.Aware\HashingService.cs" />
     <Compile Include="Approach.Services.Impl\EditScriptService.cs" />
     <Compile Include="Approach.Services.Impl\HashingService.cs" />
     <Compile Include="Approach.Services.Impl\McesHierarchicalSyntaxNodeService.cs" />
@@ -189,6 +190,7 @@
     <Compile Include="ElementTree.cs" />
     <Compile Include="Evaluation\MatchingSetRedundancyFinder.cs" />
     <Compile Include="Evaluation\RedundancyPattern.cs" />
+    <Compile Include="EventHandler.cs" />
     <Compile Include="GTED\IForest.cs" />
     <Compile Include="GTED\INode.cs" />
     <Compile Include="GTED\ITree.cs" />

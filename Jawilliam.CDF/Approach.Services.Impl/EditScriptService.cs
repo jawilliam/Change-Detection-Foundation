@@ -25,7 +25,7 @@ namespace Jawilliam.CDF.Approach.Services.Impl
         /// </summary>
         public virtual void Begin()
         {
-            var hierachicalAbstraction = this.ServiceLocator.HierarchicalAbstraction();
+            var hierachicalAbstraction = this.ServiceLocator.HierarchicalAbstraction(full: true);
             foreach (var original in this.ServiceLocator.Result.Original.PostOrder(hierachicalAbstraction.Children))
             {
                 var oAnnotation = this.ServiceLocator.Original<TElement, TAnnotation>(original);
@@ -52,7 +52,7 @@ namespace Jawilliam.CDF.Approach.Services.Impl
         /// </summary>
         public virtual void End()
         {
-            var hierachicalAbstraction = this.ServiceLocator.HierarchicalAbstraction();
+            var hierachicalAbstraction = this.ServiceLocator.HierarchicalAbstraction(full: true);
             foreach (var original in this.ServiceLocator.Result.Original.PostOrder(hierachicalAbstraction.Children))
             {
                 var oAnnotation = this.ServiceLocator.Original<TElement, TAnnotation>(original);
@@ -101,7 +101,11 @@ namespace Jawilliam.CDF.Approach.Services.Impl
             var oAnnotation = this.ServiceLocator.Original<TElement, TAnnotation>(modified);
             oAnnotation.Id = mAnnotation.Id;
 
-            this.ServiceLocator.MatchingSet().Partners(new MatchInfo<TElement>((int)MatchInfoCriterions.Insert) { Original = modified, Modified = modified });
+            this.ServiceLocator.MatchingSet().Partners(new MatchInfo<TElement>((int)MatchInfoCriterions.Insert)
+            {
+                Original = modified,
+                Modified = modified
+            }, raiseEvent: false);
             pAnnotation.Children.Insert(position, modified);
             oAnnotation.Parent = parent;
 

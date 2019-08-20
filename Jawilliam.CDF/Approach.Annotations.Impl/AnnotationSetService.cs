@@ -39,11 +39,17 @@ namespace Jawilliam.CDF.Approach.Annotations.Impl
         }
 
         /// <summary>
+        /// Gets or sets whether the annotations will be automatically clear, or not.
+        /// </summary>
+        public virtual bool KeepAnnotations { get; set; } = false;
+
+        /// <summary>
         /// Finalizes the current service after completing the detection of changes in a revision pair.
         /// </summary>
         public virtual void EndDetection()
         {
-            this.Annotations.Clear();
+            if(!this.KeepAnnotations)
+                this.Annotations.Clear();
         }
     }
 }

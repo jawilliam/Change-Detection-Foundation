@@ -39,7 +39,7 @@ namespace Jawilliam.CDF.Approach.Services.Impl
         /// <returns>a numeric identifier of the node type.</returns>
         public virtual int Label(TNode node)
         {
-            return this.ServiceLocator.HierarchicalAbstraction().Label(node);
+            return this.ServiceLocator.HierarchicalAbstraction(full: true).Label(node);
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace Jawilliam.CDF.Approach.Services.Impl
         /// <returns>the value of the given node.</returns>
         public virtual object Value(TNode node)
         {
-            return this.ServiceLocator.HierarchicalAbstraction().Value(node);
+            return this.ServiceLocator.HierarchicalAbstraction(full: true).Value(node);
         }
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace Jawilliam.CDF.Approach.Services.Impl
         /// <returns>true if the given node is a leaf, false othwerwise.</returns>
         public virtual bool IsLeaf(TNode node)
         {
-            return this.ServiceLocator.HierarchicalAbstraction().IsLeaf(node);
+            return this.ServiceLocator.HierarchicalAbstraction(full: true).IsLeaf(node);
         }
 
         /// <summary>

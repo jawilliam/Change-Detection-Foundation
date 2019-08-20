@@ -183,6 +183,8 @@
     <Compile Include="CSharp\CSharpFladTests.cs" />
     <Compile Include="CSharp\MatchingProvider.cs" />
     <Compile Include="CSharp\RDSLTests.cs" />
+    <Compile Include="Flad.Awareness\PairwiseTunnelingTests.cs" />
+    <Compile Include="Flad.Awareness\HashingTests.cs" />
     <Compile Include="Flad.Awareness\SignatureEqualityServicesTests.cs" />
     <Compile Include="Flad.Awareness\NameEqualityServicesTests.cs" />
     <Compile Include="CSharp\RoslynMLTests.CSharp7x.cs" />

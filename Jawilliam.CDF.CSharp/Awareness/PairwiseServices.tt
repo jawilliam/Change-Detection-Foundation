@@ -90,6 +90,33 @@ using Jawilliam.CDF.Approach.Criterions;
 <#
 BeginNamespace(namespaceName, code);
 
+#>
+partial class LanguageServiceProvider
+{
+	/// <summary>
+    /// Handles the occurrence of two given versions that have been definitively matched.
+    /// </summary>
+    /// <param name="sender">The approach within which the event was generated.</param>
+    /// <param name="matchInfo">The definitive match.</param>
+    /// <remarks>This is the default implementation for <see cref="PartnersEventHandler(IApproach{SyntaxNodeOrToken?}, MatchInfo{SyntaxNodeOrToken?})"/>.</remarks>
+    public virtual void PartnersEventHandler(MatchingContext<SyntaxNodeOrToken?> context, MatchInfo<SyntaxNodeOrToken?> matchInfo)
+	{
+		if (matchInfo.Original == null || matchInfo.Modified == null)
+			throw new ArgumentNullException("Original and Modified are expected to be non-null");
+
+    	if (this.GetElementTypeServiceProvider(matchInfo.Original.Value.Kind()) is IPairwisable<SyntaxNodeOrToken?, SyntaxNodeOrToken?, SyntaxNodeOrToken?> elementTypeServiceProvider)
+    	{
+    	   var matchingSet = context.Approach.MatchingSet();
+           foreach (var pairwiseMatch in elementTypeServiceProvider.Partners(context, matchInfo.Original, matchInfo.Modified))
+           {
+                matchingSet.PartnersIfAvailable(pairwiseMatch);
+           }
+    	}
+	}  
+}
+
+<#
+
 var tunnelingProviders = xSyntaxTypeSystem.Nodes.Type.Where(t => !t.@abstract && t.Properties.Property.Any(p => p.Rules?.Pairwise?.tunneling ?? false)).ToList();
 
 foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
@@ -133,39 +160,40 @@ foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
 	if(xSyntaxNodeType != null)
 	{
 #>
-partial class <#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>ServiceProvider
+partial class <#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>ServiceProvider 
+: IPairwisable<SyntaxNodeOrToken?, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>>,
+  IPairwisable<SyntaxNodeOrToken?, SyntaxNodeOrToken?, SyntaxNodeOrToken?>
 {
 	/// <summary>
-    /// Method hook for implementing logic to execute before the <see cref="PairwisePartners(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>, MatchingContext{SyntaxNodeOrToken?})"/>.
+    /// Method hook for implementing logic to execute before the <see cref="Partners(MatchingContext{SyntaxNodeOrToken?}, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>)"/>.
     /// </summary>
     /// <param name="original">the original version.</param>
     /// <param name="modified">the modified version.</param>
-    /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+    /// <param name="context">the context wherein the matching criterion is currently running.</param>
     /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-    /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-    /// <param name="ignoreCore">If true, the <see cref="PairwisePartnersCore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>, MatchingContext{SyntaxNodeOrToken?})"/> is not executed and <see cref="PairwisePartners(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>, MatchingContext{SyntaxNodeOrToken?})"/> returns the current value of <paramref name="result"/>.</param>
-    partial void PairwisePartnersBefore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= code.Escape(syntaxNode.Root.Label.ToString()) #> modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
+    /// <param name="result">Mechanism to modify the result of <see cref="Partners(MatchingContext{SyntaxNodeOrToken?}, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>)"/>.</param>
+    /// <param name="ignoreCore">If true, the <see cref="PartnersCore(MatchingContext{SyntaxNodeOrToken?}, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>)"/> is not executed and <see cref="Partners(MatchingContext{SyntaxNodeOrToken?}, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>)"/> returns the current value of <paramref name="result"/>.</param>
+    partial void PartnersBefore(MatchingContext<SyntaxNodeOrToken?> context, <#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= code.Escape(syntaxNode.Root.Label.ToString()) #> modified, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
     
     /// <summary>
-    /// Method hook for implementing logic to execute after the <see cref="PairwisePartnersCore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>, MatchingContext{SyntaxNodeOrToken?})"/>.
+    /// Method hook for implementing logic to execute after the <see cref="PartnersCore(MatchingContext{SyntaxNodeOrToken?}, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>)"/>.
     /// </summary>
     /// <param name="original">the original version.</param>
     /// <param name="modified">the modified version.</param>
-    /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+    /// <param name="context">the context wherein the matching criterion is currently running.</param>
     /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-    /// <param name="result">Mechanism to modify the result of <see cref="PairwisePartners(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>, MatchingContext{SyntaxNodeOrToken?})"/>.</param>
-    partial void PairwisePartnersAfter(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= code.Escape(syntaxNode.Root.Label.ToString()) #> modified, MatchingContext<SyntaxNodeOrToken?> context, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
+    /// <param name="result">Mechanism to modify the result of <see cref="Partners(MatchingContext{SyntaxNodeOrToken?}, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>)"/>.</param>
+    partial void PartnersAfter(MatchingContext<SyntaxNodeOrToken?> context, <#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= code.Escape(syntaxNode.Root.Label.ToString()) #> modified, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
 
     /// <summary>
     /// Determines if two <see cref="<#= code.Escape(syntaxNode.Root.Label.ToString()) #>"/> elements are name-based exactly equal.
     /// </summary>
     /// <param name="original">the original version.</param>
     /// <param name="modified">the modified version.</param>
-    /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+    /// <param name="context">the context wherein the matching criterion is currently running.</param>
     /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-    /// <returns>true if they are exactly equal, otherwise returns false.</returns>
-    /// <remarks>This is the default implementation for <see cref="PairwisePartners(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>, MatchingContext{SyntaxNodeOrToken?})"/>.</remarks>
-    protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartnersCore(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= code.Escape(syntaxNode.Root.Label.ToString()) #> modified, MatchingContext<SyntaxNodeOrToken?> context)
+    /// <remarks>This is the default implementation for <see cref="Partners(MatchingContext{SyntaxNodeOrToken?}, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>)"/>.</remarks>
+    protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PartnersCore(MatchingContext<SyntaxNodeOrToken?> context, <#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= code.Escape(syntaxNode.Root.Label.ToString()) #> modified)
 	{
 		if(original == null) 
 			throw new ArgumentNullException(nameof(original));
@@ -189,15 +217,20 @@ partial class <#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax"
 		    Original = original.<#= tunnelingProperty.Item2.name #>,
 		    Modified = modified.<#= tunnelingProperty.Item2.name #>
 		};
-		if(original.<#= tunnelingProperty.Item2.name #> != null && modified.<#= tunnelingProperty.Item2.name #> != null)
+		if(original.<#= tunnelingProperty.Item2.name #> != null && original.<#= tunnelingProperty.Item2.name #>.Kind() != SyntaxKind.None && 
+		   modified.<#= tunnelingProperty.Item2.name #> != null && modified.<#= tunnelingProperty.Item2.name #>.Kind() != SyntaxKind.None)
 		{
     		if(matchingSet.PartnersIfAvailable(matchInfo))
 				yield return matchInfo;
 		}
-		else if(original.<#= tunnelingProperty.Item2.name #> != null)
-			matchingSet.Originals.DisableMatching(original.<#= tunnelingProperty.Item2.name #>);
 		else
-			matchingSet.Modifieds.DisableMatching(modified.<#= tunnelingProperty.Item2.name #>);
+		{
+			if(original.<#= tunnelingProperty.Item2.name #> != null && original.<#= tunnelingProperty.Item2.name #>.Kind() != SyntaxKind.None)
+				matchingSet.Originals.DisableMatching(original.<#= tunnelingProperty.Item2.name #>);
+			
+			if(modified.<#= tunnelingProperty.Item2.name #> != null && modified.<#= tunnelingProperty.Item2.name #>.Kind() != SyntaxKind.None)
+				matchingSet.Modifieds.DisableMatching(modified.<#= tunnelingProperty.Item2.name #>);
+		}
 <#
 		}
 		else
@@ -223,18 +256,82 @@ partial class <#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax"
     /// </summary>
     /// <param name="original">the original version.</param>
     /// <param name="modified">the modified version.</param>
-    /// <param name="context">the context wherein certain matching criterion is currently running.</param>
+    /// <param name="context">the context wherein the matching criterion is currently running.</param>
     /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
-    public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PairwisePartners(<#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= code.Escape(syntaxNode.Root.Label.ToString()) #> modified, MatchingContext<SyntaxNodeOrToken?> context)
+    public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> Partners(MatchingContext<SyntaxNodeOrToken?> context, <#= code.Escape(syntaxNode.Root.Label.ToString()) #> original, <#= code.Escape(syntaxNode.Root.Label.ToString()) #> modified)
 	{
 		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
 		var ignoreCore = false;
-		PairwisePartnersBefore(original, modified, context, ref result, ref ignoreCore);
+		PartnersBefore(context, original, modified, ref result, ref ignoreCore);
 		if(ignoreCore) 
 			return result;
 		
-		result = this.PairwisePartnersCore(original, modified, context);
-		PairwisePartnersAfter(original, modified, context, ref result);
+		result = this.PartnersCore(context, original, modified);
+		PartnersAfter(context, original, modified, ref result);
+		return result;
+	}
+
+	/// <summary>
+    /// Method hook for implementing logic to execute before the <see cref="Partners(MatchingContext{SyntaxNodeOrToken?}, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>)"/>.
+    /// </summary>
+    /// <param name="original">the original version.</param>
+    /// <param name="modified">the modified version.</param>
+    /// <param name="context">the context wherein the matching criterion is currently running.</param>
+    /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+    /// <param name="result">Mechanism to modify the result of <see cref="Partners(MatchingContext{SyntaxNodeOrToken?}, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>)"/>.</param>
+    /// <param name="ignoreCore">If true, the <see cref="PartnersCore(MatchingContext{SyntaxNodeOrToken?}, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>)"/> is not executed and <see cref="Partners(MatchingContext{SyntaxNodeOrToken?}, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>)"/> returns the current value of <paramref name="result"/>.</param>
+    partial void PartnersBefore(MatchingContext<SyntaxNodeOrToken?> context, SyntaxNodeOrToken? original, SyntaxNodeOrToken? modified, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result, ref bool ignoreCore);
+    
+    /// <summary>
+    /// Method hook for implementing logic to execute after the <see cref="PartnersCore(MatchingContext{SyntaxNodeOrToken?}, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>)"/>.
+    /// </summary>
+    /// <param name="original">the original version.</param>
+    /// <param name="modified">the modified version.</param>
+    /// <param name="context">the context wherein the matching criterion is currently running.</param>
+    /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+    /// <param name="result">Mechanism to modify the result of <see cref="Partners(MatchingContext{SyntaxNodeOrToken?}, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>)"/>.</param>
+    partial void PartnersAfter(MatchingContext<SyntaxNodeOrToken?> context, SyntaxNodeOrToken? original, SyntaxNodeOrToken? modified, ref IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result);
+
+    /// <summary>
+    /// Determines if two <see cref="<#= code.Escape(syntaxNode.Root.Label.ToString()) #>"/> elements are name-based exactly equal.
+    /// </summary>
+    /// <param name="original">the original version.</param>
+    /// <param name="modified">the modified version.</param>
+    /// <param name="context">the context wherein the matching criterion is currently running.</param>
+    /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+    /// <remarks>This is the default implementation for <see cref="Partners(MatchingContext{SyntaxNodeOrToken?}, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>)"/>.</remarks>
+    protected virtual IEnumerable<MatchInfo<SyntaxNodeOrToken?>> PartnersCore(MatchingContext<SyntaxNodeOrToken?> context, SyntaxNodeOrToken? original, SyntaxNodeOrToken? modified)
+	{
+		var o = original.Value.IsNode ? original.Value.AsNode() as <#= code.Escape(syntaxNode.Root.Label.ToString()) #> : null;
+		var m = modified.Value.IsNode ? modified.Value.AsNode() as <#= code.Escape(syntaxNode.Root.Label.ToString()) #> : null;
+		if(o != null && m != null)
+		{
+		   foreach (var pairwiseMatch in this.Partners(context, o, m))
+           {
+                yield return pairwiseMatch;
+           }
+		}
+		
+		yield break;
+	}    
+
+	/// <summary>
+    /// Notifies that two comparing versions have been finally identified as a match (i.e., they are matching partners).
+    /// </summary>
+    /// <param name="original">the original version.</param>
+    /// <param name="modified">the modified version.</param>
+    /// <param name="context">the context wherein the matching criterion is currently running.</param>
+    /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
+    public IEnumerable<MatchInfo<SyntaxNodeOrToken?>> Partners(MatchingContext<SyntaxNodeOrToken?> context, SyntaxNodeOrToken? original, SyntaxNodeOrToken? modified)
+	{
+		IEnumerable<MatchInfo<SyntaxNodeOrToken?>> result = null;
+		var ignoreCore = false;
+		PartnersBefore(context, original, modified, ref result, ref ignoreCore);
+		if(ignoreCore) 
+			return result;
+		
+		result = this.PartnersCore(context, original, modified);
+		PartnersAfter(context, original, modified, ref result);
 		return result;
 	}
 }

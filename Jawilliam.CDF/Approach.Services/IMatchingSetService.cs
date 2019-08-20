@@ -1,4 +1,6 @@
-﻿namespace Jawilliam.CDF.Approach.Services
+﻿using Jawilliam.CDF.Approach.Criterions;
+
+namespace Jawilliam.CDF.Approach.Services
 {
     /// <summary>
     /// Exposes functionalities related to the some version existing in the matching set.
@@ -41,12 +43,12 @@
     /// <typeparam name="TElement">Type of the supported elements.</typeparam>
     public interface IMatchingSetService<TElement> : IService
     {
-        /// <summary>
-        /// Adds a (candidate) match both in the <see cref="Originals"/> and in the <see cref="Modifieds"/>.
-        /// </summary>
-        /// <param name="original">original element.</param>
-        /// <param name="modified">modified element.</param>
-        void Pair(TElement original, TElement modified);
+        ///// <summary>
+        ///// Adds a (candidate) match both in the <see cref="Originals"/> and in the <see cref="Modifieds"/>.
+        ///// </summary>
+        ///// <param name="original">original element.</param>
+        ///// <param name="modified">modified element.</param>
+        //void Pair(TElement original, TElement modified);
 
         /// <summary>
         /// Adds a (candidate) match both in the <see cref="Originals"/> and in the <see cref="Modifieds"/>.
@@ -69,18 +71,24 @@
         /// <returns>true if there is a pair among two given versions; otherwise, false.</returns>
         bool Paired(TElement original, TElement modified);
 
-        /// <summary>
-        /// Notifies that, the two given versions have been definitively matched, which will be stored both in the <see cref="Originals"/> and in the <see cref="Modifieds"/>.
-        /// </summary>
-        /// <param name="original">original element.</param>
-        /// <param name="modified">modified element.</param>
-        void Partners(TElement original, TElement modified);
+        ///// <summary>
+        ///// Notifies that, the two given versions have been definitively matched, which will be stored both in the <see cref="Originals"/> and in the <see cref="Modifieds"/>.
+        ///// </summary>
+        ///// <param name="original">original element.</param>
+        ///// <param name="modified">modified element.</param>
+        //void Partners(TElement original, TElement modified);
 
         /// <summary>
         /// Notifies that, the two given versions have been definitively matched, which will be stored both in the <see cref="Originals"/> and in the <see cref="Modifieds"/>.
         /// </summary>
         /// <param name="matchInfo">the match.</param>
-        void Partners(MatchInfo<TElement> matchInfo);
+        /// <param name="raiseEvent">Enables (true) or disables (false) the <see cref="PartnersEvent"/> event.</param>
+        void Partners(MatchInfo<TElement> matchInfo, bool raiseEvent = true);
+
+        /// <summary>
+        /// Raises every time two given versions have been definitively matched
+        /// </summary>
+        event EventHandler<MatchingContext<TElement>, MatchInfo<TElement>> PartnersEvent;
 
         /// <summary>
         /// Exposes matching set functionalities related to the original elements.

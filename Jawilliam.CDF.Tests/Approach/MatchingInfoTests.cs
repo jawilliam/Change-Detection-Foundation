@@ -43,7 +43,7 @@ namespace Jawilliam.CDF.Tests.Approach.Base
             originalAnnotations.Init(new[] { 3 });
             modifiedAnnotations.Init(new[] { 5 });
 
-            matchingSet.Pair(3, 5);
+            matchingSet.Pair(new MatchInfo<int>(-1) { Original = 3, Modified = 5 });
             Assert.IsTrue(matchingSet.Paired(3, 5));
             matchingSet.Unpair(3, 5);
             Assert.IsFalse(matchingSet.Paired(3, 5));
@@ -66,7 +66,7 @@ namespace Jawilliam.CDF.Tests.Approach.Base
             originalAnnotations.Init(new[] { 3 });
             modifiedAnnotations.Init(new[] { 5 });
 
-            matchingSet.Pair(3, 5);
+            matchingSet.Pair(new MatchInfo<int>(-1) { Original = 3, Modified = 5 });
             Assert.IsTrue(matchingSet.Paired(3, 5));
             matchingSet.Unpair(3, 5);
             Assert.IsFalse(matchingSet.Paired(3, 5));
@@ -129,7 +129,7 @@ namespace Jawilliam.CDF.Tests.Approach.Base
             var modifiedAnnotations = approach.Modifieds<int, Annotation<int>>();
             var matchingSet = approach.GetServiceOrThrowsException<IMatchingSetService<int>>((int)ServiceId.MatchingSet);
 
-            matchingSet.Pair(3, 5);
+            matchingSet.Pair(new MatchInfo<int>(-1) { Original = 3, Modified = 5 });
             matchingSet.Originals.Unpaired(5);
         }
 
@@ -141,7 +141,7 @@ namespace Jawilliam.CDF.Tests.Approach.Base
             var modifiedAnnotations = approach.Modifieds<int, Annotation<int>>();
             var matchingSet = approach.GetServiceOrThrowsException<IMatchingSetService<int>>((int)ServiceId.MatchingSet);
 
-            matchingSet.Pair(3, 5);
+            matchingSet.Pair(new MatchInfo<int>(-1) { Original = 3, Modified = 5 });
             matchingSet.Originals.Unmatched(5);
         }
 
@@ -153,7 +153,7 @@ namespace Jawilliam.CDF.Tests.Approach.Base
             var modifiedAnnotations = approach.Modifieds<int, Annotation<int>>();
             var matchingSet = approach.GetServiceOrThrowsException<IMatchingSetService<int>>((int)ServiceId.MatchingSet);
 
-            matchingSet.Pair(3, 5);
+            matchingSet.Pair(new MatchInfo<int>(-1) { Original = 3, Modified = 5 });
             matchingSet.Modifieds.Unpaired(3);
         }
 
@@ -165,7 +165,7 @@ namespace Jawilliam.CDF.Tests.Approach.Base
             var modifiedAnnotations = approach.Modifieds<int, Annotation<int>>();
             var matchingSet = approach.GetServiceOrThrowsException<IMatchingSetService<int>>((int)ServiceId.MatchingSet);
 
-            matchingSet.Pair(3, 5);
+            matchingSet.Pair(new MatchInfo<int>(-1) { Original = 3, Modified = 5 });
             matchingSet.Modifieds.Unmatched(3);
         }
 
@@ -180,7 +180,7 @@ namespace Jawilliam.CDF.Tests.Approach.Base
             originalAnnotations.Init(new[] { 3 });
             modifiedAnnotations.Init(new[] { 5 });
 
-            matchingSet.Pair(3, 5);
+            matchingSet.Pair(new MatchInfo<int>(-1) { Original = 3, Modified = 5 });
             Assert.IsFalse(matchingSet.Originals.Unpaired(3));
             Assert.IsTrue(matchingSet.Originals.Unmatched(3));
             Assert.IsFalse(matchingSet.Modifieds.Unpaired(5));
@@ -206,9 +206,9 @@ namespace Jawilliam.CDF.Tests.Approach.Base
             originalAnnotations.Init(new[] { 3 });
             modifiedAnnotations.Init(new[] { 5, 6 });
 
-            matchingSet.Pair(3, 5);
+            matchingSet.Pair(new MatchInfo<int>(-1) { Original = 3, Modified = 5 });
             Assert.IsTrue(matchingSet.Paired(3, 5));
-            matchingSet.Pair(3, 6);
+            matchingSet.Pair(new MatchInfo<int>(-1) { Original = 3, Modified = 6 });
             Assert.IsTrue(matchingSet.Paired(3, 6));
             Assert.IsFalse(matchingSet.Originals.Unpaired(3));
             Assert.IsTrue(matchingSet.Originals.Unmatched(3));
@@ -233,11 +233,11 @@ namespace Jawilliam.CDF.Tests.Approach.Base
             originalAnnotations.Init(new[] { 3 });
             modifiedAnnotations.Init(new[] { 5, 6, 4 });
 
-            matchingSet.Pair(3, 5);
+            matchingSet.Pair(new MatchInfo<int>(-1) { Original = 3, Modified = 5 });
             Assert.IsTrue(matchingSet.Paired(3, 5));
-            matchingSet.Pair(3, 6);
+            matchingSet.Pair(new MatchInfo<int>(-1) { Original = 3, Modified = 6 });
             Assert.IsTrue(matchingSet.Paired(3, 6));
-            matchingSet.Partners(3, 4);
+            matchingSet.Partners(new MatchInfo<int>(-1) { Original = 3, Modified = 4 });
             Assert.IsTrue(matchingSet.Paired(3, 4));
             Assert.IsFalse(matchingSet.Paired(3, 5));
             Assert.IsFalse(matchingSet.Paired(3, 6));
@@ -273,9 +273,10 @@ namespace Jawilliam.CDF.Tests.Approach.Base
             originalAnnotations.Init(new[] { 3 });
             modifiedAnnotations.Init(new[] { 5, 6, 4 });
 
-            matchingSet.Pair(3, 5);
-            matchingSet.Pair(3, 6);
-            matchingSet.Partners(3, 5);
+            var match = new MatchInfo<int>(-1) { Original = 3, Modified = 5 };
+            matchingSet.Pair(match);
+            matchingSet.Pair(new MatchInfo<int>(-1) { Original = 3, Modified = 6 });
+            matchingSet.Partners(match);
 
             Assert.AreEqual(originalAnnotations.Annotations[3].Candidates.Count, 1);
             Assert.AreEqual(modifiedAnnotations.Annotations[5].Candidates.Count, 1);

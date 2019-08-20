@@ -19,5 +19,10 @@ namespace Jawilliam.CDF.Approach.Annotations
         /// </summary>
         /// <param name="elements">the set of elements to initialize.</param>
         void Init(IEnumerable<TElement> elements);
+
+        /// <summary>
+        /// Gets or sets whether the annotations will be automatically clear, or not.
+        /// </summary>
+        bool KeepAnnotations { get; set; }
     }
 }

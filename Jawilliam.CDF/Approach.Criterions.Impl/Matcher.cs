@@ -259,7 +259,7 @@ namespace Jawilliam.CDF.Approach.Criterions.Impl
         /// <returns>true if they can match, false otherwise.</returns>
         protected virtual bool Compatible(TElement original, TElement modified)
         {
-            var hierarchicalAbstraction = this.ServiceLocator.HierarchicalAbstraction<TElement>();
+            var hierarchicalAbstraction = this.ServiceLocator.HierarchicalAbstraction<TElement>(full: true);
             return hierarchicalAbstraction.Label(original) == hierarchicalAbstraction.Label(modified);
         }
     }

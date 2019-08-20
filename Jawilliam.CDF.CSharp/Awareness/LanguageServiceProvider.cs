@@ -38,6 +38,9 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <returns><see cref="IElementTypeServiceProvider"/> implementation intended to provide information for the requested element type.</returns>
         public virtual  Jawilliam.CDF.Approach.Services.IElementTypeServiceProvider GetElementTypeServiceProvider(string type, string subtype = null)
     	{
+    		if(type.EndsWith("Token"))
+    			 return this.SyntaxTokenServiceProvider;
+    
     		switch(type)
     		{
     			case "AttributeArgument": return this.AttributeArgumentServiceProvider;
@@ -255,6 +258,9 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// <returns><see cref="IElementTypeServiceProvider"/> implementation intended to provide information for the requested element type.</returns>
         public virtual  Jawilliam.CDF.Approach.Services.IElementTypeServiceProvider GetElementTypeServiceProvider(SyntaxKind type)
     	{
+    		if(8193 <= (int)type && 8517 >= (int)type)
+    			 return this.SyntaxTokenServiceProvider;
+    
     		switch(type)
     		{
     			case SyntaxKind.AttributeArgument: return this.AttributeArgumentServiceProvider;	
@@ -556,7 +562,7 @@ namespace Jawilliam.CDF.CSharp.Awareness
                     var functionality = serviceProvider.GetType().GetMethod(functionalityName, new[] { original.GetType(), modified.GetType() });
                     if (functionality != null)
                     {
-                        result = (bool)functionality.Invoke(serviceProvider, new object[] { original, modified });
+                        result = functionality.Invoke(serviceProvider, new object[] { original, modified });
                         return true;
                     }
                 }

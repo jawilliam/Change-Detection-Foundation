@@ -41,7 +41,7 @@ namespace Jawilliam.CDF.Approach.Choices
         /// <remarks>Reports the actions computed by <see cref="McesDifferencingChoice{TElement, TAnnotation}"/>.</remarks>
         protected override void CoreOnStep()
         {
-            var hierarchicalAbstraction = this.Approach.HierarchicalAbstraction();
+            var hierarchicalAbstraction = this.Approach.HierarchicalAbstraction(full: true);
             var textualAbstraction = this.Approach.TextualAbstraction();
             foreach (var modified in this.Approach.Result.Modified.BreadthFirstOrder(hierarchicalAbstraction.Children))
             {

@@ -1482,6 +1482,10 @@
           <Member Name="InverseNativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1900" Value="27" />
           <Member Name="NativeGTtreefiedRoslynMLWithBasicPruning" Value="28" />
           <Member Name="InverseNativeGTtreefiedRoslynMLWithBasicPruning" Value="29" />
+          <Member Name="NativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTrivia" Value="30" />
+          <Member Name="InverseNativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTrivia" Value="31" />
+          <Member Name="NativeGTtreefiedRoslynMLWithIncludeTrivia" Value="32" />
+          <Member Name="InverseNativeGTtreefiedRoslynMLWithIncludeTrivia" Value="33" />
         </EnumType>
         <EnumType Name="CodeCategory" UnderlyingType="Int16" IsFlags="true">
           <Member Name="Maintained" Value="1" />

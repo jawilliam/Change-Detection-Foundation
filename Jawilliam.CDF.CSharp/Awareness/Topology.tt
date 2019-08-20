@@ -198,7 +198,7 @@ public <#= xSyntaxNodeType.@abstract ? "abstract " : "" #>partial class <#= code
 					else if(keyProperty.Item2.optional)	
 					{
 #>
-        if(n.<#= keyProperty.Item2.name #> != null<#= keyProperty.Item2.Rules.Topology.relevantOnlyIf != null ? (" && " + string.Format(keyProperty.Item2.Rules.Topology.relevantOnlyIf, "n")) : "" #>)
+        if(n.<#= keyProperty.Item2.name #> != null && n.<#= keyProperty.Item2.name #>.Kind() != SyntaxKind.None<#= keyProperty.Item2.Rules.Topology.relevantOnlyIf != null ? (" && " + string.Format(keyProperty.Item2.Rules.Topology.relevantOnlyIf, "n")) : "" #>)
 			yield return n.<#= keyProperty.Item2.name #>;
 <# 
 					}

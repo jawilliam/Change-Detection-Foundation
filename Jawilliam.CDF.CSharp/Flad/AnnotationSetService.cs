@@ -49,7 +49,7 @@ namespace Jawilliam.CDF.CSharp.Flad
         /// </summary>
         public virtual void BeginDetection()
         {
-            var hierarchicalAbstraction = this.Approach.HierarchicalAbstraction();
+            var hierarchicalAbstraction = this.Approach.HierarchicalAbstraction(full: true);
             var originals = this.Approach.Result.Original.PostOrder(e => hierarchicalAbstraction.Children(e));
             this.Approach.Originals<TElement, TAnnotation>().Init(originals);
         }
@@ -76,7 +76,7 @@ namespace Jawilliam.CDF.CSharp.Flad
         /// </summary>
         public virtual void BeginDetection()
         {
-            var hierarchicalAbstraction = this.Approach.HierarchicalAbstraction();
+            var hierarchicalAbstraction = this.Approach.HierarchicalAbstraction(full: true);
             var modifieds = this.Approach.Result.Modified.PostOrder(e => hierarchicalAbstraction.Children(e));
             this.Approach.Modifieds<TElement, TAnnotation>().Init(modifieds);
         }

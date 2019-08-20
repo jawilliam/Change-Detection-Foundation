@@ -60,73 +60,70 @@ namespace Jawilliam.CDF.Approach.Services.Impl
         /// <returns>the corresponding hash.</returns>
         public virtual object ComputeHash(TElement element, IAnnotationSetService<TElement, TAnnotation> annotationSet)
         {
-            if (this.IsLeaf(element))
-            {
-                var textualAbstraction = this.ServiceLocator.GetServiceOrThrowsException<ITextualAbstractionService<TElement>>((int)ServiceId.TextualAbstraction);
-                return (int)this.ComputeHash(textualAbstraction.FullText(element));
-            }
-
-            int size = annotationSet.Annotations[element].Size * 2 - 1;
-            int hash = /*hashFunction(HashUtils.inSeed(t)) * */this.FPow(_Base, size);
-            foreach (var c in this.Children(element))
-            {
-                TAnnotation cAnnotation = annotationSet.Annotations[c];
-                size -= cAnnotation.Size * 2;
-                hash += (int)this.GetHash(cAnnotation) * this.FPow(_Base, size); 
-            }
-
-            return hash;            
-        }
-
-        /// <summary>
-        /// Access to the children of a node.
-        /// </summary>
-        /// <param name="node">node of interest.</param>
-        /// <returns>the node's children.</returns>
-        public virtual IEnumerable<TElement> Children(TElement node)
-        {
-            return this.ServiceLocator.HierarchicalAbstraction().Children(node);
-        }
-
-        ///// <summary>
-        ///// Access to the parent of a node.
-        ///// </summary>
-        ///// <param name="node">node of interest.</param>
-        ///// <returns>the node's parent.</returns>
-        //public virtual TElement Parent(TElement node)
-        //{
-        //    return this.ServiceLocator.HierarchicalAbstraction().Parent(node);
-        //}
-
-        ///// <summary>
-        ///// Access to the label of a node.
-        ///// </summary>
-        ///// <param name="node">node of interest.</param>
-        ///// <returns>a numeric identifier of the node type.</returns>
-        //public virtual int Label(TElement node)
-        //{
-        //    return this.ServiceLocator.HierarchicalAbstraction().Label(node);
-        //}
-
-        /// <summary>
-        /// Informs if a node it is leaf. 
-        /// </summary>
-        /// <param name="node">node of interest.</param>
-        /// <returns>true if the given node is a leaf, false othwerwise.</returns>
-        public virtual bool IsLeaf(TElement node)
-        {
-            return this.ServiceLocator.HierarchicalAbstraction().IsLeaf(node);
+            return this.HierarchicalAbstraction.IsLeaf(element) 
+                ? this.ComputeLeafHash(element, annotationSet)
+                : this.ComputeInnerHash(element, annotationSet); ;
         }
 
         /// <summary>
         /// Computes the hash of a text.
         /// </summary>
-        /// <param name="text">text to get the hash for.</param>
+        /// <param name="element">node to get the hash for.</param>
+        /// <param name="annotationSet">the corresponding annotation set.</param>
         /// <returns>the corresponding hash.</returns>
-        protected virtual object ComputeHash(string text)
+        internal virtual object ComputeLeafHash(TElement element, IAnnotationSetService<TElement, TAnnotation> annotationSet)
         {
+            var text = this.ServiceLocator.TextualAbstraction().FullText(element);
             return (text ?? "").GetHashCode();
         }
+
+        /// <summary>
+        /// Computes the hash of a text.
+        /// </summary>
+        /// <param name="element">node to get the hash for.</param>
+        /// <param name="annotationSet">the corresponding annotation set.</param>
+        /// <returns>the corresponding hash.</returns>
+        internal virtual object ComputeInnerHash(TElement element, IAnnotationSetService<TElement, TAnnotation> annotationSet)
+        {
+            int size = annotationSet.Annotations[element].Size * 2 - 1;
+            int hash = /*hashFunction(HashUtils.inSeed(t)) * */this.FPow(_Base, size);
+            foreach (var c in this.HierarchicalAbstraction.Children(element))
+            {
+                TAnnotation cAnnotation = annotationSet.Annotations[c];
+                size -= cAnnotation.Size * 2;
+                hash += (int)this.GetHash(cAnnotation) * this.FPow(_Base, size);
+            }
+
+            return hash;
+        }
+
+        /// <summary>
+        /// Gets the internally used <see cref="ITextualAbstractionService{TElement}"/>.
+        /// </summary>
+        internal virtual IHierarchicalAbstractionService<TElement> HierarchicalAbstraction
+        {
+            get { return this.ServiceLocator.HierarchicalAbstraction(); }
+        }
+
+        ///// <summary>
+        ///// Access to the children of a node.
+        ///// </summary>
+        ///// <param name="node">node of interest.</param>
+        ///// <returns>the node's children.</returns>
+        //public virtual IEnumerable<TElement> Children(TElement node)
+        //{
+        //    return this.ServiceLocator.HierarchicalAbstraction().Children(node);
+        //}
+
+        ///// <summary>
+        ///// Informs if a node it is leaf. 
+        ///// </summary>
+        ///// <param name="node">node of interest.</param>
+        ///// <returns>true if the given node is a leaf, false othwerwise.</returns>
+        //public virtual bool IsLeaf(TElement node)
+        //{
+        //    return this.ServiceLocator.HierarchicalAbstraction().IsLeaf(node);
+        //}
 
         internal int byteArrayToInt(byte[] b)
         {
