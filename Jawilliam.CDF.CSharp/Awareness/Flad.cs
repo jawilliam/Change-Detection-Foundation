@@ -14,7 +14,11 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// </summary>
         public Flad()
         {
-            this.Services[(int)ServiceId.TopologicalAbstraction] = new TopologicalAbstraction<Annotation<SyntaxNodeOrToken?>>(this) { Id = (int)ServiceId.TopologicalAbstraction };
+            this.Services[(int)ServiceId.TopologicalAbstraction] = new TopologicalAbstraction<Annotation<SyntaxNodeOrToken?>>(this)
+            {
+                Id = (int)ServiceId.TopologicalAbstraction,
+                SuppressBeginDetection = true
+            };
 
             LanguageServiceProvider languageProvider = new LanguageServiceProvider { Id = (int)ServiceId.LanguageProvider };
             this.Services.Add((int)ServiceId.LanguageProvider, languageProvider);

@@ -14066,6 +14066,15 @@ namespace Jawilliam.CDF.CSharp.Awareness
     		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
     		{
     		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.Name,
+    		    Modified = modified.Name
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
     		    Original = original.EqualsToken,
     		    Modified = modified.EqualsToken
     		};
@@ -14219,6 +14228,15 @@ namespace Jawilliam.CDF.CSharp.Awareness
     
     		var matchingSet = context.Approach.MatchingSet();
     		MatchInfo<SyntaxNodeOrToken?> matchInfo = null;
+    
+    		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
+    		{
+    		    On = new RevisionPair<SyntaxNodeOrToken?> { Original = original, Modified = modified },
+    		    Original = original.Name,
+    		    Modified = modified.Name
+    		};
+        	if(matchingSet.PartnersIfAvailable(matchInfo))
+    				yield return matchInfo;
     
     		matchInfo = new PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling
     		{

@@ -59,6 +59,12 @@ namespace Jawilliam.CDF.Labs.DBModel
                     case ChangeDetectionApproaches.InverseNativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1450:
                     case ChangeDetectionApproaches.InverseNativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1675:
                     case ChangeDetectionApproaches.InverseNativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1900:
+                    case ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithBasicPruning:
+                    case ChangeDetectionApproaches.InverseNativeGTtreefiedRoslynMLWithBasicPruning:
+                    case ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTrivia:
+                    case ChangeDetectionApproaches.InverseNativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTrivia:
+                    case ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithIncludeTrivia:
+                    case ChangeDetectionApproaches.InverseNativeGTtreefiedRoslynMLWithIncludeTrivia:
                         return this.GetNativeGumTreeResult();
                     default:
                         throw new InvalidEnumArgumentException();
@@ -93,6 +99,12 @@ namespace Jawilliam.CDF.Labs.DBModel
                     case ChangeDetectionApproaches.InverseNativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1450:
                     case ChangeDetectionApproaches.InverseNativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1675:
                     case ChangeDetectionApproaches.InverseNativeGTtreefiedRoslynMLWithMinH2Sim0d5Size1900:
+                    case ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithBasicPruning:
+                    case ChangeDetectionApproaches.InverseNativeGTtreefiedRoslynMLWithBasicPruning:
+                    case ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTrivia:
+                    case ChangeDetectionApproaches.InverseNativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTrivia:
+                    case ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithIncludeTrivia:
+                    case ChangeDetectionApproaches.InverseNativeGTtreefiedRoslynMLWithIncludeTrivia:
                         this.SetNativeGumTreeResult(value);
                         break;
                     default:

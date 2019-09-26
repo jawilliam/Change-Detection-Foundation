@@ -4,7 +4,8 @@
     /// Defines the support for managing edit scripts, for example when generating a "Minimum Conforming Edit Script".
     /// </summary>
     /// <typeparam name="TElement">Type of the hashable elements.</typeparam>
-    public interface IEditScriptService<TElement> : IService
+    /// <typeparam name="TAnnotation">Type of the information to store for each element.</typeparam>
+    public interface IEditScriptService<TElement/*, TAnnotation*/> : IService //where TAnnotation : new()
     {
         /// <summary>
         /// Inserts a copy of a (modified) element in the original parent.
@@ -42,15 +43,15 @@
         /// <param name="parent">the given (original) parent.</param>
         void Move(TElement original, int position, TElement parent);
 
-        /// <summary>
-        /// Exposes functionalities for hierarchically handling the hierarchical original versions. 
-        /// </summary>
-        IHierarchicalAbstractionService<TElement> OriginalsHierarchicalAbstraction { get; }
+        ///// <summary>
+        ///// Exposes functionalities for hierarchically handling the hierarchical original versions. 
+        ///// </summary>
+        //IHierarchicalAbstractionService<TElement, TAnnotation> OriginalsHierarchicalAbstraction { get; }
 
-        /// <summary>
-        /// Exposes functionalities for hierarchically handling the hierarchical modified versions. 
-        /// </summary>
-        IHierarchicalAbstractionService<TElement> ModifiedsHierarchicalAbstraction { get; }
+        ///// <summary>
+        ///// Exposes functionalities for hierarchically handling the hierarchical modified versions. 
+        ///// </summary>
+        //IHierarchicalAbstractionService<TElement, TAnnotation> ModifiedsHierarchicalAbstraction { get; }
 
         /// <summary>
         /// Initializes the current service for a edit script generation. Unlike the <see cref="IBeginStep"/> or <see cref="IBeginDetection"/>, this is supposed to be invoked by <see cref="IChoice.OnStep"/>. 

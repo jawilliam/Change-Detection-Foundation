@@ -4,8 +4,6 @@ using Jawilliam.CDF.Approach.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Jawilliam.CDF.Approach.Criterions.Impl
 {
@@ -14,7 +12,7 @@ namespace Jawilliam.CDF.Approach.Criterions.Impl
     /// </summary>
     /// <typeparam name="TElement">Type of the supported elements.</typeparam>
     /// <typeparam name="TAnnotation">Type of the information to store for each element.</typeparam>
-    public class SimilarityMatcher<TElement, TAnnotation> : Matcher<TElement, IApproach<TElement>> where TAnnotation : IMatchingAnnotation<TElement>, new()
+    public class SimilarityMatcher<TElement, TAnnotation> : Matcher<TElement, TAnnotation, IApproach<TElement>> where TAnnotation : IMatchingAnnotation<TElement>, new()
     {
         /// <summary>
         /// Initializes the instance.
@@ -52,18 +50,22 @@ namespace Jawilliam.CDF.Approach.Criterions.Impl
         {
             var semanticAbstraction = this.ServiceLocator.SemanticAbstraction();
             var matchingSet = this.ServiceLocator.MatchingSet();
-            if (!matchingSet.Originals.Unmatched(original) || this.ServiceLocator.HierarchicalAbstraction().IsLeaf(original))
+
+            var originals = this.ServiceLocator.Originals<TElement, TAnnotation>();
+            var modifieds = this.ServiceLocator.Modifieds<TElement, TAnnotation>();
+
+            if (!matchingSet.Originals.Unmatched(original) || this.ServiceLocator.HierarchicalAbstraction<TElement, TAnnotation>().IsLeaf(original, originals))
                 yield break;
 
-            var hierarchicalAbstraction = this.ServiceLocator.HierarchicalAbstraction();
-            var candidateSimilarities = from m in context.LScope.Modified.PostOrder(hierarchicalAbstraction.Children)
-                                        where matchingSet.Modifieds.Unmatched(m) && this.Compatible(original, m) && !hierarchicalAbstraction.IsLeaf(m)
+            var hierarchicalAbstraction = this.ServiceLocator.HierarchicalAbstraction<TElement, TAnnotation>();
+            var candidateSimilarities = from m in context.LScope.Modified.PostOrder(o1 => hierarchicalAbstraction.Children(o1, modifieds, true))
+                                        where matchingSet.Modifieds.Unmatched(m) && this.Compatible(original, m) && !hierarchicalAbstraction.IsLeaf(m, modifieds)
                                         //where !hierarchicalAbstraction.IsLeaf(m) && this.Compatible(original, m)
                                         select new
                                         {
                                             Candidate = m,
-                                            Similarity = this.Criterion.GetSimilarity(original.Leaves(hierarchicalAbstraction.Children, hierarchicalAbstraction.IsLeaf).Where(semanticAbstraction.IsEssential),
-                                                                                      m.Leaves(hierarchicalAbstraction.Children, hierarchicalAbstraction.IsLeaf).Where(semanticAbstraction.IsEssential))
+                                            Similarity = this.Criterion.GetSimilarity(original.Leaves(o1 => hierarchicalAbstraction.Children(o1, originals), o1 => hierarchicalAbstraction.IsLeaf(o1, originals)).Where(semanticAbstraction.IsEssential),
+                                                                                      m.Leaves(o1 => hierarchicalAbstraction.Children(o1, modifieds), o1 => hierarchicalAbstraction.IsLeaf(o1, modifieds)).Where(semanticAbstraction.IsEssential))
                                         };
 
             foreach (var c in candidateSimilarities.Where(cs => cs.Similarity > 0.5))
@@ -86,7 +88,7 @@ namespace Jawilliam.CDF.Approach.Criterions.Impl
         public override MatchInfo<TElement> TieBreak(IEnumerable<MatchInfo<TElement>> candidates, MatchingContext<TElement> context)
         {
             var matchingSet = this.ServiceLocator.MatchingSet();
-            var hierarchicalAbstraction = this.ServiceLocator.HierarchicalAbstraction();
+            var hierarchicalAbstraction = this.ServiceLocator.HierarchicalAbstraction<TElement, TAnnotation>();
 
             var original = candidates.First().Original;
             var oAnnotation = this.ServiceLocator.Original<TElement, TAnnotation>(original);

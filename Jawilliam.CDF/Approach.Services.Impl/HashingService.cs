@@ -60,7 +60,7 @@ namespace Jawilliam.CDF.Approach.Services.Impl
         /// <returns>the corresponding hash.</returns>
         public virtual object ComputeHash(TElement element, IAnnotationSetService<TElement, TAnnotation> annotationSet)
         {
-            return this.HierarchicalAbstraction.IsLeaf(element) 
+            return this.HierarchicalAbstraction.IsLeaf(element, annotationSet) 
                 ? this.ComputeLeafHash(element, annotationSet)
                 : this.ComputeInnerHash(element, annotationSet); ;
         }
@@ -87,7 +87,7 @@ namespace Jawilliam.CDF.Approach.Services.Impl
         {
             int size = annotationSet.Annotations[element].Size * 2 - 1;
             int hash = /*hashFunction(HashUtils.inSeed(t)) * */this.FPow(_Base, size);
-            foreach (var c in this.HierarchicalAbstraction.Children(element))
+            foreach (var c in this.HierarchicalAbstraction.Children(element, annotationSet))
             {
                 TAnnotation cAnnotation = annotationSet.Annotations[c];
                 size -= cAnnotation.Size * 2;
@@ -100,9 +100,9 @@ namespace Jawilliam.CDF.Approach.Services.Impl
         /// <summary>
         /// Gets the internally used <see cref="ITextualAbstractionService{TElement}"/>.
         /// </summary>
-        internal virtual IHierarchicalAbstractionService<TElement> HierarchicalAbstraction
+        internal virtual IHierarchicalAbstractionService<TElement, TAnnotation> HierarchicalAbstraction
         {
-            get { return this.ServiceLocator.HierarchicalAbstraction(); }
+            get { return this.ServiceLocator.HierarchicalAbstraction<TElement, TAnnotation>(); }
         }
 
         ///// <summary>

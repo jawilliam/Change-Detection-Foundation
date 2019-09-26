@@ -1,4 +1,5 @@
-﻿using Jawilliam.CDF.Approach.Criterions;
+﻿using Jawilliam.CDF.Approach.Annotations;
+using Jawilliam.CDF.Approach.Criterions;
 using Jawilliam.CDF.Approach.Services;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,8 @@ namespace Jawilliam.CDF.Approach.Choices
     /// Base class for implementing matching discovery choices based on a <see cref="IMatcher{TElement}"/>.
     /// </summary>
     /// <typeparam name="TElement">Type of the supported elements.</typeparam>
-    public partial class MatchingDiscoveryChoice<TElement> : Choice<TElement>
+    /// <typeparam name="TAnnotation">Type of the information to store for each element.</typeparam>
+    public partial class MatchingDiscoveryChoice<TElement, TAnnotation> : Choice<TElement> where TAnnotation : new()
     {
         /// <summary>
         /// Initializes the instance.
@@ -47,14 +49,14 @@ namespace Jawilliam.CDF.Approach.Choices
         /// <summary>
         /// Stores the value of <see cref="Traverse"/>.
         /// </summary>
-        private Func<TElement, IEnumerable<TElement>> _traverse;
+        private Func<TElement, IAnnotationSetService<TElement, TAnnotation>, IEnumerable<TElement>> _traverse;
 
         /// <summary>
         /// Gets the strategy to traverse the original AST.
         /// </summary>
-        public Func<TElement, IEnumerable<TElement>> Traverse
+        public Func<TElement, IAnnotationSetService<TElement, TAnnotation>, IEnumerable<TElement>> Traverse
         {
-            get => this._traverse ?? (this._traverse = o => o.BreadthFirstOrder(this.Approach.HierarchicalAbstraction().Children));
+            get => this._traverse ?? (this._traverse = (o, annSet) => o.BreadthFirstOrder(o1 => this.Approach.HierarchicalAbstraction<TElement, TAnnotation>().Children(o1, annSet)));
             set { this._traverse = value ?? throw new ArgumentNullException(nameof(value)); }
         }
 
@@ -99,7 +101,7 @@ namespace Jawilliam.CDF.Approach.Choices
             context.LScope.Original = originalRoot;
             context.LScope.Modified = modifiedRoot;
 
-            foreach (var o in this.Traverse(originalRoot))
+            foreach (var o in this.Traverse(originalRoot, this.Approach.Originals<TElement, TAnnotation>()))
             {
                 var matches = matchingSet.Originals.Unmatched(o) ? this.Criterion.Matches(o, context)?.ToList() : null;
                 if (matches?.Count > 0)

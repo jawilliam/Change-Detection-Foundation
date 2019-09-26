@@ -12,7 +12,10 @@ namespace Jawilliam.CDF.Approach.Criterions.Impl
     /// Base class for implementating <see cref="IMatcher{TElement}"/>.
     /// </summary>
     /// <typeparam name="TElement">Type of the supported elements.</typeparam>
-    public abstract class Matcher<TElement, TServiceLocator> : IMatcher<TElement> where TServiceLocator : IServiceLocator
+    /// <typeparam name="TAnnotation">Type of the information to store for each element.</typeparam>
+    public abstract class Matcher<TElement, TAnnotation, TServiceLocator> : IMatcher<TElement> 
+        where TServiceLocator : IServiceLocator
+        where TAnnotation : new()
     {
         /// <summary>
         /// Initializes the instance.
@@ -103,9 +106,9 @@ namespace Jawilliam.CDF.Approach.Criterions.Impl
         /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
         protected virtual IEnumerable<MatchInfo<TElement>> IdenticalSubtreePartners(TElement original, TElement modified, MatchingContext<TElement> context)
         {
-            var hierarchicalAbstraction = this.ServiceLocator.HierarchicalAbstraction<TElement>();
-            var oChildren = hierarchicalAbstraction.Children(original).ToArray();
-            var mChildren = hierarchicalAbstraction.Children(modified).ToArray();
+            var hierarchicalAbstraction = this.ServiceLocator.HierarchicalAbstraction<TElement, TAnnotation>();
+            var oChildren = hierarchicalAbstraction.Children(original, this.ServiceLocator.Originals<TElement, TAnnotation>()).ToArray();
+            var mChildren = hierarchicalAbstraction.Children(modified, this.ServiceLocator.Modifieds<TElement, TAnnotation>()).ToArray();
             var matchingSet = this.ServiceLocator.MatchingSet<TElement>();
 
             for (int i = 0; i < oChildren.Count(); i++)
@@ -148,9 +151,9 @@ namespace Jawilliam.CDF.Approach.Criterions.Impl
         /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
         protected virtual IEnumerable<MatchInfo<TElement>> SimilarSubtreePartners(TElement original, TElement modified, MatchingContext<TElement> context)
         {
-            var hierarchicalAbstraction = this.ServiceLocator.HierarchicalAbstraction<TElement>();
-            var oChildren = hierarchicalAbstraction.Children(original).ToArray();
-            var mChildren = hierarchicalAbstraction.Children(modified).ToArray();
+            var hierarchicalAbstraction = this.ServiceLocator.HierarchicalAbstraction<TElement, TAnnotation>();
+            var oChildren = hierarchicalAbstraction.Children(original, this.ServiceLocator.Originals<TElement, TAnnotation>()).ToArray();
+            var mChildren = hierarchicalAbstraction.Children(modified, this.ServiceLocator.Modifieds<TElement, TAnnotation>()).ToArray();
             var matchingSet = this.ServiceLocator.MatchingSet<TElement>();
 
             for (int i = 0; i < oChildren.Count(); i++)
@@ -259,8 +262,9 @@ namespace Jawilliam.CDF.Approach.Criterions.Impl
         /// <returns>true if they can match, false otherwise.</returns>
         protected virtual bool Compatible(TElement original, TElement modified)
         {
-            var hierarchicalAbstraction = this.ServiceLocator.HierarchicalAbstraction<TElement>(full: true);
-            return hierarchicalAbstraction.Label(original) == hierarchicalAbstraction.Label(modified);
+            var hierarchicalAbstraction = this.ServiceLocator.HierarchicalAbstraction<TElement, TAnnotation>(full: true);
+            return hierarchicalAbstraction.Label(original, this.ServiceLocator.Originals<TElement, TAnnotation>()) == 
+                   hierarchicalAbstraction.Label(modified, this.ServiceLocator.Modifieds<TElement, TAnnotation>());
         }
     }
 }

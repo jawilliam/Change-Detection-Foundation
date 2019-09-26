@@ -142,10 +142,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AliasServices.tt</DependentUpon>
     </Compile>
-    <Compile Include="Awareness\Custom.AccessorDeclarationServiceProvider.cs" />
-    <Compile Include="Awareness\Custom.CatchDeclarationServiceProvider.cs" />
     <Compile Include="Awareness\Custom.DocumentationCommentTriviaServiceProvider.cs" />
-    <Compile Include="Awareness\Custom.TupleElementServiceProvider.cs" />
     <Compile Include="Awareness\Flad.cs" />
     <Compile Include="Awareness\Extensions.cs" />
     <Compile Include="Awareness\TopologicalAbstraction.cs" />

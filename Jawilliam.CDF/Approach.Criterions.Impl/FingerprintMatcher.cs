@@ -11,7 +11,7 @@ namespace Jawilliam.CDF.Approach.Criterions.Impl
     /// </summary>
     /// <typeparam name="TElement">Type of the supported elements.</typeparam>
     /// <typeparam name="TAnnotation">Type of the information to store for each element.</typeparam>
-    public class FingerprintMatcher<TElement, TAnnotation> : Matcher<TElement, IServiceLocator>, IMatcher<TElement> where TAnnotation : IHashingAnnotation, new()
+    public class FingerprintMatcher<TElement, TAnnotation> : Matcher<TElement, TAnnotation, IServiceLocator>, IMatcher<TElement> where TAnnotation : IHashingAnnotation, new()
     {
         /// <summary>
         /// Initializes the instance.
@@ -50,11 +50,14 @@ namespace Jawilliam.CDF.Approach.Criterions.Impl
         /// <returns>candidate matches for the given node.</returns>
         public override IEnumerable<MatchInfo<TElement>> Matches(TElement original, MatchingContext<TElement> context)
         {
-            var hierarchicalAbstraction = this.ServiceLocator.HierarchicalAbstraction<TElement>();
+            var hierarchicalAbstraction = this.ServiceLocator.HierarchicalAbstraction<TElement, TAnnotation>();
             var matchingSet = this.ServiceLocator.MatchingSet<TElement>();
 
             var oAnnotation = this.ServiceLocator.Original<TElement, TAnnotation>(original);
-            foreach (var m in context.LScope.Modified.PostOrder(hierarchicalAbstraction.Children).Where(matchingSet.Modifieds.Unmatched))
+            foreach (var m in context.LScope.Modified
+                              .PostOrder(o1 => hierarchicalAbstraction
+                              .Children(o1, this.ServiceLocator.Modifieds<TElement, TAnnotation>(), true))
+                              .Where(matchingSet.Modifieds.Unmatched))
             {
                 var mAnnotation = this.ServiceLocator.Modified<TElement, TAnnotation>(m);
                 var oHash = this.GetHash(oAnnotation);
@@ -74,14 +77,18 @@ namespace Jawilliam.CDF.Approach.Criterions.Impl
             if (candidates?.Count() == 1)
             {
                 var candidate = candidates.Single();
-                var hierarchicalAbstraction = this.ServiceLocator.HierarchicalAbstraction<TElement>();
-                var oAnnotation = this.ServiceLocator.Original<TElement, TAnnotation>(candidate.Original);
-                var mAnnotation = this.ServiceLocator.Modified<TElement, TAnnotation>(candidate.Modified);
+                var hierarchicalAbstraction = this.ServiceLocator.HierarchicalAbstraction<TElement, TAnnotation>();
 
-                if (!context.LScope.Original.PostOrder(hierarchicalAbstraction.Children)
+                var originals = this.ServiceLocator.Originals<TElement, TAnnotation>();
+                var modifieds = this.ServiceLocator.Modifieds<TElement, TAnnotation>();
+
+                var oAnnotation = originals.Annotations[candidate.Original];
+                var mAnnotation = modifieds.Annotations[candidate.Modified];
+
+                if (!context.LScope.Original.PostOrder(o1 => hierarchicalAbstraction.Children(o1, originals))
                         .Any(n => object.Equals(n, candidate.Original) &&
                                   object.Equals(this.GetHash(this.ServiceLocator.Original<TElement, TAnnotation>(n)), this.GetHash(oAnnotation))) &&
-                    !context.LScope.Modified.PostOrder(hierarchicalAbstraction.Children)
+                    !context.LScope.Modified.PostOrder(o1 => hierarchicalAbstraction.Children(o1, modifieds))
                         .Any(n => object.Equals(n, candidate.Modified) &&
                                   object.Equals(this.GetHash(this.ServiceLocator.Modified<TElement, TAnnotation>(n)), this.GetHash(mAnnotation))))
                     return candidate;

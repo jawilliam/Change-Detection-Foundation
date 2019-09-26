@@ -47,14 +47,14 @@ namespace Jawilliam.CDF.Approach.Choices
         /// <summary>
         /// Stores the value of <see cref="Traverse"/>.
         /// </summary>
-        private Func<TElement, IEnumerable<TElement>> _traverse;
+        private Func<TElement, IAnnotationSetService<TElement, TAnnotation>, IEnumerable<TElement>> _traverse;
 
         /// <summary>
         /// Gets the strategy to traverse the original AST.
         /// </summary>
-        public Func<TElement, IEnumerable<TElement>> Traverse
+        public Func<TElement, IAnnotationSetService<TElement, TAnnotation>, IEnumerable<TElement>> Traverse
         {
-            get => this._traverse ?? (this._traverse = o => o.BreadthFirstOrder(this.Approach.HierarchicalAbstraction().Children));
+            get => this._traverse ?? (this._traverse = (o, annSet) => o.BreadthFirstOrder(o1 => this.Approach.HierarchicalAbstraction<TElement, TAnnotation>().Children(o1, annSet)));
             set { this._traverse = value ?? throw new ArgumentNullException(nameof(value)); }
         }
 
@@ -73,24 +73,27 @@ namespace Jawilliam.CDF.Approach.Choices
         protected override void CoreOnStep()
         {
             var semanticAbstraction = this.Approach.SemanticAbstraction();
-            var hierarchicalAbstraction = this.Approach.HierarchicalAbstraction();
+            var hierarchicalAbstraction = this.Approach.HierarchicalAbstraction<TElement, TAnnotation>();
             var matchingSet = this.Approach.MatchingSet();
 
-            var candidates = this.Traverse(this.Approach.Result.Original)
+            var originals = this.Approach.Originals<TElement, TAnnotation>();
+            var modifieds = this.Approach.Modifieds<TElement, TAnnotation>();
+
+            var candidates = this.Traverse(this.Approach.Result.Original, originals)
                 .SelectMany(o =>
                 {
-                    var oAnnotation = this.Approach.Original<TElement, TAnnotation>(o);
+                    var oAnnotation = originals.Annotations[o];
                     return oAnnotation.Candidates?.Count > 1 ? oAnnotation.Candidates : new HashSet<MatchInfo<TElement>>();
                 });
 
             var parentSimilarities = from c in candidates.Where(c => c.Criterion == (int)MatchInfoCriterions.IdenticalFullHash)
-                                     let pOriginalAnnotation = this.Approach.Original<TElement, TAnnotation>(hierarchicalAbstraction.Parent(c.Original))
-                                     let pModifiedAnnotation = this.Approach.Modified<TElement, TAnnotation>(hierarchicalAbstraction.Parent(c.Modified))
+                                     let pOriginalAnnotation = originals.Annotations[hierarchicalAbstraction.Parent(c.Original, originals)]
+                                     let pModifiedAnnotation = modifieds.Annotations[hierarchicalAbstraction.Parent(c.Modified, modifieds)]
                                      select new
                                      {
                                          Candidate = c,
-                                         Similarity = this.Metric.GetSimilarity(pOriginalAnnotation.Element.Leaves(hierarchicalAbstraction.Children, hierarchicalAbstraction.IsLeaf).Where(semanticAbstraction.IsEssential),
-                                                                                pModifiedAnnotation.Element.Leaves(hierarchicalAbstraction.Children, hierarchicalAbstraction.IsLeaf).Where(semanticAbstraction.IsEssential)),
+                                         Similarity = this.Metric.GetSimilarity(pOriginalAnnotation.Element.Leaves(o1 => hierarchicalAbstraction.Children(o1, originals), o1 => hierarchicalAbstraction.IsLeaf(o1, originals)).Where(semanticAbstraction.IsEssential),
+                                                                                pModifiedAnnotation.Element.Leaves(o1 => hierarchicalAbstraction.Children(o1, modifieds), o1 => hierarchicalAbstraction.IsLeaf(o1, modifieds)).Where(semanticAbstraction.IsEssential)),
                                          Ratio = Math.Min(pOriginalAnnotation.Size, pModifiedAnnotation.Size) * 1d / Math.Max(pOriginalAnnotation.Size, pModifiedAnnotation.Size),
                                          MaxSize = Math.Max(pOriginalAnnotation.Size, pModifiedAnnotation.Size),
                                      };

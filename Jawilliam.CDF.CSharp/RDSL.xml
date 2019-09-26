@@ -162,7 +162,7 @@
         </Property>
       </Properties>
       <Rules>
-        <Topology leaf="Tiny"/>
+        <Topology leaf="Tiny Eventually"/>
         <Name equality="true" absolute="true"/>
       </Rules>
     </Type>
@@ -989,6 +989,9 @@
           </Rules>
         </Property>
       </Properties>
+      <Rules>
+        <Topology leaf="Terminal"/>
+      </Rules>
     </Type>
     <!--And Related$BaseArgumentListSyntax-->
     <Type name="BaseArgumentListSyntax" abstract="true">
@@ -2012,7 +2015,7 @@
         </Property>
       </Properties>
       <Rules>
-        <Topology leaf="Likely"/>
+        <Topology leaf="Likely Eventually"/>
       </Rules>
       <Annotations>
         <Annotation context="Suppress" role="Kind"/>
@@ -4444,7 +4447,7 @@
         </Property>
       </Properties>
       <Rules>
-        <Topology leaf="Likely"/><!-- Eventually Terminal?-->
+        <Topology leaf="Likely Terminal"/><!-- Eventually Terminal?-->
         <Name suitability="Key" equality="true" absolute="true"/>
       </Rules>
     </Type>
@@ -4474,7 +4477,7 @@
         </Property>
       </Properties>
       <Rules>
-        <Topology leaf="Likely"/><!-- Eventually Terminal?-->
+        <Topology leaf="Likely Terminal"/><!-- Eventually Terminal?-->
         <Name suitability="Key" equality="true" absolute="true"/>
       </Rules>
     </Type>
@@ -5253,7 +5256,10 @@
         <Property name="Name" kind="Node" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single" hashtags="#XML#Name">
           <!--<Rules>
             <Topology relevant="true"/>
-          </Rules>-->
+          </Rules>--> 
+          <Rules>
+            <Pairwise tunneling="true"/>
+          </Rules>
         </Property>
         <Property name="EqualsToken" kind="Token" index="1" readOnly="true" optional="false" inherited="true" multiplicity="Single" hashtags="#PUNTUACTION">
           <Rules>
@@ -5297,7 +5303,10 @@
         <Property name="Name" kind="Node" index="0" readOnly="true" optional="false" inherited="true" multiplicity="Single" hashtags="#XML#Name">
           <!--<Rules>
             <Topology relevant="true"/>
-          </Rules>-->
+          </Rules>--> 
+          <Rules>
+            <Pairwise tunneling="true"/>
+          </Rules>
         </Property>
         <Property name="EqualsToken" kind="Token" index="1" readOnly="true" optional="false" inherited="true" multiplicity="Single" hashtags="#PUNTUACTION">
           <Rules>
@@ -5332,7 +5341,7 @@
         </Property>
       </Properties>
       <Rules>
-        <Topology leaf="Likely Tiny Terminal"/>
+        <Topology leaf="Likely Tiny Eventually"/>
         <Name suitability="Key" equality="true" absolute="true"/>
       </Rules>
     </Type>

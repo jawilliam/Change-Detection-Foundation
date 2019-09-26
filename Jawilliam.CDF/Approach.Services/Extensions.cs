@@ -93,13 +93,14 @@ namespace Jawilliam.CDF.Approach.Services
         /// <param name="getServiceOrThrowsException">if true and the requested service does not exist, it throws an exception.</param>
         /// <param name="full">Indicates if the abstraction is basically hierarchical (true) or topological (false)</param>
         /// <returns>the service supporting functionalities for handling the hierarchical nature of the supported elements. </returns>
-        public static IHierarchicalAbstractionService<TElement> HierarchicalAbstraction<TElement>(this IServiceLocator serviceLocator, bool full = false, bool getServiceOrThrowsException = true)
+        public static IHierarchicalAbstractionService<TElement, TAnnotation> HierarchicalAbstraction<TElement, TAnnotation>(this IServiceLocator serviceLocator, bool full = false, bool getServiceOrThrowsException = true)
+        where TAnnotation : new()
         {
             Debug.Assert(serviceLocator != null);
             var serviceId = full ? ServiceId.HierarchicalAbstraction : ServiceId.TopologicalAbstraction;
             return getServiceOrThrowsException
-                ? serviceLocator.GetServiceOrThrowsException<IHierarchicalAbstractionService<TElement>>((int)serviceId)
-                : serviceLocator.GetService<IHierarchicalAbstractionService<TElement>>((int)serviceId);
+                ? serviceLocator.GetServiceOrThrowsException<IHierarchicalAbstractionService<TElement, TAnnotation>>((int)serviceId)
+                : serviceLocator.GetService<IHierarchicalAbstractionService<TElement, TAnnotation>>((int)serviceId);
         }
 
         /// <summary>
@@ -110,9 +111,41 @@ namespace Jawilliam.CDF.Approach.Services
         /// <param name="getServiceOrThrowsException">if true and the requested service does not exist, it throws an exception.</param>
         /// <param name="full">Indicates if the abstraction is basically hierarchical (true) or topological (false)</param>
         /// <returns>the service supporting functionalities for handling the hierarchical nature of the supported elements. </returns>
-        public static IHierarchicalAbstractionService<TElement> HierarchicalAbstraction<TElement>(this IApproach<TElement> approach, bool full = false, bool getServiceOrThrowsException = true)
+        public static IHierarchicalAbstractionService<TElement, TAnnotation> HierarchicalAbstraction<TElement, TAnnotation>(this IApproach<TElement> approach, bool full = false, bool getServiceOrThrowsException = true)
+        where TAnnotation : new()
         {
-            return HierarchicalAbstraction<TElement>((IServiceLocator)approach, full, getServiceOrThrowsException);
+            return HierarchicalAbstraction<TElement, TAnnotation>((IServiceLocator)approach, full, getServiceOrThrowsException);
+        }
+
+        /// <summary>
+        /// Exposes functionalities for handling the hierarchical nature of the supported elements. 
+        /// </summary>
+        /// <typeparam name="TElement">Type of the supported elements.</typeparam>
+        /// <param name="serviceLocator">the context wherein dynamically loading any required service.</param>
+        /// <param name="getServiceOrThrowsException">if true and the requested service does not exist, it throws an exception.</param>
+        /// <param name="full">Indicates if the abstraction is basically hierarchical (true) or topological (false)</param>
+        /// <returns>the service supporting functionalities for handling the hierarchical nature of the supported elements. </returns>
+        public static IHierarchicalAbstractionService<TElement, TAnnotation> AnnotatedHierarchicalAbstraction<TElement, TAnnotation>(this IServiceLocator serviceLocator, bool getServiceOrThrowsException = true)
+        where TAnnotation : new()
+        {
+            Debug.Assert(serviceLocator != null);
+            return getServiceOrThrowsException
+                ? serviceLocator.GetServiceOrThrowsException<IHierarchicalAbstractionService<TElement, TAnnotation>>((int)ServiceId.AnnotatedHierarchicalAbstraction)
+                : serviceLocator.GetService<IHierarchicalAbstractionService<TElement, TAnnotation>>((int)ServiceId.AnnotatedHierarchicalAbstraction);
+        }
+
+        /// <summary>
+        /// Exposes functionalities for handling the hierarchical nature of the supported elements. 
+        /// </summary>
+        /// <typeparam name="TElement">Type of the supported elements.</typeparam>
+        /// <param name="approach">the context wherein dynamically loading any required service.</param>
+        /// <param name="getServiceOrThrowsException">if true and the requested service does not exist, it throws an exception.</param>
+        /// <param name="full">Indicates if the abstraction is basically hierarchical (true) or topological (false)</param>
+        /// <returns>the service supporting functionalities for handling the hierarchical nature of the supported elements. </returns>
+        public static IHierarchicalAbstractionService<TElement, TAnnotation> AnnotatedHierarchicalAbstraction<TElement, TAnnotation>(this IApproach<TElement> approach, bool getServiceOrThrowsException = true)
+        where TAnnotation : new()
+        {
+            return AnnotatedHierarchicalAbstraction<TElement, TAnnotation>((IServiceLocator)approach, getServiceOrThrowsException);
         }
 
         /// <summary>

@@ -25,21 +25,24 @@ namespace Jawilliam.CDF.Approach.Services.Impl
         /// </summary>
         public virtual void Begin()
         {
-            var hierachicalAbstraction = this.ServiceLocator.HierarchicalAbstraction(full: true);
-            foreach (var original in this.ServiceLocator.Result.Original.PostOrder(hierachicalAbstraction.Children))
+            var hierachicalAbstraction = this.ServiceLocator.HierarchicalAbstraction<TElement, TAnnotation>(full: true);
+
+            var originals = this.ServiceLocator.Originals<TElement, TAnnotation>();
+            foreach (var original in this.ServiceLocator.Result.Original.PostOrder(o1 => hierachicalAbstraction.Children(o1, originals, true)))
             {
-                var oAnnotation = this.ServiceLocator.Original<TElement, TAnnotation>(original);
-                oAnnotation.Children = hierachicalAbstraction.Children(original).ToList();
+                var oAnnotation = originals.Annotations[original];
+                oAnnotation.Children = hierachicalAbstraction.Children(original, originals, true).ToList();
                 foreach (var oChild in oAnnotation.Children)
                 {
-                    this.ServiceLocator.Original<TElement, TAnnotation>(oChild).Parent = original;
+                    originals.Annotations[oChild].Parent = original;
                 }
             }
 
-            foreach (var modified in this.ServiceLocator.Result.Modified.PostOrder(hierachicalAbstraction.Children))
+            var modifieds = this.ServiceLocator.Modifieds<TElement, TAnnotation>();
+            foreach (var modified in this.ServiceLocator.Result.Modified.PostOrder(o1 => hierachicalAbstraction.Children(o1, modifieds, true)))
             {
-                var mAnnotation = this.ServiceLocator.Modified<TElement, TAnnotation>(modified);
-                mAnnotation.Children = hierachicalAbstraction.Children(modified).ToList();
+                var mAnnotation = modifieds.Annotations[modified];
+                mAnnotation.Children = hierachicalAbstraction.Children(modified, modifieds, true).ToList();
                 foreach (var mChild in mAnnotation.Children)
                 {
                     this.ServiceLocator.Modified<TElement, TAnnotation>(mChild).Parent = modified;
@@ -52,23 +55,26 @@ namespace Jawilliam.CDF.Approach.Services.Impl
         /// </summary>
         public virtual void End()
         {
-            var hierachicalAbstraction = this.ServiceLocator.HierarchicalAbstraction(full: true);
-            foreach (var original in this.ServiceLocator.Result.Original.PostOrder(hierachicalAbstraction.Children))
+            var hierachicalAbstraction = this.ServiceLocator.HierarchicalAbstraction<TElement, TAnnotation>(full: true);
+
+            var originals = this.ServiceLocator.Originals<TElement, TAnnotation>();
+            foreach (var original in this.ServiceLocator.Result.Original.PostOrder(o1 => hierachicalAbstraction.Children(o1, originals, true)))
             {
-                var oAnnotation = this.ServiceLocator.Original<TElement, TAnnotation>(original);
+                var oAnnotation = originals.Annotations[original];
                 foreach (var oChild in oAnnotation.Children)
                 {
-                    this.ServiceLocator.Original<TElement, TAnnotation>(oChild).Parent = default(TElement);
+                    originals.Annotations[oChild].Parent = default(TElement);
                 }
                 oAnnotation.Children = null;
             }
 
-            foreach (var modified in this.ServiceLocator.Result.Modified.PostOrder(hierachicalAbstraction.Children))
+            var modifieds = this.ServiceLocator.Modifieds<TElement, TAnnotation>();
+            foreach (var modified in this.ServiceLocator.Result.Modified.PostOrder(o1 => hierachicalAbstraction.Children(o1, modifieds, true)))
             {
-                var mAnnotation = this.ServiceLocator.Modified<TElement, TAnnotation>(modified);
+                var mAnnotation = modifieds.Annotations[modified];
                 foreach (var mChild in mAnnotation.Children)
                 {
-                    this.ServiceLocator.Modified<TElement, TAnnotation>(mChild).Parent = default(TElement);
+                    modifieds.Annotations[mChild].Parent = default(TElement);
                 }
                 mAnnotation.Children = null;
             }
@@ -134,7 +140,9 @@ namespace Jawilliam.CDF.Approach.Services.Impl
         public virtual void Delete(TElement original, bool addActions)
         {
             var oAnnotation = this.ServiceLocator.Original<TElement, TAnnotation>(original);
-            var pAnnotation = this.ServiceLocator.Original<TElement, TAnnotation>(this.OriginalsHierarchicalAbstraction.Parent(original));
+            var parent = this.ServiceLocator.AnnotatedHierarchicalAbstraction<TElement, TAnnotation>()
+                         .Parent(original, this.ServiceLocator.Originals<TElement, TAnnotation>());
+            var pAnnotation = this.ServiceLocator.Original<TElement, TAnnotation>(parent);
             pAnnotation.Children.Remove(original);
             oAnnotation.Parent = default(TElement);
 
@@ -168,7 +176,9 @@ namespace Jawilliam.CDF.Approach.Services.Impl
         /// <param name="position">as the k-th child of (its parent).</param>
         public virtual void Align(TElement original, int position)
         {
-            var parent = this.OriginalsHierarchicalAbstraction.Parent(original);
+            var parent = this.ServiceLocator.AnnotatedHierarchicalAbstraction<TElement, TAnnotation>()
+                         .Parent(original, this.ServiceLocator.Originals<TElement, TAnnotation>());
+
             var pAnnotation = this.ServiceLocator.Original<TElement, TAnnotation>(parent);
             int fromCurrentKChild = pAnnotation.Children.IndexOf(original);
             pAnnotation.Children.Remove(original);
@@ -208,32 +218,32 @@ namespace Jawilliam.CDF.Approach.Services.Impl
             newParentAnnotation.Actions.Add(moveAction);
         }
 
-        /// <summary>
-        /// Stores the value of <see cref="OriginalsHierarchicalAbstraction"/>.
-        /// </summary>
-        private IHierarchicalAbstractionService<TElement> _originalsHierarchicalAbstraction;
+        ///// <summary>
+        ///// Stores the value of <see cref="OriginalsHierarchicalAbstraction"/>.
+        ///// </summary>
+        //private IHierarchicalAbstractionService<TElement> _originalsHierarchicalAbstraction;
 
-        /// <summary>
-        /// Exposes functionalities for hierarchically handling the hierarchical original versions. 
-        /// </summary>
-        public virtual IHierarchicalAbstractionService<TElement> OriginalsHierarchicalAbstraction
-        {
-            get => this._originalsHierarchicalAbstraction ?? (this._originalsHierarchicalAbstraction = new McesHierarchicalSyntaxNodeService<TElement, TAnnotation>.Originals(this.ServiceLocator));
-            set => this._originalsHierarchicalAbstraction = value;
-        }
+        ///// <summary>
+        ///// Exposes functionalities for hierarchically handling the hierarchical original versions. 
+        ///// </summary>
+        //public virtual IHierarchicalAbstractionService<TElement> OriginalsHierarchicalAbstraction
+        //{
+        //    get => this._originalsHierarchicalAbstraction ?? (this._originalsHierarchicalAbstraction = new McesHierarchicalSyntaxNodeService<TElement, TAnnotation>.Originals(this.ServiceLocator));
+        //    set => this._originalsHierarchicalAbstraction = value;
+        //}
 
-        /// <summary>
-        /// Stores the value of <see cref="ModifiedsHierarchicalAbstraction"/>.
-        /// </summary>
-        private IHierarchicalAbstractionService<TElement> _modifiedsHierarchicalAbstraction;
+        ///// <summary>
+        ///// Stores the value of <see cref="ModifiedsHierarchicalAbstraction"/>.
+        ///// </summary>
+        //private IHierarchicalAbstractionService<TElement> _modifiedsHierarchicalAbstraction;
 
-        /// <summary>
-        /// Exposes functionalities for hierarchically handling the hierarchical modified versions. 
-        /// </summary>
-        public virtual IHierarchicalAbstractionService<TElement> ModifiedsHierarchicalAbstraction
-        {
-            get => this._modifiedsHierarchicalAbstraction ?? (this._modifiedsHierarchicalAbstraction = new McesHierarchicalSyntaxNodeService<TElement, TAnnotation>.Modifieds(this.ServiceLocator));
-            set => this._modifiedsHierarchicalAbstraction = value;
-        }
+        ///// <summary>
+        ///// Exposes functionalities for hierarchically handling the hierarchical modified versions. 
+        ///// </summary>
+        //public virtual IHierarchicalAbstractionService<TElement> ModifiedsHierarchicalAbstraction
+        //{
+        //    get => this._modifiedsHierarchicalAbstraction ?? (this._modifiedsHierarchicalAbstraction = new McesHierarchicalSyntaxNodeService<TElement, TAnnotation>.Modifieds(this.ServiceLocator));
+        //    set => this._modifiedsHierarchicalAbstraction = value;
+        //}
     }
 }

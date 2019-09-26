@@ -75,6 +75,7 @@ var manager = TemplateFileManager.Create(this);
 var xSyntaxTypeSystem = Jawilliam.CDF.XObjects.RDSL.Syntax.Load(@"E:\MyRepositories\Change-Detection-Foundation\Jawilliam.CDF.CSharp\RDSL.xml");
 #>
 using Jawilliam.CDF.Approach.Awareness;
+using Jawilliam.CDF.Approach.Annotations;
 using Jawilliam.CDF.Approach.Criterions;
 using Jawilliam.CDF.Approach.Flad;
 using Jawilliam.CDF.Approach.Services;
@@ -138,30 +139,36 @@ foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
 	if(xSyntaxNodeType != null)
 	{
 #>
-public <#= xSyntaxNodeType.@abstract ? "abstract " : "" #>partial class <#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>ServiceProvider : IHierarchicalAbstractionService<SyntaxNodeOrToken?>
+public <#= xSyntaxNodeType.@abstract ? "abstract " : "" #>partial class <#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>ServiceProvider : IHierarchicalAbstractionService<SyntaxNodeOrToken?, Jawilliam.CDF.Approach.Annotations.Impl.Annotation<SyntaxNodeOrToken?>>
 {
 	/// <summary>
-    /// Method hook for implementing logic to execute before the <see cref="Children(SyntaxNodeOrToken?)"/>.
+    /// Method hook for implementing logic to execute before the <see cref="Children(SyntaxNodeOrToken?, IAnnotationSetService{SyntaxNodeOrToken?, Approach.Annotations.Impl.Annotation{SyntaxNodeOrToken?}}, bool)"/>.
     /// </summary>
     /// <param name="node">node of interest.</param>
-    /// <param name="result">Mechanism to modify the result of <see cref="Children(SyntaxNodeOrToken?)"/>.</param>
-    /// <param name="ignoreCore">If true, the <see cref="ChildrenCore(SyntaxNodeOrToken?)"/> is not executed and <see cref="Children(SyntaxNodeOrToken?)"/> returns the current value of <paramref name="result"/>.</param>
-    partial void ChildrenBefore(SyntaxNodeOrToken? node, ref IEnumerable<SyntaxNodeOrToken?> result, ref bool ignoreCore);
+    /// <param name="includeTrivia">defines if the trivia would be (true), or not (false), considered</param>
+    /// <param name="annotationSet">the corresponding annotation set.</param>
+    /// <param name="result">Mechanism to modify the result of <see cref="Children(SyntaxNodeOrToken?, IAnnotationSetService{SyntaxNodeOrToken?, Approach.Annotations.Impl.Annotation{SyntaxNodeOrToken?}}, bool)"/>.</param>
+    /// <param name="ignoreCore">If true, the <see cref="ChildrenCore(SyntaxNodeOrToken?, IAnnotationSetService{SyntaxNodeOrToken?, Approach.Annotations.Impl.Annotation{SyntaxNodeOrToken?}}, bool)"/> is not executed and <see cref="Children(SyntaxNodeOrToken?, IAnnotationSetService{SyntaxNodeOrToken?, Approach.Annotations.Impl.Annotation{SyntaxNodeOrToken?}}, bool)"/> returns the current value of <paramref name="result"/>.</param>
+    partial void ChildrenBefore(SyntaxNodeOrToken? node, IAnnotationSetService<SyntaxNodeOrToken?, Jawilliam.CDF.Approach.Annotations.Impl.Annotation<SyntaxNodeOrToken?>> annotationSet, ref IEnumerable<SyntaxNodeOrToken?> result, ref bool ignoreCore, bool includeTrivia = false);
     
     /// <summary>
-    /// Method hook for implementing logic to execute after the <see cref="ChildrenCore(SyntaxNodeOrToken?)"/>.
+    /// Method hook for implementing logic to execute after the <see cref="ChildrenCore(SyntaxNodeOrToken?, IAnnotationSetService{SyntaxNodeOrToken?, Approach.Annotations.Impl.Annotation{SyntaxNodeOrToken?}}, bool)"/>.
     /// </summary>
     /// <param name="node">node of interest.</param>
-    /// <param name="result">Mechanism to modify the result of <see cref="Children(SyntaxNodeOrToken?)"/>.</param>
-    partial void ChildrenAfter(SyntaxNodeOrToken? node, ref IEnumerable<SyntaxNodeOrToken?> result);
+    /// <param name="includeTrivia">defines if the trivia would be (true), or not (false), considered</param>
+    /// <param name="annotationSet">the corresponding annotation set.</param>
+    /// <param name="result">Mechanism to modify the result of <see cref="Children(SyntaxNodeOrToken?, IAnnotationSetService{SyntaxNodeOrToken?, Approach.Annotations.Impl.Annotation{SyntaxNodeOrToken?}}, bool)"/>.</param>
+    partial void ChildrenAfter(SyntaxNodeOrToken? node, IAnnotationSetService<SyntaxNodeOrToken?, Jawilliam.CDF.Approach.Annotations.Impl.Annotation<SyntaxNodeOrToken?>> annotationSet, ref IEnumerable<SyntaxNodeOrToken?> result, bool includeTrivia = false);
 
     /// <summary>
     /// Access to the children of a node.
     /// </summary>
     /// <param name="node">node of interest.</param>
+    /// <param name="includeTrivia">defines if the trivia would be (true), or not (false), considered</param>
+    /// <param name="annotationSet">the corresponding annotation set.</param>
     /// <returns>the node's children.</returns>
-    /// <remarks>This is the default implementation for <see cref="Children(SyntaxNodeOrToken?)"/>.</remarks>
-    protected virtual IEnumerable<SyntaxNodeOrToken?> ChildrenCore(SyntaxNodeOrToken? node)
+    /// <remarks>This is the default implementation for <see cref="Children(SyntaxNodeOrToken?, IAnnotationSetService{SyntaxNodeOrToken?, Approach.Annotations.Impl.Annotation{SyntaxNodeOrToken?}}, bool)"/>.</remarks>
+    protected virtual IEnumerable<SyntaxNodeOrToken?> ChildrenCore(SyntaxNodeOrToken? node, IAnnotationSetService<SyntaxNodeOrToken?, Jawilliam.CDF.Approach.Annotations.Impl.Annotation<SyntaxNodeOrToken?>> annotationSet, bool includeTrivia = false)
 	{
 		var n = node != null ? (<#= code.Escape(syntaxNode.Root.Label.ToString()) #>)node : throw new ArgumentNullException(nameof(node));
 <#
@@ -225,42 +232,47 @@ public <#= xSyntaxNodeType.@abstract ? "abstract " : "" #>partial class <#= code
     /// Access to the children of a node.
     /// </summary>
     /// <param name="node">node of interest.</param>
+    /// <param name="includeTrivia">defines if the trivia would be (true), or not (false), considered</param>
+    /// <param name="annotationSet">the corresponding annotation set.</param>
     /// <returns>the node's children.</returns>
-    public virtual IEnumerable<SyntaxNodeOrToken?> Children(SyntaxNodeOrToken? node)
+    public virtual IEnumerable<SyntaxNodeOrToken?> Children(SyntaxNodeOrToken? node, IAnnotationSetService<SyntaxNodeOrToken?, Jawilliam.CDF.Approach.Annotations.Impl.Annotation<SyntaxNodeOrToken?>> annotationSet, bool includeTrivia = false)
 	{
 		IEnumerable<SyntaxNodeOrToken?> result = null;
 		var ignoreCore = false;
-		ChildrenBefore(node, ref result, ref ignoreCore);
+		ChildrenBefore(node, annotationSet, ref result, ref ignoreCore, includeTrivia);
 		if(ignoreCore) 
 			return result;
 		
-		result = this.ChildrenCore(node);
-		ChildrenAfter(node, ref result);
+		result = this.ChildrenCore(node, annotationSet, includeTrivia);
+		ChildrenAfter(node, annotationSet, ref result, includeTrivia);
 		return result;
 	}
 
 	/// <summary>
-    /// Method hook for implementing logic to execute before the <see cref="Parent(SyntaxNodeOrToken?)"/>.
+    /// Method hook for implementing logic to execute before the <see cref="Parent(SyntaxNodeOrToken?, IAnnotationSetService{SyntaxNodeOrToken?, Approach.Annotations.Impl.Annotation{SyntaxNodeOrToken?}}, bool)"/>.
     /// </summary>
     /// <param name="node">node of interest.</param>
-    /// <param name="result">Mechanism to modify the result of <see cref="Parent(SyntaxNodeOrToken?)"/>.</param>
-    /// <param name="ignoreCore">If true, the <see cref="ParentCore(SyntaxNodeOrToken?)"/> is not executed and <see cref="Parent(SyntaxNodeOrToken?)"/> returns the current value of <paramref name="result"/>.</param>
-    partial void ParentBefore(SyntaxNodeOrToken? node, ref SyntaxNodeOrToken? result, ref bool ignoreCore);
+    /// <param name="annotationSet">the corresponding annotation set.</param>
+    /// <param name="result">Mechanism to modify the result of <see cref="Parent(SyntaxNodeOrToken?, IAnnotationSetService{SyntaxNodeOrToken?, Approach.Annotations.Impl.Annotation{SyntaxNodeOrToken?}}, bool)"/>.</param>
+    /// <param name="ignoreCore">If true, the <see cref="ParentCore(SyntaxNodeOrToken?, IAnnotationSetService{SyntaxNodeOrToken?, Approach.Annotations.Impl.Annotation{SyntaxNodeOrToken?}}, bool)"/> is not executed and <see cref="Parent(SyntaxNodeOrToken?, IAnnotationSetService{SyntaxNodeOrToken?, Approach.Annotations.Impl.Annotation{SyntaxNodeOrToken?}}, bool)"/> returns the current value of <paramref name="result"/>.</param>
+    partial void ParentBefore(SyntaxNodeOrToken? node, IAnnotationSetService<SyntaxNodeOrToken?, Jawilliam.CDF.Approach.Annotations.Impl.Annotation<SyntaxNodeOrToken?>> annotationSet, ref SyntaxNodeOrToken? result, ref bool ignoreCore);
     
     /// <summary>
-    /// Method hook for implementing logic to execute after the <see cref="ParentCore(SyntaxNodeOrToken?)"/>.
+    /// Method hook for implementing logic to execute after the <see cref="ParentCore(SyntaxNodeOrToken?, IAnnotationSetService{SyntaxNodeOrToken?, Approach.Annotations.Impl.Annotation{SyntaxNodeOrToken?}}, bool)"/>.
     /// </summary>
     /// <param name="node">node of interest.</param>
-    /// <param name="result">Mechanism to modify the result of <see cref="Parent(SyntaxNodeOrToken?)"/>.</param>
-    partial void ParentAfter(SyntaxNodeOrToken? node, ref SyntaxNodeOrToken? result);
+    /// <param name="annotationSet">the corresponding annotation set.</param>
+    /// <param name="result">Mechanism to modify the result of <see cref="Parent(SyntaxNodeOrToken?, IAnnotationSetService{SyntaxNodeOrToken?, Approach.Annotations.Impl.Annotation{SyntaxNodeOrToken?}}, bool)"/>.</param>
+    partial void ParentAfter(SyntaxNodeOrToken? node, IAnnotationSetService<SyntaxNodeOrToken?, Jawilliam.CDF.Approach.Annotations.Impl.Annotation<SyntaxNodeOrToken?>> annotationSet, ref SyntaxNodeOrToken? result);
 
     /// <summary>
     /// Access to the parent of a node.
     /// </summary>
     /// <param name="node">node of interest.</param>
+    /// <param name="annotationSet">the corresponding annotation set.</param>
     /// <returns>the node's parent.</returns>
-    /// <remarks>This is the default implementation for <see cref="Parent(SyntaxNodeOrToken?)"/>.</remarks>
-    protected virtual SyntaxNodeOrToken? ParentCore(SyntaxNodeOrToken? node)
+    /// <remarks>This is the default implementation for <see cref="Parent(SyntaxNodeOrToken?, IAnnotationSetService{SyntaxNodeOrToken?, Approach.Annotations.Impl.Annotation{SyntaxNodeOrToken?}}, bool)"/>.</remarks>
+    protected virtual SyntaxNodeOrToken? ParentCore(SyntaxNodeOrToken? node, IAnnotationSetService<SyntaxNodeOrToken?, Jawilliam.CDF.Approach.Annotations.Impl.Annotation<SyntaxNodeOrToken?>> annotationSet)
 	{
 		return node.Value.Parent;
 	}
@@ -269,44 +281,48 @@ public <#= xSyntaxNodeType.@abstract ? "abstract " : "" #>partial class <#= code
     /// Access to the parent of a node.
     /// </summary>
     /// <param name="node">node of interest.</param>
+    /// <param name="annotationSet">the corresponding annotation set.</param>
     /// <returns>the node's parent.</returns>
-    public virtual SyntaxNodeOrToken? Parent(SyntaxNodeOrToken? node)
+    public virtual SyntaxNodeOrToken? Parent(SyntaxNodeOrToken? node, IAnnotationSetService<SyntaxNodeOrToken?, Jawilliam.CDF.Approach.Annotations.Impl.Annotation<SyntaxNodeOrToken?>> annotationSet)
 	{
 		SyntaxNodeOrToken? result = null;
 		var ignoreCore = false;
-		ParentBefore(node, ref result, ref ignoreCore);
+		ParentBefore(node, annotationSet, ref result, ref ignoreCore);
 		if(ignoreCore) 
 			return result;
 		
-		result = this.ParentCore(node);
-		ParentAfter(node, ref result);
+		result = this.ParentCore(node, annotationSet);
+		ParentAfter(node, annotationSet, ref result);
 		return result;
 	}
 
 	/// <summary>
-    /// Method hook for implementing logic to execute before the <see cref="Label(SyntaxNodeOrToken?)"/>.
+    /// Method hook for implementing logic to execute before the <see cref="Label(SyntaxNodeOrToken?, IAnnotationSetService{SyntaxNodeOrToken?, Approach.Annotations.Impl.Annotation{SyntaxNodeOrToken?}}, bool)"/>.
     /// </summary>
     /// <param name="node">node of interest.</param>
+    /// <param name="annotationSet">the corresponding annotation set.</param>
     /// <returns>the node's children.</returns>
-    /// <param name="result">Mechanism to modify the result of <see cref="Label(SyntaxNodeOrToken?)"/>.</param>
-    /// <param name="ignoreCore">If true, the <see cref="LabelCore(SyntaxNodeOrToken?)"/> is not executed and <see cref="Label(SyntaxNodeOrToken?)"/> returns the current value of <paramref name="result"/>.</param>
-    partial void LabelBefore(SyntaxNodeOrToken? node, ref int result, ref bool ignoreCore);
+    /// <param name="result">Mechanism to modify the result of <see cref="Label(SyntaxNodeOrToken?, IAnnotationSetService{SyntaxNodeOrToken?, Approach.Annotations.Impl.Annotation{SyntaxNodeOrToken?}}, bool)"/>.</param>
+    /// <param name="ignoreCore">If true, the <see cref="LabelCore(SyntaxNodeOrToken?, IAnnotationSetService{SyntaxNodeOrToken?, Approach.Annotations.Impl.Annotation{SyntaxNodeOrToken?}}, bool)"/> is not executed and <see cref="Label(SyntaxNodeOrToken?, IAnnotationSetService{SyntaxNodeOrToken?, Approach.Annotations.Impl.Annotation{SyntaxNodeOrToken?}}, bool)"/> returns the current value of <paramref name="result"/>.</param>
+    partial void LabelBefore(SyntaxNodeOrToken? node, IAnnotationSetService<SyntaxNodeOrToken?, Jawilliam.CDF.Approach.Annotations.Impl.Annotation<SyntaxNodeOrToken?>> annotationSet, ref int result, ref bool ignoreCore);
     
     /// <summary>
-    /// Method hook for implementing logic to execute after the <see cref="LabelCore(SyntaxNodeOrToken?)"/>.
+    /// Method hook for implementing logic to execute after the <see cref="LabelCore(SyntaxNodeOrToken?, IAnnotationSetService{SyntaxNodeOrToken?, Approach.Annotations.Impl.Annotation{SyntaxNodeOrToken?}}, bool)"/>.
     /// </summary>
     /// <param name="node">node of interest.</param>
+    /// <param name="annotationSet">the corresponding annotation set.</param>
     /// <returns>the node's children.</returns>
-    /// <param name="result">Mechanism to modify the result of <see cref="Label(SyntaxNodeOrToken?)"/>.</param>
-    partial void LabelAfter(SyntaxNodeOrToken? node, ref int result);
+    /// <param name="result">Mechanism to modify the result of <see cref="Label(SyntaxNodeOrToken?, IAnnotationSetService{SyntaxNodeOrToken?, Approach.Annotations.Impl.Annotation{SyntaxNodeOrToken?}}, bool)"/>.</param>
+    partial void LabelAfter(SyntaxNodeOrToken? node, IAnnotationSetService<SyntaxNodeOrToken?, Jawilliam.CDF.Approach.Annotations.Impl.Annotation<SyntaxNodeOrToken?>> annotationSet, ref int result);
 
     /// <summary>
     /// Access to the label of a node.
     /// </summary>
     /// <param name="node">node of interest.</param>
+    /// <param name="annotationSet">the corresponding annotation set.</param>
     /// <returns>a numeric identifier of the node type.</returns>
-    /// <remarks>This is the default implementation for <see cref="Label(SyntaxNodeOrToken?)"/>.</remarks>
-    protected virtual int LabelCore(SyntaxNodeOrToken? node)
+    /// <remarks>This is the default implementation for <see cref="Label(SyntaxNodeOrToken?, IAnnotationSetService{SyntaxNodeOrToken?, Approach.Annotations.Impl.Annotation{SyntaxNodeOrToken?}}, bool)"/>.</remarks>
+    protected virtual int LabelCore(SyntaxNodeOrToken? node, IAnnotationSetService<SyntaxNodeOrToken?, Jawilliam.CDF.Approach.Annotations.Impl.Annotation<SyntaxNodeOrToken?>> annotationSet)
 	{
 		return node.Value.RawKind;
 	}
@@ -315,105 +331,113 @@ public <#= xSyntaxNodeType.@abstract ? "abstract " : "" #>partial class <#= code
     /// Access to the label of a node.
     /// </summary>
     /// <param name="node">node of interest.</param>
+    /// <param name="annotationSet">the corresponding annotation set.</param>
     /// <returns>a numeric identifier of the node type.</returns>
-    public virtual int Label(SyntaxNodeOrToken? node)
+    public virtual int Label(SyntaxNodeOrToken? node, IAnnotationSetService<SyntaxNodeOrToken?, Jawilliam.CDF.Approach.Annotations.Impl.Annotation<SyntaxNodeOrToken?>> annotationSet)
 	{
 		int result = -1;
 		var ignoreCore = false;
-		LabelBefore(node, ref result, ref ignoreCore);
+		LabelBefore(node, annotationSet, ref result, ref ignoreCore);
 		if(ignoreCore) 
 			return result;
 		
-		result = this.LabelCore(node);
-		LabelAfter(node, ref result);
+		result = this.LabelCore(node, annotationSet);
+		LabelAfter(node, annotationSet, ref result);
 		return result;
 	}
 
 	/// <summary>
-    /// Method hook for implementing logic to execute before the <see cref="Value(SyntaxNodeOrToken?)"/>.
+    /// Method hook for implementing logic to execute before the <see cref="Value(SyntaxNodeOrToken?, IAnnotationSetService{SyntaxNodeOrToken?, Approach.Annotations.Impl.Annotation{SyntaxNodeOrToken?}}, bool)"/>.
     /// </summary>
     /// <param name="node">node of interest.</param>
-    /// <param name="result">Mechanism to modify the result of <see cref="Value(SyntaxNodeOrToken?)"/>.</param>
-    /// <param name="ignoreCore">If true, the <see cref="ValueCore(SyntaxNodeOrToken?)"/> is not executed and <see cref="Value(SyntaxNodeOrToken?)"/> returns the current value of <paramref name="result"/>.</param>
-    partial void ValueBefore(SyntaxNodeOrToken? node, ref object result, ref bool ignoreCore);
+    /// <param name="annotationSet">the corresponding annotation set.</param>
+    /// <param name="result">Mechanism to modify the result of <see cref="Value(SyntaxNodeOrToken?, IAnnotationSetService{SyntaxNodeOrToken?, Approach.Annotations.Impl.Annotation{SyntaxNodeOrToken?}}, bool)"/>.</param>
+    /// <param name="ignoreCore">If true, the <see cref="ValueCore(SyntaxNodeOrToken?, IAnnotationSetService{SyntaxNodeOrToken?, Approach.Annotations.Impl.Annotation{SyntaxNodeOrToken?}}, bool)"/> is not executed and <see cref="Value(SyntaxNodeOrToken?, IAnnotationSetService{SyntaxNodeOrToken?, Approach.Annotations.Impl.Annotation{SyntaxNodeOrToken?}}, bool)"/> returns the current value of <paramref name="result"/>.</param>
+    partial void ValueBefore(SyntaxNodeOrToken? node, IAnnotationSetService<SyntaxNodeOrToken?, Jawilliam.CDF.Approach.Annotations.Impl.Annotation<SyntaxNodeOrToken?>> annotationSet, ref object result, ref bool ignoreCore);
     
     /// <summary>
-    /// Method hook for implementing logic to execute after the <see cref="ValueCore(SyntaxNodeOrToken?)"/>.
+    /// Method hook for implementing logic to execute after the <see cref="ValueCore(SyntaxNodeOrToken?, IAnnotationSetService{SyntaxNodeOrToken?, Approach.Annotations.Impl.Annotation{SyntaxNodeOrToken?}}, bool)"/>.
     /// </summary>
     /// <param name="node">node of interest.</param>
-    /// <param name="result">Mechanism to modify the result of <see cref="Value(SyntaxNodeOrToken?)"/>.</param>
-    partial void ValueAfter(SyntaxNodeOrToken? node, ref object result);
+    /// <param name="result">Mechanism to modify the result of <see cref="Value(SyntaxNodeOrToken?, IAnnotationSetService{SyntaxNodeOrToken?, Approach.Annotations.Impl.Annotation{SyntaxNodeOrToken?}}, bool)"/>.</param>
+    partial void ValueAfter(SyntaxNodeOrToken? node, IAnnotationSetService<SyntaxNodeOrToken?, Jawilliam.CDF.Approach.Annotations.Impl.Annotation<SyntaxNodeOrToken?>> annotationSet, ref object result);
 
     /// <summary>
     /// Access to the value of a node.
     /// </summary>
     /// <param name="node">node of interest.</param>
+    /// <param name="annotationSet">the corresponding annotation set.</param>
     /// <returns>the value of the given node.</returns>
-    /// <remarks>This is the default implementation for <see cref="Value(SyntaxNodeOrToken?)"/>.</remarks>
-    protected virtual object ValueCore(SyntaxNodeOrToken? node)
+    /// <remarks>This is the default implementation for <see cref="Value(SyntaxNodeOrToken?, IAnnotationSetService{SyntaxNodeOrToken?, Approach.Annotations.Impl.Annotation{SyntaxNodeOrToken?}}, bool)"/>.</remarks>
+    protected virtual object ValueCore(SyntaxNodeOrToken? node, IAnnotationSetService<SyntaxNodeOrToken?, Jawilliam.CDF.Approach.Annotations.Impl.Annotation<SyntaxNodeOrToken?>> annotationSet)
 	{
-		return node != null && this.IsLeaf(node) ? node?.ToString() : null;
+		return node != null && this.IsLeaf(node, annotationSet) ? node?.ToString() : null;
 	}
 
     /// <summary>
     /// Access to the value of a node.
     /// </summary>
     /// <param name="node">node of interest.</param>
+    /// <param name="annotationSet">the corresponding annotation set.</param>
     /// <returns>the value of the given node.</returns>
-    public virtual object Value(SyntaxNodeOrToken? node)
+    public virtual object Value(SyntaxNodeOrToken? node, IAnnotationSetService<SyntaxNodeOrToken?, Jawilliam.CDF.Approach.Annotations.Impl.Annotation<SyntaxNodeOrToken?>> annotationSet)
 	{
 		object result = null;
 		var ignoreCore = false;
-		ValueBefore(node, ref result, ref ignoreCore);
+		ValueBefore(node, annotationSet, ref result, ref ignoreCore);
 		if(ignoreCore) 
 			return result;
 		
-		result = this.ValueCore(node);
-		ValueAfter(node, ref result);
+		result = this.ValueCore(node, annotationSet);
+		ValueAfter(node, annotationSet, ref result);
 		return result;
 	}
 
 	/// <summary>
-    /// Method hook for implementing logic to execute before the <see cref="IsLeaf(SyntaxNodeOrToken?)"/>.
+    /// Method hook for implementing logic to execute before the <see cref="IsLeaf(SyntaxNodeOrToken?, IAnnotationSetService{SyntaxNodeOrToken?, Approach.Annotations.Impl.Annotation{SyntaxNodeOrToken?}}, bool)"/>.
     /// </summary>
     /// <param name="node">node of interest.</param>
-    /// <param name="result">Mechanism to modify the result of <see cref="IsLeaf(SyntaxNodeOrToken?)"/>.</param>
-    /// <param name="ignoreCore">If true, the <see cref="IsLeafCore(SyntaxNodeOrToken?)"/> is not executed and <see cref="IsLeaf(SyntaxNodeOrToken?)"/> returns the current value of <paramref name="result"/>.</param>
-    partial void IsLeafBefore(SyntaxNodeOrToken? node, ref bool result, ref bool ignoreCore);
+    /// <param name="annotationSet">the corresponding annotation set.</param>
+    /// <param name="result">Mechanism to modify the result of <see cref="IsLeaf(SyntaxNodeOrToken?, IAnnotationSetService{SyntaxNodeOrToken?, Approach.Annotations.Impl.Annotation{SyntaxNodeOrToken?}}, bool)"/>.</param>
+    /// <param name="ignoreCore">If true, the <see cref="IsLeafCore(SyntaxNodeOrToken?, IAnnotationSetService{SyntaxNodeOrToken?, Approach.Annotations.Impl.Annotation{SyntaxNodeOrToken?}}, bool)"/> is not executed and <see cref="IsLeaf(SyntaxNodeOrToken?, IAnnotationSetService{SyntaxNodeOrToken?, Approach.Annotations.Impl.Annotation{SyntaxNodeOrToken?}}, bool)"/> returns the current value of <paramref name="result"/>.</param>
+    partial void IsLeafBefore(SyntaxNodeOrToken? node, IAnnotationSetService<SyntaxNodeOrToken?, Jawilliam.CDF.Approach.Annotations.Impl.Annotation<SyntaxNodeOrToken?>> annotationSet, ref bool result, ref bool ignoreCore);
     
     /// <summary>
-    /// Method hook for implementing logic to execute after the <see cref="IsLeafCore(SyntaxNodeOrToken?)"/>.
+    /// Method hook for implementing logic to execute after the <see cref="IsLeafCore(SyntaxNodeOrToken?, IAnnotationSetService{SyntaxNodeOrToken?, Approach.Annotations.Impl.Annotation{SyntaxNodeOrToken?}}, bool)"/>.
     /// </summary>
     /// <param name="node">node of interest.</param>
-    /// <param name="result">Mechanism to modify the result of <see cref="IsLeaf(SyntaxNodeOrToken?)"/>.</param>
-    partial void IsLeafAfter(SyntaxNodeOrToken? node, ref bool result);
+    /// <param name="annotationSet">the corresponding annotation set.</param>
+    /// <param name="result">Mechanism to modify the result of <see cref="IsLeaf(SyntaxNodeOrToken?, IAnnotationSetService{SyntaxNodeOrToken?, Approach.Annotations.Impl.Annotation{SyntaxNodeOrToken?}}, bool)"/>.</param>
+    partial void IsLeafAfter(SyntaxNodeOrToken? node, IAnnotationSetService<SyntaxNodeOrToken?, Jawilliam.CDF.Approach.Annotations.Impl.Annotation<SyntaxNodeOrToken?>> annotationSet, ref bool result);
 
     /// <summary>
     /// Access to the children of a node.
     /// </summary>
     /// <param name="node">node of interest.</param>
+    /// <param name="annotationSet">the corresponding annotation set.</param>
     /// <returns>the node's children.</returns>
-    /// <remarks>This is the default implementation for <see cref="IsLeaf(SyntaxNodeOrToken?)"/>.</remarks>
-    protected virtual bool IsLeafCore(SyntaxNodeOrToken? node)
+    /// <remarks>This is the default implementation for <see cref="IsLeaf(SyntaxNodeOrToken?, IAnnotationSetService{SyntaxNodeOrToken?, Approach.Annotations.Impl.Annotation{SyntaxNodeOrToken?}}, bool)"/>.</remarks>
+    protected virtual bool IsLeafCore(SyntaxNodeOrToken? node, IAnnotationSetService<SyntaxNodeOrToken?, Jawilliam.CDF.Approach.Annotations.Impl.Annotation<SyntaxNodeOrToken?>> annotationSet)
 	{
-		return this.Children(node.Value).Count() == 0;
+		return this.Children(node.Value, annotationSet).Count() == 0;
 	}
 
     /// <summary>
     /// Access to the children of a node.
     /// </summary>
     /// <param name="node">node of interest.</param>
+    /// <param name="annotationSet">the corresponding annotation set.</param>
     /// <returns>the node's children.</returns>
-    public virtual bool IsLeaf(SyntaxNodeOrToken? node)
+    public virtual bool IsLeaf(SyntaxNodeOrToken? node, IAnnotationSetService<SyntaxNodeOrToken?, Jawilliam.CDF.Approach.Annotations.Impl.Annotation<SyntaxNodeOrToken?>> annotationSet)
 	{
 		bool result = false;
 		var ignoreCore = false;
-		IsLeafBefore(node, ref result, ref ignoreCore);
+		IsLeafBefore(node, annotationSet, ref result, ref ignoreCore);
 		if(ignoreCore) 
 			return result;
 		
-		result = this.IsLeafCore(node);
-		IsLeafAfter(node, ref result);
+		result = this.IsLeafCore(node, annotationSet);
+		IsLeafAfter(node, annotationSet, ref result);
 		return result;
 	}
 }

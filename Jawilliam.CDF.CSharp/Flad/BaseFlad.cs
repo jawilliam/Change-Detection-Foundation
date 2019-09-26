@@ -33,6 +33,7 @@ namespace Jawilliam.CDF.CSharp.Flad
 
             this.Services.Add((int)ServiceId.SemanticAbstraction, new SemanticAbstractionService { Id = (int)ServiceId.SemanticAbstraction });
             this.Services.Add((int)ServiceId.HierarchicalAbstraction, new HierarchicalSyntaxNodeService<Annotation<SyntaxNodeOrToken?>>(this) { Id = (int)ServiceId.HierarchicalAbstraction });
+            this.Services.Add((int)ServiceId.AnnotatedHierarchicalAbstraction, new AnnotatedHierarchicalAbstractionService<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>(this) { Id = (int)ServiceId.AnnotatedHierarchicalAbstraction });
             this.Services.Add((int)ServiceId.TopologicalAbstraction, new HierarchicalSyntaxNodeService<Annotation<SyntaxNodeOrToken?>>(this) { Id = (int)ServiceId.TopologicalAbstraction });
             this.Services.Add((int)ServiceId.TextualAbstraction, new TextualSyntaxNodeService { Id = (int)ServiceId.TextualAbstraction });
 
@@ -70,19 +71,19 @@ namespace Jawilliam.CDF.CSharp.Flad
                 return this._choices ?? (this._choices = new List<IChoice>
                 {
                     //new CSharpSignatureEqualityChoice(this)
-                    new MatchingDiscoveryChoice<SyntaxNodeOrToken?>(this,
+                    new MatchingDiscoveryChoice<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>(this,
                         new FingerprintMatcher<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>> (this,
                              a => a.FullHash,
                              (a, h) => a.FullHash = h,
                              (o, m) => new MatchInfo<SyntaxNodeOrToken?>((int)MatchInfoCriterions.IdenticalFullHash) { Original = o, Modified = m }))
                     {
-                        Traverse = o => o.BreadthFirstOrder(this.HierarchicalAbstraction().Children)
-                                         .OrderByDescending(n => this.Original<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>(n).Size)
+                        Traverse = (o, annSet) => o.BreadthFirstOrder(o1 => this.HierarchicalAbstraction<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>().Children(o1, annSet, true))
+                                                  .OrderByDescending(n => annSet.Annotations[n].Size)
                     },
                     new MatchingTieBreakChoice<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>(this)
                     {
-                        Traverse = o => o.BreadthFirstOrder(this.HierarchicalAbstraction().Children)
-                                         .OrderByDescending(n => this.Original<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>(n).Size),
+                        Traverse = (o, annSet) => o.BreadthFirstOrder(o1 => this.HierarchicalAbstraction<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>().Children(o1, annSet, true))
+                                                  .OrderByDescending(n => annSet.Annotations[n].Size),
                         Metric = new DiceCoefficientSimetric<SyntaxNodeOrToken?>()
                         {
                             AreEqual = this.MatchEquality<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>,
@@ -93,9 +94,9 @@ namespace Jawilliam.CDF.CSharp.Flad
                     //{
                     //    Traverse = o => o.BreadthFirstOrder(this.HierarchicalAbstraction().Children).OrderByDescending(n => this.Original<SyntaxNode, Annotation<SyntaxNode>>(n).Size)
                     //},
-                    new MatchingDiscoveryChoice<SyntaxNodeOrToken?>(this, new SimilarityMatcher<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>(this))
+                    new MatchingDiscoveryChoice<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>(this, new SimilarityMatcher<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>(this))
                     {
-                        Traverse = o => o.PostOrder(this.HierarchicalAbstraction().Children)
+                        Traverse = (o, annSet) => o.PostOrder(o1 => this.HierarchicalAbstraction<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>().Children(o1, annSet, true))
                     },
                     new McesDifferencingChoice<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>(this),
                     new McesReportChoice<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>(this)

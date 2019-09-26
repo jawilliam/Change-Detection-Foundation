@@ -201,6 +201,8 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			element.Add(new XAttribute("startColumn", node.GetLocation().GetLineSpan().StartLinePosition.Character + 1));
     			element.Add(new XAttribute("endLine", node.GetLocation().GetLineSpan().EndLinePosition.Line + 1));
     			element.Add(new XAttribute("endColumn", node.GetLocation().GetLineSpan().EndLinePosition.Character));
+                element.Add(new XAttribute("pos", node.GetLocation().SourceSpan.Start));
+                element.Add(new XAttribute("length", node.GetLocation().SourceSpan.Length));
     		}
         }
     
@@ -288,6 +290,8 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			element.Add(new XAttribute("startColumn", node.GetLocation().GetLineSpan().StartLinePosition.Character + 1));
     			element.Add(new XAttribute("endLine", node.GetLocation().GetLineSpan().EndLinePosition.Line + 1));
     			element.Add(new XAttribute("endColumn", node.GetLocation().GetLineSpan().EndLinePosition.Character));
+                element.Add(new XAttribute("pos", node.GetLocation().SourceSpan.Start));
+                element.Add(new XAttribute("length", node.GetLocation().SourceSpan.Length));
     		}
         }
     
@@ -375,6 +379,8 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			element.Add(new XAttribute("startColumn", node.GetLocation().GetLineSpan().StartLinePosition.Character + 1));
     			element.Add(new XAttribute("endLine", node.GetLocation().GetLineSpan().EndLinePosition.Line + 1));
     			element.Add(new XAttribute("endColumn", node.GetLocation().GetLineSpan().EndLinePosition.Character));
+                element.Add(new XAttribute("pos", node.GetLocation().SourceSpan.Start));
+                element.Add(new XAttribute("length", node.GetLocation().SourceSpan.Length));
     		}
         }
     

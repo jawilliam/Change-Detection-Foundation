@@ -11,3 +11,6 @@ b) set PATH=%PATH%;C:\Program Files (x86)\srcML 0.9.5\bin
 
 
 gumtree detect D:\ExperimentLogs\RunningOriginal.cs D:\ExperimentLogs\RunningModified.cs gumtree_RoslynML NativeGTtreefiedRoslynML -trace=D:\ExperimentLogs\gumtree_RoslynML_BasicPruning_NoTrivia.txt -runtime=D:\GT_Runtimes\gumtree_Roslynml_BasicPruning_NoTrivia -name:gumtree_RoslynML_BasicPruning_NoTrivia_forward -approach:NativeGTtreefiedRoslynMLWithBasicPruning -direction:Forward -runtime=D:\GT_Runtimes\gumtree_Roslynml_BasicPruning_NoTrivia -name:gumtree_RoslynML_BasicPruning_NoTrivia_backward -approach:InverseNativeGTtreefiedRoslynMLWithBasicPruning -direction:Backward
+
+// Between symptoms
+gumtree compare NativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTrivia_Forward NativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTrivia 28 -trace=D:\ExperimentLogs\BetweenSymptoms.txt -name=NativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTrivia_Backward -approach=InverseNativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTrivia -fileFormat=28 -direction=Backward -name=NativeGTtreefiedRoslynMLWithIncludeTrivia_Forward -approach=NativeGTtreefiedRoslynMLWithIncludeTrivia -fileFormat=20 -direction=Forward -name=NativeGTtreefiedRoslynMLWithBasicPruning_Forward -approach=NativeGTtreefiedRoslynMLWithBasicPruning -fileFormat=12 -direction=Forward -from=23 -to=25

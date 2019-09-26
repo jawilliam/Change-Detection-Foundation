@@ -256,10 +256,10 @@ namespace Jawilliam.CDF.Tests.Approach.Base
             Assert.IsTrue(matchingSet.Modifieds.Unmatched(6));
             Assert.IsTrue(matchingSet.Modifieds.Unpaired(6));
 
-            Assert.AreEqual(originalAnnotations.Annotations[3].Partner<int, Annotation<int>>(), 4);
-            Assert.AreEqual(modifiedAnnotations.Annotations[4].Partner<int, Annotation<int>>(), 3);
-            Assert.AreEqual(modifiedAnnotations.Annotations[5].Partner<int, Annotation<int>>(), 0);
-            Assert.AreEqual(modifiedAnnotations.Annotations[6].Partner<int, Annotation<int>>(), 0);
+            Assert.AreEqual(originalAnnotations.Annotations[3].Partner<int, Annotation<int>>(true), 4);
+            Assert.AreEqual(modifiedAnnotations.Annotations[4].Partner<int, Annotation<int>>(false), 3);
+            Assert.AreEqual(modifiedAnnotations.Annotations[5].Partner<int, Annotation<int>>(false), 0);
+            Assert.AreEqual(modifiedAnnotations.Annotations[6].Partner<int, Annotation<int>>(false), 0);
         }
 
         [TestMethod]
@@ -292,10 +292,10 @@ namespace Jawilliam.CDF.Tests.Approach.Base
             Assert.IsTrue(matchingSet.Modifieds.Unmatched(6));
             Assert.IsTrue(matchingSet.Modifieds.Unpaired(6));
 
-            Assert.AreEqual(originalAnnotations.Annotations[3].Partner<int, Annotation<int>>(), 5);
-            Assert.AreEqual(modifiedAnnotations.Annotations[4].Partner<int, Annotation<int>>(), 0);
-            Assert.AreEqual(modifiedAnnotations.Annotations[5].Partner<int, Annotation<int>>(), 3);
-            Assert.AreEqual(modifiedAnnotations.Annotations[6].Partner<int, Annotation<int>>(), 0);
+            Assert.AreEqual(originalAnnotations.Annotations[3].Partner<int, Annotation<int>>(true), 5);
+            Assert.AreEqual(modifiedAnnotations.Annotations[4].Partner<int, Annotation<int>>(false), 0);
+            Assert.AreEqual(modifiedAnnotations.Annotations[5].Partner<int, Annotation<int>>(false), 3);
+            Assert.AreEqual(modifiedAnnotations.Annotations[6].Partner<int, Annotation<int>>(false), 0);
         }
     }
 }

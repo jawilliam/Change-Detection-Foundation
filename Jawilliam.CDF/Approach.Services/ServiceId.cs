@@ -38,26 +38,31 @@
         /// <summary>
         /// Supports the hierarchical handling of the elements.
         /// </summary>
-        TopologicalAbstraction = 1070,
+        AnnotatedHierarchicalAbstraction = 1070,
+
+        /// <summary>
+        /// Supports the hierarchical handling of the elements.
+        /// </summary>
+        TopologicalAbstraction = 1080,
 
         /// <summary>
         /// Supports the textual handling of the elements.
         /// </summary>
-        TextualAbstraction = 1080,
+        TextualAbstraction = 1090,
 
         /// <summary>
         /// <see cref="IEditScriptService{TElement}"/>.
         /// </summary>
-        EditScript = 1090,
+        EditScript = 1100,
 
         /// <summary>
         /// Supports the semantic handling of the elements.
         /// </summary>
-        SemanticAbstraction = 1100,
+        SemanticAbstraction = 1110,
 
         /// <summary>
         /// Entry point to language-aware providers per element type.
         /// </summary>
-        LanguageProvider = 1110,
+        LanguageProvider = 1120,
     }
 }

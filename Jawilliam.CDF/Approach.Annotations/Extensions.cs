@@ -40,6 +40,35 @@ namespace Jawilliam.CDF.Approach.Annotations
         }
 
         /// <summary>
+        /// Exposes the annotations set of the modified elements. 
+        /// </summary>
+        /// <typeparam name="TElement">Type of the supported elements.</typeparam>
+        /// <typeparam name="TAnnotation">Type of the information to store for each element.</typeparam>
+        /// <param name="serviceLocator">the context wherein dynamically loading any required service.</param>
+        /// <returns>the service exposing the annotations set of the modified elements. </returns>
+        public static IAnnotationSetService<TElement, TAnnotation> AnnotationSet<TElement, TAnnotation>(this IServiceLocator serviceLocator, TElement element) where TAnnotation : new()
+        {
+            if(serviceLocator == null)
+                throw new ArgumentNullException(nameof(serviceLocator));
+            if (element == null)
+                throw new ArgumentNullException(nameof(element));
+
+            var originals = serviceLocator.Originals<TElement, TAnnotation>();
+            var modifieds = serviceLocator.Modifieds<TElement, TAnnotation>();
+
+            if (originals.Annotations.ContainsKey(element) && !modifieds.Annotations.ContainsKey(element))
+                return originals;
+
+            if (!originals.Annotations.ContainsKey(element) && modifieds.Annotations.ContainsKey(element))
+                return modifieds;
+
+            if (originals.Annotations.ContainsKey(element) && modifieds.Annotations.ContainsKey(element))
+                return modifieds;
+
+            throw new KeyNotFoundException($"original and/or modified element not found: {element}");
+        }
+
+        /// <summary>
         /// Accesses the annotations of an original element. 
         /// </summary>
         /// <typeparam name="TElement">Type of the supported elements.</typeparam>
@@ -114,12 +143,12 @@ namespace Jawilliam.CDF.Approach.Annotations
         /// <summary>
         /// Gets the matching partner of the extended element or null if it does not have anyone yet. 
         /// </summary>
-        public static TElement Partner<TElement, TAnnotation>(this TAnnotation source) where TAnnotation : IMatchingAnnotation<TElement>, IElementAnnotation<TElement>
+        public static TElement Partner<TElement, TAnnotation>(this TAnnotation source, bool original) where TAnnotation : IMatchingAnnotation<TElement>, IElementAnnotation<TElement>
         {
             if (source.Match == null)
                 return default(TElement);
 
-            return object.Equals(source.Element, source.Match.Original) ? source.Match.Modified : source.Match.Original;
+            return /*object.Equals(source.Element, source.Match.Original)*/ original ? source.Match.Modified : source.Match.Original;
         }
     }
 }

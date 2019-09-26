@@ -48,6 +48,26 @@ namespace Jawilliam.Tools.CCL
             //};
             //args = new[] { @"RoslynML E:\F.txt --includeTrivia" };
             //args = new[] { @"savetrees E:\SourceCode\RBPNT_Original.cs E:\SourceCode\RBPNT_Modified.cs NativeGTtreefiedRoslynML 28 -trace=D:\ExperimentLogs\savetrees_RoslynML_BasicPruning_NoTrivia.txt --pruning:Basic --includeTrivia" };
+            //args = new[] { "gumtree compare " +
+            //               "NativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTrivia_Forward " +
+            //               "NativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTrivia " +
+            //               "28 " +
+            //               @"-trace=D:\ExperimentLogs\NativeGumtree_RMBPITF_VsRMBPITB_VsRMNPITF_VsRMBPNTF.txt " +
+            //               "-name=NativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTrivia_Backward " +
+            //               "-approach=InverseNativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTrivia " +
+            //               "-fileFormat=28 " +
+            //               "-direction=Backward " +
+            //               "-name=NativeGTtreefiedRoslynMLWithIncludeTrivia_Forward " +
+            //               "-approach=NativeGTtreefiedRoslynMLWithIncludeTrivia " +
+            //               "-fileFormat=20 " +
+            //               "-direction=Forward " +
+            //               "-name=NativeGTtreefiedRoslynMLWithBasicPruning_Forward " +
+            //               "-approach=NativeGTtreefiedRoslynMLWithBasicPruning " +
+            //               "-fileFormat=12 " +
+            //               "-direction=Forward " +
+            //               "-to=25" };
+            //args = new[] { "gumtree compare NativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTrivia_Forward NativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTrivia 28 -trace=D:\\ExperimentLogs\\BetweenSymptoms.txt -name=NativeGTtreefiedRoslynMLWithIncludeTrivia_Forward -approach=NativeGTtreefiedRoslynMLWithIncludeTrivia -fileFormat=20 -direction=Forward -name=NativeGTtreefiedRoslynMLWithBasicPruning_Forward -approach=NativeGTtreefiedRoslynMLWithBasicPruning -fileFormat=12 -direction=Forward -from=23 -to=23" };
+            //args = new[] { "Compare stats NativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTrivia_Forward NativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTrivia 28 -trace=D:\\ExperimentLogs\\BetweenSymptomsStats2.txt -name=NativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTrivia_Backward -approach=InverseNativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTrivia -fileFormat=28 -direction=Backward -name=NativeGTtreefiedRoslynMLWithIncludeTrivia_Forward -approach=NativeGTtreefiedRoslynMLWithIncludeTrivia -fileFormat=20 -direction=Forward -name=NativeGTtreefiedRoslynMLWithBasicPruning_Forward -approach=NativeGTtreefiedRoslynMLWithBasicPruning -fileFormat=12 -direction=Forward -from=1 -to=25" };
             args = args?.Count() == 1 ? args[0].Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries) : args;
             AppRunner<CCL> appRunner = new AppRunner<CCL>();
             return appRunner.Run(args);

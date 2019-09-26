@@ -171,6 +171,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
             if (endColumnAtt != null)
                 result.Add(new XAttribute("col_after", endColumnAtt.Value));
 
+            var posAtt = source.Attribute("pos");
+            if (posAtt != null)
+                result.Add(posAtt);
+
+            var lengthAtt = source.Attribute("length");
+            if (lengthAtt != null)
+                result.Add(lengthAtt);
+
             foreach (var child in source.Elements())
             {
                 result.Add(this.CoreGumtreefy(child).ToArray());
@@ -245,23 +253,24 @@ namespace Jawilliam.CDF.CSharp.RoslynML
         /// Converts an XML-like AST representation internally expected by GumTree to an equivalent <see cref="ElementTree"/>.
         /// </summary>
         /// <param name="source">XML-like AST representation internally expected by GumTree</param>
+        /// <param name="RmIDOrGtID">if true, the loaded id will be the attribute RmID, otherwise it will be the GtID one.</param>
         /// <returns>the equivalent representation according to the <see cref="ElementTree"/> format.</returns>
-        public virtual ElementTree AsGumtreefiedElementTree(XElement source)
+        public virtual ElementTree AsGumtreefiedElementTree(XElement source, bool RmIDOrGtID = true)
         {
             var eSource = new ElementTree()
             {
                 Root = new ElementVersion
                 {
-                    Id = source.Attribute("RmID").Value,
-                    Label = source.Attribute("typeLabel").Value,
-                    Value = source.Attribute("label")?.Value
+                    Id = RmIDOrGtID ? source.Attribute("RmID").Value : source.Attribute("GtID")?.Value,
+                    Label = (source.Attribute("typeLabel")?.Value ?? source.Attribute("kind")?.Value) ?? source.Name.LocalName,
+                    Value = source.Attribute("label")?.Value ?? (source.Elements().Count() == 0 ? source.Value : null)
                 }
             };
 
             var eChildren = new List<ElementTree>(source.Elements().Count());
             foreach (var item in source.Elements())
             {
-                var eItem = this.AsGumtreefiedElementTree(item);
+                var eItem = this.AsGumtreefiedElementTree(item, RmIDOrGtID);
                 eChildren.Add(eItem);
                 eItem.Parent = eSource;
             }

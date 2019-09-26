@@ -88,10 +88,29 @@ namespace Jawilliam.CDF.Approach.Annotations.Impl
         /// </summary>
         public virtual object EssentialHash { get; set; }
 
+        #region IHierarchicalAbstractionAnnotation
+
         /// <summary>
         /// Gets or sets the size of the annotated subtree. 
         /// </summary>
         public virtual int Size { get; set; }
+
+        /// <summary>
+        /// Gets or sets the leading trivia.
+        /// </summary>
+        public virtual object[] LeadingTrivia { get; set; }
+
+        /// <summary>
+        /// Gets or sets the trailing trivia.
+        /// </summary>
+        public virtual object[] TrailingTrivia { get; set; }
+
+        /// <summary>
+        /// Gets or sets the structured trivia.
+        /// </summary>
+        public virtual object[] DescendantTrivia { get; set; }
+
+        #endregion
 
         #region IMcesAnnotation
 

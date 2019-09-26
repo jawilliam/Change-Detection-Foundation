@@ -10,6 +10,7 @@ using Jawilliam.CDF.Approach;
 using Jawilliam.CDF.Approach.GumTree;
 using Jawilliam.CDF.Labs.DBModel;
 using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Jawilliam.CDF.Labs
 {
@@ -33,19 +34,19 @@ namespace Jawilliam.CDF.Labs
             //var leftOriginalTree = ElementTree.Read(lDelta.OriginalTree, Encoding.Unicode);
             //var leftModifiedTree = ElementTree.Read(lDelta.ModifiedTree, Encoding.Unicode);
             //var leftDetectionResult = (DetectionResult)leftDelta.DetectionResult;
-            var leftOriginalTree = this.Config.GetTree((leftDelta, pair, true));
-            var leftModifiedTree = this.Config.GetTree((leftDelta, pair, false));
+            var leftOriginalTree = this.Config.GetTree((leftDelta, pair, true)).PostOrder(n => n.Children).Where(n => n.Root.Id != null).ToDictionary(n => n.Root.Id);
+            var leftModifiedTree = this.Config.GetTree((leftDelta, pair, false)).PostOrder(n => n.Children).Where(n => n.Root.Id != null).ToDictionary(n => n.Root.Id);
             var leftDetectionResult = (DetectionResult)leftDelta.DetectionResult;
 
-            var rightOriginalTree = this.Config.GetTree((rightDelta, pair, true));
-            var rightModifiedTree = this.Config.GetTree((rightDelta, pair, false));
+            var rightOriginalTree = this.Config.GetTree((rightDelta, pair, true)).PostOrder(n => n.Children).Where(n => n.Root.Id != null).ToDictionary(n => n.Root.Id);
+            var rightModifiedTree = this.Config.GetTree((rightDelta, pair, false)).PostOrder(n => n.Children).Where(n => n.Root.Id != null).ToDictionary(n => n.Root.Id);
             var rightDetectionResult = (DetectionResult)rightDelta.DetectionResult;
 
             if (this.Config.Matches)
             {
                 foreach (var leftMatch in leftDetectionResult.Matches)
                 {
-                    if (!rightDetectionResult.Matches.Any(rightMatch => this.Config.MatchCompare(leftMatch, leftDetectionResult, rightMatch, rightDetectionResult)))
+                    if (!rightDetectionResult.Matches.Any(rightMatch => this.Config.MatchCompare("LR", leftMatch, leftDetectionResult, rightMatch, rightDetectionResult)))
                     {
                         yield return this.CreateBetweenMatchInfo("LR", leftMatch,
                             leftDetectionResult, rightDetectionResult,
@@ -58,7 +59,7 @@ namespace Jawilliam.CDF.Labs
                 {
                     foreach (var rightMatch in rightDetectionResult.Matches)
                     {
-                        if (!leftDetectionResult.Matches.Any(leftMatch => this.Config.MatchCompare(rightMatch, rightDetectionResult, leftMatch, leftDetectionResult)))
+                        if (!leftDetectionResult.Matches.Any(leftMatch => this.Config.MatchCompare("RL", rightMatch, rightDetectionResult, leftMatch, leftDetectionResult)))
                         {
                             yield return this.CreateBetweenMatchInfo("RL", rightMatch,
                                 leftDetectionResult, rightDetectionResult,
@@ -73,18 +74,18 @@ namespace Jawilliam.CDF.Labs
             //{
             //    foreach (var leftAction in leftDetectionResult.Actions)
             //    {
-            //        if (!rightDetectionResult.Actions.Any(rightAction => this.Config.ActionCompare(leftAction, leftDetectionResult, rightAction, rightDetectionResult)))
+            //        if (!rightDetectionResult.Actions.Any(rightAction => this.Config.ActionCompare("LR", leftAction, leftDetectionResult, rightAction, rightDetectionResult)))
             //        {
-            //            //yield return new BetweenSymptom
-            //            //{
-            //            //    Id = Guid.NewGuid(),
-            //            //    Pattern = $"{way}-Actions",
-            //            //    Left = this.CreateBetweenPartInfo(this.Config.LeftName, Enum.GetName(typeof(ActionKind), leftAction.Action), 
-            //            //                leftDetectionResult, leftOriginalTree, leftModifiedTree, leftAction),
-            //            //    Right = this.CreateBetweenPartInfo(this.Config.RightName, "", null, null)
-            //            //    //Right = this.CreateBetweenPartInfo(this.Config.RightName, rightDetectionResult,
-            //            //    //    rightOriginalTree, rightModifiedTree, null)
-            //            //};
+            //            yield return new BetweenSymptom
+            //            {
+            //                Id = Guid.NewGuid(),
+            //                Pattern = $"{way}-Actions",
+            //                Left = this.CreateBetweenPartInfo(this.Config.LeftName, Enum.GetName(typeof(ActionKind), leftAction.Action),
+            //                            leftDetectionResult, leftOriginalTree, leftModifiedTree, leftAction),
+            //                Right = this.CreateBetweenPartInfo(this.Config.RightName, "", null, null)
+            //                //Right = this.CreateBetweenPartInfo(this.Config.RightName, rightDetectionResult,
+            //                //    rightOriginalTree, rightModifiedTree, null)
+            //            };
             //        }
             //    }
             //}
@@ -102,15 +103,16 @@ namespace Jawilliam.CDF.Labs
         /// <param name="rightModifiedTree">the modified tree analized in the right behavior.</param>
         /// <param name="way">flags to know if the analisys was done forward ("LR") or redward ("RL").</param>
         /// <returns>an structure describing the missed match and how the conceptual versions were detected in the contrasting result.</returns>
-        protected virtual BetweenSymptom CreateBetweenMatchInfo(string way, MatchDescriptor missedMatch, DetectionResult leftDetection, DetectionResult rightDetection, ElementTree leftOriginalTree, ElementTree leftModifiedTree, ElementTree rightOriginalTree, ElementTree rightModifiedTree)
+        protected virtual BetweenSymptom CreateBetweenMatchInfo(string way, MatchDescriptor missedMatch, DetectionResult leftDetection, DetectionResult rightDetection,
+                  Dictionary<string, ElementTree> leftOriginalTree, Dictionary<string, ElementTree> leftModifiedTree, Dictionary<string, ElementTree> rightOriginalTree, Dictionary<string, ElementTree> rightModifiedTree)
         {
             ElementTree missedOriginal, missedModified, divergentOriginal, divergentModified;
             MatchDescriptor divergentMatch;
             switch (way)
             {
                 case "LR":
-                    missedOriginal = leftOriginalTree.PostOrder(n => n.Children).First(n => n.Root.Id == missedMatch.Original.Id);
-                    missedModified = leftModifiedTree.PostOrder(n => n.Children).First(n => n.Root.Id == missedMatch.Modified.Id);
+                    missedOriginal = leftOriginalTree[missedMatch.Original.Id];
+                    missedModified = leftModifiedTree[missedMatch.Modified.Id];
                     var lr = new LRMatchSymptom
                     {
                         Id = Guid.NewGuid(),
@@ -124,12 +126,12 @@ namespace Jawilliam.CDF.Labs
                         }
                     };
 
-                    divergentMatch = this.Config.DivergentMatchForOriginal(missedMatch, leftDetection, rightDetection); 
+                    divergentMatch = this.Config.DivergentMatchForOriginal("LR", missedMatch, leftDetection, rightDetection); 
                     divergentOriginal = divergentMatch != null 
-                        ? rightOriginalTree.PostOrder(n => n.Children).FirstOrDefault(n => n.Root.Id == divergentMatch.Original.Id)
+                        ? (rightOriginalTree.ContainsKey(divergentMatch.Original.Id) ? rightOriginalTree[divergentMatch.Original.Id] : null)
                         : null;
                     divergentModified = divergentMatch != null
-                        ? rightModifiedTree.PostOrder(n => n.Children).FirstOrDefault(n => n.Root.Id == divergentMatch.Modified.Id)
+                        ? (rightModifiedTree.ContainsKey(divergentMatch.Modified.Id) ? rightModifiedTree[divergentMatch.Modified.Id] : null)
                         : null;
                     lr.OriginalAtRight = new BetweenMatchInfo
                     {
@@ -139,12 +141,12 @@ namespace Jawilliam.CDF.Labs
                         Modified = this.CreateElementContext(divergentModified)
                     };
 
-                    divergentMatch = this.Config.DivergentMatchForModified(missedMatch, leftDetection, rightDetection);
+                    divergentMatch = this.Config.DivergentMatchForModified("LR", missedMatch, leftDetection, rightDetection);
                     divergentOriginal = divergentMatch != null
-                        ? rightOriginalTree.PostOrder(n => n.Children).FirstOrDefault(n => n.Root.Id == divergentMatch.Original.Id)
+                        ? (rightOriginalTree.ContainsKey(divergentMatch.Original.Id) ? rightOriginalTree[divergentMatch.Original.Id] : null)
                         : null;
                     divergentModified = divergentMatch != null
-                        ? rightModifiedTree.PostOrder(n => n.Children).FirstOrDefault(n => n.Root.Id == divergentMatch.Modified.Id)
+                        ? (rightModifiedTree.ContainsKey(divergentMatch.Modified.Id) ? rightModifiedTree[divergentMatch.Modified.Id] : null)
                         : null;
                     lr.ModifiedAtRight = new BetweenMatchInfo
                     {
@@ -156,8 +158,9 @@ namespace Jawilliam.CDF.Labs
 
                     return lr;
                 case "RL":
-                    missedOriginal = rightOriginalTree.PostOrder(n => n.Children).First(n => n.Root.Id == missedMatch.Original.Id);
-                    missedModified = rightModifiedTree.PostOrder(n => n.Children).First(n => n.Root.Id == missedMatch.Modified.Id);
+                    //var r = rightOriginalTree.PostOrder(n => n.Children).OrderBy(n => n.Root.Id).Where(n => int.Parse(n.Root.Id) >= 3261).ToArray();
+                    missedOriginal = rightOriginalTree[missedMatch.Original.Id];
+                    missedModified = rightModifiedTree[missedMatch.Modified.Id];
                     var rl = new RLMatchSymptom
                     {
                         Id = Guid.NewGuid(),
@@ -171,12 +174,12 @@ namespace Jawilliam.CDF.Labs
                         }
                     };
 
-                    divergentMatch = this.Config.DivergentMatchForOriginal(missedMatch, rightDetection, leftDetection);
+                    divergentMatch = this.Config.DivergentMatchForOriginal("RL", missedMatch, rightDetection, leftDetection);
                     divergentOriginal = divergentMatch != null
-                        ? leftOriginalTree.PostOrder(n => n.Children).FirstOrDefault(n => n.Root.Id == divergentMatch.Original.Id)
+                        ? (leftOriginalTree.ContainsKey(divergentMatch.Original.Id) ? leftOriginalTree[divergentMatch.Original.Id] : null)
                         : null;
                     divergentModified = divergentMatch != null
-                        ? leftModifiedTree.PostOrder(n => n.Children).FirstOrDefault(n => n.Root.Id == divergentMatch.Modified.Id)
+                        ? (leftModifiedTree.ContainsKey(divergentMatch.Modified.Id) ? leftModifiedTree[divergentMatch.Modified.Id] : null)
                         : null;
                     rl.OriginalAtLeft = new BetweenMatchInfo
                     {
@@ -186,12 +189,12 @@ namespace Jawilliam.CDF.Labs
                         Modified = this.CreateElementContext(divergentModified)
                     };
 
-                    divergentMatch = this.Config.DivergentMatchForModified(missedMatch, rightDetection, leftDetection);
+                    divergentMatch = this.Config.DivergentMatchForModified("RL", missedMatch, rightDetection, leftDetection);
                     divergentOriginal = divergentMatch != null
-                        ? leftOriginalTree.PostOrder(n => n.Children).FirstOrDefault(n => n.Root.Id == divergentMatch.Original.Id)
+                        ? (leftOriginalTree.ContainsKey(divergentMatch.Original.Id) ? leftOriginalTree[divergentMatch.Original.Id] : null)
                         : null;
                     divergentModified = divergentMatch != null
-                        ? leftModifiedTree.PostOrder(n => n.Children).FirstOrDefault(n => n.Root.Id == divergentMatch.Modified.Id)
+                        ? (leftModifiedTree.ContainsKey(divergentMatch.Modified.Id) ? leftModifiedTree[divergentMatch.Modified.Id] : null)
                         : null;
                     rl.ModifiedAtLeft = new BetweenMatchInfo
                     {
@@ -216,7 +219,7 @@ namespace Jawilliam.CDF.Labs
                     Id = missedOriginal?.Root.Id ?? "-1",
                     Type = missedOriginal?.Root.Label ?? ""
                 },
-                ScopeHint = missedOriginal == null ? null : this.GetPath(missedOriginal.Ancestors())
+                //ScopeHint = missedOriginal == null ? null : this.GetPath(missedOriginal.Ancestors())
             };
         }
 
@@ -375,8 +378,6 @@ namespace Jawilliam.CDF.Labs
                         foreach (var child in item.Children)
                         {
                             var lrChildMatches = lrMatchSymptoms.Where(lr => lr.Left.Original.Element.Id == child.Root.Id).ToList();
-                            if (lrChildMatches.Count > 1)
-                                ;
                             fullSubtree &= lrChildMatches.Any();
                             foreach (var lrChildMatch in lrChildMatches)
                             {
@@ -409,8 +410,6 @@ namespace Jawilliam.CDF.Labs
                             foreach (var child in item.Children)
                             {
                                 var rlChildMatches = rlMatchSymptoms.Where(rl => rl.Right.Original.Element.Id == child.Root.Id).ToList();
-                                if (rlChildMatches.Count > 1)
-                                    ;
                                 fullSubtree &= rlChildMatches.Any();
                                 foreach (var rlChildMatch in rlChildMatches)
                                 {
@@ -559,11 +558,11 @@ namespace Jawilliam.CDF.Labs
         {
             base.ConfigGumTreeVsReversedGumTree(criterion);
 
-            criterion.MatchCompare = (leftMatch, leftDelta, rightMatch, rightDelta) =>
+            criterion.MatchCompare = (s, leftMatch, leftDelta, rightMatch, rightDelta) =>
                     leftMatch.Original.Id == rightMatch.Modified.Id &&
                     leftMatch.Modified.Id == rightMatch.Original.Id;
 
-            criterion.ActionCompare = delegate (ActionDescriptor leftAction, DetectionResult leftDelta, ActionDescriptor rightAction, DetectionResult rightDelta)
+            criterion.ActionCompare = delegate (string s, ActionDescriptor leftAction, DetectionResult leftDelta, ActionDescriptor rightAction, DetectionResult rightDelta)
             {
                 switch (leftAction.Action)
                 {
@@ -614,8 +613,8 @@ namespace Jawilliam.CDF.Labs
                 return false;
             };
 
-            criterion.DivergentMatchForOriginal = (missedMatch, leftDetection, rightDetection) => rightDetection.Matches.FirstOrDefault(m => missedMatch.Original.Id == m.Modified.Id);
-            criterion.DivergentMatchForModified = (missedMatch, leftDetection, rightDetection) => rightDetection.Matches.FirstOrDefault(m => missedMatch.Modified.Id == m.Original.Id);
+            criterion.DivergentMatchForOriginal = (s, missedMatch, leftDetection, rightDetection) => rightDetection.Matches.FirstOrDefault(m => missedMatch.Original.Id == m.Modified.Id);
+            criterion.DivergentMatchForModified = (s, missedMatch, leftDetection, rightDetection) => rightDetection.Matches.FirstOrDefault(m => missedMatch.Modified.Id == m.Original.Id);
         }
 
         /// <summary>
@@ -643,9 +642,9 @@ namespace Jawilliam.CDF.Labs
                 Right = backward.Approach,
                 RightName = backward.Name,
                 TwoWay = true,
-                MatchCompare = (leftMatch, leftDelta, rightMatch, rightDelta) => leftMatch.Original.Id == rightMatch.Modified.Id && leftMatch.Modified.Id == rightMatch.Original.Id,
+                MatchCompare = (s, leftMatch, leftDelta, rightMatch, rightDelta) => leftMatch.Original.Id == rightMatch.Modified.Id && leftMatch.Modified.Id == rightMatch.Original.Id,
 
-                ActionCompare = delegate (ActionDescriptor leftAction, DetectionResult leftDelta, ActionDescriptor rightAction, DetectionResult rightDelta)
+                ActionCompare = delegate (string s , ActionDescriptor leftAction, DetectionResult leftDelta, ActionDescriptor rightAction, DetectionResult rightDelta)
                 {
                     switch (leftAction.Action)
                     {
@@ -696,8 +695,8 @@ namespace Jawilliam.CDF.Labs
                     return false;
                 },
 
-                DivergentMatchForOriginal = (missedMatch, leftDetection, rightDetection) => rightDetection.Matches.FirstOrDefault(m => missedMatch.Original.Id == m.Modified.Id),
-                DivergentMatchForModified = (missedMatch, leftDetection, rightDetection) => rightDetection.Matches.FirstOrDefault(m => missedMatch.Modified.Id == m.Original.Id)
+                DivergentMatchForOriginal = (s, missedMatch, leftDetection, rightDetection) => rightDetection.Matches.FirstOrDefault(m => missedMatch.Original.Id == m.Modified.Id),
+                DivergentMatchForModified = (s, missedMatch, leftDetection, rightDetection) => rightDetection.Matches.FirstOrDefault(m => missedMatch.Modified.Id == m.Original.Id)
             };
         }
 
@@ -717,8 +716,8 @@ namespace Jawilliam.CDF.Labs
                 Right = right.Approach,
                 RightName = right.Name,
                 TwoWay = true,
-                MatchCompare = (leftMatch, leftDelta, rightMatch, rightDelta) => leftMatch.Original.Id == rightMatch.Original.Id && leftMatch.Modified.Id == rightMatch.Modified.Id,
-                ActionCompare = delegate (ActionDescriptor leftAction, DetectionResult leftDelta, ActionDescriptor rightAction, DetectionResult rightDelta)
+                MatchCompare = (s, leftMatch, leftDelta, rightMatch, rightDelta) => leftMatch.Original.Id == rightMatch.Original.Id && leftMatch.Modified.Id == rightMatch.Modified.Id,
+                ActionCompare = delegate (string s, ActionDescriptor leftAction, DetectionResult leftDelta, ActionDescriptor rightAction, DetectionResult rightDelta)
                 {
                     switch (leftAction.Action)
                     {
@@ -763,8 +762,8 @@ namespace Jawilliam.CDF.Labs
 
                     return false;
                 },
-                DivergentMatchForOriginal = (missedMatch, leftDetection, rightDetection) => rightDetection.Matches.FirstOrDefault(m => missedMatch.Original.Id == m.Original.Id),
-                DivergentMatchForModified = (missedMatch, leftDetection, rightDetection) => rightDetection.Matches.FirstOrDefault(m => missedMatch.Modified.Id == m.Modified.Id),
+                DivergentMatchForOriginal = (s, missedMatch, leftDetection, rightDetection) => rightDetection.Matches.FirstOrDefault(m => missedMatch.Original.Id == m.Original.Id),
+                DivergentMatchForModified = (s, missedMatch, leftDetection, rightDetection) => rightDetection.Matches.FirstOrDefault(m => missedMatch.Modified.Id == m.Modified.Id),
                 //LeftDeltaContainer = (ld, frp) => ld,
                 //RightDeltaContainer = (rd, frp) => this.SqlRepository.Deltas.Single(d => frp.Principal.Id == d.RevisionPair.Id && d.Approach == left.Approach),
                 //GetTree = delegate ((Delta Delta, FileRevisionPair Pair, bool TrueForOriginalOtherwiseModified) args)
@@ -792,22 +791,22 @@ namespace Jawilliam.CDF.Labs
             /// <summary>
             /// Gets or sets how to compare two matching sets.
             /// </summary>
-            public Func<MatchDescriptor, DetectionResult, MatchDescriptor, DetectionResult, bool> MatchCompare { get; set; }
+            public Func<string, MatchDescriptor, DetectionResult, MatchDescriptor, DetectionResult, bool> MatchCompare { get; set; }
 
             /// <summary>
             /// Gets or sets how to: given a match supposely not detected, know how its original was otherwise matched.
             /// </summary>
-            public Func<MatchDescriptor, DetectionResult, DetectionResult, MatchDescriptor> DivergentMatchForOriginal { get; set; }
+            public Func<string, MatchDescriptor, DetectionResult, DetectionResult, MatchDescriptor> DivergentMatchForOriginal { get; set; }
 
             /// <summary>
             /// Gets or sets how to: given a match supposely not detected, know how its modified was otherwise matched.
             /// </summary>
-            public Func<MatchDescriptor, DetectionResult, DetectionResult, MatchDescriptor> DivergentMatchForModified { get; set; }
+            public Func<string, MatchDescriptor, DetectionResult, DetectionResult, MatchDescriptor> DivergentMatchForModified { get; set; }
 
             /// <summary>
             /// Gets or sets how to compare two detection results.
             /// </summary>
-            public Func<ActionDescriptor, DetectionResult, ActionDescriptor, DetectionResult, bool> ActionCompare { get; set; }
+            public Func<string, ActionDescriptor, DetectionResult, ActionDescriptor, DetectionResult, bool> ActionCompare { get; set; }
 
             ///// <summary>
             ///// Gets or sets the delta from which to take the left ASTs (original and modified).

@@ -856,8 +856,8 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             originals.KeepAnnotations = true;
             modifieds.KeepAnnotations = true;
             changes = flad.GetChanges(args).Translate();
-            Assert.AreEqual(originals.Annotations[original.Token].Match, null);
-            Assert.AreEqual(modifieds.Annotations[modified.Token].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreNotEqual(originals.Annotations[original.Token].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.Token].Match.Modified, modified.Token);
             originals.KeepAnnotations = false;
             originals.EndDetection();
             modifieds.KeepAnnotations = false;
@@ -2136,8 +2136,8 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             originals.KeepAnnotations = true;
             modifieds.KeepAnnotations = true;
             changes = flad.GetChanges(args).Translate();
-            Assert.AreEqual(originals.Annotations[original.TextToken].Match, null);
-            Assert.AreEqual(modifieds.Annotations[modified.TextToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreNotEqual(originals.Annotations[original.TextToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.TextToken].Match.Modified, modified.TextToken);
             originals.KeepAnnotations = false;
             originals.EndDetection();
             modifieds.KeepAnnotations = false;
@@ -3959,498 +3959,1254 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
         [TestMethod]
         public void LocalDeclarationStatementServiceProvider_Pairwising_OK()
         {
-            var converter = new CDF.CSharp.RoslynML.RoslynML();
-            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
-
             var node = (LocalDeclarationStatementSyntax)((MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("int a() { const int a; }").Members[0]).Body.Statements[0];
-            var xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
 
-            var topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 2);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Name.LocalName == converter.Visit(node.Declaration).Name.LocalName);
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
 
-            node = (LocalDeclarationStatementSyntax)((MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("int a() { int a; }").Members[0]).Body.Statements[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var originals = flad.Originals<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            originals.KeepAnnotations = true;
+            var modifieds = flad.Modifieds<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            modifieds.KeepAnnotations = true;
 
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 1);
-            Assert.IsTrue(topologicalChildren[0].Name.LocalName == converter.Visit(node.Declaration).Name.LocalName);
+            var originalRoot = SyntaxFactory.ParseCompilationUnit("int a() { const int a; }");
+            var modifiedRoot = SyntaxFactory.ParseCompilationUnit("int a() { const int a; }");
+
+            var original = originalRoot.DescendantNodesAndSelf().OfType<LocalDeclarationStatementSyntax>().ToList()[0];
+            var modified = modifiedRoot.DescendantNodesAndSelf().OfType<LocalDeclarationStatementSyntax>().ToList()[0];
+
+            var args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
+
+            var changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match.Modified, modified.SemicolonToken);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
+
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.SemicolonToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
         }
 
         [TestMethod]
         public void ExpressionStatementServiceProvider_Pairwising_OK()
         {
-            var converter = new CDF.CSharp.RoslynML.RoslynML();
-            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
 
-            var node = (ExpressionStatementSyntax)SyntaxFactory.ParseStatement("3");
-            var xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var originals = flad.Originals<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            originals.KeepAnnotations = true;
+            var modifieds = flad.Modifieds<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            modifieds.KeepAnnotations = true;
 
-            var topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 1);
-            Assert.IsTrue(topologicalChildren[0].Name.LocalName == converter.Visit(node.Expression).Name.LocalName);
+            var originalRoot = SyntaxFactory.ParseCompilationUnit("void a() { 3; }");
+            var modifiedRoot = SyntaxFactory.ParseCompilationUnit("void a() { 3; }");
+
+            var original = originalRoot.DescendantNodesAndSelf().OfType<ExpressionStatementSyntax>().ToList()[0];
+            var modified = modifiedRoot.DescendantNodesAndSelf().OfType<ExpressionStatementSyntax>().ToList()[0];
+
+            var args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
+
+            var changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match.Modified, modified.SemicolonToken);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
+
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.SemicolonToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
         }
 
         [TestMethod]
         public void EmptyStatementServiceProvider_Pairwising_OK()
         {
-            var converter = new CDF.CSharp.RoslynML.RoslynML();
-            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
 
-            var node = (EmptyStatementSyntax)SyntaxFactory.ParseStatement(";");
-            var xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var originals = flad.Originals<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            originals.KeepAnnotations = true;
+            var modifieds = flad.Modifieds<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            modifieds.KeepAnnotations = true;
 
-            var topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 0);
+            var originalRoot = SyntaxFactory.ParseCompilationUnit("void a() { ; }");
+            var modifiedRoot = SyntaxFactory.ParseCompilationUnit("void a() { ; }");
+
+            var original = originalRoot.DescendantNodesAndSelf().OfType<EmptyStatementSyntax>().ToList()[0];
+            var modified = modifiedRoot.DescendantNodesAndSelf().OfType<EmptyStatementSyntax>().ToList()[0];
+
+            var args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
+
+            var changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match.Modified, modified.SemicolonToken);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
+
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.SemicolonToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
         }
 
         [TestMethod]
         public void LabeledStatementServiceProvider_Pairwising_OK()
         {
-            var converter = new CDF.CSharp.RoslynML.RoslynML();
-            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
 
-            var node = (LabeledStatementSyntax)SyntaxFactory.ParseStatement("l: 3");
-            var xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var originals = flad.Originals<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            originals.KeepAnnotations = true;
+            var modifieds = flad.Modifieds<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            modifieds.KeepAnnotations = true;
 
-            var topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 2);
-            Assert.IsTrue(topologicalChildren[0].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Name.LocalName == converter.Visit(node.Statement).Name.LocalName);
+            var originalRoot = SyntaxFactory.ParseCompilationUnit("void a() { l: 3; }");
+            var modifiedRoot = SyntaxFactory.ParseCompilationUnit("void a() { l: 3; }");
+
+            var original = originalRoot.DescendantNodesAndSelf().OfType<LabeledStatementSyntax>().ToList()[0];
+            var modified = modifiedRoot.DescendantNodesAndSelf().OfType<LabeledStatementSyntax>().ToList()[0];
+
+            var args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
+
+            var changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.Identifier].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.Identifier].Match.Modified, modified.Identifier);
+            Assert.AreEqual(originals.Annotations[original.ColonToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.ColonToken].Match.Modified, modified.ColonToken);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
+
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreNotEqual(originals.Annotations[original.Identifier].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.Identifier].Match.Modified, modified.Identifier);
+            Assert.AreEqual(originals.Annotations[original.ColonToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.ColonToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
         }
 
         [TestMethod]
         public void GotoStatementServiceProvider_Pairwising_OK()
         {
-            var converter = new CDF.CSharp.RoslynML.RoslynML();
-            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
 
-            var node = (GotoStatementSyntax)SyntaxFactory.ParseStatement("goto l;");
-            var xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var originals = flad.Originals<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            originals.KeepAnnotations = true;
+            var modifieds = flad.Modifieds<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            modifieds.KeepAnnotations = true;
 
-            var topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 1);
-            Assert.IsTrue(topologicalChildren[0].Name.LocalName == converter.Visit(node.Expression).Name.LocalName);
+            var originalRoot = SyntaxFactory.ParseCompilationUnit("void a() { goto l; }");
+            var modifiedRoot = SyntaxFactory.ParseCompilationUnit("void a() { goto l; }");
 
-            node = (GotoStatementSyntax)SyntaxFactory.ParseStatement("goto case l;");
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, "GotoCaseStatement");
+            var original = originalRoot.DescendantNodesAndSelf().OfType<GotoStatementSyntax>().ToList()[0];
+            var modified = modifiedRoot.DescendantNodesAndSelf().OfType<GotoStatementSyntax>().ToList()[0];
 
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 1);
-            Assert.IsTrue(topologicalChildren[0].Name.LocalName == converter.Visit(node.Expression).Name.LocalName);
+            var args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
 
-            node = (GotoStatementSyntax)SyntaxFactory.ParseStatement("goto default;");
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, "GotoDefaultStatement");
+            var changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.GotoKeyword].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.GotoKeyword].Match.Modified, modified.GotoKeyword);
+            Assert.IsTrue(original.CaseOrDefaultKeyword != null && !originals.Annotations.ContainsKey(original.CaseOrDefaultKeyword));
+            Assert.IsTrue(modified.CaseOrDefaultKeyword != null && !modifieds.Annotations.ContainsKey(modified.CaseOrDefaultKeyword));
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match.Modified, modified.SemicolonToken);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
 
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 0);
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.GotoKeyword].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.GotoKeyword].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.IsTrue(original.CaseOrDefaultKeyword != null && !originals.Annotations.ContainsKey(original.CaseOrDefaultKeyword));
+            Assert.IsTrue(modified.CaseOrDefaultKeyword != null && !modifieds.Annotations.ContainsKey(modified.CaseOrDefaultKeyword));
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.SemicolonToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            flad.MatchingSet().PartnersEvent += ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
+            originalRoot = SyntaxFactory.ParseCompilationUnit("void a() { goto case l; }");
+            modifiedRoot = SyntaxFactory.ParseCompilationUnit("void a() { goto case l; }");
+
+            original = originalRoot.DescendantNodesAndSelf().OfType<GotoStatementSyntax>().ToList()[0];
+            modified = modifiedRoot.DescendantNodesAndSelf().OfType<GotoStatementSyntax>().ToList()[0];
+
+            args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
+
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.GotoKeyword].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.GotoKeyword].Match.Modified, modified.GotoKeyword);
+            Assert.AreEqual(originals.Annotations[original.CaseOrDefaultKeyword].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.CaseOrDefaultKeyword].Match.Modified, modified.CaseOrDefaultKeyword);
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match.Modified, modified.SemicolonToken);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
+
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.GotoKeyword].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.GotoKeyword].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreEqual(originals.Annotations[original.CaseOrDefaultKeyword].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.CaseOrDefaultKeyword].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.SemicolonToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            flad.MatchingSet().PartnersEvent += ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
+            originalRoot = SyntaxFactory.ParseCompilationUnit("void a() { goto default; }");
+            modifiedRoot = SyntaxFactory.ParseCompilationUnit("void a() { goto default; }");
+
+            original = originalRoot.DescendantNodesAndSelf().OfType<GotoStatementSyntax>().ToList()[0];
+            modified = modifiedRoot.DescendantNodesAndSelf().OfType<GotoStatementSyntax>().ToList()[0];
+
+            args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
+
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.GotoKeyword].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.GotoKeyword].Match.Modified, modified.GotoKeyword);
+            Assert.AreEqual(originals.Annotations[original.CaseOrDefaultKeyword].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.CaseOrDefaultKeyword].Match.Modified, modified.CaseOrDefaultKeyword);
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match.Modified, modified.SemicolonToken);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
+
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.GotoKeyword].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.GotoKeyword].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreEqual(originals.Annotations[original.CaseOrDefaultKeyword].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.CaseOrDefaultKeyword].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.SemicolonToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
         }
 
         [TestMethod]
         public void BreakStatementServiceProvider_Pairwising_OK()
         {
-            var converter = new CDF.CSharp.RoslynML.RoslynML();
-            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
 
-            var node = (BreakStatementSyntax)SyntaxFactory.ParseStatement("break;");
-            var xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var originals = flad.Originals<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            originals.KeepAnnotations = true;
+            var modifieds = flad.Modifieds<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            modifieds.KeepAnnotations = true;
 
-            var topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 0);
+            var originalRoot = SyntaxFactory.ParseCompilationUnit("void a() { break; }");
+            var modifiedRoot = SyntaxFactory.ParseCompilationUnit("void a() { break; }");
+
+            var original = originalRoot.DescendantNodesAndSelf().OfType<BreakStatementSyntax>().ToList()[0];
+            var modified = modifiedRoot.DescendantNodesAndSelf().OfType<BreakStatementSyntax>().ToList()[0];
+
+            var args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
+
+            var changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.BreakKeyword].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.BreakKeyword].Match.Modified, modified.BreakKeyword);
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match.Modified, modified.SemicolonToken);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
+
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.BreakKeyword].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.BreakKeyword].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.SemicolonToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
         }
 
         [TestMethod]
         public void ContinueStatementServiceProvider_Pairwising_OK()
         {
-            var converter = new CDF.CSharp.RoslynML.RoslynML();
-            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
 
-            var node = (ContinueStatementSyntax)SyntaxFactory.ParseStatement("continue;");
-            var xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var originals = flad.Originals<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            originals.KeepAnnotations = true;
+            var modifieds = flad.Modifieds<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            modifieds.KeepAnnotations = true;
 
-            var topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 0);
+            var originalRoot = SyntaxFactory.ParseCompilationUnit("void a() { continue; }");
+            var modifiedRoot = SyntaxFactory.ParseCompilationUnit("void a() { continue; }");
+
+            var original = originalRoot.DescendantNodesAndSelf().OfType<ContinueStatementSyntax>().ToList()[0];
+            var modified = modifiedRoot.DescendantNodesAndSelf().OfType<ContinueStatementSyntax>().ToList()[0];
+
+            var args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
+
+            var changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.ContinueKeyword].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.ContinueKeyword].Match.Modified, modified.ContinueKeyword);
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match.Modified, modified.SemicolonToken);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
+
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.ContinueKeyword].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.ContinueKeyword].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.SemicolonToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
         }
 
         [TestMethod]
         public void ReturnStatementServiceProvider_Pairwising_OK()
         {
-            var converter = new CDF.CSharp.RoslynML.RoslynML();
-            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
 
-            var node = (ReturnStatementSyntax)SyntaxFactory.ParseStatement("return 5;");
-            var xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var originals = flad.Originals<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            originals.KeepAnnotations = true;
+            var modifieds = flad.Modifieds<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            modifieds.KeepAnnotations = true;
 
-            var topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 1);
-            Assert.IsTrue(topologicalChildren[0].Name.LocalName == converter.Visit(node.Expression).Name.LocalName);
+            var originalRoot = SyntaxFactory.ParseCompilationUnit("int a() { return 5; }");
+            var modifiedRoot = SyntaxFactory.ParseCompilationUnit("int a() { return 5; }");
+
+            var original = originalRoot.DescendantNodesAndSelf().OfType<ReturnStatementSyntax>().ToList()[0];
+            var modified = modifiedRoot.DescendantNodesAndSelf().OfType<ReturnStatementSyntax>().ToList()[0];
+
+            var args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
+
+            var changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.ReturnKeyword].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.ReturnKeyword].Match.Modified, modified.ReturnKeyword);
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match.Modified, modified.SemicolonToken);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
+
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.ReturnKeyword].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.ReturnKeyword].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.SemicolonToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
         }
 
         [TestMethod]
         public void ThrowStatementServiceProvider_Pairwising_OK()
         {
-            var converter = new CDF.CSharp.RoslynML.RoslynML();
-            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
 
-            var node = (ThrowStatementSyntax)SyntaxFactory.ParseStatement("throw 5;");
-            var xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var originals = flad.Originals<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            originals.KeepAnnotations = true;
+            var modifieds = flad.Modifieds<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            modifieds.KeepAnnotations = true;
 
-            var topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 1);
-            Assert.IsTrue(topologicalChildren[0].Name.LocalName == converter.Visit(node.Expression).Name.LocalName);
+            var originalRoot = SyntaxFactory.ParseCompilationUnit("int a() { throw 5; }");
+            var modifiedRoot = SyntaxFactory.ParseCompilationUnit("int a() { throw 5; }");
+
+            var original = originalRoot.DescendantNodesAndSelf().OfType<ThrowStatementSyntax>().ToList()[0];
+            var modified = modifiedRoot.DescendantNodesAndSelf().OfType<ThrowStatementSyntax>().ToList()[0];
+
+            var args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
+
+            var changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.ThrowKeyword].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.ThrowKeyword].Match.Modified, modified.ThrowKeyword);
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match.Modified, modified.SemicolonToken);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
+
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.ThrowKeyword].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.ThrowKeyword].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.SemicolonToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
         }
 
         [TestMethod]
         public void YieldStatementServiceProvider_Pairwising_OK()
         {
-            var converter = new CDF.CSharp.RoslynML.RoslynML();
-            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
 
-            var node = (YieldStatementSyntax)SyntaxFactory.ParseStatement("yield return 5;");
-            var xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, "YieldReturnStatement");
+            var originals = flad.Originals<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            originals.KeepAnnotations = true;
+            var modifieds = flad.Modifieds<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            modifieds.KeepAnnotations = true;
 
-            var topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 1);
-            Assert.IsTrue(topologicalChildren[0].Name.LocalName == converter.Visit(node.Expression).Name.LocalName);
+            var originalRoot = SyntaxFactory.ParseCompilationUnit("int a() { yield return 5; }");
+            var modifiedRoot = SyntaxFactory.ParseCompilationUnit("int a() { yield return 5; }");
 
-            node = (YieldStatementSyntax)SyntaxFactory.ParseStatement("yield break;");
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, "YieldBreakStatement");
+            var original = originalRoot.DescendantNodesAndSelf().OfType<YieldStatementSyntax>().ToList()[0];
+            var modified = modifiedRoot.DescendantNodesAndSelf().OfType<YieldStatementSyntax>().ToList()[0];
 
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 0);
+            var args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
+
+            var changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.YieldKeyword].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.YieldKeyword].Match.Modified, modified.YieldKeyword);
+            Assert.AreEqual(originals.Annotations[original.ReturnOrBreakKeyword].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.ReturnOrBreakKeyword].Match.Modified, modified.ReturnOrBreakKeyword);
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match.Modified, modified.SemicolonToken);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
+
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.YieldKeyword].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.YieldKeyword].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreEqual(originals.Annotations[original.ReturnOrBreakKeyword].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.ReturnOrBreakKeyword].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.SemicolonToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            flad.MatchingSet().PartnersEvent += ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
+            originalRoot = SyntaxFactory.ParseCompilationUnit("int a() { yield break; }");
+            modifiedRoot = SyntaxFactory.ParseCompilationUnit("int a() { yield break; }");
+
+            original = originalRoot.DescendantNodesAndSelf().OfType<YieldStatementSyntax>().ToList()[0];
+            modified = modifiedRoot.DescendantNodesAndSelf().OfType<YieldStatementSyntax>().ToList()[0];
+
+            args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
+
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.YieldKeyword].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.YieldKeyword].Match.Modified, modified.YieldKeyword);
+            Assert.AreEqual(originals.Annotations[original.ReturnOrBreakKeyword].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.ReturnOrBreakKeyword].Match.Modified, modified.ReturnOrBreakKeyword);
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match.Modified, modified.SemicolonToken);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
+
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.YieldKeyword].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.YieldKeyword].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreEqual(originals.Annotations[original.ReturnOrBreakKeyword].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.ReturnOrBreakKeyword].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.SemicolonToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
         }
 
         [TestMethod]
         public void WhileStatementServiceProvider_Pairwising_OK()
         {
-            var converter = new CDF.CSharp.RoslynML.RoslynML();
-            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
 
-            var node = (WhileStatementSyntax)SyntaxFactory.ParseStatement("while (x < 0) x = 5;");
-            var xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var originals = flad.Originals<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            originals.KeepAnnotations = true;
+            var modifieds = flad.Modifieds<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            modifieds.KeepAnnotations = true;
 
-            var topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 2);
-            Assert.IsTrue(topologicalChildren[0].Name.LocalName == converter.Visit(node.Condition).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Name.LocalName == converter.Visit(node.Statement).Name.LocalName);
+            var originalRoot = SyntaxFactory.ParseCompilationUnit("int a() { while (x < 0) x = 5; }");
+            var modifiedRoot = SyntaxFactory.ParseCompilationUnit("int a() { while (x < 0) x = 5; }");
+
+            var original = originalRoot.DescendantNodesAndSelf().OfType<WhileStatementSyntax>().ToList()[0];
+            var modified = modifiedRoot.DescendantNodesAndSelf().OfType<WhileStatementSyntax>().ToList()[0];
+
+            var args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
+
+            var changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.WhileKeyword].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.WhileKeyword].Match.Modified, modified.WhileKeyword);
+            Assert.AreEqual(originals.Annotations[original.OpenParenToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.OpenParenToken].Match.Modified, modified.OpenParenToken);
+            Assert.AreEqual(originals.Annotations[original.CloseParenToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.CloseParenToken].Match.Modified, modified.CloseParenToken);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
+
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.WhileKeyword].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.WhileKeyword].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreEqual(originals.Annotations[original.OpenParenToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.OpenParenToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreEqual(originals.Annotations[original.CloseParenToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.CloseParenToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
         }
 
         [TestMethod]
         public void DoStatementServiceProvider_Pairwising_OK()
         {
-            var converter = new CDF.CSharp.RoslynML.RoslynML();
-            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
 
-            var node = (DoStatementSyntax)SyntaxFactory.ParseStatement("do x = 5; while (x < 0);");
-            var xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var originals = flad.Originals<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            originals.KeepAnnotations = true;
+            var modifieds = flad.Modifieds<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            modifieds.KeepAnnotations = true;
 
-            var topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 2);
-            Assert.IsTrue(topologicalChildren[0].Name.LocalName == converter.Visit(node.Statement).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Name.LocalName == converter.Visit(node.Condition).Name.LocalName);
+            var originalRoot = SyntaxFactory.ParseCompilationUnit("int a() { do x = 5; while (x < 0); }");
+            var modifiedRoot = SyntaxFactory.ParseCompilationUnit("int a() { do x = 5; while (x < 0); }");
+
+            var original = originalRoot.DescendantNodesAndSelf().OfType<DoStatementSyntax>().ToList()[0];
+            var modified = modifiedRoot.DescendantNodesAndSelf().OfType<DoStatementSyntax>().ToList()[0];
+
+            var args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
+
+            var changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.DoKeyword].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.DoKeyword].Match.Modified, modified.DoKeyword);
+            Assert.AreEqual(originals.Annotations[original.WhileKeyword].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.WhileKeyword].Match.Modified, modified.WhileKeyword);
+            Assert.AreEqual(originals.Annotations[original.OpenParenToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.OpenParenToken].Match.Modified, modified.OpenParenToken);
+            Assert.AreEqual(originals.Annotations[original.CloseParenToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.CloseParenToken].Match.Modified, modified.CloseParenToken);
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match.Modified, modified.SemicolonToken);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
+
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.DoKeyword].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.DoKeyword].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreEqual(originals.Annotations[original.WhileKeyword].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.WhileKeyword].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreEqual(originals.Annotations[original.OpenParenToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.OpenParenToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreEqual(originals.Annotations[original.CloseParenToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.CloseParenToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.SemicolonToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
         }
 
         [TestMethod]
         public void ForStatementServiceProvider_Pairwising_OK()
         {
-            var converter = new CDF.CSharp.RoslynML.RoslynML();
-            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
-
             var node = (ForStatementSyntax)SyntaxFactory.ParseStatement("for(int a = 0, b = 4; a < 0; a++, --b);");
-            var xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
 
-            var topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 4);
-            Assert.IsTrue(topologicalChildren[0].Name.LocalName == converter.Visit(node.Declaration).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Name.LocalName == converter.Visit(node.Condition).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Incrementors[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Incrementors[1]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.Statement).Name.LocalName);
+            var originals = flad.Originals<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            originals.KeepAnnotations = true;
+            var modifieds = flad.Modifieds<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            modifieds.KeepAnnotations = true;
 
-            node = (ForStatementSyntax)SyntaxFactory.ParseStatement("for(a = 0, b = 4; a < 0; a++, --b);");
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var originalRoot = SyntaxFactory.ParseCompilationUnit("int a() { for(int a = 0, b = 4; a < 0; a++, --b); }");
+            var modifiedRoot = SyntaxFactory.ParseCompilationUnit("int a() { for(int a = 0, b = 4; a < 0; a++, --b); }");
 
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 4);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Initializers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Initializers[1]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Name.LocalName == converter.Visit(node.Condition).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Incrementors[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Incrementors[1]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.Statement).Name.LocalName);
+            var original = originalRoot.DescendantNodesAndSelf().OfType<ForStatementSyntax>().ToList()[0];
+            var modified = modifiedRoot.DescendantNodesAndSelf().OfType<ForStatementSyntax>().ToList()[0];
 
-            node = (ForStatementSyntax)SyntaxFactory.ParseStatement("for(; a < 0; a++, --b);");
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
 
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 3);
-            Assert.IsTrue(topologicalChildren[0].Name.LocalName == converter.Visit(node.Condition).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Incrementors[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Incrementors[1]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.Statement).Name.LocalName);
+            var changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.ForKeyword].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.ForKeyword].Match.Modified, modified.ForKeyword);
+            Assert.AreEqual(originals.Annotations[original.OpenParenToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.OpenParenToken].Match.Modified, modified.OpenParenToken);
+            Assert.AreEqual(originals.Annotations[original.FirstSemicolonToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.FirstSemicolonToken].Match.Modified, modified.FirstSemicolonToken);
+            Assert.AreEqual(originals.Annotations[original.SecondSemicolonToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.SecondSemicolonToken].Match.Modified, modified.SecondSemicolonToken);
+            Assert.AreEqual(originals.Annotations[original.CloseParenToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.CloseParenToken].Match.Modified, modified.CloseParenToken);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
 
-            node = (ForStatementSyntax)SyntaxFactory.ParseStatement("for(int a, b = 4; a < 0;);");
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
-
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 3);
-            Assert.IsTrue(topologicalChildren[0].Name.LocalName == converter.Visit(node.Declaration).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Name.LocalName == converter.Visit(node.Condition).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.Statement).Name.LocalName);
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.ForKeyword].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.ForKeyword].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreEqual(originals.Annotations[original.OpenParenToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.OpenParenToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreEqual(originals.Annotations[original.FirstSemicolonToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.FirstSemicolonToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreEqual(originals.Annotations[original.SecondSemicolonToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.SecondSemicolonToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreEqual(originals.Annotations[original.CloseParenToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.CloseParenToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
         }
 
         [TestMethod]
         public void ForEachStatementServiceProvider_Pairwising_OK()
         {
-            var converter = new CDF.CSharp.RoslynML.RoslynML();
-            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
 
-            var node = (ForEachStatementSyntax)SyntaxFactory.ParseStatement("foreach(int a in ac);");
-            var xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var originals = flad.Originals<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            originals.KeepAnnotations = true;
+            var modifieds = flad.Modifieds<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            modifieds.KeepAnnotations = true;
 
-            var topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 4);
-            Assert.IsTrue(topologicalChildren[0].Name.LocalName == converter.Visit(node.Type).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.Expression).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.Statement).Name.LocalName);
+            var originalRoot = SyntaxFactory.ParseCompilationUnit("int a() { foreach(int a in ac); }");
+            var modifiedRoot = SyntaxFactory.ParseCompilationUnit("int a() { foreach(int a in ac); }");
+
+            var original = originalRoot.DescendantNodesAndSelf().OfType<ForEachStatementSyntax>().ToList()[0];
+            var modified = modifiedRoot.DescendantNodesAndSelf().OfType<ForEachStatementSyntax>().ToList()[0];
+
+            var args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
+
+            var changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.ForEachKeyword].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.ForEachKeyword].Match.Modified, modified.ForEachKeyword);
+            Assert.AreEqual(originals.Annotations[original.OpenParenToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.OpenParenToken].Match.Modified, modified.OpenParenToken);
+            Assert.AreEqual(originals.Annotations[original.Identifier].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.Identifier].Match.Modified, modified.Identifier);
+            Assert.AreEqual(originals.Annotations[original.InKeyword].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.InKeyword].Match.Modified, modified.InKeyword);
+            Assert.AreEqual(originals.Annotations[original.CloseParenToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.CloseParenToken].Match.Modified, modified.CloseParenToken);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
+
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.ForEachKeyword].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.ForEachKeyword].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreEqual(originals.Annotations[original.OpenParenToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.OpenParenToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreNotEqual(originals.Annotations[original.Identifier].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.Identifier].Match.Modified, modified.Identifier);
+            Assert.AreEqual(originals.Annotations[original.InKeyword].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.InKeyword].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreEqual(originals.Annotations[original.CloseParenToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.CloseParenToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
         }
 
         [TestMethod]
         public void UsingStatementServiceProvider_Pairwising_OK()
         {
-            var converter = new CDF.CSharp.RoslynML.RoslynML();
-            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
 
-            var node = (UsingStatementSyntax)SyntaxFactory.ParseStatement("using(int a, b = 4);");
-            var xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var originals = flad.Originals<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            originals.KeepAnnotations = true;
+            var modifieds = flad.Modifieds<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            modifieds.KeepAnnotations = true;
 
-            var topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 2);
-            Assert.IsTrue(topologicalChildren[0].Name.LocalName == converter.Visit(node.Declaration).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Name.LocalName == converter.Visit(node.Statement).Name.LocalName);
+            var originalRoot = SyntaxFactory.ParseCompilationUnit("int a() { using(int a, b = 4); }");
+            var modifiedRoot = SyntaxFactory.ParseCompilationUnit("int a() { using(int a, b = 4); }");
 
-            node = (UsingStatementSyntax)SyntaxFactory.ParseStatement("using(a);");
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var original = originalRoot.DescendantNodesAndSelf().OfType<UsingStatementSyntax>().ToList()[0];
+            var modified = modifiedRoot.DescendantNodesAndSelf().OfType<UsingStatementSyntax>().ToList()[0];
 
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 2);
-            Assert.IsTrue(topologicalChildren[0].Name.LocalName == converter.Visit(node.Expression).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Name.LocalName == converter.Visit(node.Statement).Name.LocalName);
+            var args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
+
+            var changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.UsingKeyword].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.UsingKeyword].Match.Modified, modified.UsingKeyword);
+            Assert.AreEqual(originals.Annotations[original.OpenParenToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.OpenParenToken].Match.Modified, modified.OpenParenToken);
+            Assert.AreEqual(originals.Annotations[original.CloseParenToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.CloseParenToken].Match.Modified, modified.CloseParenToken);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
+
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.UsingKeyword].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.UsingKeyword].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreEqual(originals.Annotations[original.OpenParenToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.OpenParenToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreEqual(originals.Annotations[original.CloseParenToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.CloseParenToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
         }
 
         [TestMethod]
         public void FixedStatementServiceProvider_Pairwising_OK()
         {
-            var converter = new CDF.CSharp.RoslynML.RoslynML();
-            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
 
-            var node = (FixedStatementSyntax)SyntaxFactory.ParseStatement("fixed(int a, b = 4);");
-            var xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var originals = flad.Originals<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            originals.KeepAnnotations = true;
+            var modifieds = flad.Modifieds<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            modifieds.KeepAnnotations = true;
 
-            var topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 2);
-            Assert.IsTrue(topologicalChildren[0].Name.LocalName == converter.Visit(node.Declaration).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Name.LocalName == converter.Visit(node.Statement).Name.LocalName);
+            var originalRoot = SyntaxFactory.ParseCompilationUnit("int a() { fixed(int a, b = 4); }");
+            var modifiedRoot = SyntaxFactory.ParseCompilationUnit("int a() { fixed(int a, b = 4); }");
+
+            var original = originalRoot.DescendantNodesAndSelf().OfType<FixedStatementSyntax>().ToList()[0];
+            var modified = modifiedRoot.DescendantNodesAndSelf().OfType<FixedStatementSyntax>().ToList()[0];
+
+            var args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
+
+            var changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.FixedKeyword].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.FixedKeyword].Match.Modified, modified.FixedKeyword);
+            Assert.AreEqual(originals.Annotations[original.OpenParenToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.OpenParenToken].Match.Modified, modified.OpenParenToken);
+            Assert.AreEqual(originals.Annotations[original.CloseParenToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.CloseParenToken].Match.Modified, modified.CloseParenToken);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
+
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.FixedKeyword].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.FixedKeyword].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreEqual(originals.Annotations[original.OpenParenToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.OpenParenToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreEqual(originals.Annotations[original.CloseParenToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.CloseParenToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
         }
 
         [TestMethod]
         public void CheckedStatementServiceProvider_Pairwising_OK()
         {
-            var converter = new CDF.CSharp.RoslynML.RoslynML();
-            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
 
-            var node = (CheckedStatementSyntax)SyntaxFactory.ParseStatement("checked { x = 5;}");
-            var xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var originals = flad.Originals<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            originals.KeepAnnotations = true;
+            var modifieds = flad.Modifieds<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            modifieds.KeepAnnotations = true;
 
-            var topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 1);
-            Assert.IsTrue(topologicalChildren[0].Name.LocalName == converter.Visit(node.Block).Name.LocalName);
+            var originalRoot = SyntaxFactory.ParseCompilationUnit("int a() { checked { x = 5;} }");
+            var modifiedRoot = SyntaxFactory.ParseCompilationUnit("int a() { checked { x = 5;} }");
+
+            var original = originalRoot.DescendantNodesAndSelf().OfType<CheckedStatementSyntax>().ToList()[0];
+            var modified = modifiedRoot.DescendantNodesAndSelf().OfType<CheckedStatementSyntax>().ToList()[0];
+
+            var args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
+
+            var changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.Keyword].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.Keyword].Match.Modified, modified.Keyword);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
+
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.Keyword].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.Keyword].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            flad.MatchingSet().PartnersEvent += ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
+            originalRoot = SyntaxFactory.ParseCompilationUnit("int a() { unchecked { x = 5;} }");
+            modifiedRoot = SyntaxFactory.ParseCompilationUnit("int a() { unchecked { x = 5;} }");
+
+            original = originalRoot.DescendantNodesAndSelf().OfType<CheckedStatementSyntax>().ToList()[0];
+            modified = modifiedRoot.DescendantNodesAndSelf().OfType<CheckedStatementSyntax>().ToList()[0];
+
+            args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
+
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.Keyword].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.Keyword].Match.Modified, modified.Keyword);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
+
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.Keyword].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.Keyword].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
         }
 
        [TestMethod]
         public void UnsafeStatementServiceProvider_Pairwising_OK()
         {
-            var converter = new CDF.CSharp.RoslynML.RoslynML();
-            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
 
-            var node = (UnsafeStatementSyntax)SyntaxFactory.ParseStatement("unsafe { x = 5;}");
-            var xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var originals = flad.Originals<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            originals.KeepAnnotations = true;
+            var modifieds = flad.Modifieds<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            modifieds.KeepAnnotations = true;
 
-            var topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 1);
-            Assert.IsTrue(topologicalChildren[0].Name.LocalName == converter.Visit(node.Block).Name.LocalName);
+            var originalRoot = SyntaxFactory.ParseCompilationUnit("int a() { unsafe { x = 5;} }");
+            var modifiedRoot = SyntaxFactory.ParseCompilationUnit("int a() { unsafe { x = 5;} }");
+
+            var original = originalRoot.DescendantNodesAndSelf().OfType<UnsafeStatementSyntax>().ToList()[0];
+            var modified = modifiedRoot.DescendantNodesAndSelf().OfType<UnsafeStatementSyntax>().ToList()[0];
+
+            var args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
+
+            var changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.UnsafeKeyword].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.UnsafeKeyword].Match.Modified, modified.UnsafeKeyword);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
+
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.UnsafeKeyword].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.UnsafeKeyword].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
         }
 
         [TestMethod]
         public void LockStatementServiceProvider_Pairwising_OK()
         {
-            var converter = new CDF.CSharp.RoslynML.RoslynML();
-            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
 
-            var node = (LockStatementSyntax)SyntaxFactory.ParseStatement("lock(b = 4);");
-            var xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var originals = flad.Originals<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            originals.KeepAnnotations = true;
+            var modifieds = flad.Modifieds<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            modifieds.KeepAnnotations = true;
 
-            var topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 2);
-            Assert.IsTrue(topologicalChildren[0].Name.LocalName == converter.Visit(node.Expression).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Name.LocalName == converter.Visit(node.Statement).Name.LocalName);
+            var originalRoot = SyntaxFactory.ParseCompilationUnit("int a() { lock(b = 4); }");
+            var modifiedRoot = SyntaxFactory.ParseCompilationUnit("int a() { lock(b = 4); }");
+
+            var original = originalRoot.DescendantNodesAndSelf().OfType<LockStatementSyntax>().ToList()[0];
+            var modified = modifiedRoot.DescendantNodesAndSelf().OfType<LockStatementSyntax>().ToList()[0];
+
+            var args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
+
+            var changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.LockKeyword].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.LockKeyword].Match.Modified, modified.LockKeyword);
+            Assert.AreEqual(originals.Annotations[original.OpenParenToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.OpenParenToken].Match.Modified, modified.OpenParenToken);
+            Assert.AreEqual(originals.Annotations[original.CloseParenToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.CloseParenToken].Match.Modified, modified.CloseParenToken);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
+
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.LockKeyword].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.LockKeyword].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreEqual(originals.Annotations[original.OpenParenToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.OpenParenToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreEqual(originals.Annotations[original.CloseParenToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.CloseParenToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
         }
 
         [TestMethod]
         public void IfStatementServiceProvider_Pairwising_OK()
         {
-            var converter = new CDF.CSharp.RoslynML.RoslynML();
-            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
 
-            var node = (IfStatementSyntax)SyntaxFactory.ParseStatement("if(b == 4);");
-            var xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var originals = flad.Originals<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            originals.KeepAnnotations = true;
+            var modifieds = flad.Modifieds<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            modifieds.KeepAnnotations = true;
 
-            var topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 2);
-            Assert.IsTrue(topologicalChildren[0].Name.LocalName == converter.Visit(node.Condition).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Name.LocalName == converter.Visit(node.Statement).Name.LocalName);
+            var originalRoot = SyntaxFactory.ParseCompilationUnit("int a() { if(b == 4); }");
+            var modifiedRoot = SyntaxFactory.ParseCompilationUnit("int a() { if(b == 4); }");
+
+            var original = originalRoot.DescendantNodesAndSelf().OfType<IfStatementSyntax>().ToList()[0];
+            var modified = modifiedRoot.DescendantNodesAndSelf().OfType<IfStatementSyntax>().ToList()[0];
+
+            var args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
+
+            var changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.IfKeyword].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.IfKeyword].Match.Modified, modified.IfKeyword);
+            Assert.AreEqual(originals.Annotations[original.OpenParenToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.OpenParenToken].Match.Modified, modified.OpenParenToken);
+            Assert.AreEqual(originals.Annotations[original.CloseParenToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.CloseParenToken].Match.Modified, modified.CloseParenToken);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
+
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.IfKeyword].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.IfKeyword].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreEqual(originals.Annotations[original.OpenParenToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.OpenParenToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreEqual(originals.Annotations[original.CloseParenToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.CloseParenToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
         }
 
         [TestMethod]
         public void SwitchStatementServiceProvider_Pairwising_OK()
         {
-            var converter = new CDF.CSharp.RoslynML.RoslynML();
-            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
 
-            var node = (SwitchStatementSyntax)SyntaxFactory.ParseStatement("switch(b){ case default; }");
-            var xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var originals = flad.Originals<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            originals.KeepAnnotations = true;
+            var modifieds = flad.Modifieds<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            modifieds.KeepAnnotations = true;
 
-            var topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 2);
-            Assert.IsTrue(topologicalChildren[0].Name.LocalName == converter.Visit(node.Expression).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Sections[0]).Name.LocalName);
+            var originalRoot = SyntaxFactory.ParseCompilationUnit("int a() { switch(b){ case default; } }");
+            var modifiedRoot = SyntaxFactory.ParseCompilationUnit("int a() { switch(b){ case default; } }");
 
-            node = (SwitchStatementSyntax)SyntaxFactory.ParseStatement("switch(b){ }");
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var original = originalRoot.DescendantNodesAndSelf().OfType<SwitchStatementSyntax>().ToList()[0];
+            var modified = modifiedRoot.DescendantNodesAndSelf().OfType<SwitchStatementSyntax>().ToList()[0];
 
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 1);
-            Assert.IsTrue(topologicalChildren[0].Name.LocalName == converter.Visit(node.Expression).Name.LocalName);
+            var args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
+
+            var changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.SwitchKeyword].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.SwitchKeyword].Match.Modified, modified.SwitchKeyword);
+            Assert.AreEqual(originals.Annotations[original.OpenParenToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.OpenParenToken].Match.Modified, modified.OpenParenToken);
+            Assert.AreEqual(originals.Annotations[original.CloseParenToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.CloseParenToken].Match.Modified, modified.CloseParenToken);
+            Assert.AreEqual(originals.Annotations[original.OpenBraceToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.OpenBraceToken].Match.Modified, modified.OpenBraceToken);
+            Assert.AreEqual(originals.Annotations[original.CloseBraceToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.CloseBraceToken].Match.Modified, modified.CloseBraceToken);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
+
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.SwitchKeyword].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.SwitchKeyword].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreEqual(originals.Annotations[original.OpenParenToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.OpenParenToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreEqual(originals.Annotations[original.CloseParenToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.CloseParenToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreEqual(originals.Annotations[original.OpenBraceToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.OpenBraceToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreEqual(originals.Annotations[original.CloseBraceToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.CloseBraceToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
         }
 
         [TestMethod]
         public void TryStatementServiceProvider_Pairwising_OK()
         {
-            var converter = new CDF.CSharp.RoslynML.RoslynML();
-            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
 
-            var node = (TryStatementSyntax)SyntaxFactory.ParseStatement("try{a + 5} catch(A1){a1 = \"Catch a1\";} catch(B1) when(e = 5) {b1 = \"Catch b1\";} finally{c1 = \"Finnally1\";}");
-            var xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var originals = flad.Originals<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            originals.KeepAnnotations = true;
+            var modifieds = flad.Modifieds<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            modifieds.KeepAnnotations = true;
 
-            var topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 3);
-            Assert.IsTrue(topologicalChildren[0].Name.LocalName == converter.Visit(node.Block).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Catches[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Catches[1]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.Finally).Name.LocalName);
+            var originalRoot = SyntaxFactory.ParseCompilationUnit("int a() { try{a + 5} catch(A1){a1 = \"Catch a1\";} catch(B1) when(e = 5) {b1 = \"Catch b1\";} finally{c1 = \"Finnally1\";} }");
+            var modifiedRoot = SyntaxFactory.ParseCompilationUnit("int a() { try{a + 5} catch(A1){a1 = \"Catch a1\";} catch(B1) when(e = 5) {b1 = \"Catch b1\";} finally{c1 = \"Finnally1\";} }");
 
-            node = (TryStatementSyntax)SyntaxFactory.ParseStatement("try{a + 5} finally{c1 = \"Finnally1\";}");
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var original = originalRoot.DescendantNodesAndSelf().OfType<TryStatementSyntax>().ToList()[0];
+            var modified = modifiedRoot.DescendantNodesAndSelf().OfType<TryStatementSyntax>().ToList()[0];
 
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 2);
-            Assert.IsTrue(topologicalChildren[0].Name.LocalName == converter.Visit(node.Block).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Name.LocalName == converter.Visit(node.Finally).Name.LocalName);
+            var args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
 
-            node = (TryStatementSyntax)SyntaxFactory.ParseStatement("try{a + 5} catch(A1){a1 = \"Catch a1\";} catch(B1) when(e = 5) {b1 = \"Catch b1\";}");
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.TryKeyword].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.TryKeyword].Match.Modified, modified.TryKeyword);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
 
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 2);
-            Assert.IsTrue(topologicalChildren[0].Name.LocalName == converter.Visit(node.Block).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Catches[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Catches[1]).Name.LocalName);
-        }
-
-        [TestMethod]
-        public void VariableDeclarationServiceProvider_Pairwising_OK()
-        {
-            var converter = new CDF.CSharp.RoslynML.RoslynML();
-            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
-
-            var node = ((FixedStatementSyntax)SyntaxFactory.ParseStatement("fixed(int a, b = 4);")).Declaration;
-            var xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
-
-            var topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 2);
-            Assert.IsTrue(topologicalChildren[0].Name.LocalName == converter.Visit(node.Type).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Variables[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Variables[1]).Name.LocalName);
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.TryKeyword].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.TryKeyword].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
         }
 
         [TestMethod]
@@ -4460,701 +5216,699 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
 
             var node = ((FixedStatementSyntax)SyntaxFactory.ParseStatement("fixed(int a, b = 4);")).Declaration.Variables[0];
-            var xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
 
-            var topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 1);
-            Assert.IsTrue(topologicalChildren[0].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
+            var originals = flad.Originals<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            originals.KeepAnnotations = true;
+            var modifieds = flad.Modifieds<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            modifieds.KeepAnnotations = true;
 
-            node = ((FixedStatementSyntax)SyntaxFactory.ParseStatement("fixed(int a = 2, b = 4);")).Declaration.Variables[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var originalRoot = SyntaxFactory.ParseCompilationUnit("fixed(int a); }");
+            var modifiedRoot = SyntaxFactory.ParseCompilationUnit("fixed(int a); }");
 
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 2);
-            Assert.IsTrue(topologicalChildren[0].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Name.LocalName == converter.Visit(node.Initializer).Name.LocalName);
+            var original = originalRoot.DescendantNodesAndSelf().OfType<VariableDeclaratorSyntax>().ToList()[0];
+            var modified = modifiedRoot.DescendantNodesAndSelf().OfType<VariableDeclaratorSyntax>().ToList()[0];
+
+            var args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
+
+            var changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.Identifier].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.Identifier].Match.Modified, modified.Identifier);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
+
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreNotEqual(originals.Annotations[original.Identifier].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.Identifier].Match.Modified, modified.Identifier);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
         }
 
         [TestMethod]
         public void EqualsValueClauseServiceProvider_Pairwising_OK()
         {
-            var converter = new CDF.CSharp.RoslynML.RoslynML();
-            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
 
-            var node = ((FixedStatementSyntax)SyntaxFactory.ParseStatement("fixed(int a, b = 4);")).Declaration.Variables[1].Initializer;
-            var xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var originals = flad.Originals<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            originals.KeepAnnotations = true;
+            var modifieds = flad.Modifieds<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            modifieds.KeepAnnotations = true;
 
-            var topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 1);
-            Assert.IsTrue(topologicalChildren[0].Name.LocalName == converter.Visit(node.Value).Name.LocalName);
+            var originalRoot = SyntaxFactory.ParseCompilationUnit("int a() { fixed(int a = 4); }");
+            var modifiedRoot = SyntaxFactory.ParseCompilationUnit("int a() { fixed(int a = 4); }");
+
+            var original = originalRoot.DescendantNodesAndSelf().OfType<EqualsValueClauseSyntax>().ToList()[0];
+            var modified = modifiedRoot.DescendantNodesAndSelf().OfType<EqualsValueClauseSyntax>().ToList()[0];
+
+            var args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
+
+            var changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.EqualsToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.EqualsToken].Match.Modified, modified.EqualsToken);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
+
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.EqualsToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.EqualsToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
         }
 
         [TestMethod]
         public void ElseClauseServiceProvider_Pairwising_OK()
         {
-            var converter = new CDF.CSharp.RoslynML.RoslynML();
-            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
 
-            var node = ((IfStatementSyntax)SyntaxFactory.ParseStatement("if(b == 4); else;")).Else;
-            var xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var originals = flad.Originals<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            originals.KeepAnnotations = true;
+            var modifieds = flad.Modifieds<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            modifieds.KeepAnnotations = true;
 
-            var topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 1);
-            Assert.IsTrue(topologicalChildren[0].Name.LocalName == converter.Visit(node.Statement).Name.LocalName);
-        }
+            var originalRoot = SyntaxFactory.ParseCompilationUnit("int a() { if(b == 4); else; }");
+            var modifiedRoot = SyntaxFactory.ParseCompilationUnit("int a() { if(b == 4); else; }");
 
-        [TestMethod]
-        public void SwitchSectionServiceProvider_Pairwising_OK()
-        {
-            var converter = new CDF.CSharp.RoslynML.RoslynML();
-            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
+            var original = originalRoot.DescendantNodesAndSelf().OfType<ElseClauseSyntax>().ToList()[0];
+            var modified = modifiedRoot.DescendantNodesAndSelf().OfType<ElseClauseSyntax>().ToList()[0];
 
-            var node = ((SwitchStatementSyntax)SyntaxFactory.ParseStatement("switch(b){ case default:; }")).Sections[0];
-            var xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
 
-            var topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 2);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Labels[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Statements[0]).Name.LocalName);
+            var changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.ElseKeyword].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.ElseKeyword].Match.Modified, modified.ElseKeyword);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
+
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.ElseKeyword].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.ElseKeyword].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
         }
 
         [TestMethod]
         public void CaseSwitchLabelServiceProvider_Pairwising_OK()
         {
-            var converter = new CDF.CSharp.RoslynML.RoslynML();
-            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
 
-            var node = (CaseSwitchLabelSyntax)((SwitchStatementSyntax)SyntaxFactory.ParseStatement("switch(b){ case 4: return 4; default: return 10; }")).Sections[0].Labels[0];
-            var xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var originals = flad.Originals<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            originals.KeepAnnotations = true;
+            var modifieds = flad.Modifieds<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            modifieds.KeepAnnotations = true;
 
-            var topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 1);
-            Assert.IsTrue(topologicalChildren[0].Name.LocalName == converter.Visit(node.Value).Name.LocalName);
+            var originalRoot = SyntaxFactory.ParseCompilationUnit("int a() { switch(b){ case 4: return 4; default: return 10; } }");
+            var modifiedRoot = SyntaxFactory.ParseCompilationUnit("int a() { switch(b){ case 4: return 4; default: return 10; } }");
+
+            var original = originalRoot.DescendantNodesAndSelf().OfType<CaseSwitchLabelSyntax>().ToList()[0];
+            var modified = modifiedRoot.DescendantNodesAndSelf().OfType<CaseSwitchLabelSyntax>().ToList()[0];
+
+            var args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
+
+            var changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.Keyword].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.Keyword].Match.Modified, modified.Keyword);
+            Assert.AreEqual(originals.Annotations[original.ColonToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.ColonToken].Match.Modified, modified.ColonToken);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
+
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.Keyword].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.Keyword].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreEqual(originals.Annotations[original.ColonToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.ColonToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
         }
 
         [TestMethod]
         public void DefaultSwitchLabelServiceProvider_Pairwising_OK()
         {
-            var converter = new CDF.CSharp.RoslynML.RoslynML();
-            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
 
-            var node = (DefaultSwitchLabelSyntax)((SwitchStatementSyntax)SyntaxFactory.ParseStatement("switch(b){ default:; }")).Sections[0].Labels[0];
-            var xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var originals = flad.Originals<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            originals.KeepAnnotations = true;
+            var modifieds = flad.Modifieds<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            modifieds.KeepAnnotations = true;
 
-            var topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 0);
+            var originalRoot = SyntaxFactory.ParseCompilationUnit("int a() { switch(b){ case 4: return 4; default: return 10; } }");
+            var modifiedRoot = SyntaxFactory.ParseCompilationUnit("int a() { switch(b){ case 4: return 4; default: return 10; } }");
+
+            var original = originalRoot.DescendantNodesAndSelf().OfType<DefaultSwitchLabelSyntax>().ToList()[0];
+            var modified = modifiedRoot.DescendantNodesAndSelf().OfType<DefaultSwitchLabelSyntax>().ToList()[0];
+
+            var args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
+
+            var changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.Keyword].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.Keyword].Match.Modified, modified.Keyword);
+            Assert.AreEqual(originals.Annotations[original.ColonToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.ColonToken].Match.Modified, modified.ColonToken);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
+
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.Keyword].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.Keyword].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreEqual(originals.Annotations[original.ColonToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.ColonToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
         }
 
         [TestMethod]
         public void CatchClauseServiceProvider_Pairwising_OK()
         {
-            var converter = new CDF.CSharp.RoslynML.RoslynML();
-            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
 
-            var node = ((TryStatementSyntax)SyntaxFactory.ParseStatement("try{a + 5} catch(A1 a) when(e = 5) {a1 = \"Catch a1\";}")).Catches[0];
-            var xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var originals = flad.Originals<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            originals.KeepAnnotations = true;
+            var modifieds = flad.Modifieds<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            modifieds.KeepAnnotations = true;
 
-            var topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 3);
-            Assert.IsTrue(topologicalChildren[0].Name.LocalName == converter.Visit(node.Declaration).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Name.LocalName == converter.Visit(node.Filter).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.Block).Name.LocalName);
+            var originalRoot = SyntaxFactory.ParseCompilationUnit("int a() { try{a + 5} catch(A1 a) when(e = 5) {a1 = \"Catch a1\";} }");
+            var modifiedRoot = SyntaxFactory.ParseCompilationUnit("int a() { try{a + 5} catch(A1 a) when(e = 5) {a1 = \"Catch a1\";} }");
 
-            node = ((TryStatementSyntax)SyntaxFactory.ParseStatement("try{a + 5} catch(A1){a1 = \"Catch a1\";}")).Catches[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var original = originalRoot.DescendantNodesAndSelf().OfType<CatchClauseSyntax>().ToList()[0];
+            var modified = modifiedRoot.DescendantNodesAndSelf().OfType<CatchClauseSyntax>().ToList()[0];
 
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 2);
-            Assert.IsTrue(topologicalChildren[0].Name.LocalName == converter.Visit(node.Declaration).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Name.LocalName == converter.Visit(node.Block).Name.LocalName);
+            var args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
 
-            node = ((TryStatementSyntax)SyntaxFactory.ParseStatement("try{a + 5} catch {b1 = \"Catch b1\";}")).Catches[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.CatchKeyword].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.CatchKeyword].Match.Modified, modified.CatchKeyword);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
 
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 1);
-            Assert.IsTrue(topologicalChildren[0].Name.LocalName == converter.Visit(node.Block).Name.LocalName);
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.CatchKeyword].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.CatchKeyword].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
         }
 
         [TestMethod]
         public void CatchDeclarationServiceProvider_Pairwising_OK()
         {
-            var converter = new CDF.CSharp.RoslynML.RoslynML();
-            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
 
-            var node = ((TryStatementSyntax)SyntaxFactory.ParseStatement("try{a + 5} catch(A1 a) when(e = 5) {a1 = \"Catch a1\";}")).Catches[0].Declaration;
-            var xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var originals = flad.Originals<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            originals.KeepAnnotations = true;
+            var modifieds = flad.Modifieds<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            modifieds.KeepAnnotations = true;
 
-            var topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 2);
-            Assert.IsTrue(topologicalChildren[0].Name.LocalName == converter.Visit(node.Type).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
+            var originalRoot = SyntaxFactory.ParseCompilationUnit("int a() { try{a + 5} catch(A1 a) when(e = 5) {a1 = \"Catch a1\";} }");
+            var modifiedRoot = SyntaxFactory.ParseCompilationUnit("int a() { try{a + 5} catch(A1 a) when(e = 5) {a1 = \"Catch a1\";} }");
 
-            node = ((TryStatementSyntax)SyntaxFactory.ParseStatement("try{a + 5} catch(A1){a1 = \"Catch a1\";}")).Catches[0].Declaration;
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var original = originalRoot.DescendantNodesAndSelf().OfType<CatchDeclarationSyntax>().ToList()[0];
+            var modified = modifiedRoot.DescendantNodesAndSelf().OfType<CatchDeclarationSyntax>().ToList()[0];
 
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 1);
-            Assert.IsTrue(topologicalChildren[0].Name.LocalName == converter.Visit(node.Type).Name.LocalName);
+            var args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
+
+            var changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.OpenParenToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.OpenParenToken].Match.Modified, modified.OpenParenToken);
+            Assert.AreEqual(originals.Annotations[original.Identifier].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.Identifier].Match.Modified, modified.Identifier);
+            Assert.AreEqual(originals.Annotations[original.CloseParenToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.CloseParenToken].Match.Modified, modified.CloseParenToken);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
+
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.OpenParenToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.OpenParenToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreNotEqual(originals.Annotations[original.Identifier].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.Identifier].Match.Modified, modified.Identifier);
+            Assert.AreEqual(originals.Annotations[original.CloseParenToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.CloseParenToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
         }
 
         [TestMethod]
         public void CatchFilterClauseServiceProvider_Pairwising_OK()
         {
-            var converter = new CDF.CSharp.RoslynML.RoslynML();
-            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
 
-            var node = ((TryStatementSyntax)SyntaxFactory.ParseStatement("try{a + 5} catch(A1 a) when(e = 5) {a1 = \"Catch a1\";}")).Catches[0].Filter;
-            var xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var originals = flad.Originals<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            originals.KeepAnnotations = true;
+            var modifieds = flad.Modifieds<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            modifieds.KeepAnnotations = true;
 
-            var topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 1);
-            Assert.IsTrue(topologicalChildren[0].Name.LocalName == converter.Visit(node.FilterExpression).Name.LocalName);
+            var originalRoot = SyntaxFactory.ParseCompilationUnit("int a() { try{a + 5} catch(A1 a) when(e = 5) {a1 = \"Catch a1\";} }");
+            var modifiedRoot = SyntaxFactory.ParseCompilationUnit("int a() { try{a + 5} catch(A1 a) when(e = 5) {a1 = \"Catch a1\";} }");
+
+            var original = originalRoot.DescendantNodesAndSelf().OfType<CatchFilterClauseSyntax>().ToList()[0];
+            var modified = modifiedRoot.DescendantNodesAndSelf().OfType<CatchFilterClauseSyntax>().ToList()[0];
+
+            var args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
+
+            var changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.WhenKeyword].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.WhenKeyword].Match.Modified, modified.WhenKeyword);
+            Assert.AreEqual(originals.Annotations[original.OpenParenToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.OpenParenToken].Match.Modified, modified.OpenParenToken);
+            Assert.AreEqual(originals.Annotations[original.CloseParenToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.CloseParenToken].Match.Modified, modified.CloseParenToken);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
+
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.WhenKeyword].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.WhenKeyword].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreEqual(originals.Annotations[original.OpenParenToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.OpenParenToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreEqual(originals.Annotations[original.CloseParenToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.CloseParenToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
         }
 
         [TestMethod]
         public void FinallyClauseServiceProvider_Pairwising_OK()
         {
-            var converter = new CDF.CSharp.RoslynML.RoslynML();
-            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
 
-            var node = ((TryStatementSyntax)SyntaxFactory.ParseStatement("try{a + 5} finally {a1 = \"Catch a1\";}")).Finally;
-            var xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var originals = flad.Originals<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            originals.KeepAnnotations = true;
+            var modifieds = flad.Modifieds<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            modifieds.KeepAnnotations = true;
 
-            var topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 1);
-            Assert.IsTrue(topologicalChildren[0].Name.LocalName == converter.Visit(node.Block).Name.LocalName);
-        }
+            var originalRoot = SyntaxFactory.ParseCompilationUnit("int a() { try{a + 5} finally {a1 = \"Catch a1\";} }");
+            var modifiedRoot = SyntaxFactory.ParseCompilationUnit("int a() { try{a + 5} finally {a1 = \"Catch a1\";} }");
 
-        [TestMethod]
-        public void IncompleteMemberServiceProvider_Pairwising_OK()
-        {
-            var converter = new CDF.CSharp.RoslynML.RoslynML();
-            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
+            var original = originalRoot.DescendantNodesAndSelf().OfType<FinallyClauseSyntax>().ToList()[0];
+            var modified = modifiedRoot.DescendantNodesAndSelf().OfType<FinallyClauseSyntax>().ToList()[0];
 
-            var node = (IncompleteMemberSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public a").Members[0];
-            var xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
 
-            var topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 3);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.Type).Name.LocalName);
+            var changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.FinallyKeyword].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.FinallyKeyword].Match.Modified, modified.FinallyKeyword);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
 
-            node = (IncompleteMemberSyntax)SyntaxFactory.ParseCompilationUnit("public a").Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
-
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 2);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Name.LocalName == converter.Visit(node.Type).Name.LocalName);
-
-            node = (IncompleteMemberSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] a").Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
-
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 2);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Name.LocalName == converter.Visit(node.Type).Name.LocalName);
-        }
-
-        [TestMethod]
-        public void GlobalStatementServiceProvider_Pairwising_OK()
-        {
-            var converter = new CDF.CSharp.RoslynML.RoslynML();
-            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
-
-            var node = Microsoft.CodeAnalysis.CSharp.SyntaxFactory.GlobalStatement(SyntaxFactory.ParseStatement("x++"));
-            var xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
-
-            var topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 1);
-            Assert.IsTrue(topologicalChildren[0].Name.LocalName == converter.Visit(node.Statement).Name.LocalName);
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.FinallyKeyword].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.FinallyKeyword].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
         }
 
         [TestMethod]
         public void DelegateDeclarationServiceProvider_Pairwising_OK()
         {
-            var converter = new CDF.CSharp.RoslynML.RoslynML();
-            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
 
-            var node = (DelegateDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public delegate void Del<T>(string str) where T: I;").Members[0];
-            var xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var originals = flad.Originals<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            originals.KeepAnnotations = true;
+            var modifieds = flad.Modifieds<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            modifieds.KeepAnnotations = true;
 
-            var topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 7);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.ReturnType).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Name.LocalName == converter.Visit(node.TypeParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[5].Name.LocalName == converter.Visit(node.ParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[6].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.ConstraintClauses[0]).Name.LocalName);
+            var originalRoot = SyntaxFactory.ParseCompilationUnit("[Serializable] public delegate void Del<T>(string str) where T: I;");
+            var modifiedRoot = SyntaxFactory.ParseCompilationUnit("[Serializable] public delegate void Del<T>(string str) where T: I;");
 
-            node = (DelegateDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public delegate void Del<T>(string str) where T: I;").Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var original = originalRoot.DescendantNodesAndSelf().OfType<DelegateDeclarationSyntax>().ToList()[0];
+            var modified = modifiedRoot.DescendantNodesAndSelf().OfType<DelegateDeclarationSyntax>().ToList()[0];
 
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 6);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Name.LocalName == converter.Visit(node.ReturnType).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.TypeParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Name.LocalName == converter.Visit(node.ParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[5].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.ConstraintClauses[0]).Name.LocalName);
+            var args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
 
-            node = (DelegateDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] delegate void Del<T>(string str) where T: I;").Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.DelegateKeyword].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.DelegateKeyword].Match.Modified, modified.DelegateKeyword);
+            Assert.AreEqual(originals.Annotations[original.Identifier].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.Identifier].Match.Modified, modified.Identifier);
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match.Modified, modified.SemicolonToken);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
 
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 6);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Name.LocalName == converter.Visit(node.ReturnType).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.TypeParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Name.LocalName == converter.Visit(node.ParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[5].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.ConstraintClauses[0]).Name.LocalName);
-
-            node = (DelegateDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public delegate void Del(string str) where T: I;").Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
-
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 6);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.ReturnType).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Name.LocalName == converter.Visit(node.ParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[5].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.ConstraintClauses[0]).Name.LocalName);
-
-            node = (DelegateDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public delegate void Del<T>(string str);").Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
-
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 6);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.ReturnType).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Name.LocalName == converter.Visit(node.TypeParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[5].Name.LocalName == converter.Visit(node.ParameterList).Name.LocalName);
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.DelegateKeyword].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.DelegateKeyword].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreNotEqual(originals.Annotations[original.Identifier].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.Identifier].Match.Modified, modified.Identifier);
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.SemicolonToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
         }
 
         [TestMethod]
         public void EnumDeclarationServiceProvider_Pairwising_OK()
         {
-            var converter = new CDF.CSharp.RoslynML.RoslynML();
-            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
 
-            var node = (EnumDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public enum a : byte {a1, a2 = 3};").Members[0];
-            var xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var originals = flad.Originals<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            originals.KeepAnnotations = true;
+            var modifieds = flad.Modifieds<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            modifieds.KeepAnnotations = true;
 
-            var topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 5);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.BaseList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Members[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Members[1]).Name.LocalName);
+            var originalRoot = SyntaxFactory.ParseCompilationUnit("[Serializable] public enum a : byte {a1, a2 = 3};");
+            var modifiedRoot = SyntaxFactory.ParseCompilationUnit("[Serializable] public enum a : byte {a1, a2 = 3};");
 
-            node = (EnumDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public enum a : byte {a1, a2 = 3};").Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var original = originalRoot.DescendantNodesAndSelf().OfType<EnumDeclarationSyntax>().ToList()[0];
+            var modified = modifiedRoot.DescendantNodesAndSelf().OfType<EnumDeclarationSyntax>().ToList()[0];
 
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 4);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.BaseList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Members[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Members[1]).Name.LocalName);
-                                              
-            node = (EnumDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] enum a : byte {a1, a2 = 3};").Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
 
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 4);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.BaseList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Members[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Members[1]).Name.LocalName);
+            var changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.EnumKeyword].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.EnumKeyword].Match.Modified, modified.EnumKeyword);
+            Assert.AreEqual(originals.Annotations[original.Identifier].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.Identifier].Match.Modified, modified.Identifier);
+            Assert.AreEqual(originals.Annotations[original.OpenBraceToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.OpenBraceToken].Match.Modified, modified.OpenBraceToken);
+            Assert.AreEqual(originals.Annotations[original.CloseBraceToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.CloseBraceToken].Match.Modified, modified.CloseBraceToken);
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match.Modified, modified.SemicolonToken);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
 
-            node = (EnumDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public enum a {a1, a2 = 3};").Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
-
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 4);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Members[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Members[1]).Name.LocalName);
-
-            node = (EnumDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public enum a : byte {a1, a2 = 3}").Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
-
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 5);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.BaseList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Members[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Members[1]).Name.LocalName);
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.EnumKeyword].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.EnumKeyword].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreNotEqual(originals.Annotations[original.Identifier].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.Identifier].Match.Modified, modified.Identifier);
+            Assert.AreEqual(originals.Annotations[original.OpenBraceToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.OpenBraceToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreEqual(originals.Annotations[original.CloseBraceToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.CloseBraceToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.SemicolonToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
         }
 
         [TestMethod]
         public void ClassDeclarationServiceProvider_Pairwising_OK()
         {
-            var converter = new CDF.CSharp.RoslynML.RoslynML();
-            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
 
-            var node = (ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public class a<T> : byte where T : int  {X a1; Y a2 = 3;};").Members[0];
-            var xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var originals = flad.Originals<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            originals.KeepAnnotations = true;
+            var modifieds = flad.Modifieds<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            modifieds.KeepAnnotations = true;
 
-            var topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 7);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.TypeParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Name.LocalName == converter.Visit(node.BaseList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[5].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.ConstraintClauses[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[6].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Members[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[6].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Members[1]).Name.LocalName);
+            var originalRoot = SyntaxFactory.ParseCompilationUnit("[Serializable] public class a<T> : byte where T : int  {X a1; Y a2 = 3;};");
+            var modifiedRoot = SyntaxFactory.ParseCompilationUnit("[Serializable] public class a<T> : byte where T : int  {X a1; Y a2 = 3;};");
 
-            node = (ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class a<T> : byte where T : int  {X a1; Y a2 = 3;};").Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var original = originalRoot.DescendantNodesAndSelf().OfType<ClassDeclarationSyntax>().ToList()[0];
+            var modified = modifiedRoot.DescendantNodesAndSelf().OfType<ClassDeclarationSyntax>().ToList()[0];
 
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 6);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.TypeParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.BaseList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.ConstraintClauses[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[5].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Members[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[5].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Members[1]).Name.LocalName);
+            var args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
 
-            node = (ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] class a<T> : byte where T : int  {X a1; Y a2 = 3;};").Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.Keyword].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.Keyword].Match.Modified, modified.Keyword);
+            Assert.AreEqual(originals.Annotations[original.Identifier].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.Identifier].Match.Modified, modified.Identifier);
+            Assert.AreEqual(originals.Annotations[original.OpenBraceToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.OpenBraceToken].Match.Modified, modified.OpenBraceToken);
+            Assert.AreEqual(originals.Annotations[original.CloseBraceToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.CloseBraceToken].Match.Modified, modified.CloseBraceToken);
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match.Modified, modified.SemicolonToken);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
 
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 6);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.TypeParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.BaseList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.ConstraintClauses[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[5].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Members[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[5].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Members[1]).Name.LocalName);
-
-            node = (ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public class a : byte where T : int  {X a1; Y a2 = 3;};").Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
-
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 6);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.BaseList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.ConstraintClauses[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[5].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Members[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[5].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Members[1]).Name.LocalName);
-
-            node = (ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public class a<T> where T : int  {X a1; Y a2 = 3;};").Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
-
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 6);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.TypeParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.ConstraintClauses[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[5].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Members[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[5].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Members[1]).Name.LocalName);
-
-            node = (ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public class a<T> : byte where T : int  {X a1; Y a2 = 3;}").Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
-
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 7);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.TypeParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Name.LocalName == converter.Visit(node.BaseList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[5].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.ConstraintClauses[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[6].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Members[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[6].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Members[1]).Name.LocalName);
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.Keyword].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.Keyword].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreNotEqual(originals.Annotations[original.Identifier].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.Identifier].Match.Modified, modified.Identifier);
+            Assert.AreEqual(originals.Annotations[original.OpenBraceToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.OpenBraceToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreEqual(originals.Annotations[original.CloseBraceToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.CloseBraceToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.SemicolonToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
         }
 
         [TestMethod]
         public void StructDeclarationServiceProvider_Pairwising_OK()
         {
-            var converter = new CDF.CSharp.RoslynML.RoslynML();
-            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
 
-            var node = (StructDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public struct a<T> : byte where T : int  {X a1; Y a2 = 3;};").Members[0];
-            var xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var originals = flad.Originals<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            originals.KeepAnnotations = true;
+            var modifieds = flad.Modifieds<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            modifieds.KeepAnnotations = true;
 
-            var topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 7);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.TypeParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Name.LocalName == converter.Visit(node.BaseList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[5].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.ConstraintClauses[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[6].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Members[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[6].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Members[1]).Name.LocalName);
+            var originalRoot = SyntaxFactory.ParseCompilationUnit("[Serializable] public struct a<T> : byte where T : int  {X a1; Y a2 = 3;};");
+            var modifiedRoot = SyntaxFactory.ParseCompilationUnit("[Serializable] public struct a<T> : byte where T : int  {X a1; Y a2 = 3;};");
 
-            node = (StructDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public struct a<T> : byte where T : int  {X a1; Y a2 = 3;};").Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var original = originalRoot.DescendantNodesAndSelf().OfType<StructDeclarationSyntax>().ToList()[0];
+            var modified = modifiedRoot.DescendantNodesAndSelf().OfType<StructDeclarationSyntax>().ToList()[0];
 
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 6);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.TypeParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.BaseList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.ConstraintClauses[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[5].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Members[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[5].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Members[1]).Name.LocalName);
-                                              
-            node = (StructDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] struct a<T> : byte where T : int  {X a1; Y a2 = 3;};").Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
 
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 6);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.TypeParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.BaseList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.ConstraintClauses[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[5].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Members[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[5].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Members[1]).Name.LocalName);
+            var changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.Keyword].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.Keyword].Match.Modified, modified.Keyword);
+            Assert.AreEqual(originals.Annotations[original.Identifier].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.Identifier].Match.Modified, modified.Identifier);
+            Assert.AreEqual(originals.Annotations[original.OpenBraceToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.OpenBraceToken].Match.Modified, modified.OpenBraceToken);
+            Assert.AreEqual(originals.Annotations[original.CloseBraceToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.CloseBraceToken].Match.Modified, modified.CloseBraceToken);
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match.Modified, modified.SemicolonToken);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
 
-            node = (StructDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public struct a : byte where T : int  {X a1; Y a2 = 3;};").Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
-
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 6);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.BaseList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.ConstraintClauses[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[5].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Members[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[5].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Members[1]).Name.LocalName);
-
-            node = (StructDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public struct a<T> where T : int  {X a1; Y a2 = 3;};").Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
-
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 6);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.TypeParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.ConstraintClauses[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[5].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Members[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[5].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Members[1]).Name.LocalName);
-
-            node = (StructDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public struct a<T> : byte where T : int  {X a1; Y a2 = 3;}").Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
-
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 7);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.TypeParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Name.LocalName == converter.Visit(node.BaseList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[5].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.ConstraintClauses[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[6].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Members[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[6].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Members[1]).Name.LocalName);
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.Keyword].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.Keyword].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreNotEqual(originals.Annotations[original.Identifier].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.Identifier].Match.Modified, modified.Identifier);
+            Assert.AreEqual(originals.Annotations[original.OpenBraceToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.OpenBraceToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreEqual(originals.Annotations[original.CloseBraceToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.CloseBraceToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.SemicolonToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
         }
 
         [TestMethod]
         public void InterfaceDeclarationServiceProvider_Pairwising_OK()
         {
-            var converter = new CDF.CSharp.RoslynML.RoslynML();
-            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
 
-            var node = (InterfaceDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public interface a<T> : byte where T : int  {X a1; Y a2 = 3;};").Members[0];
-            var xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var originals = flad.Originals<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            originals.KeepAnnotations = true;
+            var modifieds = flad.Modifieds<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            modifieds.KeepAnnotations = true;
 
-            var topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 7);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.TypeParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Name.LocalName == converter.Visit(node.BaseList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[5].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.ConstraintClauses[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[6].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Members[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[6].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Members[1]).Name.LocalName);
+            var originalRoot = SyntaxFactory.ParseCompilationUnit("[Serializable] public interface a<T> : byte where T : int  {X a1; Y a2 = 3;};");
+            var modifiedRoot = SyntaxFactory.ParseCompilationUnit("[Serializable] public interface a<T> : byte where T : int  {X a1; Y a2 = 3;};");
 
-            node = (InterfaceDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public interface a<T> : byte where T : int  {X a1; Y a2 = 3;};").Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var original = originalRoot.DescendantNodesAndSelf().OfType<InterfaceDeclarationSyntax>().ToList()[0];
+            var modified = modifiedRoot.DescendantNodesAndSelf().OfType<InterfaceDeclarationSyntax>().ToList()[0];
 
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 6);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.TypeParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.BaseList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.ConstraintClauses[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[5].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Members[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[5].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Members[1]).Name.LocalName);
-                                              
-            node = (InterfaceDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] interface a<T> : byte where T : int  {X a1; Y a2 = 3;};").Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
 
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 6);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.TypeParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.BaseList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.ConstraintClauses[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[5].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Members[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[5].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Members[1]).Name.LocalName);
-                                              
-            node = (InterfaceDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public interface a : byte where T : int  {X a1; Y a2 = 3;};").Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.Keyword].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.Keyword].Match.Modified, modified.Keyword);
+            Assert.AreEqual(originals.Annotations[original.Identifier].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.Identifier].Match.Modified, modified.Identifier);
+            Assert.AreEqual(originals.Annotations[original.OpenBraceToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.OpenBraceToken].Match.Modified, modified.OpenBraceToken);
+            Assert.AreEqual(originals.Annotations[original.CloseBraceToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.CloseBraceToken].Match.Modified, modified.CloseBraceToken);
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match.Modified, modified.SemicolonToken);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
 
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 6);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.BaseList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.ConstraintClauses[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[5].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Members[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[5].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Members[1]).Name.LocalName);
-
-            node = (InterfaceDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public interface a<T> where T : int  {X a1; Y a2 = 3;};").Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
-
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 6);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.TypeParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.ConstraintClauses[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[5].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Members[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[5].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Members[1]).Name.LocalName);
-
-            node = (InterfaceDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public interface a<T> : byte where T : int  {X a1; Y a2 = 3;}").Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
-
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 7);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.TypeParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Name.LocalName == converter.Visit(node.BaseList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[5].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.ConstraintClauses[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[6].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Members[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[6].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Members[1]).Name.LocalName);
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.Keyword].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.Keyword].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreNotEqual(originals.Annotations[original.Identifier].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.Identifier].Match.Modified, modified.Identifier);
+            Assert.AreEqual(originals.Annotations[original.OpenBraceToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.OpenBraceToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreEqual(originals.Annotations[original.CloseBraceToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.CloseBraceToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.SemicolonToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
         }
 
         [TestMethod]
@@ -5164,1658 +5918,1491 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
 
             var node = ((EnumDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public enum a : byte {a1, [Serializable] a2 = 3};").Members[0]).Members[1];
-            var xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
 
-            var topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 3);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.EqualsValue).Name.LocalName);
+            var originals = flad.Originals<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            originals.KeepAnnotations = true;
+            var modifieds = flad.Modifieds<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            modifieds.KeepAnnotations = true;
 
-            node = ((EnumDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public enum a : byte {a1, a2 = 3};").Members[0]).Members[1];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var originalRoot = SyntaxFactory.ParseCompilationUnit("[Serializable] public enum a : byte {a1};");
+            var modifiedRoot = SyntaxFactory.ParseCompilationUnit("[Serializable] public enum a : byte {a1};");
 
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 2);
-            Assert.IsTrue(topologicalChildren[0].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Name.LocalName == converter.Visit(node.EqualsValue).Name.LocalName);
+            var original = originalRoot.DescendantNodesAndSelf().OfType<EnumMemberDeclarationSyntax>().ToList()[0];
+            var modified = modifiedRoot.DescendantNodesAndSelf().OfType<EnumMemberDeclarationSyntax>().ToList()[0];
 
-            node = ((EnumDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public enum a : byte {a1, [Serializable] a2};").Members[0]).Members[1];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
 
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 2);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
+            var changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.Identifier].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.Identifier].Match.Modified, modified.Identifier);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
+
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreNotEqual(originals.Annotations[original.Identifier].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.Identifier].Match.Modified, modified.Identifier);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
         }
 
         [TestMethod]
         public void TypeParameterListServiceProvider_Pairwising_OK()
         {
-            var converter = new CDF.CSharp.RoslynML.RoslynML();
-            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
 
-            var node = ((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a<B, in C> {}").Members[0]).TypeParameterList;
-            var xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var originals = flad.Originals<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            originals.KeepAnnotations = true;
+            var modifieds = flad.Modifieds<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            modifieds.KeepAnnotations = true;
 
-            var topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 1);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Parameters[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Parameters[1]).Name.LocalName);
+            var originalRoot = SyntaxFactory.ParseCompilationUnit("class a<B, in C> {}");
+            var modifiedRoot = SyntaxFactory.ParseCompilationUnit("class a<B, in C> {}");
+
+            var original = originalRoot.DescendantNodesAndSelf().OfType<TypeParameterListSyntax>().ToList()[0];
+            var modified = modifiedRoot.DescendantNodesAndSelf().OfType<TypeParameterListSyntax>().ToList()[0];
+
+            var args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
+
+            var changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.LessThanToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.LessThanToken].Match.Modified, modified.LessThanToken);
+            Assert.AreEqual(originals.Annotations[original.GreaterThanToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.GreaterThanToken].Match.Modified, modified.GreaterThanToken);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
+
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.LessThanToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.LessThanToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreEqual(originals.Annotations[original.GreaterThanToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.GreaterThanToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
         }
-
+        //Assert.IsTrue(original.RefKindKeyword != null && !originals.Annotations.ContainsKey(original.RefKindKeyword));
+        
         [TestMethod]
         public void TypeParameterServiceProvider_Pairwising_OK()
         {
-            var converter = new CDF.CSharp.RoslynML.RoslynML();
-            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
 
-            var node = ((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a<[Serializable] in B, in C> {}").Members[0]).TypeParameterList.Parameters[0];
-            var xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var originals = flad.Originals<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            originals.KeepAnnotations = true;
+            var modifieds = flad.Modifieds<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            modifieds.KeepAnnotations = true;
 
-            var topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 2);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
+            var originalRoot = SyntaxFactory.ParseCompilationUnit("class a<[Serializable] B, in C> {}");
+            var modifiedRoot = SyntaxFactory.ParseCompilationUnit("class a<[Serializable] B, in C> {}");
 
-            node = ((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a<in B, in C> {}").Members[0]).TypeParameterList.Parameters[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var original = originalRoot.DescendantNodesAndSelf().OfType<TypeParameterSyntax>().ToList()[0];
+            var modified = modifiedRoot.DescendantNodesAndSelf().OfType<TypeParameterSyntax>().ToList()[0];
 
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 1);
-            Assert.IsTrue(topologicalChildren[0].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
+            var args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
+
+            var changes = flad.GetChanges(args).Translate();
+            Assert.IsTrue(original.VarianceKeyword != null && !originals.Annotations.ContainsKey(original.VarianceKeyword));
+            Assert.IsTrue(modified.VarianceKeyword != null && !originals.Annotations.ContainsKey(modified.VarianceKeyword));
+            Assert.AreEqual(originals.Annotations[original.Identifier].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.Identifier].Match.Modified, modified.Identifier);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
+
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.IsTrue(original.VarianceKeyword != null && !originals.Annotations.ContainsKey(original.VarianceKeyword));
+            Assert.IsTrue(modified.VarianceKeyword != null && !originals.Annotations.ContainsKey(modified.VarianceKeyword));
+            Assert.AreNotEqual(originals.Annotations[original.Identifier].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.Identifier].Match.Modified, modified.Identifier);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            flad.MatchingSet().PartnersEvent += ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
+            originalRoot = SyntaxFactory.ParseCompilationUnit("class a<[Serializable] in B, in C> {}");
+            modifiedRoot = SyntaxFactory.ParseCompilationUnit("class a<[Serializable] in B, in C> {}");
+
+            original = originalRoot.DescendantNodesAndSelf().OfType<TypeParameterSyntax>().ToList()[0];
+            modified = modifiedRoot.DescendantNodesAndSelf().OfType<TypeParameterSyntax>().ToList()[0];
+
+            args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
+
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.VarianceKeyword].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.VarianceKeyword].Match.Modified, modified.VarianceKeyword);
+            Assert.AreEqual(originals.Annotations[original.Identifier].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.Identifier].Match.Modified, modified.Identifier);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
+
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.VarianceKeyword].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.VarianceKeyword].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreNotEqual(originals.Annotations[original.Identifier].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.Identifier].Match.Modified, modified.Identifier);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            flad.MatchingSet().PartnersEvent += ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
+            originalRoot = SyntaxFactory.ParseCompilationUnit("class a<[Serializable] out B, in C> {}");
+            modifiedRoot = SyntaxFactory.ParseCompilationUnit("class a<[Serializable] out B, in C> {}");
+
+            original = originalRoot.DescendantNodesAndSelf().OfType<TypeParameterSyntax>().ToList()[0];
+            modified = modifiedRoot.DescendantNodesAndSelf().OfType<TypeParameterSyntax>().ToList()[0];
+
+            args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
+
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.VarianceKeyword].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.VarianceKeyword].Match.Modified, modified.VarianceKeyword);
+            Assert.AreEqual(originals.Annotations[original.Identifier].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.Identifier].Match.Modified, modified.Identifier);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
+
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.VarianceKeyword].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.VarianceKeyword].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreNotEqual(originals.Annotations[original.Identifier].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.Identifier].Match.Modified, modified.Identifier);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
         }
 
         [TestMethod]
         public void TypeParameterConstraintClauseServiceProvider_Pairwising_OK()
         {
-            var converter = new CDF.CSharp.RoslynML.RoslynML();
-            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
 
-            var node = ((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a<T> : byte where T : new(), class {};").Members[0]).ConstraintClauses[0];
-            var xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var originals = flad.Originals<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            originals.KeepAnnotations = true;
+            var modifieds = flad.Modifieds<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            modifieds.KeepAnnotations = true;
 
-            var topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 2);
-            Assert.IsTrue(topologicalChildren[0].Name.LocalName == converter.Visit(node.Name).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Constraints[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Constraints[1]).Name.LocalName);
-        }
+            var originalRoot = SyntaxFactory.ParseCompilationUnit("class a<T> : byte where T : new(), class {};");
+            var modifiedRoot = SyntaxFactory.ParseCompilationUnit("class a<T> : byte where T : new(), class {};");
 
-        [TestMethod]
-        public void TypeConstraintServiceProvider_Pairwising_OK()
-        {
-            var converter = new CDF.CSharp.RoslynML.RoslynML();
-            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
+            var original = originalRoot.DescendantNodesAndSelf().OfType<TypeParameterConstraintClauseSyntax>().ToList()[0];
+            var modified = modifiedRoot.DescendantNodesAndSelf().OfType<TypeParameterConstraintClauseSyntax>().ToList()[0];
 
-            var node = (TypeConstraintSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a<T> : byte where T : A {};").Members[0]).ConstraintClauses[0].Constraints[0];
-            var xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
 
-            var topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 1);
-            Assert.IsTrue(topologicalChildren[0].Name.LocalName == converter.Visit(node.Type).Name.LocalName);
+            var changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.WhereKeyword].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.WhereKeyword].Match.Modified, modified.WhereKeyword);
+            Assert.AreEqual(originals.Annotations[original.ColonToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.ColonToken].Match.Modified, modified.ColonToken);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
+
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.WhereKeyword].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.WhereKeyword].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreEqual(originals.Annotations[original.ColonToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.ColonToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
         }
 
         [TestMethod]
         public void ConstructorConstraintServiceProvider_Pairwising_OK()
         {
-            var converter = new CDF.CSharp.RoslynML.RoslynML();
-            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
 
-            var node = (ConstructorConstraintSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a<T> : byte where T : new() {};").Members[0]).ConstraintClauses[0].Constraints[0];
-            var xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var originals = flad.Originals<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            originals.KeepAnnotations = true;
+            var modifieds = flad.Modifieds<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            modifieds.KeepAnnotations = true;
 
-            var topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 0);
+            var originalRoot = SyntaxFactory.ParseCompilationUnit("class a<T> : byte where T : new() {};");
+            var modifiedRoot = SyntaxFactory.ParseCompilationUnit("class a<T> : byte where T : new() {};");
+
+            var original = originalRoot.DescendantNodesAndSelf().OfType<ConstructorConstraintSyntax>().ToList()[0];
+            var modified = modifiedRoot.DescendantNodesAndSelf().OfType<ConstructorConstraintSyntax>().ToList()[0];
+
+            var args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
+
+            var changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.NewKeyword].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.NewKeyword].Match.Modified, modified.NewKeyword);
+            Assert.AreEqual(originals.Annotations[original.OpenParenToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.OpenParenToken].Match.Modified, modified.OpenParenToken);
+            Assert.AreEqual(originals.Annotations[original.CloseParenToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.CloseParenToken].Match.Modified, modified.CloseParenToken);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
+
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.NewKeyword].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.NewKeyword].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreEqual(originals.Annotations[original.OpenParenToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.OpenParenToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreEqual(originals.Annotations[original.CloseParenToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.CloseParenToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
         }
 
         [TestMethod]
         public void ClassOrStructConstraintServiceProvider_Pairwising_OK()
         {
-            var converter = new CDF.CSharp.RoslynML.RoslynML();
-            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
 
-            var node = (ClassOrStructConstraintSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a<T> : byte where T : class {};").Members[0]).ConstraintClauses[0].Constraints[0];
-            var xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, "ClassConstraint");
+            var originals = flad.Originals<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            originals.KeepAnnotations = true;
+            var modifieds = flad.Modifieds<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            modifieds.KeepAnnotations = true;
 
-            var topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 0);
+            var originalRoot = SyntaxFactory.ParseCompilationUnit("class a<T> : byte where T : class {};");
+            var modifiedRoot = SyntaxFactory.ParseCompilationUnit("class a<T> : byte where T : class {};");
 
-            node = (ClassOrStructConstraintSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a<T> : byte where T : struct {};").Members[0]).ConstraintClauses[0].Constraints[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, "StructConstraint");
+            var original = originalRoot.DescendantNodesAndSelf().OfType<ClassOrStructConstraintSyntax>().ToList()[0];
+            var modified = modifiedRoot.DescendantNodesAndSelf().OfType<ClassOrStructConstraintSyntax>().ToList()[0];
 
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 0);
+            var args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
+
+            var changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.ClassOrStructKeyword].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.ClassOrStructKeyword].Match.Modified, modified.ClassOrStructKeyword);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
+
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.ClassOrStructKeyword].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.ClassOrStructKeyword].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            flad.MatchingSet().PartnersEvent += ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
+            originalRoot = SyntaxFactory.ParseCompilationUnit("class a<T> : byte where T : struct {};");
+            modifiedRoot = SyntaxFactory.ParseCompilationUnit("class a<T> : byte where T : struct {};");
+
+            original = originalRoot.DescendantNodesAndSelf().OfType<ClassOrStructConstraintSyntax>().ToList()[0];
+            modified = modifiedRoot.DescendantNodesAndSelf().OfType<ClassOrStructConstraintSyntax>().ToList()[0];
+
+            args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
+
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.ClassOrStructKeyword].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.ClassOrStructKeyword].Match.Modified, modified.ClassOrStructKeyword);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
+
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.ClassOrStructKeyword].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.ClassOrStructKeyword].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
         }
 
         [TestMethod]
         public void BaseListServiceProvider_Pairwising_OK()
         {
-            var converter = new CDF.CSharp.RoslynML.RoslynML();
-            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
 
-            var node = ((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a<T> : A, I where T : A {};").Members[0]).BaseList;
-            var xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var originals = flad.Originals<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            originals.KeepAnnotations = true;
+            var modifieds = flad.Modifieds<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            modifieds.KeepAnnotations = true;
 
-            var topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 1);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Types[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Types[1]).Name.LocalName);
-        }
+            var originalRoot = SyntaxFactory.ParseCompilationUnit("class a<T> : A, I where T : A {};");
+            var modifiedRoot = SyntaxFactory.ParseCompilationUnit("class a<T> : A, I where T : A {};");
 
-        [TestMethod]
-        public void SimpleBaseTypeServiceProvider_Pairwising_OK()
-        {
-            var converter = new CDF.CSharp.RoslynML.RoslynML();
-            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
+            var original = originalRoot.DescendantNodesAndSelf().OfType<BaseListSyntax>().ToList()[0];
+            var modified = modifiedRoot.DescendantNodesAndSelf().OfType<BaseListSyntax>().ToList()[0];
 
-            var node = ((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a<T> : A, I where T : A {};").Members[0]).BaseList.Types[0];
-            var xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
 
-            var topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 1);
-            Assert.IsTrue(topologicalChildren[0].Name.LocalName == converter.Visit(node.Type).Name.LocalName);
+            var changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.ColonToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.ColonToken].Match.Modified, modified.ColonToken);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
+
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.ColonToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.ColonToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
         }
 
         [TestMethod]
         public void FieldDeclarationServiceProvider_Pairwising_OK()
         {
-            var converter = new CDF.CSharp.RoslynML.RoslynML();
-            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
 
-            var node = (FieldDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a {[Serializable]public int df;}").Members[0]).Members[0];
-            var xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var originals = flad.Originals<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            originals.KeepAnnotations = true;
+            var modifieds = flad.Modifieds<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            modifieds.KeepAnnotations = true;
 
-            var topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 3);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.Declaration).Name.LocalName);
+            var originalRoot = SyntaxFactory.ParseCompilationUnit("class a {[Serializable]public int df;}");
+            var modifiedRoot = SyntaxFactory.ParseCompilationUnit("class a {[Serializable]public int df;}");
 
-            node = (FieldDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a {public int df;}").Members[0]).Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var original = originalRoot.DescendantNodesAndSelf().OfType<FieldDeclarationSyntax>().ToList()[0];
+            var modified = modifiedRoot.DescendantNodesAndSelf().OfType<FieldDeclarationSyntax>().ToList()[0];
 
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 2);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Name.LocalName == converter.Visit(node.Declaration).Name.LocalName);
+            var args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
 
-            node = (FieldDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a {[Serializable] int df;}").Members[0]).Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match.Modified, modified.SemicolonToken);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
 
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 2);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Name.LocalName == converter.Visit(node.Declaration).Name.LocalName);
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.SemicolonToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
         }
 
         [TestMethod]
         public void EventFieldDeclarationServiceProvider_Pairwising_OK()
         {
-            var converter = new CDF.CSharp.RoslynML.RoslynML();
-            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
 
-            var node = (EventFieldDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a {[Serializable]public event int df;}").Members[0]).Members[0];
-            var xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var originals = flad.Originals<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            originals.KeepAnnotations = true;
+            var modifieds = flad.Modifieds<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            modifieds.KeepAnnotations = true;
 
-            var topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 3);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.Declaration).Name.LocalName);
+            var originalRoot = SyntaxFactory.ParseCompilationUnit("class a {[Serializable]public event int df;}");
+            var modifiedRoot = SyntaxFactory.ParseCompilationUnit("class a {[Serializable]public event int df;}");
 
-            node = (EventFieldDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a {public event int df;}").Members[0]).Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var original = originalRoot.DescendantNodesAndSelf().OfType<EventFieldDeclarationSyntax>().ToList()[0];
+            var modified = modifiedRoot.DescendantNodesAndSelf().OfType<EventFieldDeclarationSyntax>().ToList()[0];
 
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 2);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Name.LocalName == converter.Visit(node.Declaration).Name.LocalName);
+            var args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
 
-            node = (EventFieldDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a {[Serializable] event int df;}").Members[0]).Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.EventKeyword].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.EventKeyword].Match.Modified, modified.EventKeyword);
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match.Modified, modified.SemicolonToken);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
 
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 2);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Name.LocalName == converter.Visit(node.Declaration).Name.LocalName);
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.EventKeyword].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.EventKeyword].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.SemicolonToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
         }
 
         [TestMethod]
         public void ExplicitInterfaceSpecifierServiceProvider_Pairwising_OK()
         {
-            var converter = new CDF.CSharp.RoslynML.RoslynML();
-            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
-
             var node = ((EventDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a {event B IA.a1{add; remove;}}").Members[0]).Members[0]).ExplicitInterfaceSpecifier;
-            var xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
 
-            var topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 1);
-            Assert.IsTrue(topologicalChildren[0].Name.LocalName == converter.Visit(node.Name).Name.LocalName);
+            var originals = flad.Originals<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            originals.KeepAnnotations = true;
+            var modifieds = flad.Modifieds<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            modifieds.KeepAnnotations = true;
+
+            var originalRoot = SyntaxFactory.ParseCompilationUnit("class a {event B IA.a1{add; remove;}}");
+            var modifiedRoot = SyntaxFactory.ParseCompilationUnit("class a {event B IA.a1{add; remove;}}");
+
+            var original = originalRoot.DescendantNodesAndSelf().OfType<ExplicitInterfaceSpecifierSyntax>().ToList()[0];
+            var modified = modifiedRoot.DescendantNodesAndSelf().OfType<ExplicitInterfaceSpecifierSyntax>().ToList()[0];
+
+            var args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
+
+            var changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.DotToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.DotToken].Match.Modified, modified.DotToken);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
+
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.DotToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.DotToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
         }
 
         [TestMethod]
         public void MethodDeclarationServiceProvider_Pairwising_OK()
         {
-            var converter = new CDF.CSharp.RoslynML.RoslynML();
-            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
 
-            var node = (MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string C.M<T>(int a, A b)where T: class { return 5; };").Members[0];
-            var xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var originals = flad.Originals<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            originals.KeepAnnotations = true;
+            var modifieds = flad.Modifieds<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            modifieds.KeepAnnotations = true;
 
-            var topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 9);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Modifiers[1]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.ReturnType).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.ExplicitInterfaceSpecifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[5].Name.LocalName == converter.Visit(node.TypeParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[6].Name.LocalName == converter.Visit(node.ParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[7].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.ConstraintClauses[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[8].Name.LocalName == converter.Visit(node.Body).Name.LocalName);
+            var originalRoot = SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string C.M<T>(int a, A b)where T: class { return 5; };");
+            var modifiedRoot = SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string C.M<T>(int a, A b)where T: class { return 5; };");
 
-            node = (MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string C.M<T>(int a, A b)where T: class => 5;").Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var original = originalRoot.DescendantNodesAndSelf().OfType<MethodDeclarationSyntax>().ToList()[0];
+            var modified = modifiedRoot.DescendantNodesAndSelf().OfType<MethodDeclarationSyntax>().ToList()[0];
 
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 9);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Modifiers[1]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.ReturnType).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.ExplicitInterfaceSpecifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[5].Name.LocalName == converter.Visit(node.TypeParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[6].Name.LocalName == converter.Visit(node.ParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[7].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.ConstraintClauses[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[8].Name.LocalName == converter.Visit(node.ExpressionBody).Name.LocalName);
+            var args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
 
-            node = (MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public virtual string C.M<T>(int a, A b)where T: class { return 5; };").Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.Identifier].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.Identifier].Match.Modified, modified.Identifier);
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match.Modified, modified.SemicolonToken);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
 
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 8);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Modifiers[1]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Name.LocalName == converter.Visit(node.ReturnType).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.ExplicitInterfaceSpecifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Name.LocalName == converter.Visit(node.TypeParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[5].Name.LocalName == converter.Visit(node.ParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[6].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.ConstraintClauses[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[7].Name.LocalName == converter.Visit(node.Body).Name.LocalName);
-                                              
-            node = (MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public virtual string C.M<T>(int a, A b)where T: class => 5;").Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
-
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 8);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[1]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Name.LocalName == converter.Visit(node.ReturnType).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.ExplicitInterfaceSpecifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Name.LocalName == converter.Visit(node.TypeParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[5].Name.LocalName == converter.Visit(node.ParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[6].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.ConstraintClauses[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[7].Name.LocalName == converter.Visit(node.ExpressionBody).Name.LocalName);
-                                              
-            node = (MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] virtual string C.M<T>(int a, A b)where T: class { return 5; };").Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
-
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 9);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.ReturnType).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.ExplicitInterfaceSpecifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[5].Name.LocalName == converter.Visit(node.TypeParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[6].Name.LocalName == converter.Visit(node.ParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[7].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.ConstraintClauses[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[8].Name.LocalName == converter.Visit(node.Body).Name.LocalName);
-                                              
-            node = (MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public string C.M<T>(int a, A b)where T: class => 5;").Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
-
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 9);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.ReturnType).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.ExplicitInterfaceSpecifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[5].Name.LocalName == converter.Visit(node.TypeParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[6].Name.LocalName == converter.Visit(node.ParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[7].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.ConstraintClauses[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[8].Name.LocalName == converter.Visit(node.ExpressionBody).Name.LocalName);
-                                              
-            node = (MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string M<T>(int a, A b)where T: class { return 5; };").Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
-
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 8);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Modifiers[1]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.ReturnType).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Name.LocalName == converter.Visit(node.TypeParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[5].Name.LocalName == converter.Visit(node.ParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[6].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.ConstraintClauses[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[7].Name.LocalName == converter.Visit(node.Body).Name.LocalName);
-
-            node = (MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string M<T>(int a, A b)where T: class => 5;").Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
-
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 8);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Modifiers[1]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.ReturnType).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Name.LocalName == converter.Visit(node.TypeParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[5].Name.LocalName == converter.Visit(node.ParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[6].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.ConstraintClauses[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[7].Name.LocalName == converter.Visit(node.ExpressionBody).Name.LocalName);
-
-            node = (MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string C.M(int a, A b)where T: class { return 5; };").Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
-
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 8);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Modifiers[1]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.ReturnType).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.ExplicitInterfaceSpecifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[5].Name.LocalName == converter.Visit(node.ParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[6].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.ConstraintClauses[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[7].Name.LocalName == converter.Visit(node.Body).Name.LocalName);
-
-            node = (MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string C.M(int a, A b)where T: class => 5;").Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
-
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 8);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Modifiers[1]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.ReturnType).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.ExplicitInterfaceSpecifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[5].Name.LocalName == converter.Visit(node.ParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[6].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.ConstraintClauses[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[7].Name.LocalName == converter.Visit(node.ExpressionBody).Name.LocalName);
-
-            node = (MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string C.M<T>(int a, A b) { return 5; };").Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
-
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 8);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Modifiers[1]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.ReturnType).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.ExplicitInterfaceSpecifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[5].Name.LocalName == converter.Visit(node.TypeParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[6].Name.LocalName == converter.Visit(node.ParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[7].Name.LocalName == converter.Visit(node.Body).Name.LocalName);
-
-            node = (MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string C.M<T>(int a, A b) => 5;").Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
-
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 8);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Modifiers[1]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.ReturnType).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.ExplicitInterfaceSpecifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[5].Name.LocalName == converter.Visit(node.TypeParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[6].Name.LocalName == converter.Visit(node.ParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[7].Name.LocalName == converter.Visit(node.ExpressionBody).Name.LocalName);
-
-            node = (MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string C.M<T>(int a, A b)where T: class { return 5; }").Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
-
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 9);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Modifiers[1]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.ReturnType).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.ExplicitInterfaceSpecifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[5].Name.LocalName == converter.Visit(node.TypeParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[6].Name.LocalName == converter.Visit(node.ParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[7].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.ConstraintClauses[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[8].Name.LocalName == converter.Visit(node.Body).Name.LocalName);
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreNotEqual(originals.Annotations[original.Identifier].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.Identifier].Match.Modified, modified.Identifier);
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.SemicolonToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
         }
 
         [TestMethod]
         public void OperatorDeclarationServiceProvider_Pairwising_OK()
         {
-            var converter = new CDF.CSharp.RoslynML.RoslynML();
-            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
 
-            var node = (OperatorDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string operator +(int a, A b) { return 5; };").Members[0];
-            var xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var originals = flad.Originals<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            originals.KeepAnnotations = true;
+            var modifieds = flad.Modifieds<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            modifieds.KeepAnnotations = true;
 
-            var topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 6);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Modifiers[1]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.ReturnType).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.OperatorToken).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Name.LocalName == converter.Visit(node.ParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[5].Name.LocalName == converter.Visit(node.Body).Name.LocalName);
+            var originalRoot = SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string operator +(int a, A b) { return 5; };");
+            var modifiedRoot = SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string operator +(int a, A b) { return 5; };");
 
-            node = (OperatorDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string operator +(int a, A b) => 5;").Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var original = originalRoot.DescendantNodesAndSelf().OfType<OperatorDeclarationSyntax>().ToList()[0];
+            var modified = modifiedRoot.DescendantNodesAndSelf().OfType<OperatorDeclarationSyntax>().ToList()[0];
 
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 6);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Modifiers[1]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.ReturnType).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.OperatorToken).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Name.LocalName == converter.Visit(node.ParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[5].Name.LocalName == converter.Visit(node.ExpressionBody).Name.LocalName);
+            var args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
 
-            node = (OperatorDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public virtual string operator +(int a, A b) { return 5; };").Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.OperatorKeyword].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.OperatorKeyword].Match.Modified, modified.OperatorKeyword);
+            Assert.AreEqual(originals.Annotations[original.OperatorToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.OperatorToken].Match.Modified, modified.OperatorToken);
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match.Modified, modified.SemicolonToken);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
 
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 5);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Modifiers[1]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Name.LocalName == converter.Visit(node.ReturnType).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.OperatorToken).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.ParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Name.LocalName == converter.Visit(node.Body).Name.LocalName);
-                                              
-            node = (OperatorDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public virtual string operator +(int a, A b) => 5;").Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
-
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 5);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Modifiers[1]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Name.LocalName == converter.Visit(node.ReturnType).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.OperatorToken).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.ParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Name.LocalName == converter.Visit(node.ExpressionBody).Name.LocalName);
-
-            node = (OperatorDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public string operator +(int a, A b) { return 5; };").Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
-
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 6);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.ReturnType).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.OperatorToken).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Name.LocalName == converter.Visit(node.ParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[5].Name.LocalName == converter.Visit(node.Body).Name.LocalName);
-
-            node = (OperatorDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] virtual string operator +(int a, A b) => 5;").Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
-
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 6);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.ReturnType).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.OperatorToken).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Name.LocalName == converter.Visit(node.ParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[5].Name.LocalName == converter.Visit(node.ExpressionBody).Name.LocalName);
-
-            node = (OperatorDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string operator +(int a, A b) { return 5; }").Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
-
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 6);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Modifiers[1]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.ReturnType).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.OperatorToken).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Name.LocalName == converter.Visit(node.ParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[5].Name.LocalName == converter.Visit(node.Body).Name.LocalName);
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.OperatorKeyword].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.OperatorKeyword].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreNotEqual(originals.Annotations[original.OperatorToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.OperatorToken].Match.Modified, modified.OperatorToken);
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.SemicolonToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
         }
 
         [TestMethod]
         public void ConversionOperatorDeclarationServiceProvider_Pairwising_OK()
         {
-            var converter = new CDF.CSharp.RoslynML.RoslynML();
-            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
 
-            var node = (ConversionOperatorDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual implicit operator T(A b) { return 5; };").Members[0];
-            var xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var originals = flad.Originals<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            originals.KeepAnnotations = true;
+            var modifieds = flad.Modifieds<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            modifieds.KeepAnnotations = true;
 
-            var topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 5);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Modifiers[1]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.Type).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.ParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Name.LocalName == converter.Visit(node.Body).Name.LocalName);
+            var originalRoot = SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual implicit operator T(A b) { return 5; };");
+            var modifiedRoot = SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual implicit operator T(A b) { return 5; };");
 
-            node = (ConversionOperatorDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual implicit operator T(A b) => 5;").Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var original = originalRoot.DescendantNodesAndSelf().OfType<ConversionOperatorDeclarationSyntax>().ToList()[0];
+            var modified = modifiedRoot.DescendantNodesAndSelf().OfType<ConversionOperatorDeclarationSyntax>().ToList()[0];
 
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 5);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Modifiers[1]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.Type).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.ParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Name.LocalName == converter.Visit(node.ExpressionBody).Name.LocalName);
+            var args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
 
-            node = (ConversionOperatorDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public virtual implicit operator T(A b) { return 5; };").Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.ImplicitOrExplicitKeyword].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.ImplicitOrExplicitKeyword].Match.Modified, modified.ImplicitOrExplicitKeyword);
+            Assert.AreEqual(originals.Annotations[original.OperatorKeyword].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.OperatorKeyword].Match.Modified, modified.OperatorKeyword);
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match.Modified, modified.SemicolonToken);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
 
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 4);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Modifiers[1]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Name.LocalName == converter.Visit(node.Type).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.ParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.Body).Name.LocalName);
-                                              
-            node = (ConversionOperatorDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public virtual implicit operator T(A b) => 5;").Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
-
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 4);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Modifiers[1]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Name.LocalName == converter.Visit(node.Type).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.ParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.ExpressionBody).Name.LocalName);
-
-            node = (ConversionOperatorDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public implicit operator T(A b) { return 5; };").Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
-
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 5);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.Type).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.ParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Name.LocalName == converter.Visit(node.Body).Name.LocalName);
-
-            node = (ConversionOperatorDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] virtual implicit operator T(A b) => 5;").Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
-
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 5);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.Type).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.ParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Name.LocalName == converter.Visit(node.ExpressionBody).Name.LocalName);
-
-            node = (ConversionOperatorDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public operator T(A b) { return 5; };").Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
-
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 5);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.Type).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.ParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Name.LocalName == converter.Visit(node.Body).Name.LocalName);
-
-            node = (ConversionOperatorDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] virtual operator T(A b) => 5;").Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
-
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 5);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.Type).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.ParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Name.LocalName == converter.Visit(node.ExpressionBody).Name.LocalName);
-
-            node = (ConversionOperatorDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual implicit operator T(A b) { return 5; }").Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
-
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 5);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Modifiers[1]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.Type).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.ParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Name.LocalName == converter.Visit(node.Body).Name.LocalName);
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.ImplicitOrExplicitKeyword].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.ImplicitOrExplicitKeyword].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreEqual(originals.Annotations[original.OperatorKeyword].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.OperatorKeyword].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.SemicolonToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
         }
 
         [TestMethod]
         public void ConstructorDeclarationServiceProvider_Pairwising_OK()
         {
-            var converter = new CDF.CSharp.RoslynML.RoslynML();
-            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
 
-            var node = (ConstructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { [Documentation]public A(B b) : this(b) { }; }").Members[0]).Members[0];
-            var xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var originals = flad.Originals<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            originals.KeepAnnotations = true;
+            var modifieds = flad.Modifieds<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            modifieds.KeepAnnotations = true;
 
-            var topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 6);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.ParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Name.LocalName == converter.Visit(node.Initializer).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[5].Name.LocalName == converter.Visit(node.Body).Name.LocalName);
+            var originalRoot = SyntaxFactory.ParseCompilationUnit("public class A { [Documentation]public A(B b) : this(b) { }; }");
+            var modifiedRoot = SyntaxFactory.ParseCompilationUnit("public class A { [Documentation]public A(B b) : this(b) { }; }");
 
-            node = (ConstructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { public A(B b) : this(b) { }; }").Members[0]).Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var original = originalRoot.DescendantNodesAndSelf().OfType<ConstructorDeclarationSyntax>().ToList()[0];
+            var modified = modifiedRoot.DescendantNodesAndSelf().OfType<ConstructorDeclarationSyntax>().ToList()[0];
 
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 5);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.ParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.Initializer).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Name.LocalName == converter.Visit(node.Body).Name.LocalName);
-                                              
-            node = (ConstructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { [Documentation] A(B b) : this(b) { }; }").Members[0]).Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
 
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 5);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.ParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.Initializer).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Name.LocalName == converter.Visit(node.Body).Name.LocalName);
+            var changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.Identifier].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.Identifier].Match.Modified, modified.Identifier);
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match.Modified, modified.SemicolonToken);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
 
-            node = (ConstructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { [Documentation]public A(B b) { }; }").Members[0]).Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
-
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 5);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.ParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Name.LocalName == converter.Visit(node.Body).Name.LocalName);
-
-            node = (ConstructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { [Documentation]public A(B b) : this(b) { } }").Members[0]).Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
-
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 6);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.ParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Name.LocalName == converter.Visit(node.Initializer).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[5].Name.LocalName == converter.Visit(node.Body).Name.LocalName);
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreNotEqual(originals.Annotations[original.Identifier].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.Identifier].Match.Modified, modified.Identifier);
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.SemicolonToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
         }
 
         [TestMethod]
         public void ConstructorInitializerServiceProvider_Pairwising_OK()
         {
-            var converter = new CDF.CSharp.RoslynML.RoslynML();
-            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
 
-            var node = ((ConstructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { [Documentation]public A(B b) : this(b) { }; }").Members[0]).Members[0]).Initializer;
-            var xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, "ThisConstructorInitializer");
+            var originals = flad.Originals<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            originals.KeepAnnotations = true;
+            var modifieds = flad.Modifieds<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            modifieds.KeepAnnotations = true;
 
-            var topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 1);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.ArgumentList.Arguments[0]).Name.LocalName);
+            var originalRoot = SyntaxFactory.ParseCompilationUnit("public class A { [Documentation]public A(B b) : this(b) { }; }");
+            var modifiedRoot = SyntaxFactory.ParseCompilationUnit("public class A { [Documentation]public A(B b) : this(b) { }; }");
+
+            var original = originalRoot.DescendantNodesAndSelf().OfType<ConstructorInitializerSyntax>().ToList()[0];
+            var modified = modifiedRoot.DescendantNodesAndSelf().OfType<ConstructorInitializerSyntax>().ToList()[0];
+
+            var args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
+
+            var changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.ColonToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.ColonToken].Match.Modified, modified.ColonToken);
+            Assert.AreEqual(originals.Annotations[original.ThisOrBaseKeyword].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.ThisOrBaseKeyword].Match.Modified, modified.ThisOrBaseKeyword);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
+
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.ColonToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.ColonToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreEqual(originals.Annotations[original.ThisOrBaseKeyword].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.ThisOrBaseKeyword].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
         }
 
         [TestMethod]
         public void DestructorDeclarationServiceProvider_Pairwising_OK()
         {
-            var converter = new CDF.CSharp.RoslynML.RoslynML();
-            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
 
-            var node = (DestructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { [Documentation] internal ~A(){ }; }").Members[0]).Members[0];
-            var xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var originals = flad.Originals<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            originals.KeepAnnotations = true;
+            var modifieds = flad.Modifieds<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            modifieds.KeepAnnotations = true;
 
-            var topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 5);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.ParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Name.LocalName == converter.Visit(node.Body).Name.LocalName);
+            var originalRoot = SyntaxFactory.ParseCompilationUnit("public class A { [Documentation] internal ~A(){ }; }");
+            var modifiedRoot = SyntaxFactory.ParseCompilationUnit("public class A { [Documentation] internal ~A(){ }; }");
 
-            node = (DestructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { [Documentation] ~A(){ }; }").Members[0]).Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var original = originalRoot.DescendantNodesAndSelf().OfType<DestructorDeclarationSyntax>().ToList()[0];
+            var modified = modifiedRoot.DescendantNodesAndSelf().OfType<DestructorDeclarationSyntax>().ToList()[0];
 
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 4);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.ParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.Body).Name.LocalName);
-                                              
-            node = (DestructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { [Documentation] internal ~A(){ } }").Members[0]).Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
 
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 5);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.ParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Name.LocalName == converter.Visit(node.Body).Name.LocalName);
+            var changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.TildeToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.TildeToken].Match.Modified, modified.TildeToken);
+            Assert.AreEqual(originals.Annotations[original.Identifier].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.Identifier].Match.Modified, modified.Identifier);
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match.Modified, modified.SemicolonToken);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
+
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.TildeToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.TildeToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreNotEqual(originals.Annotations[original.Identifier].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.Identifier].Match.Modified, modified.Identifier);
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.SemicolonToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
         }
 
         [TestMethod]
         public void PropertyDeclarationServiceProvider_Pairwising_OK()
         {
-            var converter = new CDF.CSharp.RoslynML.RoslynML();
-            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
 
-            var node = (PropertyDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string C.M { get{return 5;} set{this.a = 7} } = 3;").Members[0];
-            var xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var originals = flad.Originals<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            originals.KeepAnnotations = true;
+            var modifieds = flad.Modifieds<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            modifieds.KeepAnnotations = true;
 
-            var topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 7);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Modifiers[1]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.Type).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.ExplicitInterfaceSpecifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[5].Name.LocalName == converter.Visit(node.AccessorList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[6].Name.LocalName == converter.Visit(node.Initializer).Name.LocalName);
+            var originalRoot = SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string C.M { get{return 5;} set{this.a = 7} } = 3;");
+            var modifiedRoot = SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string C.M { get{return 5;} set{this.a = 7} } = 3;");
 
-            node = (PropertyDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public virtual string C.M { get{return 5;} set{this.a = 7} } = 3;").Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var original = originalRoot.DescendantNodesAndSelf().OfType<PropertyDeclarationSyntax>().ToList()[0];
+            var modified = modifiedRoot.DescendantNodesAndSelf().OfType<PropertyDeclarationSyntax>().ToList()[0];
 
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 6);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Modifiers[1]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Name.LocalName == converter.Visit(node.Type).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.ExplicitInterfaceSpecifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Name.LocalName == converter.Visit(node.AccessorList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[5].Name.LocalName == converter.Visit(node.Initializer).Name.LocalName);
-                                              
-            node = (PropertyDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] virtual string C.M { get{return 5;} set{this.a = 7} } = 3;").Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
 
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 7);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.Type).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.ExplicitInterfaceSpecifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[5].Name.LocalName == converter.Visit(node.AccessorList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[6].Name.LocalName == converter.Visit(node.Initializer).Name.LocalName);
+            var changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.Identifier].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.Identifier].Match.Modified, modified.Identifier);
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match.Modified, modified.SemicolonToken);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
 
-            node = (PropertyDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string M { get{return 5;} set{this.a = 7} } = 3;").Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
-
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 6);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[1]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.Type).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Name.LocalName == converter.Visit(node.AccessorList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[5].Name.LocalName == converter.Visit(node.Initializer).Name.LocalName);
-
-            node = (PropertyDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string C.M { get; set; }").Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
-
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 6);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Modifiers[1]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.Type).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.ExplicitInterfaceSpecifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[5].Name.LocalName == converter.Visit(node.AccessorList).Name.LocalName);
-            
-            node = (PropertyDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string C.M { get{return 5;} set{this.a = 7} } => 3;").Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
-
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 7);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Modifiers[1]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.Type).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.ExplicitInterfaceSpecifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[5].Name.LocalName == converter.Visit(node.AccessorList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[6].Name.LocalName == converter.Visit(node.ExpressionBody).Name.LocalName);
-
-            node = (PropertyDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public virtual string C.M { get{return 5;} set{this.a = 7} } => 3;").Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
-
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 6);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Modifiers[1]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Name.LocalName == converter.Visit(node.Type).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.ExplicitInterfaceSpecifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Name.LocalName == converter.Visit(node.AccessorList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[5].Name.LocalName == converter.Visit(node.ExpressionBody).Name.LocalName);
-
-            node = (PropertyDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] virtual string C.M { get{return 5;} set{this.a = 7} } => 3;").Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
-
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 7);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.Type).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.ExplicitInterfaceSpecifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[5].Name.LocalName == converter.Visit(node.AccessorList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[6].Name.LocalName == converter.Visit(node.ExpressionBody).Name.LocalName);
-
-            node = (PropertyDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string M { get{return 5;} set{this.a = 7} } => 3;").Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
-
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 6);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Modifiers[1]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.Type).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Name.LocalName == converter.Visit(node.AccessorList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[5].Name.LocalName == converter.Visit(node.ExpressionBody).Name.LocalName);
-
-            node = (PropertyDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string C.M {get; set;};").Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
-
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 6);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Modifiers[1]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.Type).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.ExplicitInterfaceSpecifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[5].Name.LocalName == converter.Visit(node.AccessorList).Name.LocalName);
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreNotEqual(originals.Annotations[original.Identifier].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.Identifier].Match.Modified, modified.Identifier);
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.SemicolonToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
         }
 
         [TestMethod]
         public void ArrowExpressionClauseServiceProvider_Pairwising_OK()
         {
-            var converter = new CDF.CSharp.RoslynML.RoslynML();
-            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
 
-            var node = ((PropertyDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string C.M { get{return 5;} set{this.a = 7} } => 3;").Members[0]).ExpressionBody;
-            var xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var originals = flad.Originals<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            originals.KeepAnnotations = true;
+            var modifieds = flad.Modifieds<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            modifieds.KeepAnnotations = true;
 
-            var topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 1);
-            Assert.IsTrue(topologicalChildren[0].Name.LocalName == converter.Visit(node.Expression).Name.LocalName);
+            var originalRoot = SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string C.M { get{return 5;} set{this.a = 7} } => 3;");
+            var modifiedRoot = SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string C.M { get{return 5;} set{this.a = 7} } => 3;");
+
+            var original = originalRoot.DescendantNodesAndSelf().OfType<ArrowExpressionClauseSyntax>().ToList()[0];
+            var modified = modifiedRoot.DescendantNodesAndSelf().OfType<ArrowExpressionClauseSyntax>().ToList()[0];
+
+            var args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
+
+            var changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.ArrowToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.ArrowToken].Match.Modified, modified.ArrowToken);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
+
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.ArrowToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.ArrowToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
         }
 
         [TestMethod]
         public void EventDeclarationServiceProvider_Pairwising_OK()
         {
-            var converter = new CDF.CSharp.RoslynML.RoslynML();
-            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
 
-            var node = (EventDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual event A C.M { add; remove; }").Members[0];
-            var xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var originals = flad.Originals<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            originals.KeepAnnotations = true;
+            var modifieds = flad.Modifieds<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            modifieds.KeepAnnotations = true;
 
-            var topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 6);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Modifiers[1]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.Type).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.ExplicitInterfaceSpecifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[5].Name.LocalName == converter.Visit(node.AccessorList).Name.LocalName);
+            var originalRoot = SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual event A C.M { add; remove; }");
+            var modifiedRoot = SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual event A C.M { add; remove; }");
 
-            node = (EventDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public virtual event A C.M { add; remove; }").Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var original = originalRoot.DescendantNodesAndSelf().OfType<EventDeclarationSyntax>().ToList()[0];
+            var modified = modifiedRoot.DescendantNodesAndSelf().OfType<EventDeclarationSyntax>().ToList()[0];
 
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 5);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Modifiers[1]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Name.LocalName == converter.Visit(node.Type).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.ExplicitInterfaceSpecifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Name.LocalName == converter.Visit(node.AccessorList).Name.LocalName);
-                                              
-            node = (EventDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] virtual event A C.M { add; remove; }").Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
 
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 6);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.Type).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.ExplicitInterfaceSpecifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[5].Name.LocalName == converter.Visit(node.AccessorList).Name.LocalName);
+            var changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.EventKeyword].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.EventKeyword].Match.Modified, modified.EventKeyword);
+            Assert.AreEqual(originals.Annotations[original.Identifier].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.Identifier].Match.Modified, modified.Identifier);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
 
-            node = (EventDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual event A M { add; remove; }").Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
-
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 5);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Modifiers[1]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.Type).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Name.LocalName == converter.Visit(node.AccessorList).Name.LocalName);
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.EventKeyword].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.EventKeyword].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreNotEqual(originals.Annotations[original.Identifier].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.Identifier].Match.Modified, modified.Identifier);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
         }
 
         [TestMethod]
         public void IndexerDeclarationServiceProvider_Pairwising_OK()
         {
-            var converter = new CDF.CSharp.RoslynML.RoslynML();
-            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
 
-            var node = (IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual A C.this[string key] { get; set; } => 5;").Members[0];
-            var xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var originals = flad.Originals<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            originals.KeepAnnotations = true;
+            var modifieds = flad.Modifieds<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            modifieds.KeepAnnotations = true;
 
-            var topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 7);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Modifiers[1]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.Type).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.ExplicitInterfaceSpecifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Name.LocalName == converter.Visit(node.ParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[5].Name.LocalName == converter.Visit(node.AccessorList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[6].Name.LocalName == converter.Visit(node.ExpressionBody).Name.LocalName);
+            var originalRoot = SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual A C.this[string key] { get; set; } => 5;");
+            var modifiedRoot = SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual A C.this[string key] { get; set; } => 5;");
 
-            node = (IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public virtual A C.this[string key] { get; set; } => 5;").Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var original = originalRoot.DescendantNodesAndSelf().OfType<IndexerDeclarationSyntax>().ToList()[0];
+            var modified = modifiedRoot.DescendantNodesAndSelf().OfType<IndexerDeclarationSyntax>().ToList()[0];
 
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 6);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Modifiers[1]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Name.LocalName == converter.Visit(node.Type).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.ExplicitInterfaceSpecifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.ParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Name.LocalName == converter.Visit(node.AccessorList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[5].Name.LocalName == converter.Visit(node.ExpressionBody).Name.LocalName);
+            var args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
 
-            node = (IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] virtual A C.this[string key] { get; set; } => 5;").Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.ThisKeyword].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.ThisKeyword].Match.Modified, modified.ThisKeyword);
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match.Modified, modified.SemicolonToken);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
 
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 7);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.Type).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.ExplicitInterfaceSpecifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Name.LocalName == converter.Visit(node.ParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[5].Name.LocalName == converter.Visit(node.AccessorList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[6].Name.LocalName == converter.Visit(node.ExpressionBody).Name.LocalName);
-
-            node = (IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual A this[string key] { get; set; } => 5;").Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
-
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 6);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Modifiers[1]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.Type).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.ParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Name.LocalName == converter.Visit(node.AccessorList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[5].Name.LocalName == converter.Visit(node.ExpressionBody).Name.LocalName);
-
-            node = (IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual A C.this[string key] { get; set; };").Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
-
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 6);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Modifiers[1]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.Type).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.ExplicitInterfaceSpecifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Name.LocalName == converter.Visit(node.ParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[5].Name.LocalName == converter.Visit(node.AccessorList).Name.LocalName);
-
-            node = (IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual A C.this[string key] { get; set; }").Members[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
-
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 6);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Modifiers[1]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.Type).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.ExplicitInterfaceSpecifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Name.LocalName == converter.Visit(node.ParameterList).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[5].Name.LocalName == converter.Visit(node.AccessorList).Name.LocalName);
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.ThisKeyword].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.ThisKeyword].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.SemicolonToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
         }
 
         [TestMethod]
         public void AccessorListServiceProvider_Pairwising_OK()
         {
-            var converter = new CDF.CSharp.RoslynML.RoslynML();
-            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
 
-            var node = ((IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual A C.this[string key] { get; set; } => 5;").Members[0]).AccessorList;
-            var xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var originals = flad.Originals<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            originals.KeepAnnotations = true;
+            var modifieds = flad.Modifieds<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            modifieds.KeepAnnotations = true;
 
-            var topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 1);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Accessors[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Accessors[1]).Name.LocalName);
+            var originalRoot = SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual A C.this[string key] { get; set; } => 5;");
+            var modifiedRoot = SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual A C.this[string key] { get; set; } => 5;");
+
+            var original = originalRoot.DescendantNodesAndSelf().OfType<AccessorListSyntax>().ToList()[0];
+            var modified = modifiedRoot.DescendantNodesAndSelf().OfType<AccessorListSyntax>().ToList()[0];
+
+            var args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
+
+            var changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.OpenBraceToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.OpenBraceToken].Match.Modified, modified.OpenBraceToken);
+            Assert.AreEqual(originals.Annotations[original.CloseBraceToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.CloseBraceToken].Match.Modified, modified.CloseBraceToken);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
+
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.OpenBraceToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.OpenBraceToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreEqual(originals.Annotations[original.CloseBraceToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.CloseBraceToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
         }
 
         [TestMethod]
         public void AccessorDeclarationServiceProvider_Pairwising_OK()
         {
-            var converter = new CDF.CSharp.RoslynML.RoslynML();
-            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
 
-            var node = ((IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("A C.this[string key] { [Serializable] private get{}; set; }").Members[0]).AccessorList.Accessors[0];
-            var xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, "GetAccessorDeclaration");
+            var originals = flad.Originals<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            originals.KeepAnnotations = true;
+            var modifieds = flad.Modifieds<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            modifieds.KeepAnnotations = true;
 
-            var topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 3);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.Body).Name.LocalName);
+            var originalRoot = SyntaxFactory.ParseCompilationUnit("A C.this[string key] { [Serializable] private get{}; set; }");
+            var modifiedRoot = SyntaxFactory.ParseCompilationUnit("A C.this[string key] { [Serializable] private get{}; set; }");
 
-            node = ((IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("A C.this[string key] { private get{}; set; }").Members[0]).AccessorList.Accessors[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, "GetAccessorDeclaration");
+            var original = originalRoot.DescendantNodesAndSelf().OfType<AccessorDeclarationSyntax>().ToList()[0];
+            var modified = modifiedRoot.DescendantNodesAndSelf().OfType<AccessorDeclarationSyntax>().ToList()[0];
 
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 2);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Name.LocalName == converter.Visit(node.Body).Name.LocalName);
+            var args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
 
-            node = ((IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("A C.this[string key] { [Serializable] get{}; set; }").Members[0]).AccessorList.Accessors[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, "GetAccessorDeclaration");
+            var changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.Keyword].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.Keyword].Match.Modified, modified.Keyword);
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match.Modified, modified.SemicolonToken);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
 
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 2);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Name.LocalName == converter.Visit(node.Body).Name.LocalName);
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.Keyword].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.Keyword].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.SemicolonToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
 
-            node = ((IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("A C.this[string key] { [Serializable] private get; set; }").Members[0]).AccessorList.Accessors[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, "GetAccessorDeclaration");
+            originalRoot = SyntaxFactory.ParseCompilationUnit("A C.this[string key] { [Serializable] private set{}; get; }");
+            modifiedRoot = SyntaxFactory.ParseCompilationUnit("A C.this[string key] { [Serializable] private set{}; get; }");
 
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 2);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
+            original = originalRoot.DescendantNodesAndSelf().OfType<AccessorDeclarationSyntax>().ToList()[0];
+            modified = modifiedRoot.DescendantNodesAndSelf().OfType<AccessorDeclarationSyntax>().ToList()[0];
 
-            node = ((IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("A C.this[string key] { [Serializable] private get{} set; }").Members[0]).AccessorList.Accessors[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, "GetAccessorDeclaration");
+            args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
 
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 3);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.Body).Name.LocalName);
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            flad.MatchingSet().PartnersEvent += ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.Keyword].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.Keyword].Match.Modified, modified.Keyword);
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match.Modified, modified.SemicolonToken);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
 
-            node = ((IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("A C.this[string key] { [Serializable] private set{}; get; }").Members[0]).AccessorList.Accessors[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, "SetAccessorDeclaration");
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.Keyword].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.Keyword].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.SemicolonToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
 
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 3);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.Body).Name.LocalName);
+            originalRoot = SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual event A C.M { [Serializable] private add{}; remove; }");
+            modifiedRoot = SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual event A C.M { [Serializable] private add{}; remove; }");
 
-            node = ((IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("A C.this[string key] { private set{}; get; }").Members[0]).AccessorList.Accessors[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, "SetAccessorDeclaration");
+            original = originalRoot.DescendantNodesAndSelf().OfType<AccessorDeclarationSyntax>().ToList()[0];
+            modified = modifiedRoot.DescendantNodesAndSelf().OfType<AccessorDeclarationSyntax>().ToList()[0];
 
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 2);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Name.LocalName == converter.Visit(node.Body).Name.LocalName);
+            args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
 
-            node = ((IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("A C.this[string key] { [Serializable] set{}; get; }").Members[0]).AccessorList.Accessors[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, "SetAccessorDeclaration");
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            flad.MatchingSet().PartnersEvent += ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.Keyword].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.Keyword].Match.Modified, modified.Keyword);
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match.Modified, modified.SemicolonToken);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
 
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 2);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Name.LocalName == converter.Visit(node.Body).Name.LocalName);
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.Keyword].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.Keyword].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.SemicolonToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
 
-            node = ((IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("A C.this[string key] { [Serializable] private set; get; }").Members[0]).AccessorList.Accessors[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, "SetAccessorDeclaration");
+            originalRoot = SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual event A C.M { [Serializable] private remove{}; add; }");
+            modifiedRoot = SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual event A C.M { [Serializable] private remove{}; add; }");
 
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 2);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
+            original = originalRoot.DescendantNodesAndSelf().OfType<AccessorDeclarationSyntax>().ToList()[0];
+            modified = modifiedRoot.DescendantNodesAndSelf().OfType<AccessorDeclarationSyntax>().ToList()[0];
 
-            node = ((IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("A C.this[string key] { [Serializable] private set{} get; }").Members[0]).AccessorList.Accessors[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, "SetAccessorDeclaration");
-
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 3);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.Body).Name.LocalName);
-
-            node = ((EventDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual event A C.M { [Serializable] private add{}; remove; }").Members[0]).AccessorList.Accessors[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, "AddAccessorDeclaration");
-
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 3);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.Body).Name.LocalName);
-
-            node = ((EventDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual event A C.M { private add{}; remove; }").Members[0]).AccessorList.Accessors[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, "AddAccessorDeclaration");
-
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 2);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Name.LocalName == converter.Visit(node.Body).Name.LocalName);
-
-            node = ((EventDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual event A C.M { [Serializable] add{}; remove; }").Members[0]).AccessorList.Accessors[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, "AddAccessorDeclaration");
-
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 2);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Name.LocalName == converter.Visit(node.Body).Name.LocalName);
-
-            node = ((EventDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual event A C.M { [Serializable] private add; remove; }").Members[0]).AccessorList.Accessors[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, "AddAccessorDeclaration");
-
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 2);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-
-            node = ((EventDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual event A C.M { [Serializable] private add{} remove; }").Members[0]).AccessorList.Accessors[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, "AddAccessorDeclaration");
-
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 3);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.Body).Name.LocalName);
-
-            node = ((EventDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual event A C.M { [Serializable] private remove{}; add; }").Members[0]).AccessorList.Accessors[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, "RemoveAccessorDeclaration");
-
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 3);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.Body).Name.LocalName);
-
-            node = ((EventDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual event A C.M { private remove{}; add; }").Members[0]).AccessorList.Accessors[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, "RemoveAccessorDeclaration");
-
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 2);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Name.LocalName == converter.Visit(node.Body).Name.LocalName);
-
-            node = ((EventDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual event A C.M { [Serializable] remove{}; add; }").Members[0]).AccessorList.Accessors[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, "RemoveAccessorDeclaration");
-
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 2);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Name.LocalName == converter.Visit(node.Body).Name.LocalName);
-
-            node = ((EventDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual event A C.M { [Serializable] private remove; add; }").Members[0]).AccessorList.Accessors[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, "RemoveAccessorDeclaration");
-
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 2);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-
-            node = ((EventDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual event A C.M { [Serializable] private remove{} add; }").Members[0]).AccessorList.Accessors[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, "RemoveAccessorDeclaration");
-
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 3);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.Body).Name.LocalName);
-
-            node = ((IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("A C.this[string key] { [Serializable] private fg{}; get; }").Members[0]).AccessorList.Accessors[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, "UnknownAccessorDeclaration");
-
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 4);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.Keyword).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.Body).Name.LocalName);
-
-            node = ((PropertyDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public virtual int A { private set{}; get; }").Members[0]).AccessorList.Accessors[0];
-            node = SyntaxFactory.AccessorDeclaration(SyntaxKind.UnknownAccessorDeclaration, node.AttributeLists, node.Modifiers, SyntaxFactory.Identifier("fg"), node.Body, node.ExpressionBody, node.SemicolonToken);
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, "UnknownAccessorDeclaration");
-
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 3);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Name.LocalName == converter.Visit(node.Keyword).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.Body).Name.LocalName);
-
-            node = ((IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("A C.this[string key] { [Serializable] fg{}; get; }").Members[0]).AccessorList.Accessors[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, "UnknownAccessorDeclaration");
-
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 3);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Name.LocalName == converter.Visit(node.Keyword).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.Body).Name.LocalName);
+            args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
             
-            node = ((IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("A C.this[string key] { [Serializable] private fg; get; }").Members[0]).AccessorList.Accessors[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, "UnknownAccessorDeclaration");
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            flad.MatchingSet().PartnersEvent += ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.Keyword].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.Keyword].Match.Modified, modified.Keyword);
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match.Modified, modified.SemicolonToken);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
 
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 3);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.Keyword).Name.LocalName);
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.Keyword].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.Keyword].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.SemicolonToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
 
-            node = ((IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("A C.this[string key] { [Serializable] private fg{} get; }").Members[0]).AccessorList.Accessors[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, "UnknownAccessorDeclaration");
+            originalRoot = SyntaxFactory.ParseCompilationUnit("A C.this[string key] { [Serializable] private fg{}; get; }");
+            modifiedRoot = SyntaxFactory.ParseCompilationUnit("A C.this[string key] { [Serializable] private fg{}; get; }");
 
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 4);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.Keyword).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.Body).Name.LocalName);
+            original = originalRoot.DescendantNodesAndSelf().OfType<AccessorDeclarationSyntax>().ToList()[0];
+            modified = modifiedRoot.DescendantNodesAndSelf().OfType<AccessorDeclarationSyntax>().ToList()[0];
+
+            args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
+
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            flad.MatchingSet().PartnersEvent += ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.Keyword].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.Keyword].Match.Modified, modified.Keyword);
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match.Modified, modified.SemicolonToken);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
+
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreNotEqual(originals.Annotations[original.Keyword].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.Keyword].Match.Modified, modified.Keyword);
+            Assert.AreEqual(originals.Annotations[original.SemicolonToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.SemicolonToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
         }
 
         [TestMethod]
         public void ParameterListServiceProvider_Pairwising_OK()
         {
-            var converter = new CDF.CSharp.RoslynML.RoslynML();
-            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
 
-            var node = ((MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("int M([Serializable] ref int a = 0, A b){}").Members[0]).ParameterList;
-            var xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var originals = flad.Originals<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            originals.KeepAnnotations = true;
+            var modifieds = flad.Modifieds<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            modifieds.KeepAnnotations = true;
 
-            var topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 1);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Parameters[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Parameters[1]).Name.LocalName);
+            var originalRoot = SyntaxFactory.ParseCompilationUnit("int M([Serializable] ref int a = 0, A b){}");
+            var modifiedRoot = SyntaxFactory.ParseCompilationUnit("int M([Serializable] ref int a = 0, A b){}");
+
+            var original = originalRoot.DescendantNodesAndSelf().OfType<ParameterListSyntax>().ToList()[0];
+            var modified = modifiedRoot.DescendantNodesAndSelf().OfType<ParameterListSyntax>().ToList()[0];
+
+            var args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
+
+            var changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.OpenParenToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.OpenParenToken].Match.Modified, modified.OpenParenToken);
+            Assert.AreEqual(originals.Annotations[original.CloseParenToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.CloseParenToken].Match.Modified, modified.CloseParenToken);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
+
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.OpenParenToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.OpenParenToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreEqual(originals.Annotations[original.CloseParenToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.CloseParenToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
         }
 
         [TestMethod]
         public void BracketedParameterListServiceProvider_Pairwising_OK()
         {
-            var converter = new CDF.CSharp.RoslynML.RoslynML();
-            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
 
-            var node = ((IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("int this[[Serializable] ref int a = 0, A b]{get;set;}").Members[0]).ParameterList;
-            var xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var originals = flad.Originals<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            originals.KeepAnnotations = true;
+            var modifieds = flad.Modifieds<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            modifieds.KeepAnnotations = true;
 
-            var topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 1);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Parameters[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Parameters[1]).Name.LocalName);
+            var originalRoot = SyntaxFactory.ParseCompilationUnit("int this[[Serializable] ref int a = 0, A b]{get;set;}");
+            var modifiedRoot = SyntaxFactory.ParseCompilationUnit("int this[[Serializable] ref int a = 0, A b]{get;set;}");
+
+            var original = originalRoot.DescendantNodesAndSelf().OfType<BracketedParameterListSyntax>().ToList()[0];
+            var modified = modifiedRoot.DescendantNodesAndSelf().OfType<BracketedParameterListSyntax>().ToList()[0];
+
+            var args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
+
+            var changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.OpenBracketToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.OpenBracketToken].Match.Modified, modified.OpenBracketToken);
+            Assert.AreEqual(originals.Annotations[original.CloseBracketToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.CloseBracketToken].Match.Modified, modified.CloseBracketToken);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
+
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.OpenBracketToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.OpenBracketToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreEqual(originals.Annotations[original.CloseBracketToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.CloseBracketToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
         }
 
         [TestMethod]
         public void ParameterServiceProvider_Pairwising_OK()
         {
-            var converter = new CDF.CSharp.RoslynML.RoslynML();
-            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
 
-            var node = ((MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("int M([Serializable] ref int a = 0, A b){}").Members[0]).ParameterList.Parameters[0];
-            var xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var originals = flad.Originals<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            originals.KeepAnnotations = true;
+            var modifieds = flad.Modifieds<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            modifieds.KeepAnnotations = true;
 
-            var topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 5);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.Type).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[4].Name.LocalName == converter.Visit(node.Default).Name.LocalName);
+            var originalRoot = SyntaxFactory.ParseCompilationUnit("int M([Serializable] ref int a = 0, A b){}");
+            var modifiedRoot = SyntaxFactory.ParseCompilationUnit("int M([Serializable] ref int a = 0, A b){}");
 
-            node = ((MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("int M(ref int a = 0, A b){}").Members[0]).ParameterList.Parameters[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var original = originalRoot.DescendantNodesAndSelf().OfType<ParameterSyntax>().ToList()[0];
+            var modified = modifiedRoot.DescendantNodesAndSelf().OfType<ParameterSyntax>().ToList()[0];
 
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 4);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Name.LocalName == converter.Visit(node.Type).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.Default).Name.LocalName);
+            var args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
 
-            node = ((MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("int M([Serializable] int a = 0, A b){}").Members[0]).ParameterList.Parameters[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
+            var changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.Identifier].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.Identifier].Match.Modified, modified.Identifier);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
 
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 4);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Name.LocalName == converter.Visit(node.Type).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.Default).Name.LocalName);
-
-            node = ((MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("int M([Serializable] ref int a, A b){}").Members[0]).ParameterList.Parameters[0];
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
-
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 4);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.AttributeLists[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[1].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Modifiers[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[2].Name.LocalName == converter.Visit(node.Type).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[3].Name.LocalName == converter.Visit(node.Identifier).Name.LocalName);
-        }
-
-        [TestMethod]
-        public void SkippedTokensTriviaServiceProvider_Pairwising_OK()
-        {
-            var converter = new CDF.CSharp.RoslynML.RoslynML();
-            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
-
-            var node = SyntaxFactory.SkippedTokensTrivia(((IncompleteMemberSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual a").Members[0]).Modifiers);
-            var xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, null);
-
-            var topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 1);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Tokens[0]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Tokens[1]).Name.LocalName);
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreNotEqual(originals.Annotations[original.Identifier].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.Identifier].Match.Modified, modified.Identifier);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
         }
 
         [TestMethod]
         public void DocumentationCommentTriviaServiceProvider_Pairwising_OK()
         {
-            var converter = new CDF.CSharp.RoslynML.RoslynML();
-            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
 
-            var node = (DocumentationCommentTriviaSyntax)SyntaxFactory.ParseSyntaxTree("///<foo />").GetCompilationUnitRoot().EndOfFileToken.LeadingTrivia.Single().GetStructure();
-            var xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, "SingleLineDocumentationCommentTrivia");
+            var originals = flad.Originals<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            originals.KeepAnnotations = true;
+            var modifieds = flad.Modifieds<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            modifieds.KeepAnnotations = true;
 
-            var topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 1);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Content[0]).Name.LocalName);
+            var originalRoot = SyntaxFactory.ParseCompilationUnit(
+            "/// <summary>" + Environment.NewLine +
+            "/// Method hook for implementing logic to execute after the <see cref=\"ChildrenCore(SyntaxNodeOrToken ?)\"/>." + Environment.NewLine +
+            "/// </summary>" + Environment.NewLine +
+            "/// <param name=\"node\">node of interest.</param>" + Environment.NewLine +
+            "/// <param name=\"result\">Mechanism to modify the result of <see cref=\"Children(SyntaxNodeOrToken?)\"/>.</param>" + Environment.NewLine +
+            "public virtual void F();");
 
-            node = (DocumentationCommentTriviaSyntax)SyntaxFactory.ParseSyntaxTree(@"/// <summary>" + Environment.NewLine +
-                                                                                    "/// Method hook for implementing logic to execute after the <see cref=\"ChildrenCore(SyntaxNodeOrToken ?)\"/>." + Environment.NewLine +
-                                                                                    "/// </summary>" + Environment.NewLine +
-                                                                                    "/// <param name=\"node\">node of interest.</param>" + Environment.NewLine +
-                                                                                    "/// <param name=\"result\">Mechanism to modify the result of <see cref=\"Children(SyntaxNodeOrToken?)\"/>.</param>")
-                                                                                    .GetCompilationUnitRoot().EndOfFileToken.LeadingTrivia.Single().GetStructure();
-            xElement = converter.Visit(node);
-            converter.Prune(xElement, selector.PruneSelector);
-            Assert.AreEqual(xElement.Attribute("kind")?.Value, "SingleLineDocumentationCommentTrivia");
+            var modifiedRoot = SyntaxFactory.ParseCompilationUnit(
+            "/// <summary>" + Environment.NewLine +
+            "/// Method hook for implementing logic to execute after the <see cref=\"ChildrenCore(SyntaxNodeOrToken ?)\"/>." + Environment.NewLine +
+            "/// </summary>" + Environment.NewLine +
+            "/// <param name=\"node\">node of interest.</param>" + Environment.NewLine +
+            "/// <param name=\"result\">Mechanism to modify the result of <see cref=\"Children(SyntaxNodeOrToken?)\"/>.</param>" + Environment.NewLine +
+            "public virtual void F();");
 
-            topologicalChildren = xElement.Elements().ToArray();
-            Assert.AreEqual(topologicalChildren.Count(), 1);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Content[1]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Content[3]).Name.LocalName);
-            Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[2].Name.LocalName == converter.Visit(node.Content[5]).Name.LocalName);
+            var original = originalRoot.DescendantNodesAndSelf(descendIntoTrivia: true).OfType<DocumentationCommentTriviaSyntax>().ToList()[0];
+            var modified = modifiedRoot.DescendantNodesAndSelf(descendIntoTrivia: true).OfType<DocumentationCommentTriviaSyntax>().ToList()[0];
+            
+            var args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
 
-            //node = (DocumentationCommentTriviaSyntax)SyntaxFactory.ParseSyntaxTree(@"/** <summary>" + Environment.NewLine +
-            //                                                                        "* Method hook for implementing logic to execute after the <see cref=\"ChildrenCore(SyntaxNodeOrToken ?)\"/>." + Environment.NewLine +
-            //                                                                        "* </summary>" + Environment.NewLine +
-            //                                                                        "* <param name=\"node\">node of interest.</param>" + Environment.NewLine +
-            //                                                                        "*/ <param name=\"result\">Mechanism to modify the result of <see cref=\"Children(SyntaxNodeOrToken?)\"/>.</param>")
-            //                                                                        .GetCompilationUnitRoot().EndOfFileToken.LeadingTrivia.Single().GetStructure();
-            //xElement = converter.Visit(node);
-            //converter.Prune(xElement, selector.PruneSelector);
-            //Assert.AreEqual(xElement.Attribute("kind")?.Value, "MultiLineDocumentationCommentTrivia");
+            var changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.EndOfComment].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.EndOfComment].Match.Modified, modified.EndOfComment);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
 
-            //topologicalChildren = xElement.Elements().ToArray();
-            //Assert.AreEqual(topologicalChildren.Count(), 1);
-            //Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[0].Name.LocalName == converter.Visit(node.Content[1]).Name.LocalName);
-            //Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[1].Name.LocalName == converter.Visit(node.Content[3]).Name.LocalName);
-            //Assert.IsTrue(topologicalChildren[0].Elements().ToArray()[2].Name.LocalName == converter.Visit(node.Content[5]).Name.LocalName);
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.EndOfComment].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.EndOfComment].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
         }
 
         [TestMethod]
@@ -6831,6 +7418,53 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
 
             var topologicalChildren = xElement.Elements().ToArray();
             Assert.AreEqual(topologicalChildren.Count(), 0);
+
+            var flad = new Jawilliam.CDF.CSharp.Awareness.Flad();
+
+            var originals = flad.Originals<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            originals.KeepAnnotations = true;
+            var modifieds = flad.Modifieds<SyntaxNodeOrToken?, Annotation<SyntaxNodeOrToken?>>();
+            modifieds.KeepAnnotations = true;
+
+            var originalRoot = SyntaxFactory.ParseCompilationUnit("namespace A {}");
+            var modifiedRoot = SyntaxFactory.ParseCompilationUnit("namespace A {}");
+
+            var original = originalRoot.DescendantNodesAndSelf(descendIntoTrivia: true).OfType<EndIfDirectiveTriviaSyntax>().ToList()[0];
+            var modified = modifiedRoot.DescendantNodesAndSelf(descendIntoTrivia: true).OfType<EndIfDirectiveTriviaSyntax>().ToList()[0];
+
+            var args = new CDF.Approach.LoadRevisionPairDelegate<Microsoft.CodeAnalysis.SyntaxNodeOrToken?>(delegate (out SyntaxNodeOrToken? o, out SyntaxNodeOrToken? m)
+            {
+                o = originalRoot;
+                m = modifiedRoot;
+                return true;
+            });
+
+            var changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.HashToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.HashToken].Match.Modified, modified.HashToken);
+            Assert.AreEqual(originals.Annotations[original.EndIfKeyword].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.EndIfKeyword].Match.Modified, modified.EndIfKeyword);
+            Assert.AreEqual(originals.Annotations[original.EndOfDirectiveToken].Match?.GetType(), typeof(PairwiseMatchInfo<SyntaxNodeOrToken?>.Tunneling));
+            Assert.AreEqual(originals.Annotations[original.EndOfDirectiveToken].Match.Modified, modified.EndOfDirectiveToken);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
+            flad.MatchingSet().PartnersEvent -= ((LanguageServiceProvider)flad.LanguageProvider()).PartnersEventHandler;
+
+            originals.KeepAnnotations = true;
+            modifieds.KeepAnnotations = true;
+            changes = flad.GetChanges(args).Translate();
+            Assert.AreEqual(originals.Annotations[original.HashToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.HashToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreEqual(originals.Annotations[original.EndIfKeyword].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.EndIfKeyword].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            Assert.AreEqual(originals.Annotations[original.EndOfDirectiveToken].Match, null);
+            Assert.AreEqual(modifieds.Annotations[modified.EndOfDirectiveToken].Match.Criterion, (int)MatchInfoCriterions.Insert);
+            originals.KeepAnnotations = false;
+            originals.EndDetection();
+            modifieds.KeepAnnotations = false;
+            modifieds.EndDetection();
         }
 
         [TestMethod]

@@ -12,7 +12,7 @@ namespace Jawilliam.CDF.Approach.Criterions.Impl
     /// </summary>
     /// <typeparam name="TElement">Type of the supported elements.</typeparam>
     /// <typeparam name="TAnnotation">Type of the information to store for each element.</typeparam>
-    public class TieBreakingMatcher<TElement, TAnnotation> : Matcher<TElement, IApproach<TElement>>
+    public class TieBreakingMatcher<TElement, TAnnotation> : Matcher<TElement, TAnnotation, IApproach<TElement>>
         where TAnnotation : IMatchingAnnotation<TElement>, IElementAnnotation<TElement>, IHierarchicalAbstractionAnnotation, new()
     {
         /// <summary>
@@ -53,7 +53,9 @@ namespace Jawilliam.CDF.Approach.Criterions.Impl
             //    yield break;
             if (object.Equals(original, context.LScope.Original))
             {
-                foreach (var o in original.BreadthFirstOrder(this.ServiceLocator.HierarchicalAbstraction().Children))
+                foreach (var o in original.BreadthFirstOrder(o1 => 
+                    this.ServiceLocator.HierarchicalAbstraction<TElement, TAnnotation>()
+                    .Children(o1, this.ServiceLocator.Originals<TElement, TAnnotation>(), true)))
                 {
                     var oAnnotation = this.ServiceLocator.Original<TElement, TAnnotation>(o);
                     if (oAnnotation.Candidates?.Count > 1)
@@ -79,16 +81,19 @@ namespace Jawilliam.CDF.Approach.Criterions.Impl
                 return candidates.Single();
 
             var matchingSet = this.ServiceLocator.MatchingSet();
-            var hierarchicalAbstraction = this.ServiceLocator.HierarchicalAbstraction();
+            var hierarchicalAbstraction = this.ServiceLocator.HierarchicalAbstraction<TElement, TAnnotation>();
+
+            var originals = this.ServiceLocator.Originals<TElement, TAnnotation>();
+            var modifieds = this.ServiceLocator.Modifieds<TElement, TAnnotation>();
 
             var candidateSimilarities = from c in candidates.Where(c => c.Criterion == (int)MatchInfoCriterions.IdenticalFullHash)
-                                        let pOriginalAnnotation = this.ServiceLocator.Original<TElement, TAnnotation>(hierarchicalAbstraction.Parent(c.Original))
-                                        let pModifiedAnnotation = this.ServiceLocator.Modified<TElement, TAnnotation>(hierarchicalAbstraction.Parent(c.Modified))
+                                        let pOriginalAnnotation = this.ServiceLocator.Original<TElement, TAnnotation>(hierarchicalAbstraction.Parent(c.Original, originals))
+                                        let pModifiedAnnotation = this.ServiceLocator.Modified<TElement, TAnnotation>(hierarchicalAbstraction.Parent(c.Modified, modifieds))
                                         select new
                                         {
                                             Candidate = c,
-                                            Similarity = this.Criterion.GetSimilarity(pOriginalAnnotation.Element.Leaves(hierarchicalAbstraction.Children, hierarchicalAbstraction.IsLeaf),
-                                                                                      pModifiedAnnotation.Element.Leaves(hierarchicalAbstraction.Children, hierarchicalAbstraction.IsLeaf)),
+                                            Similarity = this.Criterion.GetSimilarity(pOriginalAnnotation.Element.Leaves(o1 => hierarchicalAbstraction.Children(o1, originals), o1 => hierarchicalAbstraction.IsLeaf(o1, originals)),
+                                                                                      pModifiedAnnotation.Element.Leaves(o1 => hierarchicalAbstraction.Children(o1, modifieds), o1 => hierarchicalAbstraction.IsLeaf(o1, modifieds))),
                                             pModifiedAnnotation.Size
                                         };
 
@@ -228,7 +233,7 @@ namespace Jawilliam.CDF.Approach.Criterions.Impl
         /// <returns>Matches inferable after taking for granted the match among the given versions.</returns>
         public override IEnumerable<MatchInfo<TElement>> Partners(TElement original, TElement modified, MatchingContext<TElement> context)
         {
-            var hierarchicalAbstraction = this.ServiceLocator.GetServiceOrThrowsException<IHierarchicalAbstractionService<TElement>>((int)ServiceId.HierarchicalAbstraction);
+            var hierarchicalAbstraction = this.ServiceLocator.GetServiceOrThrowsException<IHierarchicalAbstractionService<TElement, TAnnotation>>((int)ServiceId.HierarchicalAbstraction);
             return this.IdenticalSubtreePartners(original, modified, context);
         }
     }

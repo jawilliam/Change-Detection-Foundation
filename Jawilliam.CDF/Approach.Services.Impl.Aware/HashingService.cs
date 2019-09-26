@@ -22,11 +22,11 @@ namespace Jawilliam.CDF.Approach.Services.Impl.Aware
         /// <summary>
         /// Gets the internally used <see cref="ITextualAbstractionService{TElement}"/>.
         /// </summary>
-        internal override IHierarchicalAbstractionService<TElement> HierarchicalAbstraction
+        internal override IHierarchicalAbstractionService<TElement, TAnnotation> HierarchicalAbstraction
         {
             get
             {
-                return this.ServiceLocator.HierarchicalAbstraction(full: true);
+                return this.ServiceLocator.HierarchicalAbstraction<TElement, TAnnotation>(full: true);
             }
         }
     }

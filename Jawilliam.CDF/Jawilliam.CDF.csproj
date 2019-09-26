@@ -128,7 +128,7 @@
     <Compile Include="Approach.Services.Impl.Aware\HashingService.cs" />
     <Compile Include="Approach.Services.Impl\EditScriptService.cs" />
     <Compile Include="Approach.Services.Impl\HashingService.cs" />
-    <Compile Include="Approach.Services.Impl\McesHierarchicalSyntaxNodeService.cs" />
+    <Compile Include="Approach.Services.Impl\AnnotatedHierarchicalAbstractionService.cs" />
     <Compile Include="Approach.Choices\McesReportChoice.cs" />
     <Compile Include="Approach.Awareness\IPairwisable.cs" />
     <Compile Include="Approach.Services\Extensions.cs" />

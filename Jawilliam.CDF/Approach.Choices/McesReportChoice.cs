@@ -41,11 +41,15 @@ namespace Jawilliam.CDF.Approach.Choices
         /// <remarks>Reports the actions computed by <see cref="McesDifferencingChoice{TElement, TAnnotation}"/>.</remarks>
         protected override void CoreOnStep()
         {
-            var hierarchicalAbstraction = this.Approach.HierarchicalAbstraction(full: true);
+            var hierarchicalAbstraction = this.Approach.HierarchicalAbstraction<TElement, TAnnotation>(full: true);
             var textualAbstraction = this.Approach.TextualAbstraction();
-            foreach (var modified in this.Approach.Result.Modified.BreadthFirstOrder(hierarchicalAbstraction.Children))
+
+            var originals = this.Approach.Originals<TElement, TAnnotation>();
+            var modifieds = this.Approach.Modifieds<TElement, TAnnotation>();
+
+            foreach (var modified in this.Approach.Result.Modified.BreadthFirstOrder(o1 => hierarchicalAbstraction.Children(o1, modifieds, true)))
             {
-                var original = this.Approach.Modified<TElement, TAnnotation>(modified).Partner<TElement, TAnnotation>();
+                var original = this.Approach.Modified<TElement, TAnnotation>(modified).Partner<TElement, TAnnotation>(false);
                 var oAnnotation = this.Approach.Original<TElement, TAnnotation>(original);
 
                 // Inserts
@@ -56,14 +60,14 @@ namespace Jawilliam.CDF.Approach.Choices
                         Element = new ElementVersion
                         {
                             Id = ((IElementAnnotation<TElement>)oAnnotation).Id.ToString(CultureInfo.InvariantCulture),
-                            Label = hierarchicalAbstraction.Label(insert.Element).ToString(CultureInfo.InvariantCulture),
+                            Label = hierarchicalAbstraction.Label(insert.Element, originals).ToString(CultureInfo.InvariantCulture),
                             Value = textualAbstraction.FullText(insert.Element)
                         },
                         Position = insert.Position,
                         Parent = new ElementVersion
                         {
                             Id = ((IElementAnnotation<TElement>)this.Approach.Original<TElement, TAnnotation>(insert.Parent)).Id.ToString(CultureInfo.InvariantCulture),
-                            Label = hierarchicalAbstraction.Label(insert.Parent).ToString(CultureInfo.InvariantCulture),
+                            Label = hierarchicalAbstraction.Label(insert.Parent, originals).ToString(CultureInfo.InvariantCulture),
                             Value = textualAbstraction.FullText(insert.Parent)
                         }
                     });
@@ -77,10 +81,10 @@ namespace Jawilliam.CDF.Approach.Choices
                         Element = new ElementVersion
                         {
                             Id = ((IElementAnnotation<TElement>)oAnnotation).Id.ToString(CultureInfo.InvariantCulture),
-                            Label = hierarchicalAbstraction.Label(update.Element).ToString(CultureInfo.InvariantCulture),
+                            Label = hierarchicalAbstraction.Label(update.Element, originals).ToString(CultureInfo.InvariantCulture),
                             Value = textualAbstraction.FullText(update.Element)
                         },
-                        Value = hierarchicalAbstraction.Value(update.NewElement)?.ToString(),
+                        Value = hierarchicalAbstraction.Value(update.NewElement, modifieds)?.ToString(),
                     });
                 }
 
@@ -92,14 +96,14 @@ namespace Jawilliam.CDF.Approach.Choices
                         Element = new ElementVersion
                         {
                             Id = ((IElementAnnotation<TElement>)oAnnotation).Id.ToString(CultureInfo.InvariantCulture),
-                            Label = hierarchicalAbstraction.Label(move.Element).ToString(CultureInfo.InvariantCulture),
+                            Label = hierarchicalAbstraction.Label(move.Element, originals).ToString(CultureInfo.InvariantCulture),
                             Value = textualAbstraction.FullText(move.Element)
                         },
                         Position = move.Position,
                         Parent = new ElementVersion
                         {
                             Id = ((IElementAnnotation<TElement>)this.Approach.Original<TElement, TAnnotation>(move.Parent)).Id.ToString(),
-                            Label = hierarchicalAbstraction.Label(move.Parent).ToString(CultureInfo.InvariantCulture),
+                            Label = hierarchicalAbstraction.Label(move.Parent, originals).ToString(CultureInfo.InvariantCulture),
                             Value = textualAbstraction.FullText(move.Parent)
                         }
                     });
@@ -113,7 +117,7 @@ namespace Jawilliam.CDF.Approach.Choices
                         Element = new ElementVersion
                         {
                             Id = ((IElementAnnotation<TElement>)oAnnotation).Id.ToString(CultureInfo.InvariantCulture),
-                            Label = hierarchicalAbstraction.Label(align.Element).ToString(CultureInfo.InvariantCulture),
+                            Label = hierarchicalAbstraction.Label(align.Element, originals).ToString(CultureInfo.InvariantCulture),
                             Value = textualAbstraction.FullText(align.Element)
                         },
                         Position = align.Position
@@ -122,7 +126,7 @@ namespace Jawilliam.CDF.Approach.Choices
             }
 
             // Deletes
-            foreach (var original in this.Approach.Result.Original.PostOrder(hierarchicalAbstraction.Children))
+            foreach (var original in this.Approach.Result.Original.PostOrder(o1 => hierarchicalAbstraction.Children(o1, originals, true)))
             {
                 var oAnnotation = this.Approach.Original<TElement, TAnnotation>(original);
                 foreach (var delete in oAnnotation.Actions.OfType<EditDelete<TElement>>().Where(i => object.Equals(i.Element, original)))
@@ -132,32 +136,32 @@ namespace Jawilliam.CDF.Approach.Choices
                         Element = new ElementVersion
                         {
                             Id = ((IElementAnnotation<TElement>)oAnnotation).Id.ToString(CultureInfo.InvariantCulture),
-                            Label = hierarchicalAbstraction.Label(delete.Element).ToString(CultureInfo.InvariantCulture),
+                            Label = hierarchicalAbstraction.Label(delete.Element, originals).ToString(CultureInfo.InvariantCulture),
                             Value = textualAbstraction.FullText(delete.Element)
                         }
                     });
                 }
             }
 
-            foreach (var original in this.Approach.Result.Original.PreOrder(hierarchicalAbstraction.Children))
+            foreach (var original in this.Approach.Result.Original.PreOrder(o1 => hierarchicalAbstraction.Children(o1, originals, true)))
             {
                 var oAnnotation = this.Approach.Original<TElement, TAnnotation>(original);
-                if (oAnnotation.Partner<TElement, TAnnotation>() != null)
+                if (oAnnotation.Partner<TElement, TAnnotation>(true) != null)
                 {
-                    var mAnnotation = this.Approach.Modified<TElement, TAnnotation>(oAnnotation.Partner<TElement, TAnnotation>());
+                    var mAnnotation = this.Approach.Modified<TElement, TAnnotation>(oAnnotation.Partner<TElement, TAnnotation>(true));
                     this.Approach.Result.Matches.Add(new MatchDescriptor
                     {
                         Original = new ElementVersion
                         {
                             Id = ((IElementAnnotation<TElement>)oAnnotation).Id.ToString(CultureInfo.InvariantCulture),
-                            Label = hierarchicalAbstraction.Label(original).ToString(CultureInfo.InvariantCulture),
+                            Label = hierarchicalAbstraction.Label(original, originals).ToString(CultureInfo.InvariantCulture),
                             Value = textualAbstraction.FullText(original)
                         },
                         Modified = new ElementVersion
                         {
                             Id = ((IElementAnnotation<TElement>)mAnnotation).Id.ToString(CultureInfo.InvariantCulture),
-                            Label = hierarchicalAbstraction.Label(oAnnotation.Partner<TElement, TAnnotation>()).ToString(CultureInfo.InvariantCulture),
-                            Value = textualAbstraction.FullText(oAnnotation.Partner<TElement, TAnnotation>())
+                            Label = hierarchicalAbstraction.Label(oAnnotation.Partner<TElement, TAnnotation>(true), modifieds).ToString(CultureInfo.InvariantCulture),
+                            Value = textualAbstraction.FullText(oAnnotation.Partner<TElement, TAnnotation>(true))
                         }
                     });
                 }

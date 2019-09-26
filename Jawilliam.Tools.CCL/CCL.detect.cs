@@ -16,7 +16,7 @@ namespace Jawilliam.Tools.CCL
     {
         [ApplicationMetadata(Name = "gumtree", Description = "GumTree")]
         [SubCommand]
-        public class GumTree
+        public partial class GumTree
         {
             [ApplicationMetadata(Name = "detect", Description = "Detects ...")]
             public virtual void Detect(DetectCommandArgs args)

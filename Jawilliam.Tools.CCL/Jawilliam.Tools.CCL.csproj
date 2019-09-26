@@ -199,6 +199,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CCL.cs" />
+    <Compile Include="CCL.compare.cs" />
     <Compile Include="CCL.savetrees.cs" />
     <Compile Include="CCL.RoslynML.cs" />
     <Compile Include="CCL.detect.cs" />

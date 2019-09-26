@@ -1,5 +1,6 @@
 ﻿using CommandDotNet;
 using CommandDotNet.Attributes;
+using Jawilliam.CDF;
 using Jawilliam.CDF.Approach.GumTree;
 using Jawilliam.CDF.CSharp.RoslynML;
 using Jawilliam.CDF.Labs;
@@ -63,6 +64,49 @@ namespace Jawilliam.Tools.CCL
             catch (Exception ex)
             {
                 Console.WriteLine($"Error: {ex.Message}");
+            }
+        }
+
+
+        public virtual void A()
+        {
+            foreach (var project in Projects/*.Skip(args.From - 1).Take(args.To - (args.From - 1))*/)
+            {
+                using (var dbRepository = new GitRepository(project.Name) { Name = project.Name })
+                {
+                    ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 600000;
+                    //analyzer.SqlRepository = dbRepository;
+
+                    var ids = dbRepository.Database.SqlQuery<Guid>("SELECT distinct [Id] FROM [dbo].[FileFormats] where Kind = 5 or Kind = 12 or Kind = 20 or Kind = 28").ToList();
+                    foreach (var id in ids)
+                    {
+                        System.Console.WriteLine(
+                                      $"{Environment.NewLine}{Environment.NewLine}" +
+                                      $"repairing trees (collection) started " +
+                                      $"{DateTime.Now.ToString("F", CultureInfo.InvariantCulture)} - {project.Name}");
+
+                        FileFormat fileFormat = dbRepository.FileFormats.Single(c => c.Id == id);
+                        var xTree = XElement.Load(new System.IO.StringReader(fileFormat.XmlTree));
+
+                        var roslynMLServices = new RoslynML();
+                        foreach (var e in xTree.PostOrder(n => n.Elements()))
+                        {
+                            var attr = e.Attribute("GtID");
+                            if (attr != null)
+                                attr.Remove();
+                        }
+                        roslynMLServices.SetGumTreefiedIDs(xTree);
+
+                        fileFormat.XmlTree = xTree.ToString(SaveOptions.DisableFormatting);
+
+                        dbRepository.Flush();
+
+                        System.Console.WriteLine(
+                                      $"{Environment.NewLine}{Environment.NewLine}" +
+                                      $"repairing trees (collection) saved " +
+                                      $"{DateTime.Now.ToString("F", CultureInfo.InvariantCulture)} - {project.Name}");
+                    }
+                }
             }
         }
     }

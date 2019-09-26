@@ -5,6 +5,7 @@ using Jawilliam.CDF.CSharp.Flad;
 using Microsoft.CodeAnalysis;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Jawilliam.CDF.CSharp.Awareness
 {
@@ -26,16 +27,43 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// Access to the children of a node.
         /// </summary>
         /// <param name="node">node of interest.</param>
+        /// <param name="includeTrivia">defines if the trivia would be (true), or not (false), considered</param>
+        /// <param name="annotationSet">the corresponding annotation set.</param>
         /// <returns>the node's children.</returns>
-        public override IEnumerable<SyntaxNodeOrToken?> Children(SyntaxNodeOrToken? node)
+        public override IEnumerable<SyntaxNodeOrToken?> Children(SyntaxNodeOrToken? node, IAnnotationSetService<SyntaxNodeOrToken?, TAnnotation> annotationSet, bool includeTrivia = false)
         {
             if (node == null)
                 throw new ArgumentNullException(nameof(node));
 
             var languageProvider = this.ServiceLocator.LanguageProvider();
-            return languageProvider.GetElementTypeServiceProvider(node) is IHierarchicalAbstractionService<SyntaxNodeOrToken?> elementTypeProvider 
-                ? elementTypeProvider.Children(node) 
-                : base.Children(node);
+            var result = languageProvider.GetElementTypeServiceProvider(node) is IHierarchicalAbstractionService<SyntaxNodeOrToken?, TAnnotation> elementTypeProvider 
+                ? elementTypeProvider.Children(node, annotationSet) 
+                : base.Children(node, annotationSet);
+
+            foreach (var r in result)
+            {
+                yield return r;
+            }
+
+            if (includeTrivia)
+            {
+                var annotation = annotationSet.Annotations[node];
+                if (annotation.DescendantTrivia != null)
+                    foreach (var item in annotation.DescendantTrivia.OfType<SyntaxNodeOrToken?>())
+                    {
+                        yield return item;
+                    }
+                if (annotation.LeadingTrivia != null)
+                    foreach (var item in annotation.DescendantTrivia.OfType<SyntaxNodeOrToken?>())
+                    {
+                        yield return item;
+                    }
+                if (annotation.TrailingTrivia != null)
+                    foreach (var item in annotation.DescendantTrivia.OfType<SyntaxNodeOrToken?>())
+                    {
+                        yield return item;
+                    }
+            }
         }
 
         /// <summary>
@@ -43,15 +71,15 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// </summary>
         /// <param name="node">node of interest.</param>
         /// <returns>the node's parent.</returns>
-        public override SyntaxNodeOrToken? Parent(SyntaxNodeOrToken? node)
+        public override SyntaxNodeOrToken? Parent(SyntaxNodeOrToken? node, IAnnotationSetService<SyntaxNodeOrToken?, TAnnotation> annotationSet)
         {
             if (node == null)
                 throw new ArgumentNullException(nameof(node));
 
             var languageProvider = this.ServiceLocator.LanguageProvider();
-            return languageProvider.GetElementTypeServiceProvider(node) is IHierarchicalAbstractionService<SyntaxNodeOrToken?> elementTypeProvider
-                ? elementTypeProvider.Parent(node)
-                : base.Parent(node);
+            return languageProvider.GetElementTypeServiceProvider(node) is IHierarchicalAbstractionService<SyntaxNodeOrToken?, TAnnotation> elementTypeProvider
+                ? elementTypeProvider.Parent(node, annotationSet)
+                : base.Parent(node, annotationSet);
         }
 
         /// <summary>
@@ -59,15 +87,15 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// </summary>
         /// <param name="node">node of interest.</param>
         /// <returns>a numeric identifier of the node type.</returns>
-        public override int Label(SyntaxNodeOrToken? node)
+        public override int Label(SyntaxNodeOrToken? node, IAnnotationSetService<SyntaxNodeOrToken?, TAnnotation> annotationSet)
         {
             if (node == null)
                 throw new ArgumentNullException(nameof(node));
 
             var languageProvider = this.ServiceLocator.LanguageProvider();
-            return languageProvider.GetElementTypeServiceProvider(node) is IHierarchicalAbstractionService<SyntaxNodeOrToken?> elementTypeProvider
-                ? elementTypeProvider.Label(node)
-                : base.Label(node);
+            return languageProvider.GetElementTypeServiceProvider(node) is IHierarchicalAbstractionService<SyntaxNodeOrToken?, TAnnotation> elementTypeProvider
+                ? elementTypeProvider.Label(node, annotationSet)
+                : base.Label(node, annotationSet);
         }
 
         /// <summary>
@@ -75,15 +103,15 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// </summary>
         /// <param name="node">node of interest.</param>
         /// <returns>the value of the given node.</returns>
-        public override object Value(SyntaxNodeOrToken? node)
+        public override object Value(SyntaxNodeOrToken? node, IAnnotationSetService<SyntaxNodeOrToken?, TAnnotation> annotationSet)
         {
             if (node == null)
                 throw new ArgumentNullException(nameof(node));
 
             var languageProvider = this.ServiceLocator.LanguageProvider();
-            return languageProvider.GetElementTypeServiceProvider(node) is IHierarchicalAbstractionService<SyntaxNodeOrToken?> elementTypeProvider
-                ? elementTypeProvider.Value(node)
-                : base.Value(node);
+            return languageProvider.GetElementTypeServiceProvider(node) is IHierarchicalAbstractionService<SyntaxNodeOrToken?, TAnnotation> elementTypeProvider
+                ? elementTypeProvider.Value(node, annotationSet)
+                : base.Value(node, annotationSet);
         }
 
         /// <summary>
@@ -91,15 +119,15 @@ namespace Jawilliam.CDF.CSharp.Awareness
         /// </summary>
         /// <param name="node">node of interest.</param>
         /// <returns>true if the given node is a leaf, false othwerwise.</returns>
-        public override bool IsLeaf(SyntaxNodeOrToken? node)
+        public override bool IsLeaf(SyntaxNodeOrToken? node, IAnnotationSetService<SyntaxNodeOrToken?, TAnnotation> annotationSet)
         {
             if (node == null)
                 throw new ArgumentNullException(nameof(node));
 
             var languageProvider = this.ServiceLocator.LanguageProvider();
-            return languageProvider.GetElementTypeServiceProvider(node) is IHierarchicalAbstractionService<SyntaxNodeOrToken?> elementTypeProvider
-                ? elementTypeProvider.IsLeaf(node)
-                : base.IsLeaf(node);
+            return languageProvider.GetElementTypeServiceProvider(node) is IHierarchicalAbstractionService<SyntaxNodeOrToken?, TAnnotation> elementTypeProvider
+                ? elementTypeProvider.IsLeaf(node, annotationSet)
+                : base.IsLeaf(node, annotationSet);
         }
     }
 }

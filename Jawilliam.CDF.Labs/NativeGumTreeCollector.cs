@@ -65,7 +65,17 @@ namespace Jawilliam.CDF.Labs
 
                           xElement = roslynMlServices.GetTree(interopArgs.Original, true, includeTrivia);
                           if (pruneSelector != null)
+                          {
                               roslynMlServices.Prune(xElement, pruneSelector);
+                              foreach (var e in xElement.PostOrder(n => n.Elements()))
+                              {
+                                  var attr = e.Attribute("GtID");
+                                  if (attr != null)
+                                      attr.Remove();
+                              }
+                              int gumTreefiedId = 0;
+                              roslynMlServices.SetGumTreefiedIDs(xElement, ref gumTreefiedId);
+                          }
                           originalFormat.XmlTree = xElement.ToString(SaveOptions.DisableFormatting);
 
                           repositoryObject.Principal.FromFileVersion.Formats.Add(originalFormat);
@@ -82,7 +92,17 @@ namespace Jawilliam.CDF.Labs
 
                           xElement = roslynMlServices.GetTree(interopArgs.Modified, true, includeTrivia);
                           if (pruneSelector != null)
+                          {
                               roslynMlServices.Prune(xElement, pruneSelector);
+                              foreach (var e in xElement.PostOrder(n => n.Elements()))
+                              {
+                                  var attr = e.Attribute("GtID");
+                                  if (attr != null)
+                                      attr.Remove();
+                              }
+                              int gumTreefiedId = 0;
+                              roslynMlServices.SetGumTreefiedIDs(xElement, ref gumTreefiedId);
+                          }
                           modifiedFormat.XmlTree = xElement.ToString(SaveOptions.DisableFormatting);
 
                           repositoryObject.Principal.FileVersion.Formats.Add(modifiedFormat);
