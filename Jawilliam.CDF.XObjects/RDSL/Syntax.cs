@@ -10,11 +10,6 @@ using Xml.Schema.Linq;
 
 namespace Jawilliam.CDF.XObjects.RDSL
 {
-    /// <summary>
-    /// <para>
-    /// Regular expression: (Nodes)
-    /// </para>
-    /// </summary>
     public partial class Syntax : XTypedElement, IXMetaData
     {
 
@@ -842,24 +837,6 @@ namespace Jawilliam.CDF.XObjects.RDSL
                         /// Occurrence: required
                         /// </para>
                         /// </summary>
-                        public string kind
-                        {
-                            get
-                            {
-                                XAttribute x = this.Attribute(XName.Get("kind", ""));
-                                return XTypedServices.ParseValue<string>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String).Datatype);
-                            }
-                            set
-                            {
-                                this.SetAttribute(XName.Get("kind", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String).Datatype);
-                            }
-                        }
-
-                        /// <summary>
-                        /// <para>
-                        /// Occurrence: required
-                        /// </para>
-                        /// </summary>
                         public int index
                         {
                             get
@@ -960,6 +937,24 @@ namespace Jawilliam.CDF.XObjects.RDSL
                             set
                             {
                                 this.SetAttribute(XName.Get("multiplicity", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String).Datatype);
+                            }
+                        }
+
+                        /// <summary>
+                        /// <para>
+                        /// Occurrence: required
+                        /// </para>
+                        /// </summary>
+                        public string type
+                        {
+                            get
+                            {
+                                XAttribute x = this.Attribute(XName.Get("type", ""));
+                                return XTypedServices.ParseValue<string>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String).Datatype);
+                            }
+                            set
+                            {
+                                this.SetAttribute(XName.Get("type", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String).Datatype);
                             }
                         }
 

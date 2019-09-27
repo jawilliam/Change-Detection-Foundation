@@ -647,7 +647,7 @@ namespace Jawilliam.CDF.Labs
 
             var punctuationProperties1 = (from t in nonAbstractTypes
                                          from p in t.Properties.Property
-                                         where p.kind == "Token"//(p.keyword ?? false) || (p.@operator ?? false) || (p.puntuaction ?? false) || (p.kind == "Token" && p.Rules?.Name != null)
+                                         where p.type == "SyntaxToken"//(p.keyword ?? false) || (p.@operator ?? false) || (p.puntuaction ?? false) || (p.kind == "Token" && p.Rules?.Name != null)
                                           select new { Type = t, Property = p }).ToArray();
 
             var punctuationProperties2 = (from t in nonAbstractTypes
@@ -671,7 +671,7 @@ namespace Jawilliam.CDF.Labs
 
             var puntuactionProperties = from t in nonAbstractTypes
                                         from p in t.Properties.Property
-                                        where p.kind == "Token" && p.hashtags.Contains("#KEYWORD") && p.Rules.Name == null && p.Rules.Signature == null
+                                        where p.type == "SyntaxToken" && p.hashtags.Contains("#KEYWORD") && p.Rules.Name == null && p.Rules.Signature == null
                                         select new { Type = t, Property = p };
             sb = new StringBuilder();
             foreach (var mp in operatorProperties)
@@ -680,8 +680,8 @@ namespace Jawilliam.CDF.Labs
             }
             System.IO.File.WriteAllText(@"D:\Reports\Punctuation Properties.txt", sb.ToString());
 
-            var testProperties = operatorProperties.Except(from t in nonAbstractTypes from p in t.Properties.Property where p.kind == "Token" select new { Type = t, Property = p });
-            var testProperties2 = (from t in nonAbstractTypes from p in t.Properties.Property where p.kind == "Token" && p.hashtags.Contains("#KEYWORD") select new { Type = t, Property = p }).Except(operatorProperties);
+            var testProperties = operatorProperties.Except(from t in nonAbstractTypes from p in t.Properties.Property where p.type == "SyntaxToken" select new { Type = t, Property = p });
+            var testProperties2 = (from t in nonAbstractTypes from p in t.Properties.Property where p.type == "SyntaxToken" && p.hashtags.Contains("#KEYWORD") select new { Type = t, Property = p }).Except(operatorProperties);
 
             sb.Clear();
             foreach (var mp in testProperties2)
@@ -823,8 +823,8 @@ namespace Jawilliam.CDF.Labs
             // Leaf elements.
             var bLeafElements = nonAbstractTypes.Where(t => !t.Properties.Property.Any()); // doesn’t contain syntax properties
             var cLeafElements = from t in nonAbstractTypes
-                                let p = t.Properties.Property.FirstOrDefault(p => (p.optional || !p.readOnly) && p.kind == "Token")
-                                where t.Properties.Property.All(p1 => p1 == p || (!p1.optional && p1.readOnly && p1.kind == "Token"))
+                                let p = t.Properties.Property.FirstOrDefault(p => (p.optional || !p.readOnly) && p.type == "SyntaxToken")
+                                where t.Properties.Property.All(p1 => p1 == p || (!p1.optional && p1.readOnly && p1.type == "SyntaxToken"))
                                 select t;
         }
 

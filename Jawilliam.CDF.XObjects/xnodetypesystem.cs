@@ -721,21 +721,6 @@ namespace tempuri.org.XNodeTypeSystem.xsd {
                         /// Occurrence: required
                         /// </para>
                         /// </summary>
-                        public string kind {
-                            get {
-                                XAttribute x = this.Attribute(XName.Get("kind", ""));
-                                return XTypedServices.ParseValue<string>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String).Datatype);
-                            }
-                            set {
-                                this.SetAttribute(XName.Get("kind", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String).Datatype);
-                            }
-                        }
-                        
-                        /// <summary>
-                        /// <para>
-                        /// Occurrence: required
-                        /// </para>
-                        /// </summary>
                         public int index {
                             get {
                                 XAttribute x = this.Attribute(XName.Get("index", ""));
@@ -818,6 +803,21 @@ namespace tempuri.org.XNodeTypeSystem.xsd {
                             }
                             set {
                                 this.SetAttribute(XName.Get("multiplicity", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String).Datatype);
+                            }
+                        }
+                        
+                        /// <summary>
+                        /// <para>
+                        /// Occurrence: required
+                        /// </para>
+                        /// </summary>
+                        public string type {
+                            get {
+                                XAttribute x = this.Attribute(XName.Get("type", ""));
+                                return XTypedServices.ParseValue<string>(x, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String).Datatype);
+                            }
+                            set {
+                                this.SetAttribute(XName.Get("type", ""), value, XmlSchemaType.GetBuiltInSimpleType(XmlTypeCode.String).Datatype);
                             }
                         }
                         

@@ -167,14 +167,14 @@
 																</xs:element>
 															</xs:sequence>
 															<xs:attribute name="name" type="xs:string" use="required"/>
-															<xs:attribute name="kind" use="required">
+															<!--<xs:attribute name="kind" use="required">
 																<xs:simpleType>
 																	<xs:restriction base="xs:string">
 																		<xs:enumeration value="Node"/>
 																		<xs:enumeration value="Token"/>
 																	</xs:restriction>
 																</xs:simpleType>
-															</xs:attribute>
+															</xs:attribute>-->
 															<xs:attribute name="index" use="required">
 																<xs:simpleType>
 																	<xs:restriction base="xs:int"/>
@@ -192,6 +192,7 @@
 																	</xs:restriction>
 																</xs:simpleType>
 															</xs:attribute>
+                              <xs:attribute name="type" type="xs:string" use="required"/>
 															<xs:attribute name="collectionType" type="xs:string" use="optional"/>
                               <xs:attribute name="collectionSeparator" type="xs:string" use="optional"/>
                               <xs:attribute name="hashtags" use="optional" default="">
@@ -331,7 +332,7 @@
                                         <xs:enumeration value="#LIST#Parameter"/>
                                         <!--BracketedArgumentListSyntax-->
                                         <xs:enumeration value="=#LIST#ARGUMENT#Bracketed"/>
-                                        <!--BracketedTypeParameterListSyntax-->
+                                        <!--TypeParameterListSyntax-->
                                         <xs:enumeration value="=#LIST#TYPE#Parameter"/>
                                         <!--AttributeListSyntax-->
                                         <xs:enumeration value="=#LIST#Attribute"/>
