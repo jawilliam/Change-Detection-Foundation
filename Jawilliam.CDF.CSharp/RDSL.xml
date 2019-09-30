@@ -623,7 +623,7 @@
       <Properties>
         <Property name="AsyncKeyword" type="SyntaxToken" index="0" optional="false" multiplicity="Single" hashtags="#KEYWORD">
         </Property>
-        <Property name="Body" kind="Node" index="1" optional="false" changepoint="true" multiplicity="Single">
+        <Property name="Body" type="CSharpSyntaxNode" index="1" optional="false" changepoint="true" multiplicity="Single">
           <Rules>
             <Topology relevant="true"/>
           </Rules>
@@ -648,7 +648,7 @@
             <Topology relevant="true"/>
           </Rules>
         </Property>
-        <Property name="Body" kind="Node" index="3" optional="false" changepoint="true" inherited="true" multiplicity="Single">
+        <Property name="Body" type="CSharpSyntaxNode" index="3" optional="false" changepoint="true" inherited="true" multiplicity="Single">
           <Rules>
             <Topology relevant="true"/>
           </Rules>
@@ -684,7 +684,7 @@
             <Pairwise tunneling="true"/>
           </Rules>
         </Property>
-        <Property name="Body" kind="Node" index="3" optional="false" changepoint="true" inherited="true" multiplicity="Single">
+        <Property name="Body" type="CSharpSyntaxNode" index="3" optional="false" changepoint="true" inherited="true" multiplicity="Single">
           <Rules>
             <Topology relevant="true"/>
           </Rules>
@@ -713,7 +713,7 @@
             <Pairwise tunneling="true"/>
           </Rules>
         </Property>
-        <Property name="Body" kind="Node" index="3" optional="false" changepoint="true" inherited="true" multiplicity="Single">
+        <Property name="Body" type="CSharpSyntaxNode" index="3" optional="false" changepoint="true" inherited="true" multiplicity="Single">
           <Rules>
             <Topology relevant="true"/>
           </Rules>
@@ -1911,7 +1911,7 @@
     </Type>
     <Type name="LocalDeclarationStatementSyntax" base="StatementSyntax" hashtags="#Statement #statement #declaration #DECLARATION #DECLARATION#LOCAL #DECLARATION#VARIABLE"><!--declaration-->
       <Properties>
-        <Property name="Modifiers" type="SyntaxList" index="0" optional="false" changepoint="true" multiplicity="Collection">
+        <Property name="Modifiers" type="SyntaxTokenList" index="0" optional="false" changepoint="true" multiplicity="Collection">
           <Rules collection="true">
             <Topology relevant="true" relevancy="1"/>
           </Rules>
@@ -2570,7 +2570,7 @@
             <Topology relevant="true"/>
           </Rules>
         </Property>
-        <Property name="ArgumentList" kind="BracketedArgumentListSyntax" index="1" optional="true" changepoint="true" multiplicity="Single" hashtags="=#LIST#ARGUMENT#Bracketed =#Argument">
+        <Property name="ArgumentList" type="BracketedArgumentListSyntax" index="1" optional="true" changepoint="true" multiplicity="Single" hashtags="=#LIST#ARGUMENT#Bracketed =#Argument">
           <Rules collection="true">
             <Topology relevant="true"/>
           </Rules>
@@ -2797,7 +2797,7 @@
             <Topology relevant="true" relevancy="1"/>
           </Rules>
         </Property>
-        <Property name="Modifiers" type="SyntaxList" index="1" optional="false" changepoint="true" multiplicity="Collection">
+        <Property name="Modifiers" type="SyntaxTokenList" index="1" optional="false" changepoint="true" multiplicity="Collection">
           <Rules collection="true">
             <Topology relevant="true" relevancy="2"/>
           </Rules>
@@ -2830,7 +2830,7 @@
             <Topology relevant="true" relevancy="1"/>
           </Rules>
         </Property>
-        <Property name="Modifiers" type="SyntaxList" index="1" optional="false" changepoint="true" multiplicity="Collection">
+        <Property name="Modifiers" type="SyntaxTokenList" index="1" optional="false" changepoint="true" multiplicity="Collection">
           <Rules collection="true">
             <Topology relevant="true" relevancy="2"/>
           </Rules>
@@ -2889,7 +2889,7 @@
             <Topology relevant="true" relevancy="1"/>
           </Rules>
         </Property>
-        <Property name="Modifiers" type="SyntaxList" index="1" optional="false" changepoint="true" multiplicity="Collection">
+        <Property name="Modifiers" type="SyntaxTokenList" index="1" optional="false" changepoint="true" multiplicity="Collection">
           <Rules>
             <Topology relevant="true" relevancy="2"/>
           </Rules>
@@ -2899,7 +2899,7 @@
             <Name equality="true" absolute="true"/>
           </Rules>
         </Property>
-        <Property name="BaseList" kind="Node" index="3" optional="true" changepoint="true" multiplicity="Single">
+        <Property name="BaseList" type="BaseListSyntax" index="3" optional="true" changepoint="true" multiplicity="Single">
           <Rules>
             <Topology relevant="true"/>
           </Rules>
@@ -2922,7 +2922,7 @@
             <Topology relevant="true" relevancy="1"/>
           </Rules>
         </Property>
-        <Property name="Modifiers" type="SyntaxList" index="1" optional="false" changepoint="true" inherited="true" multiplicity="Collection">
+        <Property name="Modifiers" type="SyntaxTokenList" index="1" optional="false" changepoint="true" inherited="true" multiplicity="Collection">
           <Rules collection="true">
             <Topology relevant="true" relevancy="2"/>
           </Rules>
@@ -2974,18 +2974,18 @@
       <Properties>
         <Property name="Keyword" type="SyntaxToken" index="0" readOnly="true" optional="false" multiplicity="Single" hashtags="#KEYWORD">
         </Property>
-        <Property name="TypeParameterList" kind="Node" index="1" optional="true" changepoint="true" multiplicity="Single">
+        <Property name="TypeParameterList" type="TypeParameterListSyntax" index="1" optional="true" changepoint="true" multiplicity="Single">
           <Rules>
             <Signature equality="true" absolute="true"/>
             <Topology relevant="true"/>
           </Rules>
         </Property>
-        <Property name="ConstraintClauses" kind="Node" index="2" optional="false" changepoint="true" multiplicity="Collection" collectionType="TypeParameterConstraintClauseSyntax">
+        <Property name="ConstraintClauses" type="SyntaxList" index="2" optional="false" changepoint="true" multiplicity="Collection" collectionType="TypeParameterConstraintClauseSyntax">
           <Rules>
             <Topology relevant="true"/>
           </Rules>
         </Property>
-        <Property name="Members" kind="Node" index="3" optional="false" changepoint="true" multiplicity="Collection" collectionType="MemberDeclarationSyntax">
+        <Property name="Members" type="SyntaxList" index="3" optional="false" changepoint="true" multiplicity="Collection" collectionType="MemberDeclarationSyntax">
           <Rules>
             <Topology relevant="true"/>
           </Rules>
@@ -3002,7 +3002,7 @@
             <Topology relevant="true" relevancy="1"/>
           </Rules>
         </Property>
-        <Property name="Modifiers" type="SyntaxList" index="1" optional="false" changepoint="true" inherited="true" multiplicity="Collection">
+        <Property name="Modifiers" type="SyntaxTokenList" index="1" optional="false" changepoint="true" inherited="true" multiplicity="Collection">
           <Rules collection="true">
             <Topology relevant="true" relevancy="2"/>
           </Rules>
@@ -3069,7 +3069,7 @@
             <Topology relevant="true" relevancy="1"/>
           </Rules>
         </Property>
-        <Property name="Modifiers" type="SyntaxList" index="1" optional="false" changepoint="true" inherited="true" multiplicity="Collection">
+        <Property name="Modifiers" type="SyntaxTokenList" index="1" optional="false" changepoint="true" inherited="true" multiplicity="Collection">
           <Rules collection="true">
             <Topology relevant="true" relevancy="2"/>
           </Rules>
@@ -3136,7 +3136,7 @@
             <Topology relevant="true" relevancy="1"/>
           </Rules>
         </Property>
-        <Property name="Modifiers" type="SyntaxList" index="1" optional="false" changepoint="true" inherited="true" multiplicity="Collection">
+        <Property name="Modifiers" type="SyntaxTokenList" index="1" optional="false" changepoint="true" inherited="true" multiplicity="Collection">
           <Rules collection="true">
             <Topology relevant="true" relevancy="2"/>
           </Rules>
@@ -3380,7 +3380,7 @@
     </Type>
     <Type name="BaseTypeSyntax" abstract="true">
       <Properties>
-        <Property name="Type" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Single">
+        <Property name="Type" type="TypeSyntax" index="0" optional="false" changepoint="true" multiplicity="Single">
           <Rules>
             <Topology relevant="true"/>
           </Rules>
@@ -3408,12 +3408,12 @@
             <Topology relevant="true" relevancy="1"/>
           </Rules>
         </Property>
-        <Property name="Modifiers" type="SyntaxList" index="1" optional="false" changepoint="true" multiplicity="Collection">
+        <Property name="Modifiers" type="SyntaxTokenList" index="1" optional="false" changepoint="true" multiplicity="Collection">
           <Rules>
             <Topology relevant="true" relevancy="2"/>
           </Rules>
         </Property>
-        <Property name="Declaration" kind="Node" index="2" optional="false" changepoint="true" multiplicity="Single">
+        <Property name="Declaration" type="VariableDeclarationSyntax" index="2" optional="false" changepoint="true" multiplicity="Single">
           <Rules>
             <Name equality="true" absolute="true"/>
             <Topology relevant="true"/>
@@ -3433,7 +3433,7 @@
             <Topology relevant="true" relevancy="1"/>
           </Rules>
         </Property>
-        <Property name="Modifiers" type="SyntaxList" index="1" optional="false" changepoint="true" inherited="true" multiplicity="Collection">
+        <Property name="Modifiers" type="SyntaxTokenList" index="1" optional="false" changepoint="true" inherited="true" multiplicity="Collection">
           <Rules collection="true">
             <Topology relevant="true" relevancy="2"/>
           </Rules>
@@ -3461,7 +3461,7 @@
             <Topology relevant="true" relevancy="1"/>
           </Rules>
         </Property>
-        <Property name="Modifiers" type="SyntaxList" index="1" optional="false" changepoint="true" inherited="true" multiplicity="Collection">
+        <Property name="Modifiers" type="SyntaxTokenList" index="1" optional="false" changepoint="true" inherited="true" multiplicity="Collection">
           <Rules collection="true">
             <Topology relevant="true" relevancy="2"/>
           </Rules>
@@ -3513,14 +3513,14 @@
       <Properties>
         <Property name="AttributeLists" type="SyntaxList" index="0" optional="false" changepoint="true" multiplicity="Collection" collectionType="AttributeListSyntax">
         </Property>
-        <Property name="Modifiers" type="SyntaxList" index="1" optional="false" changepoint="true" multiplicity="Collection">
+        <Property name="Modifiers" type="SyntaxTokenList" index="1" optional="false" changepoint="true" multiplicity="Collection">
         </Property>
-        <Property name="ParameterList" kind="Node" index="2" optional="false" changepoint="true" multiplicity="Single">
+        <Property name="ParameterList" type="ParameterListSyntax" index="2" optional="false" changepoint="true" multiplicity="Single">
           <Rules>
             <Signature equality="true" absolute="true"/>
           </Rules>
         </Property>
-        <Property name="Body" kind="Node" index="3" optional="true" changepoint="true" multiplicity="Single">
+        <Property name="Body" type="BlockSyntax" index="3" optional="true" changepoint="true" multiplicity="Single">
         </Property>
         <Property name="SemicolonToken" type="SyntaxToken" index="4" optional="true" changepoint="true" multiplicity="Single">
         </Property>
@@ -3536,7 +3536,7 @@
             <Topology relevant="true" relevancy="1"/>
           </Rules>
         </Property>
-        <Property name="Modifiers" type="SyntaxList" index="1" optional="false" changepoint="true" inherited="true" multiplicity="Collection">
+        <Property name="Modifiers" type="SyntaxTokenList" index="1" optional="false" changepoint="true" inherited="true" multiplicity="Collection">
           <Rules collection="true">
             <Topology relevant="true" relevancy="2"/>
           </Rules>
@@ -3606,7 +3606,7 @@
             <Topology relevant="true" relevancy="1"/>
           </Rules>
         </Property>
-        <Property name="Modifiers" type="SyntaxList" index="1" optional="false" changepoint="true" inherited="true" multiplicity="Collection">
+        <Property name="Modifiers" type="SyntaxTokenList" index="1" optional="false" changepoint="true" inherited="true" multiplicity="Collection">
           <Rules collection="true">
             <Topology relevant="true" relevancy="2"/>
           </Rules>
@@ -3688,7 +3688,7 @@
             <Topology relevant="true" relevancy="1"/>
           </Rules>
         </Property>
-        <Property name="Modifiers" type="SyntaxList" index="1" optional="false" changepoint="true" inherited="true" multiplicity="Collection">
+        <Property name="Modifiers" type="SyntaxTokenList" index="1" optional="false" changepoint="true" inherited="true" multiplicity="Collection">
           <Rules collection="true">
             <Topology relevant="true" relevancy="2"/>
           </Rules>
@@ -3747,7 +3747,7 @@
             <Topology relevant="true" relevancy="1"/>
           </Rules>
         </Property>
-        <Property name="Modifiers" type="SyntaxList" index="1" optional="false" changepoint="true" inherited="true" multiplicity="Collection">
+        <Property name="Modifiers" type="SyntaxTokenList" index="1" optional="false" changepoint="true" inherited="true" multiplicity="Collection">
           <Rules collection="true">
             <Topology relevant="true" relevancy="2"/>
           </Rules>
@@ -3831,7 +3831,7 @@
             <Topology relevant="true" relevancy="1"/>
           </Rules>
         </Property>
-        <Property name="Modifiers" type="SyntaxList" index="1" readOnly="true" optional="false" inherited="true" multiplicity="Collection">
+        <Property name="Modifiers" type="SyntaxTokenList" index="1" readOnly="true" optional="false" inherited="true" multiplicity="Collection">
           <Rules collection="true">
             <Topology relevant="true" relevancy="2"/>
           </Rules>
@@ -3848,7 +3848,7 @@
             <Topology relevant="true"/>
           </Rules>
         </Property>
-        <Property name="ParameterList" kind="Node" index="4" readOnly="true" optional="false" inherited="true" multiplicity="Single">
+        <Property name="ParameterList" type="ParameterListSyntax" index="4" readOnly="true" optional="false" inherited="true" multiplicity="Single">
           <Rules collection="true">
             <Topology relevant="true"/>
           </Rules>
@@ -3873,16 +3873,16 @@
       <Properties>
         <Property name="AttributeLists" type="SyntaxList" index="0" optional="false" changepoint="true" multiplicity="Collection" collectionType="AttributeListSyntax">
         </Property>
-        <Property name="Modifiers" type="SyntaxList" index="1" optional="false" changepoint="true" multiplicity="Collection">
+        <Property name="Modifiers" type="SyntaxTokenList" index="1" optional="false" changepoint="true" multiplicity="Collection">
         </Property>
-        <Property name="Type" kind="Node" index="2" optional="false" changepoint="true" multiplicity="Single">
+        <Property name="Type" type="TypeSyntax" index="2" optional="false" changepoint="true" multiplicity="Single">
         </Property>
-        <Property name="ExplicitInterfaceSpecifier" kind="Node" index="3" optional="true" changepoint="true" multiplicity="Single">
+        <Property name="ExplicitInterfaceSpecifier" type="ExplicitInterfaceSpecifierSyntax" index="3" optional="true" changepoint="true" multiplicity="Single">
           <Rules>
             <Name equality="true" absolute="true"/>
           </Rules>
         </Property>
-        <Property name="AccessorList" kind="Node" index="4" optional="false" changepoint="true" multiplicity="Single">
+        <Property name="AccessorList" type="AccessorListSyntax" index="4" optional="false" changepoint="true" multiplicity="Single">
         </Property>
       </Properties>
       <Rules>
@@ -3896,7 +3896,7 @@
             <Topology relevant="true" relevancy="1"/>
           </Rules>
         </Property>
-        <Property name="Modifiers" type="SyntaxList" index="1" optional="false" changepoint="true" inherited="true" multiplicity="Collection">
+        <Property name="Modifiers" type="SyntaxTokenList" index="1" optional="false" changepoint="true" inherited="true" multiplicity="Collection">
           <Rules collection="true">
             <Topology relevant="true" relevancy="2"/>
           </Rules>
@@ -3969,7 +3969,7 @@
             <Topology relevant="true" relevancy="1"/>
           </Rules>
         </Property>
-        <Property name="Modifiers" type="SyntaxList" index="1" optional="false" changepoint="true" inherited="true" multiplicity="Collection">
+        <Property name="Modifiers" type="SyntaxTokenList" index="1" optional="false" changepoint="true" inherited="true" multiplicity="Collection">
           <Rules collection="true">
             <Topology relevant="true" relevancy="2"/>
           </Rules>
@@ -4017,7 +4017,7 @@
             <Topology relevant="true" relevancy="1"/>
           </Rules>
         </Property>
-        <Property name="Modifiers" type="SyntaxList" index="1" optional="false" changepoint="true" inherited="true" multiplicity="Collection">
+        <Property name="Modifiers" type="SyntaxTokenList" index="1" optional="false" changepoint="true" inherited="true" multiplicity="Collection">
           <Rules collection="true">
             <Topology relevant="true" relevancy="2"/>
           </Rules>
@@ -4096,7 +4096,7 @@
             <Topology relevant="true" relevancy="1"/>
           </Rules>
         </Property>
-        <Property name="Modifiers" type="SyntaxList" index="1" optional="false" changepoint="true" multiplicity="Collection">
+        <Property name="Modifiers" type="SyntaxTokenList" index="1" optional="false" changepoint="true" multiplicity="Collection">
           <Rules collection="true">
             <Topology relevant="true" relevancy="2"/>
           </Rules>
@@ -4203,7 +4203,7 @@
             <Topology relevant="true" relevancy="1"/>
           </Rules>
         </Property>
-        <Property name="Modifiers" type="SyntaxList" index="1" optional="false" changepoint="true" multiplicity="Collection">
+        <Property name="Modifiers" type="SyntaxTokenList" index="1" optional="false" changepoint="true" multiplicity="Collection">
           <Rules collection="true">
             <Topology relevant="true" relevancy="2"/>
           </Rules>
@@ -4243,7 +4243,7 @@
     <Type name="StructuredTriviaSyntax" abstract="true"/>
     <Type name="SkippedTokensTriviaSyntax" base="StructuredTriviaSyntax" hashtags="#TRIVIA#Structured #trivia">
       <Properties>
-        <Property name="Tokens" type="SyntaxList" index="0" optional="false" changepoint="true" multiplicity="Collection">
+        <Property name="Tokens" type="SyntaxTokenList" index="0" optional="false" changepoint="true" multiplicity="Collection">
           <Rules collection="true">
             <Pairwise discriminant="true"/>
             <Topology relevant="true"/>
@@ -4712,7 +4712,7 @@
     <!--StructuredTriviaSyntax$DirectiveTriviaSyntax$BranchingDirectiveTriviaSyntax$ConditionalDirectiveTriviaSyntax-->
     <Type name="ConditionalDirectiveTriviaSyntax" abstract="true" base="BranchingDirectiveTriviaSyntax">
       <Properties>
-        <Property name="Condition" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Single">
+        <Property name="Condition" type="ExpressionSyntax" index="0" optional="false" changepoint="true" multiplicity="Single">
           <Rules>
             <Topology relevant="true"/>
           </Rules>
@@ -4824,7 +4824,7 @@
             <Topology relevant="true"/>
           </Rules>
         </Property>
-        <Property name="Parameters" kind="Node" index="1" optional="true" changepoint="true" multiplicity="Single">
+        <Property name="Parameters" type="CrefParameterListSyntax" index="1" optional="true" changepoint="true" multiplicity="Single">
           <Rules collection="true">
             <Signature equality="true" absolute="true"/>
             <Topology relevant="true"/>
@@ -4846,7 +4846,7 @@
             <Pairwise tunneling="true"/>
           </Rules>
         </Property>
-        <Property name="Parameters" kind="Node" index="1" optional="true" changepoint="true" multiplicity="Single">
+        <Property name="Parameters" type="CrefBracketedParameterListSyntax" index="1" optional="true" changepoint="true" multiplicity="Single">
           <Rules collection="true">
             <Signature equality="true" absolute="true"/>
             <Pairwise discriminant="true"/>
@@ -4899,7 +4899,7 @@
             <Topology relevant="true"/>
           </Rules>
         </Property>
-        <Property name="Parameters" kind="Node" index="2" optional="true" changepoint="true" multiplicity="Single">
+        <Property name="Parameters" type="CrefParameterListSyntax" index="2" optional="true" changepoint="true" multiplicity="Single">
           <Rules collection="true">
             <Signature equality="true" absolute="true"/>
             <Pairwise discriminant="true"/>
@@ -4935,7 +4935,7 @@
             <Topology relevant="true"/>
           </Rules>
         </Property>
-        <Property name="Parameters" kind="Node" index="3" optional="true" changepoint="true" multiplicity="Single">
+        <Property name="Parameters" type="CrefParameterListSyntax" index="3" optional="true" changepoint="true" multiplicity="Single">
           <Rules collection="true">
             <Signature equality="true" absolute="true"/>
             <Topology relevant="true"/>
@@ -5112,7 +5112,7 @@
         </Property>
       </Properties>
       <Rules>
-        <Topology leaf="Tiny"/>
+        <Topology leaf="Tiny Terminal"/>
         <Name equality="true" absolute="true"/>
       </Rules>
     </Type>
@@ -5190,7 +5190,7 @@
     <!--An Related$XmlAttributeSyntax-->
     <Type name="XmlAttributeSyntax" abstract="true">
       <Properties>
-        <Property name="Name" kind="Node" index="0" optional="false" changepoint="true" multiplicity="Single">
+        <Property name="Name" type="XmlNameSyntax" index="0" optional="false" changepoint="true" multiplicity="Single">
           <Rules>
             <Name equality="true" absolute="true"/>
             <Topology relevant="true"/>
@@ -5230,7 +5230,7 @@
           </Rules>
           <!-- readOnly="true"-->
         </Property>
-        <Property name="TextTokens" type="SyntaxList" index="3" optional="false" changepoint="true" multiplicity="Collection">
+        <Property name="TextTokens" type="SyntaxTokenList" index="3" optional="false" changepoint="true" multiplicity="Collection">
           <Rules collection="true">
             <Topology relevant="true"/>
           </Rules>
@@ -5341,13 +5341,13 @@
         </Property>
       </Properties>
       <Rules>
-        <Topology leaf="Likely Tiny Eventually"/>
+        <Topology leaf="Likely Tiny Eventually Terminal"/>
         <Name suitability="Key" equality="true" absolute="true"/>
       </Rules>
     </Type>
     <Type name="XmlTextSyntax" base="XmlNodeSyntax" hashtags="#xml #XML#Node #text">
       <Properties>
-        <Property name="TextTokens" type="SyntaxList" index="0" optional="false" changepoint="true" multiplicity="Collection">
+        <Property name="TextTokens" type="SyntaxTokenList" index="0" optional="false" changepoint="true" multiplicity="Collection">
           <Rules collection="true">
             <Pairwise discriminant="true"/>
             <Topology relevant="true"/>
@@ -5365,7 +5365,7 @@
             <Pairwise tunneling="true"/>
           </Rules>
         </Property>
-        <Property name="TextTokens" type="SyntaxList" index="1" optional="false" changepoint="true" multiplicity="Collection">
+        <Property name="TextTokens" type="SyntaxTokenList" index="1" optional="false" changepoint="true" multiplicity="Collection">
           <Rules collection="true">
             <Pairwise discriminant="true"/>
             <Topology relevant="true"/>
@@ -5394,7 +5394,7 @@
             <Topology relevant="true"/>
           </Rules>
         </Property>
-        <Property name="TextTokens" type="SyntaxList" index="2" optional="false" changepoint="true" multiplicity="Collection">
+        <Property name="TextTokens" type="SyntaxTokenList" index="2" optional="false" changepoint="true" multiplicity="Collection">
           <Rules collection="true">            
             <Topology relevant="true"/>
           </Rules>
@@ -5417,7 +5417,7 @@
             <Pairwise tunneling="true"/>
           </Rules>
         </Property>
-        <Property name="TextTokens" type="SyntaxList" index="1" optional="false" changepoint="true" multiplicity="Collection">
+        <Property name="TextTokens" type="SyntaxTokenList" index="1" optional="false" changepoint="true" multiplicity="Collection">
           <Rules collection="true">
             <Pairwise discriminant="true"/>
             <Topology relevant="true"/>
@@ -5946,11 +5946,11 @@
         </Property>
         <Property name="InKeyword" type="SyntaxToken" index="2" readOnly="true" optional="false" multiplicity="Single" inherited="true" hashtags="#KEYWORD">
         </Property>
-        <Property name="Expression" kind="Node" index="3" optional="false" changepoint="true" multiplicity="Single">
+        <Property name="Expression" type="ExpressionSyntax" index="3" optional="false" changepoint="true" multiplicity="Single">
         </Property>
         <Property name="CloseParenToken" type="SyntaxToken" index="4" readOnly="true" optional="false" multiplicity="Single">
         </Property>
-        <Property name="Statement" kind="Node" index="5" optional="false" changepoint="true" multiplicity="Single">
+        <Property name="Statement" type="StatementSyntax" index="5" optional="false" changepoint="true" multiplicity="Single">
         </Property>
       </Properties>
       <!--For compatibility-->
@@ -6035,7 +6035,7 @@
 
     <Type name="LocalFunctionStatementSyntax" base="StatementSyntax" hashtags="#Statement #statement #DECLARATION #DECLARATION#LOCAL #DECLARATION#FUNCTION">
       <Properties>
-        <Property name="Modifiers" type="SyntaxList" index="0" optional="false" changepoint="true" multiplicity="Collection">
+        <Property name="Modifiers" type="SyntaxTokenList" index="0" optional="false" changepoint="true" multiplicity="Collection">
           <Rules collection="true">
             <Topology relevant="true" relevancy="1"/>
           </Rules>

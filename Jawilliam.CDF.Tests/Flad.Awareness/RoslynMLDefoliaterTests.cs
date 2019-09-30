@@ -18,69 +18,24 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
         public void DefinitionOfBasicLeafTypes()
         {
             var rdsl = CDF.XObjects.RDSL.Syntax.Load(@"..\..\..\Jawilliam.CDF.CSharp\RDSL.xml");
-            var concreteTypes = rdsl.Nodes.Type.Where(n => !n.@abstract).ToArray();
+
+            var types = rdsl.Nodes.Type.ToArray();
+            var concreteTypes = types.Where(n => !n.@abstract).ToArray();
 
             var terminalLeafTypes = (from t in concreteTypes
                                      where (t.Rules?.Topology?.leaf?.Contains("Terminal") ?? false)
                                      select t).ToArray();
 
-            var symbolicTypes = (from t in concreteTypes
-                                 where t.symbolic
-                                 select t).ToArray();
-            Assert.AreEqual(symbolicTypes.Except(terminalLeafTypes).Count(), 0);
-
-            var typesWithNoRelevantProperty = (from t in concreteTypes
-                                               where !t.symbolic && !(t.Properties?.Property.Any(p => p.Rules?.Topology?.relevant ?? false) ?? false)
-                                               select t).ToArray();
-            Assert.AreEqual(concreteTypes.Where(t => t.symbolic).Except(terminalLeafTypes).Count(), 0);
-
-            var typesWithOnlyOneTokenRelevantProperty = (from t in concreteTypes
-                                                         let relevantProperties = t.Properties?.Property.Where(p => p.Rules?.Topology?.relevant ?? false)
-                                                         //let except = relevantProperties.Where(p => p.kind == "Token")
-                                                         where !t.symbolic && relevantProperties.All(p => p.type == "SyntaxToken")
-                                                         select t).ToArray();
-            Assert.AreEqual(typesWithOnlyOneTokenRelevantProperty.Except(terminalLeafTypes).Count(), 0);
-
-            bool isTypeTag(string tag)
-            {
-                if (string.IsNullOrEmpty(tag) || string.IsNullOrWhiteSpace(tag))
-                    return false;
-
-                var subTags = tag.Split(new[] { '#' }, StringSplitOptions.RemoveEmptyEntries);
-                var lastTag = subTags.Last();
-
-                if (Char.IsUpper(lastTag.First()) && lastTag.Skip(1).All(c => Char.IsLower(c)))
-                    return true;
-
-                return false;
-            };
-
             var typesWithOnlyOneLeafRelevantProperty = (from t in concreteTypes
                                                         let relevantProperties = t.Properties?.Property.Where(p => p.Rules?.Topology?.relevant ?? false)
-                                                        let leafProperties = relevantProperties.Where(p =>
-                                                                //(p.hashtags?.Any() ?? false) &&
+                                                        where relevantProperties.All(p =>
                                                                 p.multiplicity != "Collection" &&
-                                                                (p.hashtags?.Any(tag => isTypeTag(tag) &&
-                                                                    concreteTypes.Any(t1 => t1.hashtags?.Contains(tag) ?? false) &&
-                                                                    concreteTypes.Where(t1 => t1.hashtags?.Contains(tag) ?? false).All(t1 =>
-                                                                        (t1.Rules?.Topology?.leaf?.Contains("Terminal") ?? false)))
-                                                                ?? false))
-                                                        //let except = relevantProperties.Where(p => p.kind == "Token")
-                                                        where !t.symbolic && relevantProperties.Any() && relevantProperties.Count() == leafProperties.Count()
+                                                                p.type != "CSharpSyntaxNode" &&
+                                                                (p.type == "SyntaxToken" ||
+                                                                (types.Single(t1 => t1.name == p.type).Rules?.Topology?.leaf?.Contains("Terminal") ?? false)))
                                                         select t).ToArray();
             Assert.AreEqual(typesWithOnlyOneLeafRelevantProperty.Except(terminalLeafTypes).Count(), 0);
-
-            //var a = typesWithJustReadOnlyProperties.Except(basicLeafTypes).ToArray();
-            //var b = basicLeafTypes.Except(typesWithJustReadOnlyProperties).ToArray();
-
-            //Assert.AreEqual(typesWithJustReadOnlyProperties.Except(basicLeafTypes).Count(), 0);
-            //Assert.AreEqual(basicLeafTypes.Except(typesWithJustReadOnlyProperties).Count(), 0);
-
-            var r = terminalLeafTypes.Except(symbolicTypes
-                .Union(typesWithNoRelevantProperty)
-                .Union(typesWithOnlyOneTokenRelevantProperty)
-                .Union(typesWithOnlyOneLeafRelevantProperty))
-                .ToArray();
+            Assert.AreEqual(terminalLeafTypes.Except(typesWithOnlyOneLeafRelevantProperty).Count(), 0);
         }
 
         [TestMethod]

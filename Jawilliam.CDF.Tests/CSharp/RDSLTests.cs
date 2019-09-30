@@ -835,6 +835,34 @@ namespace Jawilliam.CDF.Tests.CSharp
         }
 
         [TestMethod]
+        public void PropertyTypesAreWellDefined()
+        {
+            var rdsl = Syntax.Load(@"..\..\..\Jawilliam.CDF.CSharp\RDSL.xml");
+            var concreteTypes = rdsl.Nodes.Type.Where(n => !n.@abstract).ToArray();
+
+            var typeInfos = rdsl.Nodes.Type.Select(t => new
+            {
+                Class = typeof(CSharpSyntaxNode).Assembly.GetType("Microsoft.CodeAnalysis.CSharp.Syntax." + t.name),
+                Type = t
+            })
+            .ToDictionary(m => m.Type.name);
+
+            var expressionTypes = (from t in concreteTypes
+                                   from p in t.Properties.Property
+                                   let typeInfo = typeInfos.Single(ti => ti.Value.Type == t)
+                                   select new
+                                   {
+                                       TypeInfo = typeInfo,
+                                       PropertyInfo = typeInfo.Value.Class.GetProperty(p.name),
+                                       Property = p
+                                   }).ToArray();
+            foreach (var et in expressionTypes)
+            {
+                Assert.AreEqual(et.Property.type, et.PropertyInfo.PropertyType.Name.Split(new[] { "`" }, StringSplitOptions.RemoveEmptyEntries)[0]);
+            }
+        }
+
+        [TestMethod]
         public void DefinitionOf()
         {
             var rdsl = Syntax.Load(@"..\..\..\Jawilliam.CDF.CSharp\RDSL.xml");
@@ -846,6 +874,20 @@ namespace Jawilliam.CDF.Tests.CSharp
                 Type = t
             })
             .ToDictionary(m => m.Type.name);
+
+            var expressionTypes = (from t in concreteTypes
+                                   from p in t.Properties.Property
+                                   let typeInfo = typeInfos.Single(ti => ti.Value.Type == t)
+                                   select new
+                                   {
+                                       TypeInfo = typeInfo,
+                                       PropertyInfo = typeInfo.Value.Class.GetProperty(p.name),
+                                       Property = p
+                                   }).ToArray();
+            foreach (var et in expressionTypes)
+            {
+                Assert.AreEqual(et.Property.type, et.PropertyInfo.PropertyType.Name.Split(new[] { "`" }, StringSplitOptions.RemoveEmptyEntries)[0]);
+            }
 
             //var words = (from t in concreteTypes
             //             from word in Regex.Split(t.name, @"(?<!^)(?=[A-Z])")
@@ -871,21 +913,21 @@ namespace Jawilliam.CDF.Tests.CSharp
             //        sb.AppendLine($"#{++i} {wf.Word} in {type.name}");
             //    }
             //}
-            var expressionTypes = (from t in concreteTypes
-                                   from p in t.Properties.Property
-                                   let typeInfo = typeInfos.Single(ti => ti.Value.Type == t)
-                                   let result = new
-                                   {
-                                       TypeInfo = typeInfo,
-                                       PropertyInfo = typeInfo.Value.Class.GetProperty(p.name),
-                                       PropertyGenericTypeInfo = typeInfo.Value.Class.GetProperty(p.name).PropertyType.IsGenericType
-                                        ? typeInfo.Value.Class.GetProperty(p.name).PropertyType.GetGenericTypeDefinition()
-                                        : null
-                                   }
-                                   where result.PropertyInfo.PropertyType == typeof(SyntaxTokenList)
-                                   //let propertyInfos = 
-                                   //where typeof(ExpressionSyntax).IsAssignableFrom(typeInfo.Value.Class)
-                                   select result).ToArray();
+            //var expressionTypes = (from t in concreteTypes
+            //                       from p in t.Properties.Property
+            //                       let typeInfo = typeInfos.Single(ti => ti.Value.Type == t)
+            //                       let result = new
+            //                       {
+            //                           TypeInfo = typeInfo,
+            //                           PropertyInfo = typeInfo.Value.Class.GetProperty(p.name),
+            //                           PropertyGenericTypeInfo = typeInfo.Value.Class.GetProperty(p.name).PropertyType.IsGenericType
+            //                            ? typeInfo.Value.Class.GetProperty(p.name).PropertyType.GetGenericTypeDefinition()
+            //                            : null
+            //                       }
+            //                       where result.PropertyInfo.PropertyType == typeof(CSharpSyntaxNode)
+            //                       //let propertyInfos = 
+            //                       //where typeof(ExpressionSyntax).IsAssignableFrom(typeInfo.Value.Class)
+            //                       select result).ToArray();
             //foreach (var wf in words)
             //{
             //    sb.AppendLine(wf.Aggregate("", (acc, s) => acc == "" ? s : $"{acc} {s}"));
@@ -901,23 +943,23 @@ namespace Jawilliam.CDF.Tests.CSharp
             //                               let descendants = typeInfos.Values.Where(v => !v.Type.@abstract && t.Value.Class.IsAssignableFrom(v.Class)).ToArray()
             //                               orderby descendants.Length descending
             //                               select new { AbstractType = t, Descendants = descendants}).ToArray();
-            StringBuilder sb = new StringBuilder();
-            foreach (var atf in expressionTypes)
-            {
-                sb.AppendLine($"{atf.PropertyInfo.Name} ---- {atf.TypeInfo.Value.Type.name}");
-                //foreach (var type in atf.Descendants)
-                //{
-                //    sb.AppendLine($"#{++i} {atf.AbstractType.Value.Class.Name} ---- {type.Class.Name}");
-                //}
+            //StringBuilder sb = new StringBuilder();
+            //foreach (var atf in expressionTypes)
+            //{
+            //    sb.AppendLine($"{atf.PropertyInfo.Name} ---- {atf.TypeInfo.Value.Type.name}");
+            //    //foreach (var type in atf.Descendants)
+            //    //{
+            //    //    sb.AppendLine($"#{++i} {atf.AbstractType.Value.Class.Name} ---- {type.Class.Name}");
+            //    //}
 
-                //int i = 0;
-                //foreach (var type in atf.Descendants)
-                //{
-                //    sb.AppendLine($"#{++i} {atf.AbstractType.Value.Class.Name} ---- {type.Class.Name}");
-                //}
+            //    //int i = 0;
+            //    //foreach (var type in atf.Descendants)
+            //    //{
+            //    //    sb.AppendLine($"#{++i} {atf.AbstractType.Value.Class.Name} ---- {type.Class.Name}");
+            //    //}
 
-            }
-            System.IO.File.WriteAllText(@"D:\Reports\Temp.txt", sb.ToString());
+            //}
+            //System.IO.File.WriteAllText(@"D:\Reports\Temp.txt", sb.ToString());
 
             //var statementTypes = (from t in concreteTypes
             //                      let typeInfo = typeInfos.Single(ti => ti.Value.Type == t)
