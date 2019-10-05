@@ -665,7 +665,7 @@ foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
 <#
 			if(currentProperty.Item2.optional)
 			{
-				var secondCondition = currentProperty.Item2.kind == "Token" 
+				var secondCondition = currentProperty.Item2.type == "SyntaxToken" 
 					? $" && node.{currentProperty.Item1.Name}.Kind() != SyntaxKind.None"
 					: "";  
 #>		if(node.<#= currentProperty.Item1.Name #> != null<#= secondCondition #>)
@@ -678,14 +678,14 @@ foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
 		{
 <#
 			}
-			if(currentProperty.Item2.kind == "Token" && currentProperty.Item2.multiplicity == "Single")
+			if(currentProperty.Item2.type == "SyntaxToken" && currentProperty.Item2.multiplicity == "Single")
 			{
 #>		<#= currentProperty.Item2.optional ? "	" : "" #>var x<#= currentProperty.Item1.Name #> = this.Visit(node.<#= currentProperty.Item1.Name #>);
 		<#= currentProperty.Item2.optional ? "	" : "" #>x<#= currentProperty.Item1.Name #>.Add(new XAttribute("part", "<#= currentProperty.Item1.Name #>"));
 		<#= currentProperty.Item2.optional ? "	" : "" #>result.Add(x<#= currentProperty.Item1.Name #>);
 <#
 			}
-			else if(currentProperty.Item2.kind == "Node" && currentProperty.Item2.multiplicity == "Single")
+			else if(currentProperty.Item2.type != "SyntaxToken" && currentProperty.Item2.multiplicity == "Single")
 			{
 #>		<#= currentProperty.Item2.optional ? "	" : "" #>var x<#= currentProperty.Item1.Name #> = this.Visit(node.<#= currentProperty.Item1.Name #>);
 		<#= currentProperty.Item2.optional ? "	" : "" #>x<#= currentProperty.Item1.Name #>.Add(new XAttribute("part", "<#= currentProperty.Item1.Name #>"));

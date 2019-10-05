@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="bc52a17cf56e4bfd862931f460aa5cd6" Name="Repository Objects" DisplayType="true" ZoomLevel="93" >
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.RepositoryObject" Width="2" PointX="4.5" PointY="0.5" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.Contributor" Width="1.5" PointX="0.5" PointY="2.875" />
+        <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.Contributor" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.Branch" Width="1.75" PointX="2.375" PointY="2.875" />
+        <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.Branch" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.Commit" Width="2" PointX="4.5" PointY="2.875" />
+        <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.Commit" />
+        <AssociationConnector Association="Jawilliam.CDF.Labs.SQL.Contributor_IsAuthorOf_Commits" />
+        <AssociationConnector Association="Jawilliam.CDF.Labs.SQL.Branch_PointTo_OneCommit" />
+        <AssociationConnector Association="Jawilliam.CDF.Labs.SQL.Branch_Contains_Commits" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.File" Width="1.5" PointX="7.125" PointY="2.875" />
+        <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.File" />
+        <AssociationConnector Association="Jawilliam.CDF.Labs.SQL.Commits_AreParentsOf_Commits" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.FileVersion" Width="2.25" PointX="9.125" PointY="2.875" />
+        <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.FileVersion" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.FileContent" Width="1.75" PointX="12.25" PointY="2.875" />
+        <AssociationConnector Association="Jawilliam.CDF.Labs.SQL.OneFileVersion_HasExactly_OneFileContent" />
+        <AssociationConnector Association="Jawilliam.CDF.Labs.SQL.OneFile_HasMany_Versions" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.FileChange" Width="2" PointX="15" PointY="2.875" />
+        <AssociationConnector Association="Jawilliam.CDF.Labs.SQL.FileChange_DifferencingTo_Commit" />
+        <AssociationConnector Association="Jawilliam.CDF.Labs.SQL.FileChange_DifferencingFrom_Commit" />
+        <AssociationConnector Association="Jawilliam.CDF.Labs.SQL.FileChanges_Originate_ManyFileVersions" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.FileAddedChange" Width="2" PointX="12.75" PointY="6.5" />
+        <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.FileAddedChange" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.FileDeletedChange" Width="2" PointX="15" PointY="6.5" />
+        <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.FileDeletedChange" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.FileModifiedChange" Width="2" PointX="17.25" PointY="6.5" />
+        <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.FileModifiedChange" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.FileRenamedChange" Width="2" PointX="17.25" PointY="8.5" />
+        <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.FileRenamedChange" />
+        <AssociationConnector Association="Jawilliam.CDF.Labs.SQL.OneFileVersion_CanBeModifiedFromBy_ManyFileChanges" />
+        <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.FileModifiedChange" />
+        <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.FileModifiedChange" />
+        <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.FileVersion" />
+        <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.FileChange" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.FileFormat" Width="1.875" PointX="7.25" PointY="6.25" />
+        <AssociationConnector Association="Jawilliam.CDF.Labs.SQL.OneFileVersion_CanBeSeenFrom_MultipleFileFormat" />
+      </Diagram>
+      <Diagram DiagramId="ac5c40058cf243809cab6af57bb45588" Name="Change Detection" DisplayType="true" ZoomLevel="101" >
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.FileContentSummary" Width="4.5" PointX="10.125" PointY="3.625" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.FileVersion" Width="2.125" PointX="6.75" PointY="3.625" />
+        <AssociationConnector Association="Jawilliam.CDF.Labs.SQL.OneFileVersion_HasExactly_OneFileContentSummary" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.FileModifiedChange" Width="2.125" PointX="6.75" PointY="7.125" />
+        <AssociationConnector Association="Jawilliam.CDF.Labs.SQL.OneFileVersion_CanBeModifiedFromBy_ManyFileChanges" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.Delta" Width="4.5" PointX="10.125" PointY="7.125" />
+        <AssociationConnector Association="Jawilliam.CDF.Labs.SQL.FileModifiedChanges_CanBeDescribedByDifferent_Deltas" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.File" Width="2.125" PointX="6.75" PointY="1.5" />
+        <AssociationConnector Association="Jawilliam.CDF.Labs.SQL.OneFile_HasMany_Versions" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.FileRevisionPair" Width="2.5" PointX="3.125" PointY="3.625" />
+        <AssociationConnector Association="Jawilliam.CDF.Labs.SQL.OneFile_CanHave_ManyRevisionPairs" />
+        <AssociationConnector Association="Jawilliam.CDF.Labs.SQL.FileRevisionPairFileModifiedChange" />
+        <AssociationConnector Association="Jawilliam.CDF.Labs.SQL.FileRevisionPair_AlsoReferences_TheDuplicatedFileModifiedChanges" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.Review" Width="2" PointX="0.5" PointY="3.625" />
+        <AssociationConnector Association="Jawilliam.CDF.Labs.SQL.OneFileRevisionPair_MayHave_ManyReview" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.Project" Width="2.375" PointX="2" PointY="8.5" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.Symptom" Width="1.875" PointX="22.25" PointY="7" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.MissedNameSymptom" Width="2.125" PointX="14.75" PointY="12.125" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.MissedElementSymptom" Width="2.25" PointX="16.25" PointY="9.875" />
+        <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.MissedElementSymptom" />
+        <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.MissedNameSymptom" />
+        <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.MissedNameSymptom" />
+        <AssociationConnector Association="Jawilliam.CDF.Labs.SQL.OneDelta_MayHave_ManySymptoms" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.CoexistenceSymptom" Width="3" PointX="18.75" PointY="9.875" />
+        <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.CoexistenceSymptom" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.NameCoexistenceSymptom" Width="2.125" PointX="18.25" PointY="12.125" />
+        <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.NameCoexistenceSymptom" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.IncompatibleMatchingSymptom" Width="2.375" PointX="22" PointY="9.875" />
+        <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.IncompatibleMatchingSymptom" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.SpuriositySymptom" Width="2.25" PointX="24.625" PointY="9.875" />
+        <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.SpuriositySymptom" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.GhostSymptom" Width="2.5" PointX="27.125" PointY="9.875" />
+        <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.GhostSymptom" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.SpuriousElementSymptom" Width="2.25" PointX="29.875" PointY="9.875" />
+        <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.SpuriousElementSymptom" />
+        <AssociationConnector Association="Jawilliam.CDF.Labs.SQL.OneComplexSymptom_Contains_OtherSymptoms" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.RedundancySymptom" Width="4.75" PointX="35.875" PointY="9.875" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.DeltaContentSummary" Width="3" PointX="16.25" PointY="5.875" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.ElementTypeRevisionPairSummary" Width="2.5" PointX="15.125" PointY="3" />
+        <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.ElementTypeRevisionPairSummary" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.CommonElementTypeSummary" Width="2.5" PointX="18.25" PointY="3" />
+        <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.CommonElementTypeSummary" />
+        <AssociationConnector Association="Jawilliam.CDF.Labs.SQL.ElementTypeRevisionPairSummaryCommonElementTypeSummary" />
+        <AssociationConnector Association="Jawilliam.CDF.Labs.SQL.DeltaDeltaContentSummary" />
+        <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.RedundancySymptom" />
+        <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.RedundancySymptom" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

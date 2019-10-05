@@ -152,7 +152,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
             result.Add(new XAttribute("type", ((int)kindVal).ToString(CultureInfo.InvariantCulture)));
             result.Add(new XAttribute("typeLabel", kind));
 
-            if (source.Name.LocalName == "Token")
+            if (source.Name.LocalName == "Token" || !source.Elements().Any())
                 result.Add(new XAttribute("label", source.Value ?? ""));
 
             var startLineAtt = source.Attribute("startLine");

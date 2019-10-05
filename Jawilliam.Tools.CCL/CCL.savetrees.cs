@@ -51,7 +51,7 @@ namespace Jawilliam.Tools.CCL
 
                         analyzer.SaveRoslynMLTrees(gumTree, interopArgs, /*gumTreeApproach:-1,*/
                                                    null, fileFormat, null, pruneSelector,
-                                                   args.IncludeTrivia);
+                                                   args.IncludeTrivia, args.Defoliate);
 
                         if (args.Trace != null)
                             System.IO.File.AppendAllText(args.Trace,
@@ -142,5 +142,8 @@ namespace Jawilliam.Tools.CCL
 
         [Option(LongName = "includeTrivia")]
         public bool IncludeTrivia { get; set; }
+
+        [Option(LongName = "defoliate")]
+        public bool Defoliate { get; set; }
     }
 }

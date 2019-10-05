@@ -34,13 +34,19 @@ namespace Jawilliam.CDF.Labs
             //var leftOriginalTree = ElementTree.Read(lDelta.OriginalTree, Encoding.Unicode);
             //var leftModifiedTree = ElementTree.Read(lDelta.ModifiedTree, Encoding.Unicode);
             //var leftDetectionResult = (DetectionResult)leftDelta.DetectionResult;
-            var leftOriginalTree = this.Config.GetTree((leftDelta, pair, true)).PostOrder(n => n.Children).Where(n => n.Root.Id != null).ToDictionary(n => n.Root.Id);
-            var leftModifiedTree = this.Config.GetTree((leftDelta, pair, false)).PostOrder(n => n.Children).Where(n => n.Root.Id != null).ToDictionary(n => n.Root.Id);
+            var lOriginalTree = this.Config.GetTree((leftDelta, pair, true));
+            var lModifiedTree = this.Config.GetTree((leftDelta, pair, false));
             var leftDetectionResult = (DetectionResult)leftDelta.DetectionResult;
+            this.Config?.Align?.Invoke(lOriginalTree, lModifiedTree, leftDetectionResult);
+            var leftOriginalTree = lOriginalTree.PostOrder(n => n.Children).Where(n => n.Root.Id != null).ToDictionary(n => n.Root.Id);
+            var leftModifiedTree = lModifiedTree.PostOrder(n => n.Children).Where(n => n.Root.Id != null).ToDictionary(n => n.Root.Id);
 
-            var rightOriginalTree = this.Config.GetTree((rightDelta, pair, true)).PostOrder(n => n.Children).Where(n => n.Root.Id != null).ToDictionary(n => n.Root.Id);
-            var rightModifiedTree = this.Config.GetTree((rightDelta, pair, false)).PostOrder(n => n.Children).Where(n => n.Root.Id != null).ToDictionary(n => n.Root.Id);
+            var rOriginalTree = this.Config.GetTree((rightDelta, pair, true));
+            var rModifiedTree = this.Config.GetTree((rightDelta, pair, false));
             var rightDetectionResult = (DetectionResult)rightDelta.DetectionResult;
+            this.Config?.Align?.Invoke(rOriginalTree, rModifiedTree, rightDetectionResult);
+            var rightOriginalTree = rOriginalTree.PostOrder(n => n.Children).Where(n => n.Root.Id != null).ToDictionary(n => n.Root.Id);
+            var rightModifiedTree = rModifiedTree.PostOrder(n => n.Children).Where(n => n.Root.Id != null).ToDictionary(n => n.Root.Id);
 
             if (this.Config.Matches)
             {
@@ -807,6 +813,11 @@ namespace Jawilliam.CDF.Labs
             /// Gets or sets how to compare two detection results.
             /// </summary>
             public Func<string, ActionDescriptor, DetectionResult, ActionDescriptor, DetectionResult, bool> ActionCompare { get; set; }
+
+            /// <summary>
+            /// Gets or sets how to compare two detection results.
+            /// </summary>
+            public Action<ElementTree, ElementTree, DetectionResult> Align { get; set; }
 
             ///// <summary>
             ///// Gets or sets the delta from which to take the left ASTs (original and modified).

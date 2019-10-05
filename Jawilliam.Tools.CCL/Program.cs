@@ -47,6 +47,7 @@ namespace Jawilliam.Tools.CCL
             //    "-direction:Backward"
             //};
             //args = new[] { @"RoslynML E:\F.txt --includeTrivia" };
+            //args = new[] { @"RoslynML C:\Users\gdelator\AppData\Local\Temp\gumtree9036915333579494655.cs --gumtreefy --pruning=Basic --includeTrivia --defoliate" };
             //args = new[] { @"savetrees E:\SourceCode\RBPNT_Original.cs E:\SourceCode\RBPNT_Modified.cs NativeGTtreefiedRoslynML 28 -trace=D:\ExperimentLogs\savetrees_RoslynML_BasicPruning_NoTrivia.txt --pruning:Basic --includeTrivia" };
             //args = new[] { "gumtree compare " +
             //               "NativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTrivia_Forward " +

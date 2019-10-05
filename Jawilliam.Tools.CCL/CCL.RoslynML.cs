@@ -20,6 +20,7 @@ namespace Jawilliam.Tools.CCL
         /// 
         /// </summary>
         /// <param name="args"></param>
+        /// <example>RoslynML C:\Users\gdelator\AppData\Local\Temp\gumtree9036915333579494655.cs --gumtreefy --pruning=Basic --defoliate</example>
         [ApplicationMetadata(Name = "RoslynML", Description = "...")]
         public virtual void RoslynML(RoslynMLSaveTreesCommandArgs args)
         {
@@ -34,6 +35,9 @@ namespace Jawilliam.Tools.CCL
                     pruneSelector = this.GetPruneSelector(args.Pruning);
                     loader.Prune(xElement, pruneSelector);
                 }
+
+                if (args.Defoliate)
+                    loader.Defoliate(xElement);
 
                 if (args.Gumtreefy)
                     xElement = loader.Gumtreefy(xElement);
@@ -85,5 +89,8 @@ namespace Jawilliam.Tools.CCL
 
         [Option(LongName = "includeTrivia")]
         public bool IncludeTrivia { get; set; }
+
+        [Option(LongName = "defoliate")]
+        public bool Defoliate { get; set; }
     }
 }

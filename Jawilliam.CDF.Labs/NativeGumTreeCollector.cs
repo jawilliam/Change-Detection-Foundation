@@ -31,7 +31,8 @@ namespace Jawilliam.CDF.Labs
             FileFormatKind fileFormat,
             SourceCodeCleaner cleaner = null,
             Func<XElement, bool> pruneSelector = null,
-            bool includeTrivia = false)
+            bool includeTrivia = false,
+            bool defoliate = false)
         {
             this.Analyze(f => f.Principal.Deltas.Any(/*d => d.Approach == gumTreeApproach &&
                                                d.Matching != null &&
@@ -63,10 +64,15 @@ namespace Jawilliam.CDF.Labs
                           var preprocessedOriginal = cleaner != null ? cleaner.Clean(original) : original;
                           System.IO.File.WriteAllText(interopArgs.Original, preprocessedOriginal.ToFullString());
 
-                          xElement = roslynMlServices.GetTree(interopArgs.Original, true, includeTrivia);
-                          if (pruneSelector != null)
+                          xElement = roslynMlServices.GetTree(interopArgs.Original, true, includeTrivia);                        
+
+                          if (pruneSelector != null || defoliate)
                           {
-                              roslynMlServices.Prune(xElement, pruneSelector);
+                              if (pruneSelector != null)
+                                  roslynMlServices.Prune(xElement, pruneSelector);
+                              if (defoliate)
+                                  roslynMlServices.Defoliate(xElement);
+
                               foreach (var e in xElement.PostOrder(n => n.Elements()))
                               {
                                   var attr = e.Attribute("GtID");
@@ -91,9 +97,14 @@ namespace Jawilliam.CDF.Labs
                           System.IO.File.WriteAllText(interopArgs.Modified, preprocessedModified.ToFullString());
 
                           xElement = roslynMlServices.GetTree(interopArgs.Modified, true, includeTrivia);
-                          if (pruneSelector != null)
+
+                          if (pruneSelector != null || defoliate)
                           {
-                              roslynMlServices.Prune(xElement, pruneSelector);
+                              if (pruneSelector != null)
+                                  roslynMlServices.Prune(xElement, pruneSelector);
+                              if (defoliate)
+                                  roslynMlServices.Defoliate(xElement);
+
                               foreach (var e in xElement.PostOrder(n => n.Elements()))
                               {
                                   var attr = e.Attribute("GtID");

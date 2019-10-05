@@ -221,6 +221,11 @@
       <DependentUpon>MutableNodes.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RoslynML\RoslynMLDefoliater.cs">
+      <DependentUpon>RoslynMLDefoliater.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="RoslynML\RoslynMLPruneSelector.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -291,6 +296,10 @@
     <Content Include="Awareness\ElementTypeServiceProviders.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ElementTypeServiceProviders.cs</LastGenOutput>
+    </Content>
+    <Content Include="RoslynML\RoslynMLDefoliater.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>RoslynMLDefoliater.cs</LastGenOutput>
     </Content>
     <Content Include="RoslynML\RoslynMLPruneSelector.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
