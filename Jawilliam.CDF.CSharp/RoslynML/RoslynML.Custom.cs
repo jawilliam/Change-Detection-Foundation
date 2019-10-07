@@ -262,6 +262,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
                 Root = new ElementVersion
                 {
                     Id = RmIDOrGtID ? source.Attribute("RmID").Value : source.Attribute("GtID")?.Value,
+                    GlobalId = !RmIDOrGtID ? source.Attribute("RmID").Value : source.Attribute("GtID")?.Value,
                     Label = (source.Attribute("typeLabel")?.Value ?? source.Attribute("kind")?.Value) ?? source.Name.LocalName,
                     Value = source.Attribute("label")?.Value ?? (source.Elements().Count() == 0 ? source.Value : null)
                 }

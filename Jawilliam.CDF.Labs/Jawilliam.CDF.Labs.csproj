@@ -168,6 +168,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Approach.Matching\Matchable.cs" />
+    <Compile Include="DBModel\BetweenSymptom.Custom.cs" />
     <Compile Include="DBModel\RedundancySymptom.Custom.cs" />
     <Compile Include="DBModel\RedundancyPattern.DB.cs">
       <DependentUpon>GitRepository.tt</DependentUpon>
@@ -180,9 +181,6 @@
       <DependentUpon>GitRepository.tt</DependentUpon>
     </Compile>
     <Compile Include="DBModel\BetweenPartInfo.DB.cs">
-      <DependentUpon>GitRepository.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DBModel\BetweenSymptom.DB.cs">
       <DependentUpon>GitRepository.tt</DependentUpon>
     </Compile>
     <Compile Include="DBModel\Branch.DB.cs">
@@ -283,9 +281,6 @@
     <Compile Include="DBModel\IncompatibleMatchingSymptom.DB.cs">
       <DependentUpon>GitRepository.tt</DependentUpon>
     </Compile>
-    <Compile Include="DBModel\LRMatchSymptom.DB.cs">
-      <DependentUpon>GitRepository.tt</DependentUpon>
-    </Compile>
     <Compile Include="DBModel\MissedElementSymptom.DB.cs">
       <DependentUpon>GitRepository.tt</DependentUpon>
     </Compile>
@@ -320,9 +315,6 @@
       <DependentUpon>GitRepository.tt</DependentUpon>
     </Compile>
     <Compile Include="DBModel\RevisionPairFlags.DB.cs">
-      <DependentUpon>GitRepository.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DBModel\RLMatchSymptom.DB.cs">
       <DependentUpon>GitRepository.tt</DependentUpon>
     </Compile>
     <Compile Include="DBModel\SpuriositySymptom.DB.cs">

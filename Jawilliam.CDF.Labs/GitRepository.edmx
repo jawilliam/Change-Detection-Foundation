@@ -34,7 +34,6 @@
     <EntitySet Name="Symptoms_SpuriositySymptom" EntityType="Jawilliam.CDF.Labs.SQL.Store.Symptoms_SpuriositySymptom" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Symptoms_GhostSymptom" EntityType="Jawilliam.CDF.Labs.SQL.Store.Symptoms_GhostSymptom" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Symptoms_SpuriousElementSymptom" EntityType="Jawilliam.CDF.Labs.SQL.Store.Symptoms_SpuriousElementSymptom" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Symptoms_BetweenSymptom" EntityType="Jawilliam.CDF.Labs.SQL.Store.Symptoms_BetweenSymptom" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Branch_Contains_Commits" EntityType="Jawilliam.CDF.Labs.SQL.Store.Branch_Contains_Commits" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Commits_AreParentsOf_Commits" EntityType="Jawilliam.CDF.Labs.SQL.Store.Commits_AreParentsOf_Commits" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="FileFormats" EntityType="Jawilliam.CDF.Labs.SQL.Store.FileFormats" Schema="dbo" store:Type="Tables" />
@@ -201,10 +200,6 @@
     <AssociationSet Name="FK_SpuriousElementSymptom_inherits_Symptom" Association="Jawilliam.CDF.Labs.SQL.Store.FK_SpuriousElementSymptom_inherits_Symptom">
       <End Role="Symptom" EntitySet="Symptoms" />
       <End Role="SpuriousElementSymptom" EntitySet="Symptoms_SpuriousElementSymptom" />
-    </AssociationSet>
-    <AssociationSet Name="FK_BetweenSymptom_inherits_Symptom" Association="Jawilliam.CDF.Labs.SQL.Store.FK_BetweenSymptom_inherits_Symptom">
-      <End Role="Symptom" EntitySet="Symptoms" />
-      <End Role="BetweenSymptom" EntitySet="Symptoms_BetweenSymptom" />
     </AssociationSet>
     <AssociationSet Name="FK_RedundancySymptom_inherits_Symptom" Association="Jawilliam.CDF.Labs.SQL.Store.FK_RedundancySymptom_inherits_Symptom">
       <End Role="Symptom" EntitySet="Symptoms" />
@@ -544,57 +539,6 @@
     <Property Name="Modified_Element_Id" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Modified_Element_Hint" Type="nvarchar(max)" Nullable="true" />
     <Property Name="Modified_ScopeHint" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Symptoms_BetweenSymptom">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Pattern" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Left_Parent4IDU_Original4U_Element_Type" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Left_Parent4IDU_Original4U_Element_Id" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Left_Parent4IDU_Original4U_Element_Hint" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="Left_Parent4IDU_Original4U_ScopeHint" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="Left_Element4IDM_Modified4U_Element_Type" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Left_Element4IDM_Modified4U_Element_Id" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Left_Element4IDM_Modified4U_Element_Hint" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="Left_Element4IDM_Modified4U_ScopeHint" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="Left_PartName" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Left_Operation" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="Right_Parent4IDU_Original4U_Element_Type" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Right_Parent4IDU_Original4U_Element_Id" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Right_Parent4IDU_Original4U_Element_Hint" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="Right_Parent4IDU_Original4U_ScopeHint" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="Right_Element4IDM_Modified4U_Element_Type" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Right_Element4IDM_Modified4U_Element_Id" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Right_Element4IDM_Modified4U_Element_Hint" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="Right_Element4IDM_Modified4U_ScopeHint" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="Right_PartName" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Right_Operation" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="DivergentLeft_Parent4IDU_Original4U_Element_Type" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="DivergentLeft_Parent4IDU_Original4U_Element_Id" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="DivergentLeft_Parent4IDU_Original4U_Element_Hint" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="DivergentLeft_Parent4IDU_Original4U_ScopeHint" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="DivergentLeft_Element4IDM_Modified4U_Element_Type" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="DivergentLeft_Element4IDM_Modified4U_Element_Id" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="DivergentLeft_Element4IDM_Modified4U_Element_Hint" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="DivergentLeft_Element4IDM_Modified4U_ScopeHint" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="DivergentLeft_PartName" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="DivergentLeft_Operation" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="DivergentRight_Parent4IDU_Original4U_Element_Type" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="DivergentRight_Parent4IDU_Original4U_Element_Id" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="DivergentRight_Parent4IDU_Original4U_Element_Hint" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="DivergentRight_Parent4IDU_Original4U_ScopeHint" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="DivergentRight_Element4IDM_Modified4U_Element_Type" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="DivergentRight_Element4IDM_Modified4U_Element_Id" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="DivergentRight_Element4IDM_Modified4U_Element_Hint" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="DivergentRight_Element4IDM_Modified4U_ScopeHint" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="DivergentRight_PartName" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="DivergentRight_Operation" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="Left_PartApproach" Type="int" Nullable="true" />
-    <Property Name="Right_PartApproach" Type="int" Nullable="true" />
-    <Property Name="DivergentLeft_PartApproach" Type="int" Nullable="true" />
-    <Property Name="DivergentRight_PartApproach" Type="int" Nullable="true" />
     <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
   </EntityType>
   <EntityType Name="Symptoms_RedundancySymptom">
@@ -1168,20 +1112,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_BetweenSymptom_inherits_Symptom">
-    <End Role="Symptom" Type="Jawilliam.CDF.Labs.SQL.Store.Symptoms" Multiplicity="1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <End Role="BetweenSymptom" Type="Jawilliam.CDF.Labs.SQL.Store.Symptoms_BetweenSymptom" Multiplicity="0..1" />
-    <ReferentialConstraint>
-      <Principal Role="Symptom">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="BetweenSymptom">
-        <PropertyRef Name="Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_RedundancySymptom_inherits_Symptom">
     <End Role="Symptom" Type="Jawilliam.CDF.Labs.SQL.Store.Symptoms" Multiplicity="1">
       <OnDelete Action="Cascade" />
@@ -1697,8 +1627,6 @@
           <Property Name="Original" Type="Jawilliam.CDF.Labs.SQL.ElementContext" Nullable="false" />
           <Property Name="Modified" Type="Jawilliam.CDF.Labs.SQL.ElementContext" Nullable="false" />
         </EntityType>
-        <EntityType Name="BetweenSymptom" BaseType="Jawilliam.CDF.Labs.SQL.Symptom" Abstract="true" >
-          </EntityType>
         <ComplexType Name="BetweenPartInfo" >
           <Property Type="Jawilliam.CDF.Labs.SQL.ElementContext" Name="Parent4IDU_Original4U" Nullable="false" />
           <Property Type="Jawilliam.CDF.Labs.SQL.ElementContext" Name="Element4IDM_Modified4U" Nullable="false" />
@@ -1709,18 +1637,6 @@
           <End Type="Jawilliam.CDF.Labs.SQL.Symptom" Role="Symptom" Multiplicity="0..1" />
           <End Type="Jawilliam.CDF.Labs.SQL.Symptom" Role="Symptom1" Multiplicity="*" />
         </Association>
-        <EntityType Name="LRMatchSymptom" BaseType="Jawilliam.CDF.Labs.SQL.BetweenSymptom" >
-          <Property Name="Left" Type="Jawilliam.CDF.Labs.SQL.BetweenMatchInfo" Nullable="false" />
-          <Property Name="NullRight" Type="Jawilliam.CDF.Labs.SQL.BetweenMatchInfo" Nullable="false" cg:SetterAccess="Private" cg:GetterAccess="Private" />
-          <Property Name="OriginalAtRight" Type="Jawilliam.CDF.Labs.SQL.BetweenMatchInfo" Nullable="false" />
-          <Property Name="ModifiedAtRight" Type="Jawilliam.CDF.Labs.SQL.BetweenMatchInfo" Nullable="false" />
-        </EntityType>
-        <EntityType Name="RLMatchSymptom" BaseType="Jawilliam.CDF.Labs.SQL.BetweenSymptom" >
-          <Property Name="Right" Type="Jawilliam.CDF.Labs.SQL.BetweenMatchInfo" Nullable="false" />
-          <Property Name="OriginalAtLeft" Type="Jawilliam.CDF.Labs.SQL.BetweenMatchInfo" Nullable="false" />
-          <Property Name="ModifiedAtLeft" Type="Jawilliam.CDF.Labs.SQL.BetweenMatchInfo" Nullable="false" />
-          <Property Name="NullLeft" Type="Jawilliam.CDF.Labs.SQL.BetweenMatchInfo" Nullable="false" cg:GetterAccess="Private" cg:SetterAccess="Private" />
-        </EntityType>
         <ComplexType Name="BetweenMatchInfo" >
           <Property Type="Jawilliam.CDF.Labs.SQL.ElementContext" Name="Modified" Nullable="false" />
           <Property Type="Jawilliam.CDF.Labs.SQL.ElementContext" Name="Original" Nullable="false" />
@@ -2147,183 +2063,6 @@
           </ComplexProperty>
         </MappingFragment>
       </EntityTypeMapping>
-      <EntityTypeMapping TypeName="IsTypeOf(Jawilliam.CDF.Labs.SQL.BetweenSymptom)">
-        <MappingFragment StoreEntitySet="Symptoms_BetweenSymptom">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          </MappingFragment>
-      </EntityTypeMapping>
-            <EntityTypeMapping TypeName="IsTypeOf(Jawilliam.CDF.Labs.SQL.LRMatchSymptom)">
-              <MappingFragment StoreEntitySet="Symptoms_BetweenSymptom">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <Condition ColumnName="Pattern" Value="&quot;LR-Match&quot;" />
-                <ComplexProperty Name="Left">
-                  <ScalarProperty Name="PartName" ColumnName="Left_PartName" />
-                  <ScalarProperty Name="Approach" ColumnName="Left_PartApproach" />
-                  <ComplexProperty Name="Original">
-                    <ScalarProperty Name="ScopeHint" ColumnName="Left_Parent4IDU_Original4U_ScopeHint" />
-                    <ComplexProperty Name="Element">
-                      <ScalarProperty Name="Hint" ColumnName="Left_Parent4IDU_Original4U_Element_Hint" />
-                      <ScalarProperty Name="Id" ColumnName="Left_Parent4IDU_Original4U_Element_Id" />
-                      <ScalarProperty Name="Type" ColumnName="Left_Parent4IDU_Original4U_Element_Type" />
-                    </ComplexProperty>
-                  </ComplexProperty>
-                  <ComplexProperty Name="Modified">
-                    <ScalarProperty Name="ScopeHint" ColumnName="Left_Element4IDM_Modified4U_ScopeHint" />
-                    <ComplexProperty Name="Element">
-                      <ScalarProperty Name="Hint" ColumnName="Left_Element4IDM_Modified4U_Element_Hint" />
-                      <ScalarProperty Name="Id" ColumnName="Left_Element4IDM_Modified4U_Element_Id" />
-                      <ScalarProperty Name="Type" ColumnName="Left_Element4IDM_Modified4U_Element_Type" />
-                    </ComplexProperty>
-                  </ComplexProperty>
-                </ComplexProperty>
-                <ComplexProperty Name="OriginalAtRight">
-                  <ScalarProperty Name="PartName" ColumnName="DivergentLeft_PartName" />
-                  <ScalarProperty Name="Approach" ColumnName="DivergentLeft_PartApproach" />
-                  <ComplexProperty Name="Original">
-                    <ScalarProperty Name="ScopeHint" ColumnName="DivergentLeft_Parent4IDU_Original4U_ScopeHint" />
-                    <ComplexProperty Name="Element">
-                      <ScalarProperty Name="Hint" ColumnName="DivergentLeft_Parent4IDU_Original4U_Element_Hint" />
-                      <ScalarProperty Name="Id" ColumnName="DivergentLeft_Parent4IDU_Original4U_Element_Id" />
-                      <ScalarProperty Name="Type" ColumnName="DivergentLeft_Parent4IDU_Original4U_Element_Type" />
-                    </ComplexProperty>
-                  </ComplexProperty>
-                  <ComplexProperty Name="Modified">
-                    <ScalarProperty Name="ScopeHint" ColumnName="DivergentLeft_Element4IDM_Modified4U_ScopeHint" />
-                    <ComplexProperty Name="Element">
-                      <ScalarProperty Name="Hint" ColumnName="DivergentLeft_Element4IDM_Modified4U_Element_Hint" />
-                      <ScalarProperty Name="Id" ColumnName="DivergentLeft_Element4IDM_Modified4U_Element_Id" />
-                      <ScalarProperty Name="Type" ColumnName="DivergentLeft_Element4IDM_Modified4U_Element_Type" />
-                    </ComplexProperty>
-                  </ComplexProperty>
-                </ComplexProperty>
-                <ComplexProperty Name="ModifiedAtRight">
-                  <ScalarProperty Name="PartName" ColumnName="DivergentRight_PartName" />
-                  <ScalarProperty Name="Approach" ColumnName="DivergentRight_PartApproach" />
-                  <ComplexProperty Name="Original">
-                    <ScalarProperty Name="ScopeHint" ColumnName="DivergentRight_Parent4IDU_Original4U_ScopeHint" />
-                    <ComplexProperty Name="Element">
-                      <ScalarProperty Name="Hint" ColumnName="DivergentRight_Parent4IDU_Original4U_Element_Hint" />
-                      <ScalarProperty Name="Id" ColumnName="DivergentRight_Parent4IDU_Original4U_Element_Id" />
-                      <ScalarProperty Name="Type" ColumnName="DivergentRight_Parent4IDU_Original4U_Element_Type" />
-                    </ComplexProperty>
-                  </ComplexProperty>
-                  <ComplexProperty Name="Modified">
-                    <ScalarProperty Name="ScopeHint" ColumnName="DivergentRight_Element4IDM_Modified4U_ScopeHint" />
-                    <ComplexProperty Name="Element">
-                      <ScalarProperty Name="Hint" ColumnName="DivergentRight_Element4IDM_Modified4U_Element_Hint" />
-                      <ScalarProperty Name="Id" ColumnName="DivergentRight_Element4IDM_Modified4U_Element_Id" />
-                      <ScalarProperty Name="Type" ColumnName="DivergentRight_Element4IDM_Modified4U_Element_Type" />
-                    </ComplexProperty>
-                  </ComplexProperty>
-                </ComplexProperty>
-                <ComplexProperty Name="NullRight">
-                  <ScalarProperty Name="PartName" ColumnName="Right_PartName" />
-                  <ScalarProperty Name="Approach" ColumnName="Right_PartApproach" />
-                  <ComplexProperty Name="Original">
-                    <ScalarProperty Name="ScopeHint" ColumnName="Right_Parent4IDU_Original4U_ScopeHint" />
-                    <ComplexProperty Name="Element">
-                      <ScalarProperty Name="Hint" ColumnName="Right_Parent4IDU_Original4U_Element_Hint" />
-                      <ScalarProperty Name="Id" ColumnName="Right_Parent4IDU_Original4U_Element_Id" />
-                      <ScalarProperty Name="Type" ColumnName="Right_Parent4IDU_Original4U_Element_Type" />
-                    </ComplexProperty>
-                  </ComplexProperty>
-                  <ComplexProperty Name="Modified">
-                    <ScalarProperty Name="ScopeHint" ColumnName="Right_Element4IDM_Modified4U_ScopeHint" />
-                    <ComplexProperty Name="Element">
-                      <ScalarProperty Name="Hint" ColumnName="Right_Element4IDM_Modified4U_Element_Hint" />
-                      <ScalarProperty Name="Id" ColumnName="Right_Element4IDM_Modified4U_Element_Id" />
-                      <ScalarProperty Name="Type" ColumnName="Right_Element4IDM_Modified4U_Element_Type" />
-                    </ComplexProperty>
-                  </ComplexProperty>
-                </ComplexProperty>
-              </MappingFragment>
-            </EntityTypeMapping>
-            <EntityTypeMapping TypeName="IsTypeOf(Jawilliam.CDF.Labs.SQL.RLMatchSymptom)">
-              <MappingFragment StoreEntitySet="Symptoms_BetweenSymptom">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <Condition ColumnName="Pattern" Value="&quot;RL-Match&quot;" />
-                <ComplexProperty Name="Right">
-                  <ScalarProperty Name="PartName" ColumnName="Right_PartName" />
-                  <ScalarProperty Name="Approach" ColumnName="Right_PartApproach" />
-                  <ComplexProperty Name="Original">
-                    <ScalarProperty Name="ScopeHint" ColumnName="Right_Parent4IDU_Original4U_ScopeHint" />
-                    <ComplexProperty Name="Element">
-                      <ScalarProperty Name="Hint" ColumnName="Right_Parent4IDU_Original4U_Element_Hint" />
-                      <ScalarProperty Name="Id" ColumnName="Right_Parent4IDU_Original4U_Element_Id" />
-                      <ScalarProperty Name="Type" ColumnName="Right_Parent4IDU_Original4U_Element_Type" />
-                    </ComplexProperty>
-                  </ComplexProperty>
-                  <ComplexProperty Name="Modified">
-                    <ScalarProperty Name="ScopeHint" ColumnName="Right_Element4IDM_Modified4U_ScopeHint" />
-                    <ComplexProperty Name="Element">
-                      <ScalarProperty Name="Hint" ColumnName="Right_Element4IDM_Modified4U_Element_Hint" />
-                      <ScalarProperty Name="Id" ColumnName="Right_Element4IDM_Modified4U_Element_Id" />
-                      <ScalarProperty Name="Type" ColumnName="Right_Element4IDM_Modified4U_Element_Type" />
-                    </ComplexProperty>
-                  </ComplexProperty>
-                </ComplexProperty>
-                <ComplexProperty Name="OriginalAtLeft">
-                  <ScalarProperty Name="PartName" ColumnName="DivergentLeft_PartName" />
-                  <ScalarProperty Name="Approach" ColumnName="DivergentLeft_PartApproach" />
-                  <ComplexProperty Name="Original">
-                    <ScalarProperty Name="ScopeHint" ColumnName="DivergentLeft_Parent4IDU_Original4U_ScopeHint" />
-                    <ComplexProperty Name="Element">
-                      <ScalarProperty Name="Hint" ColumnName="DivergentLeft_Parent4IDU_Original4U_Element_Hint" />
-                      <ScalarProperty Name="Id" ColumnName="DivergentLeft_Parent4IDU_Original4U_Element_Id" />
-                      <ScalarProperty Name="Type" ColumnName="DivergentLeft_Parent4IDU_Original4U_Element_Type" />
-                    </ComplexProperty>
-                  </ComplexProperty>
-                  <ComplexProperty Name="Modified">
-                    <ScalarProperty Name="ScopeHint" ColumnName="DivergentLeft_Element4IDM_Modified4U_ScopeHint" />
-                    <ComplexProperty Name="Element">
-                      <ScalarProperty Name="Hint" ColumnName="DivergentLeft_Element4IDM_Modified4U_Element_Hint" />
-                      <ScalarProperty Name="Id" ColumnName="DivergentLeft_Element4IDM_Modified4U_Element_Id" />
-                      <ScalarProperty Name="Type" ColumnName="DivergentLeft_Element4IDM_Modified4U_Element_Type" />
-                    </ComplexProperty>
-                  </ComplexProperty>
-                </ComplexProperty>
-                <ComplexProperty Name="ModifiedAtLeft">
-                  <ScalarProperty Name="PartName" ColumnName="DivergentRight_PartName" />
-                  <ScalarProperty Name="Approach" ColumnName="DivergentRight_PartApproach" />
-                  <ComplexProperty Name="Original">
-                    <ScalarProperty Name="ScopeHint" ColumnName="DivergentRight_Parent4IDU_Original4U_ScopeHint" />
-                    <ComplexProperty Name="Element">
-                      <ScalarProperty Name="Hint" ColumnName="DivergentRight_Parent4IDU_Original4U_Element_Hint" />
-                      <ScalarProperty Name="Id" ColumnName="DivergentRight_Parent4IDU_Original4U_Element_Id" />
-                      <ScalarProperty Name="Type" ColumnName="DivergentRight_Parent4IDU_Original4U_Element_Type" />
-                    </ComplexProperty>
-                  </ComplexProperty>
-                  <ComplexProperty Name="Modified">
-                    <ScalarProperty Name="ScopeHint" ColumnName="DivergentRight_Element4IDM_Modified4U_ScopeHint" />
-                    <ComplexProperty Name="Element">
-                      <ScalarProperty Name="Hint" ColumnName="DivergentRight_Element4IDM_Modified4U_Element_Hint" />
-                      <ScalarProperty Name="Id" ColumnName="DivergentRight_Element4IDM_Modified4U_Element_Id" />
-                      <ScalarProperty Name="Type" ColumnName="DivergentRight_Element4IDM_Modified4U_Element_Type" />
-                    </ComplexProperty>
-                  </ComplexProperty>
-                </ComplexProperty>
-                <ComplexProperty Name="NullLeft">
-                  <ScalarProperty Name="PartName" ColumnName="Left_PartName" />
-                  <ScalarProperty Name="Approach" ColumnName="Left_PartApproach" />
-                  <ComplexProperty Name="Original">
-                    <ScalarProperty Name="ScopeHint" ColumnName="Left_Parent4IDU_Original4U_ScopeHint" />
-                    <ComplexProperty Name="Element">
-                      <ScalarProperty Name="Hint" ColumnName="Left_Parent4IDU_Original4U_Element_Hint" />
-                      <ScalarProperty Name="Id" ColumnName="Left_Parent4IDU_Original4U_Element_Id" />
-                      <ScalarProperty Name="Type" ColumnName="Left_Parent4IDU_Original4U_Element_Type" />
-                    </ComplexProperty>
-                  </ComplexProperty>
-                  <ComplexProperty Name="Modified">
-                    <ScalarProperty Name="ScopeHint" ColumnName="Left_Element4IDM_Modified4U_ScopeHint" />
-                    <ComplexProperty Name="Element">
-                      <ScalarProperty Name="Hint" ColumnName="Left_Element4IDM_Modified4U_Element_Hint" />
-                      <ScalarProperty Name="Id" ColumnName="Left_Element4IDM_Modified4U_Element_Id" />
-                      <ScalarProperty Name="Type" ColumnName="Left_Element4IDM_Modified4U_Element_Type" />
-                    </ComplexProperty>
-                  </ComplexProperty>
-                </ComplexProperty>
-              </MappingFragment>
-            </EntityTypeMapping>
             <EntityTypeMapping TypeName="IsTypeOf(Jawilliam.CDF.Labs.SQL.RedundancySymptom)" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
               <MappingFragment StoreEntitySet="Symptoms_RedundancySymptom">
                 <ScalarProperty Name="Pattern" ColumnName="Pattern" />

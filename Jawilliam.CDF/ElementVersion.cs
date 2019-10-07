@@ -16,6 +16,12 @@ namespace Jawilliam.CDF
         /// <summary>
         /// Gets or sets an value identifying the current element.
         /// </summary>
+        [System.Xml.Serialization.XmlIgnore]
+        public virtual string GlobalId { get; set; }
+
+        /// <summary>
+        /// Gets or sets an value identifying the current element.
+        /// </summary>
         public virtual string Label { get; set; }
 
         /// <summary>

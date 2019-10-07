@@ -131,12 +131,12 @@ namespace Jawilliam.Tools.CCL
                             if (a.Delta.Approach == refApproach.Approach)
                             {
                                 result = a.TrueForOriginalOtherwiseModified
-                                    ? (roslynMLServices.AsGumtreefiedElementTree(xTree, false))
-                                    : (roslynMLServices.AsGumtreefiedElementTree(xTree, false));
+                                    ? (roslynMLServices.AsGumtreefiedElementTree(xTree, true))
+                                    : (roslynMLServices.AsGumtreefiedElementTree(xTree, true));
                             }
                             else
                             {
-                                result = roslynMLServices.AsGumtreefiedElementTree(xTree, false);
+                                result = roslynMLServices.AsGumtreefiedElementTree(xTree, true);
                                 if(a.TrueForOriginalOtherwiseModified)
                                     rOriginalTree = result.PostOrder(n => n.Children).Where(n => n.Root.Id != null).ToDictionary(n => n.Root.Id);
                                 else
@@ -144,6 +144,23 @@ namespace Jawilliam.Tools.CCL
                             }
 
                             return result;
+                        };
+
+                        recognizer.Config.Align = delegate (ElementTree o, ElementTree m, DetectionResult d)
+                        {
+                            var oTree = configuration.Direction == "Forward" ? o : m;
+                            var mTree = configuration.Direction != "Forward" ? o : m;
+
+                            var oDict = oTree.PostOrder(n => n.Children).Where(n => n.Root.GlobalId != null).ToDictionary(n => n.Root.GlobalId);
+                            var mDict = mTree.PostOrder(n => n.Children).Where(n => n.Root.GlobalId != null).ToDictionary(n => n.Root.GlobalId);
+
+                            foreach (var match in d.Matches)
+                            {
+                                var o1 = oDict[match.Original.Id];
+                                match.Original.Id = o1.Root.Id;
+                                var m1 = oDict[match.Modified.Id];
+                                match.Modified.Id = m1.Root.Id;
+                            }
                         };
 
                         if (configuration.Direction == "Forward")
