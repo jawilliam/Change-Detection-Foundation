@@ -14,7 +14,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Jawilliam.CDF.Labs
 {
-    public class BetweenComparison : ImprecisionComparison<BetweenSymptom>
+    public class BetweenComparison : BaseImprecisionComparison<BetweenSymptom>
     {
         /// <summary>
         /// Gets or sets the configuration for the comparison.
@@ -28,7 +28,7 @@ namespace Jawilliam.CDF.Labs
         /// <param name="rightDelta">right delta.</param>
         /// <param name="pair">file revision pair being analized.</param>
         /// <param name="token">mechanism for cancelling the analisys.</param>
-        public override IEnumerable<BetweenSymptom> Compare(Delta leftDelta, Delta rightDelta, FileRevisionPair pair, CancellationToken token)
+        public virtual IEnumerable<BetweenSymptom> Compare(Delta leftDelta, Delta rightDelta, FileRevisionPair pair, CancellationToken token)
         {
             //var lDelta = this.Config.LeftDeltaContainer(leftDelta, pair);
             //var leftOriginalTree = ElementTree.Read(lDelta.OriginalTree, Encoding.Unicode);
@@ -37,14 +37,14 @@ namespace Jawilliam.CDF.Labs
             var lOriginalTree = this.Config.GetTree((leftDelta, pair, true));
             var lModifiedTree = this.Config.GetTree((leftDelta, pair, false));
             var leftDetectionResult = (DetectionResult)leftDelta.DetectionResult;
-            this.Config?.Align?.Invoke(lOriginalTree, lModifiedTree, leftDetectionResult);
+            this.Config?.Align?.Invoke(lOriginalTree, lModifiedTree, leftDetectionResult, true);
             var leftOriginalTree = lOriginalTree.PostOrder(n => n.Children).Where(n => n.Root.Id != null).ToDictionary(n => n.Root.Id);
             var leftModifiedTree = lModifiedTree.PostOrder(n => n.Children).Where(n => n.Root.Id != null).ToDictionary(n => n.Root.Id);
 
             var rOriginalTree = this.Config.GetTree((rightDelta, pair, true));
             var rModifiedTree = this.Config.GetTree((rightDelta, pair, false));
             var rightDetectionResult = (DetectionResult)rightDelta.DetectionResult;
-            this.Config?.Align?.Invoke(rOriginalTree, rModifiedTree, rightDetectionResult);
+            this.Config?.Align?.Invoke(rOriginalTree, rModifiedTree, rightDetectionResult, false);
             var rightOriginalTree = rOriginalTree.PostOrder(n => n.Children).Where(n => n.Root.Id != null).ToDictionary(n => n.Root.Id);
             var rightModifiedTree = rModifiedTree.PostOrder(n => n.Children).Where(n => n.Root.Id != null).ToDictionary(n => n.Root.Id);
 
@@ -121,8 +121,8 @@ namespace Jawilliam.CDF.Labs
                     missedModified = leftModifiedTree[missedMatch.Modified.Id];
                     var lr = new LRMatchSymptom
                     {
-                        Id = Guid.NewGuid(),
-                        IsTop = true,
+                        //Id = Guid.NewGuid(),
+                        //IsTop = true,
                         Left = new BetweenMatchInfo
                         {
                             PartName = this.Config.LeftName,
@@ -169,8 +169,8 @@ namespace Jawilliam.CDF.Labs
                     missedModified = rightModifiedTree[missedMatch.Modified.Id];
                     var rl = new RLMatchSymptom
                     {
-                        Id = Guid.NewGuid(),
-                        IsTop = true,
+                        //Id = Guid.NewGuid(),
+                        //IsTop = true,
                         Right = new BetweenMatchInfo
                         {
                             PartName = this.Config.RightName,
@@ -274,185 +274,180 @@ namespace Jawilliam.CDF.Labs
         //}
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="saveChanges"></param>
+        /// <param name="pair"></param>
+        /// <param name="leftDelta"></param>
+        /// <param name="rightDelta"></param>
+        /// <param name="token"></param>
+        protected override void RecognizeCore(bool saveChanges, FileRevisionPair pair, Delta leftDelta, Delta rightDelta, CancellationToken token)
+        {
+            var symptoms = this.Compare(leftDelta, rightDelta, pair, token).ToList();
+            if (symptoms.Any())
+            {
+                var deltaComparison = this.SqlRepository.DeltaComparisonSet.SingleOrDefault(dc => dc.LeftId == leftDelta.Id && dc.RightId == rightDelta.Id);
+                if (deltaComparison == null)
+                {
+                    deltaComparison = this.SqlRepository.DeltaComparisonSet.Create();
+                    deltaComparison.LeftId = leftDelta.Id;
+                    deltaComparison.RightId = rightDelta.Id;
+                    this.SqlRepository.DeltaComparisonSet.Add(deltaComparison);
+                }
+
+                var xMatching = new DeltaComparison.XMatchingComparison
+                {
+                    Matching = symptoms
+                };
+                deltaComparison.XMatching = xMatching;
+            }
+        }
+
+        /// <summary>
         /// Looks for symptoms of imprecision.
         /// </summary>
         /// <param name="skipThese">local criterion for determining elements that should be ignored.</param>
         /// <param name="saveChanges">Enables or disables the persistence of the changes.</param>
         public override void Recognize(Func<FileRevisionPair, bool> skipThese = null, bool saveChanges = true)
         {
-            this.Analyze(f => f.Principal.Deltas.Any(d => d.Approach == this.Config.Left &&
-                                                          d.Matching != null && 
-                                                          d.Differencing != null && 
-                                                          d.Report == null) && 
-                              f.Principal.Deltas.Any(d => d.Approach == this.Config.Right &&
-                                                          d.Matching != null && 
-                                                          d.Differencing != null && 
-                                                          d.Report == null), 
-            delegate (FileRevisionPair pair, CancellationToken token)
-            {
-                if (skipThese?.Invoke(pair) ?? false) return;
-                var leftDelta = this.SqlRepository.Deltas.Single(d => d.RevisionPair.Id == pair.Principal.Id && d.Approach == this.Config.Left);
-                var rightDelta = this.SqlRepository.Deltas.Single(d => d.RevisionPair.Id == pair.Principal.Id && d.Approach == this.Config.Right);
-                
-                try
-                {
-                    var symptoms = this.Compare(leftDelta, rightDelta, pair, token).ToList();
-                    //if (symptoms.Count > 0)
-                    //    this.Rate(pair);
-                    foreach (var betweenSymptom in symptoms)
-                    {
-                        if (saveChanges)
-                            leftDelta.Symptoms.Add(betweenSymptom);
-                    }
-                }
-                catch (OperationCanceledException)
-                {
-                    this.Report.AppendLine($"CANCELED;{pair.Id}");
-                    throw;
-                }
-                catch (OutOfMemoryException)
-                {
-                    this.Report.AppendLine($"OUTOFMEMORY;{pair.Id}");
-                    throw;
-                }
-            }, saveChanges, /*"Principal"*/ "Principal.FileVersion"/*".Content"*/, "Principal.FromFileVersion"/*".Content"*/);
+            this.Recognize(this.Config, skipThese, saveChanges);
         }
 
-        public virtual void ConnectMatchSymptoms(Func<FileRevisionPair, bool> skipThese = null, bool saveChanges = true)
-        {
-            this.Analyze(f => f.Principal.Deltas.Any(d => d.Approach == this.Config.Left &&
-                                                             d.Matching != null &&
-                                                             d.Differencing != null &&
-                                                             d.Report == null && (d.Symptoms.OfType<LRMatchSymptom>().Any() || d.Symptoms.OfType<RLMatchSymptom>().Any())) &&
-                                 f.Principal.Deltas.Any(d => d.Approach == this.Config.Right &&
-                                                             d.Matching != null &&
-                                                             d.Differencing != null &&
-                                                             d.Report == null),
-               delegate (FileRevisionPair pair, CancellationToken token)
-               {
-                   if (skipThese?.Invoke(pair) ?? false) return;
-                   var leftDelta = this.SqlRepository.Deltas.Single(d => d.RevisionPair.Id == pair.Principal.Id && d.Approach == this.Config.Left);
-                   var rightDelta = this.SqlRepository.Deltas.Single(d => d.RevisionPair.Id == pair.Principal.Id && d.Approach == this.Config.Right);
+        //public virtual void ConnectMatchSymptoms(Func<FileRevisionPair, bool> skipThese = null, bool saveChanges = true)
+        //{
+        //    this.Analyze(f => f.Principal.Deltas.Any(d => d.Approach == this.Config.Left &&
+        //                                                     d.Matching != null &&
+        //                                                     d.Differencing != null &&
+        //                                                     d.Report == null && (d.Symptoms.OfType<LRMatchSymptom>().Any() || d.Symptoms.OfType<RLMatchSymptom>().Any())) &&
+        //                         f.Principal.Deltas.Any(d => d.Approach == this.Config.Right &&
+        //                                                     d.Matching != null &&
+        //                                                     d.Differencing != null &&
+        //                                                     d.Report == null),
+        //       delegate (FileRevisionPair pair, CancellationToken token)
+        //       {
+        //           if (skipThese?.Invoke(pair) ?? false) return;
+        //           var leftDelta = this.SqlRepository.Deltas.Single(d => d.RevisionPair.Id == pair.Principal.Id && d.Approach == this.Config.Left);
+        //           var rightDelta = this.SqlRepository.Deltas.Single(d => d.RevisionPair.Id == pair.Principal.Id && d.Approach == this.Config.Right);
 
-                   try
-                   {
-                       ConnectMatchSymptoms(leftDelta, rightDelta, pair);
-                   }
-                   catch (OperationCanceledException)
-                   {
-                       this.Report.AppendLine($"CANCELED;{pair.Id}");
-                       throw;
-                   }
-                   catch (OutOfMemoryException)
-                   {
-                       this.Report.AppendLine($"OUTOFMEMORY;{pair.Id}");
-                       throw;
-                   }
-               }, saveChanges, "Principal" /*"Principal.FileVersion.Content", "Principal.FromFileVersion.Content"*/);
-        }
+        //           try
+        //           {
+        //               ConnectMatchSymptoms(leftDelta, rightDelta, pair);
+        //           }
+        //           catch (OperationCanceledException)
+        //           {
+        //               this.Report.AppendLine($"CANCELED;{pair.Id}");
+        //               throw;
+        //           }
+        //           catch (OutOfMemoryException)
+        //           {
+        //               this.Report.AppendLine($"OUTOFMEMORY;{pair.Id}");
+        //               throw;
+        //           }
+        //       }, saveChanges, "Principal" /*"Principal.FileVersion.Content", "Principal.FromFileVersion.Content"*/);
+        //}
 
-        private void ConnectMatchSymptoms(Delta leftDelta, Delta rightDelta, FileRevisionPair pair)
-        {
-            //var lDelta = this.Config.LeftDeltaContainer(leftDelta, pair);
-            var leftOriginalTree = this.Config.GetTree((leftDelta, pair, true));
-            //var leftModifiedTree = ElementTree.Read(leftDelta.ModifiedTree, Encoding.Unicode);
-            //var leftDetectionResult = (DetectionResult)leftDelta.DetectionResult;
+        //private void ConnectMatchSymptoms(Delta leftDelta, Delta rightDelta, FileRevisionPair pair)
+        //{
+        //    //var lDelta = this.Config.LeftDeltaContainer(leftDelta, pair);
+        //    var leftOriginalTree = this.Config.GetTree((leftDelta, pair, true));
+        //    //var leftModifiedTree = ElementTree.Read(leftDelta.ModifiedTree, Encoding.Unicode);
+        //    //var leftDetectionResult = (DetectionResult)leftDelta.DetectionResult;
 
-            //var rDelta = this.Config.RightDeltaContainer(rightDelta, pair);
-            var rightOriginalTree = this.Config.GetTree((rightDelta, pair, true));
-            //var rightModifiedTree = ElementTree.Read(rightDelta.ModifiedTree, Encoding.Unicode);
-            //var rightDetectionResult = (DetectionResult)rightDelta.DetectionResult;
+        //    //var rDelta = this.Config.RightDeltaContainer(rightDelta, pair);
+        //    var rightOriginalTree = this.Config.GetTree((rightDelta, pair, true));
+        //    //var rightModifiedTree = ElementTree.Read(rightDelta.ModifiedTree, Encoding.Unicode);
+        //    //var rightDetectionResult = (DetectionResult)rightDelta.DetectionResult;
 
-            if (this.Config.Matches)
-            {
-                var lApproach = (int)this.Config.Left;
-                var rApproach = (int)this.Config.Right;
-                var lrMatchSymptoms = this.SqlRepository.Symptoms.OfType<LRMatchSymptom>().Where(s => s.Delta.Id == leftDelta.Id && 
-                                      (s.Left.Approach == lApproach && s.OriginalAtRight.Approach == rApproach && s.ModifiedAtRight.Approach == rApproach))
-                                      .ToList();
-                var leftBfs = leftOriginalTree.BreadthFirstOrder(e => e.Children).Reverse().ToList();
-                foreach (var item in leftBfs)
-                {
-                    var lrMatches = lrMatchSymptoms.Where(lr => lr.Left.Original.Element.Id == item.Root.Id).ToList();
-                    if (!lrMatches.Any()) continue;
-                    if (lrMatches.Count > 1)
-                        ;
+        //    if (this.Config.Matches)
+        //    {
+        //        var lApproach = (int)this.Config.Left;
+        //        var rApproach = (int)this.Config.Right;
+        //        var lrMatchSymptoms = this.SqlRepository.Symptoms.OfType<LRMatchSymptom>().Where(s => s.Delta.Id == leftDelta.Id && 
+        //                              (s.Left.Approach == lApproach && s.OriginalAtRight.Approach == rApproach && s.ModifiedAtRight.Approach == rApproach))
+        //                              .ToList();
+        //        var leftBfs = leftOriginalTree.BreadthFirstOrder(e => e.Children).Reverse().ToList();
+        //        foreach (var item in leftBfs)
+        //        {
+        //            var lrMatches = lrMatchSymptoms.Where(lr => lr.Left.Original.Element.Id == item.Root.Id).ToList();
+        //            if (!lrMatches.Any()) continue;
+        //            if (lrMatches.Count > 1)
+        //                ;
 
-                    foreach (var lrMatch in lrMatches)
-                    {
-                        bool fullSubtree = true;
-                        foreach (var child in item.Children)
-                        {
-                            var lrChildMatches = lrMatchSymptoms.Where(lr => lr.Left.Original.Element.Id == child.Root.Id).ToList();
-                            fullSubtree &= lrChildMatches.Any();
-                            foreach (var lrChildMatch in lrChildMatches)
-                            {
-                                lrMatch.Symptoms.Add(lrChildMatch);
-                            }
-                        }
-                        if (fullSubtree)
-                            lrMatch.Notes = lrMatch.Notes == null
-                             ? (SymptomNotes.Full | SymptomNotes.SubTree)
-                             : lrMatch.Notes | SymptomNotes.Full | SymptomNotes.SubTree;
-                    }
-                }
+        //            foreach (var lrMatch in lrMatches)
+        //            {
+        //                bool fullSubtree = true;
+        //                foreach (var child in item.Children)
+        //                {
+        //                    var lrChildMatches = lrMatchSymptoms.Where(lr => lr.Left.Original.Element.Id == child.Root.Id).ToList();
+        //                    fullSubtree &= lrChildMatches.Any();
+        //                    foreach (var lrChildMatch in lrChildMatches)
+        //                    {
+        //                        lrMatch.Symptoms.Add(lrChildMatch);
+        //                    }
+        //                }
+        //                if (fullSubtree)
+        //                    lrMatch.Notes = lrMatch.Notes == null
+        //                     ? (SymptomNotes.Full | SymptomNotes.SubTree)
+        //                     : lrMatch.Notes | SymptomNotes.Full | SymptomNotes.SubTree;
+        //            }
+        //        }
 
-                if (this.Config.TwoWay)
-                {
-                    var rlMatchSymptoms = this.SqlRepository.Symptoms.OfType<RLMatchSymptom>().Where(s => s.Delta.Id == leftDelta.Id &&
-                                          (s.Right.Approach == rApproach && s.OriginalAtLeft.Approach == lApproach && s.ModifiedAtLeft.Approach == lApproach))
-                                          .ToList();
-                    var rightBfs = rightOriginalTree.BreadthFirstOrder(e => e.Children).Reverse().ToList();
-                    foreach (var item in rightBfs)
-                    {
-                        var rlMatches = rlMatchSymptoms.Where(rl => rl.Right.Original.Element.Id == item.Root.Id).ToList();
-                        if (!rlMatches.Any()) continue;
-                        if (rlMatches.Count > 1)
-                            ;
+        //        if (this.Config.TwoWay)
+        //        {
+        //            var rlMatchSymptoms = this.SqlRepository.Symptoms.OfType<RLMatchSymptom>().Where(s => s.Delta.Id == leftDelta.Id &&
+        //                                  (s.Right.Approach == rApproach && s.OriginalAtLeft.Approach == lApproach && s.ModifiedAtLeft.Approach == lApproach))
+        //                                  .ToList();
+        //            var rightBfs = rightOriginalTree.BreadthFirstOrder(e => e.Children).Reverse().ToList();
+        //            foreach (var item in rightBfs)
+        //            {
+        //                var rlMatches = rlMatchSymptoms.Where(rl => rl.Right.Original.Element.Id == item.Root.Id).ToList();
+        //                if (!rlMatches.Any()) continue;
+        //                if (rlMatches.Count > 1)
+        //                    ;
 
-                        foreach (var rlMatch in rlMatches)
-                        {
-                            bool fullSubtree = true;
-                            foreach (var child in item.Children)
-                            {
-                                var rlChildMatches = rlMatchSymptoms.Where(rl => rl.Right.Original.Element.Id == child.Root.Id).ToList();
-                                fullSubtree &= rlChildMatches.Any();
-                                foreach (var rlChildMatch in rlChildMatches)
-                                {
-                                    rlMatch.Symptoms.Add(rlChildMatch);
-                                }
-                            }
-                            if (fullSubtree)
-                                rlMatch.Notes = rlMatch.Notes == null
-                                 ? (SymptomNotes.Full | SymptomNotes.SubTree)
-                                 : rlMatch.Notes | SymptomNotes.Full | SymptomNotes.SubTree;
-                        }
-                    }
-                }
-            }
+        //                foreach (var rlMatch in rlMatches)
+        //                {
+        //                    bool fullSubtree = true;
+        //                    foreach (var child in item.Children)
+        //                    {
+        //                        var rlChildMatches = rlMatchSymptoms.Where(rl => rl.Right.Original.Element.Id == child.Root.Id).ToList();
+        //                        fullSubtree &= rlChildMatches.Any();
+        //                        foreach (var rlChildMatch in rlChildMatches)
+        //                        {
+        //                            rlMatch.Symptoms.Add(rlChildMatch);
+        //                        }
+        //                    }
+        //                    if (fullSubtree)
+        //                        rlMatch.Notes = rlMatch.Notes == null
+        //                         ? (SymptomNotes.Full | SymptomNotes.SubTree)
+        //                         : rlMatch.Notes | SymptomNotes.Full | SymptomNotes.SubTree;
+        //                }
+        //            }
+        //        }
+        //    }
 
-            //if (this.Config.Actions)
-            //{
-            //    //foreach (var leftAction in leftDetectionResult.Actions)
-            //    //{
-            //    //    if (!rightDetectionResult.Actions.Any(
-            //    //            rightAction =>
-            //    //                this.Config.ActionCompare(leftAction, leftDetectionResult, rightAction, rightDetectionResult)))
-            //    //    {
-            //    //        //yield return new BetweenSymptom
-            //    //        //{
-            //    //        //    Id = Guid.NewGuid(),
-            //    //        //    Pattern = $"{way}-Actions",
-            //    //        //    Left = this.CreateBetweenPartInfo(this.Config.LeftName, Enum.GetName(typeof(ActionKind), leftAction.Action), 
-            //    //        //                leftDetectionResult, leftOriginalTree, leftModifiedTree, leftAction),
-            //    //        //    Right = this.CreateBetweenPartInfo(this.Config.RightName, "", null, null)
-            //    //        //    //Right = this.CreateBetweenPartInfo(this.Config.RightName, rightDetectionResult,
-            //    //        //    //    rightOriginalTree, rightModifiedTree, null)
-            //    //        //};
-            //    //    }
-            //    //}
-            //}
-        }
+        //    //if (this.Config.Actions)
+        //    //{
+        //    //    //foreach (var leftAction in leftDetectionResult.Actions)
+        //    //    //{
+        //    //    //    if (!rightDetectionResult.Actions.Any(
+        //    //    //            rightAction =>
+        //    //    //                this.Config.ActionCompare(leftAction, leftDetectionResult, rightAction, rightDetectionResult)))
+        //    //    //    {
+        //    //    //        //yield return new BetweenSymptom
+        //    //    //        //{
+        //    //    //        //    Id = Guid.NewGuid(),
+        //    //    //        //    Pattern = $"{way}-Actions",
+        //    //    //        //    Left = this.CreateBetweenPartInfo(this.Config.LeftName, Enum.GetName(typeof(ActionKind), leftAction.Action), 
+        //    //    //        //                leftDetectionResult, leftOriginalTree, leftModifiedTree, leftAction),
+        //    //    //        //    Right = this.CreateBetweenPartInfo(this.Config.RightName, "", null, null)
+        //    //    //        //    //Right = this.CreateBetweenPartInfo(this.Config.RightName, rightDetectionResult,
+        //    //    //        //    //    rightOriginalTree, rightModifiedTree, null)
+        //    //    //        //};
+        //    //    //    }
+        //    //    //}
+        //    //}
+        //}
 
         /// <summary>
         /// Iterates symptoms to be rated.
@@ -817,7 +812,7 @@ namespace Jawilliam.CDF.Labs
             /// <summary>
             /// Gets or sets how to compare two detection results.
             /// </summary>
-            public Action<ElementTree, ElementTree, DetectionResult> Align { get; set; }
+            public Action<ElementTree, ElementTree, DetectionResult, bool> Align { get; set; }
 
             ///// <summary>
             ///// Gets or sets the delta from which to take the left ASTs (original and modified).

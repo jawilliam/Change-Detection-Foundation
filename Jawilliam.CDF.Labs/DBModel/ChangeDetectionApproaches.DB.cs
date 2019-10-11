@@ -46,6 +46,10 @@ namespace Jawilliam.CDF.Labs.DBModel
         NativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTrivia = 30,
         InverseNativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTrivia = 31,
         NativeGTtreefiedRoslynMLWithIncludeTrivia = 32,
-        InverseNativeGTtreefiedRoslynMLWithIncludeTrivia = 33
+        InverseNativeGTtreefiedRoslynMLWithIncludeTrivia = 33,
+        NativeGTtreefiedRoslynMLWithBasicPruningDefoliation = 34,
+        InverseNativeGTtreefiedRoslynMLWithBasicPruningDefoliation = 35,
+        NativeGTtreefiedRoslynMLWithBasicPruningDefoliationAndIncludeTrivia = 36,
+        InverseNativeGTtreefiedRoslynMLWithBasicPruningDefoliationAndIncludeTrivia = 37
     }
 }

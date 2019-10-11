@@ -168,10 +168,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Approach.Matching\Matchable.cs" />
+    <Compile Include="DBModel\BetweenMatchInfo.Custom.cs" />
     <Compile Include="DBModel\BetweenSymptom.Custom.cs" />
+    <Compile Include="DBModel\DeltaComparison.Custom.cs" />
+    <Compile Include="DBModel\DeltaComparison.DB.cs">
+      <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
     <Compile Include="DBModel\RedundancySymptom.Custom.cs" />
     <Compile Include="DBModel\RedundancyPattern.DB.cs">
       <DependentUpon>GitRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BaseImprecisionComparison.cs" />
+    <Compile Include="GitRepository.Designer.cs">
+      <DependentUpon>GitRepository.edmx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
     </Compile>
     <Compile Include="ImprecisionComparison.cs" />
     <Compile Include="RedundancyComparison.cs" />
@@ -379,6 +390,9 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="GitRepository.edmx.diagram">
+      <DependentUpon>GitRepository.edmx</DependentUpon>
+    </None>
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
@@ -420,6 +434,12 @@
   <ItemGroup>
     <Folder Include="Reports\" />
     <Folder Include="R\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EntityDeploy Include="GitRepository.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>GitRepository.Designer.cs</LastGenOutput>
+    </EntityDeploy>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

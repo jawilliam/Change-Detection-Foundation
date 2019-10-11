@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 09/20/2018 17:31:46
+-- Date Created: 10/08/2019 11:54:40
 -- Generated from EDMX file: E:\MyRepositories\Change-Detection-Foundation\Jawilliam.CDF.Labs\GitRepository.edmx
 -- --------------------------------------------------
 
@@ -140,9 +140,6 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_SpuriousElementSymptom_inherits_Symptom]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Symptoms_SpuriousElementSymptom] DROP CONSTRAINT [FK_SpuriousElementSymptom_inherits_Symptom];
 GO
-IF OBJECT_ID(N'[dbo].[FK_BetweenSymptom_inherits_Symptom]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Symptoms_BetweenSymptom] DROP CONSTRAINT [FK_BetweenSymptom_inherits_Symptom];
-GO
 IF OBJECT_ID(N'[dbo].[FK_RedundancySymptom_inherits_Symptom]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Symptoms_RedundancySymptom] DROP CONSTRAINT [FK_RedundancySymptom_inherits_Symptom];
 GO
@@ -234,9 +231,6 @@ IF OBJECT_ID(N'[dbo].[Symptoms_GhostSymptom]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[Symptoms_SpuriousElementSymptom]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Symptoms_SpuriousElementSymptom];
-GO
-IF OBJECT_ID(N'[dbo].[Symptoms_BetweenSymptom]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Symptoms_BetweenSymptom];
 GO
 IF OBJECT_ID(N'[dbo].[Branch_Contains_Commits]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Branch_Contains_Commits];
@@ -382,9 +376,18 @@ CREATE TABLE [dbo].[DeltaContentSummaries] (
     [Id] uniqueidentifier  NOT NULL,
     [Annotations] nvarchar(max)  NULL,
     [Approach] int  NOT NULL,
-    [Max] bigint  NULL,
-    [Min] bigint  NULL,
+    [Modified] bigint  NULL,
+    [Original] bigint  NULL,
     [Delta_Id] uniqueidentifier  NOT NULL
+);
+GO
+
+-- Creating table 'DeltaComparisonSet'
+CREATE TABLE [dbo].[DeltaComparisonSet] (
+    [LeftId] uniqueidentifier  NOT NULL,
+    [RightId] uniqueidentifier  NOT NULL,
+    [Matching] nvarchar(max)  NULL,
+    [Differencing] nvarchar(max)  NULL
 );
 GO
 
@@ -599,121 +602,29 @@ CREATE TABLE [dbo].[Symptoms_SpuriousElementSymptom] (
 );
 GO
 
--- Creating table 'Symptoms_BetweenSymptom'
-CREATE TABLE [dbo].[Symptoms_BetweenSymptom] (
-    [Id] uniqueidentifier  NOT NULL
-);
-GO
-
--- Creating table 'Symptoms_LRMatchSymptom'
-CREATE TABLE [dbo].[Symptoms_LRMatchSymptom] (
-    [Left_Modified_Element_Type] nvarchar(max)  NOT NULL,
-    [Left_Modified_Element_Id] nvarchar(max)  NOT NULL,
-    [Left_Modified_Element_Hint] nvarchar(max)  NULL,
-    [Left_Modified_ScopeHint] nvarchar(max)  NULL,
-    [Left_Original_Element_Type] nvarchar(max)  NOT NULL,
-    [Left_Original_Element_Id] nvarchar(max)  NOT NULL,
-    [Left_Original_Element_Hint] nvarchar(max)  NULL,
-    [Left_Original_ScopeHint] nvarchar(max)  NULL,
-    [Left_PartName] nvarchar(max)  NOT NULL,
-    [Left_Approach] int  NULL,
-    [NullRight_Modified_Element_Type] nvarchar(max)  NOT NULL,
-    [NullRight_Modified_Element_Id] nvarchar(max)  NOT NULL,
-    [NullRight_Modified_Element_Hint] nvarchar(max)  NULL,
-    [NullRight_Modified_ScopeHint] nvarchar(max)  NULL,
-    [NullRight_Original_Element_Type] nvarchar(max)  NOT NULL,
-    [NullRight_Original_Element_Id] nvarchar(max)  NOT NULL,
-    [NullRight_Original_Element_Hint] nvarchar(max)  NULL,
-    [NullRight_Original_ScopeHint] nvarchar(max)  NULL,
-    [NullRight_PartName] nvarchar(max)  NOT NULL,
-    [NullRight_Approach] int  NULL,
-    [OriginalAtRight_Modified_Element_Type] nvarchar(max)  NOT NULL,
-    [OriginalAtRight_Modified_Element_Id] nvarchar(max)  NOT NULL,
-    [OriginalAtRight_Modified_Element_Hint] nvarchar(max)  NULL,
-    [OriginalAtRight_Modified_ScopeHint] nvarchar(max)  NULL,
-    [OriginalAtRight_Original_Element_Type] nvarchar(max)  NOT NULL,
-    [OriginalAtRight_Original_Element_Id] nvarchar(max)  NOT NULL,
-    [OriginalAtRight_Original_Element_Hint] nvarchar(max)  NULL,
-    [OriginalAtRight_Original_ScopeHint] nvarchar(max)  NULL,
-    [OriginalAtRight_PartName] nvarchar(max)  NOT NULL,
-    [OriginalAtRight_Approach] int  NULL,
-    [ModifiedAtRight_Modified_Element_Type] nvarchar(max)  NOT NULL,
-    [ModifiedAtRight_Modified_Element_Id] nvarchar(max)  NOT NULL,
-    [ModifiedAtRight_Modified_Element_Hint] nvarchar(max)  NULL,
-    [ModifiedAtRight_Modified_ScopeHint] nvarchar(max)  NULL,
-    [ModifiedAtRight_Original_Element_Type] nvarchar(max)  NOT NULL,
-    [ModifiedAtRight_Original_Element_Id] nvarchar(max)  NOT NULL,
-    [ModifiedAtRight_Original_Element_Hint] nvarchar(max)  NULL,
-    [ModifiedAtRight_Original_ScopeHint] nvarchar(max)  NULL,
-    [ModifiedAtRight_PartName] nvarchar(max)  NOT NULL,
-    [ModifiedAtRight_Approach] int  NULL,
-    [Id] uniqueidentifier  NOT NULL
-);
-GO
-
--- Creating table 'Symptoms_RLMatchSymptom'
-CREATE TABLE [dbo].[Symptoms_RLMatchSymptom] (
-    [Right_Modified_Element_Type] nvarchar(max)  NOT NULL,
-    [Right_Modified_Element_Id] nvarchar(max)  NOT NULL,
-    [Right_Modified_Element_Hint] nvarchar(max)  NULL,
-    [Right_Modified_ScopeHint] nvarchar(max)  NULL,
-    [Right_Original_Element_Type] nvarchar(max)  NOT NULL,
-    [Right_Original_Element_Id] nvarchar(max)  NOT NULL,
-    [Right_Original_Element_Hint] nvarchar(max)  NULL,
-    [Right_Original_ScopeHint] nvarchar(max)  NULL,
-    [Right_PartName] nvarchar(max)  NOT NULL,
-    [Right_Approach] int  NULL,
-    [OriginalAtLeft_Modified_Element_Type] nvarchar(max)  NOT NULL,
-    [OriginalAtLeft_Modified_Element_Id] nvarchar(max)  NOT NULL,
-    [OriginalAtLeft_Modified_Element_Hint] nvarchar(max)  NULL,
-    [OriginalAtLeft_Modified_ScopeHint] nvarchar(max)  NULL,
-    [OriginalAtLeft_Original_Element_Type] nvarchar(max)  NOT NULL,
-    [OriginalAtLeft_Original_Element_Id] nvarchar(max)  NOT NULL,
-    [OriginalAtLeft_Original_Element_Hint] nvarchar(max)  NULL,
-    [OriginalAtLeft_Original_ScopeHint] nvarchar(max)  NULL,
-    [OriginalAtLeft_PartName] nvarchar(max)  NOT NULL,
-    [OriginalAtLeft_Approach] int  NULL,
-    [ModifiedAtLeft_Modified_Element_Type] nvarchar(max)  NOT NULL,
-    [ModifiedAtLeft_Modified_Element_Id] nvarchar(max)  NOT NULL,
-    [ModifiedAtLeft_Modified_Element_Hint] nvarchar(max)  NULL,
-    [ModifiedAtLeft_Modified_ScopeHint] nvarchar(max)  NULL,
-    [ModifiedAtLeft_Original_Element_Type] nvarchar(max)  NOT NULL,
-    [ModifiedAtLeft_Original_Element_Id] nvarchar(max)  NOT NULL,
-    [ModifiedAtLeft_Original_Element_Hint] nvarchar(max)  NULL,
-    [ModifiedAtLeft_Original_ScopeHint] nvarchar(max)  NULL,
-    [ModifiedAtLeft_PartName] nvarchar(max)  NOT NULL,
-    [ModifiedAtLeft_Approach] int  NULL,
-    [NullLeft_Modified_Element_Type] nvarchar(max)  NOT NULL,
-    [NullLeft_Modified_Element_Id] nvarchar(max)  NOT NULL,
-    [NullLeft_Modified_Element_Hint] nvarchar(max)  NULL,
-    [NullLeft_Modified_ScopeHint] nvarchar(max)  NULL,
-    [NullLeft_Original_Element_Type] nvarchar(max)  NOT NULL,
-    [NullLeft_Original_Element_Id] nvarchar(max)  NOT NULL,
-    [NullLeft_Original_Element_Hint] nvarchar(max)  NULL,
-    [NullLeft_Original_ScopeHint] nvarchar(max)  NULL,
-    [NullLeft_PartName] nvarchar(max)  NOT NULL,
-    [NullLeft_Approach] int  NULL,
-    [Id] uniqueidentifier  NOT NULL
-);
-GO
-
 -- Creating table 'Symptoms_RedundancySymptom'
 CREATE TABLE [dbo].[Symptoms_RedundancySymptom] (
     [Pattern] tinyint  NOT NULL,
-    [Original_Type] nvarchar(max)  NOT NULL,
-    [Original_Id] nvarchar(max)  NOT NULL,
-    [Original_Hint] nvarchar(max)  NULL,
-    [AndOriginal_Type] nvarchar(max)  NOT NULL,
-    [AndOriginal_Id] nvarchar(max)  NOT NULL,
-    [AndOriginal_Hint] nvarchar(max)  NULL,
-    [Modified_Type] nvarchar(max)  NOT NULL,
-    [Modified_Id] nvarchar(max)  NOT NULL,
-    [Modified_Hint] nvarchar(max)  NULL,
-    [AndModified_Type] nvarchar(max)  NOT NULL,
-    [AndModified_Id] nvarchar(max)  NOT NULL,
-    [AndModified_Hint] nvarchar(max)  NULL,
-    [LeftApproach] int  NOT NULL,
-    [RightApproach] int  NOT NULL,
+    [MissedOriginal_Type] nvarchar(max)  NOT NULL,
+    [MissedOriginal_Id] nvarchar(max)  NOT NULL,
+    [MissedOriginal_Hint] nvarchar(max)  NULL,
+    [SpuriousOriginal_Type] nvarchar(max)  NOT NULL,
+    [SpuriousOriginal_Id] nvarchar(max)  NOT NULL,
+    [SpuriousOriginal_Hint] nvarchar(max)  NULL,
+    [MissedModified_Type] nvarchar(max)  NOT NULL,
+    [MissedModified_Id] nvarchar(max)  NOT NULL,
+    [MissedModified_Hint] nvarchar(max)  NULL,
+    [SpuriousModified_Type] nvarchar(max)  NOT NULL,
+    [SpuriousModified_Id] nvarchar(max)  NOT NULL,
+    [SpuriousModified_Hint] nvarchar(max)  NULL,
+    [DeltaApproach] int  NOT NULL,
+    [CorrectorApproach] int  NOT NULL,
+    [AndSpuriousOriginal_Type] nvarchar(max)  NOT NULL,
+    [AndSpuriousOriginal_Id] nvarchar(max)  NOT NULL,
+    [AndSpuriousOriginal_Hint] nvarchar(max)  NULL,
+    [AndSpuriousModified_Type] nvarchar(max)  NOT NULL,
+    [AndSpuriousModified_Id] nvarchar(max)  NOT NULL,
+    [AndSpuriousModified_Hint] nvarchar(max)  NULL,
     [Id] uniqueidentifier  NOT NULL
 );
 GO
@@ -794,6 +705,12 @@ GO
 ALTER TABLE [dbo].[DeltaContentSummaries]
 ADD CONSTRAINT [PK_DeltaContentSummaries]
     PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [LeftId], [RightId] in table 'DeltaComparisonSet'
+ALTER TABLE [dbo].[DeltaComparisonSet]
+ADD CONSTRAINT [PK_DeltaComparisonSet]
+    PRIMARY KEY CLUSTERED ([LeftId], [RightId] ASC);
 GO
 
 -- Creating primary key on [Id] in table 'RepositoryObjects_Commit'
@@ -913,24 +830,6 @@ GO
 -- Creating primary key on [Id] in table 'Symptoms_SpuriousElementSymptom'
 ALTER TABLE [dbo].[Symptoms_SpuriousElementSymptom]
 ADD CONSTRAINT [PK_Symptoms_SpuriousElementSymptom]
-    PRIMARY KEY CLUSTERED ([Id] ASC);
-GO
-
--- Creating primary key on [Id] in table 'Symptoms_BetweenSymptom'
-ALTER TABLE [dbo].[Symptoms_BetweenSymptom]
-ADD CONSTRAINT [PK_Symptoms_BetweenSymptom]
-    PRIMARY KEY CLUSTERED ([Id] ASC);
-GO
-
--- Creating primary key on [Id] in table 'Symptoms_LRMatchSymptom'
-ALTER TABLE [dbo].[Symptoms_LRMatchSymptom]
-ADD CONSTRAINT [PK_Symptoms_LRMatchSymptom]
-    PRIMARY KEY CLUSTERED ([Id] ASC);
-GO
-
--- Creating primary key on [Id] in table 'Symptoms_RLMatchSymptom'
-ALTER TABLE [dbo].[Symptoms_RLMatchSymptom]
-ADD CONSTRAINT [PK_Symptoms_RLMatchSymptom]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -1289,6 +1188,30 @@ ON [dbo].[DeltaContentSummaries]
     ([Delta_Id]);
 GO
 
+-- Creating foreign key on [LeftId] in table 'DeltaComparisonSet'
+ALTER TABLE [dbo].[DeltaComparisonSet]
+ADD CONSTRAINT [FK_DeltaComparison_LeftDelta]
+    FOREIGN KEY ([LeftId])
+    REFERENCES [dbo].[Deltas]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating foreign key on [RightId] in table 'DeltaComparisonSet'
+ALTER TABLE [dbo].[DeltaComparisonSet]
+ADD CONSTRAINT [FK_DeltaComparison_RightDelta]
+    FOREIGN KEY ([RightId])
+    REFERENCES [dbo].[Deltas]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_DeltaComparison_RightDelta'
+CREATE INDEX [IX_FK_DeltaComparison_RightDelta]
+ON [dbo].[DeltaComparisonSet]
+    ([RightId]);
+GO
+
 -- Creating foreign key on [Id] in table 'RepositoryObjects_Commit'
 ALTER TABLE [dbo].[RepositoryObjects_Commit]
 ADD CONSTRAINT [FK_Commit_inherits_RepositoryObject]
@@ -1465,33 +1388,6 @@ ALTER TABLE [dbo].[Symptoms_SpuriousElementSymptom]
 ADD CONSTRAINT [FK_SpuriousElementSymptom_inherits_Symptom]
     FOREIGN KEY ([Id])
     REFERENCES [dbo].[Symptoms]
-        ([Id])
-    ON DELETE CASCADE ON UPDATE NO ACTION;
-GO
-
--- Creating foreign key on [Id] in table 'Symptoms_BetweenSymptom'
-ALTER TABLE [dbo].[Symptoms_BetweenSymptom]
-ADD CONSTRAINT [FK_BetweenSymptom_inherits_Symptom]
-    FOREIGN KEY ([Id])
-    REFERENCES [dbo].[Symptoms]
-        ([Id])
-    ON DELETE CASCADE ON UPDATE NO ACTION;
-GO
-
--- Creating foreign key on [Id] in table 'Symptoms_LRMatchSymptom'
-ALTER TABLE [dbo].[Symptoms_LRMatchSymptom]
-ADD CONSTRAINT [FK_LRMatchSymptom_inherits_BetweenSymptom]
-    FOREIGN KEY ([Id])
-    REFERENCES [dbo].[Symptoms_BetweenSymptom]
-        ([Id])
-    ON DELETE CASCADE ON UPDATE NO ACTION;
-GO
-
--- Creating foreign key on [Id] in table 'Symptoms_RLMatchSymptom'
-ALTER TABLE [dbo].[Symptoms_RLMatchSymptom]
-ADD CONSTRAINT [FK_RLMatchSymptom_inherits_BetweenSymptom]
-    FOREIGN KEY ([Id])
-    REFERENCES [dbo].[Symptoms_BetweenSymptom]
         ([Id])
     ON DELETE CASCADE ON UPDATE NO ACTION;
 GO

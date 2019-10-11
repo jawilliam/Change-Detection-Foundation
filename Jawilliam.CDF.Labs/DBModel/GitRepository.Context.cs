@@ -36,5 +36,6 @@ namespace Jawilliam.CDF.Labs.DBModel
         public virtual DbSet<Symptom> Symptoms { get; set; }
         public virtual DbSet<FileFormat> FileFormats { get; set; }
         public virtual DbSet<DeltaContentSummary> DeltaContentSummaries { get; set; }
+        public virtual DbSet<DeltaComparison> DeltaComparisonSet { get; set; }
     }
 }

@@ -90,6 +90,9 @@
         <AssociationConnector Association="Jawilliam.CDF.Labs.SQL.DeltaDeltaContentSummary" />
         <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.RedundancySymptom" />
         <InheritanceConnector EntityType="Jawilliam.CDF.Labs.SQL.RedundancySymptom" />
+        <EntityTypeShape EntityType="Jawilliam.CDF.Labs.SQL.DeltaComparison" Width="2.625" PointX="6.5" PointY="11.125" />
+        <AssociationConnector Association="Jawilliam.CDF.Labs.SQL.DeltaComparison_LeftDelta" />
+        <AssociationConnector Association="Jawilliam.CDF.Labs.SQL.DeltaComparison_RightDelta" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

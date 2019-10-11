@@ -14,7 +14,9 @@
     <EntitySet Name="Reviews" EntityType="Jawilliam.CDF.Labs.SQL.Store.Reviews" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Project" EntityType="Jawilliam.CDF.Labs.SQL.Store.Project" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Symptoms" EntityType="Jawilliam.CDF.Labs.SQL.Store.Symptoms" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="FileFormats" EntityType="Jawilliam.CDF.Labs.SQL.Store.FileFormats" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="DeltaContentSummaries" EntityType="Jawilliam.CDF.Labs.SQL.Store.DeltaContentSummaries" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="DeltaComparisonSet" EntityType="Jawilliam.CDF.Labs.SQL.Store.DeltaComparisonSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="RepositoryObjects_Commit" EntityType="Jawilliam.CDF.Labs.SQL.Store.RepositoryObjects_Commit" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="RepositoryObjects_Contributor" EntityType="Jawilliam.CDF.Labs.SQL.Store.RepositoryObjects_Contributor" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="RepositoryObjects_Branch" EntityType="Jawilliam.CDF.Labs.SQL.Store.RepositoryObjects_Branch" store:Type="Tables" Schema="dbo" />
@@ -27,20 +29,17 @@
     <EntitySet Name="RepositoryObjects_FileAddedChange" EntityType="Jawilliam.CDF.Labs.SQL.Store.RepositoryObjects_FileAddedChange" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="RepositoryObjects_FileDeletedChange" EntityType="Jawilliam.CDF.Labs.SQL.Store.RepositoryObjects_FileDeletedChange" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="RepositoryObjects_FileRenamedChange" EntityType="Jawilliam.CDF.Labs.SQL.Store.RepositoryObjects_FileRenamedChange" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Symptoms_MissedElementSymptom" EntityType="Jawilliam.CDF.Labs.SQL.Store.Symptoms_MissedElementSymptom" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Symptoms_MissedNameSymptom" EntityType="Jawilliam.CDF.Labs.SQL.Store.Symptoms_MissedNameSymptom" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Symptoms_RedundancySymptom" EntityType="Jawilliam.CDF.Labs.SQL.Store.Symptoms_RedundancySymptom" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Symptoms_CoexistenceSymptom" EntityType="Jawilliam.CDF.Labs.SQL.Store.Symptoms_CoexistenceSymptom" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Symptoms_NameCoexistenceSymptom" EntityType="Jawilliam.CDF.Labs.SQL.Store.Symptoms_NameCoexistenceSymptom" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Symptoms_IncompatibleMatchingSymptom" EntityType="Jawilliam.CDF.Labs.SQL.Store.Symptoms_IncompatibleMatchingSymptom" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Symptoms_SpuriositySymptom" EntityType="Jawilliam.CDF.Labs.SQL.Store.Symptoms_SpuriositySymptom" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Symptoms_GhostSymptom" EntityType="Jawilliam.CDF.Labs.SQL.Store.Symptoms_GhostSymptom" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Symptoms_SpuriousElementSymptom" EntityType="Jawilliam.CDF.Labs.SQL.Store.Symptoms_SpuriousElementSymptom" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Symptoms_RedundancySymptom" EntityType="Jawilliam.CDF.Labs.SQL.Store.Symptoms_RedundancySymptom" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Branch_Contains_Commits" EntityType="Jawilliam.CDF.Labs.SQL.Store.Branch_Contains_Commits" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Commits_AreParentsOf_Commits" EntityType="Jawilliam.CDF.Labs.SQL.Store.Commits_AreParentsOf_Commits" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="FileFormats" EntityType="Jawilliam.CDF.Labs.SQL.Store.FileFormats" Schema="dbo" store:Type="Tables" />
-    <AssociationSet Name="FK_OneFileVersion_CanBeSeenFrom_MultipleFileFormat" Association="Jawilliam.CDF.Labs.SQL.Store.FK_OneFileVersion_CanBeSeenFrom_MultipleFileFormat">
-      <End Role="RepositoryObjects_FileVersion" EntitySet="RepositoryObjects_FileVersion" />
-      <End Role="FileFormats" EntitySet="FileFormats" />
-    </AssociationSet>
     <AssociationSet Name="Contributor_IsAuthorOf_Commits" Association="Jawilliam.CDF.Labs.SQL.Store.Contributor_IsAuthorOf_Commits">
       <End Role="Commit" EntitySet="RepositoryObjects_Commit" />
       <End Role="Committer" EntitySet="RepositoryObjects_Contributor" />
@@ -121,6 +120,10 @@
       <End Role="Symptom" EntitySet="Symptoms" />
       <End Role="Symptom1" EntitySet="Symptoms" />
     </AssociationSet>
+    <AssociationSet Name="OneFileVersion_CanBeSeenFrom_MultipleFileFormat" Association="Jawilliam.CDF.Labs.SQL.Store.OneFileVersion_CanBeSeenFrom_MultipleFileFormat">
+      <End Role="FileVersion" EntitySet="RepositoryObjects_FileVersion" />
+      <End Role="FileFormat" EntitySet="FileFormats" />
+    </AssociationSet>
     <AssociationSet Name="ElementTypeRevisionPairSummaryCommonElementTypeSummary" Association="Jawilliam.CDF.Labs.SQL.Store.ElementTypeRevisionPairSummaryCommonElementTypeSummary">
       <End Role="ElementTypeRevisionPairSummary" EntitySet="DeltaContentSummaries_ElementTypeRevisionPairSummary" />
       <End Role="CommonElementTypeSummary" EntitySet="DeltaContentSummaries_CommonElementTypeSummary" />
@@ -128,6 +131,14 @@
     <AssociationSet Name="DeltaDeltaContentSummary" Association="Jawilliam.CDF.Labs.SQL.Store.DeltaDeltaContentSummary">
       <End Role="Delta" EntitySet="Deltas" />
       <End Role="DeltaContentSummary" EntitySet="DeltaContentSummaries" />
+    </AssociationSet>
+    <AssociationSet Name="DeltaComparison_LeftDelta" Association="Jawilliam.CDF.Labs.SQL.Store.DeltaComparison_LeftDelta">
+      <End Role="DeltaComparison" EntitySet="DeltaComparisonSet" />
+      <End Role="Delta" EntitySet="Deltas" />
+    </AssociationSet>
+    <AssociationSet Name="DeltaComparison_RightDelta" Association="Jawilliam.CDF.Labs.SQL.Store.DeltaComparison_RightDelta">
+      <End Role="DeltaComparison" EntitySet="DeltaComparisonSet" />
+      <End Role="Delta" EntitySet="Deltas" />
     </AssociationSet>
     <AssociationSet Name="FK_Commit_inherits_RepositoryObject" Association="Jawilliam.CDF.Labs.SQL.Store.FK_Commit_inherits_RepositoryObject">
       <End Role="RepositoryObject" EntitySet="RepositoryObjects" />
@@ -177,12 +188,20 @@
       <End Role="FileModifiedChange" EntitySet="RepositoryObjects_FileModifiedChange" />
       <End Role="FileRenamedChange" EntitySet="RepositoryObjects_FileRenamedChange" />
     </AssociationSet>
-    <AssociationSet Name="FK_MissedNameSymptom_inherits_Symptom" Association="Jawilliam.CDF.Labs.SQL.Store.FK_MissedNameSymptom_inherits_Symptom">
+    <AssociationSet Name="FK_MissedElementSymptom_inherits_Symptom" Association="Jawilliam.CDF.Labs.SQL.Store.FK_MissedElementSymptom_inherits_Symptom">
       <End Role="Symptom" EntitySet="Symptoms" />
+      <End Role="MissedElementSymptom" EntitySet="Symptoms_MissedElementSymptom" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MissedNameSymptom_inherits_MissedElementSymptom" Association="Jawilliam.CDF.Labs.SQL.Store.FK_MissedNameSymptom_inherits_MissedElementSymptom">
+      <End Role="MissedElementSymptom" EntitySet="Symptoms_MissedElementSymptom" />
       <End Role="MissedNameSymptom" EntitySet="Symptoms_MissedNameSymptom" />
     </AssociationSet>
-    <AssociationSet Name="FK_NameCoexistenceSymptom_inherits_Symptom" Association="Jawilliam.CDF.Labs.SQL.Store.FK_NameCoexistenceSymptom_inherits_Symptom">
+    <AssociationSet Name="FK_CoexistenceSymptom_inherits_Symptom" Association="Jawilliam.CDF.Labs.SQL.Store.FK_CoexistenceSymptom_inherits_Symptom">
       <End Role="Symptom" EntitySet="Symptoms" />
+      <End Role="CoexistenceSymptom" EntitySet="Symptoms_CoexistenceSymptom" />
+    </AssociationSet>
+    <AssociationSet Name="FK_NameCoexistenceSymptom_inherits_CoexistenceSymptom" Association="Jawilliam.CDF.Labs.SQL.Store.FK_NameCoexistenceSymptom_inherits_CoexistenceSymptom">
+      <End Role="CoexistenceSymptom" EntitySet="Symptoms_CoexistenceSymptom" />
       <End Role="NameCoexistenceSymptom" EntitySet="Symptoms_NameCoexistenceSymptom" />
     </AssociationSet>
     <AssociationSet Name="FK_IncompatibleMatchingSymptom_inherits_Symptom" Association="Jawilliam.CDF.Labs.SQL.Store.FK_IncompatibleMatchingSymptom_inherits_Symptom">
@@ -258,19 +277,6 @@
     <Property Name="GlobalMovePorcentageSubcorpus" Type="int" Nullable="true" />
     <Property Name="RevisionPair_Id" Type="uniqueidentifier" Nullable="true" />
   </EntityType>
-  <EntityType Name="FileFormats">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="Kind" Type="bigint" Nullable="false" />
-    <Property Name="Error" Type="bigint" />
-    <Property Name="XmlTree" Type="nvarchar(max)" />
-    <Property Name="XTextTree" Type="nvarchar(max)" />
-    <Property Name="TextTree" Type="nvarchar(max)" />
-    <Property Name="Annotations" Type="nvarchar(max)" />
-    <Property Name="FileVersion_Id" Type="uniqueidentifier" Nullable="false" />
-  </EntityType>
   <EntityType Name="FileRevisionPairs">
     <Key>
       <PropertyRef Name="Id" />
@@ -331,6 +337,19 @@
     <Property Name="Delta_Id" Type="uniqueidentifier" Nullable="false" />
     <Property Name="Parent_Id" Type="uniqueidentifier" Nullable="true" />
   </EntityType>
+  <EntityType Name="FileFormats">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Kind" Type="bigint" Nullable="false" />
+    <Property Name="Error" Type="bigint" Nullable="true" />
+    <Property Name="XmlTree" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="XTextTree" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="TextTree" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Annotations" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="FileVersion_Id" Type="uniqueidentifier" Nullable="false" />
+  </EntityType>
   <EntityType Name="DeltaContentSummaries">
     <Key>
       <PropertyRef Name="Id" />
@@ -341,6 +360,16 @@
     <Property Name="Max" Type="bigint" Nullable="true" />
     <Property Name="Min" Type="bigint" Nullable="true" />
     <Property Name="Delta_Id" Type="uniqueidentifier" Nullable="false" />
+  </EntityType>
+  <EntityType Name="DeltaComparisonSet">
+    <Key>
+      <PropertyRef Name="LeftId" />
+      <PropertyRef Name="RightId" />
+    </Key>
+    <Property Name="LeftId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="RightId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Matching" Type="xml" Nullable="true" />
+    <Property Name="Differencing" Type="xml" Nullable="true" />
   </EntityType>
   <EntityType Name="RepositoryObjects_Commit">
     <Key>
@@ -441,51 +470,63 @@
     <Property Name="FromPath" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
   </EntityType>
-  <EntityType Name="Symptoms_MissedNameSymptom">
+  <EntityType Name="Symptoms_MissedElementSymptom">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Pattern" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Original_Hint" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="Original_Element_Type" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Original_Element_Id" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Original_Element_Type" Type="nvarchar(max)" Nullable="false" DefaultValue="&quot;&quot;" />
+    <Property Name="Original_Element_Id" Type="nvarchar(max)" Nullable="false" DefaultValue="&quot;-1&quot;" />
     <Property Name="Original_Element_Hint" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="Original_AncestorOfReference_Type" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Original_AncestorOfReference_Id" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Original_AncestorOfReference_Type" Type="nvarchar(max)" Nullable="false" DefaultValue="&quot;&quot;" />
+    <Property Name="Original_AncestorOfReference_Id" Type="nvarchar(max)" Nullable="false" DefaultValue="&quot;-1&quot;" />
     <Property Name="Original_AncestorOfReference_Hint" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="Original_CommonAncestorOfReference_Type" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Original_CommonAncestorOfReference_Id" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Original_CommonAncestorOfReference_Type" Type="nvarchar(max)" Nullable="false" DefaultValue="&quot;&quot;" />
+    <Property Name="Original_CommonAncestorOfReference_Id" Type="nvarchar(max)" Nullable="false" DefaultValue="&quot;-1&quot;" />
     <Property Name="Original_CommonAncestorOfReference_Hint" Type="nvarchar(max)" Nullable="true" />
     <Property Name="Original_ScopeHint" Type="nvarchar(max)" Nullable="true" />
     <Property Name="Modified_Hint" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="Modified_Element_Type" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Modified_Element_Id" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Modified_Element_Type" Type="nvarchar(max)" Nullable="false" DefaultValue="&quot;&quot;" />
+    <Property Name="Modified_Element_Id" Type="nvarchar(max)" Nullable="false" DefaultValue="&quot;-1&quot;" />
     <Property Name="Modified_Element_Hint" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="Modified_AncestorOfReference_Type" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Modified_AncestorOfReference_Id" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Modified_AncestorOfReference_Type" Type="nvarchar(max)" Nullable="false" DefaultValue="&quot;&quot;" />
+    <Property Name="Modified_AncestorOfReference_Id" Type="nvarchar(max)" Nullable="false" DefaultValue="&quot;-1&quot;" />
     <Property Name="Modified_AncestorOfReference_Hint" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="Modified_CommonAncestorOfReference_Type" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Modified_CommonAncestorOfReference_Id" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Modified_CommonAncestorOfReference_Type" Type="nvarchar(max)" Nullable="false" DefaultValue="&quot;&quot;" />
+    <Property Name="Modified_CommonAncestorOfReference_Id" Type="nvarchar(max)" Nullable="false" DefaultValue="&quot;-1&quot;" />
     <Property Name="Modified_CommonAncestorOfReference_Hint" Type="nvarchar(max)" Nullable="true" />
     <Property Name="Modified_ScopeHint" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Symptoms_MissedNameSymptom">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Symptoms_CoexistenceSymptom">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Original_Element_Type" Type="nvarchar(max)" Nullable="false" DefaultValue="&quot;&quot;" />
+    <Property Name="Original_Element_Id" Type="nvarchar(max)" Nullable="false" DefaultValue="&quot;-1&quot;" />
+    <Property Name="Original_Element_Hint" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Original_ScopeHint" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Modified_Element_Type" Type="nvarchar(max)" Nullable="false" DefaultValue="&quot;&quot;" />
+    <Property Name="Modified_Element_Id" Type="nvarchar(max)" Nullable="false" DefaultValue="&quot;-1&quot;" />
+    <Property Name="Modified_Element_Hint" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Modified_ScopeHint" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="CoexistingOriginal_Element_Type" Type="nvarchar(max)" Nullable="false" DefaultValue="&quot;&quot;" />
+    <Property Name="CoexistingOriginal_Element_Id" Type="nvarchar(max)" Nullable="false" DefaultValue="&quot;-1&quot;" />
+    <Property Name="CoexistingOriginal_Element_Hint" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="CoexistingOriginal_ScopeHint" Type="nvarchar(max)" Nullable="true" />
     <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
   </EntityType>
   <EntityType Name="Symptoms_NameCoexistenceSymptom">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Original_Element_Type" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Original_Element_Id" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Original_Element_Hint" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="Original_ScopeHint" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="Modified_Element_Type" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Modified_Element_Id" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Modified_Element_Hint" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="Modified_ScopeHint" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="CoexistingOriginal_Element_Type" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="CoexistingOriginal_Element_Id" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="CoexistingOriginal_Element_Hint" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="CoexistingOriginal_ScopeHint" Type="nvarchar(max)" Nullable="true" />
     <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
   </EntityType>
   <EntityType Name="Symptoms_IncompatibleMatchingSymptom">
@@ -493,12 +534,12 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Pattern" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Original_Element_Type" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Original_Element_Id" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Original_Element_Type" Type="nvarchar(max)" Nullable="false" DefaultValue="&quot;&quot;" />
+    <Property Name="Original_Element_Id" Type="nvarchar(max)" Nullable="false" DefaultValue="&quot;-1&quot;" />
     <Property Name="Original_Element_Hint" Type="nvarchar(max)" Nullable="true" />
     <Property Name="Original_ScopeHint" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="Modified_Element_Type" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Modified_Element_Id" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Modified_Element_Type" Type="nvarchar(max)" Nullable="false" DefaultValue="&quot;&quot;" />
+    <Property Name="Modified_Element_Id" Type="nvarchar(max)" Nullable="false" DefaultValue="&quot;-1&quot;" />
     <Property Name="Modified_Element_Hint" Type="nvarchar(max)" Nullable="true" />
     <Property Name="Modified_ScopeHint" Type="nvarchar(max)" Nullable="true" />
     <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
@@ -516,12 +557,12 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Pattern" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Original_Element_Type" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Original_Element_Id" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Original_Element_Type" Type="nvarchar(max)" Nullable="false" DefaultValue="&quot;&quot;" />
+    <Property Name="Original_Element_Id" Type="nvarchar(max)" Nullable="false" DefaultValue="&quot;-1&quot;" />
     <Property Name="Original_Element_Hint" Type="nvarchar(max)" Nullable="true" />
     <Property Name="Original_ScopeHint" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="Modified_Element_Type" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Modified_Element_Id" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Modified_Element_Type" Type="nvarchar(max)" Nullable="false" DefaultValue="&quot;&quot;" />
+    <Property Name="Modified_Element_Id" Type="nvarchar(max)" Nullable="false" DefaultValue="&quot;-1&quot;" />
     <Property Name="Modified_Element_Hint" Type="nvarchar(max)" Nullable="true" />
     <Property Name="Modified_ScopeHint" Type="nvarchar(max)" Nullable="true" />
     <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
@@ -531,12 +572,12 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Pattern" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Original_Element_Type" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Original_Element_Id" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Original_Element_Type" Type="nvarchar(max)" Nullable="false" DefaultValue="&quot;&quot;" />
+    <Property Name="Original_Element_Id" Type="nvarchar(max)" Nullable="false" DefaultValue="&quot;-1&quot;" />
     <Property Name="Original_Element_Hint" Type="nvarchar(max)" Nullable="true" />
     <Property Name="Original_ScopeHint" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="Modified_Element_Type" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Modified_Element_Id" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Modified_Element_Type" Type="nvarchar(max)" Nullable="false" DefaultValue="&quot;&quot;" />
+    <Property Name="Modified_Element_Id" Type="nvarchar(max)" Nullable="false" DefaultValue="&quot;-1&quot;" />
     <Property Name="Modified_Element_Hint" Type="nvarchar(max)" Nullable="true" />
     <Property Name="Modified_ScopeHint" Type="nvarchar(max)" Nullable="true" />
     <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
@@ -546,26 +587,26 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Pattern" Type="tinyint" Nullable="false" />
-    <Property Name="Original_Type" Type="nvarchar(max)" Nullable="false" DefaultValue="&quot;&quot;" />
-    <Property Name="Original_Id" Type="nvarchar(max)" Nullable="false" DefaultValue="&quot;-1&quot;" />
-    <Property Name="Original_Hint" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="AndOriginal_Type" Type="nvarchar(max)" Nullable="false" DefaultValue="&quot;&quot;" />
-    <Property Name="AndOriginal_Id" Type="nvarchar(max)" Nullable="false" DefaultValue="&quot;-1&quot;" />
-    <Property Name="AndOriginal_Hint" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="Modified_Type" Type="nvarchar(max)" Nullable="false" DefaultValue="&quot;&quot;" />
-    <Property Name="Modified_Id" Type="nvarchar(max)" Nullable="false" DefaultValue="&quot;-1&quot;" />
-    <Property Name="Modified_Hint" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="AndModified_Type" Type="nvarchar(max)" Nullable="false" DefaultValue="&quot;&quot;" />
-    <Property Name="AndModified_Id" Type="nvarchar(max)" Nullable="false" DefaultValue="&quot;-1&quot;" />
-    <Property Name="AndModified_Hint" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="AnotherOriginal_Type" Type="nvarchar(max)" Nullable="false" DefaultValue="&quot;&quot;" />
-    <Property Name="AnotherOriginal_Id" Type="nvarchar(max)" Nullable="false" DefaultValue="&quot;-1&quot;" />
-    <Property Name="AnotherOriginal_Hint" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="AnotherModified_Type" Type="nvarchar(max)" Nullable="false" DefaultValue="&quot;&quot;" />
-    <Property Name="AnotherModified_Id" Type="nvarchar(max)" Nullable="false" DefaultValue="&quot;-1&quot;" />
-    <Property Name="AnotherModified_Hint" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="LeftApproach" Type="int" Nullable="false" />
-    <Property Name="RightApproach" Type="int" Nullable="false" />
+    <Property Name="MissedOriginal_Type" Type="nvarchar(max)" Nullable="false" DefaultValue="&quot;&quot;" />
+    <Property Name="MissedOriginal_Id" Type="nvarchar(max)" Nullable="false" DefaultValue="&quot;-1&quot;" />
+    <Property Name="MissedOriginal_Hint" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="SpuriousOriginal_Type" Type="nvarchar(max)" Nullable="false" DefaultValue="&quot;&quot;" />
+    <Property Name="SpuriousOriginal_Id" Type="nvarchar(max)" Nullable="false" DefaultValue="&quot;-1&quot;" />
+    <Property Name="SpuriousOriginal_Hint" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="MissedModified_Type" Type="nvarchar(max)" Nullable="false" DefaultValue="&quot;&quot;" />
+    <Property Name="MissedModified_Id" Type="nvarchar(max)" Nullable="false" DefaultValue="&quot;-1&quot;" />
+    <Property Name="MissedModified_Hint" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="SpuriousModified_Type" Type="nvarchar(max)" Nullable="false" DefaultValue="&quot;&quot;" />
+    <Property Name="SpuriousModified_Id" Type="nvarchar(max)" Nullable="false" DefaultValue="&quot;-1&quot;" />
+    <Property Name="SpuriousModified_Hint" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="DeltaApproach" Type="int" Nullable="false" />
+    <Property Name="CorrectorApproach" Type="int" Nullable="false" />
+    <Property Name="AndSpuriousOriginal_Type" Type="nvarchar(max)" Nullable="false" DefaultValue="&quot;&quot;" />
+    <Property Name="AndSpuriousOriginal_Id" Type="nvarchar(max)" Nullable="false" DefaultValue="&quot;-1&quot;" />
+    <Property Name="AndSpuriousOriginal_Hint" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="AndSpuriousModified_Type" Type="nvarchar(max)" Nullable="false" DefaultValue="&quot;&quot;" />
+    <Property Name="AndSpuriousModified_Id" Type="nvarchar(max)" Nullable="false" DefaultValue="&quot;-1&quot;" />
+    <Property Name="AndSpuriousModified_Hint" Type="nvarchar(max)" Nullable="true" />
     <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
   </EntityType>
   <EntityType Name="Branch_Contains_Commits">
@@ -616,18 +657,6 @@
         <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="FileContent">
-        <PropertyRef Name="FileVersion_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_OneFileVersion_CanBeSeenFrom_MultipleFileFormat">
-    <End Role="RepositoryObjects_FileVersion" Type="Jawilliam.CDF.Labs.SQL.Store.RepositoryObjects_FileVersion" Multiplicity="1" />
-    <End Role="FileFormats" Type="Jawilliam.CDF.Labs.SQL.Store.FileFormats" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="RepositoryObjects_FileVersion">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="FileFormats">
         <PropertyRef Name="FileVersion_Id" />
       </Dependent>
     </ReferentialConstraint>
@@ -788,6 +817,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="OneFileVersion_CanBeSeenFrom_MultipleFileFormat">
+    <End Role="FileVersion" Type="Jawilliam.CDF.Labs.SQL.Store.RepositoryObjects_FileVersion" Multiplicity="1" />
+    <End Role="FileFormat" Type="Jawilliam.CDF.Labs.SQL.Store.FileFormats" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FileVersion">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="FileFormat">
+        <PropertyRef Name="FileVersion_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="ElementTypeRevisionPairSummaryCommonElementTypeSummary">
     <End Role="ElementTypeRevisionPairSummary" Type="Jawilliam.CDF.Labs.SQL.Store.DeltaContentSummaries_ElementTypeRevisionPairSummary" Multiplicity="0..1" />
     <End Role="CommonElementTypeSummary" Type="Jawilliam.CDF.Labs.SQL.Store.DeltaContentSummaries_CommonElementTypeSummary" Multiplicity="*" />
@@ -809,6 +850,30 @@
       </Principal>
       <Dependent Role="DeltaContentSummary">
         <PropertyRef Name="Delta_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="DeltaComparison_LeftDelta">
+    <End Role="DeltaComparison" Type="Jawilliam.CDF.Labs.SQL.Store.DeltaComparisonSet" Multiplicity="*" />
+    <End Role="Delta" Type="Jawilliam.CDF.Labs.SQL.Store.Deltas" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Delta">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="DeltaComparison">
+        <PropertyRef Name="LeftId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="DeltaComparison_RightDelta">
+    <End Role="DeltaComparison" Type="Jawilliam.CDF.Labs.SQL.Store.DeltaComparisonSet" Multiplicity="*" />
+    <End Role="Delta" Type="Jawilliam.CDF.Labs.SQL.Store.Deltas" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Delta">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="DeltaComparison">
+        <PropertyRef Name="RightId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -1028,13 +1093,27 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_MissedNameSymptom_inherits_Symptom">
+  <Association Name="FK_MissedElementSymptom_inherits_Symptom">
     <End Role="Symptom" Type="Jawilliam.CDF.Labs.SQL.Store.Symptoms" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="MissedElementSymptom" Type="Jawilliam.CDF.Labs.SQL.Store.Symptoms_MissedElementSymptom" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Symptom">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="MissedElementSymptom">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MissedNameSymptom_inherits_MissedElementSymptom">
+    <End Role="MissedElementSymptom" Type="Jawilliam.CDF.Labs.SQL.Store.Symptoms_MissedElementSymptom" Multiplicity="1">
       <OnDelete Action="Cascade" />
     </End>
     <End Role="MissedNameSymptom" Type="Jawilliam.CDF.Labs.SQL.Store.Symptoms_MissedNameSymptom" Multiplicity="0..1" />
     <ReferentialConstraint>
-      <Principal Role="Symptom">
+      <Principal Role="MissedElementSymptom">
         <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="MissedNameSymptom">
@@ -1042,13 +1121,27 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_NameCoexistenceSymptom_inherits_Symptom">
+  <Association Name="FK_CoexistenceSymptom_inherits_Symptom">
     <End Role="Symptom" Type="Jawilliam.CDF.Labs.SQL.Store.Symptoms" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="CoexistenceSymptom" Type="Jawilliam.CDF.Labs.SQL.Store.Symptoms_CoexistenceSymptom" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Symptom">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CoexistenceSymptom">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_NameCoexistenceSymptom_inherits_CoexistenceSymptom">
+    <End Role="CoexistenceSymptom" Type="Jawilliam.CDF.Labs.SQL.Store.Symptoms_CoexistenceSymptom" Multiplicity="1">
       <OnDelete Action="Cascade" />
     </End>
     <End Role="NameCoexistenceSymptom" Type="Jawilliam.CDF.Labs.SQL.Store.Symptoms_NameCoexistenceSymptom" Multiplicity="0..1" />
     <ReferentialConstraint>
-      <Principal Role="Symptom">
+      <Principal Role="CoexistenceSymptom">
         <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="NameCoexistenceSymptom">
@@ -1224,6 +1317,15 @@
           <AssociationSet Name="DeltaDeltaContentSummary" Association="Jawilliam.CDF.Labs.SQL.DeltaDeltaContentSummary">
             <End Role="Delta" EntitySet="Deltas" />
             <End Role="DeltaContentSummary" EntitySet="DeltaContentSummaries" />
+          </AssociationSet>
+          <EntitySet Name="DeltaComparisonSet" EntityType="Jawilliam.CDF.Labs.SQL.DeltaComparison" />
+          <AssociationSet Name="DeltaComparison_LeftDelta" Association="Jawilliam.CDF.Labs.SQL.DeltaComparison_LeftDelta">
+            <End Role="DeltaComparison" EntitySet="DeltaComparisonSet" />
+            <End Role="Delta" EntitySet="Deltas" />
+          </AssociationSet>
+          <AssociationSet Name="DeltaComparison_RightDelta" Association="Jawilliam.CDF.Labs.SQL.DeltaComparison_RightDelta">
+            <End Role="DeltaComparison" EntitySet="DeltaComparisonSet" />
+            <End Role="Delta" EntitySet="Deltas" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="RepositoryObject" Abstract="true">
@@ -1416,6 +1518,10 @@
           <Member Name="InverseNativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTrivia" Value="31" />
           <Member Name="NativeGTtreefiedRoslynMLWithIncludeTrivia" Value="32" />
           <Member Name="InverseNativeGTtreefiedRoslynMLWithIncludeTrivia" Value="33" />
+          <Member Name="NativeGTtreefiedRoslynMLWithBasicPruningDefoliation" Value="34" />
+          <Member Name="InverseNativeGTtreefiedRoslynMLWithBasicPruningDefoliation" Value="35" />
+          <Member Name="NativeGTtreefiedRoslynMLWithBasicPruningDefoliationAndIncludeTrivia" Value="36" />
+          <Member Name="InverseNativeGTtreefiedRoslynMLWithBasicPruningDefoliationAndIncludeTrivia" Value="37" />
         </EnumType>
         <EnumType Name="CodeCategory" UnderlyingType="Int16" IsFlags="true">
           <Member Name="Maintained" Value="1" />
@@ -1733,6 +1839,42 @@
           <Member Name="MUM" Value="15" />
           <Member Name="UMM" Value="16" />
         </EnumType>
+        <EntityType Name="DeltaComparison" >
+          <Key>
+            <PropertyRef Name="LeftId" />
+            <PropertyRef Name="RightId" />
+          </Key>
+          <NavigationProperty Name="Left" Relationship="Jawilliam.CDF.Labs.SQL.DeltaComparison_LeftDelta" FromRole="DeltaComparison" ToRole="Delta" />
+          <Property Name="LeftId" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="Right" Relationship="Jawilliam.CDF.Labs.SQL.DeltaComparison_RightDelta" FromRole="DeltaComparison" ToRole="Delta" />
+          <Property Name="RightId" Type="Guid" Nullable="false" />
+          <Property Name="Matching" Type="String" Nullable="true" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Differencing" Type="String" Nullable="true" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="DeltaComparison_LeftDelta">
+          <End Type="Jawilliam.CDF.Labs.SQL.DeltaComparison" Role="DeltaComparison" Multiplicity="*" />
+          <End Type="Jawilliam.CDF.Labs.SQL.Delta" Role="Delta" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="Delta">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DeltaComparison">
+              <PropertyRef Name="LeftId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="DeltaComparison_RightDelta">
+          <End Type="Jawilliam.CDF.Labs.SQL.DeltaComparison" Role="DeltaComparison" Multiplicity="*" />
+          <End Type="Jawilliam.CDF.Labs.SQL.Delta" Role="Delta" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="Delta">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DeltaComparison">
+              <PropertyRef Name="RightId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1917,8 +2059,8 @@
           <ScalarProperty Name="IsTop" ColumnName="IsTop" />
         </MappingFragment>
       </EntityTypeMapping>
-      <EntityTypeMapping TypeName="IsTypeOf(Jawilliam.CDF.Labs.SQL.MissedNameSymptom)">
-        <MappingFragment StoreEntitySet="Symptoms_MissedNameSymptom">
+      <EntityTypeMapping TypeName="IsTypeOf(Jawilliam.CDF.Labs.SQL.MissedElementSymptom)">
+        <MappingFragment StoreEntitySet="Symptoms_MissedElementSymptom">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Pattern" ColumnName="Pattern" />
           <ComplexProperty Name="Original" TypeName="Jawilliam.CDF.Labs.SQL.MissedMatch">
@@ -1961,8 +2103,13 @@
           </ComplexProperty>
         </MappingFragment>
       </EntityTypeMapping>
-      <EntityTypeMapping TypeName="IsTypeOf(Jawilliam.CDF.Labs.SQL.NameCoexistenceSymptom)">
-        <MappingFragment StoreEntitySet="Symptoms_NameCoexistenceSymptom">
+      <EntityTypeMapping TypeName="IsTypeOf(Jawilliam.CDF.Labs.SQL.MissedNameSymptom)">
+        <MappingFragment StoreEntitySet="Symptoms_MissedNameSymptom">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="IsTypeOf(Jawilliam.CDF.Labs.SQL.CoexistenceSymptom)">
+        <MappingFragment StoreEntitySet="Symptoms_CoexistenceSymptom">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ComplexProperty Name="Original" TypeName="Jawilliam.CDF.Labs.SQL.ElementContext">
             <ComplexProperty Name="Element" TypeName="Jawilliam.CDF.Labs.SQL.ElementDescription">
@@ -1988,6 +2135,11 @@
             </ComplexProperty>
             <ScalarProperty Name="ScopeHint" ColumnName="CoexistingOriginal_ScopeHint" />
           </ComplexProperty>
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="IsTypeOf(Jawilliam.CDF.Labs.SQL.NameCoexistenceSymptom)">
+        <MappingFragment StoreEntitySet="Symptoms_NameCoexistenceSymptom">
+          <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>
       <EntityTypeMapping TypeName="IsTypeOf(Jawilliam.CDF.Labs.SQL.IncompatibleMatchingSymptom)">
@@ -2063,44 +2215,93 @@
           </ComplexProperty>
         </MappingFragment>
       </EntityTypeMapping>
-            <EntityTypeMapping TypeName="IsTypeOf(Jawilliam.CDF.Labs.SQL.RedundancySymptom)" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-              <MappingFragment StoreEntitySet="Symptoms_RedundancySymptom">
-                <ScalarProperty Name="Pattern" ColumnName="Pattern" />
-                <ComplexProperty Name="MissedOriginal" TypeName="Jawilliam.CDF.Labs.SQL.ElementDescription">
-                  <ScalarProperty Name="Type" ColumnName="Original_Type" />
-                  <ScalarProperty Name="Id" ColumnName="Original_Id" />
-                  <ScalarProperty Name="Hint" ColumnName="Original_Hint" />
-                </ComplexProperty>
-                <ComplexProperty Name="MissedModified" TypeName="Jawilliam.CDF.Labs.SQL.ElementDescription">
-                  <ScalarProperty Name="Type" ColumnName="Modified_Type" />
-                  <ScalarProperty Name="Id" ColumnName="Modified_Id" />
-                  <ScalarProperty Name="Hint" ColumnName="Modified_Hint" />
-                </ComplexProperty>
-                <ComplexProperty Name="SpuriousOriginal" TypeName="Jawilliam.CDF.Labs.SQL.ElementDescription">
-                  <ScalarProperty Name="Type" ColumnName="AndOriginal_Type" />
-                  <ScalarProperty Name="Id" ColumnName="AndOriginal_Id" />
-                  <ScalarProperty Name="Hint" ColumnName="AndOriginal_Hint" />
-                </ComplexProperty>
-                <ComplexProperty Name="SpuriousModified" TypeName="Jawilliam.CDF.Labs.SQL.ElementDescription">
-                  <ScalarProperty Name="Type" ColumnName="AndModified_Type" />
-                  <ScalarProperty Name="Id" ColumnName="AndModified_Id" />
-                  <ScalarProperty Name="Hint" ColumnName="AndModified_Hint" />
-                </ComplexProperty>
-                <ComplexProperty Name="AndSpuriousOriginal" TypeName="Jawilliam.CDF.Labs.SQL.ElementDescription">
-                  <ScalarProperty Name="Type" ColumnName="AnotherOriginal_Type" />
-                  <ScalarProperty Name="Id" ColumnName="AnotherOriginal_Id" />
-                  <ScalarProperty Name="Hint" ColumnName="AnotherOriginal_Hint" />
-                </ComplexProperty>
-                <ComplexProperty Name="AndSpuriousModified" TypeName="Jawilliam.CDF.Labs.SQL.ElementDescription">
-                  <ScalarProperty Name="Type" ColumnName="AnotherModified_Type" />
-                  <ScalarProperty Name="Id" ColumnName="AnotherModified_Id" />
-                  <ScalarProperty Name="Hint" ColumnName="AnotherModified_Hint" />
-                </ComplexProperty>
-                <ScalarProperty Name="DeltaApproach" ColumnName="LeftApproach" />
-                <ScalarProperty Name="CorrectorApproach" ColumnName="RightApproach" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
+      <EntityTypeMapping TypeName="IsTypeOf(Jawilliam.CDF.Labs.SQL.RedundancySymptom)">
+        <MappingFragment StoreEntitySet="Symptoms_RedundancySymptom">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Pattern" ColumnName="Pattern" />
+          <ComplexProperty Name="MissedOriginal" TypeName="Jawilliam.CDF.Labs.SQL.ElementDescription">
+            <ScalarProperty Name="Type" ColumnName="MissedOriginal_Type" />
+            <ScalarProperty Name="Id" ColumnName="MissedOriginal_Id" />
+            <ScalarProperty Name="Hint" ColumnName="MissedOriginal_Hint" />
+          </ComplexProperty>
+          <ComplexProperty Name="SpuriousOriginal" TypeName="Jawilliam.CDF.Labs.SQL.ElementDescription">
+            <ScalarProperty Name="Type" ColumnName="SpuriousOriginal_Type" />
+            <ScalarProperty Name="Id" ColumnName="SpuriousOriginal_Id" />
+            <ScalarProperty Name="Hint" ColumnName="SpuriousOriginal_Hint" />
+          </ComplexProperty>
+          <ComplexProperty Name="MissedModified" TypeName="Jawilliam.CDF.Labs.SQL.ElementDescription">
+            <ScalarProperty Name="Type" ColumnName="MissedModified_Type" />
+            <ScalarProperty Name="Id" ColumnName="MissedModified_Id" />
+            <ScalarProperty Name="Hint" ColumnName="MissedModified_Hint" />
+          </ComplexProperty>
+          <ComplexProperty Name="SpuriousModified" TypeName="Jawilliam.CDF.Labs.SQL.ElementDescription">
+            <ScalarProperty Name="Type" ColumnName="SpuriousModified_Type" />
+            <ScalarProperty Name="Id" ColumnName="SpuriousModified_Id" />
+            <ScalarProperty Name="Hint" ColumnName="SpuriousModified_Hint" />
+          </ComplexProperty>
+          <ScalarProperty Name="DeltaApproach" ColumnName="DeltaApproach" />
+          <ScalarProperty Name="CorrectorApproach" ColumnName="CorrectorApproach" />
+          <ComplexProperty Name="AndSpuriousOriginal" TypeName="Jawilliam.CDF.Labs.SQL.ElementDescription">
+            <ScalarProperty Name="Type" ColumnName="AndSpuriousOriginal_Type" />
+            <ScalarProperty Name="Id" ColumnName="AndSpuriousOriginal_Id" />
+            <ScalarProperty Name="Hint" ColumnName="AndSpuriousOriginal_Hint" />
+          </ComplexProperty>
+          <ComplexProperty Name="AndSpuriousModified" TypeName="Jawilliam.CDF.Labs.SQL.ElementDescription">
+            <ScalarProperty Name="Type" ColumnName="AndSpuriousModified_Type" />
+            <ScalarProperty Name="Id" ColumnName="AndSpuriousModified_Id" />
+            <ScalarProperty Name="Hint" ColumnName="AndSpuriousModified_Hint" />
+          </ComplexProperty>
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FileFormats">
+      <EntityTypeMapping TypeName="IsTypeOf(Jawilliam.CDF.Labs.SQL.FileFormat)">
+        <MappingFragment StoreEntitySet="FileFormats">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Kind" ColumnName="Kind" />
+          <ScalarProperty Name="Error" ColumnName="Error" />
+          <ScalarProperty Name="XmlTree" ColumnName="XmlTree" />
+          <ScalarProperty Name="XTextTree" ColumnName="XTextTree" />
+          <ScalarProperty Name="TextTree" ColumnName="TextTree" />
+          <ScalarProperty Name="Annotations" ColumnName="Annotations" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DeltaContentSummaries">
+      <EntityTypeMapping TypeName="IsTypeOf(Jawilliam.CDF.Labs.SQL.DeltaContentSummary)">
+        <MappingFragment StoreEntitySet="DeltaContentSummaries">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Annotations" ColumnName="Annotations" />
+          <ScalarProperty Name="Approach" ColumnName="Approach" />
+          <ScalarProperty Name="Modified" ColumnName="Max" />
+          <ScalarProperty Name="Original" ColumnName="Min" />
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="IsTypeOf(Jawilliam.CDF.Labs.SQL.ElementTypeRevisionPairSummary)">
+        <MappingFragment StoreEntitySet="DeltaContentSummaries_ElementTypeRevisionPairSummary">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="ElementType" ColumnName="ElementType" />
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="IsTypeOf(Jawilliam.CDF.Labs.SQL.CommonElementTypeSummary)">
+        <MappingFragment StoreEntitySet="DeltaContentSummaries_CommonElementTypeSummary">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="ElementType" ColumnName="ElementType" />
+          <ScalarProperty Name="Tf" ColumnName="Tf" />
+          <ScalarProperty Name="Idf" ColumnName="Idf" />
+          <ScalarProperty Name="Tf_Idf" ColumnName="Tf_Idf" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DeltaComparisonSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Jawilliam.CDF.Labs.SQL.DeltaComparison)">
+        <MappingFragment StoreEntitySet="DeltaComparisonSet">
+          <ScalarProperty Name="LeftId" ColumnName="LeftId" />
+          <ScalarProperty Name="RightId" ColumnName="RightId" />
+          <ScalarProperty Name="Matching" ColumnName="Matching" />
+          <ScalarProperty Name="Differencing" ColumnName="Differencing" />
+        </MappingFragment>
+      </EntityTypeMapping>
     </EntitySetMapping>
     <AssociationSetMapping Name="Contributor_IsAuthorOf_Commits" TypeName="Jawilliam.CDF.Labs.SQL.Contributor_IsAuthorOf_Commits" StoreEntitySet="RepositoryObjects_Commit">
       <EndProperty Name="Committer">
@@ -2251,54 +2452,14 @@
       </EndProperty>
       <Condition ColumnName="Parent_Id" IsNull="false" />
     </AssociationSetMapping>
-          <EntitySetMapping Name="FileFormats">
-            <EntityTypeMapping TypeName="IsTypeOf(Jawilliam.CDF.Labs.SQL.FileFormat)">
-              <MappingFragment StoreEntitySet="FileFormats">
-                <ScalarProperty Name="Annotations" ColumnName="Annotations" />
-                <ScalarProperty Name="TextTree" ColumnName="TextTree" />
-                <ScalarProperty Name="XTextTree" ColumnName="XTextTree" />
-                <ScalarProperty Name="XmlTree" ColumnName="XmlTree" />
-                <ScalarProperty Name="Error" ColumnName="Error" />
-                <ScalarProperty Name="Kind" ColumnName="Kind" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-    <EntitySetMapping Name="DeltaContentSummaries">
-      <EntityTypeMapping TypeName="IsTypeOf(Jawilliam.CDF.Labs.SQL.DeltaContentSummary)">
-        <MappingFragment StoreEntitySet="DeltaContentSummaries">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Annotations" ColumnName="Annotations" />
-          <ScalarProperty Name="Approach" ColumnName="Approach" />
-          <ScalarProperty Name="Modified" ColumnName="Max" />
-          <ScalarProperty Name="Original" ColumnName="Min" />
-        </MappingFragment>
-      </EntityTypeMapping>
-      <EntityTypeMapping TypeName="IsTypeOf(Jawilliam.CDF.Labs.SQL.ElementTypeRevisionPairSummary)">
-        <MappingFragment StoreEntitySet="DeltaContentSummaries_ElementTypeRevisionPairSummary">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="ElementType" ColumnName="ElementType" />
-        </MappingFragment>
-      </EntityTypeMapping>
-      <EntityTypeMapping TypeName="IsTypeOf(Jawilliam.CDF.Labs.SQL.CommonElementTypeSummary)">
-        <MappingFragment StoreEntitySet="DeltaContentSummaries_CommonElementTypeSummary">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="ElementType" ColumnName="ElementType" />
-          <ScalarProperty Name="Tf" ColumnName="Tf" />
-          <ScalarProperty Name="Idf" ColumnName="Idf" />
-          <ScalarProperty Name="Tf_Idf" ColumnName="Tf_Idf" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-
     <AssociationSetMapping Name="OneFileVersion_CanBeSeenFrom_MultipleFileFormat" TypeName="Jawilliam.CDF.Labs.SQL.OneFileVersion_CanBeSeenFrom_MultipleFileFormat" StoreEntitySet="FileFormats">
-            <EndProperty Name="FileFormat">
-              <ScalarProperty Name="Id" ColumnName="Id" />
-            </EndProperty>
-            <EndProperty Name="FileVersion">
-              <ScalarProperty Name="Id" ColumnName="FileVersion_Id" />
-            </EndProperty>
-          </AssociationSetMapping>
+      <EndProperty Name="FileVersion">
+        <ScalarProperty Name="Id" ColumnName="FileVersion_Id" />
+      </EndProperty>
+      <EndProperty Name="FileFormat">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
     <AssociationSetMapping Name="ElementTypeRevisionPairSummaryCommonElementTypeSummary" TypeName="Jawilliam.CDF.Labs.SQL.ElementTypeRevisionPairSummaryCommonElementTypeSummary" StoreEntitySet="DeltaContentSummaries_CommonElementTypeSummary">
       <EndProperty Name="ElementTypeRevisionPairSummary">
         <ScalarProperty Name="Id" ColumnName="CommonAncestor_Id" />
@@ -2316,7 +2477,7 @@
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>
-          </EntityContainerMapping>
+  </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
