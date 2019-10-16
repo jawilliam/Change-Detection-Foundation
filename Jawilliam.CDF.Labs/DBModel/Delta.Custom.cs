@@ -65,6 +65,10 @@ namespace Jawilliam.CDF.Labs.DBModel
                     case ChangeDetectionApproaches.InverseNativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTrivia:
                     case ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithIncludeTrivia:
                     case ChangeDetectionApproaches.InverseNativeGTtreefiedRoslynMLWithIncludeTrivia:
+                    case ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithBasicPruningDefoliation:
+                    case ChangeDetectionApproaches.InverseNativeGTtreefiedRoslynMLWithBasicPruningDefoliation:
+                    case ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithBasicPruningDefoliationAndIncludeTrivia:
+                    case ChangeDetectionApproaches.InverseNativeGTtreefiedRoslynMLWithBasicPruningDefoliationAndIncludeTrivia:
                         return this.GetNativeGumTreeResult();
                     default:
                         throw new InvalidEnumArgumentException();
@@ -105,6 +109,10 @@ namespace Jawilliam.CDF.Labs.DBModel
                     case ChangeDetectionApproaches.InverseNativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTrivia:
                     case ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithIncludeTrivia:
                     case ChangeDetectionApproaches.InverseNativeGTtreefiedRoslynMLWithIncludeTrivia:
+                    case ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithBasicPruningDefoliation:
+                    case ChangeDetectionApproaches.InverseNativeGTtreefiedRoslynMLWithBasicPruningDefoliation:
+                    case ChangeDetectionApproaches.NativeGTtreefiedRoslynMLWithBasicPruningDefoliationAndIncludeTrivia:
+                    case ChangeDetectionApproaches.InverseNativeGTtreefiedRoslynMLWithBasicPruningDefoliationAndIncludeTrivia:
                         this.SetNativeGumTreeResult(value);
                         break;
                     default:

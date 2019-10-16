@@ -1774,6 +1774,7 @@
           <Member Name="NONE" Value="0" />
           <Member Name="BasicPruning" Value="8" />
           <Member Name="IncludeTrivia" Value="16" />
+          <Member Name="Defoliation" Value="32" />
         </EnumType>
         <EnumType Name="FileFormatError" UnderlyingType="Int64" IsFlags="true" />
         <Association Name="OneFileVersion_CanBeSeenFrom_MultipleFileFormat">

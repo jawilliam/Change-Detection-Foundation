@@ -1,8 +1,10 @@
 library(readr)
 
-projects <- unique(BetweenSymptomsStats2_copia$Project)
+BetweenSymptomsStats <- BetweenSymptomsStats_28Vs32
+
+projects <- unique(BetweenSymptomsStats$Project)
 projects <- data.frame(projects)
-names(projects)[1] <- colnames(BetweenSymptomsStats2_copia)[1]
+names(projects)[1] <- colnames(BetweenSymptomsStats)[1]
 
 #stats <- data.frame(BetweenSymptomsStats2_copia$Project, BetweenSymptomsStats2_copia$PrincipalRevisionPair)
 #stats30Vs31 <- BetweenSymptomsStats2_copia[(BetweenSymptomsStats2_copia$`#lr_matches_31` != BetweenSymptomsStats2_copia$`#rl_matches_31`) | 
@@ -12,9 +14,9 @@ names(projects)[1] <- colnames(BetweenSymptomsStats2_copia)[1]
 #                                           (BetweenSymptomsStats2_copia$`#lr_updates_31` != BetweenSymptomsStats2_copia$`#rl_updates_31`) |
 #                                           (BetweenSymptomsStats2_copia$`#lr_moves_31` != BetweenSymptomsStats2_copia$`#rl_moves_31`),]
 
-stats30Vs31 <- BetweenSymptomsStats2_copia[which(BetweenSymptomsStats2_copia$`#all_mismatches_30Vs31` != 0),]
-stats30Vs32 <- BetweenSymptomsStats2_copia[which(BetweenSymptomsStats2_copia$`#all_mismatches_30Vs32` != 0),]
-stats30Vs28 <- BetweenSymptomsStats2_copia[which(BetweenSymptomsStats2_copia$`#all_mismatches_30Vs28` != 0),]
+stats30Vs31 <- BetweenSymptomsStats[which(BetweenSymptomsStats$`#all_mismatches_30Vs31` != 0),]
+stats30Vs32 <- BetweenSymptomsStats[which(BetweenSymptomsStats$`#all_mismatches_30Vs32` != 0),]
+stats30Vs28 <- BetweenSymptomsStats[which(BetweenSymptomsStats$`#all_mismatches_30Vs28` != 0),]
 
 for (i in 1:nrow(stats)) 
 {

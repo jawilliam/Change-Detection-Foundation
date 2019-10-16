@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 using Jawilliam.CDF.Actions;
@@ -76,6 +77,65 @@ namespace Jawilliam.CDF.Approach
         public static DetectionResult<TRevision> Read(string text, Encoding encoding)
         {
             return XmlHelper.DeserializeObject<DetectionResult<TRevision>>(text ?? "<Result/>", encoding);
+        }
+
+        /// <summary>
+        /// Replaces the referred <see cref="ElementVersion.GlobalId"/>s by their equivalent <see cref="ElementVersion.Id"/>s.
+        /// </summary>
+        /// <param name="original">the original tree used to generate the current delta.</param>
+        /// <param name="modified">the modified tree used to generate the current delta.</param>
+        public virtual void FromGlobalToIdDefinitions(ElementTree original, ElementTree modified)
+        {
+            var oDict = original.PostOrder(n => n.Children).Where(n => n.Root.GlobalId != null).ToDictionary(n => n.Root.GlobalId);
+            var mDict = modified.PostOrder(n => n.Children).Where(n => n.Root.GlobalId != null).ToDictionary(n => n.Root.GlobalId);
+
+            ElementTree tree;
+            foreach (var match in this.Matches)
+            {
+                tree = oDict[match.Original.Id];
+                match.Original.Id = tree.Root.Id;
+                tree = mDict[match.Modified.Id];
+                match.Modified.Id = tree.Root.Id;
+            }
+            
+            foreach (var action in this.Actions)
+            {
+                switch (action.Action)
+                {
+                    case ActionKind.None:
+                        break;
+                    case ActionKind.Update:
+                        var update = (UpdateOperationDescriptor)action;
+                        tree = oDict[update.Element.Id];
+                        update.Element.Id = tree.Root.Id;
+                        break;
+                    case ActionKind.Insert:
+                        var insert = (InsertOperationDescriptor)action;
+                        tree = mDict[insert.Element.Id];
+                        insert.Element.Id = tree.Root.Id;
+                        //tree = oDict[insert.Parent.Id];
+                        //insert.Parent.Id = tree.Root.Id;
+                        break;
+                    case ActionKind.Delete:
+                        var delete = (DeleteOperationDescriptor)action;
+                        tree = oDict[delete.Element.Id];
+                        delete.Element.Id = tree.Root.Id;
+                        break;
+                    case ActionKind.Move:
+                        var move = (MoveOperationDescriptor)action;
+                        tree = oDict[move.Element.Id];
+                        move.Element.Id = tree.Root.Id;
+                        //tree = oDict[move.Parent.Id];
+                        //move.Parent.Id = tree.Root.Id;
+                        break;
+                    case ActionKind.Align:
+                        var align = (AlignOperationDescriptor)action;
+                        tree = oDict[align.Element.Id];
+                        align.Element.Id = tree.Root.Id;
+                        break;
+                    default: throw new ArgumentException("unexpected action type.");
+                }
+            }
         }
     }
 

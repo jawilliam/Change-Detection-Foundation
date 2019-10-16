@@ -19,6 +19,7 @@ namespace Jawilliam.CDF.Labs.DBModel
         RoslynML = 4,
         NONE = 0,
         BasicPruning = 8,
-        IncludeTrivia = 16
+        IncludeTrivia = 16,
+        Defoliation = 32
     }
 }
