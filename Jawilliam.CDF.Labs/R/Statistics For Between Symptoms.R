@@ -1,6 +1,6 @@
 library(readr)
 
-BetweenSymptomsStats <- BetweenSymptomsStats_28Vs29
+BetweenSymptomsStats <- read_delim("D:/ExperimentLogs/BetweenSymptomsStats_28Vs30 - copia.txt", ";", escape_double = FALSE, trim_ws = TRUE)
 
 projects <- unique(BetweenSymptomsStats$Project)
 projects <- data.frame(projects)
@@ -18,6 +18,17 @@ allmismatches <- BetweenSymptomsStats[which(BetweenSymptomsStats[27] != 0),]
 View(allmismatches)
 allmisactions <- BetweenSymptomsStats[which(BetweenSymptomsStats[16] != BetweenSymptomsStats[22]),]
 View(allmisactions)
+
+lBest <- BetweenSymptomsStats[which(BetweenSymptomsStats[16] < BetweenSymptomsStats[22]),]
+print("Left Best: ")
+nrow(lBest)
+rBest <- BetweenSymptomsStats[which(BetweenSymptomsStats[16] > BetweenSymptomsStats[22]),]
+print("Right Best")
+nrow(rBest)
+noBest <- BetweenSymptomsStats[which(BetweenSymptomsStats[16] == BetweenSymptomsStats[22]),]
+print("No Best")
+nrow(noBest)
+
 #for (i in 1:nrow(stats)) 
 #{
 #  stats[i,1]

@@ -179,11 +179,6 @@
       <DependentUpon>GitRepository.tt</DependentUpon>
     </Compile>
     <Compile Include="BaseImprecisionComparison.cs" />
-    <Compile Include="GitRepository.Designer.cs">
-      <DependentUpon>GitRepository.edmx</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
     <Compile Include="ImprecisionComparison.cs" />
     <Compile Include="RedundancyComparison.cs" />
     <Compile Include="BetweenComparison.cs" />
@@ -390,9 +385,6 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="GitRepository.edmx.diagram">
-      <DependentUpon>GitRepository.edmx</DependentUpon>
-    </None>
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
@@ -434,12 +426,6 @@
   <ItemGroup>
     <Folder Include="Reports\" />
     <Folder Include="R\" />
-  </ItemGroup>
-  <ItemGroup>
-    <EntityDeploy Include="GitRepository.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>GitRepository.Designer.cs</LastGenOutput>
-    </EntityDeploy>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

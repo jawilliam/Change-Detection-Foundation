@@ -298,7 +298,7 @@ namespace Jawilliam.Tools.CCL
 
                 foreach (var configuration in configurations)
                 {
-                    headLine.Append($";#r_matches_{(int)configuration.Approach};" +
+                    headLine.Append($";#matches_{(int)configuration.Approach};" +
                                     $"#actions_{(int)configuration.Approach};" +
                                     $"#inserts_{(int)configuration.Approach};" +
                                     $"#deletes_{(int)configuration.Approach};" +
@@ -371,10 +371,12 @@ namespace Jawilliam.Tools.CCL
                                     continue;
 
                                 var last = treeRevisionPairList.Last();
-                                var rTreeRevisionPair = configuration.Direction == "Forward" ? last : (last.modified, last.original);
                                 rightStatsList.Add(this._AbsoluteStatsFor(dbRepository, rightDelta, ref @continue));
-                                lrStatsList.Add(this._RelativeStatsFor(dbRepository, refDelta, refTreeRevisionPair, rTreeRevisionPair, ref @continue));
-                                rlStatsList.Add(this._RelativeStatsFor(dbRepository, rightDelta, rTreeRevisionPair, refTreeRevisionPair, ref @continue));
+                                lrStatsList.Add(this._RelativeStatsFor(dbRepository, refDelta, refTreeRevisionPair, last, ref @continue));
+                                rlStatsList.Add(this._RelativeStatsFor(dbRepository, rightDelta,
+                                    configuration.Direction == "Forward" ? last : (last.modified, last.original),
+                                    configuration.Direction == "Forward" ? refTreeRevisionPair : (refTreeRevisionPair.modified, refTreeRevisionPair.original), 
+                                    ref @continue));
                                 if (@continue)
                                     break;
                                 comparisonStatsList.Add(this._StatsOfComparisonFor(dbRepository, refDelta, rightDelta, ref @continue));
@@ -426,18 +428,18 @@ namespace Jawilliam.Tools.CCL
                 var xComparison = deltaComparison.XMatching;
 
                 var lr = 
-                    xComparison.Matching?.OfType<LRMatchSymptom>().Count(s => s.Left.Approach == (int)refDelta.Approach &&
-                    (s.OriginalAtRight.Approach == (int)rightDelta.Approach || s.ModifiedAtRight.Approach == (int)rightDelta.Approach)) ?? 0 
+                    (xComparison.Matching?.OfType<LRMatchSymptom>().Count(s => s.Left.Approach == (int)refDelta.Approach /*&&
+                    (s.OriginalAtRight.Approach == (int)rightDelta.Approach || s.ModifiedAtRight.Approach == (int)rightDelta.Approach)*/) ?? 0)
                     +                        
-                    xComparison.Matching?.OfType<RLMatchSymptom>().Count(s => s.Right.Approach == (int)refDelta.Approach &&
-                    (s.OriginalAtLeft.Approach == (int)rightDelta.Approach || s.ModifiedAtLeft.Approach == (int)rightDelta.Approach)) ?? 0;
+                    (xComparison.Matching?.OfType<RLMatchSymptom>().Count(s => s.Right.Approach == (int)refDelta.Approach /*&&
+                    (s.OriginalAtLeft.Approach == (int)rightDelta.Approach || s.ModifiedAtLeft.Approach == (int)rightDelta.Approach)*/) ?? 0);
 
                 var rl =
-                    xComparison.Matching?.OfType<LRMatchSymptom>().Count(s => s.Left.Approach == (int)rightDelta.Approach &&
-                    (s.OriginalAtRight.Approach == (int)refDelta.Approach || s.ModifiedAtRight.Approach == (int)refDelta.Approach)) ?? 0
+                    (xComparison.Matching?.OfType<LRMatchSymptom>().Count(s => s.Left.Approach == (int)rightDelta.Approach /*&&
+                    (s.OriginalAtRight.Approach == (int)refDelta.Approach || s.ModifiedAtRight.Approach == (int)refDelta.Approach)*/) ?? 0)
                     +
-                    xComparison.Matching?.OfType<RLMatchSymptom>().Count(s => s.Right.Approach == (int)rightDelta.Approach &&
-                    (s.OriginalAtLeft.Approach == (int)refDelta.Approach || s.ModifiedAtLeft.Approach == (int)refDelta.Approach)) ?? 0;
+                    (xComparison.Matching?.OfType<RLMatchSymptom>().Count(s => s.Right.Approach == (int)rightDelta.Approach /*&&
+                    (s.OriginalAtLeft.Approach == (int)refDelta.Approach || s.ModifiedAtLeft.Approach == (int)refDelta.Approach)*/) ?? 0);
 
                 var total = lr + rl;
 

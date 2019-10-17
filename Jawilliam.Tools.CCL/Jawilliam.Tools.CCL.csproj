@@ -198,6 +198,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CCL.explore.cs" />
     <Compile Include="CCL.cs" />
     <Compile Include="CCL.compare.cs" />
     <Compile Include="CCL.savetrees.cs" />
