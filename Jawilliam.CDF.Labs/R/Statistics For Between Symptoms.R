@@ -1,6 +1,6 @@
 library(readr)
 
-BetweenSymptomsStats <- BetweenSymptomsStats_28Vs32
+BetweenSymptomsStats <- BetweenSymptomsStats_28Vs29
 
 projects <- unique(BetweenSymptomsStats$Project)
 projects <- data.frame(projects)
@@ -14,11 +14,11 @@ names(projects)[1] <- colnames(BetweenSymptomsStats)[1]
 #                                           (BetweenSymptomsStats2_copia$`#lr_updates_31` != BetweenSymptomsStats2_copia$`#rl_updates_31`) |
 #                                           (BetweenSymptomsStats2_copia$`#lr_moves_31` != BetweenSymptomsStats2_copia$`#rl_moves_31`),]
 
-stats30Vs31 <- BetweenSymptomsStats[which(BetweenSymptomsStats$`#all_mismatches_30Vs31` != 0),]
-stats30Vs32 <- BetweenSymptomsStats[which(BetweenSymptomsStats$`#all_mismatches_30Vs32` != 0),]
-stats30Vs28 <- BetweenSymptomsStats[which(BetweenSymptomsStats$`#all_mismatches_30Vs28` != 0),]
-
-for (i in 1:nrow(stats)) 
-{
-  stats[i,1]
-}
+allmismatches <- BetweenSymptomsStats[which(BetweenSymptomsStats[27] != 0),]
+View(allmismatches)
+allmisactions <- BetweenSymptomsStats[which(BetweenSymptomsStats[16] != BetweenSymptomsStats[22]),]
+View(allmisactions)
+#for (i in 1:nrow(stats)) 
+#{
+#  stats[i,1]
+#}
