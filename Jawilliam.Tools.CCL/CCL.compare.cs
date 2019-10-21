@@ -125,23 +125,30 @@ namespace Jawilliam.Tools.CCL
                                     : dbRepository.FileFormats.AsNoTracking().Single(ff => ff.Kind == configuration.FileFormat && ff.FileVersion.Id == a.Pair.Principal.FileVersion.Id);
                             }
 
-                            var xTree = XElement.Load(new StringReader(version.XmlTree));
-                            var roslynMLServices = new RoslynML();
-
-                            result = roslynMLServices.AsGumtreefiedElementTree(xTree, true);
-                            if (a.Delta.Approach == refApproach.Approach)
+                            if (!args.Limited)
                             {
-                                if (a.TrueForOriginalOtherwiseModified)
-                                    lOriginalTree = result.PostOrder(n => n.Children).Where(n => n.Root.Id != null).ToDictionary(n => n.Root.Id);
+                                var xTree = XElement.Load(new StringReader(version.XmlTree));
+                                var roslynMLServices = new RoslynML();
+
+                                result = roslynMLServices.AsGumtreefiedElementTree(xTree, true);
+                                if (a.Delta.Approach == refApproach.Approach)
+                                {
+                                    if (a.TrueForOriginalOtherwiseModified)
+                                        lOriginalTree = result.PostOrder(n => n.Children).Where(n => n.Root.Id != null).ToDictionary(n => n.Root.Id);
+                                    else
+                                        lModifiedTree = result.PostOrder(n => n.Children).Where(n => n.Root.Id != null).ToDictionary(n => n.Root.Id);
+                                }
                                 else
-                                    lModifiedTree = result.PostOrder(n => n.Children).Where(n => n.Root.Id != null).ToDictionary(n => n.Root.Id);
+                                {
+                                    if (a.TrueForOriginalOtherwiseModified)
+                                        rOriginalTree = result.PostOrder(n => n.Children).Where(n => n.Root.Id != null).ToDictionary(n => n.Root.Id);
+                                    else
+                                        rModifiedTree = result.PostOrder(n => n.Children).Where(n => n.Root.Id != null).ToDictionary(n => n.Root.Id);
+                                }
                             }
                             else
                             {
-                                if (a.TrueForOriginalOtherwiseModified)
-                                    rOriginalTree = result.PostOrder(n => n.Children).Where(n => n.Root.Id != null).ToDictionary(n => n.Root.Id);
-                                else
-                                    rModifiedTree = result.PostOrder(n => n.Children).Where(n => n.Root.Id != null).ToDictionary(n => n.Root.Id);
+                                result = ElementTree.Read(version.XmlTree, Encoding.Unicode);
                             }
 
                             return result;
@@ -149,13 +156,7 @@ namespace Jawilliam.Tools.CCL
 
                         recognizer.Config.Align = delegate (ElementTree o, ElementTree m, DetectionResult d, bool trueForLeftOtherwiseRight)
                         {
-                            //var o11 = trueForLeftOtherwiseRight ? null : rOriginalTree.Values.Where(r => r.Parent == null);
-                            //var o111 = trueForLeftOtherwiseRight ? null : rOriginalTree.Values.OrderBy(r => int.Parse(r.Root.Id)).Last();
-                            //var o22 = trueForLeftOtherwiseRight ? null : rModifiedTree.Values.Where(r => r.Parent == null);
-                            //var o222 = trueForLeftOtherwiseRight ? null : rModifiedTree.Values.OrderBy(r => int.Parse(r.Root.Id)).Last();
-                          
-                            //var oTree = trueForLeftOtherwiseRight ? o : (configuration.Direction == "Backward" ? o : m);
-                            //var mTree = trueForLeftOtherwiseRight ? m : (configuration.Direction == "Backward" ? m : o);
+                            if (args.Limited) return;
 
                             var oDict = o.PostOrder(n => n.Children).Where(n => n.Root.GlobalId != null).ToDictionary(n => n.Root.GlobalId);
                             var mDict = m.PostOrder(n => n.Children).Where(n => n.Root.GlobalId != null).ToDictionary(n => n.Root.GlobalId);
@@ -175,10 +176,10 @@ namespace Jawilliam.Tools.CCL
                             recognizer.Config.MatchCompare = delegate (string direction, MatchDescriptor leftMatch, DetectionResult leftDelta,
                                                                                          MatchDescriptor rightMatch, DetectionResult rightDelta)
                             {
-                                if (direction == "LR" && (!rOriginalTree.ContainsKey(leftMatch.Original.Id) || !rModifiedTree.ContainsKey(leftMatch.Modified.Id)))
+                                if (!args.Limited && direction == "LR" && (!rOriginalTree.ContainsKey(leftMatch.Original.Id) || !rModifiedTree.ContainsKey(leftMatch.Modified.Id)))
                                     return true;
 
-                                if (direction == "RL" && (!lOriginalTree.ContainsKey(leftMatch.Original.Id) || !lModifiedTree.ContainsKey(leftMatch.Modified.Id)))
+                                if (!args.Limited && direction == "RL" && (!lOriginalTree.ContainsKey(leftMatch.Original.Id) || !lModifiedTree.ContainsKey(leftMatch.Modified.Id)))
                                     return true;
 
                                 return innerMatchCompare(direction, leftMatch, leftDelta, rightMatch, rightDelta);
@@ -189,13 +190,13 @@ namespace Jawilliam.Tools.CCL
                         if (args.Trace != null)
                             System.IO.File.AppendAllText(args.Trace,
                                   $"{Environment.NewLine}{Environment.NewLine}" +
-                                  $"{configuration.Name} {configuration.Direction} (comparison) started " +
+                                  $"{refApproach.Name}Vs{configuration.Name} {configuration.Direction} (comparison) started " +
                                   $"{DateTime.Now.ToString("F", CultureInfo.InvariantCulture)} - {project.Name}");
-                        recognizer.Recognize(skipThese, true);
+                        recognizer.Recognize(skipThese, /*false*/true);
                         if (args.Trace != null)
                             System.IO.File.AppendAllText(args.Trace,
                                   $"{Environment.NewLine}{Environment.NewLine}" +
-                                  $"{configuration.Name} {configuration.Direction} (comparison) completed " +
+                                  $"{refApproach.Name}Vs{configuration.Name} {configuration.Direction} (comparison) completed " +
                                   $"{DateTime.Now.ToString("F", CultureInfo.InvariantCulture)} - {project.Name}");
                     }
                 }
@@ -287,49 +288,13 @@ namespace Jawilliam.Tools.CCL
                     Direction = i < args.Directions.Count ? args.Directions[i] : null
                 });
 
-                var headLine = new StringBuilder();
-                headLine.Append("Project;PrincipalRevisionPair;");
-                headLine.Append($"#matches_{(int)refApproach.Approach};" +
-                                $"#actions_{(int)refApproach.Approach};" +
-                                $"#inserts_{(int)refApproach.Approach};" +
-                                $"#deletes_{(int)refApproach.Approach};" +
-                                $"#updates_{(int)refApproach.Approach};" +
-                                $"#moves_{(int)refApproach.Approach}");
-
-                foreach (var configuration in configurations)
-                {
-                    headLine.Append($";#matches_{(int)configuration.Approach};" +
-                                    $"#actions_{(int)configuration.Approach};" +
-                                    $"#inserts_{(int)configuration.Approach};" +
-                                    $"#deletes_{(int)configuration.Approach};" +
-                                    $"#updates_{(int)configuration.Approach};" +
-                                    $"#moves_{(int)configuration.Approach}");
-                    headLine.Append($";#matches_{(int)refApproach.Approach}Vs{(int)configuration.Approach};" +
-                                    $"#actions_{(int)refApproach.Approach}Vs{(int)configuration.Approach};" +
-                                    $"#inserts_{(int)refApproach.Approach}Vs{(int)configuration.Approach};" +
-                                    $"#deletes_{(int)refApproach.Approach}Vs{(int)configuration.Approach};" +
-                                    $"#updates_{(int)refApproach.Approach}Vs{(int)configuration.Approach};" +
-                                    $"#moves_{(int)refApproach.Approach}Vs{(int)configuration.Approach}");
-                    headLine.Append($";#matches_{(int)configuration.Approach}Vs{(int)refApproach.Approach};" +
-                                    $"#actions_{(int)configuration.Approach}Vs{(int)refApproach.Approach};" +
-                                    $"#inserts_{(int)configuration.Approach}Vs{(int)refApproach.Approach};" +
-                                    $"#deletes_{(int)configuration.Approach}Vs{(int)refApproach.Approach};" +
-                                    $"#updates_{(int)configuration.Approach}Vs{(int)refApproach.Approach};" +
-                                    $"#moves_{(int)configuration.Approach}Vs{(int)refApproach.Approach}");
-                    headLine.Append($";#all_mismatches_{(int)refApproach.Approach}Vs{(int)configuration.Approach}" +
-                                    $";#mismatches_{(int)refApproach.Approach}Vs{(int)configuration.Approach}" +
-                                    $";#mismatches_{(int)configuration.Approach}Vs{(int)refApproach.Approach}");
-                }
-                headLine.Append($"{Environment.NewLine}");
-                System.IO.File.AppendAllText(args.Trace, headLine.ToString());
+                this.WriteHeadLine(refApproach.Approach, configurations.Select(c => c.Approach), args.Trace);
 
                 foreach (var project in Projects.Skip(args.From - 1).Take(args.To - (args.From - 1)))
                 {
                     using (var dbRepository = new GitRepository(project.Name) { Name = project.Name })
                     {
                         ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 600000;
-                        //analyzer.SqlRepository = dbRepository;
-
                         var revisionPairIds = (from d in dbRepository.Deltas.AsNoTracking()
                                                orderby d.RevisionPair.Id
                                                select d.RevisionPair.Id).Distinct().ToArray();
@@ -372,11 +337,11 @@ namespace Jawilliam.Tools.CCL
 
                                 var last = treeRevisionPairList.Last();
                                 rightStatsList.Add(this._AbsoluteStatsFor(dbRepository, rightDelta, ref @continue));
-                                lrStatsList.Add(this._RelativeStatsFor(dbRepository, refDelta, refTreeRevisionPair, last, ref @continue));
+                                lrStatsList.Add(this._RelativeStatsFor(dbRepository, refDelta, refTreeRevisionPair, last, args.Limited, ref @continue));
                                 rlStatsList.Add(this._RelativeStatsFor(dbRepository, rightDelta,
                                     configuration.Direction == "Forward" ? last : (last.modified, last.original),
-                                    configuration.Direction == "Forward" ? refTreeRevisionPair : (refTreeRevisionPair.modified, refTreeRevisionPair.original), 
-                                    ref @continue));
+                                    configuration.Direction == "Forward" ? refTreeRevisionPair : (refTreeRevisionPair.modified, refTreeRevisionPair.original),
+                                    args.Limited, ref @continue));
                                 if (@continue)
                                     break;
                                 comparisonStatsList.Add(this._StatsOfComparisonFor(dbRepository, refDelta, rightDelta, ref @continue));
@@ -413,6 +378,45 @@ namespace Jawilliam.Tools.CCL
                 }
             }
 
+            private void WriteHeadLine(ChangeDetectionApproaches refApproach, IEnumerable<ChangeDetectionApproaches> configurationApproaches, string trace)
+            {
+                var headLine = new StringBuilder();
+                headLine.Append("Project;PrincipalRevisionPair;");
+                headLine.Append($"#matches_{(int)refApproach};" +
+                                $"#actions_{(int)refApproach};" +
+                                $"#inserts_{(int)refApproach};" +
+                                $"#deletes_{(int)refApproach};" +
+                                $"#updates_{(int)refApproach};" +
+                                $"#moves_{(int)refApproach}");
+
+                foreach (var configurationApproach in configurationApproaches)
+                {
+                    headLine.Append($";#matches_{(int)configurationApproach};" +
+                                    $"#actions_{(int)configurationApproach};" +
+                                    $"#inserts_{(int)configurationApproach};" +
+                                    $"#deletes_{(int)configurationApproach};" +
+                                    $"#updates_{(int)configurationApproach};" +
+                                    $"#moves_{(int)configurationApproach}");
+                    headLine.Append($";#matches_{(int)refApproach}Vs{(int)configurationApproach};" +
+                                    $"#actions_{(int)refApproach}Vs{(int)configurationApproach};" +
+                                    $"#inserts_{(int)refApproach}Vs{(int)configurationApproach};" +
+                                    $"#deletes_{(int)refApproach}Vs{(int)configurationApproach};" +
+                                    $"#updates_{(int)refApproach}Vs{(int)configurationApproach};" +
+                                    $"#moves_{(int)refApproach}Vs{(int)configurationApproach}");
+                    headLine.Append($";#matches_{(int)configurationApproach}Vs{(int)refApproach};" +
+                                    $"#actions_{(int)configurationApproach}Vs{(int)refApproach};" +
+                                    $"#inserts_{(int)configurationApproach}Vs{(int)refApproach};" +
+                                    $"#deletes_{(int)configurationApproach}Vs{(int)refApproach};" +
+                                    $"#updates_{(int)configurationApproach}Vs{(int)refApproach};" +
+                                    $"#moves_{(int)configurationApproach}Vs{(int)refApproach}");
+                    headLine.Append($";#all_mismatches_{(int)refApproach}Vs{(int)configurationApproach}" +
+                                    $";#mismatches_{(int)refApproach}Vs{(int)configurationApproach}" +
+                                    $";#mismatches_{(int)configurationApproach}Vs{(int)refApproach}");
+                }
+                headLine.Append($"{Environment.NewLine}");
+                System.IO.File.AppendAllText(trace, headLine.ToString());
+            }
+
             private (int lr, int rl, int total) _StatsOfComparisonFor(GitRepository dbRepository, Delta refDelta, Delta rightDelta, ref bool @continue)
             {
                 var deltaComparison = dbRepository.DeltaComparisonSet.AsNoTracking().SingleOrDefault(s => 
@@ -427,20 +431,10 @@ namespace Jawilliam.Tools.CCL
 
                 var xComparison = deltaComparison.XMatching;
 
-                var lr = 
-                    (xComparison.Matching?.OfType<LRMatchSymptom>().Count(s => s.Left.Approach == (int)refDelta.Approach /*&&
-                    (s.OriginalAtRight.Approach == (int)rightDelta.Approach || s.ModifiedAtRight.Approach == (int)rightDelta.Approach)*/) ?? 0)
-                    +                        
-                    (xComparison.Matching?.OfType<RLMatchSymptom>().Count(s => s.Right.Approach == (int)refDelta.Approach /*&&
-                    (s.OriginalAtLeft.Approach == (int)rightDelta.Approach || s.ModifiedAtLeft.Approach == (int)rightDelta.Approach)*/) ?? 0);
-
-                var rl =
-                    (xComparison.Matching?.OfType<LRMatchSymptom>().Count(s => s.Left.Approach == (int)rightDelta.Approach /*&&
-                    (s.OriginalAtRight.Approach == (int)refDelta.Approach || s.ModifiedAtRight.Approach == (int)refDelta.Approach)*/) ?? 0)
-                    +
-                    (xComparison.Matching?.OfType<RLMatchSymptom>().Count(s => s.Right.Approach == (int)rightDelta.Approach /*&&
-                    (s.OriginalAtLeft.Approach == (int)refDelta.Approach || s.ModifiedAtLeft.Approach == (int)refDelta.Approach)*/) ?? 0);
-
+                var lr = (xComparison.Matching?.OfType<LRMatchSymptom>().Count(s => s.Left.Approach == (int)refDelta.Approach) ?? 0) + 
+                         (xComparison.Matching?.OfType<RLMatchSymptom>().Count(s => s.Right.Approach == (int)refDelta.Approach) ?? 0);
+                var rl = (xComparison.Matching?.OfType<LRMatchSymptom>().Count(s => s.Left.Approach == (int)rightDelta.Approach) ?? 0) + 
+                         (xComparison.Matching?.OfType<RLMatchSymptom>().Count(s => s.Right.Approach == (int)rightDelta.Approach) ?? 0);
                 var total = lr + rl;
 
                 return (lr: lr, rl: rl, total: total);
@@ -471,7 +465,7 @@ namespace Jawilliam.Tools.CCL
 
             private (int matches, int actions, int inserts, int deletes, int updates, int moves) _RelativeStatsFor(GitRepository dbRepository, Delta delta,
                 (Dictionary<string, ElementTree> original, Dictionary<string, ElementTree> modified) leftRevisionPair,
-                (Dictionary<string, ElementTree> original, Dictionary<string, ElementTree> modified) rightRevisionPair, ref bool @continue)
+                (Dictionary<string, ElementTree> original, Dictionary<string, ElementTree> modified) rightRevisionPair, bool limited, ref bool @continue)
             {
                 var detectionResult = (DetectionResult)delta.DetectionResult;
                 if (detectionResult.Actions.Count == 0)
@@ -479,6 +473,12 @@ namespace Jawilliam.Tools.CCL
                     @continue = true;
                     return (matches: 0, actions: 0, inserts: 0, deletes: 0, updates: 0, moves: 0);
                 }
+
+                if (limited)
+                {
+                    return (matches: -1, actions: -1, inserts: -1, deletes: -1, updates: -1, moves: -1);
+                }
+
                 detectionResult.FromGlobalToIdDefinitions(leftRevisionPair.original.Values.Single(o => o.Parent == null), 
                                                           leftRevisionPair.modified.Values.Single(o => o.Parent == null));
                 
@@ -559,6 +559,9 @@ namespace Jawilliam.Tools.CCL
 
         [Option(ShortName = "trace")]
         public string Trace { get; set; }
+
+        [Option(LongName = "limited")]
+        public bool Limited { get; set; }
 
         [Option(ShortName = "from")]
         public int From { get; set; } = 1;
