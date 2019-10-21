@@ -1,6 +1,6 @@
 library(readr)
 
-BetweenSymptomsStats <- read_delim("D:/ExperimentLogs/BetweenSymptomsStats_28Vs30 - copia.txt", ";", escape_double = FALSE, trim_ws = TRUE)
+#BetweenSymptomsStats <- read_delim("D:/ExperimentLogs/BetweenSymptomsStats_28Vs30 - copia.txt", ";", escape_double = FALSE, trim_ws = TRUE)
 
 #projects <- unique(BetweenSymptomsStats$Project)
 #projects <- data.frame(projects)
@@ -26,15 +26,136 @@ View(approaches)
 #                                           (BetweenSymptomsStats2_copia$`#lr_updates_31` != BetweenSymptomsStats2_copia$`#rl_updates_31`) |
 #                                           (BetweenSymptomsStats2_copia$`#lr_moves_31` != BetweenSymptomsStats2_copia$`#rl_moves_31`),]
 
-BetweenSymptomsStats <- read_delim("D:/ExperimentLogs/BetweenSymptomsStats_28Vs30.txt", ";", escape_double = FALSE, trim_ws = TRUE)
+# BetweenSymptomsStats <- read_delim("D:/ExperimentLogs/BetweenSymptomsStats_28Vs30.txt", ";", escape_double = FALSE, trim_ws = TRUE)
+# total <- nrow(BetweenSymptomsStats)
+# stats <- data.frame(a28Vs30_LR_E=round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[28] != 0),])/total*100, 2),
+#                     a30Vs28_RL_E=round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[29] != 0),])/total*100, 2),
+#                     #a28Vs30_Equal_E=round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[27] == 0),])/total*100, 2),
+#                     a28Vs30_NotEqual_E=round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[27] != 0),])/total*100, 2),
+#                     a28Vs30_LBest_D=round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[16] < BetweenSymptomsStats[22]),])/total*100, 2),
+#                     a30Vs28_RBest_D=round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[16] > BetweenSymptomsStats[22]),])/total*100, 2),
+#                     #a28Vs30_Equal_D=round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[16] == BetweenSymptomsStats[22]),])/total*100, 2))
+#                     a28Vs30_NotEqual_D=round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[16] != BetweenSymptomsStats[22]),])/total*100, 2))
+# 
+# stats[2,]$a28Vs30_LBest_D = nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[16] < BetweenSymptomsStats[22]),])
+# stats[2,]$a30Vs28_RBest_D = nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[16] > BetweenSymptomsStats[22]),])
+# #stats[2,]$a28Vs30_Equal_D = nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[16] == BetweenSymptomsStats[22]),])
+# stats[2,]$a28Vs30_NotEqual_D = nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[16] != BetweenSymptomsStats[22]),])
+# stats[2,]$a28Vs30_LR_E = nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[28] != 0),])
+# stats[2,]$a30Vs28_RL_E = nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[29] != 0),])
+# #stats[2,]$a28Vs30_Equal_E = nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[27] == 0),])
+# stats[2,]$a28Vs30_NotEqual_E =nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[27] != 0),])
 
-stats <- data.frame(Left_Best_Actions=nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[16] < BetweenSymptomsStats[22]),]), 
-                    Right_Best_Actions=nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[16] > BetweenSymptomsStats[22]),]), 
-                    Equal_Actions=nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[16] == BetweenSymptomsStats[22]),]),
-                    NotEqual_Actions=nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[16] != BetweenSymptomsStats[22]),]),
-                    ALL_Mismatches=nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[27] != 0),]), 
-                    LR_Mismatches=nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[28] != 0),]), 
-                    RL_Mismatches=nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[29] != 0),]))
+# BetweenSymptomsStats <- read_delim("D:/ExperimentLogs/BetweenSymptomsStats_28Vs29.txt", ";", escape_double = FALSE, trim_ws = TRUE)
+# total <- nrow(BetweenSymptomsStats)
+# stats <- data.frame(a28Vs29_LR_E=round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[28] != 0),])/total*100, 2), 
+#                     a29Vs28_RL_E=round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[29] != 0),])/total*100, 2),
+#                     #a28Vs29_Equal_E=round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[27] == 0),])/total*100, 2),
+#                     a28Vs29_NotEqual_E=round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[27] != 0),])/total*100, 2),
+#                     a28Vs29_LBest_D=round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[16] < BetweenSymptomsStats[22]),])/total*100, 2), 
+#                     a29Vs28_RBest_D=round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[16] > BetweenSymptomsStats[22]),])/total*100, 2), 
+#                     #a28Vs29_Equal_D=round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[16] == BetweenSymptomsStats[22]),])/total*100, 2)) 
+#                     a28Vs29_NotEqual_D=round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[16] != BetweenSymptomsStats[22]),])/total*100, 2))
+# 
+# stats[2,]$a28Vs29_LBest_D = nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[16] < BetweenSymptomsStats[22]),]) 
+# stats[2,]$a29Vs28_RBest_D = nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[16] > BetweenSymptomsStats[22]),]) 
+# #stats[2,]$a28Vs29_Equal_D = nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[16] == BetweenSymptomsStats[22]),]) 
+# stats[2,]$a28Vs29_NotEqual_D = nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[16] != BetweenSymptomsStats[22]),])
+# stats[2,]$a28Vs29_LR_E = nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[28] != 0),])
+# stats[2,]$a29Vs28_RL_E = nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[29] != 0),])
+# #stats[2,]$a28Vs29_Equal_E = nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[27] == 0),])
+# stats[2,]$a28Vs29_NotEqual_E =nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[27] != 0),])
+
+
+# BetweenSymptomsStats <- read_delim("D:/ExperimentLogs/BetweenSymptomsStats_28Vs32.txt", ";", escape_double = FALSE, trim_ws = TRUE)
+# total <- nrow(BetweenSymptomsStats)
+# stats <- data.frame(a28Vs32_LR_E=round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[28] != 0),])/total*100, 2),
+#                     a32Vs28_RL_E=round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[29] != 0),])/total*100, 2),
+#                     #a28Vs32_Equal_E=round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[27] == 0),])/total*100, 2),
+#                     a28Vs32_NotEqual_E=round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[27] != 0),])/total*100, 2),
+#                     a28Vs32_LBest_D=round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[16] < BetweenSymptomsStats[22]),])/total*100, 2),
+#                     a32Vs28_RBest_D=round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[16] > BetweenSymptomsStats[22]),])/total*100, 2),
+#                     #a28Vs32_Equal_D=round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[16] == BetweenSymptomsStats[22]),])/total*100, 2))
+#                     a28Vs32_NotEqual_D=round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[16] != BetweenSymptomsStats[22]),])/total*100, 2))
+# 
+# stats[2,]$a28Vs32_LBest_D = nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[16] < BetweenSymptomsStats[22]),])
+# stats[2,]$a32Vs28_RBest_D = nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[16] > BetweenSymptomsStats[22]),])
+# #stats[2,]$a28Vs29_Equal_D = nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[16] == BetweenSymptomsStats[22]),])
+# stats[2,]$a28Vs32_NotEqual_D = nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[16] != BetweenSymptomsStats[22]),])
+# stats[2,]$a28Vs32_LR_E = nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[28] != 0),])
+# stats[2,]$a32Vs28_RL_E = nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[29] != 0),])
+# #stats[2,]$a28Vs29_Equal_E = nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[27] == 0),])
+# stats[2,]$a28Vs32_NotEqual_E =nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[27] != 0),])
+
+# BetweenSymptomsStats <- read_delim("D:/ExperimentLogs/BetweenSymptomsStats_30Vs31.txt", ";", escape_double = FALSE, trim_ws = TRUE)
+# total <- nrow(BetweenSymptomsStats)
+# stats <- data.frame(a30Vs31_LR_E=round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[28] != 0),])/total*100, 2),
+#                     a31Vs30_RL_E=round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[29] != 0),])/total*100, 2),
+#                     #a30Vs31_Equal_E=round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[27] == 0),])/total*100, 2),
+#                     a30Vs31_NotEqual_E=round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[27] != 0),])/total*100, 2),
+#                     a30Vs31_LBest_D=round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[16] < BetweenSymptomsStats[22]),])/total*100, 2),
+#                     a31Vs30_RBest_D=round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[16] > BetweenSymptomsStats[22]),])/total*100, 2),
+#                     #a30Vs31_Equal_D=round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[16] == BetweenSymptomsStats[22]),])/total*100, 2))
+#                     a30Vs31_NotEqual_D=round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[16] != BetweenSymptomsStats[22]),])/total*100, 2))
+# 
+# stats[2,]$a30Vs31_LBest_D = nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[16] < BetweenSymptomsStats[22]),])
+# stats[2,]$a31Vs30_RBest_D = nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[16] > BetweenSymptomsStats[22]),])
+# #stats[2,]$a30Vs31_Equal_D = nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[16] == BetweenSymptomsStats[22]),])
+# stats[2,]$a30Vs31_NotEqual_D = nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[16] != BetweenSymptomsStats[22]),])
+# stats[2,]$a30Vs31_LR_E = nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[28] != 0),])
+# stats[2,]$a31Vs30_RL_E = nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[29] != 0),])
+# #stats[2,]$a30Vs31_Equal_E = nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[27] == 0),])
+# stats[2,]$a30Vs31_NotEqual_E =nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[27] != 0),])
+
+# BetweenSymptomsStats <- read_delim("D:/ExperimentLogs/BetweenSymptomsStats_30Vs32.txt", ";", escape_double = FALSE, trim_ws = TRUE)
+# total <- nrow(BetweenSymptomsStats)
+# stats <- data.frame(a30Vs32_LR_E=round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[28] != 0),])/total*100, 2),
+#                     a32Vs30_RL_E=round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[29] != 0),])/total*100, 2),
+#                     a30Vs32_NotEqual_E=round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[27] != 0),])/total*100, 2),
+#                     a30Vs32_LBest_D=round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[16] < BetweenSymptomsStats[22]),])/total*100, 2),
+#                     a32Vs30_RBest_D=round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[16] > BetweenSymptomsStats[22]),])/total*100, 2),
+#                     a30Vs32_NotEqual_D=round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[16] != BetweenSymptomsStats[22]),])/total*100, 2))
+# 
+# stats[2,]$a30Vs32_LBest_D = nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[16] < BetweenSymptomsStats[22]),])
+# stats[2,]$a32Vs30_RBest_D = nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[16] > BetweenSymptomsStats[22]),])
+# stats[2,]$a30Vs32_NotEqual_D = nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[16] != BetweenSymptomsStats[22]),])
+# stats[2,]$a30Vs32_LR_E = nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[28] != 0),])
+# stats[2,]$a32Vs30_RL_E = nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[29] != 0),])
+# stats[2,]$a30Vs32_NotEqual_E =nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[27] != 0),])
+
+# 
+# BetweenSymptomsStats <- read_delim("D:/ExperimentLogs/BetweenSymptomsStats_32Vs33.txt", ";", escape_double = FALSE, trim_ws = TRUE)
+# total <- nrow(BetweenSymptomsStats)
+# stats <- data.frame(a32Vs33_LR_E=round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[28] != 0),])/total*100, 2),
+#                     a33Vs32_RL_E=round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[29] != 0),])/total*100, 2),
+#                     a32Vs33_NotEqual_E=round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[27] != 0),])/total*100, 2),
+#                     a32Vs33_LBest_D=round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[16] < BetweenSymptomsStats[22]),])/total*100, 2),
+#                     a33Vs32_RBest_D=round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[16] > BetweenSymptomsStats[22]),])/total*100, 2),
+#                     a32Vs33_NotEqual_D=round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[16] != BetweenSymptomsStats[22]),])/total*100, 2))
+# 
+# stats[2,]$a32Vs33_LBest_D = nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[16] < BetweenSymptomsStats[22]),])
+# stats[2,]$a33Vs32_RBest_D = nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[16] > BetweenSymptomsStats[22]),])
+# stats[2,]$a32Vs33_NotEqual_D = nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[16] != BetweenSymptomsStats[22]),])
+# stats[2,]$a32Vs33_LR_E = nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[28] != 0),])
+# stats[2,]$a33Vs32_RL_E = nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[29] != 0),])
+# stats[2,]$a32Vs33_NotEqual_E =nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[27] != 0),])
+
+BetweenSymptomsStats <- read_delim("D:/ExperimentLogs/BetweenSymptomsStats_36Vs37.txt", ";", escape_double = FALSE, trim_ws = TRUE)
+total <- nrow(BetweenSymptomsStats)
+stats <- data.frame(a36Vs37_LR_E=round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[28] != 0),])/total*100, 2),
+                    a37Vs36_RL_E=round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[29] != 0),])/total*100, 2),
+                    a36Vs37_NotEqual_E=round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[27] != 0),])/total*100, 2),
+                    a36Vs37_LBest_D=round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[16] < BetweenSymptomsStats[22]),])/total*100, 2),
+                    a37Vs36_RBest_D=round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[16] > BetweenSymptomsStats[22]),])/total*100, 2),
+                    a36Vs37_NotEqual_D=round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[16] != BetweenSymptomsStats[22]),])/total*100, 2))
+
+stats[2,]$a36Vs37_LBest_D = nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[16] < BetweenSymptomsStats[22]),])
+stats[2,]$a37Vs36_RBest_D = nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[16] > BetweenSymptomsStats[22]),])
+stats[2,]$a36Vs37_NotEqual_D = nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[16] != BetweenSymptomsStats[22]),])
+stats[2,]$a36Vs37_LR_E = nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[28] != 0),])
+stats[2,]$a37Vs36_RL_E = nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[29] != 0),])
+stats[2,]$a36Vs37_NotEqual_E =nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[27] != 0),])
+
 View(stats)
 
 View(BetweenSymptomsStats[which(BetweenSymptomsStats[16] != BetweenSymptomsStats[22]),])
