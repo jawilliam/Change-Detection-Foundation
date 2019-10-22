@@ -51,19 +51,6 @@ namespace Jawilliam.Tools.CCL
             public virtual void Download(DownloadArgs args)
             {
                 var revisionPairId = Guid.Parse(args.RevisionPairId);
-                //var configurations = args.OriginalPaths.Select((r, i) => new
-                //{
-                //    OriginalPath = i < args.OriginalPaths.Count ? args.OriginalPaths[i] : null,
-                //    ModifiedPath = i < args.ModifiedPaths.Count ? args.ModifiedPaths[i] : null,
-                //    Runtime = i < args.Runtimes.Count ? args.Runtimes[i] : null,
-                //    //Approach = i < args.Approaches.Count 
-                //    //    ? (ChangeDetectionApproaches)Enum.Parse(typeof(ChangeDetectionApproaches), args.Approaches[i]) 
-                //    //    : default(ChangeDetectionApproaches),
-                //    //FileFormat = i < args.FileFormats.Count
-                //    //    ? (FileFormatKind)Enum.Parse(typeof(FileFormatKind), args.FileFormats[i])
-                //    //    : default(FileFormatKind),
-                //    Direction = i < args.Directions.Count ? args.Directions[i] : null
-                //});
 
                 var project = Projects.Single(p => p.Name == args.Project);
                 using (var dbRepository = new GitRepository(project.Name) { Name = project.Name })
@@ -82,40 +69,6 @@ namespace Jawilliam.Tools.CCL
 
                     System.IO.File.WriteAllText(args.OriginalPath, originalContentNode.ToFullString());
                     System.IO.File.WriteAllText(args.ModifiedPath, modifiedContentNode.ToFullString());
-
-                    //foreach (var configuration in configurations)
-                    //{ 
-                        
-
-                    //    string result = null;
-                    //    using (var _process = new Process())
-                    //    {
-                    //        var procStartInfo = new ProcessStartInfo($@"cmd.exe")
-                    //        {
-                    //            //RedirectStandardOutput = true,
-                    //            RedirectStandardInput = true,
-                    //            UseShellExecute = false,
-                    //            //Arguments = $@"D:{Environment.NewLine}cd {configuration.Runtime}\bin{Environment.NewLine}set PATH=%PATH%;C:\Program Files (x86)\srcML 0.9.5\bin{Environment.NewLine}gumtree.bat swingdiff {configuration.OriginalPath} {configuration.ModifiedPath}"
-                    //            //CreateNoWindow = false
-                    //        };
-
-                    //        var proc = new Process { StartInfo = procStartInfo };
-                    //        proc.Start();
-
-                    //        proc.StandardInput.WriteLine("D:");
-                    //        proc.StandardInput.WriteLine($@"cd {configuration.Runtime}\bin");
-                    //        proc.StandardInput.WriteLine(@"set PATH=%PATH%;C:\Program Files (x86)\srcML 0.9.5\bin");
-                    //        proc.StandardInput.WriteLine($"gumtree.bat swingdiff {configuration.OriginalPath} {configuration.ModifiedPath}");
-                    //        proc.StandardInput.Flush();
-                    //        proc.StandardInput.Close();
-                    //        //// Get the output into a string
-                    //        proc.WaitForExit();
-                    //        //result = proc.StandardOutput.ReadToEnd()/*.Replace(header, "")*/;
-                    //        ////result = result.Replace($@"{sPrefix}{args.GumTreePath}\bin>", "")
-                    //        ////               .Replace($@"{args.GumTreePath}\bin>", "");
-                    //        _process.Close();
-                    //    }
-                    //}
                 }
                 Console.Out.WriteLine($"DONE!!!");
             }
