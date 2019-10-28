@@ -40,6 +40,20 @@ namespace Jawilliam.Tools.CCL
                     Modified = args.ModifiedPath
                 };
 
+                (string project, Guid frpId)[] frpPerProjects = null;
+                if (args.OnThese != null)
+                {
+                    frpPerProjects = System.IO.File.ReadAllLines(args.OnThese).Skip(1)
+                        .Select<string, (string project, Guid frpId)>(delegate(string line, int i)
+                        {
+                            var values = line.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+                            if (values == null || values.Length != 2)
+                                throw new ApplicationException($"Bad formed entry: line {i}.");
+
+                            return (values[1], Guid.Parse(values[0]));
+                        }).ToArray();
+                }
+
                 foreach (var project in Projects.Skip(args.From - 1).Take(args.To - (args.From - 1)))
                 {
                     foreach (var configuration in configurations)
@@ -51,6 +65,15 @@ namespace Jawilliam.Tools.CCL
                         analyzer.SqlRepository = dbRepository;
                         analyzer.Cancel = () => gumTree.Cancel();
 
+                        Func<FileRevisionPair, bool> skipThese = null;
+                        if (frpPerProjects != null)
+                        {
+                            skipThese = delegate (FileRevisionPair frp)
+                            {
+                                return !frpPerProjects.Any(fpp => fpp.project == project.Name && fpp.frpId == frp.Principal.Id);
+                            };
+                        }
+
                         interopArgs.GumTreePath = configuration.Path;
                         var rApproach = (ChangeDetectionApproaches)Enum.Parse(typeof(ChangeDetectionApproaches), args.RefApproach);
                         switch (configuration.Direction)
@@ -61,7 +84,7 @@ namespace Jawilliam.Tools.CCL
                                           $"{Environment.NewLine}{Environment.NewLine}" +
                                           $"{configuration.Name} Forward (collection) started " +
                                           $"{DateTime.Now.ToString("F", CultureInfo.InvariantCulture)} - {project.Name}");
-                                analyzer.NativeGumTreeDiff(gumTree, interopArgs, configuration.Approach, null, null, rApproach);
+                                analyzer.NativeGumTreeDiff(gumTree, interopArgs, configuration.Approach, skipThese, null, rApproach);
                                 if(args.Trace != null)
                                     System.IO.File.AppendAllText(args.Trace,
                                           $"{Environment.NewLine}{Environment.NewLine}" +
@@ -74,7 +97,7 @@ namespace Jawilliam.Tools.CCL
                                           $"{Environment.NewLine}{Environment.NewLine}" +
                                           $"{configuration.Name} Backward (collection) starting " +
                                           $"{DateTime.Now.ToString("F", CultureInfo.InvariantCulture)} - {project.Name}");
-                                analyzer.InverseNativeGumTreeDiff(gumTree, interopArgs, configuration.Approach, null, null, rApproach);
+                                analyzer.InverseNativeGumTreeDiff(gumTree, interopArgs, configuration.Approach, skipThese, null, rApproach);
                                 if (args.Trace != null)
                                     System.IO.File.AppendAllText(args.Trace,
                                           $"{Environment.NewLine}{Environment.NewLine}" +
@@ -118,6 +141,9 @@ namespace Jawilliam.Tools.CCL
 
         [Option(ShortName = "direction")]
         public List<string> Directions { get; set; }
+
+        [Option(ShortName = "onThese")]
+        public string OnThese { get; set; }
 
         [Option(ShortName = "from")]
         public int From { get; set; } = 1;
