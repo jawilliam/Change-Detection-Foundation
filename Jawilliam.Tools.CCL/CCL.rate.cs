@@ -26,28 +26,7 @@ namespace Jawilliam.Tools.CCL
     {
         partial class GumTree
         {
-            /// <summary>
-            /// 
-            /// </summary>
-            /// <param name="args"></param>
-            /// <example>gumtree compare 
-            /// NativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTrivia_Forward
-            /// NativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTrivia
-            /// 28
-            /// -trace=D:\ExperimentLogs\NativeGumtree_RMBPITF_VsRMBPITB_VsRMNPITF_VsRMBPNTF.txt
-            /// -name=NativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTrivia_Backward
-            /// -approach=InverseNativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTrivia
-            /// -fileFormat=28
-            /// -direction=Backward
-            /// -name=NativeGTtreefiedRoslynMLWithIncludeTrivia_Forward
-            /// -approach=NativeGTtreefiedRoslynMLWithIncludeTrivia
-            /// -fileFormat=20
-            /// -direction=Forward
-            /// -name=NativeGTtreefiedRoslynMLWithBasicPruning_Forward
-            /// -approach=NativeGTtreefiedRoslynMLWithBasicPruning
-            /// -fileFormat=12
-            /// -direction=Forward
-            /// -to=25</example>
+            
             [ApplicationMetadata(Name = "rate", Description = "Rate...")]
             public virtual void RateMismatches(RateArgs args)
             {
@@ -77,29 +56,131 @@ namespace Jawilliam.Tools.CCL
                             Console.WriteLine($"({args.OriginalId},{args.ModifiedId})");
                         }
 
-                        string answer = null;
+                        string answer;
                         do
                         {
-                            Console.WriteLine("Want you overrite them?");
+                            answer = null;
+                            var confirmed = false;
+
+                            Console.WriteLine("Want you overrite them (y|n)?");
                             answer = Console.ReadLine();
-                            if (answer == "YES")
+
+                            if (answer?.ToLowerInvariant() != "y" && answer?.ToLowerInvariant() != "n")
+                                continue;
+
+                            Console.WriteLine(answer.ToLowerInvariant() == "y" 
+                                ? "Confirm that you want to override them (ok||any else)"
+                                : "Confirm that you do not want to override them (ok|any else)");
+
+                            confirmed = Console.ReadLine()?.ToLowerInvariant() == "ok";
+
+                            if (!confirmed)
+                                continue;
+
+                            if (answer?.ToLowerInvariant() == "y")
                             {
-                                dr.Matches.Add(new MatchDescriptor
-                                {
-                                    Original = new ElementVersion
-                                    {
-                                        
-                                    },
-                                    });
+                                relatedMatches.ForEach(rm => dr.Matches.Remove(rm));
                             }
                         }
-                        while (answer == "YES" || answer == "NO");
+                        while (answer?.ToLowerInvariant() == "y" || answer?.ToLowerInvariant() == "n");
                     }
+
+                    relatedMatches = 
 
                     //System.IO.File.WriteAllText(args.OriginalPath, originalContentNode.ToFullString());
                     //System.IO.File.WriteAllText(args.ModifiedPath, modifiedContentNode.ToFullString());
                 }
                 Console.Out.WriteLine($"DONE!!!");
+            }
+
+            protected virtual void RateMismatches(RateArgs args, DetectionResult detectionResult, BetweenSymptom mismatch, Dictionary<string, ElementTree> original, Dictionary<string, ElementTree> modified)
+            {
+                List<BetweenMatchInfo> candidateMatches = new List<BetweenMatchInfo>(3);
+                if (mismatch is LRMatchSymptom lrMismatch)
+                {
+                    candidateMatches.Add(lrMismatch.Left);
+
+                    if (lrMismatch.OriginalAtRight?.Original?.Element?.Id != "-1" || lrMismatch.OriginalAtRight?.Modified?.Element?.Id != "-1")
+                        candidateMatches.Add(lrMismatch.OriginalAtRight);
+
+                    if (lrMismatch.ModifiedAtRight?.Original?.Element?.Id != "-1" || lrMismatch.ModifiedAtRight?.Modified?.Element?.Id != "-1")
+                        candidateMatches.Add(lrMismatch.ModifiedAtRight);
+                }
+                else
+                {
+                    var rlMismatch = (RLMatchSymptom)mismatch;
+                    candidateMatches.Add(rlMismatch.Right);
+
+                    if (rlMismatch.OriginalAtLeft?.Original?.Element?.Id != "-1" || rlMismatch.OriginalAtLeft?.Modified?.Element?.Id != "-1")
+                        candidateMatches.Add(rlMismatch.OriginalAtLeft);
+
+                    if (rlMismatch.ModifiedAtLeft?.Original?.Element?.Id != "-1" || rlMismatch.ModifiedAtLeft?.Modified?.Element?.Id != "-1")
+                        candidateMatches.Add(rlMismatch.ModifiedAtLeft);
+                }
+                Console.WriteLine($"Are any of these matches correct?");
+                for (int i = 0; i < candidateMatches.Count; i++)
+                {
+                    var o = candidateMatches[i].Original?.Element?.Id != null 
+                        ? original[candidateMatches[i].Original.Element.Id.ToString(CultureInfo.InvariantCulture)]
+                        : null;
+                    var m = candidateMatches[i].Modified?.Element?.Id != null
+                        ? modified[candidateMatches[i].Modified.Element.Id.ToString(CultureInfo.InvariantCulture)]
+                        : null;
+
+                    Console.WriteLine($"{i}) - ({o?.Root?.GlobalId ?? "NULL"},{m?.Root?.GlobalId ?? "NULL"})");
+                }
+                Console.WriteLine($"{candidateMatches.Count}) - NONE");
+                var expectedMatchIndex = int.Parse(Console.ReadLine());
+                if (expectedMatchIndex < 0 || expectedMatchIndex > candidateMatches.Count)
+                    throw new ApplicationException("Unexpected answer");
+
+                BetweenMatchInfo expectedMatch = null;
+                if (expectedMatchIndex < candidateMatches.Count)
+                {
+                    expectedMatch = candidateMatches[expectedMatchIndex];
+                }
+                else
+                {
+                    Console.WriteLine($"Characterize the correct match?");
+                }
+
+                var relatedMatches = detectionResult.Matches.Where(m => m.Original.Id == args.OriginalId || m.Modified.Id == args.ModifiedId);
+                if (relatedMatches.Any())
+                {
+                    Console.WriteLine($"There are related matches...");
+                    foreach (var relatedMatch in relatedMatches)
+                    {
+                        Console.WriteLine($"({args.OriginalId},{args.ModifiedId})");
+                    }
+
+                    string answer;
+                    do
+                    {
+                        answer = null;
+                        var confirmed = false;
+
+                        Console.WriteLine("Want you overrite them (y|n)?");
+                        answer = Console.ReadLine();
+
+                        if (answer?.ToLowerInvariant() != "y" && answer?.ToLowerInvariant() != "n")
+                            continue;
+
+                        Console.WriteLine(answer.ToLowerInvariant() == "y"
+                            ? "Confirm that you want to override them (ok||any else)"
+                            : "Confirm that you do not want to override them (ok|any else)");
+
+                        confirmed = Console.ReadLine()?.ToLowerInvariant() == "ok";
+
+                        if (!confirmed)
+                            continue;
+
+                        if (answer?.ToLowerInvariant() == "y")
+                        {
+                            relatedMatches.ForEach(rm => detectionResult.Matches.Remove(rm));
+                        }
+                    }
+                    while (answer?.ToLowerInvariant() == "y" || answer?.ToLowerInvariant() == "n");
+                }
             }
 
             ///// <summary>
