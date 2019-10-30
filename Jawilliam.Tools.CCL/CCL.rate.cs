@@ -130,19 +130,28 @@ namespace Jawilliam.Tools.CCL
                     Console.WriteLine($"{i}) - ({o?.Root?.GlobalId ?? "NULL"},{m?.Root?.GlobalId ?? "NULL"})");
                 }
                 Console.WriteLine($"{candidateMatches.Count}) - NONE");
-                var expectedMatchIndex = int.Parse(Console.ReadLine());
+                var expectedMatchIndex = int.Parse(Console.ReadLine() ?? throw new InvalidOperationException("Null input"));
                 if (expectedMatchIndex < 0 || expectedMatchIndex > candidateMatches.Count)
                     throw new ApplicationException("Unexpected answer");
 
-                BetweenMatchInfo expectedMatch = null;
+                (string RoslynId, string SrcmlId) originalVersion, modifiedVersion;
                 if (expectedMatchIndex < candidateMatches.Count)
                 {
-                    expectedMatch = candidateMatches[expectedMatchIndex];
+                    var cMatch = candidateMatches[expectedMatchIndex];
+                    originalVersion = (cMatch.Original.Element.Id, this.ReadElementVersion(true, false).SrcmlId);
+                    modifiedVersion = (cMatch.Modified.Element.Id, this.ReadElementVersion(false, false).SrcmlId);
                 }
                 else
                 {
-                    Console.WriteLine($"Characterize the correct match?");
+                    originalVersion = this.ReadElementVersion(true);
+                    modifiedVersion = this.ReadElementVersion(false);
                 }
+
+                var expectedMatch = new MatchDescriptor
+                {
+                    Original = new ElementVersion { Id = originalVersion.RoslynId, GlobalId = originalVersion.SrcmlId },
+                    Modified = new ElementVersion { Id = modifiedVersion.RoslynId, GlobalId = modifiedVersion.SrcmlId },
+                };
 
                 var relatedMatches = detectionResult.Matches.Where(m => m.Original.Id == args.OriginalId || m.Modified.Id == args.ModifiedId);
                 if (relatedMatches.Any())
@@ -181,6 +190,36 @@ namespace Jawilliam.Tools.CCL
                     }
                     while (answer?.ToLowerInvariant() == "y" || answer?.ToLowerInvariant() == "n");
                 }
+            }
+
+            private string ReadString(string message, string[] expectedValues = null)
+            {
+                string input = null;
+                do
+                {
+                    Console.WriteLine(message);
+                    input = Console.ReadLine();
+                } while (input == null || (!expectedValues?.Contains(input) ?? true));
+
+                return input;
+            }
+
+            private (string RoslynId, string SrcmlId)  ReadElementVersion(bool originalIfTrueOtherwiseModified, bool fullyIfTrueOtherwisePartially = true)
+            {
+                string input = null, roslynId = null, srcmlId = null;
+                do
+                {
+                    var version = originalIfTrueOtherwiseModified ? "Original" : "Modified";
+                    if (fullyIfTrueOtherwisePartially)
+                        roslynId = ReadString($"Characterize the correct match: {version} Roslyn ID");
+
+                    input = this.ReadString("Do you know its srcML ID (y/n)?", new []{"y", "n"});
+                    if (input == "y")
+                        srcmlId = ReadString($"Characterize the correct match: {version} srcML ID");
+                }
+                while (input == null);
+
+                return (roslynId, srcmlId);
             }
 
             ///// <summary>
