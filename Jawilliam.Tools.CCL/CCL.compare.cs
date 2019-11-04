@@ -66,12 +66,7 @@ namespace Jawilliam.Tools.CCL
                     Direction = i < args.Directions.Count ? args.Directions[i] : null
                 });
 
-                var analyzer = new FileRevisionPairAnalyzer { MillisecondsTimeout = 600000 };
-                var recognizer = new BetweenComparison()
-                {
-                    MillisecondsTimeout = 600000
-                };
-
+                var recognizer = new BetweenComparison { MillisecondsTimeout = 600000 };
                 foreach (var project in Projects.Skip(args.From - 1).Take(args.To - (args.From - 1)))
                 {
                     foreach (var configuration in configurations)
@@ -113,6 +108,179 @@ namespace Jawilliam.Tools.CCL
                                     : dbRepository.FileFormats.AsNoTracking().Single(ff => ff.Kind == refApproach.FileFormat && ff.FileVersion.Id == a.Pair.Principal.FileVersion.Id);
                             }
                             else if(configuration.Direction == "Forward")
+                            {
+                                version = a.TrueForOriginalOtherwiseModified
+                                    ? dbRepository.FileFormats.AsNoTracking().Single(ff => ff.Kind == configuration.FileFormat && ff.FileVersion.Id == a.Pair.Principal.FromFileVersion.Id)
+                                    : dbRepository.FileFormats.AsNoTracking().Single(ff => ff.Kind == configuration.FileFormat && ff.FileVersion.Id == a.Pair.Principal.FileVersion.Id);
+                            }
+                            else // "Backward"
+                            {
+                                version = !a.TrueForOriginalOtherwiseModified
+                                    ? dbRepository.FileFormats.AsNoTracking().Single(ff => ff.Kind == configuration.FileFormat && ff.FileVersion.Id == a.Pair.Principal.FromFileVersion.Id)
+                                    : dbRepository.FileFormats.AsNoTracking().Single(ff => ff.Kind == configuration.FileFormat && ff.FileVersion.Id == a.Pair.Principal.FileVersion.Id);
+                            }
+
+                            if (!args.Limited)
+                            {
+                                var xTree = XElement.Load(new StringReader(version.XmlTree));
+                                var roslynMlServices = new RoslynML();
+
+                                result = roslynMlServices.AsGumtreefiedElementTree(xTree, true);
+                                if (a.Delta.Approach == refApproach.Approach)
+                                {
+                                    if (a.TrueForOriginalOtherwiseModified)
+                                        lOriginalTree = result.PostOrder(n => n.Children).Where(n => n.Root.Id != null).ToDictionary(n => n.Root.Id);
+                                    else
+                                        lModifiedTree = result.PostOrder(n => n.Children).Where(n => n.Root.Id != null).ToDictionary(n => n.Root.Id);
+                                }
+                                else
+                                {
+                                    if (a.TrueForOriginalOtherwiseModified)
+                                        rOriginalTree = result.PostOrder(n => n.Children).Where(n => n.Root.Id != null).ToDictionary(n => n.Root.Id);
+                                    else
+                                        rModifiedTree = result.PostOrder(n => n.Children).Where(n => n.Root.Id != null).ToDictionary(n => n.Root.Id);
+                                }
+                            }
+                            else
+                            {
+                                result = ElementTree.Read(version.XmlTree, Encoding.Unicode);
+                            }
+
+                            return result;
+                        };
+
+                        recognizer.Config.Align = delegate (ElementTree o, ElementTree m, DetectionResult d, bool trueForLeftOtherwiseRight)
+                        {
+                            if (args.Limited) return;
+
+                            var oDict = o.PostOrder(n => n.Children).Where(n => n.Root.GlobalId != null).ToDictionary(n => n.Root.GlobalId);
+                            var mDict = m.PostOrder(n => n.Children).Where(n => n.Root.GlobalId != null).ToDictionary(n => n.Root.GlobalId);
+
+                            foreach (var match in d.Matches)
+                            {
+                                var o1 = oDict[match.Original.Id];
+                                match.Original.Id = o1.Root.Id;
+                                var m1 = mDict[match.Modified.Id];
+                                match.Modified.Id = m1.Root.Id;
+                            }
+                        };
+
+                        if (configuration.Direction == "Forward")
+                        {
+                            var innerMatchCompare = recognizer.Config.MatchCompare;
+                            recognizer.Config.MatchCompare = delegate (string direction, MatchDescriptor leftMatch, DetectionResult leftDelta,
+                                                                                         MatchDescriptor rightMatch, DetectionResult rightDelta)
+                            {
+                                if (!args.Limited && direction == "LR" && (!rOriginalTree.ContainsKey(leftMatch.Original.Id) || !rModifiedTree.ContainsKey(leftMatch.Modified.Id)))
+                                    return true;
+
+                                if (!args.Limited && direction == "RL" && (!lOriginalTree.ContainsKey(leftMatch.Original.Id) || !lModifiedTree.ContainsKey(leftMatch.Modified.Id)))
+                                    return true;
+
+                                return innerMatchCompare(direction, leftMatch, leftDelta, rightMatch, rightDelta);
+                            };
+                        }
+
+                        recognizer.Warnings = new StringBuilder();
+                        if (args.Trace != null)
+                            System.IO.File.AppendAllText(args.Trace,
+                                  $"{Environment.NewLine}{Environment.NewLine}" +
+                                  $"{refApproach.Name}Vs{configuration.Name} {configuration.Direction} (comparison) started " +
+                                  $"{DateTime.Now.ToString("F", CultureInfo.InvariantCulture)} - {project.Name}");
+                        recognizer.Recognize(skipThese, /*false*/true);
+                        if (args.Trace != null)
+                            System.IO.File.AppendAllText(args.Trace,
+                                  $"{Environment.NewLine}{Environment.NewLine}" +
+                                  $"{refApproach.Name}Vs{configuration.Name} {configuration.Direction} (comparison) completed " +
+                                  $"{DateTime.Now.ToString("F", CultureInfo.InvariantCulture)} - {project.Name}");
+                    }
+                }
+                Console.Out.WriteLine($"DONE!!!");
+            }
+
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="args"></param>
+            /// <example>gumtree compare 
+            /// NativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTrivia_Forward
+            /// NativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTrivia
+            /// 28
+            /// -trace=D:\ExperimentLogs\NativeGumtree_RMBPITF_VsRMBPITB_VsRMNPITF_VsRMBPNTF.txt
+            /// -name=NativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTrivia_Backward
+            /// -approach=InverseNativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTrivia
+            /// -fileFormat=28
+            /// -direction=Backward
+            /// -name=NativeGTtreefiedRoslynMLWithIncludeTrivia_Forward
+            /// -approach=NativeGTtreefiedRoslynMLWithIncludeTrivia
+            /// -fileFormat=20
+            /// -direction=Forward
+            /// -name=NativeGTtreefiedRoslynMLWithBasicPruning_Forward
+            /// -approach=NativeGTtreefiedRoslynMLWithBasicPruning
+            /// -fileFormat=12
+            /// -direction=Forward
+            /// -to=25</example>
+            [ApplicationMetadata(Name = "compare-on-fly", Description = "Compares...")]
+            public virtual void CompareOnFlyCommand(RunCompareOnFlyArgs args)
+            {
+                var leftApproach = new
+                {
+                    Name = args.LeftName,
+                    Approach = (ChangeDetectionApproaches)Enum.Parse(typeof(ChangeDetectionApproaches), args.LeftApproach),
+                    Runtime = args.LeftRuntime,
+                    FileFormat = (FileFormatKind)Enum.Parse(typeof(FileFormatKind), args.LeftFileFormat),
+                };
+                var rightApproach = new
+                {
+                    Name = args.RightName,
+                    Approach = (ChangeDetectionApproaches)Enum.Parse(typeof(ChangeDetectionApproaches), args.RightApproach),
+                    Runtime = args.RightRuntime,
+                    FileFormat = (FileFormatKind)Enum.Parse(typeof(FileFormatKind), args.RightFileFormat),
+                };
+
+                var recognizer = new BetweenComparison { MillisecondsTimeout = 600000 };
+                switch (args.Direction)
+                {
+                    case "Forward":
+                        recognizer.ConfigLeftVsRight((leftApproach.Approach, leftApproach.Name), (rightApproach.Approach, rightApproach.Name));
+                        break;
+                    case "Backward":
+                        recognizer.ConfigForwardVsBackward((leftApproach.Approach, leftApproach.Name), (rightApproach.Approach, rightApproach.Name));
+                        break;
+                    default: throw new ArgumentException($"Unexpected value: {args.Direction}");
+                }
+
+                foreach (var project in Projects.Skip(args.From - 1).Take(args.To - (args.From - 1)))
+                {
+                    foreach (var configuration in configurations)
+                    {
+                        var dbRepository = new GitRepository(project.Name) { Name = project.Name };
+                        ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 600;
+
+
+                        recognizer.SqlRepository = dbRepository;
+                        recognizer.Cancel = null;
+
+                        Func<FileRevisionPair, bool> skipThese = delegate (FileRevisionPair pair)
+                        {
+                            var anyOriginal = dbRepository.FileFormats.Any(ff => ff.FileVersion.Id == pair.Principal.FromFileVersion.Id && ff.Kind == refApproach.FileFormat);
+                            var anyModified = dbRepository.FileFormats.Any(ff => ff.FileVersion.Id == pair.Principal.FileVersion.Id && ff.Kind == configuration.FileFormat);
+
+                            return !anyOriginal || !anyModified;
+                        };
+
+                        ElementTree result = null;
+                        Dictionary<string, ElementTree> lOriginalTree = null, lModifiedTree = null, rOriginalTree = null, rModifiedTree = null;
+                        recognizer.Config.GetTree = delegate ((Delta Delta, FileRevisionPair Pair, bool TrueForOriginalOtherwiseModified) a)
+                        {
+                            FileFormat version = null;
+                            if (a.Delta.Approach == refApproach.Approach)
+                            {
+                                version = a.TrueForOriginalOtherwiseModified
+                                    ? dbRepository.FileFormats.AsNoTracking().Single(ff => ff.Kind == refApproach.FileFormat && ff.FileVersion.Id == a.Pair.Principal.FromFileVersion.Id)
+                                    : dbRepository.FileFormats.AsNoTracking().Single(ff => ff.Kind == refApproach.FileFormat && ff.FileVersion.Id == a.Pair.Principal.FileVersion.Id);
+                            }
+                            else if (configuration.Direction == "Forward")
                             {
                                 version = a.TrueForOriginalOtherwiseModified
                                     ? dbRepository.FileFormats.AsNoTracking().Single(ff => ff.Kind == configuration.FileFormat && ff.FileVersion.Id == a.Pair.Principal.FromFileVersion.Id)
@@ -568,5 +736,35 @@ namespace Jawilliam.Tools.CCL
 
         [Option(ShortName = "to")]
         public int To { get; set; } = 107;
+    }
+
+    public class RunCompareOnFlyArgs : IArgumentModel
+    {
+        [Argument(Name = "leftName")]
+        public string LeftName { get; set; }
+
+        [Argument(Name = "leftApproach")]
+        public string LeftApproach { get; set; }
+
+        [Argument(Name = "leftRuntime")]
+        public string LeftRuntime { get; set; }
+
+        [Argument(Name = "leftFileFormat")]
+        public string LeftFileFormat { get; set; }
+
+        [Argument(Name = "rightName")]
+        public string RightName { get; set; }
+
+        [Argument(Name = "rightApproach")]
+        public string RightApproach { get; set; }
+
+        [Argument(Name = "rightRuntime")]
+        public string RightRuntime { get; set; }
+
+        [Argument(Name = "rightFileFormat")]
+        public string RightFileFormat { get; set; }
+
+        [Option(ShortName = "direction")]
+        public string Direction { get; set; }
     }
 }

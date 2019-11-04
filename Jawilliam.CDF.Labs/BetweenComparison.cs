@@ -26,8 +26,8 @@ namespace Jawilliam.CDF.Labs
         /// </summary>
         /// <param name="leftDelta">left delta.</param> 
         /// <param name="rightDelta">right delta.</param>
-        /// <param name="pair">file revision pair being analized.</param>
-        /// <param name="token">mechanism for cancelling the analisys.</param>
+        /// <param name="pair">file revision pair being analyzed.</param>
+        /// <param name="token">mechanism for cancelling the analysis.</param>
         public virtual IEnumerable<BetweenSymptom> Compare(Delta leftDelta, Delta rightDelta, FileRevisionPair pair, CancellationToken token)
         {
             //var lDelta = this.Config.LeftDeltaContainer(leftDelta, pair);

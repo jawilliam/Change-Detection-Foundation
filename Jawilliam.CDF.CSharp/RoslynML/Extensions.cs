@@ -22,6 +22,18 @@ namespace Jawilliam.CDF.CSharp.RoslynML
         }
 
         /// <summary>
+        /// Returns the Roslyn-like GtID of the represented element. 
+        /// </summary>
+        /// <param name="source">The xml-based represented element.</param>
+        /// <returns>the "GtID" attribute value.</returns>
+        public static string GtID(this XElement source)
+        {
+            return source != null
+                ? source.Attribute("GtID")?.Value ?? throw new InvalidOperationException("GtID attribute cannot be null")
+                : throw new ArgumentNullException(nameof(source));
+        }
+
+        /// <summary>
         /// Returns the start line of the represented element. 
         /// </summary>
         /// <param name="source">The xml-based represented element.</param>
@@ -69,7 +81,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
                 : throw new ArgumentNullException(nameof(source));
 
             return content != null
-                ? content.Length < 30 ? content.Substring(0, 30) : content
+                ? content.Length > 30 ? content.Substring(0, 30) : content
                 : "";
         }
     }

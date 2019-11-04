@@ -61,8 +61,7 @@ namespace Jawilliam.Tools.CCL
                 //var roslynMlServices = new RoslynML();
 
                 var originalVersion = dbRepository.FileFormats.AsNoTracking()
-                    .Single(ff =>
-                        ff.Kind == fullFileFormat && ff.FileVersion.Id == delta.RevisionPair.FromFileVersion.Id);
+                    .Single(ff => ff.Kind == fullFileFormat && ff.FileVersion.Id == delta.RevisionPair.FromFileVersion.Id);
                 var modifiedVersion = dbRepository.FileFormats.AsNoTracking()
                     .Single(ff => ff.Kind == fullFileFormat && ff.FileVersion.Id == delta.RevisionPair.FileVersion.Id);
                 var xOriginalTree = XElement.Load(new StringReader(originalVersion.XmlTree));
@@ -85,7 +84,7 @@ namespace Jawilliam.Tools.CCL
                 if (args.Trace != null)
                     System.IO.File.AppendAllText(args.Trace,
                         $"{Environment.NewLine}{Environment.NewLine}" +
-                        $"Starting comparison set ({args.ComparisonSetLeftId},{args.ComparisonSetRightId})" +
+                        $"Starting comparison set ({args.ComparisonSetLeftId},{args.ComparisonSetRightId}) " +
                         $"{DateTime.Now.ToString("F", CultureInfo.InvariantCulture)} - {project.Name}");
                 foreach (var betweenSymptom in info.ComparisonSet.XMatching.Matching)
                 {
@@ -106,13 +105,13 @@ namespace Jawilliam.Tools.CCL
                             $"{Environment.NewLine}{Environment.NewLine}" +
                             $"Rated mismatch {version} ({mismatch.Original.Element.Id},{mismatch.Modified.Element.Id}){Environment.NewLine}" +
                             $"  ({ratedOriginal.newMatch?.ToString() ?? ""}, {ratedOriginal.newMatch?.ToString() ?? ""}){Environment.NewLine}" +
-                            $"  ({ratedModified.newMatch?.ToString() ?? ""}, {ratedModified.newMatch?.ToString() ?? ""}){Environment.NewLine}" +
+                            $"  ({ratedModified.newMatch?.ToString() ?? ""}, {ratedModified.newMatch?.ToString() ?? ""}){Environment.NewLine} " +
                             $"{DateTime.Now.ToString("F", CultureInfo.InvariantCulture)} - {project.Name}");
                 }
                 if (args.Trace != null)
                     System.IO.File.AppendAllText(args.Trace,
                         $"{Environment.NewLine}{Environment.NewLine}" +
-                        $"Ending comparison set ({args.ComparisonSetLeftId},{args.ComparisonSetRightId})" +
+                        $"Ending comparison set ({args.ComparisonSetLeftId},{args.ComparisonSetRightId}) " +
                         $"{DateTime.Now.ToString("F", CultureInfo.InvariantCulture)} - {project.Name}");
             }
             Console.Out.WriteLine($"DONE!!!");
@@ -205,7 +204,7 @@ namespace Jawilliam.Tools.CCL
                                 $"{this.PrintVersion(candidateMatches[i].Modified.Id, mElements)})");
                 }
 
-                Console.WriteLine($"{candidateMatches.Count} - {candidateMatches.Count}) - NONE");
+                Console.WriteLine($"{candidateMatches.Count} - NONE");
                 var answer = this.ReadString("Type an answer number",
                     candidateMatches.Select((m, i) => i.ToString(CultureInfo.InvariantCulture))
                         .Union(new string[] {candidateMatches.Count.ToString(CultureInfo.InvariantCulture)})
@@ -243,9 +242,11 @@ namespace Jawilliam.Tools.CCL
                 return "NOTHING";
 
             var version = elements[id];
-            return $"RoslynMlId-{version.RmId()} line:{version.StartLine()} " +
+            return $"GtId-{version.GtID()} " +
+                   $"RoslynMlId-{version.RmId()} " +
+                   $"line:{version.StartLine()} " +
                    $"column:{version.StartColumn()} " +
-                   $"label:{version.StartLine()} " +
+                   $"label:{version.Label()} " +
                    $"hint:{version.Hint()}";
         }
 
