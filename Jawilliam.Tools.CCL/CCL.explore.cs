@@ -23,70 +23,69 @@ namespace Jawilliam.Tools.CCL
 {
     partial class CCL
     {
-        partial class GumTree
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="args"></param>
+        /// <example>gumtree compare 
+        /// NativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTrivia_Forward
+        /// NativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTrivia
+        /// 28
+        /// -trace=D:\ExperimentLogs\NativeGumtree_RMBPITF_VsRMBPITB_VsRMNPITF_VsRMBPNTF.txt
+        /// -name=NativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTrivia_Backward
+        /// -approach=InverseNativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTrivia
+        /// -fileFormat=28
+        /// -direction=Backward
+        /// -name=NativeGTtreefiedRoslynMLWithIncludeTrivia_Forward
+        /// -approach=NativeGTtreefiedRoslynMLWithIncludeTrivia
+        /// -fileFormat=20
+        /// -direction=Forward
+        /// -name=NativeGTtreefiedRoslynMLWithBasicPruning_Forward
+        /// -approach=NativeGTtreefiedRoslynMLWithBasicPruning
+        /// -fileFormat=12
+        /// -direction=Forward
+        /// -to=25</example>
+        [ApplicationMetadata(Name = "download", Description = "Compares...")]
+        public virtual void Download(DownloadArgs args)
         {
-            /// <summary>
-            /// 
-            /// </summary>
-            /// <param name="args"></param>
-            /// <example>gumtree compare 
-            /// NativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTrivia_Forward
-            /// NativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTrivia
-            /// 28
-            /// -trace=D:\ExperimentLogs\NativeGumtree_RMBPITF_VsRMBPITB_VsRMNPITF_VsRMBPNTF.txt
-            /// -name=NativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTrivia_Backward
-            /// -approach=InverseNativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTrivia
-            /// -fileFormat=28
-            /// -direction=Backward
-            /// -name=NativeGTtreefiedRoslynMLWithIncludeTrivia_Forward
-            /// -approach=NativeGTtreefiedRoslynMLWithIncludeTrivia
-            /// -fileFormat=20
-            /// -direction=Forward
-            /// -name=NativeGTtreefiedRoslynMLWithBasicPruning_Forward
-            /// -approach=NativeGTtreefiedRoslynMLWithBasicPruning
-            /// -fileFormat=12
-            /// -direction=Forward
-            /// -to=25</example>
-            [ApplicationMetadata(Name = "download", Description = "Compares...")]
-            public virtual void Download(DownloadArgs args)
+            var revisionPairId = Guid.Parse(args.RevisionPairId);
+
+            var project = Projects.Single(p => p.Name == args.Project);
+            using (var dbRepository = new GitRepository(project.Name) {Name = project.Name})
             {
-                var revisionPairId = Guid.Parse(args.RevisionPairId);
+                ((IObjectContextAdapter) dbRepository).ObjectContext.CommandTimeout = 600;
 
-                var project = Projects.Single(p => p.Name == args.Project);
-                using (var dbRepository = new GitRepository(project.Name) { Name = project.Name })
-                {
-                    ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 600;
+                var fileRevisionPair = dbRepository.FileRevisionPairs
+                    .Include("Principal.FileVersion.Content")
+                    .Include("Principal.FromFileVersion.Content")
+                    .AsNoTracking().Single(frp => frp.Principal.Id == revisionPairId);
 
-                    var fileRevisionPair = dbRepository.FileRevisionPairs
-                        .Include("Principal.FileVersion.Content")
-                        .Include("Principal.FromFileVersion.Content")
-                        .AsNoTracking().Single(frp => frp.Principal.Id == revisionPairId);
+                var originalRoot = SyntaxFactory
+                    .ParseCompilationUnit(fileRevisionPair.Principal.FromFileVersion.Content.SourceCode).SyntaxTree
+                    .GetRoot();
+                var originalContentNode = originalRoot.NormalizeWhitespace("", Environment.NewLine);
+                var modifiedRoot = SyntaxFactory
+                    .ParseCompilationUnit(fileRevisionPair.Principal.FileVersion.Content.SourceCode).SyntaxTree
+                    .GetRoot();
+                var modifiedContentNode = modifiedRoot.NormalizeWhitespace("", Environment.NewLine);
 
-                    var originalRoot = SyntaxFactory.ParseCompilationUnit(fileRevisionPair.Principal.FromFileVersion.Content.SourceCode).SyntaxTree.GetRoot();
-                    var originalContentNode = originalRoot.NormalizeWhitespace("", Environment.NewLine);
-                    var modifiedRoot = SyntaxFactory.ParseCompilationUnit(fileRevisionPair.Principal.FileVersion.Content.SourceCode).SyntaxTree.GetRoot();
-                    var modifiedContentNode = modifiedRoot.NormalizeWhitespace("", Environment.NewLine);
-
-                    System.IO.File.WriteAllText(args.OriginalPath, originalContentNode.ToFullString());
-                    System.IO.File.WriteAllText(args.ModifiedPath, modifiedContentNode.ToFullString());
-                }
-                Console.Out.WriteLine($"DONE!!!");
+                System.IO.File.WriteAllText(args.OriginalPath, originalContentNode.ToFullString());
+                System.IO.File.WriteAllText(args.ModifiedPath, modifiedContentNode.ToFullString());
             }
+
+            Console.Out.WriteLine(
+                $"Downloaded {args.RevisionPairId} revision pair original-{args.OriginalPath} modified-{args.ModifiedPath}");
         }
-    }
 
-    public class DownloadArgs : IArgumentModel
-    {
-        [Argument(Name = "project")]
-        public string Project { get; set; }
+        public class DownloadArgs : IArgumentModel
+        {
+            [Argument(Name = "project")] public string Project { get; set; }
 
-        [Argument(Name = "revisionPairId")]
-        public string RevisionPairId { get; set; }
+            [Argument(Name = "revisionPairId")] public string RevisionPairId { get; set; }
 
-        [Option(ShortName = "originalPath")]
-        public string OriginalPath { get; set; }
+            [Option(ShortName = "originalPath")] public string OriginalPath { get; set; }
 
-        [Option(ShortName = "modifiedPath")]
-        public string ModifiedPath { get; set; }
+            [Option(ShortName = "modifiedPath")] public string ModifiedPath { get; set; }
+        }
     }
 }

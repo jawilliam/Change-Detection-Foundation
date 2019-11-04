@@ -291,13 +291,24 @@ namespace Jawilliam.CDF.Tests.CSharp
                                                    where p.Rules?.Topology?.relevant ?? false
                                                    select new { Type = t, Property = p }).ToArray();
 
+            var readOnlyProperties = (from t in concreteTypes
+                from p in t.Properties?.Property
+                where p.readOnly
+                select new { Type = t, Property = p }).ToArray();
+
             var theseProperties = (from t in concreteTypes
                                    from p in t.Properties?.Property
                                    where (!p.hashtags.Contains("#KEYWORD") || (p.name == "DisableOrRestoreKeyword" && t.name == "PragmaWarningDirectiveTriviaSyntax")) &&
                                          !p.hashtags.Contains("#PUNTUACTION") &&
                                          !p.hashtags.Contains("#OPERATOR") &&
-                                         !p.hashtags.Contains("#SYMBOLIC")
+                                         !p.hashtags.Contains("#SYMBOLIC") &&
+                                         !(p.name == "Name" && t.name == "XmlCrefAttributeSyntax") &&
+                                         !(p.name == "Name" && t.name == "XmlNameAttributeSyntax") && 
+                                         !(p.name == "Name" && t.name == "XmlCrefAttributeSyntax") &&
+                                         !(p.name == "Name" && t.name == "XmlCrefAttributeSyntax")
                                    select new { Type = t, Property = p }).ToArray();
+            var a = theseProperties.Except(readOnlyProperties).ToArray();
+            var b = readOnlyProperties.Except(theseProperties).ToArray();
             Assert.AreEqual(theseProperties.Except(topologicallyRelevantProperties).ToArray().Length, 0);
             Assert.AreEqual(topologicallyRelevantProperties.Except(theseProperties).ToArray().Length, 0);
         }

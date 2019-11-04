@@ -128,9 +128,9 @@ namespace Jawilliam.Tools.CCL
                             if (!args.Limited)
                             {
                                 var xTree = XElement.Load(new StringReader(version.XmlTree));
-                                var roslynMLServices = new RoslynML();
+                                var roslynMlServices = new RoslynML();
 
-                                result = roslynMLServices.AsGumtreefiedElementTree(xTree, true);
+                                result = roslynMlServices.AsGumtreefiedElementTree(xTree, true);
                                 if (a.Delta.Approach == refApproach.Approach)
                                 {
                                     if (a.TrueForOriginalOtherwiseModified)

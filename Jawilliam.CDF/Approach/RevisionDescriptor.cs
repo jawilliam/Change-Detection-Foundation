@@ -42,16 +42,14 @@ namespace Jawilliam.CDF.Approach
             {
                 Id = reader.GetAttribute("oId"),
                 Label = reader.GetAttribute("oLb"),
-                Value = reader.GetAttribute("oVl"),
-                GlobalId = reader.GetAttribute("ogId")
+                Value = reader.GetAttribute("oVl")
             };
 
             this.Modified = new ElementVersion
             {
                 Id = reader.GetAttribute("mId"),
                 Label = reader.GetAttribute("mLb"),
-                Value = reader.GetAttribute("mVl"),
-                GlobalId = reader.GetAttribute("mgId")
+                Value = reader.GetAttribute("mVl")
             };
 
             var distanceAttribute = reader.GetAttribute("distance");
@@ -72,12 +70,7 @@ namespace Jawilliam.CDF.Approach
         public virtual void WriteXml(XmlWriter writer)
         {
             writer.WriteAttributeString("oId", this.Original.Id);
-            if(this.Original.GlobalId != null)
-                writer.WriteAttributeString("ogId", this.Original.GlobalId);
-
             writer.WriteAttributeString("mId", this.Modified.Id);
-            if (this.Modified.GlobalId != null)
-                writer.WriteAttributeString("mgId", this.Modified.GlobalId);
 
             if (this.Original.Label != null)
                 writer.WriteAttributeString("oLb", this.Original.Label);

@@ -221,6 +221,7 @@
       <DependentUpon>MutableNodes.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RoslynML\Extensions.cs" />
     <Compile Include="RoslynML\RoslynMLDefoliater.cs">
       <DependentUpon>RoslynMLDefoliater.tt</DependentUpon>
       <AutoGen>True</AutoGen>
