@@ -251,124 +251,113 @@ namespace Jawilliam.Tools.CCL
                     default: throw new ArgumentException($"Unexpected value: {args.Direction}");
                 }
 
-                foreach (var project in Projects.Skip(args.From - 1).Take(args.To - (args.From - 1)))
+                ElementTree result = null;
+                Dictionary<string, ElementTree> lOriginalTree = null, lModifiedTree = null, rOriginalTree = null, rModifiedTree = null;
+                recognizer.Config.GetTree = delegate ((Delta Delta, FileRevisionPair Pair, bool TrueForOriginalOtherwiseModified) a)
                 {
-                    foreach (var configuration in configurations)
-                    {
-                        var dbRepository = new GitRepository(project.Name) { Name = project.Name };
-                        ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 600;
-
-                        recognizer.SqlRepository = dbRepository;
-                        recognizer.Cancel = null;
-
-                        ElementTree result = null;
-                        Dictionary<string, ElementTree> lOriginalTree = null, lModifiedTree = null, rOriginalTree = null, rModifiedTree = null;
-                        recognizer.Config.GetTree = delegate ((Delta Delta, FileRevisionPair Pair, bool TrueForOriginalOtherwiseModified) a)
-                        {
-                            string filePath = null;
-                            if (a.Delta.Approach == leftApproach.Approach)
-                                filePath = a.TrueForOriginalOtherwiseModified ? args.OriginalPath : args.ModifiedPath;
-                            else if (args.Direction == "Forward")
-                                filePath = a.TrueForOriginalOtherwiseModified ? args.OriginalPath : args.ModifiedPath;
-                            else // "Backward"
+                    string filePath = null;
+                    if (a.Delta.Approach == leftApproach.Approach)
+                        filePath = a.TrueForOriginalOtherwiseModified ? args.OriginalPath : args.ModifiedPath;
+                    else if (args.Direction == "Forward")
+                        filePath = a.TrueForOriginalOtherwiseModified ? args.OriginalPath : args.ModifiedPath;
+                    else // "Backward"
                                 filePath = !a.TrueForOriginalOtherwiseModified ? args.OriginalPath : args.ModifiedPath;
 
-                            var saveTreesArgs = new RoslynMLSaveTreesCommandArgs
-                            {
-                                FullPath = filePath.Split(new[] { '.' }, StringSplitOptions.RemoveEmptyEntries)[0] + ".xml",
-                                Defoliate = (leftApproach.FileFormat & FileFormatKind.Defoliation) != 0,
-                                IncludeTrivia = (leftApproach.FileFormat & FileFormatKind.IncludeTrivia) != 0,
-                                Pruning = (leftApproach.FileFormat & FileFormatKind.BasicPruning) != 0 ? "Basic" : null
-                            };
-                            CCL.SharedRoslynML(saveTreesArgs);
+                    var saveTreesArgs = new RoslynMLSaveTreesCommandArgs
+                    {
+                        FullPath = filePath.Split(new[] { '.' }, StringSplitOptions.RemoveEmptyEntries)[0] + ".xml",
+                        Defoliate = (leftApproach.FileFormat & FileFormatKind.Defoliation) != 0,
+                        IncludeTrivia = (leftApproach.FileFormat & FileFormatKind.IncludeTrivia) != 0,
+                        Pruning = (leftApproach.FileFormat & FileFormatKind.BasicPruning) != 0 ? "Basic" : null
+                    };
+                    CCL.SharedRoslynML(saveTreesArgs);
 
-                            if (!args.Limited)
-                            {
-                                var xTree = XElement.Load(new StringReader(filePath));
-                                var roslynMlServices = new RoslynML();
+                    if (!args.Limited)
+                    {
+                        var xTree = XElement.Load(new StringReader(filePath));
+                        var roslynMlServices = new RoslynML();
 
-                                result = roslynMlServices.AsGumtreefiedElementTree(xTree, true);
-                                if (a.Delta.Approach == leftApproach.Approach)
-                                {
-                                    if (a.TrueForOriginalOtherwiseModified)
-                                        lOriginalTree = result.PostOrder(n => n.Children).Where(n => n.Root.Id != null).ToDictionary(n => n.Root.Id);
-                                    else
-                                        lModifiedTree = result.PostOrder(n => n.Children).Where(n => n.Root.Id != null).ToDictionary(n => n.Root.Id);
-                                }
-                                else
-                                {
-                                    if (a.TrueForOriginalOtherwiseModified)
-                                        rOriginalTree = result.PostOrder(n => n.Children).Where(n => n.Root.Id != null).ToDictionary(n => n.Root.Id);
-                                    else
-                                        rModifiedTree = result.PostOrder(n => n.Children).Where(n => n.Root.Id != null).ToDictionary(n => n.Root.Id);
-                                }
-                            }
+                        result = roslynMlServices.AsGumtreefiedElementTree(xTree, true);
+                        if (a.Delta.Approach == leftApproach.Approach)
+                        {
+                            if (a.TrueForOriginalOtherwiseModified)
+                                lOriginalTree = result.PostOrder(n => n.Children).Where(n => n.Root.Id != null).ToDictionary(n => n.Root.Id);
                             else
-                            {
-                                result = ElementTree.Read(filePath, Encoding.Unicode);
-                            }
-
-                            return result;
-                        };
-
-                        recognizer.Config.Align = delegate (ElementTree o, ElementTree m, DetectionResult d, bool trueForLeftOtherwiseRight)
-                        {
-                            if (args.Limited) return;
-
-                            var oDict = o.PostOrder(n => n.Children).Where(n => n.Root.GlobalId != null).ToDictionary(n => n.Root.GlobalId);
-                            var mDict = m.PostOrder(n => n.Children).Where(n => n.Root.GlobalId != null).ToDictionary(n => n.Root.GlobalId);
-
-                            foreach (var match in d.Matches)
-                            {
-                                var o1 = oDict[match.Original.Id];
-                                match.Original.Id = o1.Root.Id;
-                                var m1 = mDict[match.Modified.Id];
-                                match.Modified.Id = m1.Root.Id;
-                            }
-                        };
-
-                        if (configuration.Direction == "Forward")
-                        {
-                            var innerMatchCompare = recognizer.Config.MatchCompare;
-                            recognizer.Config.MatchCompare = delegate(string direction, MatchDescriptor leftMatch,
-                                DetectionResult leftDelta,
-                                MatchDescriptor rightMatch, DetectionResult rightDelta)
-                            {
-                                if (!args.Limited && direction == "LR" &&
-                                    (!rOriginalTree.ContainsKey(leftMatch.Original.Id) ||
-                                     !rModifiedTree.ContainsKey(leftMatch.Modified.Id)))
-                                    return true;
-
-                                if (!args.Limited && direction == "RL" &&
-                                    (!lOriginalTree.ContainsKey(leftMatch.Original.Id) ||
-                                     !lModifiedTree.ContainsKey(leftMatch.Modified.Id)))
-                                    return true;
-
-                                return innerMatchCompare(direction, leftMatch, leftDelta, rightMatch, rightDelta);
-                            };
+                                lModifiedTree = result.PostOrder(n => n.Children).Where(n => n.Root.Id != null).ToDictionary(n => n.Root.Id);
                         }
-
-                        var gumTree = new GumTreeNativeApproach(); 
-                        gumTree.Run(new InteropArgs
+                        else
                         {
-                            GumTreePath = leftApproach.Runtime,
-                            Original = args.OriginalPath,
-                            Modified = args.ModifiedPath
-                        });
-                        var lDelta = gumTree.Result;
-
-                        gumTree.Run(new InteropArgs
-                        {
-                            GumTreePath = rightApproach.Runtime,
-                            Original = args.OriginalPath,
-                            Modified = args.ModifiedPath
-                        });
-                        var rDelta = gumTree.Result;
-
-                        recognizer.Warnings = new StringBuilder();
-                        recognizer.Compare(lDelta.de, rDelta, new FileRevisionPair { Id = Guid.Empty }, CancellationToken.None);
+                            if (a.TrueForOriginalOtherwiseModified)
+                                rOriginalTree = result.PostOrder(n => n.Children).Where(n => n.Root.Id != null).ToDictionary(n => n.Root.Id);
+                            else
+                                rModifiedTree = result.PostOrder(n => n.Children).Where(n => n.Root.Id != null).ToDictionary(n => n.Root.Id);
+                        }
                     }
+                    else
+                    {
+                        result = ElementTree.Read(filePath, Encoding.Unicode);
+                    }
+
+                    return result;
+                };
+
+                recognizer.Config.Align = delegate (ElementTree o, ElementTree m, DetectionResult d, bool trueForLeftOtherwiseRight)
+                {
+                    if (args.Limited) return;
+
+                    var oDict = o.PostOrder(n => n.Children).Where(n => n.Root.GlobalId != null).ToDictionary(n => n.Root.GlobalId);
+                    var mDict = m.PostOrder(n => n.Children).Where(n => n.Root.GlobalId != null).ToDictionary(n => n.Root.GlobalId);
+
+                    foreach (var match in d.Matches)
+                    {
+                        var o1 = oDict[match.Original.Id];
+                        match.Original.Id = o1.Root.Id;
+                        var m1 = mDict[match.Modified.Id];
+                        match.Modified.Id = m1.Root.Id;
+                    }
+                };
+
+                if (args.Direction == "Forward")
+                {
+                    var innerMatchCompare = recognizer.Config.MatchCompare;
+                    recognizer.Config.MatchCompare = delegate (string direction, MatchDescriptor leftMatch,
+                        DetectionResult leftDelta,
+                        MatchDescriptor rightMatch, DetectionResult rightDelta)
+                    {
+                        if (!args.Limited && direction == "LR" &&
+                            (!rOriginalTree.ContainsKey(leftMatch.Original.Id) ||
+                             !rModifiedTree.ContainsKey(leftMatch.Modified.Id)))
+                            return true;
+
+                        if (!args.Limited && direction == "RL" &&
+                            (!lOriginalTree.ContainsKey(leftMatch.Original.Id) ||
+                             !lModifiedTree.ContainsKey(leftMatch.Modified.Id)))
+                            return true;
+
+                        return innerMatchCompare(direction, leftMatch, leftDelta, rightMatch, rightDelta);
+                    };
                 }
+
+                var gumTree = new GumTreeNativeApproach();
+                gumTree.Run(new InteropArgs
+                {
+                    GumTreePath = leftApproach.Runtime,
+                    Original = args.OriginalPath,
+                    Modified = args.ModifiedPath
+                });
+                var lDelta = new Delta { Approach = leftApproach.Approach, DetectionResult = gumTree.Result };
+
+                gumTree.Run(new InteropArgs
+                {
+                    GumTreePath = rightApproach.Runtime,
+                    Original = args.OriginalPath,
+                    Modified = args.ModifiedPath
+                });
+                var rDelta = new Delta { Approach = rightApproach.Approach, DetectionResult = gumTree.Result };
+
+                recognizer.Warnings = new StringBuilder();
+                recognizer.Compare(lDelta, rDelta, new FileRevisionPair { Id = Guid.Empty }, CancellationToken.None);
+
                 Console.Out.WriteLine($"DONE!!!");
             }
 
