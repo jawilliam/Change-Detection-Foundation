@@ -131,7 +131,7 @@ namespace Jawilliam.CDF.Labs.DBModel
                 throw new ApplicationException("The value is expected to be a detection result.");
 
             var writeXmlColumn = detectionResult.WriteXmlColumn();
-            XElement result = XElement.Parse(writeXmlColumn.Replace("﻿<?xml version=\"1.0\" encoding=\"utf-16\"?>", ""));
+            var result = XElement.Parse(writeXmlColumn.Replace("﻿<?xml version=\"1.0\" encoding=\"utf-16\"?>", ""));
             this.Matching =
                 new XDocument(result.Element("Matches")).ToString()
                     .Replace("\r\n", "")

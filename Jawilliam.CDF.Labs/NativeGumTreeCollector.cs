@@ -76,8 +76,7 @@ namespace Jawilliam.CDF.Labs
                               foreach (var e in xElement.PostOrder(n => n.Elements()))
                               {
                                   var attr = e.Attribute("GtID");
-                                  if (attr != null)
-                                      attr.Remove();
+                                  attr?.Remove();
                               }
                               int gumTreefiedId = 0;
                               roslynMlServices.SetGumTreefiedIDs(xElement, ref gumTreefiedId);

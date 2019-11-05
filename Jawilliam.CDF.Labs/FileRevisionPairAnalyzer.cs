@@ -226,22 +226,23 @@ namespace Jawilliam.CDF.Labs
                 }
                 finally
                 {
-                    var writeXmlColumn = gumTree.Result.WriteXmlColumn();
-                    XElement result = XElement.Parse(writeXmlColumn.Replace("﻿<?xml version=\"1.0\" encoding=\"utf-16\"?>", ""));
-                    delta.Matching = new XDocument(result.Element("Matches")).ToString()
-                            .Replace("\r\n", "")
-                            .Replace(" />  <", "/><")
-                            .Replace(">  <", "><");
-                    delta.Differencing = new XDocument(result.Element("Actions")).ToString()
-                            .Replace("\r\n", "")
-                            .Replace(" />  <", "/><")
-                            .Replace(">  <", "><");
+                    delta.DetectionResult = gumTree.Result;
+                    //var writeXmlColumn = gumTree.Result.WriteXmlColumn();
+                    //XElement result = XElement.Parse(writeXmlColumn.Replace("﻿<?xml version=\"1.0\" encoding=\"utf-16\"?>", ""));
+                    //delta.Matching = new XDocument(result.Element("Matches")).ToString()
+                    //        .Replace("\r\n", "")
+                    //        .Replace(" />  <", "/><")
+                    //        .Replace(">  <", "><");
+                    //delta.Differencing = new XDocument(result.Element("Actions")).ToString()
+                    //        .Replace("\r\n", "")
+                    //        .Replace(" />  <", "/><")
+                    //        .Replace(">  <", "><");
 
-                    if (!string.IsNullOrEmpty(gumTree.Result?.Error))
-                        delta.Report = result.ToString()
-                            .Replace("\r\n", "")
-                            .Replace(" />  <", "/><")
-                            .Replace(">  <", "><");
+                    //if (!string.IsNullOrEmpty(gumTree.Result?.Error))
+                    //    delta.Report = result.ToString()
+                    //        .Replace("\r\n", "")
+                    //        .Replace(" />  <", "/><")
+                    //        .Replace(">  <", "><");
                 }
             }, true,
             "Principal.FileVersion.Content", "Principal.FromFileVersion.Content");

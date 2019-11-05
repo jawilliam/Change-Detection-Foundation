@@ -14,6 +14,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Xml.Linq;
 
 namespace Jawilliam.Tools.CCL
@@ -257,49 +258,37 @@ namespace Jawilliam.Tools.CCL
                         var dbRepository = new GitRepository(project.Name) { Name = project.Name };
                         ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 600;
 
-
                         recognizer.SqlRepository = dbRepository;
                         recognizer.Cancel = null;
-
-                        Func<FileRevisionPair, bool> skipThese = delegate (FileRevisionPair pair)
-                        {
-                            var anyOriginal = dbRepository.FileFormats.Any(ff => ff.FileVersion.Id == pair.Principal.FromFileVersion.Id && ff.Kind == refApproach.FileFormat);
-                            var anyModified = dbRepository.FileFormats.Any(ff => ff.FileVersion.Id == pair.Principal.FileVersion.Id && ff.Kind == configuration.FileFormat);
-
-                            return !anyOriginal || !anyModified;
-                        };
 
                         ElementTree result = null;
                         Dictionary<string, ElementTree> lOriginalTree = null, lModifiedTree = null, rOriginalTree = null, rModifiedTree = null;
                         recognizer.Config.GetTree = delegate ((Delta Delta, FileRevisionPair Pair, bool TrueForOriginalOtherwiseModified) a)
                         {
-                            FileFormat version = null;
-                            if (a.Delta.Approach == refApproach.Approach)
-                            {
-                                version = a.TrueForOriginalOtherwiseModified
-                                    ? dbRepository.FileFormats.AsNoTracking().Single(ff => ff.Kind == refApproach.FileFormat && ff.FileVersion.Id == a.Pair.Principal.FromFileVersion.Id)
-                                    : dbRepository.FileFormats.AsNoTracking().Single(ff => ff.Kind == refApproach.FileFormat && ff.FileVersion.Id == a.Pair.Principal.FileVersion.Id);
-                            }
-                            else if (configuration.Direction == "Forward")
-                            {
-                                version = a.TrueForOriginalOtherwiseModified
-                                    ? dbRepository.FileFormats.AsNoTracking().Single(ff => ff.Kind == configuration.FileFormat && ff.FileVersion.Id == a.Pair.Principal.FromFileVersion.Id)
-                                    : dbRepository.FileFormats.AsNoTracking().Single(ff => ff.Kind == configuration.FileFormat && ff.FileVersion.Id == a.Pair.Principal.FileVersion.Id);
-                            }
+                            string filePath = null;
+                            if (a.Delta.Approach == leftApproach.Approach)
+                                filePath = a.TrueForOriginalOtherwiseModified ? args.OriginalPath : args.ModifiedPath;
+                            else if (args.Direction == "Forward")
+                                filePath = a.TrueForOriginalOtherwiseModified ? args.OriginalPath : args.ModifiedPath;
                             else // "Backward"
+                                filePath = !a.TrueForOriginalOtherwiseModified ? args.OriginalPath : args.ModifiedPath;
+
+                            var saveTreesArgs = new RoslynMLSaveTreesCommandArgs
                             {
-                                version = !a.TrueForOriginalOtherwiseModified
-                                    ? dbRepository.FileFormats.AsNoTracking().Single(ff => ff.Kind == configuration.FileFormat && ff.FileVersion.Id == a.Pair.Principal.FromFileVersion.Id)
-                                    : dbRepository.FileFormats.AsNoTracking().Single(ff => ff.Kind == configuration.FileFormat && ff.FileVersion.Id == a.Pair.Principal.FileVersion.Id);
-                            }
+                                FullPath = filePath.Split(new[] { '.' }, StringSplitOptions.RemoveEmptyEntries)[0] + ".xml",
+                                Defoliate = (leftApproach.FileFormat & FileFormatKind.Defoliation) != 0,
+                                IncludeTrivia = (leftApproach.FileFormat & FileFormatKind.IncludeTrivia) != 0,
+                                Pruning = (leftApproach.FileFormat & FileFormatKind.BasicPruning) != 0 ? "Basic" : null
+                            };
+                            CCL.SharedRoslynML(saveTreesArgs);
 
                             if (!args.Limited)
                             {
-                                var xTree = XElement.Load(new StringReader(version.XmlTree));
+                                var xTree = XElement.Load(new StringReader(filePath));
                                 var roslynMlServices = new RoslynML();
 
                                 result = roslynMlServices.AsGumtreefiedElementTree(xTree, true);
-                                if (a.Delta.Approach == refApproach.Approach)
+                                if (a.Delta.Approach == leftApproach.Approach)
                                 {
                                     if (a.TrueForOriginalOtherwiseModified)
                                         lOriginalTree = result.PostOrder(n => n.Children).Where(n => n.Root.Id != null).ToDictionary(n => n.Root.Id);
@@ -316,7 +305,7 @@ namespace Jawilliam.Tools.CCL
                             }
                             else
                             {
-                                result = ElementTree.Read(version.XmlTree, Encoding.Unicode);
+                                result = ElementTree.Read(filePath, Encoding.Unicode);
                             }
 
                             return result;
@@ -341,31 +330,43 @@ namespace Jawilliam.Tools.CCL
                         if (configuration.Direction == "Forward")
                         {
                             var innerMatchCompare = recognizer.Config.MatchCompare;
-                            recognizer.Config.MatchCompare = delegate (string direction, MatchDescriptor leftMatch, DetectionResult leftDelta,
-                                                                                         MatchDescriptor rightMatch, DetectionResult rightDelta)
+                            recognizer.Config.MatchCompare = delegate(string direction, MatchDescriptor leftMatch,
+                                DetectionResult leftDelta,
+                                MatchDescriptor rightMatch, DetectionResult rightDelta)
                             {
-                                if (!args.Limited && direction == "LR" && (!rOriginalTree.ContainsKey(leftMatch.Original.Id) || !rModifiedTree.ContainsKey(leftMatch.Modified.Id)))
+                                if (!args.Limited && direction == "LR" &&
+                                    (!rOriginalTree.ContainsKey(leftMatch.Original.Id) ||
+                                     !rModifiedTree.ContainsKey(leftMatch.Modified.Id)))
                                     return true;
 
-                                if (!args.Limited && direction == "RL" && (!lOriginalTree.ContainsKey(leftMatch.Original.Id) || !lModifiedTree.ContainsKey(leftMatch.Modified.Id)))
+                                if (!args.Limited && direction == "RL" &&
+                                    (!lOriginalTree.ContainsKey(leftMatch.Original.Id) ||
+                                     !lModifiedTree.ContainsKey(leftMatch.Modified.Id)))
                                     return true;
 
                                 return innerMatchCompare(direction, leftMatch, leftDelta, rightMatch, rightDelta);
                             };
                         }
 
+                        var gumTree = new GumTreeNativeApproach(); 
+                        gumTree.Run(new InteropArgs
+                        {
+                            GumTreePath = leftApproach.Runtime,
+                            Original = args.OriginalPath,
+                            Modified = args.ModifiedPath
+                        });
+                        var lDelta = gumTree.Result;
+
+                        gumTree.Run(new InteropArgs
+                        {
+                            GumTreePath = rightApproach.Runtime,
+                            Original = args.OriginalPath,
+                            Modified = args.ModifiedPath
+                        });
+                        var rDelta = gumTree.Result;
+
                         recognizer.Warnings = new StringBuilder();
-                        if (args.Trace != null)
-                            System.IO.File.AppendAllText(args.Trace,
-                                  $"{Environment.NewLine}{Environment.NewLine}" +
-                                  $"{refApproach.Name}Vs{configuration.Name} {configuration.Direction} (comparison) started " +
-                                  $"{DateTime.Now.ToString("F", CultureInfo.InvariantCulture)} - {project.Name}");
-                        recognizer.Recognize(skipThese, /*false*/true);
-                        if (args.Trace != null)
-                            System.IO.File.AppendAllText(args.Trace,
-                                  $"{Environment.NewLine}{Environment.NewLine}" +
-                                  $"{refApproach.Name}Vs{configuration.Name} {configuration.Direction} (comparison) completed " +
-                                  $"{DateTime.Now.ToString("F", CultureInfo.InvariantCulture)} - {project.Name}");
+                        recognizer.Compare(lDelta.de, rDelta, new FileRevisionPair { Id = Guid.Empty }, CancellationToken.None);
                     }
                 }
                 Console.Out.WriteLine($"DONE!!!");
@@ -764,7 +765,16 @@ namespace Jawilliam.Tools.CCL
         [Argument(Name = "rightFileFormat")]
         public string RightFileFormat { get; set; }
 
+        [Argument(Name = "originalPath")]
+        public string OriginalPath { get; set; }
+
+        [Argument(Name = "modifiedPath")]
+        public string ModifiedPath { get; set; }
+
         [Option(ShortName = "direction")]
         public string Direction { get; set; }
+
+        [Option(LongName = "limited")]
+        public bool Limited { get; set; }
     }
 }

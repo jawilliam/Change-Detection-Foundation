@@ -32,9 +32,9 @@ namespace Jawilliam.Tools.CCL
                 var interopArgs = new InteropArgs() { GumTreePath = null, Original = args.OriginalPath, Modified = args.ModifiedPath };
                 //var approach = (ChangeDetectionApproaches)Enum.Parse(typeof(ChangeDetectionApproaches), args.RefApproach);
                 var fileFormat = (FileFormatKind)long.Parse(args.FileFormatKind, CultureInfo.InvariantCulture);
-                Func<XElement, bool> pruneSelector = args.Pruning != null
-                        ? this.GetPruneSelector(args.Pruning)
-                        : null;
+                var pruneSelector = args.Pruning != null
+                    ? GetPruneSelector(args.Pruning)
+                    : null;
                 foreach (var project in Projects.Skip(args.From - 1).Take(args.To - (args.From - 1)))
                 {   
                     analyzer.Warnings = new StringBuilder();

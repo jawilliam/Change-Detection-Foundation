@@ -24,6 +24,11 @@ namespace Jawilliam.Tools.CCL
         [ApplicationMetadata(Name = "RoslynML", Description = "...")]
         public virtual void RoslynML(RoslynMLSaveTreesCommandArgs args)
         {
+            SharedRoslynML(args);
+        }
+
+        public static void SharedRoslynML(RoslynMLSaveTreesCommandArgs args)
+        {
             try
             {
                 var loader = new RoslynML();
@@ -32,7 +37,7 @@ namespace Jawilliam.Tools.CCL
                 if (args.Pruning != null)
                 {
                     Func<XElement, bool> pruneSelector = null;
-                    pruneSelector = this.GetPruneSelector(args.Pruning);
+                    pruneSelector = CCL.GetPruneSelector(args.Pruning);
                     loader.Prune(xElement, pruneSelector);
                 }
 
@@ -57,7 +62,7 @@ namespace Jawilliam.Tools.CCL
             }
         }
 
-        private Func<XElement, bool> GetPruneSelector(string args)
+        private static Func<XElement, bool> GetPruneSelector(string args)
         {
             Func<XElement, bool> pruneSelector;
             switch (args)
