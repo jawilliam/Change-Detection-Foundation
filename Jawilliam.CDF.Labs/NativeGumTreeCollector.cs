@@ -72,17 +72,9 @@ namespace Jawilliam.CDF.Labs
                                   roslynMlServices.Prune(xElement, pruneSelector);
                               if (defoliate)
                                   roslynMlServices.Defoliate(xElement);
-
-                              foreach (var e in xElement.PostOrder(n => n.Elements()))
-                              {
-                                  var attr = e.Attribute("GtID");
-                                  attr?.Remove();
-                              }
-                              int gumTreefiedId = 0;
-                              roslynMlServices.SetGumTreefiedIDs(xElement, ref gumTreefiedId);
+                              roslynMlServices.ReassignGtIds(xElement);
                           }
                           originalFormat.XmlTree = xElement.ToString(SaveOptions.DisableFormatting);
-
                           repositoryObject.Principal.FromFileVersion.Formats.Add(originalFormat);
                       }
 
@@ -103,18 +95,9 @@ namespace Jawilliam.CDF.Labs
                                   roslynMlServices.Prune(xElement, pruneSelector);
                               if (defoliate)
                                   roslynMlServices.Defoliate(xElement);
-
-                              foreach (var e in xElement.PostOrder(n => n.Elements()))
-                              {
-                                  var attr = e.Attribute("GtID");
-                                  if (attr != null)
-                                      attr.Remove();
-                              }
-                              int gumTreefiedId = 0;
-                              roslynMlServices.SetGumTreefiedIDs(xElement, ref gumTreefiedId);
+                              roslynMlServices.ReassignGtIds(xElement);
                           }
                           modifiedFormat.XmlTree = xElement.ToString(SaveOptions.DisableFormatting);
-
                           repositoryObject.Principal.FileVersion.Formats.Add(modifiedFormat);
                       }
                   }

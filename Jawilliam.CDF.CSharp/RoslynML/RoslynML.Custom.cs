@@ -221,7 +221,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
         }
 
         /// <summary>
-        /// Sets the ID for elements used for GumTree's AST, starting from a given id.
+        /// Sets the ID for the elements used for GumTree's AST, starting from a given id.
         /// </summary>
         /// <param name="root">AST root.</param>
         /// <param name="id">the next available id.</param>
@@ -231,6 +231,20 @@ namespace Jawilliam.CDF.CSharp.RoslynML
             {
                 item.Add(new XAttribute("GtID", id++.ToString(CultureInfo.InvariantCulture)));
             }
+        }
+
+        /// <summary>
+        /// Reassigns the ID for the elements used for GumTree's AST, considering that the order of the elements changed and the actual "GtID" are not correct now.  
+        /// </summary>
+        /// <param name="root">AST root.</param>
+        public virtual void ReassignGtIds(XElement root)
+        {
+            foreach (var e in root.PostOrder(n => n.Elements()))
+            {
+                var attr = e.Attribute("GtID");
+                attr?.Remove();
+            }
+            this.SetGumTreefiedIDs(root);
         }
 
         /// <summary>

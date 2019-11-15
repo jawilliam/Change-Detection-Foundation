@@ -203,24 +203,9 @@ namespace Jawilliam.Tools.CCL
             /// 
             /// </summary>
             /// <param name="args"></param>
-            /// <example>gumtree compare 
-            /// NativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTrivia_Forward
-            /// NativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTrivia
-            /// 28
-            /// -trace=D:\ExperimentLogs\NativeGumtree_RMBPITF_VsRMBPITB_VsRMNPITF_VsRMBPNTF.txt
-            /// -name=NativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTrivia_Backward
-            /// -approach=InverseNativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTrivia
-            /// -fileFormat=28
-            /// -direction=Backward
-            /// -name=NativeGTtreefiedRoslynMLWithIncludeTrivia_Forward
-            /// -approach=NativeGTtreefiedRoslynMLWithIncludeTrivia
-            /// -fileFormat=20
-            /// -direction=Forward
-            /// -name=NativeGTtreefiedRoslynMLWithBasicPruning_Forward
-            /// -approach=NativeGTtreefiedRoslynMLWithBasicPruning
-            /// -fileFormat=12
-            /// -direction=Forward
-            /// -to=25</example>
+            /// <example>
+            /// GumTree compare-on-fly roslynml_bp NativeGTtreefiedRoslynMLWithBasicPruning D:\GT_Runtimes\gumtree_RML_BasicPruning_NoTrivia 12 roslynml_bpd NativeGTtreefiedRoslynMLWithBasicPruningDefoliation D:\GT_Runtimes\gumtree_RML_BP_NT_De_0mh 44 D:\Reports\a1_Original.cs D:\Reports\a1_Modified.cs
+            /// GumTree compare-on-fly roslynml NativeGTtreefiedRoslynML D:\GT_Runtimes\gumtree_RML 5 roslynml_bp NativeGTtreefiedRoslynMLWithBasicPruning D:\GT_Runtimes\gumtree_RML_BasicPruning_NoTrivia 12 D:\Reports\a1_Original.cs D:\Reports\a1_Modified.cs</example>
             [ApplicationMetadata(Name = "compare-on-fly", Description = "Compares...")]
             public virtual void CompareOnFlyCommand(RunCompareOnFlyArgs args)
             {
@@ -253,6 +238,7 @@ namespace Jawilliam.Tools.CCL
 
                 ElementTree result = null;
                 Dictionary<string, ElementTree> lOriginalTree = null, lModifiedTree = null, rOriginalTree = null, rModifiedTree = null;
+                Dictionary<string, XElement> xlOriginalTree = null, xlModifiedTree = null, xrOriginalTree = null, xrModifiedTree = null;
                 recognizer.Config.GetTree = delegate ((Delta Delta, FileRevisionPair Pair, bool TrueForOriginalOtherwiseModified) a)
                 {
                     string filePath = null;
@@ -261,41 +247,68 @@ namespace Jawilliam.Tools.CCL
                     else if (args.Direction == "Forward")
                         filePath = a.TrueForOriginalOtherwiseModified ? args.OriginalPath : args.ModifiedPath;
                     else // "Backward"
-                                filePath = !a.TrueForOriginalOtherwiseModified ? args.OriginalPath : args.ModifiedPath;
+                        filePath = !a.TrueForOriginalOtherwiseModified ? args.OriginalPath : args.ModifiedPath;
 
+                    var approach = a.Delta.Approach == leftApproach.Approach ? leftApproach : rightApproach;
+                    var xmlPath = filePath.Split(new[] { '.' }, StringSplitOptions.RemoveEmptyEntries)[0] + ".xml";
                     var saveTreesArgs = new RoslynMLSaveTreesCommandArgs
                     {
-                        FullPath = filePath.Split(new[] { '.' }, StringSplitOptions.RemoveEmptyEntries)[0] + ".xml",
-                        Defoliate = (leftApproach.FileFormat & FileFormatKind.Defoliation) != 0,
-                        IncludeTrivia = (leftApproach.FileFormat & FileFormatKind.IncludeTrivia) != 0,
-                        Pruning = (leftApproach.FileFormat & FileFormatKind.BasicPruning) != 0 ? "Basic" : null
+                        FullPath = filePath,
+                        Defoliate = (approach.FileFormat & FileFormatKind.Defoliation) != 0,
+                        IncludeTrivia = (approach.FileFormat & FileFormatKind.IncludeTrivia) != 0,
+                        Pruning = (approach.FileFormat & FileFormatKind.BasicPruning) != 0 ? "Basic" : null,
+                        //Gumtreefy = true,
+                        SaveToFile = xmlPath,
                     };
                     CCL.SharedRoslynML(saveTreesArgs);
 
+                    var roslynMlServices = new RoslynML();
+                    var xTree = XElement.Load(new StringReader(System.IO.File.ReadAllText(xmlPath)));
+                    roslynMlServices.ReassignGtIds(xTree);
+                    System.IO.File.WriteAllText(xmlPath, xTree.ToString());
+
                     if (!args.Limited)
                     {
-                        var xTree = XElement.Load(new StringReader(filePath));
-                        var roslynMlServices = new RoslynML();
-
+                        xTree = XElement.Load(new StringReader(System.IO.File.ReadAllText(xmlPath)));
                         result = roslynMlServices.AsGumtreefiedElementTree(xTree, true);
                         if (a.Delta.Approach == leftApproach.Approach)
                         {
                             if (a.TrueForOriginalOtherwiseModified)
-                                lOriginalTree = result.PostOrder(n => n.Children).Where(n => n.Root.Id != null).ToDictionary(n => n.Root.Id);
+                            {
+                                lOriginalTree = result.PostOrder(n => n.Children).Where(n => n.Root.Id != null)
+                                    .ToDictionary(n => n.Root.Id);
+                                xlOriginalTree = xTree.PostOrder(n => n.Elements().Where(ne => ne is XNode))
+                                    .ToDictionary(n => n.RmId());
+                            }
                             else
-                                lModifiedTree = result.PostOrder(n => n.Children).Where(n => n.Root.Id != null).ToDictionary(n => n.Root.Id);
+                            {
+                                lModifiedTree = result.PostOrder(n => n.Children).Where(n => n.Root.Id != null)
+                                    .ToDictionary(n => n.Root.Id);
+                                xlModifiedTree = xTree.PostOrder(n => n.Elements().Where(ne => ne is XNode))
+                                    .ToDictionary(n => n.RmId());
+                            }
                         }
                         else
                         {
                             if (a.TrueForOriginalOtherwiseModified)
-                                rOriginalTree = result.PostOrder(n => n.Children).Where(n => n.Root.Id != null).ToDictionary(n => n.Root.Id);
+                            {
+                                rOriginalTree = result.PostOrder(n => n.Children).Where(n => n.Root.Id != null)
+                                    .ToDictionary(n => n.Root.Id);
+                                xrOriginalTree = xTree.PostOrder(n => n.Elements().Where(ne => ne is XNode))
+                                    .ToDictionary(n => n.RmId());
+                            }
                             else
-                                rModifiedTree = result.PostOrder(n => n.Children).Where(n => n.Root.Id != null).ToDictionary(n => n.Root.Id);
+                            {
+                                rModifiedTree = result.PostOrder(n => n.Children).Where(n => n.Root.Id != null)
+                                    .ToDictionary(n => n.Root.Id);
+                                xrModifiedTree = xTree.PostOrder(n => n.Elements().Where(ne => ne is XNode))
+                                    .ToDictionary(n => n.RmId());
+                            }
                         }
                     }
                     else
                     {
-                        result = ElementTree.Read(filePath, Encoding.Unicode);
+                        result = ElementTree.Read(xmlPath, Encoding.Unicode);
                     }
 
                     return result;
@@ -350,13 +363,114 @@ namespace Jawilliam.Tools.CCL
                 gumTree.Run(new InteropArgs
                 {
                     GumTreePath = rightApproach.Runtime,
-                    Original = args.OriginalPath,
-                    Modified = args.ModifiedPath
+                    Original = args.Direction == "Forward" ? args.OriginalPath : args.ModifiedPath,
+                    Modified = args.Direction == "Forward" ? args.ModifiedPath : args.OriginalPath
                 });
                 var rDelta = new Delta { Approach = rightApproach.Approach, DetectionResult = gumTree.Result };
 
                 recognizer.Warnings = new StringBuilder();
-                recognizer.Compare(lDelta, rDelta, new FileRevisionPair { Id = Guid.Empty }, CancellationToken.None);
+                var betweenSymptoms = recognizer.Compare(lDelta, rDelta, new FileRevisionPair { Id = Guid.Empty }, CancellationToken.None).ToList();
+                for (var i = 0; i < betweenSymptoms.Count; i++)
+                {
+                    var bs = betweenSymptoms[i];
+                    if (bs is LRMatchSymptom lrMismatch)
+                    {
+                        var xLeftOriginal = xlOriginalTree[lrMismatch.Left.Original.Element.Id];
+                        var xLeftModified = xlModifiedTree[lrMismatch.Left.Modified.Element.Id];
+                        var xOriginalAtRightOriginal = lrMismatch.OriginalAtRight.Original.Element.Id != "-1"
+                            ? xlOriginalTree[lrMismatch.OriginalAtRight.Original.Element.Id]
+                            : null;
+                        var xOriginalAtRightModified = lrMismatch.OriginalAtRight.Modified.Element.Id != "-1"
+                            ? xlModifiedTree[lrMismatch.OriginalAtRight.Modified.Element.Id]
+                            : null;
+                        var xModifiedAtRightOriginal = lrMismatch.ModifiedAtRight.Original.Element.Id != "-1"
+                            ? xlOriginalTree[lrMismatch.ModifiedAtRight.Original.Element.Id]
+                            : null;
+                        var xModifiedAtRightModified = lrMismatch.ModifiedAtRight.Modified.Element.Id != "-1"
+                            ? xlModifiedTree[lrMismatch.ModifiedAtRight.Modified.Element.Id]
+                            : null;
+                        Console.WriteLine($"[#{i + 1}] " +
+                            $"Left-({lrMismatch.Left.Original.Element.Id} " +
+                            $"{lrMismatch.Left.Original.Element.Type} " +
+                            $"{(lrMismatch.Left.Original.Element.Hint ?? "").Hint()} " +
+                            $"{xLeftOriginal?.StartLine().ToString(CultureInfo.InvariantCulture) ?? ""} " +
+                            $"{xLeftOriginal?.StartColumn().ToString(CultureInfo.InvariantCulture) ?? ""}, " +
+                            $"{lrMismatch.Left.Modified.Element.Id} " +
+                            $"{lrMismatch.Left.Modified.Element.Type} " +
+                            $"{(lrMismatch.Left.Modified.Element.Hint ?? "").Hint()} " +
+                            $"{xLeftModified?.StartLine().ToString(CultureInfo.InvariantCulture) ?? ""} " +
+                            $"{xLeftModified?.StartColumn().ToString(CultureInfo.InvariantCulture) ?? ""}) " +
+                            $"OriginalAtRight-({lrMismatch.OriginalAtRight?.Original?.Element?.Id ?? "NULL"} " +
+                            $"{lrMismatch.OriginalAtRight?.Original?.Element?.Type ?? ""} " +
+                            $"{(lrMismatch.OriginalAtRight?.Original?.Element?.Hint ?? "").Hint()} " +
+                            $"{xOriginalAtRightOriginal?.StartLine().ToString(CultureInfo.InvariantCulture) ?? ""} " +
+                            $"{xOriginalAtRightOriginal?.StartColumn().ToString(CultureInfo.InvariantCulture) ?? ""}, " +
+                            $"{lrMismatch.OriginalAtRight?.Modified?.Element?.Id ?? "NULL"} " +
+                            $"{lrMismatch.OriginalAtRight?.Modified?.Element?.Type ?? ""} " +
+                            $"{(lrMismatch.OriginalAtRight?.Modified?.Element?.Hint ?? "").Hint()} " +
+                            $"{xOriginalAtRightModified?.StartLine().ToString(CultureInfo.InvariantCulture) ?? ""} " +
+                            $"{xOriginalAtRightModified?.StartColumn().ToString(CultureInfo.InvariantCulture) ?? ""}) " +
+                            $"ModifiedAtRight-({lrMismatch.ModifiedAtRight?.Original?.Element?.Id ?? "NULL"} " +
+                            $"{lrMismatch.ModifiedAtRight?.Original?.Element?.Type ?? ""} " +
+                            $"{(lrMismatch.ModifiedAtRight?.Original?.Element?.Hint ?? "").Hint()} " +
+                            $"{xModifiedAtRightOriginal?.StartLine().ToString(CultureInfo.InvariantCulture) ?? ""} " +
+                            $"{xModifiedAtRightOriginal?.StartColumn().ToString(CultureInfo.InvariantCulture) ?? ""}, " +
+                            $"{lrMismatch.ModifiedAtRight?.Modified?.Element?.Id ?? "NULL"} " +
+                            $"{lrMismatch.ModifiedAtRight?.Modified?.Element?.Type ?? ""} " +
+                            $"{(lrMismatch.ModifiedAtRight?.Modified?.Element?.Hint ?? "").Hint()} " +
+                            $"{xModifiedAtRightModified?.StartLine().ToString(CultureInfo.InvariantCulture) ?? ""} " +
+                            $"{xModifiedAtRightModified?.StartColumn().ToString(CultureInfo.InvariantCulture) ?? ""}) ");
+                    }
+                    else
+                    {
+                        var rlMismatch = (RLMatchSymptom)bs;
+                        var xRightOriginal = xlOriginalTree[rlMismatch.Right.Original.Element.Id];
+                        var xRightModified = xlModifiedTree[rlMismatch.Right.Modified.Element.Id];
+                        var xOriginalAtLeftOriginal = rlMismatch.OriginalAtLeft.Original.Element.Id != "-1"
+                            ? xlOriginalTree[rlMismatch.OriginalAtLeft.Original.Element.Id]
+                            : null;
+                        var xOriginalAtLeftModified = rlMismatch.OriginalAtLeft.Modified.Element.Id != "-1"
+                            ? xlModifiedTree[rlMismatch.OriginalAtLeft.Modified.Element.Id]
+                            : null;
+                        var xModifiedAtLeftOriginal = rlMismatch.ModifiedAtLeft.Original.Element.Id != "-1"
+                            ? xlOriginalTree[rlMismatch.ModifiedAtLeft.Original.Element.Id]
+                            : null;
+                        var xModifiedAtLeftModified = rlMismatch.ModifiedAtLeft.Modified.Element.Id != "-1"
+                            ? xlModifiedTree[rlMismatch.ModifiedAtLeft.Modified.Element.Id]
+                            : null;
+                        Console.WriteLine($"[#{i + 1}] " +
+                            $"Right-({rlMismatch.Right.Original.Element.Id} " +
+                            $"{rlMismatch.Right.Original.Element.Type} " +
+                            $"{(rlMismatch.Right.Original.Element.Hint ?? "").Hint()} " +
+                            $"{xRightOriginal?.StartLine().ToString(CultureInfo.InvariantCulture) ?? ""} " +
+                            $"{xRightOriginal?.StartColumn().ToString(CultureInfo.InvariantCulture) ?? ""}, " +
+                            $"{rlMismatch.Right.Modified.Element.Id} " +
+                            $"{rlMismatch.Right.Modified.Element.Type} " +
+                            $"{(rlMismatch.Right.Modified.Element.Hint ?? "").Hint()}) " +
+                            $"{xRightModified?.StartLine().ToString(CultureInfo.InvariantCulture) ?? ""} " +
+                            $"{xRightModified?.StartColumn().ToString(CultureInfo.InvariantCulture) ?? ""}) " +
+                            $"OriginalAtLeft-({rlMismatch.OriginalAtLeft?.Original?.Element?.Id ?? "NULL"} " +
+                            $"{rlMismatch.OriginalAtLeft?.Original?.Element?.Type ?? ""} " +
+                            $"{(rlMismatch.OriginalAtLeft?.Original?.Element?.Hint ?? "").Hint()} " +
+                            $"{xOriginalAtLeftOriginal?.StartLine().ToString(CultureInfo.InvariantCulture) ?? ""} " +
+                            $"{xOriginalAtLeftOriginal?.StartColumn().ToString(CultureInfo.InvariantCulture) ?? ""}, " +
+                            $"{rlMismatch.OriginalAtLeft?.Modified?.Element?.Id ?? "NULL"} " +
+                            $"{rlMismatch.OriginalAtLeft?.Modified?.Element?.Type ?? ""} " +
+                            $"{(rlMismatch.OriginalAtLeft?.Modified?.Element?.Hint ?? "").Hint()} " +
+                            $"{xOriginalAtLeftModified?.StartLine().ToString(CultureInfo.InvariantCulture) ?? ""} " +
+                            $"{xOriginalAtLeftModified?.StartColumn().ToString(CultureInfo.InvariantCulture) ?? ""}) " +
+                            $"ModifiedAtLeft-({rlMismatch.ModifiedAtLeft?.Original?.Element?.Id ?? "NULL"} " +
+                            $"{rlMismatch.ModifiedAtLeft?.Original?.Element?.Type ?? ""} " +
+                            $"{(rlMismatch.ModifiedAtLeft?.Original?.Element?.Hint ?? "").Hint()} " +
+                            $"{xModifiedAtLeftOriginal?.StartLine().ToString(CultureInfo.InvariantCulture) ?? ""} " +
+                            $"{xModifiedAtLeftOriginal?.StartColumn().ToString(CultureInfo.InvariantCulture) ?? ""}, " +
+                            $"{rlMismatch.ModifiedAtLeft?.Modified?.Element?.Id ?? "NULL"} " +
+                            $"{rlMismatch.ModifiedAtLeft?.Modified?.Element?.Type ?? ""} " +
+                            $"{(rlMismatch.ModifiedAtLeft?.Modified?.Element?.Hint ?? "").Hint()} " +
+                            $"{xModifiedAtLeftModified?.StartLine().ToString(CultureInfo.InvariantCulture) ?? ""} " +
+                            $"{xModifiedAtLeftModified?.StartColumn().ToString(CultureInfo.InvariantCulture) ?? ""}) ");
+                    }
+                }
 
                 Console.Out.WriteLine($"DONE!!!");
             }
@@ -423,6 +537,7 @@ namespace Jawilliam.Tools.CCL
             /// <param name="args"></param>
             /// <example>
             /// Compare stats NativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTrivia_Forward NativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTrivia 28 -trace=D:\ExperimentLogs\BetweenSymptomsStats2.txt -name=NativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTrivia_Backward -approach=InverseNativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTrivia -fileFormat=28 -direction=Backward -name=NativeGTtreefiedRoslynMLWithIncludeTrivia_Forward -approach=NativeGTtreefiedRoslynMLWithIncludeTrivia -fileFormat=20 -direction=Forward -name=NativeGTtreefiedRoslynMLWithBasicPruning_Forward -approach=NativeGTtreefiedRoslynMLWithBasicPruning -fileFormat=12 -direction=Forward -from=1 -to=25
+            /// Compare stats NativeGumTree_Forward NativeGumTree 1 -trace=D:\ExperimentLogs\BetweenSymptomsStats_2_5.txt -name=NativeGumTree_Backward -approach=InverseOfNativeGumTree -fileFormat=1 -direction=Backward -from=1 -to=25
             /// </example>
             [ApplicationMetadata(Name = "stats", Description = "Compares...")]
             public virtual void StatsCompareCommand(RunCompareArgs args)
@@ -637,8 +752,11 @@ namespace Jawilliam.Tools.CCL
                     return (matches: -1, actions: -1, inserts: -1, deletes: -1, updates: -1, moves: -1);
                 }
 
-                detectionResult.FromGlobalToIdDefinitions(leftRevisionPair.original.Values.Single(o => o.Parent == null), 
-                                                          leftRevisionPair.modified.Values.Single(o => o.Parent == null));
+                if (delta.Approach != ChangeDetectionApproaches.NativeGumTree && delta.Approach != ChangeDetectionApproaches.InverseOfNativeGumTree)
+                {
+                    detectionResult.FromGlobalToIdDefinitions(leftRevisionPair.original.Values.Single(o => o.Parent == null),
+                                                              leftRevisionPair.modified.Values.Single(o => o.Parent == null));
+                }
                 
                 var matches = detectionResult.Matches.Where(m => 
                     rightRevisionPair.original.ContainsKey(m.Original.Id) &&
@@ -677,12 +795,21 @@ namespace Jawilliam.Tools.CCL
                     return (null, null);
                 }
 
-                var xOriginalTree = XElement.Load(new StringReader(originalVersion.XmlTree));
-                var xModifiedTree = XElement.Load(new StringReader(modifiedVersion.XmlTree));
+                ElementTree originalTree, modifiedTree;
+                if (fileFormatKind != FileFormatKind.Gumtreefied)
+                {
+                    var xOriginalTree = XElement.Load(new StringReader(originalVersion.XmlTree));
+                    var xModifiedTree = XElement.Load(new StringReader(modifiedVersion.XmlTree));
 
-                var roslynMLServices = new RoslynML();
-                var originalTree = roslynMLServices.AsGumtreefiedElementTree(xOriginalTree, true);
-                var modifiedTree = roslynMLServices.AsGumtreefiedElementTree(xModifiedTree, true);
+                    var roslynMLServices = new RoslynML();
+                    originalTree = roslynMLServices.AsGumtreefiedElementTree(xOriginalTree, true);
+                    modifiedTree = roslynMLServices.AsGumtreefiedElementTree(xModifiedTree, true);
+                }
+                else
+                {
+                    originalTree = ElementTree.Read(originalVersion.XmlTree, Encoding.Unicode);
+                    modifiedTree = ElementTree.Read(modifiedVersion.XmlTree, Encoding.Unicode);
+                }
 
                 var originalResult = originalTree.PostOrder(n => n.Children).Where(n => n.Root.Id != null).ToDictionary(n => n.Root.Id);
                 var modifiedResult = modifiedTree.PostOrder(n => n.Children).Where(n => n.Root.Id != null).ToDictionary(n => n.Root.Id);
@@ -761,7 +888,7 @@ namespace Jawilliam.Tools.CCL
         public string ModifiedPath { get; set; }
 
         [Option(ShortName = "direction")]
-        public string Direction { get; set; }
+        public string Direction { get; set; } = "Forward";
 
         [Option(LongName = "limited")]
         public bool Limited { get; set; }

@@ -80,9 +80,20 @@ namespace Jawilliam.CDF.CSharp.RoslynML
                 ? source.Value
                 : throw new ArgumentNullException(nameof(source));
 
-            return content != null
-                ? content.Length > 30 ? content.Substring(0, 30) : content
-                : "";
+            return content.Length > 30 ? content.Substring(0, 30) : content;
+        }
+
+
+
+        /// <summary>
+        /// Returns a content hint of the given content. 
+        /// </summary>
+        /// <param name="source">The full content.</param>
+        /// <returns>the first 30 characters of the content.</returns>
+        public static string Hint(this string source)
+        {
+            var content = source ?? throw new ArgumentNullException(nameof(source));
+            return content.Length > 30 ? content.Substring(0, 30) : content;
         }
     }
 }
