@@ -1522,6 +1522,16 @@
           <Member Name="InverseNativeGTtreefiedRoslynMLWithBasicPruningDefoliation" Value="35" />
           <Member Name="NativeGTtreefiedRoslynMLWithBasicPruningDefoliationAndIncludeTrivia" Value="36" />
           <Member Name="InverseNativeGTtreefiedRoslynMLWithBasicPruningDefoliationAndIncludeTrivia" Value="37" />
+          <Member Name="NativeGTtreefiedRoslynMLWithBasicPruningAndPermissiveLabeling" Value="38" />
+          <Member Name="InverseNativeGTtreefiedRoslynMLWithBasicPruningAndPermissiveLabeling" Value="39" />
+          <Member Name="NativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTriviaAndPermissiveLabeling" Value="40" />
+          <Member Name="InverseNativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTriviaAndPermissiveLabeling" Value="41" />
+          <Member Name="NativeGTtreefiedRoslynMLWithIncludeTriviaAndPermissiveLabeling" Value="42" />
+          <Member Name="InverseNativeGTtreefiedRoslynMLWithIncludeTriviaAndPermissiveLabeling" Value="43" />
+          <Member Name="NativeGTtreefiedRoslynMLWithBasicPruningDefoliationAndPermissiveLabeling" Value="44" />
+          <Member Name="InverseNativeGTtreefiedRoslynMLWithBasicPruningDefoliationAndPermissiveLabeling" Value="45" />
+          <Member Name="NativeGTtreefiedRoslynMLWithBasicPruningDefoliationAndIncludeTriviaAndPermissiveLabeling" Value="46" />
+          <Member Name="InverseNativeGTtreefiedRoslynMLWithBasicPruningDefoliationAndIncludeTriviaAndPermissiveLabeling" Value="47" />
         </EnumType>
         <EnumType Name="CodeCategory" UnderlyingType="Int16" IsFlags="true">
           <Member Name="Maintained" Value="1" />
