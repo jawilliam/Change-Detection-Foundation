@@ -186,6 +186,7 @@
     <Compile Include="Flad.Awareness\PairwiseTunnelingTests.cs" />
     <Compile Include="Flad.Awareness\HashingTests.cs" />
     <Compile Include="Flad.Awareness\RoslynMLDefoliaterTests.cs" />
+    <Compile Include="Flad.Awareness\RoslynMLAndGumtreefyTypeBasedLabelsTests.cs" />
     <Compile Include="Flad.Awareness\SignatureEqualityServicesTests.cs" />
     <Compile Include="Flad.Awareness\NameEqualityServicesTests.cs" />
     <Compile Include="CSharp\RoslynMLTests.CSharp7x.cs" />

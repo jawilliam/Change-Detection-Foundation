@@ -122,19 +122,20 @@ namespace Jawilliam.CDF.CSharp.RoslynML
         /// Converts an XML-like AST representation to the XML-like AST representation internally expected by GumTree.
         /// </summary>
         /// <param name="source"></param>
+        /// <param name="nameBasedLabels"></param>
         /// <returns></returns>
-        public virtual XElement Gumtreefy(XElement source)
+        public virtual XElement Gumtreefy(XElement source, bool nameBasedLabels = false)
         {
-            return this.CoreGumtreefy(source).Single();
+            return this.CoreGumtreefy(source, nameBasedLabels).Single();
         }
 
-        private IEnumerable<XElement> CoreGumtreefy(XElement source)
+        private IEnumerable<XElement> CoreGumtreefy(XElement source, bool nameBasedLabels)
         {
             if (source.Name.LocalName.Contains("_of_") || source.Name.LocalName == "TokenList")
             {
                 foreach (var child in source.Elements())
                 {
-                    var rChildren = this.CoreGumtreefy(child).ToArray();
+                    var rChildren = this.CoreGumtreefy(child, nameBasedLabels).ToArray();
                     foreach (var rChild in rChildren)
                     {
                         yield return rChild;
@@ -148,6 +149,12 @@ namespace Jawilliam.CDF.CSharp.RoslynML
             var kindAtt = source.Attribute("kind");
             var kind = kindAtt != null ? kindAtt.Value : source.Name.LocalName;
             var kindVal = (SyntaxKind)Enum.Parse(typeof(SyntaxKind), kind);
+
+            if (nameBasedLabels)
+            {
+                kindVal = this.GetNameBasedLabelType(kindVal);
+                kind = source.Name.LocalName;
+            }
 
             result.Add(new XAttribute("type", ((int)kindVal).ToString(CultureInfo.InvariantCulture)));
             result.Add(new XAttribute("typeLabel", kind));
@@ -181,10 +188,294 @@ namespace Jawilliam.CDF.CSharp.RoslynML
 
             foreach (var child in source.Elements())
             {
-                result.Add(this.CoreGumtreefy(child).ToArray());
+                result.Add(this.CoreGumtreefy(child, nameBasedLabels).ToArray());
             }
 
             yield return result;
+        }
+
+
+
+        /// <summary>
+        /// Gets the name-based label type to generate a srcML-like serialization where the label is the name, instead of the kind.
+        /// </summary>
+        /// <param name="type">requested element type.</param>
+        /// <returns>For multi-label element types, it always return one unique label, otherwise the element type is already a name-based element type.</returns>
+        public virtual SyntaxKind GetNameBasedLabelType(SyntaxKind type)
+        {
+            if (8193 <= (int)type && 8517 >= (int)type)
+                return (SyntaxKind)8193;
+
+            switch (type)
+            {
+                case SyntaxKind.AttributeArgument: return SyntaxKind.AttributeArgument;
+                case SyntaxKind.NameEquals: return SyntaxKind.NameEquals;
+                case SyntaxKind.TypeParameterList: return SyntaxKind.TypeParameterList;
+                case SyntaxKind.TypeParameter: return SyntaxKind.TypeParameter;
+                case SyntaxKind.BaseList: return SyntaxKind.BaseList;
+                case SyntaxKind.TypeParameterConstraintClause: return SyntaxKind.TypeParameterConstraintClause;
+                case SyntaxKind.ExplicitInterfaceSpecifier: return SyntaxKind.ExplicitInterfaceSpecifier;
+                case SyntaxKind.BaseConstructorInitializer:
+                case SyntaxKind.ThisConstructorInitializer: return SyntaxKind.ThisConstructorInitializer;
+                case SyntaxKind.ArrowExpressionClause: return SyntaxKind.ArrowExpressionClause;
+                case SyntaxKind.AccessorList: return SyntaxKind.AccessorList;
+                case SyntaxKind.GetAccessorDeclaration:
+                case SyntaxKind.SetAccessorDeclaration:
+                case SyntaxKind.AddAccessorDeclaration:
+                case SyntaxKind.RemoveAccessorDeclaration:
+                case SyntaxKind.UnknownAccessorDeclaration: return SyntaxKind.UnknownAccessorDeclaration;
+                case SyntaxKind.Parameter: return SyntaxKind.Parameter;
+                case SyntaxKind.CrefParameter: return SyntaxKind.CrefParameter;
+                case SyntaxKind.XmlElementStartTag: return SyntaxKind.XmlElementStartTag;
+                case SyntaxKind.XmlElementEndTag: return SyntaxKind.XmlElementEndTag;
+                case SyntaxKind.XmlName: return SyntaxKind.XmlName;
+                case SyntaxKind.XmlPrefix: return SyntaxKind.XmlPrefix;
+                case SyntaxKind.TypeArgumentList: return SyntaxKind.TypeArgumentList;
+                case SyntaxKind.ArrayRankSpecifier: return SyntaxKind.ArrayRankSpecifier;
+                case SyntaxKind.TupleElement: return SyntaxKind.TupleElement;
+                case SyntaxKind.Argument: return SyntaxKind.Argument;
+                case SyntaxKind.NameColon: return SyntaxKind.NameColon;
+                case SyntaxKind.AnonymousObjectMemberDeclarator: return SyntaxKind.AnonymousObjectMemberDeclarator;
+                case SyntaxKind.QueryBody: return SyntaxKind.QueryBody;
+                case SyntaxKind.JoinIntoClause: return SyntaxKind.JoinIntoClause;
+                case SyntaxKind.AscendingOrdering:
+                case SyntaxKind.DescendingOrdering: return SyntaxKind.DescendingOrdering;
+                case SyntaxKind.QueryContinuation: return SyntaxKind.QueryContinuation;
+                case SyntaxKind.WhenClause: return SyntaxKind.WhenClause;
+                case SyntaxKind.InterpolationAlignmentClause: return SyntaxKind.InterpolationAlignmentClause;
+                case SyntaxKind.InterpolationFormatClause: return SyntaxKind.InterpolationFormatClause;
+                case SyntaxKind.VariableDeclaration: return SyntaxKind.VariableDeclaration;
+                case SyntaxKind.VariableDeclarator: return SyntaxKind.VariableDeclarator;
+                case SyntaxKind.EqualsValueClause: return SyntaxKind.EqualsValueClause;
+                case SyntaxKind.ElseClause: return SyntaxKind.ElseClause;
+                case SyntaxKind.SwitchSection: return SyntaxKind.SwitchSection;
+                case SyntaxKind.CatchClause: return SyntaxKind.CatchClause;
+                case SyntaxKind.CatchDeclaration: return SyntaxKind.CatchDeclaration;
+                case SyntaxKind.CatchFilterClause: return SyntaxKind.CatchFilterClause;
+                case SyntaxKind.FinallyClause: return SyntaxKind.FinallyClause;
+                case SyntaxKind.CompilationUnit: return SyntaxKind.CompilationUnit;
+                case SyntaxKind.ExternAliasDirective: return SyntaxKind.ExternAliasDirective;
+                case SyntaxKind.UsingDirective: return SyntaxKind.UsingDirective;
+                case SyntaxKind.AttributeList: return SyntaxKind.AttributeList;
+                case SyntaxKind.AttributeTargetSpecifier: return SyntaxKind.AttributeTargetSpecifier;
+                case SyntaxKind.Attribute: return SyntaxKind.Attribute;
+                case SyntaxKind.AttributeArgumentList: return SyntaxKind.AttributeArgumentList;
+                case SyntaxKind.DelegateDeclaration: return SyntaxKind.DelegateDeclaration;
+                case SyntaxKind.EnumMemberDeclaration: return SyntaxKind.EnumMemberDeclaration;
+                case SyntaxKind.IncompleteMember: return SyntaxKind.IncompleteMember;
+                case SyntaxKind.GlobalStatement: return SyntaxKind.GlobalStatement;
+                case SyntaxKind.NamespaceDeclaration: return SyntaxKind.NamespaceDeclaration;
+                case SyntaxKind.EnumDeclaration: return SyntaxKind.EnumDeclaration;
+                case SyntaxKind.ClassDeclaration: return SyntaxKind.ClassDeclaration;
+                case SyntaxKind.StructDeclaration: return SyntaxKind.StructDeclaration;
+                case SyntaxKind.InterfaceDeclaration: return SyntaxKind.InterfaceDeclaration;
+                case SyntaxKind.FieldDeclaration: return SyntaxKind.FieldDeclaration;
+                case SyntaxKind.EventFieldDeclaration: return SyntaxKind.EventFieldDeclaration;
+                case SyntaxKind.MethodDeclaration: return SyntaxKind.MethodDeclaration;
+                case SyntaxKind.OperatorDeclaration: return SyntaxKind.OperatorDeclaration;
+                case SyntaxKind.ConversionOperatorDeclaration: return SyntaxKind.ConversionOperatorDeclaration;
+                case SyntaxKind.ConstructorDeclaration: return SyntaxKind.ConstructorDeclaration;
+                case SyntaxKind.DestructorDeclaration: return SyntaxKind.DestructorDeclaration;
+                case SyntaxKind.PropertyDeclaration: return SyntaxKind.PropertyDeclaration;
+                case SyntaxKind.EventDeclaration: return SyntaxKind.EventDeclaration;
+                case SyntaxKind.IndexerDeclaration: return SyntaxKind.IndexerDeclaration;
+                case SyntaxKind.SimpleBaseType: return SyntaxKind.SimpleBaseType;
+                case SyntaxKind.ConstructorConstraint: return SyntaxKind.ConstructorConstraint;
+                case SyntaxKind.ClassConstraint:
+                case SyntaxKind.StructConstraint: return SyntaxKind.StructConstraint;
+                case SyntaxKind.TypeConstraint: return SyntaxKind.TypeConstraint;
+                case SyntaxKind.ParameterList: return SyntaxKind.ParameterList;
+                case SyntaxKind.BracketedParameterList: return SyntaxKind.BracketedParameterList;
+                case SyntaxKind.SkippedTokensTrivia: return SyntaxKind.SkippedTokensTrivia;
+                case SyntaxKind.SingleLineDocumentationCommentTrivia:
+                case SyntaxKind.MultiLineDocumentationCommentTrivia: return SyntaxKind.MultiLineDocumentationCommentTrivia;
+                case SyntaxKind.EndIfDirectiveTrivia: return SyntaxKind.EndIfDirectiveTrivia;
+                case SyntaxKind.RegionDirectiveTrivia: return SyntaxKind.RegionDirectiveTrivia;
+                case SyntaxKind.EndRegionDirectiveTrivia: return SyntaxKind.EndRegionDirectiveTrivia;
+                case SyntaxKind.ErrorDirectiveTrivia: return SyntaxKind.ErrorDirectiveTrivia;
+                case SyntaxKind.WarningDirectiveTrivia: return SyntaxKind.WarningDirectiveTrivia;
+                case SyntaxKind.BadDirectiveTrivia: return SyntaxKind.BadDirectiveTrivia;
+                case SyntaxKind.DefineDirectiveTrivia: return SyntaxKind.DefineDirectiveTrivia;
+                case SyntaxKind.UndefDirectiveTrivia: return SyntaxKind.UndefDirectiveTrivia;
+                case SyntaxKind.LineDirectiveTrivia: return SyntaxKind.LineDirectiveTrivia;
+                case SyntaxKind.PragmaWarningDirectiveTrivia: return SyntaxKind.PragmaWarningDirectiveTrivia;
+                case SyntaxKind.PragmaChecksumDirectiveTrivia: return SyntaxKind.PragmaChecksumDirectiveTrivia;
+                case SyntaxKind.ReferenceDirectiveTrivia: return SyntaxKind.ReferenceDirectiveTrivia;
+                case SyntaxKind.LoadDirectiveTrivia: return SyntaxKind.LoadDirectiveTrivia;
+                case SyntaxKind.ShebangDirectiveTrivia: return SyntaxKind.ShebangDirectiveTrivia;
+                case SyntaxKind.ElseDirectiveTrivia: return SyntaxKind.ElseDirectiveTrivia;
+                case SyntaxKind.IfDirectiveTrivia: return SyntaxKind.IfDirectiveTrivia;
+                case SyntaxKind.ElifDirectiveTrivia: return SyntaxKind.ElifDirectiveTrivia;
+                case SyntaxKind.TypeCref: return SyntaxKind.TypeCref;
+                case SyntaxKind.QualifiedCref: return SyntaxKind.QualifiedCref;
+                case SyntaxKind.NameMemberCref: return SyntaxKind.NameMemberCref;
+                case SyntaxKind.IndexerMemberCref: return SyntaxKind.IndexerMemberCref;
+                case SyntaxKind.OperatorMemberCref: return SyntaxKind.OperatorMemberCref;
+                case SyntaxKind.ConversionOperatorMemberCref: return SyntaxKind.ConversionOperatorMemberCref;
+                case SyntaxKind.CrefParameterList: return SyntaxKind.CrefParameterList;
+                case SyntaxKind.CrefBracketedParameterList: return SyntaxKind.CrefBracketedParameterList;
+                case SyntaxKind.XmlElement: return SyntaxKind.XmlElement;
+                case SyntaxKind.XmlEmptyElement: return SyntaxKind.XmlEmptyElement;
+                case SyntaxKind.XmlText: return SyntaxKind.XmlText;
+                case SyntaxKind.XmlCDataSection: return SyntaxKind.XmlCDataSection;
+                case SyntaxKind.XmlProcessingInstruction: return SyntaxKind.XmlProcessingInstruction;
+                case SyntaxKind.XmlComment: return SyntaxKind.XmlComment;
+                case SyntaxKind.XmlTextAttribute: return SyntaxKind.XmlTextAttribute;
+                case SyntaxKind.XmlCrefAttribute: return SyntaxKind.XmlCrefAttribute;
+                case SyntaxKind.XmlNameAttribute: return SyntaxKind.XmlNameAttribute;
+                case SyntaxKind.ParenthesizedExpression: return SyntaxKind.ParenthesizedExpression;
+                case SyntaxKind.TupleExpression: return SyntaxKind.TupleExpression;
+                case SyntaxKind.UnaryPlusExpression:
+                case SyntaxKind.UnaryMinusExpression:
+                case SyntaxKind.BitwiseNotExpression:
+                case SyntaxKind.LogicalNotExpression:
+                case SyntaxKind.PreIncrementExpression:
+                case SyntaxKind.PreDecrementExpression:
+                case SyntaxKind.AddressOfExpression:
+                case SyntaxKind.PointerIndirectionExpression: return SyntaxKind.PointerIndirectionExpression;
+                case SyntaxKind.AwaitExpression: return SyntaxKind.AwaitExpression;
+                case SyntaxKind.PostIncrementExpression:
+                case SyntaxKind.PostDecrementExpression: return SyntaxKind.PostDecrementExpression;
+                case SyntaxKind.SimpleMemberAccessExpression:
+                case SyntaxKind.PointerMemberAccessExpression: return SyntaxKind.PointerMemberAccessExpression;
+                case SyntaxKind.ConditionalAccessExpression: return SyntaxKind.ConditionalAccessExpression;
+                case SyntaxKind.MemberBindingExpression: return SyntaxKind.MemberBindingExpression;
+                case SyntaxKind.ElementBindingExpression: return SyntaxKind.ElementBindingExpression;
+                case SyntaxKind.ImplicitElementAccess: return SyntaxKind.ImplicitElementAccess;
+                case SyntaxKind.AddExpression:
+                case SyntaxKind.SubtractExpression:
+                case SyntaxKind.MultiplyExpression:
+                case SyntaxKind.DivideExpression:
+                case SyntaxKind.ModuloExpression:
+                case SyntaxKind.LeftShiftExpression:
+                case SyntaxKind.RightShiftExpression:
+                case SyntaxKind.LogicalOrExpression:
+                case SyntaxKind.LogicalAndExpression:
+                case SyntaxKind.BitwiseOrExpression:
+                case SyntaxKind.BitwiseAndExpression:
+                case SyntaxKind.ExclusiveOrExpression:
+                case SyntaxKind.EqualsExpression:
+                case SyntaxKind.NotEqualsExpression:
+                case SyntaxKind.LessThanExpression:
+                case SyntaxKind.LessThanOrEqualExpression:
+                case SyntaxKind.GreaterThanExpression:
+                case SyntaxKind.GreaterThanOrEqualExpression:
+                case SyntaxKind.IsExpression:
+                case SyntaxKind.AsExpression:
+                case SyntaxKind.CoalesceExpression: return SyntaxKind.CoalesceExpression;
+                case SyntaxKind.SimpleAssignmentExpression:
+                case SyntaxKind.AddAssignmentExpression:
+                case SyntaxKind.SubtractAssignmentExpression:
+                case SyntaxKind.MultiplyAssignmentExpression:
+                case SyntaxKind.DivideAssignmentExpression:
+                case SyntaxKind.ModuloAssignmentExpression:
+                case SyntaxKind.AndAssignmentExpression:
+                case SyntaxKind.ExclusiveOrAssignmentExpression:
+                case SyntaxKind.OrAssignmentExpression:
+                case SyntaxKind.LeftShiftAssignmentExpression:
+                case SyntaxKind.RightShiftAssignmentExpression: return SyntaxKind.RightShiftAssignmentExpression;
+                case SyntaxKind.ConditionalExpression: return SyntaxKind.ConditionalExpression;
+                case SyntaxKind.ArgListExpression:
+                case SyntaxKind.NumericLiteralExpression:
+                case SyntaxKind.StringLiteralExpression:
+                case SyntaxKind.CharacterLiteralExpression:
+                case SyntaxKind.TrueLiteralExpression:
+                case SyntaxKind.FalseLiteralExpression:
+                case SyntaxKind.NullLiteralExpression:
+                case SyntaxKind.DefaultLiteralExpression: return SyntaxKind.DefaultLiteralExpression;
+                case SyntaxKind.MakeRefExpression: return SyntaxKind.MakeRefExpression;
+                case SyntaxKind.RefTypeExpression: return SyntaxKind.RefTypeExpression;
+                case SyntaxKind.RefValueExpression: return SyntaxKind.RefValueExpression;
+                case SyntaxKind.CheckedExpression:
+                case SyntaxKind.UncheckedExpression: return SyntaxKind.CheckedExpression;
+                case SyntaxKind.DefaultExpression: return SyntaxKind.DefaultExpression;
+                case SyntaxKind.TypeOfExpression: return SyntaxKind.TypeOfExpression;
+                case SyntaxKind.SizeOfExpression: return SyntaxKind.SizeOfExpression;
+                case SyntaxKind.InvocationExpression: return SyntaxKind.InvocationExpression;
+                case SyntaxKind.ElementAccessExpression: return SyntaxKind.ElementAccessExpression;
+                case SyntaxKind.DeclarationExpression: return SyntaxKind.DeclarationExpression;
+                case SyntaxKind.CastExpression: return SyntaxKind.CastExpression;
+                case SyntaxKind.RefExpression: return SyntaxKind.RefExpression;
+                case SyntaxKind.ObjectInitializerExpression:
+                case SyntaxKind.CollectionInitializerExpression:
+                case SyntaxKind.ArrayInitializerExpression:
+                case SyntaxKind.ComplexElementInitializerExpression: return SyntaxKind.ComplexElementInitializerExpression;
+                case SyntaxKind.ObjectCreationExpression: return SyntaxKind.ObjectCreationExpression;
+                case SyntaxKind.AnonymousObjectCreationExpression: return SyntaxKind.AnonymousObjectCreationExpression;
+                case SyntaxKind.ArrayCreationExpression: return SyntaxKind.ArrayCreationExpression;
+                case SyntaxKind.ImplicitArrayCreationExpression: return SyntaxKind.ImplicitArrayCreationExpression;
+                case SyntaxKind.StackAllocArrayCreationExpression: return SyntaxKind.StackAllocArrayCreationExpression;
+                case SyntaxKind.QueryExpression: return SyntaxKind.QueryExpression;
+                case SyntaxKind.OmittedArraySizeExpression: return SyntaxKind.OmittedArraySizeExpression;
+                case SyntaxKind.InterpolatedStringExpression: return SyntaxKind.InterpolatedStringExpression;
+                case SyntaxKind.IsPatternExpression: return SyntaxKind.IsPatternExpression;
+                case SyntaxKind.ThrowExpression: return SyntaxKind.ThrowExpression;
+                case SyntaxKind.PredefinedType: return SyntaxKind.PredefinedType;
+                case SyntaxKind.ArrayType: return SyntaxKind.ArrayType;
+                case SyntaxKind.PointerType: return SyntaxKind.PointerType;
+                case SyntaxKind.NullableType: return SyntaxKind.NullableType;
+                case SyntaxKind.TupleType: return SyntaxKind.TupleType;
+                case SyntaxKind.OmittedTypeArgument: return SyntaxKind.OmittedTypeArgument;
+                case SyntaxKind.RefType: return SyntaxKind.RefType;
+                case SyntaxKind.QualifiedName: return SyntaxKind.QualifiedName;
+                case SyntaxKind.AliasQualifiedName: return SyntaxKind.AliasQualifiedName;
+                case SyntaxKind.IdentifierName: return SyntaxKind.IdentifierName;
+                case SyntaxKind.GenericName: return SyntaxKind.GenericName;
+                case SyntaxKind.ThisExpression: return SyntaxKind.ThisExpression;
+                case SyntaxKind.BaseExpression: return SyntaxKind.BaseExpression;
+                case SyntaxKind.AnonymousMethodExpression: return SyntaxKind.AnonymousMethodExpression;
+                case SyntaxKind.SimpleLambdaExpression: return SyntaxKind.SimpleLambdaExpression;
+                case SyntaxKind.ParenthesizedLambdaExpression: return SyntaxKind.ParenthesizedLambdaExpression;
+                case SyntaxKind.ArgumentList: return SyntaxKind.ArgumentList;
+                case SyntaxKind.BracketedArgumentList: return SyntaxKind.BracketedArgumentList;
+                case SyntaxKind.FromClause: return SyntaxKind.FromClause;
+                case SyntaxKind.LetClause: return SyntaxKind.LetClause;
+                case SyntaxKind.JoinClause: return SyntaxKind.JoinClause;
+                case SyntaxKind.WhereClause: return SyntaxKind.WhereClause;
+                case SyntaxKind.OrderByClause: return SyntaxKind.OrderByClause;
+                case SyntaxKind.SelectClause: return SyntaxKind.SelectClause;
+                case SyntaxKind.GroupClause: return SyntaxKind.GroupClause;
+                case SyntaxKind.DeclarationPattern: return SyntaxKind.DeclarationPattern;
+                case SyntaxKind.ConstantPattern: return SyntaxKind.ConstantPattern;
+                case SyntaxKind.InterpolatedStringText: return SyntaxKind.InterpolatedStringText;
+                case SyntaxKind.Interpolation: return SyntaxKind.Interpolation;
+                case SyntaxKind.Block: return SyntaxKind.Block;
+                case SyntaxKind.LocalFunctionStatement: return SyntaxKind.LocalFunctionStatement;
+                case SyntaxKind.LocalDeclarationStatement: return SyntaxKind.LocalDeclarationStatement;
+                case SyntaxKind.ExpressionStatement: return SyntaxKind.ExpressionStatement;
+                case SyntaxKind.EmptyStatement: return SyntaxKind.EmptyStatement;
+                case SyntaxKind.LabeledStatement: return SyntaxKind.LabeledStatement;
+                case SyntaxKind.GotoStatement:
+                case SyntaxKind.GotoCaseStatement:
+                case SyntaxKind.GotoDefaultStatement: return SyntaxKind.GotoStatement;
+                case SyntaxKind.BreakStatement: return SyntaxKind.BreakStatement;
+                case SyntaxKind.ContinueStatement: return SyntaxKind.ContinueStatement;
+                case SyntaxKind.ReturnStatement: return SyntaxKind.ReturnStatement;
+                case SyntaxKind.ThrowStatement: return SyntaxKind.ThrowStatement;
+                case SyntaxKind.YieldReturnStatement:
+                case SyntaxKind.YieldBreakStatement: return SyntaxKind.YieldBreakStatement;
+                case SyntaxKind.WhileStatement: return SyntaxKind.WhileStatement;
+                case SyntaxKind.DoStatement: return SyntaxKind.DoStatement;
+                case SyntaxKind.ForStatement: return SyntaxKind.ForStatement;
+                case SyntaxKind.UsingStatement: return SyntaxKind.UsingStatement;
+                case SyntaxKind.FixedStatement: return SyntaxKind.FixedStatement;
+                case SyntaxKind.CheckedStatement:
+                case SyntaxKind.UncheckedStatement: return SyntaxKind.CheckedStatement;
+                case SyntaxKind.UnsafeStatement: return SyntaxKind.UnsafeStatement;
+                case SyntaxKind.LockStatement: return SyntaxKind.LockStatement;
+                case SyntaxKind.IfStatement: return SyntaxKind.IfStatement;
+                case SyntaxKind.SwitchStatement: return SyntaxKind.SwitchStatement;
+                case SyntaxKind.TryStatement: return SyntaxKind.TryStatement;
+                case SyntaxKind.ForEachStatement: return SyntaxKind.ForEachStatement;
+                case SyntaxKind.ForEachVariableStatement: return SyntaxKind.ForEachVariableStatement;
+                case SyntaxKind.SingleVariableDesignation: return SyntaxKind.SingleVariableDesignation;
+                case SyntaxKind.DiscardDesignation: return SyntaxKind.DiscardDesignation;
+                case SyntaxKind.ParenthesizedVariableDesignation: return SyntaxKind.ParenthesizedVariableDesignation;
+                case SyntaxKind.CasePatternSwitchLabel: return SyntaxKind.CasePatternSwitchLabel;
+                case SyntaxKind.CaseSwitchLabel: return SyntaxKind.CaseSwitchLabel;
+                case SyntaxKind.DefaultSwitchLabel: return SyntaxKind.DefaultSwitchLabel;
+                default: throw new ArgumentException(nameof(type));
+            }
         }
 
         /// <summary>

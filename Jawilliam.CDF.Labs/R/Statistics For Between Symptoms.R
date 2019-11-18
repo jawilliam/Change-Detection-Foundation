@@ -173,7 +173,7 @@ View(approaches)
 # 
 
 
-BetweenSymptomsStats <- read_delim("D:/ExperimentLogs/BetweenSymptomsStats_10Vs11.txt", ";", escape_double = FALSE, trim_ws = TRUE)
+BetweenSymptomsStats <- read_delim("D:/ExperimentLogs/BetweenSymptomsStats_2Vs5.txt", ";", escape_double = FALSE, trim_ws = TRUE)
 total <- nrow(BetweenSymptomsStats)
 stats <- data.frame(LR_mm_E=round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[28] != 0),])/total*100, 2),
                     RL_mm_E=round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[29] != 0),])/total*100, 2),

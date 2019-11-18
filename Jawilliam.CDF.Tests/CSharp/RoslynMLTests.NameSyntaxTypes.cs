@@ -1,8 +1,5 @@
-﻿using System.Linq;
-using System.Xml.Linq;
-using Microsoft.CodeAnalysis;
+﻿using System.Xml.Linq;
 using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Jawilliam.CDF.Tests.CSharp
@@ -18,7 +15,7 @@ namespace Jawilliam.CDF.Tests.CSharp
             var xElement = converter.Visit(node);
             Assert.AreEqual("<IdentifierName Name=\"true\" TypeSyntax=\"true\" startLine=\"1\" startColumn=\"1\" endLine=\"1\" endColumn=\"3\">" +
                                 "<Token kind=\"IdentifierToken\" startLine=\"1\" startColumn=\"1\" endLine=\"1\" endColumn=\"3\" part=\"Identifier\">var</Token>" +
-                            "</IdentifierName>", xElement.ToString(SaveOptions.DisableFormatting));
+                            "</IdentifierName>", RemovePosAndLength(xElement).ToString(SaveOptions.DisableFormatting));
         }
 
         [TestMethod]
@@ -41,8 +38,8 @@ namespace Jawilliam.CDF.Tests.CSharp
                                 "<IdentifierName Name=\"true\" TypeSyntax=\"true\" startLine=\"1\" startColumn=\"5\" endLine=\"1\" endColumn=\"5\" part=\"Right\">" +
                                     "<Token kind=\"IdentifierToken\" startLine=\"1\" startColumn=\"5\" endLine=\"1\" endColumn=\"5\" part=\"Identifier\">c</Token>" +
                                 "</IdentifierName>" +
-                            "</QualifiedName>", 
-                            xElement.ToString(SaveOptions.DisableFormatting));
+                            "</QualifiedName>",
+                RemovePosAndLength(xElement).ToString(SaveOptions.DisableFormatting));
                               
 
             node = SyntaxFactory.ParseName("x.y");
@@ -55,7 +52,7 @@ namespace Jawilliam.CDF.Tests.CSharp
                                 "<IdentifierName Name=\"true\" TypeSyntax=\"true\" startLine=\"1\" startColumn=\"3\" endLine=\"1\" endColumn=\"3\" part=\"Right\">" +
                                     "<Token kind=\"IdentifierToken\" startLine=\"1\" startColumn=\"3\" endLine=\"1\" endColumn=\"3\" part=\"Identifier\">y</Token>" +
                                 "</IdentifierName>" +
-                            "</QualifiedName>", xElement.ToString(SaveOptions.DisableFormatting));
+                            "</QualifiedName>", RemovePosAndLength(xElement).ToString(SaveOptions.DisableFormatting));
         }
 
         [TestMethod]
@@ -79,7 +76,7 @@ namespace Jawilliam.CDF.Tests.CSharp
                                     "</SeparatedList_of_Type>" +
                                     "<Token kind=\"GreaterThanToken\" Punctuation=\"true\" Language=\"true\" startLine=\"1\" startColumn=\"4\" endLine=\"1\" endColumn=\"4\" part=\"GreaterThanToken\">&gt;</Token>" +
                                 "</TypeArgumentList>" +
-                            "</GenericName>", xElement.ToString(SaveOptions.DisableFormatting));
+                            "</GenericName>", RemovePosAndLength(xElement).ToString(SaveOptions.DisableFormatting));
 
             node = SyntaxFactory.ParseName("a<x,t>");
             xElement = converter.Visit(node);
@@ -97,7 +94,7 @@ namespace Jawilliam.CDF.Tests.CSharp
                                     "</SeparatedList_of_Type>" +
                                     "<Token kind=\"GreaterThanToken\" Punctuation=\"true\" Language=\"true\" startLine=\"1\" startColumn=\"6\" endLine=\"1\" endColumn=\"6\" part=\"GreaterThanToken\">&gt;</Token>" +
                                 "</TypeArgumentList>" +
-                            "</GenericName>", xElement.ToString(SaveOptions.DisableFormatting));
+                            "</GenericName>", RemovePosAndLength(xElement).ToString(SaveOptions.DisableFormatting));
 
             node = SyntaxFactory.ParseName("a<x,>");
             xElement = converter.Visit(node);
@@ -115,7 +112,7 @@ namespace Jawilliam.CDF.Tests.CSharp
                                     "</SeparatedList_of_Type>" +
                                     "<Token kind=\"GreaterThanToken\" Punctuation=\"true\" Language=\"true\" startLine=\"1\" startColumn=\"5\" endLine=\"1\" endColumn=\"5\" part=\"GreaterThanToken\">&gt;</Token>" +
                                 "</TypeArgumentList>" +
-                            "</GenericName>", xElement.ToString(SaveOptions.DisableFormatting));
+                            "</GenericName>", RemovePosAndLength(xElement).ToString(SaveOptions.DisableFormatting));
         }
 
 
@@ -134,7 +131,7 @@ namespace Jawilliam.CDF.Tests.CSharp
                                 "<IdentifierName Name=\"true\" TypeSyntax=\"true\" startLine=\"1\" startColumn=\"9\" endLine=\"1\" endColumn=\"9\" part=\"Name\">" +
                                     "<Token kind=\"IdentifierToken\" startLine=\"1\" startColumn=\"9\" endLine=\"1\" endColumn=\"9\" part=\"Identifier\">c</Token>" +
                                 "</IdentifierName>" +
-                            "</AliasQualifiedName>", xElement.ToString(SaveOptions.DisableFormatting));
+                            "</AliasQualifiedName>", RemovePosAndLength(xElement).ToString(SaveOptions.DisableFormatting));
         }
 
         [TestMethod]
@@ -145,14 +142,14 @@ namespace Jawilliam.CDF.Tests.CSharp
             var xElement = converter.Visit(node);
             Assert.AreEqual("<PredefinedType TypeSyntax=\"true\" startLine=\"1\" startColumn=\"1\" endLine=\"1\" endColumn=\"3\">" +
                                 "<Token kind=\"IntKeyword\" Keyword=\"true\" startLine=\"1\" startColumn=\"1\" endLine=\"1\" endColumn=\"3\" part=\"Keyword\">int</Token>" +
-                            "</PredefinedType>", xElement.ToString(SaveOptions.DisableFormatting));
+                            "</PredefinedType>", RemovePosAndLength(xElement).ToString(SaveOptions.DisableFormatting));
 
 
             node = SyntaxFactory.ParseTypeName("byte");
             xElement = converter.Visit(node);
             Assert.AreEqual("<PredefinedType TypeSyntax=\"true\" startLine=\"1\" startColumn=\"1\" endLine=\"1\" endColumn=\"4\">" +
                                 "<Token kind=\"ByteKeyword\" Keyword=\"true\" startLine=\"1\" startColumn=\"1\" endLine=\"1\" endColumn=\"4\" part=\"Keyword\">byte</Token>" +
-                            "</PredefinedType>", xElement.ToString(SaveOptions.DisableFormatting));
+                            "</PredefinedType>", RemovePosAndLength(xElement).ToString(SaveOptions.DisableFormatting));
         }
 
         [TestMethod]
@@ -180,7 +177,7 @@ namespace Jawilliam.CDF.Tests.CSharp
                                         "<Token kind=\"CloseBracketToken\" Punctuation=\"true\" Language=\"true\" startLine=\"1\" startColumn=\"9\" endLine=\"1\" endColumn=\"9\" part=\"CloseBracketToken\">]</Token>" +
                                     "</ArrayRankSpecifier>" +
                                 "</List_of_ArrayRankSpecifier>" +
-                            "</ArrayType>", xElement.ToString(SaveOptions.DisableFormatting));
+                            "</ArrayType>", RemovePosAndLength(xElement).ToString(SaveOptions.DisableFormatting));
 
             node = SyntaxFactory.ParseTypeName("int[1][2]");
             xElement = converter.Visit(node);
@@ -208,7 +205,7 @@ namespace Jawilliam.CDF.Tests.CSharp
                                         "<Token kind=\"CloseBracketToken\" Punctuation=\"true\" Language=\"true\" startLine=\"1\" startColumn=\"9\" endLine=\"1\" endColumn=\"9\" part=\"CloseBracketToken\">]</Token>" +
                                     "</ArrayRankSpecifier>" +
                                 "</List_of_ArrayRankSpecifier>" +
-                            "</ArrayType>", xElement.ToString(SaveOptions.DisableFormatting));
+                            "</ArrayType>", RemovePosAndLength(xElement).ToString(SaveOptions.DisableFormatting));
         }
 
         [TestMethod]
@@ -222,7 +219,7 @@ namespace Jawilliam.CDF.Tests.CSharp
                                     "<Token kind=\"IntKeyword\" Keyword=\"true\" startLine=\"1\" startColumn=\"1\" endLine=\"1\" endColumn=\"3\" part=\"Keyword\">int</Token>" +
                                 "</PredefinedType>" +
                                 "<Token kind=\"AsteriskToken\" Operator=\"true\" startLine=\"1\" startColumn=\"4\" endLine=\"1\" endColumn=\"4\" part=\"AsteriskToken\">*</Token>" +
-                            "</PointerType>", xElement.ToString(SaveOptions.DisableFormatting));
+                            "</PointerType>", RemovePosAndLength(xElement).ToString(SaveOptions.DisableFormatting));
         }
 
         [TestMethod]
@@ -236,7 +233,7 @@ namespace Jawilliam.CDF.Tests.CSharp
                                     "<Token kind=\"IntKeyword\" Keyword=\"true\" startLine=\"1\" startColumn=\"1\" endLine=\"1\" endColumn=\"3\" part=\"Keyword\">int</Token>" +
                                 "</PredefinedType>" +
                                 "<Token kind=\"QuestionToken\" Operator=\"true\" startLine=\"1\" startColumn=\"4\" endLine=\"1\" endColumn=\"4\" part=\"QuestionToken\">?</Token>" +
-                            "</NullableType>", xElement.ToString(SaveOptions.DisableFormatting));
+                            "</NullableType>", RemovePosAndLength(xElement).ToString(SaveOptions.DisableFormatting));
         }
     }
 }
