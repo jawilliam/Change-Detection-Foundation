@@ -1532,6 +1532,8 @@
           <Member Name="InverseNativeGTtreefiedRoslynMLWithBasicPruningDefoliationAndPermissiveLabeling" Value="45" />
           <Member Name="NativeGTtreefiedRoslynMLWithBasicPruningDefoliationAndIncludeTriviaAndPermissiveLabeling" Value="46" />
           <Member Name="InverseNativeGTtreefiedRoslynMLWithBasicPruningDefoliationAndIncludeTriviaAndPermissiveLabeling" Value="47" />
+          <Member Name="NativeGTtreefiedRoslynMLAndPermissiveLabeling" Value="48" />
+          <Member Name="InverseNativeGTtreefiedRoslynMLAndPermissiveLabeling" Value="49" />
         </EnumType>
         <EnumType Name="CodeCategory" UnderlyingType="Int16" IsFlags="true">
           <Member Name="Maintained" Value="1" />

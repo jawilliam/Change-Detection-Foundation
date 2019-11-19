@@ -45,7 +45,7 @@ namespace Jawilliam.Tools.CCL
                     loader.Defoliate(xElement);
 
                 if (args.Gumtreefy)
-                    xElement = loader.Gumtreefy(xElement);
+                    xElement = loader.Gumtreefy(xElement, args.TypeBasedLabels);
 
                 if (args.SaveToFile != null)
                 {
@@ -97,5 +97,8 @@ namespace Jawilliam.Tools.CCL
 
         [Option(LongName = "defoliate")]
         public bool Defoliate { get; set; }
+
+        [Option(LongName = "typeBasedLabels")]
+        public bool TypeBasedLabels { get; set; } = false;
     }
 }

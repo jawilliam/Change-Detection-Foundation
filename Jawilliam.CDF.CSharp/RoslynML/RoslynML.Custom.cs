@@ -122,11 +122,11 @@ namespace Jawilliam.CDF.CSharp.RoslynML
         /// Converts an XML-like AST representation to the XML-like AST representation internally expected by GumTree.
         /// </summary>
         /// <param name="source"></param>
-        /// <param name="nameBasedLabels"></param>
+        /// <param name="typeBasedLabels"></param>
         /// <returns></returns>
-        public virtual XElement Gumtreefy(XElement source, bool nameBasedLabels = false)
+        public virtual XElement Gumtreefy(XElement source, bool typeBasedLabels = false)
         {
-            return this.CoreGumtreefy(source, nameBasedLabels).Single();
+            return this.CoreGumtreefy(source, typeBasedLabels).Single();
         }
 
         private IEnumerable<XElement> CoreGumtreefy(XElement source, bool nameBasedLabels)
@@ -474,6 +474,8 @@ namespace Jawilliam.CDF.CSharp.RoslynML
                 case SyntaxKind.CasePatternSwitchLabel: return SyntaxKind.CasePatternSwitchLabel;
                 case SyntaxKind.CaseSwitchLabel: return SyntaxKind.CaseSwitchLabel;
                 case SyntaxKind.DefaultSwitchLabel: return SyntaxKind.DefaultSwitchLabel;
+                case SyntaxKind.SingleLineCommentTrivia:
+                case SyntaxKind.MultiLineCommentTrivia: return SyntaxKind.MultiLineCommentTrivia;
                 default: throw new ArgumentException(nameof(type));
             }
         }

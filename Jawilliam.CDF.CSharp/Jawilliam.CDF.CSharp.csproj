@@ -177,6 +177,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SignatureEqualityServices.tt</DependentUpon>
     </Compile>
+    <Compile Include="Diagnostic\Imprecision.cs" />
+    <Compile Include="Diagnostic\IrrationalityBasedDiagnostic.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>IrrationalityBasedDiagnostic.tt</DependentUpon>
+    </Compile>
     <Compile Include="Flad\AnnotationSetService.cs" />
     <Compile Include="Flad\AttributeArgumentServiceProvider.Partial.cs" />
     <Compile Include="Flad\AnonymousMethodExpressionServiceProvider.Partial.cs" />
@@ -289,6 +295,10 @@
     <Content Include="Awareness\SignatureEqualityServices.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>SignatureEqualityServices.cs</LastGenOutput>
+    </Content>
+    <Content Include="Diagnostic\IrrationalityBasedDiagnostic.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>IrrationalityBasedDiagnostic.cs</LastGenOutput>
     </Content>
     <Content Include="MutableNodes.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

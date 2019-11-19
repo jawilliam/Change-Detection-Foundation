@@ -18,6 +18,11 @@ namespace Jawilliam.Tools.CCL
         [SubCommand]
         public partial class GumTree
         {
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="args"></param>
+            /// <example>gumtree detect D:\ExperimentLogs\RunningOriginal38to49.cs D:\ExperimentLogs\RunningModified38to49.cs NativeGTtreefiedRoslynML -trace=D:\ExperimentLogs\gumtree_generate_38to49.txt -runtime=D:\GT_Runtimes\gumtree_RML_BP_NT_TBL -name:NativeGTtreefiedRoslynMLWithBasicPruningAndPermissiveLabeling_forward -approach:NativeGTtreefiedRoslynMLWithBasicPruningAndPermissiveLabeling -direction:Forward -runtime=D:\GT_Runtimes\gumtree_RML_BP_NT_TBL -name:NativeGTtreefiedRoslynMLWithBasicPruningAndPermissiveLabeling_backward -approach:InverseNativeGTtreefiedRoslynMLWithBasicPruningAndPermissiveLabeling -direction:Backward -runtime=D:\GT_Runtimes\gumtree_RML_BP_IT_TBL -name:NativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTriviaAndPermissiveLabeling_forward -approach:NativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTriviaAndPermissiveLabeling -direction:Forward -runtime=D:\GT_Runtimes\gumtree_RML_BP_IT_TBL -name:NativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTriviaAndPermissiveLabeling_backward -approach:InverseNativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTriviaAndPermissiveLabeling -runtime=D:\GT_Runtimes\gumtree_RML_IT_TBL -name:NativeGTtreefiedRoslynMLWithIncludeTriviaAndPermissiveLabeling_forward -approach:NativeGTtreefiedRoslynMLWithIncludeTriviaAndPermissiveLabeling -direction:Forward -runtime=D:\GT_Runtimes\gumtree_RML_IT_TBL -name:NativeGTtreefiedRoslynMLWithIncludeTriviaAndPermissiveLabeling_backward -approach:InverseNativeGTtreefiedRoslynMLWithIncludeTriviaAndPermissiveLabeling -direction:Backward -runtime=D:\GT_Runtimes\gumtree_RML_BP_NT_De_TBL_0mh -name:NativeGTtreefiedRoslynMLWithBasicPruningDefoliationAndPermissiveLabeling_forward -approach:NativeGTtreefiedRoslynMLWithBasicPruningDefoliationAndPermissiveLabeling -direction:Forward -runtime=D:\GT_Runtimes\gumtree_RML_BP_NT_De_TBL_0mh -name:NativeGTtreefiedRoslynMLWithBasicPruningDefoliationAndPermissiveLabeling_backward -approach:InverseNativeGTtreefiedRoslynMLWithBasicPruningDefoliationAndPermissiveLabeling -direction:Backward -runtime=D:\GT_Runtimes\gumtree_RML_BP_IT_De_TBL_0mh -name:NativeGTtreefiedRoslynMLWithBasicPruningDefoliationAndIncludeTriviaAndPermissiveLabeling_forward -approach:NativeGTtreefiedRoslynMLWithBasicPruningDefoliationAndIncludeTriviaAndPermissiveLabeling -direction:Forward -runtime=D:\GT_Runtimes\gumtree_RML_BP_IT_De_TBL_0mh -name:NativeGTtreefiedRoslynMLWithBasicPruningDefoliationAndIncludeTriviaAndPermissiveLabeling_backward -approach:InverseNativeGTtreefiedRoslynMLWithBasicPruningDefoliationAndIncludeTriviaAndPermissiveLabeling -direction:Backward -runtime=D:\GT_Runtimes\gumtree_RML_TBL -name:NativeGTtreefiedRoslynMLAndPermissiveLabeling_forward -approach:NativeGTtreefiedRoslynMLAndPermissiveLabeling -direction:Forward -runtime=D:\GT_Runtimes\gumtree_RML_TBL -name:NativeGTtreefiedRoslynMLAndPermissiveLabeling_backward -approach:InverseNativeGTtreefiedRoslynMLAndPermissiveLabeling -direction:Backward -to=25</example>
             [ApplicationMetadata(Name = "detect", Description = "Detects ...")]
             public virtual void Detect(DetectCommandArgs args)
             {
@@ -121,8 +126,8 @@ namespace Jawilliam.Tools.CCL
         [Argument(Name = "modifiedPath")]
         public string ModifiedPath { get; set; }
 
-        [Argument(Name = "refName")]
-        public string RefName { get; set; }
+        //[Argument(Name = "refName")]
+        //public string RefName { get; set; }
 
         [Argument(Name = "refApproach")]
         public string RefApproach { get; set; }
