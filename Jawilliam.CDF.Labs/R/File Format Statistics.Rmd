@@ -1,0 +1,84 @@
+---
+title: "File Format Statistics"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars, echo=FALSE}
+library(readr)
+fileformat_stats_1_5_12_20_28_44_60 <- read_delim("D:/ExperimentLogs/fileformat-stats_1_5_12_20_28_44_60.txt", 
+    ";", escape_double = FALSE, trim_ws = TRUE)
+stats <- fileformat_stats_1_5_12_20_28_44_60[which(
+  fileformat_stats_1_5_12_20_28_44_60$`1` != -1 & 
+  fileformat_stats_1_5_12_20_28_44_60$`5` != -1 & 
+  fileformat_stats_1_5_12_20_28_44_60$`12` != -1 & 
+  fileformat_stats_1_5_12_20_28_44_60$`20` != -1 & 
+  fileformat_stats_1_5_12_20_28_44_60$`28` != -1 & 
+  fileformat_stats_1_5_12_20_28_44_60$`44` != -1 & 
+  fileformat_stats_1_5_12_20_28_44_60$`60` != -1),]
+
+nrow(stats)
+```
+
+## Including Plots
+
+File format (1) - srcML:
+```{r kind1, echo=FALSE}
+srcmlStats <- summary(stats[which(stats$`1` != -1),]$`1`)
+srcmlStats
+```
+File format (20) - RoslynML (IncludeTrivia):
+```{r kind20, echo=FALSE}
+fullRoslynmlStats <- summary(stats[which(stats$`20` != -1),]$`20`)
+fullRoslynmlStats
+sprintf("Percentage regarding srcML: %g", ((srcmlStats[4] - fullRoslynmlStats[4])/max(srcmlStats[4], fullRoslynmlStats[4]) * 100))
+```
+
+File format (5) - RoslynML:
+```{r kind5, echo=FALSE}
+stats1 <- summary(stats[which(stats$`5` != -1),]$`5`)
+stats1
+sprintf("Percentage regarding srcML: %g", ((srcmlStats[4] - stats1[4])/max(srcmlStats[4], stats1[4]) * 100))
+sprintf("Percentage regarding RoslynML+trivia: %g", ((fullRoslynmlStats[4] - stats1[4])/max(stats1[4], fullRoslynmlStats[4]) * 100))
+```
+
+
+File format (12) - RoslynML (BasicPruning):
+```{r kind12, echo=FALSE}
+summary(stats[which(stats$`12` != -1),]$`12`)
+```
+
+File format (28) - RoslynML (IncludeTrivia BasicPruning):
+```{r kind28, echo=FALSE}
+stats1 <- summary(stats[which(stats$`28` != -1),]$`28`)
+stats1
+sprintf("Percentage regarding srcML: %g", ((srcmlStats[4] - stats1[4])/max(srcmlStats[4], stats1[4]) * 100))
+sprintf("Percentage regarding RoslynML+trivia: %g", ((fullRoslynmlStats[4] - stats1[4])/max(stats1[4], fullRoslynmlStats[4]) * 100))
+```
+
+File format (44) - RoslynML (BasicPruning Defoliation):
+```{r kind44, echo=FALSE}
+stats1 <- summary(stats[which(stats$`44` != -1),]$`44`)
+stats1
+sprintf("Percentage regarding srcML: %g", ((srcmlStats[4] - stats1[4])/max(srcmlStats[4], stats1[4]) * 100))
+sprintf("Percentage regarding RoslynML+trivia: %g", ((fullRoslynmlStats[4] - stats1[4])/max(stats1[4], fullRoslynmlStats[4]) * 100))
+```
+
+File format (60) - RoslynML (IncludeTrivia BasicPruning Defoliation):
+```{r kind60, echo=FALSE}
+stats1 <- summary(stats[which(stats$`60` != -1),]$`60`)
+stats1
+sprintf("Percentage regarding srcML: %g", ((srcmlStats[4] - stats1[4])/max(srcmlStats[4], stats1[4]) * 100))
+sprintf("Percentage regarding RoslynML+trivia: %g", ((fullRoslynmlStats[4] - stats1[4])/max(stats1[4], fullRoslynmlStats[4]) * 100))
+```

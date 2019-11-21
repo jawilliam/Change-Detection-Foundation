@@ -1,5 +1,6 @@
 library(readr)
 library(stringdist)
+library(PairedData)
 
 #BetweenSymptomsStats <- read_delim("D:/ExperimentLogs/BetweenSymptomsStats_28Vs30 - copia.txt", ";", escape_double = FALSE, trim_ws = TRUE)
 
@@ -173,7 +174,7 @@ View(approaches)
 # 
 
 
-BetweenSymptomsStats <- read_delim("D:/ExperimentLogs/BetweenSymptomsStats_2Vs5.txt", ";", escape_double = FALSE, trim_ws = TRUE)
+BetweenSymptomsStats <- read_delim("D:/ExperimentLogs/BetweenSymptomsStats_30Vs34.txt", ";", escape_double = FALSE, trim_ws = TRUE)
 total <- nrow(BetweenSymptomsStats)
 stats <- data.frame(LR_mm_E=round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[28] != 0),])/total*100, 2),
                     RL_mm_E=round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[29] != 0),])/total*100, 2),
@@ -188,12 +189,12 @@ stats[2,]$L_neq_R_D = nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[16] !
 stats[2,]$LR_mm_E = nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[28] != 0),])
 stats[2,]$RL_mm_E = nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[29] != 0),])
 stats[2,]$LRorRL_mm_E =nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[27] != 0),])
-View(summary(BetweenSymptomsStats[which(BetweenSymptomsStats[27] != 0),][27]))
+#View(summary(BetweenSymptomsStats[which(BetweenSymptomsStats[27] != 0),][27]))
 
-View(stats)
+#View(stats)
 
-#View(BetweenSymptomsStats[which(BetweenSymptomsStats[16] != BetweenSymptomsStats[22]),])
-#for (i in 1:nrow(stats)) 
-#{
-#  stats[i,1]
-#}
+res <- wilcox.test(as.vector(BetweenSymptomsStats$`#actions_30Vs34`), 
+                   as.vector(BetweenSymptomsStats$`#actions_34Vs30`), 
+                   paired = TRUE, ,
+                   alternative = "less")
+res
