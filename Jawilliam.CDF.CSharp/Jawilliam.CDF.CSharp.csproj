@@ -183,6 +183,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>IrrationalityBasedDiagnostic.tt</DependentUpon>
     </Compile>
+    <Compile Include="Diagnostic\IrrationalityBasedDiagnostic.Custom.cs" />
     <Compile Include="Flad\AnnotationSetService.cs" />
     <Compile Include="Flad\AttributeArgumentServiceProvider.Partial.cs" />
     <Compile Include="Flad\AnonymousMethodExpressionServiceProvider.Partial.cs" />

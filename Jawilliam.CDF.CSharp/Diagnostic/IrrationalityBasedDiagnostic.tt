@@ -85,33 +85,38 @@ BeginNamespace(namespaceName, code);
 #>
 public partial class IrrationalityBasedDiagnostic
 {
+	#region Deleted(XElement, XElement)'s Visit
+
 	/// <summary>
-    /// Method hook for implementing logic to execute before the <see cref="Delete(XElement)"/>.
+    /// Method hook for implementing logic to execute before the <see cref="Deleted(XElement)"/>.
     /// </summary>
-    /// <param name="element">deleted element.</param>
-    /// <param name="result">Mechanism to modify the result of <see cref="Delete(XElement)"/>.</param>
-    /// <param name="ignoreCore">If true, the <see cref="DeleteCore(XElement)"/> is not executed and <see cref="Delete(XElement)"/> returns the current value of <paramref name="result"/>.</param>
-    partial void DeleteBefore(XElement element, ref IEnumerable<Imprecision> result, ref bool ignoreCore);
+    /// <param name="property">deleted element.</param>
+    /// <param name="parent">parent element.</param>
+    /// <param name="result">Mechanism to modify the result of <see cref="Deleted(XElement, XElement)"/>.</param>
+    /// <param name="ignoreCore">If true, the <see cref="DeletedCore(XElement, XElement)"/> is not executed and <see cref="Deleted(XElement, XElement)"/> returns the current value of <paramref name="result"/>.</param>
+    partial void DeletedBefore(XElement property, XElement parent, ref IEnumerable<Imprecision> result, ref bool ignoreCore);
 
     /// <summary>
-    /// Method hook for implementing logic to execute after the <see cref="DeleteCore(XElement)"/>.
+    /// Method hook for implementing logic to execute after the <see cref="DeletedCore(XElement, XElement)"/>.
     /// </summary>
-    /// <param name="element">deleted element.</param>
-    /// <param name="result">Mechanism to modify the result of <see cref="DeleteCore(XElement)"/>.</param>
-    partial void DeleteAfter(XElement element, ref IEnumerable<Imprecision> result);
+    /// <param name="property">deleted element.</param>
+    /// <param name="parent">parent element.</param>
+    /// <param name="result">Mechanism to modify the result of <see cref="DeletedCore(XElement, XElement)"/>.</param>
+    partial void DeletedAfter(XElement property, XElement parent, ref IEnumerable<Imprecision> result);
     
     /// <summary>
     /// Analyzes a delete action.
     /// </summary>
-    /// <param name="element">deleted element.</param>
+    /// <param name="property">deleted element.</param>
+    /// <param name="parent">parent element.</param>
     /// <returns>the imprecisions supposedly detected.</returns>
-    /// <remarks>This is the default implementation for <see cref="Delete(XElement)"/>.</remarks>
-    public virtual IEnumerable<Imprecision> DeleteCore(XElement element)
+    /// <remarks>This is the default implementation for <see cref="Deleted(XElement, XElement)"/>.</remarks>
+    public virtual IEnumerable<Imprecision> DeletedCore(XElement property, XElement parent)
 	{
-		if(element.Parent == null)
+		if(parent == null)
 			throw new InvalidOperationException("The parent of a modified element cannot be null.");
 
-		switch(element.Parent.Name.LocalName)
+		switch(parent.Name.LocalName)
 		{
 <#
 
@@ -142,36 +147,137 @@ foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
 	if(xSyntaxNodeType != null && !isAbstract)
 	{
 #>
-			case "<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>": return this.DeletedFrom<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>(element);
+			case "<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>": return this.DeletedFrom<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>(property, parent);
 <#
 	}
  }
 }
 #>
-            case "SingleLineCommentTrivia": return this.DeletedFromSingleLineCommentTrivia(element);
-            case "MultiLineCommentTrivia": return this.DeletedFromMultiLineCommentTrivia(element);
-			default: throw new ArgumentException($"The type {element.Parent.Name.LocalName} has not been found.");;//return true
+            case "SingleLineCommentTrivia": return this.DeletedFromSingleLineCommentTrivia(property, parent);
+            case "MultiLineCommentTrivia": return this.DeletedFromMultiLineCommentTrivia(property, parent);
+			default: throw new ArgumentException($"The type {parent.Name.LocalName} has not been found.");;//return true
 		}
 	}		
 	
     /// <summary>
     /// Analyzes a delete action.
     /// </summary>
-    /// <param name="element">deleted element.</param>
+    /// <param name="property">deleted element.</param>
+    /// <param name="parent">parent element.</param>
     /// <returns>the imprecisions supposedly detected.</returns>
-    public virtual IEnumerable<Imprecision> Delete(XElement element)
+    public virtual IEnumerable<Imprecision> Deleted(XElement property, XElement parent)
     {
         IEnumerable<Imprecision> result = new Imprecision[0];
     	var ignoreCore = false;
-    	DeleteBefore(element, ref result, ref ignoreCore);
+    	DeletedBefore(property, parent, ref result, ref ignoreCore);
     	if(ignoreCore) 
     		return result;
     	
-    	result = this.DeleteCore(element);
-    	DeleteAfter(element, ref result);
+    	result = this.DeletedCore(property, parent);
+    	DeletedAfter(property, parent, ref result);
     	return result;
     }
 
+	#endregion
+
+	#region Inserted(XElement, XElement)'s Visit
+
+	/// <summary>
+    /// Method hook for implementing logic to execute before the <see cref="Inserted(XElement)"/>.
+    /// </summary>
+    /// <param name="property">property element.</param>
+    /// <param name="position">position where insert the property element in.</param>
+    /// <param name="parent">parent element.</param>
+    /// <param name="result">Mechanism to modify the result of <see cref="Inserted(XElement, XElement)"/>.</param>
+    /// <param name="ignoreCore">If true, the <see cref="InsertedCore(XElement, XElement)"/> is not executed and <see cref="Inserted(XElement, XElement)"/> returns the current value of <paramref name="result"/>.</param>
+    partial void InsertedBefore(XElement property, int position, XElement parent, ref IEnumerable<Imprecision> result, ref bool ignoreCore);
+
+    /// <summary>
+    /// Method hook for implementing logic to execute after the <see cref="InsertedCore(XElement, XElement)"/>.
+    /// </summary>
+    /// <param name="property">property element.</param>
+    /// <param name="position">position where insert the property element in.</param>
+    /// <param name="parent">parent element.</param>
+    /// <param name="result">Mechanism to modify the result of <see cref="InsertedCore(XElement, XElement)"/>.</param>
+    partial void InsertedAfter(XElement property, int position, XElement parent, ref IEnumerable<Imprecision> result);
+    
+    /// <summary>
+    /// Analyzes a insert action.
+    /// </summary>
+    /// <param name="property">property element.</param>
+    /// <param name="position">position where insert the property element in.</param>
+    /// <param name="parent">parent element.</param>
+    /// <returns>the imprecisions supposedly detected.</returns>
+    /// <remarks>This is the default implementation for <see cref="Inserted(XElement, XElement)"/>.</remarks>
+    public virtual IEnumerable<Imprecision> InsertedCore(XElement property, int position, XElement parent)
+	{
+		if(parent == null)
+			throw new InvalidOperationException("The parent of a modified element cannot be null.");
+
+		switch(parent.Name.LocalName)
+		{
+<#
+
+foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
+.Where(n => !object.Equals(n.Root.Label, "SyntaxNode") && 
+            !object.Equals(n.Root.Label, "CSharpSyntaxNode")))
+{
+	//manager.StartNewFile(syntaxNode.Root.Label + ".cs");
+
+	var xSyntaxNodeType = xSyntaxTypeSystem.Nodes.Type.SingleOrDefault(n => n.name == syntaxNode.Root.Label.ToString());
+	if(xSyntaxNodeType == null) continue;
+	var xSyntaxNodeBaseType = xSyntaxNodeType != null && xSyntaxNodeType.@base != null ?
+	 xSyntaxTypeSystem.Nodes.Type.SingleOrDefault(n => n.name == xSyntaxNodeType.@base) 
+	 : null;
+
+	var isAbstract = xSyntaxNodeType.@abstract;
+	if(xSyntaxNodeType != null)
+    {
+		var xSyntaxNodeBaseTypeProperties = xSyntaxNodeBaseType != null && xSyntaxNodeBaseType.Properties != null 
+											&& xSyntaxNodeBaseType.Properties.Property != null 
+				? xSyntaxNodeBaseType.Properties.Property
+				: new Syntax.NodesLocalType.TypeLocalType.PropertiesLocalType.PropertyLocalType[0];
+
+		var xSyntaxNodeProperties = xSyntaxNodeType.Properties != null && xSyntaxNodeType.Properties.Property != null 
+			? xSyntaxNodeType.Properties.Property
+			: new Syntax.NodesLocalType.TypeLocalType.PropertiesLocalType.PropertyLocalType[0];
+
+	if(xSyntaxNodeType != null && !isAbstract)
+	{
+#>
+			case "<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>": return this.InsertedFrom<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>(property, position, parent);
+<#
+	}
+ }
+}
+#>
+            case "SingleLineCommentTrivia": return this.InsertedFromSingleLineCommentTrivia(property, position, parent);
+            case "MultiLineCommentTrivia": return this.InsertedFromMultiLineCommentTrivia(property, position, parent);
+			default: throw new ArgumentException($"The type {parent.Name.LocalName} has not been found.");;//return true
+		}
+	}		
+	
+    /// <summary>
+    /// Analyzes a insert action.
+    /// </summary>
+    /// <param name="property">property element.</param>
+    /// <param name="position">position where insert the property element in.</param>
+    /// <param name="parent">parent element.</param>
+    /// <returns>the imprecisions supposedly detected.</returns>
+    public virtual IEnumerable<Imprecision> Inserted(XElement property, int position, XElement parent)
+    {
+        IEnumerable<Imprecision> result = new Imprecision[0];
+    	var ignoreCore = false;
+    	InsertedBefore(property, position, parent, ref result, ref ignoreCore);
+    	if(ignoreCore) 
+    		return result;
+    	
+    	result = this.InsertedCore(property, position, parent);
+    	InsertedAfter(property, position, parent, ref result);
+    	return result;
+    }
+
+	#endregion
 
 <#
 
@@ -219,27 +325,33 @@ foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
 			.Select(p => p.Item2.name).ToArray();
 #>
 	/// <summary>
-    /// Method hook for implementing logic to execute before the <see cref="DeletedFrom<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>(XElement)"/>.
+    /// Method hook for implementing logic to execute before the <see cref="InsertedFrom<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>(XElement, int, XElement)"/>.
     /// </summary>
-    /// <param name="property">deleted element.</param>
-    /// <param name="result">Mechanism to modify the result of <see cref="DeletedFrom<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>(XElement)"/>.</param>
-    /// <param name="ignoreCore">If true, the <see cref="DeletedFrom<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>Core(XElement)"/> is not executed and <see cref="DeletedFrom<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>(XElement)"/> returns the current value of <paramref name="result"/>.</param>
-    partial void DeletedFrom<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>Before(XElement property, ref IEnumerable<Imprecision> result, ref bool ignoreCore);
+    /// <param name="property">property element.</param>
+    /// <param name="position">position where insert the property element in.</param>
+    /// <param name="parent">parent element.</param>
+    /// <param name="result">Mechanism to modify the result of <see cref="InsertedFrom<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>(XElement, int, XElement)"/>.</param>
+    /// <param name="ignoreCore">If true, the <see cref="InsertedFrom<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>Core(XElement, int, XElement)"/> is not executed and <see cref="InsertedFrom<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>(XElement, int, XElement)"/> returns the current value of <paramref name="result"/>.</param>
+    partial void InsertedFrom<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>Before(XElement property, int position, XElement parent, ref IEnumerable<Imprecision> result, ref bool ignoreCore);
     
     /// <summary>
-    /// Method hook for implementing logic to execute after the <see cref="DeletedFrom<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>Core(XElement)"/>.
+    /// Method hook for implementing logic to execute after the <see cref="InsertedFrom<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>Core(XElement, int, XElement)"/>.
     /// </summary>
-    /// <param name="property">deleted element.</param>
-    /// <param name="result">Mechanism to modify the result of <see cref="DeletedFrom<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>Core(XElement)"/>.</param>
-    partial void DeletedFrom<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>After(XElement property, ref IEnumerable<Imprecision> result);
+    /// <param name="property">property element.</param>
+    /// <param name="position">position where insert the property element in.</param>
+    /// <param name="parent">parent element.</param>
+    /// <param name="result">Mechanism to modify the result of <see cref="InsertedFrom<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>Core(XElement, int, XElement)"/>.</param>
+    partial void InsertedFrom<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>After(XElement property, int position, XElement parent, ref IEnumerable<Imprecision> result);
 
-	 /// <summary>
-    /// Analyzes a delete action.
+	/// <summary>
+    /// Analyzes an insert action.
     /// </summary>
-    /// <param name="property">deleted element.</param>
+    /// <param name="property">property element.</param>
+    /// <param name="position">position where insert the property element in.</param>
+    /// <param name="parent">parent element.</param>
     /// <returns>the imprecisions supposedly detected.</returns>
-    /// <remarks>This is the default implementation for <see cref="DeletedFrom<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>(XElement)"/>.</remarks>
-    public virtual IEnumerable<Imprecision> DeletedFrom<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>Core(XElement property)
+    /// <remarks>This is the default implementation for <see cref="InsertedFrom<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>(XElement, int, XElement)"/>.</remarks>
+    public virtual IEnumerable<Imprecision> InsertedFrom<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>Core(XElement property, int position, XElement parent)
     {
 		if(property == null)
 			throw new ArgumentNullException(nameof(property));
@@ -252,34 +364,283 @@ foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
 		}
 		else
 		{
+#>
+		XElement firstAction = null, secondAction = null;
+<#
 			foreach(var p in filterOutTheseProperties)
 			{
 #>		if(property.Attribute("part")?.Value == "<#= p #>")
-			return false;
+		{
+			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+			{
+				yield return imprecision;
+			}
+		}
 <#
 			}
 #>		
-		return true;
+		yield break;
+<#
+		}
+#>
+    }	
+	
+    /// <summary>
+    /// Analyzes an insert action.
+    /// </summary>
+    /// <param name="property">property element.</param>
+    /// <param name="position">position where insert the property element in.</param>
+    /// <param name="parent">parent element.</param>
+    /// <returns>the imprecisions supposedly detected.</returns>
+    public virtual IEnumerable<Imprecision> InsertedFrom<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>(XElement property, int position, XElement parent)
+	{
+		IEnumerable<Imprecision> result = null;
+		var ignoreCore = false;
+		InsertedFrom<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>Before(property, position, parent, ref result, ref ignoreCore);
+		if(ignoreCore) 
+			return result;
+		
+		result = this.InsertedFrom<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>Core(property, position, parent);
+		InsertedFrom<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>After(property, position, parent, ref result);
+		return result;
+	}
+
+	/// <summary>
+    /// Method hook for implementing logic to execute before the <see cref="DeletedFrom<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>(XElement, XElement)"/>.
+    /// </summary>
+    /// <param name="property">deleted element.</param>
+    /// <param name="parent">parent element.</param>
+    /// <param name="result">Mechanism to modify the result of <see cref="DeletedFrom<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>(XElement, XElement)"/>.</param>
+    /// <param name="ignoreCore">If true, the <see cref="DeletedFrom<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>Core(XElement, XElement)"/> is not executed and <see cref="DeletedFrom<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>(XElement, XElement)"/> returns the current value of <paramref name="result"/>.</param>
+    partial void DeletedFrom<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>Before(XElement property, XElement parent, ref IEnumerable<Imprecision> result, ref bool ignoreCore);
+    
+    /// <summary>
+    /// Method hook for implementing logic to execute after the <see cref="DeletedFrom<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>Core(XElement, XElement)"/>.
+    /// </summary>
+    /// <param name="property">deleted element.</param>
+    /// <param name="parent">parent element.</param>
+    /// <param name="result">Mechanism to modify the result of <see cref="DeletedFrom<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>Core(XElement, XElement)"/>.</param>
+    partial void DeletedFrom<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>After(XElement property, XElement parent, ref IEnumerable<Imprecision> result);
+
+	 /// <summary>
+    /// Analyzes a delete action.
+    /// </summary>
+    /// <param name="property">deleted element.</param>
+    /// <param name="parent">parent element.</param>
+    /// <returns>the imprecisions supposedly detected.</returns>
+    /// <remarks>This is the default implementation for <see cref="DeletedFrom<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>(XElement, XElement)"/>.</remarks>
+    public virtual IEnumerable<Imprecision> DeletedFrom<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>Core(XElement property, XElement parent)
+    {
+		if(property == null)
+			throw new ArgumentNullException(nameof(property));
+
+<#
+		if(!filterOutTheseProperties.Any())
+		{
+#>		yield break;
+<#
+		}
+		else
+		{
+#>
+		XElement firstAction = null, secondAction = null;
+<#
+			foreach(var p in filterOutTheseProperties)
+			{
+#>		if(property.Attribute("part")?.Value == "<#= p #>")
+		{
+			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+			{
+				yield return imprecision;
+			}
+		}
+<#
+			}
+#>		
+		yield break;
+<#
+		}
+#>
+    }	
+	
+    /// <summary>
+    /// Analyzes a delete action.
+    /// </summary>
+    /// <param name="property">deleted element.</param>
+    /// <param name="parent">parent element.</param>
+    /// <returns>the imprecisions supposedly detected.</returns>
+    public virtual IEnumerable<Imprecision> DeletedFrom<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>(XElement property, XElement parent)
+	{
+		IEnumerable<Imprecision> result = null;
+		var ignoreCore = false;
+		DeletedFrom<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>Before(property, parent, ref result, ref ignoreCore);
+		if(ignoreCore) 
+			return result;
+		
+		result = this.DeletedFrom<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>Core(property, parent);
+		DeletedFrom<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>After(property, parent, ref result);
+		return result;
+	}
+
+	/// <summary>
+    /// Method hook for implementing logic to execute before the <see cref="UpdatedFrom<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>(XElement, XElement)"/>.
+    /// </summary>
+    /// <param name="oldElement">original element.</param>
+    /// <param name="newElement">modified element.</param>
+    /// <param name="result">Mechanism to modify the result of <see cref="UpdatedFrom<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>(XElement, XElement)"/>.</param>
+    /// <param name="ignoreCore">If true, the <see cref="UpdatedFrom<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>Core(XElement, XElement)"/> is not executed and <see cref="UpdatedFrom<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>(XElement, XElement)"/> returns the current value of <paramref name="result"/>.</param>
+    partial void UpdatedFrom<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>Before(XElement oldElement, XElement newElement, ref IEnumerable<Imprecision> result, ref bool ignoreCore);
+    
+    /// <summary>
+    /// Method hook for implementing logic to execute after the <see cref="UpdatedFrom<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>Core(XElement, XElement)"/>.
+    /// </summary>
+    /// <param name="oldElement">original element.</param>
+    /// <param name="newElement">modified element.</param>
+    /// <param name="result">Mechanism to modify the result of <see cref="UpdatedFrom<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>Core(XElement, XElement)"/>.</param>
+    partial void UpdatedFrom<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>After(XElement oldElement, XElement newElement, ref IEnumerable<Imprecision> result);
+
+	 /// <summary>
+    /// Analyzes an update action.
+    /// </summary>
+    /// <param name="oldElement">original element.</param>
+    /// <param name="newElement">modified element.</param>
+    /// <returns>the imprecisions supposedly detected.</returns>
+    /// <remarks>This is the default implementation for <see cref="UpdatedFrom<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>(XElement, XElement)"/>.</remarks>
+    public virtual IEnumerable<Imprecision> UpdatedFrom<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>Core(XElement oldElement, XElement newElement)
+    {
+		if(oldElement == null) throw new ArgumentNullException(nameof(oldElement));
+		if(newElement == null) throw new ArgumentNullException(nameof(newElement));
+
+<#
+		if(!filterOutTheseProperties.Any())
+		{
+#>		yield break;
+<#
+		}
+		else
+		{
+#>
+		XElement firstAction = null, secondAction = null;
+<#
+			foreach(var p in filterOutTheseProperties)
+			{
+#>		if(property.Attribute("part")?.Value == "<#= p #>")
+		{
+			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent))
+			{
+				yield return imprecision;
+			}
+		}
+<#
+			}
+#>		
+		yield break;
 <#
 		}
 #>
     }	
 	
      /// <summary>
-    /// Analyzes a delete action.
+    /// Analyzes an update action.
     /// </summary>
-    /// <param name="property">deleted element.</param>
+    /// <param name="oldElement">original element.</param>
+    /// <param name="newElement">modified element.</param>
     /// <returns>the imprecisions supposedly detected.</returns>
-    public virtual IEnumerable<Imprecision> DeletedFrom<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>(XElement property)
+    public virtual IEnumerable<Imprecision> UpdatedFrom<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>(XElement oldElement, XElement newElement)
 	{
 		IEnumerable<Imprecision> result = null;
 		var ignoreCore = false;
-		DeletedFrom<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>Before(property, ref result, ref ignoreCore);
+		UpdatedFrom<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>Before(oldElement, newElement, ref result, ref ignoreCore);
 		if(ignoreCore) 
 			return result;
 		
-		result = this.DeletedFrom<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>Core(property);
-		DeletedFrom<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>After(property, ref result);
+		result = this.UpdatedFrom<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>Core(oldElement, newElement);
+		UpdatedFrom<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>After(oldElement, newElement, ref result);
+		return result;
+	}
+
+	/// <summary>
+    /// Method hook for implementing logic to execute before the <see cref="MovedFrom<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>(XElement, XElement, int, XElement)"/>.
+    /// </summary>
+    /// <param name="property">property element.</param>
+    /// <param name="position">position where the property would move.</param>
+    /// <param name="oldParent">original parent element.</param>
+    /// <param name="newParent">modified parent element.</param>
+    /// <param name="result">Mechanism to modify the result of <see cref="MovedFrom<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>(XElement, XElement, int, XElement)"/>.</param>
+    /// <param name="ignoreCore">If true, the <see cref="MovedFrom<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>Core(XElement, XElement, int, XElement)"/> is not executed and <see cref="MovedFrom<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>(XElement, XElement, int, XElement)"/> returns the current value of <paramref name="result"/>.</param>
+    partial void MovedFrom<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>Before(XElement property, XElement oldParent, int position, XElement newParent, ref IEnumerable<Imprecision> result, ref bool ignoreCore);
+    
+    /// <summary>
+    /// Method hook for implementing logic to execute after the <see cref="MovedFrom<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>Core(XElement, XElement, int, XElement)"/>.
+    /// </summary>
+    /// <param name="property">property element.</param>
+    /// <param name="position">position where the property would move.</param>
+    /// <param name="oldParent">original parent element.</param>
+    /// <param name="newParent">modified parent element.</param>
+    /// <param name="result">Mechanism to modify the result of <see cref="MovedFrom<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>Core(XElement, XElement, int, XElement)"/>.</param>
+    partial void MovedFrom<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>After(XElement property, XElement oldParent, int position, XElement newParent, ref IEnumerable<Imprecision> result);
+
+	 /// <summary>
+    /// Analyzes a move action.
+    /// </summary>
+    /// <param name="property">property element.</param>
+    /// <param name="position">position where the property would move.</param>
+    /// <param name="oldParent">original parent element.</param>
+    /// <param name="newParent">modified parent element.</param>
+    /// <returns>the imprecisions supposedly detected.</returns>
+    /// <remarks>This is the default implementation for <see cref="MovedFrom<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>(XElement, XElement, int, XElement)"/>.</remarks>
+    public virtual IEnumerable<Imprecision> MovedFrom<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>Core(XElement property, XElement oldParent, int position, XElement newParent)
+    {
+		if(property == null)
+			throw new ArgumentNullException(nameof(property));
+
+<#
+		if(!filterOutTheseProperties.Any())
+		{
+#>		yield break;
+<#
+		}
+		else
+		{
+#>
+		XElement firstAction = null, secondAction = null;
+<#
+			foreach(var p in filterOutTheseProperties)
+			{
+#>		if(property.Attribute("part")?.Value == "<#= p #>")
+		{
+			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent))
+			{
+				yield return imprecision;
+			}
+		}
+<#
+			}
+#>		
+		yield break;
+<#
+		}
+#>
+    }	
+	
+    /// <summary>
+    /// Analyzes a move action.
+    /// </summary>
+    /// <param name="property">property element.</param>
+    /// <param name="position">position where the property would move.</param>
+    /// <param name="oldParent">original parent element.</param>
+    /// <param name="newParent">modified parent element.</param>
+    /// <returns>the imprecisions supposedly detected.</returns>
+    public virtual IEnumerable<Imprecision> MovedFrom<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>(XElement property, XElement oldParent, int position, XElement newParent)
+	{
+		IEnumerable<Imprecision> result = null;
+		var ignoreCore = false;
+		MovedFrom<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>Before(property, oldPArent, position, newParent, ref result, ref ignoreCore);
+		if(ignoreCore) 
+			return result;
+		
+		result = this.MovedFrom<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>Core(property, oldPArent, position, newParent);
+		MovedFrom<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>After(property, oldPArent, position, newParent, ref result);
 		return result;
 	}
 

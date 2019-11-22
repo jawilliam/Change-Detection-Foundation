@@ -210,7 +210,7 @@ res
 
 Cet(10)-Cit(32)
 ```{r echo=FALSE}
-BetweenSymptomsStats <- read_delim("D:/ExperimentLogs/BetweenSymptomsStats_10_32.txt", ";", escape_double = FALSE, trim_ws = TRUE, col_types = cols(
+BetweenSymptomsStats <- read_delim("D:/ExperimentLogs/BetweenSymptomsStats_10Vs32.txt", ";", escape_double = FALSE, trim_ws = TRUE, col_types = cols(
   .default = col_double(),
   Project = col_character(),
   PrincipalRevisionPair = col_character()
@@ -294,7 +294,7 @@ res
 
 Cet(10)-Det(28)
 ```{r echo=FALSE}
-BetweenSymptomsStats <- read_delim("D:/ExperimentLogs/BetweenSymptomsStats_10_28.txt", ";", escape_double = FALSE, trim_ws = TRUE, col_types = cols(
+BetweenSymptomsStats <- read_delim("D:/ExperimentLogs/BetweenSymptomsStats_10Vs28.txt", ";", escape_double = FALSE, trim_ws = TRUE, col_types = cols(
   .default = col_double(),
   Project = col_character(),
   PrincipalRevisionPair = col_character()
@@ -322,7 +322,7 @@ res
 
 Cet(10)-Dit(30)
 ```{r echo=FALSE}
-BetweenSymptomsStats <- read_delim("D:/ExperimentLogs/BetweenSymptomsStats_10_30.txt", ";", escape_double = FALSE, trim_ws = TRUE, col_types = cols(
+BetweenSymptomsStats <- read_delim("D:/ExperimentLogs/BetweenSymptomsStats_10Vs30.txt", ";", escape_double = FALSE, trim_ws = TRUE, col_types = cols(
   .default = col_double(),
   Project = col_character(),
   PrincipalRevisionPair = col_character()
@@ -399,6 +399,90 @@ summary(BetweenSymptomsStats[which(BetweenSymptomsStats[27] != 0),][27])[6]
 
 res <- wilcox.test(as.vector(BetweenSymptomsStats$`#actions_30Vs32`), 
                    as.vector(BetweenSymptomsStats$`#actions_32Vs30`), 
+                   paired = TRUE,
+                   alternative = "less")
+res
+```
+
+Cet(10)-Eet(34)
+```{r echo=FALSE}
+BetweenSymptomsStats <- read_delim("D:/ExperimentLogs/BetweenSymptomsStats_10Vs34.txt", ";", escape_double = FALSE, trim_ws = TRUE, col_types = cols(
+  .default = col_double(),
+  Project = col_character(),
+  PrincipalRevisionPair = col_character()
+))
+
+total <- nrow(BetweenSymptomsStats)
+sprintf("TOTAL %g", total)
+sprintf("LR: %g (%g%%)", nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[28] != 0),]), round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[28] != 0),])/total*100, 2))
+sprintf("RL: %g (%g%%)", nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[29] != 0),]), round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[29] != 0),])/total*100, 2))
+sprintf("LRorRL: %g (%g%%)", nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[27] != 0),]), round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[27] != 0),])/total*100, 2))
+sprintf("L_leq_R: %g (%g%%)", nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[16] < BetweenSymptomsStats[22]),]), round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[16] < BetweenSymptomsStats[22]),])/total*100, 2))
+sprintf("R_leq_L: %g (%g%%)", nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[16] > BetweenSymptomsStats[22]),]), round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[16] > BetweenSymptomsStats[22]),])/total*100, 2))
+sprintf("L_neq_R: %g (%g%%)", nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[16] != BetweenSymptomsStats[22]),]), round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[16] != BetweenSymptomsStats[22]),])/total*100, 2))
+
+summary(BetweenSymptomsStats[which(BetweenSymptomsStats[27] != 0),][27])[1]
+summary(BetweenSymptomsStats[which(BetweenSymptomsStats[27] != 0),][27])[3]
+summary(BetweenSymptomsStats[which(BetweenSymptomsStats[27] != 0),][27])[6]
+
+res <- wilcox.test(as.vector(BetweenSymptomsStats$`#actions_10Vs34`), 
+                   as.vector(BetweenSymptomsStats$`#actions_34Vs10`), 
+                   paired = TRUE,
+                   alternative = "less")
+res
+```
+
+Cet(10)-Eit(36)
+```{r echo=FALSE}
+BetweenSymptomsStats <- read_delim("D:/ExperimentLogs/BetweenSymptomsStats_10Vs36.txt", ";", escape_double = FALSE, trim_ws = TRUE, col_types = cols(
+  .default = col_double(),
+  Project = col_character(),
+  PrincipalRevisionPair = col_character()
+))
+
+total <- nrow(BetweenSymptomsStats)
+sprintf("TOTAL %g", total)
+sprintf("LR: %g (%g%%)", nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[28] != 0),]), round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[28] != 0),])/total*100, 2))
+sprintf("RL: %g (%g%%)", nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[29] != 0),]), round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[29] != 0),])/total*100, 2))
+sprintf("LRorRL: %g (%g%%)", nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[27] != 0),]), round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[27] != 0),])/total*100, 2))
+sprintf("L_leq_R: %g (%g%%)", nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[16] < BetweenSymptomsStats[22]),]), round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[16] < BetweenSymptomsStats[22]),])/total*100, 2))
+sprintf("R_leq_L: %g (%g%%)", nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[16] > BetweenSymptomsStats[22]),]), round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[16] > BetweenSymptomsStats[22]),])/total*100, 2))
+sprintf("L_neq_R: %g (%g%%)", nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[16] != BetweenSymptomsStats[22]),]), round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[16] != BetweenSymptomsStats[22]),])/total*100, 2))
+
+summary(BetweenSymptomsStats[which(BetweenSymptomsStats[27] != 0),][27])[1]
+summary(BetweenSymptomsStats[which(BetweenSymptomsStats[27] != 0),][27])[3]
+summary(BetweenSymptomsStats[which(BetweenSymptomsStats[27] != 0),][27])[6]
+
+res <- wilcox.test(as.vector(BetweenSymptomsStats$`#actions_10Vs36`), 
+                   as.vector(BetweenSymptomsStats$`#actions_36Vs10`), 
+                   paired = TRUE,
+                   alternative = "less")
+res
+```
+
+Cit(32)-Eet(34)
+```{r echo=FALSE}
+BetweenSymptomsStats <- read_delim("D:/ExperimentLogs/BetweenSymptomsStats_32Vs34.txt", ";", escape_double = FALSE, trim_ws = TRUE, col_types = cols(
+  .default = col_double(),
+  Project = col_character(),
+  PrincipalRevisionPair = col_character()
+))
+
+total <- nrow(BetweenSymptomsStats)
+sprintf("TOTAL %g", total)
+sprintf("LR: %g (%g%%)", nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[28] != 0),]), round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[28] != 0),])/total*100, 2))
+sprintf("RL: %g (%g%%)", nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[29] != 0),]), round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[29] != 0),])/total*100, 2))
+sprintf("LRorRL: %g (%g%%)", nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[27] != 0),]), round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[27] != 0),])/total*100, 2))
+sprintf("L_leq_R: %g (%g%%)", nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[16] < BetweenSymptomsStats[22]),]), round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[16] < BetweenSymptomsStats[22]),])/total*100, 2))
+sprintf("R_leq_L: %g (%g%%)", nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[16] > BetweenSymptomsStats[22]),]), round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[16] > BetweenSymptomsStats[22]),])/total*100, 2))
+sprintf("L_neq_R: %g (%g%%)", nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[16] != BetweenSymptomsStats[22]),]), round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[16] != BetweenSymptomsStats[22]),])/total*100, 2))
+
+summary(BetweenSymptomsStats[which(BetweenSymptomsStats[27] != 0),][27])[1]
+summary(BetweenSymptomsStats[which(BetweenSymptomsStats[27] != 0),][27])[3]
+summary(BetweenSymptomsStats[which(BetweenSymptomsStats[27] != 0),][27])[6]
+
+res <- wilcox.test(as.vector(BetweenSymptomsStats$`#actions_32Vs34`), 
+                   as.vector(BetweenSymptomsStats$`#actions_34Vs32`), 
                    paired = TRUE,
                    alternative = "less")
 res

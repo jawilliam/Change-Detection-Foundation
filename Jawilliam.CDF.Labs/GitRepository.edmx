@@ -1534,6 +1534,14 @@
           <Member Name="InverseNativeGTtreefiedRoslynMLWithBasicPruningDefoliationAndIncludeTriviaAndPermissiveLabeling" Value="47" />
           <Member Name="NativeGTtreefiedRoslynMLAndPermissiveLabeling" Value="48" />
           <Member Name="InverseNativeGTtreefiedRoslynMLAndPermissiveLabeling" Value="49" />
+          <Member Name="NativeGTtreefiedRoslynMLWithBasicPruningDefoliationMinH1" Value="50" />
+          <Member Name="InverseNativeGTtreefiedRoslynMLWithBasicPruningDefoliationMinH1" Value="51" />
+          <Member Name="NativeGTtreefiedRoslynMLWithBasicPruningDefoliationMinH1AndIncludeTrivia" Value="52" />
+          <Member Name="InverseNativeGTtreefiedRoslynMLWithBasicPruningDefoliationMinH1AndIncludeTrivia" Value="53" />
+          <Member Name="NativeGTtreefiedRoslynMLWithBasicPruningDefoliationMinH1AndPermissiveLabeling" Value="54" />
+          <Member Name="InverseNativeGTtreefiedRoslynMLWithBasicPruningDefoliationMinH1AndPermissiveLabeling" Value="55" />
+          <Member Name="NativeGTtreefiedRoslynMLWithBasicPruningDefoliationMinH1AndIncludeTriviaAndPermissiveLabeling" Value="56" />
+          <Member Name="InverseNativeGTtreefiedRoslynMLWithBasicPruningDefoliationMinH1AndIncludeTriviaAndPermissiveLabeling" Value="57" />
         </EnumType>
         <EnumType Name="CodeCategory" UnderlyingType="Int16" IsFlags="true">
           <Member Name="Maintained" Value="1" />
