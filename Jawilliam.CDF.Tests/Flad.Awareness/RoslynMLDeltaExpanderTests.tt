@@ -1,0 +1,403 @@
+<#@ template language="C#" debug="True" hostSpecific="true"#>
+<#@ output extension=".cs" #>
+<#@ include file="..\..\Jawilliam.CDF.CSharp\TemplateFileManagerV2.1.ttinclude" #>
+<#@ assembly name="$(SolutionDir)\packages\Microsoft.CodeAnalysis.Common.2.7.0\lib\netstandard1.3\Microsoft.CodeAnalysis.dll" #>
+<#@ assembly name="$(SolutionDir)\packages\Microsoft.CodeAnalysis.CSharp.2.7.0\lib\netstandard1.3\Microsoft.CodeAnalysis.CSharp.dll" #>
+<#@ assembly name="$(SolutionDir)\packages\CodePlex.LinqToXsd.2.0.2\lib\Xml.Schema.Linq.dll" #>
+<#@ assembly name="$(SolutionDir)\Jawilliam.CDF\bin\Debug\Jawilliam.CDF.dll" #>
+<#@ assembly name="$(SolutionDir)\Jawilliam.CDF.XObjects\bin\Debug\Jawilliam.CDF.XObjects.dll" #>
+<#@ assembly name="$(SolutionDir)\packages\System.Collections.Immutable.1.3.1\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll" #>
+<#@ assembly name="System.Runtime" #>
+<#@ assembly name="System.Linq" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.Reflection" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Collections" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Microsoft.CodeAnalysis.CSharp" #>
+<#@ import namespace="Jawilliam.CDF" #>
+<#@ import namespace="Jawilliam.CDF.GTED" #>
+<#@ import namespace="Jawilliam.CDF.XObjects.RDSL" #>
+<#
+// <copyright file="LearningFromCSharpSyntaxVisitor.tt" company="Jasoco" author="Jawilliam">
+//  Copyright © . All Rights Reserved.
+// </copyright>
+
+Type csharpSyntaxVisitor = typeof(CSharpSyntaxVisitor);
+MethodInfo[] allMethods = csharpSyntaxVisitor.GetMembers().OfType<MethodInfo>().ToArray();
+
+// Filters to methods starting with 'Visit' prefix, except that being called just 'Visit'.
+MethodInfo[] visitMethods = allMethods.Where(m => m.Name.StartsWith("Visit") && m.Name != "Visit").ToArray();
+
+// This methods represents the case logic of CSharpSyntaxVisitor for each type of syntax node, then lets to collect all that syntax node types.
+List<Type> syntaxNodeTypes = visitMethods.Select(m => m.GetParameters().Single(p => p.Name == "node").ParameterType).Distinct().ToList();
+
+// Build up the class system of syntax node types by completing the total hierarchy. 
+List<Type> syntaxNodeSystem = new List<Type>(syntaxNodeTypes);
+List<Type> syntaxInnerNodes = new List<Type>(220);
+syntaxInnerNodes.AddRange(syntaxNodeSystem.Where(n => n.BaseType != typeof(object)).Select(n => n.BaseType).Distinct().Intersect(syntaxNodeSystem));
+List<Type> missingSyntaxTypes = syntaxNodeSystem.Where(n => n.BaseType != typeof(object)).Select(n => n.BaseType).Distinct().Except(syntaxNodeSystem).ToList();
+while (missingSyntaxTypes.Any())
+{
+    syntaxInnerNodes.AddRange(missingSyntaxTypes);
+    syntaxNodeSystem.AddRange(missingSyntaxTypes);
+    missingSyntaxTypes = syntaxNodeSystem.Where(n => n.BaseType != typeof(object)).Select(n => n.BaseType).Distinct().Except(syntaxNodeSystem).ToList();
+}
+
+var syntaxNodeViews = syntaxNodeSystem
+.Select(t => new
+{
+    Parent = t.BaseType.Name,
+    Child = new Tree { Root = new Node { Label = t.Name } }
+})
+.ToList();
+
+List<ITree> syntaxNodeHierarachies = new List<ITree>(220);
+foreach (var parentType in syntaxInnerNodes)
+{
+    var parent = syntaxNodeViews.First(n => object.Equals(n.Child.Root.Label, parentType.Name));
+    foreach (var child in syntaxNodeViews.Where(t => object.Equals(t.Parent, parent.Child.Root.Label)))
+    {
+        parent.Child.Children.Add(child.Child);
+        child.Child.Parent = parent.Child;
+    }
+}
+
+var syntaxSystemRoot = syntaxNodeViews.Where(t => t.Parent == typeof(object).Name).Single().Child;
+
+CodeGenerationTools code = new CodeGenerationTools(this);
+CodeRegion region = new CodeRegion(this, 1);
+string namespaceName = code.VsNamespaceSuggestion();
+
+var manager = TemplateFileManager.Create(this);
+
+// var xSyntaxTypeSystem = Jawilliam.CDF.XObjects.RDSL.Syntax.NodeTypes.Load(@"E:\Projects\Software Development Investigation\Jawilliam.Msr.Roslyn\CSharp\NodeTypeSystem.xml");
+var xSyntaxTypeSystem = Jawilliam.CDF.XObjects.RDSL.Syntax.Load(@"E:\MyRepositories\Change-Detection-Foundation\Jawilliam.CDF.CSharp\RDSL.xml");
+
+#>using Microsoft.CodeAnalysis.CSharp;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Xml.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+<#BeginNamespace(namespaceName, code);#>
+[TestClass]
+public partial class RoslynMLDeltaExpanderTests { }
+<#EndNamespace(namespaceName);#>
+
+
+<#
+foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
+.Where(n => !object.Equals(n.Root.Label, "SyntaxNode") && 
+            !object.Equals(n.Root.Label, "CSharpSyntaxNode")))
+{
+    manager.StartNewFile($"RoslynMLDeltaExpander{syntaxNode.Root.Label}Tests.cs");
+
+	var xSyntaxNodeType = xSyntaxTypeSystem.Nodes.Type.SingleOrDefault(n => n.name == syntaxNode.Root.Label.ToString());
+	if(xSyntaxNodeType == null) continue;
+	var xSyntaxNodeBaseType = xSyntaxNodeType != null && xSyntaxNodeType.@base != null ?
+	 xSyntaxTypeSystem.Nodes.Type.SingleOrDefault(n => n.name == xSyntaxNodeType.@base) 
+	 : null;
+
+	var isAbstract = xSyntaxNodeType.@abstract;
+	
+	var isUpdatable = false;
+	if(xSyntaxNodeType != null && xSyntaxNodeType.Properties != null && xSyntaxNodeType.Properties.Property != null)
+		isUpdatable = xSyntaxNodeType.Properties.Property.Any(p => p.changepoint);
+
+	if(xSyntaxNodeType != null)
+    {
+		var xSyntaxNodeBaseTypeProperties = xSyntaxNodeBaseType != null && xSyntaxNodeBaseType.Properties != null 
+											&& xSyntaxNodeBaseType.Properties.Property != null 
+				? xSyntaxNodeBaseType.Properties.Property
+				: new Syntax.NodesLocalType.TypeLocalType.PropertiesLocalType.PropertyLocalType[0];
+
+		var xSyntaxNodeProperties = xSyntaxNodeType.Properties != null && xSyntaxNodeType.Properties.Property != null 
+			? xSyntaxNodeType.Properties.Property
+			: new Syntax.NodesLocalType.TypeLocalType.PropertiesLocalType.PropertyLocalType[0];
+
+		var currentType = typeof(Microsoft.CodeAnalysis.CSharp.CSharpSyntaxNode)
+			.Assembly.GetType("Microsoft.CodeAnalysis.CSharp.Syntax." + code.Escape(syntaxNode.Root.Label.ToString()));
+		var currentPropertiesMetadata = currentType.GetMembers().OfType<PropertyInfo>()
+			.Where(p => xSyntaxNodeProperties.Any(n => n.name == p.Name))
+			.Select(p => new Tuple<PropertyInfo, Syntax.NodesLocalType.TypeLocalType.PropertiesLocalType.PropertyLocalType>(p, xSyntaxNodeProperties.Single(n => n.name == p.Name)))
+			.OrderBy(p => p.Item2.index)
+			.ToArray();
+
+	if(xSyntaxNodeType != null && !isAbstract)
+	{
+		var pairwiseTunnelingProperties = currentPropertiesMetadata
+			.Where(p => p.Item2.Rules?.Pairwise?.tunneling ?? false)
+			.ToArray();
+
+		/*var expectedLabel = ExpectedLabels.Single(e => e.ElementLabel == code.Escape(syntaxNode.Root.Label.ToString()));*/
+
+
+BeginNamespace(namespaceName, code);
+#>
+using Jawilliam.CDF.Approach;
+using Jawilliam.CDF.CSharp.RoslynML;
+using Jawilliam.CDF.XObjects.RDSL;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Xml.Linq;
+
+partial class RoslynMLDeltaExpanderTests
+{
+	 partial void <#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>ServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<<#= code.Escape(syntaxNode.Root.Label.ToString()) #>> nodes);
+
+	 [TestMethod]
+     public void <#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>ServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_OK()
+     {
+		var converter = new CDF.CSharp.RoslynML.RoslynML();
+		var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
+		int id = 0; 
+
+	    IEnumerable<<#= code.Escape(syntaxNode.Root.Label.ToString()) #>> nodes = null;
+	    string expectedLabel = null;
+	    <#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>ServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref nodes);
+		foreach(var node in nodes)
+		{
+			expectedLabel = Enum.GetName(typeof(SyntaxKind), node.Kind());
+
+			var oElement = converter.Visit(node);
+			converter.SetGumTreefiedIDs(oElement, ref id);
+			converter.SetRoslynMLIDs(oElement, ref id);
+			converter.Prune(oElement, selector.PruneSelector); 
+			converter.Defoliate(oElement);
+
+			var mElement = converter.Visit(node);
+			converter.SetGumTreefiedIDs(mElement, ref id);
+			converter.SetRoslynMLIDs(mElement, ref id);
+			converter.Prune(mElement, selector.PruneSelector); 
+			converter.Defoliate(mElement);
+
+			var oFullElement = converter.Visit(node);
+			converter.SetGumTreefiedIDs(oFullElement, ref id);
+			converter.SetRoslynMLIDs(oFullElement, ref id);
+			converter.Prune(oFullElement, selector.PruneSelector); 
+			converter.Defoliate(oFullElement);
+
+			var mFullElement = converter.Visit(node);
+			converter.SetGumTreefiedIDs(mFullElement, ref id);
+			converter.SetRoslynMLIDs(mFullElement, ref id);
+			converter.Prune(mFullElement, selector.PruneSelector); 
+			converter.Defoliate(mFullElement);
+
+			DeltaExpander expander = new DeltaExpander();
+
+			// Match
+			expander.Expand(
+				new RevisionPair<XElement> { Original = oElement, Modified = mElement },
+				new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement }, 
+				(Matches: new XElement[] 
+				{ 
+					new XElement("Match", 
+						new XAttribute("oId", oElement.GtID()),
+						new XAttribute("oLb", oElement.Label()),
+						new XAttribute("mId", mElement.GtID()), 
+						new XAttribute("mLb", mElement.Label())) 
+				},
+			Actions: new XElement[0]));
+			
+			var existingProperties = <#= pairwiseTunnelingProperties.Count() #>;
+<#
+		foreach(var p in pairwiseTunnelingProperties.Where(p1 => p1.Item2.optional).ToList())
+		{
+#>
+			existingProperties = oFullElement.Elements().Any(e => e.Name.LocalName == "<#= p.Item2.name #>") ? existingProperties : (existingProperties - 1);
+<#
+		}
+#>
+
+			Assert.AreEqual(expander.FullDelta.Matches.Count(), existingProperties + 1);
+
+			Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value == oElement.GtID()).Attribute("mId").Value == mElement.GtID());
+			Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == expectedLabel).Attribute("mLb").Value == expectedLabel);
+<#
+		foreach(var p in pairwiseTunnelingProperties)
+		{
+			if(p.Item2.optional)
+			{
+#>
+
+			var <#= p.Item2.name #>Label = Enum.GetName(typeof(SyntaxKind), node.<#= p.Item2.name #>.Kind());
+			if(oFullElement.Elements().Any(e => e.Name.LocalName == "<#= p.Item2.name #>"))
+			{
+				Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == <#= p.Item2.name #>Label).Attribute("mLb").Value == <#= p.Item2.name #>Label);
+				Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value == 
+					oFullElement.Elements().Single(e => e.Attribute("oLb").Value == <#= p.Item2.name #>Label).GtID())
+					.Attribute("mId").Value == mFullElement.GtID());
+			}
+			else
+			{
+				Assert.IsFalse(expander.FullDelta.Matches.Any(m => m.Attribute("oLb").Value == <#= p.Item2.name #>Label);
+			}
+<#
+			}
+			else
+			{
+#>
+
+			var <#= p.Item2.name #>Label = Enum.GetName(typeof(SyntaxKind), node.<#= p.Item2.name #>.Kind());
+			Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == <#= p.Item2.name #>Label).Attribute("mLb").Value == <#= p.Item2.name #>Label);
+			Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value == 
+				oFullElement.Elements().Single(e => e.Attribute("oLb").Value == <#= p.Item2.name #>Label).GtID())
+				.Attribute("mId").Value == mFullElement.GtID());
+<#
+			}
+		}
+#>
+
+			Assert.AreEqual<int>(expander.FullDelta.Actions.Count(), 0);
+
+			// Insert
+			expander.Expand(
+				new RevisionPair<XElement> { Original = oElement, Modified = mElement },
+				new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement }, 
+				(Matches: new XElement[] 
+				{ 
+					new XElement("Insert", 
+						new XAttribute("eId", mElement.GtID()), 
+						new XAttribute("eLb", mElement.Label()), 
+						new XAttribute("eVl", "##"), 
+						new XAttribute("pId", mElement.GtID()), 
+						new XAttribute("pLb", mElement.Label()), 
+						new XAttribute("pos", "-1")) 
+				},
+			Actions: new XElement[0]));
+
+			
+            Assert.AreEqual<int>(expander.FullDelta.Matches.Count<XElement>(), 0);
+            Assert.AreEqual<int>(expander.FullDelta.Actions.Count<XElement>(), existingProperties + 1);
+            Assert.IsTrue((from a in expander.FullDelta.Actions.Where(a => a.Name.LocalName == "Insert")
+				Single(m => (m.Attribute("eId").Value == mElement.GtID())).Attribute("pId").Value == mElement.GtID());
+	        Assert.IsTrue((from a in expander.FullDelta.Actions.Where(a => a.Name.LocalName == "Insert")
+				.Single(m => (m.Attribute("eLb").Value == <#= p.Item2.name #>Label)).Attribute("pLb").Value == <#= p.Item2.name #>Label);
+            Assert.IsTrue(expander.FullDelta.Actions.Where(a => a.Name.LocalName == "Insert").Single(m => (m.Attribute("eId").Value == "0")).Attribute("pId").Value == "4");
+            Assert.IsTrue(expander.FullDelta.Actions.Where(a => a.Name.LocalName == "Insert").Single(m => (m.Attribute("eLb").Value == "OpenParenToken")).Attribute("pLb").Value == <#= p.Item2.name #>Label);
+            Assert.IsTrue(expander.FullDelta.Actions.Where(a => a.Name.LocalName == "Insert").Single(m => (m.Attribute("eId").Value == "3")).Attribute("pId").Value == "4");
+            Assert.IsTrue(expander.FullDelta.Actions.Where(a => a.Name.LocalName == "Insert").Single(m => (m.Attribute("eLb").Value == "CloseParenToken")).Attribute("pLb").Value == <#= p.Item2.name #>Label);
+
+
+
+
+
+
+
+			Assert.AreEqual(expander.FullDelta.Matches.Count(), existingProperties + 1);
+
+			Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value == oElement.GtID()).Attribute("mId").Value == mElement.GtID());
+			Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == expectedLabel).Attribute("mLb").Value == expectedLabel);
+<#
+		foreach(var p in pairwiseTunnelingProperties)
+		{
+			if(p.Item2.optional)
+			{
+#>
+
+			if(oFullElement.Elements().Any(e => e.Name.LocalName == "<#= p.Item2.name #>"))
+			{
+				Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == <#= p.Item2.name #>Label).Attribute("mLb").Value == <#= p.Item2.name #>Label);
+				Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value == 
+					oFullElement.Elements().Single(e => e.Attribute("oLb").Value == <#= p.Item2.name #>Label).GtID())
+					.Attribute("mId").Value == mFullElement.GtID());
+			}
+			else
+			{
+				Assert.IsFalse(expander.FullDelta.Matches.Any(m => m.Attribute("oLb").Value == <#= p.Item2.name #>Label);
+			}
+<#
+			}
+			else
+			{
+#>
+
+			Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == <#= p.Item2.name #>Label).Attribute("mLb").Value == <#= p.Item2.name #>Label);
+			Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value == 
+				oFullElement.Elements().Single(e => e.Attribute("oLb").Value == <#= p.Item2.name #>Label).GtID())
+				.Attribute("mId").Value == mFullElement.GtID());
+<#
+			}
+		}
+#>
+
+			Assert.AreEqual<int>(expander.FullDelta.Actions.Count(), 0);
+		}
+     }
+}
+<#
+	
+EndNamespace(namespaceName);
+	}
+ }
+}
+#>
+}
+<#
+
+manager.Process();
+#>
+<#+
+
+/*protected IEnumerable<(string ElementLabel, List<string> PropertyLabels)> ExpectedLabels
+{
+	get
+	{
+		return new List<(string ElementLabel, List<string> PropertyLabels)>
+		{
+			("AttributeArgument", new List<string>{"", ""}),
+		};
+	}
+}*/
+
+void BeginNamespace(string namespaceName, CodeGenerationTools code)
+{
+    CodeRegion region = new CodeRegion(this);
+    if (!String.IsNullOrEmpty(namespaceName))
+    {
+#>
+namespace <#=code.EscapeNamespace(namespaceName)#>
+{
+<#+
+        PushIndent(CodeRegion.GetIndent(1));
+    }
+}
+
+void EndNamespace(string namespaceName)
+{
+    if (!String.IsNullOrEmpty(namespaceName))
+    {
+        PopIndent();
+#>
+}
+<#+
+    }
+}
+
+string GetSyntaxType(Type t, CodeGenerationTools code, string listTypeArgument)
+{
+	if(t.FullName.StartsWith("Microsoft.CodeAnalysis.SeparatedSyntaxList"))
+		return "SeparatedList_of_" + listTypeArgument;
+
+	if(t.FullName.StartsWith("Microsoft.CodeAnalysis.SyntaxList"))
+		return "List_of_" + listTypeArgument;
+
+	if(t.FullName.StartsWith("Microsoft.CodeAnalysis.SyntaxTokenList"))
+		return "TokenList";
+
+	if(!t.FullName.StartsWith("Microsoft.CodeAnalysis."))
+		return t.Name;
+
+	if(t.Name == "SyntaxList`1" /*|| t.Name == "SeparatedSyntaxList`1"*/)
+		return "IEnumerable<" + this.GetSyntaxType(t.GenericTypeArguments[0], code, "") + ">";
+
+	var codeAnalysisTypes = new []{ "SyntaxNode"/*, "SyntaxTokenList"*/, "SyntaxTrivia" };
+	return codeAnalysisTypes.Contains(t.Name) ? "Microsoft.CodeAnalysis." + code.Escape(t.Name) : code.Escape(t.Name) + "<TAnnotation>";
+}
+#>
