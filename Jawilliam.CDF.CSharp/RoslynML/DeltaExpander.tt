@@ -1,0 +1,678 @@
+<#@ template language="C#" debug="True" hostSpecific="true"#>
+<#@ output extension=".cs" #>
+<#@ include file="..\TemplateFileManagerV2.1.ttinclude" #>
+<#@ assembly name="$(SolutionDir)\packages\Microsoft.CodeAnalysis.Common.2.7.0\lib\netstandard1.3\Microsoft.CodeAnalysis.dll" #>
+<#@ assembly name="$(SolutionDir)\packages\Microsoft.CodeAnalysis.CSharp.2.7.0\lib\netstandard1.3\Microsoft.CodeAnalysis.CSharp.dll" #>
+<#@ assembly name="$(SolutionDir)\packages\CodePlex.LinqToXsd.2.0.2\lib\Xml.Schema.Linq.dll" #>
+<#@ assembly name="$(SolutionDir)\Jawilliam.CDF\bin\Debug\Jawilliam.CDF.dll" #>
+<#@ assembly name="$(SolutionDir)\Jawilliam.CDF.XObjects\bin\Debug\Jawilliam.CDF.XObjects.dll" #>
+<#@ assembly name="$(SolutionDir)\packages\System.Collections.Immutable.1.3.1\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll" #>
+<#@ assembly name="System.Runtime" #>
+<#@ assembly name="System.Linq" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.Reflection" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Collections" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Microsoft.CodeAnalysis.CSharp" #>
+<#@ import namespace="Jawilliam.CDF" #>
+<#@ import namespace="Jawilliam.CDF.GTED" #>
+<#@ import namespace="Jawilliam.CDF.XObjects.RDSL" #>
+<#
+// <copyright file="LearningFromCSharpSyntaxVisitor.tt" company="Jasoco" author="Jawilliam">
+//  Copyright © . All Rights Reserved.
+// </copyright>
+
+Type csharpSyntaxVisitor = typeof(CSharpSyntaxVisitor);
+MethodInfo[] allMethods = csharpSyntaxVisitor.GetMembers().OfType<MethodInfo>().ToArray();
+
+// Filters to methods starting with 'Visit' prefix, except that being called just 'Visit'.
+MethodInfo[] visitMethods = allMethods.Where(m => m.Name.StartsWith("Visit") && m.Name != "Visit").ToArray();
+
+// This methods represents the case logic of CSharpSyntaxVisitor for each type of syntax node, then lets to collect all that syntax node types.
+List<Type> syntaxNodeTypes = visitMethods.Select(m => m.GetParameters().Single(p => p.Name == "node").ParameterType).Distinct().ToList();
+
+// Build up the class system of syntax node types by completing the total hierarchy. 
+List<Type> syntaxNodeSystem = new List<Type>(syntaxNodeTypes);
+List<Type> syntaxInnerNodes = new List<Type>(220);
+syntaxInnerNodes.AddRange(syntaxNodeSystem.Where(n => n.BaseType != typeof(object)).Select(n => n.BaseType).Distinct().Intersect(syntaxNodeSystem));
+List<Type> missingSyntaxTypes = syntaxNodeSystem.Where(n => n.BaseType != typeof(object)).Select(n => n.BaseType).Distinct().Except(syntaxNodeSystem).ToList();
+while (missingSyntaxTypes.Any())
+{
+    syntaxInnerNodes.AddRange(missingSyntaxTypes);
+    syntaxNodeSystem.AddRange(missingSyntaxTypes);
+    missingSyntaxTypes = syntaxNodeSystem.Where(n => n.BaseType != typeof(object)).Select(n => n.BaseType).Distinct().Except(syntaxNodeSystem).ToList();
+}
+
+var syntaxNodeViews = syntaxNodeSystem
+.Select(t => new
+{
+    Parent = t.BaseType.Name,
+    Child = new Tree { Root = new Node { Label = t.Name } }
+})
+.ToList();
+
+List<ITree> syntaxNodeHierarachies = new List<ITree>(220);
+foreach (var parentType in syntaxInnerNodes)
+{
+    var parent = syntaxNodeViews.First(n => object.Equals(n.Child.Root.Label, parentType.Name));
+    foreach (var child in syntaxNodeViews.Where(t => object.Equals(t.Parent, parent.Child.Root.Label)))
+    {
+        parent.Child.Children.Add(child.Child);
+        child.Child.Parent = parent.Child;
+    }
+}
+
+var syntaxSystemRoot = syntaxNodeViews.Where(t => t.Parent == typeof(object).Name).Single().Child;
+
+CodeGenerationTools code = new CodeGenerationTools(this);
+CodeRegion region = new CodeRegion(this, 1);
+string namespaceName = code.VsNamespaceSuggestion();
+
+var manager = TemplateFileManager.Create(this);
+
+// var xSyntaxTypeSystem = Jawilliam.CDF.XObjects.RDSL.Syntax.NodeTypes.Load(@"E:\Projects\Software Development Investigation\Jawilliam.Msr.Roslyn\CSharp\NodeTypeSystem.xml");
+var xSyntaxTypeSystem = Jawilliam.CDF.XObjects.RDSL.Syntax.Load(@"E:\MyRepositories\Change-Detection-Foundation\Jawilliam.CDF.CSharp\RDSL.xml");
+
+#>using Microsoft.CodeAnalysis.CSharp;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Xml.Linq;
+
+<#
+BeginNamespace(namespaceName, code);
+#>
+partial class DeltaExpander
+{
+	#region UnmatchedModified(XElement)'s Visit
+
+	/// <summary>
+    /// Method hook for implementing logic to execute before the <see cref="UnmatchedModified(XElement)"/>.
+    /// </summary>
+    /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
+    /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedModified(XElement)"/>.</param>
+    /// <param name="ignoreCore">If true, the <see cref="UnmatchedModifiedCore(XElement)"/> is not executed and <see cref="UnmatchedModified(XElement)"/> returns the current value of <paramref name="result"/>.</param>
+    partial void UnmatchedModifiedBefore(XElement mFullElement, ref IEnumerable<XElement> result, ref bool ignoreCore);
+
+    /// <summary>
+    /// Method hook for implementing logic to execute after the <see cref="UnmatchedModifiedCore(XElement)"/>.
+    /// </summary>
+    /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
+    /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedModifiedCore(XElement)"/>.</param>
+    partial void UnmatchedModifiedAfter(XElement mFullElement, ref IEnumerable<XElement> result);
+    
+    /// <summary>
+    /// Computes the expandable changes starting from an unmatched modified element existing in the seed delta. 
+    /// </summary>
+    /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
+    /// <returns>The expanded matches and actions.</returns>
+    /// <remarks>This is the default implementation for <see cref="UnmatchedModified(XElement)"/>.</remarks>
+    public virtual IEnumerable<XElement> UnmatchedModifiedCore(XElement mFullElement)
+	{
+		if(mFullElement == null) throw new ArgumentNullException(nameof(mFullElement));
+		switch(mFullElement.Name.LocalName)
+		{
+<#
+
+foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
+.Where(n => !object.Equals(n.Root.Label, "SyntaxNode") && 
+            !object.Equals(n.Root.Label, "CSharpSyntaxNode")))
+{
+	//manager.StartNewFile(syntaxNode.Root.Label + ".cs");
+
+	var xSyntaxNodeType = xSyntaxTypeSystem.Nodes.Type.SingleOrDefault(n => n.name == syntaxNode.Root.Label.ToString());
+	if(xSyntaxNodeType == null) continue;
+	var xSyntaxNodeBaseType = xSyntaxNodeType != null && xSyntaxNodeType.@base != null ?
+	 xSyntaxTypeSystem.Nodes.Type.SingleOrDefault(n => n.name == xSyntaxNodeType.@base) 
+	 : null;
+
+	var isAbstract = xSyntaxNodeType.@abstract;
+	if(xSyntaxNodeType != null)
+    {
+		var xSyntaxNodeBaseTypeProperties = xSyntaxNodeBaseType != null && xSyntaxNodeBaseType.Properties != null 
+											&& xSyntaxNodeBaseType.Properties.Property != null 
+				? xSyntaxNodeBaseType.Properties.Property
+				: new Syntax.NodesLocalType.TypeLocalType.PropertiesLocalType.PropertyLocalType[0];
+
+		var xSyntaxNodeProperties = xSyntaxNodeType.Properties != null && xSyntaxNodeType.Properties.Property != null 
+			? xSyntaxNodeType.Properties.Property
+			: new Syntax.NodesLocalType.TypeLocalType.PropertiesLocalType.PropertyLocalType[0];
+
+	if(xSyntaxNodeType != null && !isAbstract)
+	{
+#>
+			case "<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>": return this.UnmatchedModified<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>(mFullElement);
+<#
+	}
+ }
+}
+#>
+			default: throw new ArgumentException($"The type {mFullElement.Name.LocalName} has not been found.");;//return true
+		}
+	}		
+	
+    /// <summary>
+    /// Computes the expandable changes starting from an unmatched modified element existing in the seed delta. 
+    /// </summary>
+    /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
+    /// <returns>The expanded matches and actions.</returns>
+    public virtual IEnumerable<XElement> UnmatchedModified(XElement mFullElement)
+    {
+        IEnumerable<XElement> result = new XElement[0];
+    	var ignoreCore = false;
+    	UnmatchedModifiedBefore(mFullElement, ref result, ref ignoreCore);
+    	if(ignoreCore) 
+    		return result;
+    	
+    	result = this.UnmatchedModifiedCore(mFullElement);
+    	UnmatchedModifiedAfter(mFullElement, ref result);
+    	return result;
+    }
+
+	#endregion
+
+	#region Matched(XElement)'s Visit
+
+	/// <summary>
+    /// Method hook for implementing logic to execute before the <see cref="Matched(XElement, XElement)"/>.
+    /// </summary>
+    /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
+    /// <param name="result">Mechanism to modify the result of <see cref="Matched(XElement, XElement)"/>.</param>
+    /// <param name="ignoreCore">If true, the <see cref="MatchedCore(XElement, XElement)"/> is not executed and <see cref="Matched(XElement, XElement)"/> returns the current value of <paramref name="result"/>.</param>
+    partial void MatchedBefore(XElement oFullElement, XElement mFullElement, ref IEnumerable<XElement> result, ref bool ignoreCore);
+
+    /// <summary>
+    /// Method hook for implementing logic to execute after the <see cref="MatchedCore(XElement, XElement)"/>.
+    /// </summary>
+    /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
+    /// <param name="result">Mechanism to modify the result of <see cref="MatchedCore(XElement, XElement)"/>.</param>
+    partial void MatchedAfter(XElement oFullElement, XElement mFullElement, ref IEnumerable<XElement> result);
+    
+    /// <summary>
+    /// Computes the expandable changes starting from an matched element existing in the seed delta. 
+    /// </summary>
+    /// <param name="oFullElement">The full description associated to the matched original element version.</param>
+    /// <param name="mFullElement">The full description associated to the unmatched modified element version.</param>
+    /// <returns>The expanded matches and actions.</returns>
+    /// <remarks>This is the default implementation for <see cref="Matched(XElement, XElement)"/>.</remarks>
+    public virtual IEnumerable<XElement> MatchedCore(XElement oFullElement, XElement mFullElement)
+	{
+		if(oFullElement == null) throw new ArgumentNullException(nameof(oFullElement));
+		switch(oFullElement.Name.LocalName)
+		{
+<#
+
+foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
+.Where(n => !object.Equals(n.Root.Label, "SyntaxNode") && 
+            !object.Equals(n.Root.Label, "CSharpSyntaxNode")))
+{
+	//manager.StartNewFile(syntaxNode.Root.Label + ".cs");
+
+	var xSyntaxNodeType = xSyntaxTypeSystem.Nodes.Type.SingleOrDefault(n => n.name == syntaxNode.Root.Label.ToString());
+	if(xSyntaxNodeType == null) continue;
+	var xSyntaxNodeBaseType = xSyntaxNodeType != null && xSyntaxNodeType.@base != null ?
+	 xSyntaxTypeSystem.Nodes.Type.SingleOrDefault(n => n.name == xSyntaxNodeType.@base) 
+	 : null;
+
+	var isAbstract = xSyntaxNodeType.@abstract;
+	if(xSyntaxNodeType != null)
+    {
+		var xSyntaxNodeBaseTypeProperties = xSyntaxNodeBaseType != null && xSyntaxNodeBaseType.Properties != null 
+											&& xSyntaxNodeBaseType.Properties.Property != null 
+				? xSyntaxNodeBaseType.Properties.Property
+				: new Syntax.NodesLocalType.TypeLocalType.PropertiesLocalType.PropertyLocalType[0];
+
+		var xSyntaxNodeProperties = xSyntaxNodeType.Properties != null && xSyntaxNodeType.Properties.Property != null 
+			? xSyntaxNodeType.Properties.Property
+			: new Syntax.NodesLocalType.TypeLocalType.PropertiesLocalType.PropertyLocalType[0];
+
+	if(xSyntaxNodeType != null && !isAbstract)
+	{
+#>
+			case "<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>": return this.Matched<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>(oFullElement, mFullElement);
+<#
+	}
+ }
+}
+#>
+			default: throw new ArgumentException($"The type {oFullElement.Name.LocalName} has not been found.");;//return true
+		}
+	}	
+    
+    /// <summary>
+    /// Computes the expandable changes starting from an matched element existing in the seed delta. 
+    /// </summary>
+    /// <param name="oFullElement">The full description associated to the matched original element version.</param>
+    /// <param name="mFullElement">The full description associated to the unmatched modified element version.</param>
+    /// <returns>The expanded matches and actions.</returns>
+    public virtual IEnumerable<XElement> Matched(XElement oFullElement, XElement mFullElement)
+    {
+        IEnumerable<XElement> result = new XElement[0];
+    	var ignoreCore = false;
+    	MatchedBefore(oFullElement, mFullElement, ref result, ref ignoreCore);
+    	if(ignoreCore) 
+    		return result;
+    	
+    	result = this.MatchedCore(oFullElement, mFullElement);
+    	MatchedAfter(oFullElement, mFullElement, ref result);
+    	return result;
+    }
+
+	#endregion
+
+	#region UnmatchedOriginal(XElement)'s Visit
+
+	/// <summary>
+    /// Method hook for implementing logic to execute before the <see cref="UnmatchedOriginal(XElement)"/>.
+    /// </summary>
+    /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
+    /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedOriginal(XElement)"/>.</param>
+    /// <param name="ignoreCore">If true, the <see cref="UnmatchedOriginalCore(XElement)"/> is not executed and <see cref="UnmatchedOriginal(XElement)"/> returns the current value of <paramref name="result"/>.</param>
+    partial void UnmatchedOriginalBefore(XElement oFullElement, ref IEnumerable<XElement> result, ref bool ignoreCore);
+
+    /// <summary>
+    /// Method hook for implementing logic to execute after the <see cref="UnmatchedOriginalCore(XElement)"/>.
+    /// </summary>
+    /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
+    /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedOriginalCore(XElement)"/>.</param>
+    partial void UnmatchedOriginalAfter(XElement oFullElement, ref IEnumerable<XElement> result);
+    
+    /// <summary>
+    /// Computes the expandable changes starting from an unmatched original element existing in the seed delta. 
+    /// </summary>
+    /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
+    /// <returns>The expanded matches and actions.</returns>
+    /// <remarks>This is the default implementation for <see cref="UnmatchedOriginal(XElement)"/>.</remarks>
+    public virtual IEnumerable<XElement> UnmatchedOriginalCore(XElement oFullElement)
+	{
+		if(oFullElement == null) throw new ArgumentNullException(nameof(oFullElement));
+		switch(oFullElement.Name.LocalName)
+		{
+<#
+
+foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
+.Where(n => !object.Equals(n.Root.Label, "SyntaxNode") && 
+            !object.Equals(n.Root.Label, "CSharpSyntaxNode")))
+{
+	//manager.StartNewFile(syntaxNode.Root.Label + ".cs");
+
+	var xSyntaxNodeType = xSyntaxTypeSystem.Nodes.Type.SingleOrDefault(n => n.name == syntaxNode.Root.Label.ToString());
+	if(xSyntaxNodeType == null) continue;
+	var xSyntaxNodeBaseType = xSyntaxNodeType != null && xSyntaxNodeType.@base != null ?
+	 xSyntaxTypeSystem.Nodes.Type.SingleOrDefault(n => n.name == xSyntaxNodeType.@base) 
+	 : null;
+
+	var isAbstract = xSyntaxNodeType.@abstract;
+	if(xSyntaxNodeType != null)
+    {
+		var xSyntaxNodeBaseTypeProperties = xSyntaxNodeBaseType != null && xSyntaxNodeBaseType.Properties != null 
+											&& xSyntaxNodeBaseType.Properties.Property != null 
+				? xSyntaxNodeBaseType.Properties.Property
+				: new Syntax.NodesLocalType.TypeLocalType.PropertiesLocalType.PropertyLocalType[0];
+
+		var xSyntaxNodeProperties = xSyntaxNodeType.Properties != null && xSyntaxNodeType.Properties.Property != null 
+			? xSyntaxNodeType.Properties.Property
+			: new Syntax.NodesLocalType.TypeLocalType.PropertiesLocalType.PropertyLocalType[0];
+
+	if(xSyntaxNodeType != null && !isAbstract)
+	{
+#>
+			case "<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>": return this.UnmatchedOriginal<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>(oFullElement);
+<#
+	}
+ }
+}
+#>
+			default: throw new ArgumentException($"The type {oFullElement.Name.LocalName} has not been found.");;//return true
+		}
+	}		
+	
+    /// <summary>
+    /// Computes the expandable changes starting from an unmatched original element existing in the seed delta. 
+    /// </summary>
+    /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
+    /// <returns>The expanded matches and actions.</returns>
+    public virtual IEnumerable<XElement> UnmatchedOriginal(XElement oFullElement)
+    {
+        IEnumerable<XElement> result = new XElement[0];
+    	var ignoreCore = false;
+    	UnmatchedOriginalBefore(oFullElement, ref result, ref ignoreCore);
+    	if(ignoreCore) 
+    		return result;
+    	
+    	result = this.UnmatchedOriginalCore(oFullElement);
+    	UnmatchedOriginalAfter(oFullElement, ref result);
+    	return result;
+    }
+
+	#endregion
+
+<#
+
+foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
+.Where(n => !object.Equals(n.Root.Label, "SyntaxNode") && 
+            !object.Equals(n.Root.Label, "CSharpSyntaxNode")))
+{
+    //manager.StartNewFile(syntaxNode.Root.Label + ".cs");
+
+	var xSyntaxNodeType = xSyntaxTypeSystem.Nodes.Type.SingleOrDefault(n => n.name == syntaxNode.Root.Label.ToString());
+	if(xSyntaxNodeType == null) continue;
+	var xSyntaxNodeBaseType = xSyntaxNodeType != null && xSyntaxNodeType.@base != null ?
+	 xSyntaxTypeSystem.Nodes.Type.SingleOrDefault(n => n.name == xSyntaxNodeType.@base) 
+	 : null;
+
+	var isAbstract = xSyntaxNodeType.@abstract;
+	
+	var isUpdatable = false;
+	if(xSyntaxNodeType != null && xSyntaxNodeType.Properties != null && xSyntaxNodeType.Properties.Property != null)
+		isUpdatable = xSyntaxNodeType.Properties.Property.Any(p => p.changepoint);
+
+	if(xSyntaxNodeType != null)
+    {
+		var xSyntaxNodeBaseTypeProperties = xSyntaxNodeBaseType != null && xSyntaxNodeBaseType.Properties != null 
+											&& xSyntaxNodeBaseType.Properties.Property != null 
+				? xSyntaxNodeBaseType.Properties.Property
+				: new Syntax.NodesLocalType.TypeLocalType.PropertiesLocalType.PropertyLocalType[0];
+
+		var xSyntaxNodeProperties = xSyntaxNodeType.Properties != null && xSyntaxNodeType.Properties.Property != null 
+			? xSyntaxNodeType.Properties.Property
+			: new Syntax.NodesLocalType.TypeLocalType.PropertiesLocalType.PropertyLocalType[0];
+
+		var currentType = typeof(Microsoft.CodeAnalysis.CSharp.CSharpSyntaxNode)
+			.Assembly.GetType("Microsoft.CodeAnalysis.CSharp.Syntax." + code.Escape(syntaxNode.Root.Label.ToString()));
+		var currentPropertiesMetadata = currentType.GetMembers().OfType<PropertyInfo>()
+			.Where(p => xSyntaxNodeProperties.Any(n => n.name == p.Name))
+			.Select(p => new Tuple<PropertyInfo, Syntax.NodesLocalType.TypeLocalType.PropertiesLocalType.PropertyLocalType>(p, xSyntaxNodeProperties.Single(n => n.name == p.Name)))
+			.OrderBy(p => p.Item2.index)
+			.ToArray();
+
+	if(xSyntaxNodeType != null && !isAbstract)
+	{
+		var pairwiseTunnelingProperties = currentPropertiesMetadata
+			.Where(p => p.Item2.Rules?.Pairwise?.tunneling ?? false)
+			.Select(p => p.Item2.name).ToArray();
+#>
+	#region <#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>
+
+	/// <summary>
+    /// Method hook for implementing logic to execute before the <see cref="UnmatchedModified<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>(XElement)"/>.
+    /// </summary>
+    /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
+    /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedModified<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>(XElement)"/>.</param>
+    /// <param name="ignoreCore">If true, the <see cref="UnmatchedModified<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>Core(XElement)"/> is not executed and <see cref="UnmatchedModified<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>(XElement)"/> returns the current value of <paramref name="result"/>.</param>
+    partial void UnmatchedModified<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>Before(XElement mFullElement, ref IEnumerable<XElement> result, ref bool ignoreCore);
+
+    /// <summary>
+    /// Method hook for implementing logic to execute after the <see cref="UnmatchedModified<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>Core(XElement)"/>.
+    /// </summary>
+    /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
+    /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedModified<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>Core(XElement)"/>.</param>
+    partial void UnmatchedModified<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>After(XElement mFullElement, ref IEnumerable<XElement> result);
+    
+    /// <summary>
+    /// Computes the expandable changes starting from an unmatched modified element existing in the seed delta. 
+    /// </summary>
+    /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
+    /// <returns>The expanded matches and actions.</returns>
+    /// <remarks>This is the default implementation for <see cref="UnmatchedModified<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>(XElement)"/>.</remarks>
+    public virtual IEnumerable<XElement> UnmatchedModified<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>Core(XElement mFullElement)
+	{
+		if(mFullElement == null)
+			throw new ArgumentNullException(nameof(mFullElement));
+
+<#
+		if(!pairwiseTunnelingProperties.Any())
+		{
+#>		yield break;
+<#
+		}
+		else
+		{
+#>
+		XElement child = null;
+<#
+			foreach(var p in pairwiseTunnelingProperties)
+			{
+#>		
+		child = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "<#= p #>");
+		if(child != null)
+			yield return this.Insert(child, mFullElement);
+<#
+			}
+#>		
+		yield break;
+<#
+		}
+#>
+	}		
+	
+    /// <summary>
+    /// Computes the expandable changes starting from an unmatched modified element existing in the seed delta. 
+    /// </summary>
+    /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
+    /// <returns>The expanded matches and actions.</returns>
+    public virtual IEnumerable<XElement> UnmatchedModified<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>(XElement mFullElement)
+    {
+        IEnumerable<XElement> result = new XElement[0];
+    	var ignoreCore = false;
+    	UnmatchedModified<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>Before(mFullElement, ref result, ref ignoreCore);
+    	if(ignoreCore) 
+    		return result;
+    	
+    	result = this.UnmatchedModified<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>Core(mFullElement);
+    	UnmatchedModified<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>After(mFullElement, ref result);
+    	return result;
+    }
+
+	/// <summary>
+    /// Method hook for implementing logic to execute before the <see cref="Matched<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>(XElement, XElement)"/>.
+    /// </summary>
+    /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
+    /// <param name="result">Mechanism to modify the result of <see cref="Matched<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>(XElement, XElement)"/>.</param>
+    /// <param name="ignoreCore">If true, the <see cref="Matched<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>Core(XElement, XElement)"/> is not executed and <see cref="Matched<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>(XElement, XElement)"/> returns the current value of <paramref name="result"/>.</param>
+    partial void Matched<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>Before(XElement oFullElement, XElement mFullElement, ref IEnumerable<XElement> result, ref bool ignoreCore);
+
+    /// <summary>
+    /// Method hook for implementing logic to execute after the <see cref="Matched<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>Core(XElement, XElement)"/>.
+    /// </summary>
+    /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
+    /// <param name="result">Mechanism to modify the result of <see cref="Matched<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>Core(XElement, XElement)"/>.</param>
+    partial void Matched<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>After(XElement oFullElement, XElement mFullElement, ref IEnumerable<XElement> result);
+    
+    /// <summary>
+    /// Computes the expandable changes starting from an matched element existing in the seed delta. 
+    /// </summary>
+    /// <param name="oFullElement">The full description associated to the matched original element version.</param>
+    /// <param name="mFullElement">The full description associated to the unmatched modified element version.</param>
+    /// <returns>The expanded matches and actions.</returns>
+    /// <remarks>This is the default implementation for <see cref="Matched<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>(XElement, XElement)"/>.</remarks>
+    public virtual IEnumerable<XElement> Matched<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>Core(XElement oFullElement, XElement mFullElement)
+	{
+		if(oFullElement == null) throw new ArgumentNullException(nameof(oFullElement));
+		if(mFullElement == null) throw new ArgumentNullException(nameof(mFullElement));
+
+<#
+		if(!pairwiseTunnelingProperties.Any())
+		{
+#>		yield break;
+<#
+		}
+		else
+		{
+#>
+		XElement oChild = null, mChild = null;
+<#
+			foreach(var p in pairwiseTunnelingProperties)
+			{
+#>		
+		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "<#= p #>");
+		mChild = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "<#= p #>");
+		if(oChild == null && mChild != null)
+			yield return this.Insert(mChild, oFullElement);
+		else if(oChild != null && mChild == null)
+			yield return this.Delete(oChild);
+		else if(oChild != null && mChild != null)
+		{
+			yield return this.Match(oChild, mChild);
+			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+				yield return this.Update(oChild, mChild);
+		}
+<#
+			}
+#>		
+		yield break;
+<#
+		}
+#>
+	}		
+    
+    /// <summary>
+    /// Computes the expandable changes starting from an matched element existing in the seed delta. 
+    /// </summary>
+    /// <param name="oFullElement">The full description associated to the matched original element version.</param>
+    /// <param name="mFullElement">The full description associated to the unmatched modified element version.</param>
+    /// <returns>The expanded matches and actions.</returns>
+    public virtual IEnumerable<XElement> Matched<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>(XElement oFullElement, XElement mFullElement)
+    {
+        IEnumerable<XElement> result = new XElement[0];
+    	var ignoreCore = false;
+    	Matched<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>Before(oFullElement, mFullElement, ref result, ref ignoreCore);
+    	if(ignoreCore) 
+    		return result;
+    	
+    	result = this.Matched<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>Core(oFullElement, mFullElement);
+    	Matched<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>After(oFullElement, mFullElement, ref result);
+    	return result;
+    }
+
+	/// <summary>
+    /// Method hook for implementing logic to execute before the <see cref="UnmatchedOriginal<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>(XElement)"/>.
+    /// </summary>
+    /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
+    /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedOriginal<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>(XElement)"/>.</param>
+    /// <param name="ignoreCore">If true, the <see cref="UnmatchedOriginal<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>Core(XElement)"/> is not executed and <see cref="UnmatchedOriginal<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>(XElement)"/> returns the current value of <paramref name="result"/>.</param>
+    partial void UnmatchedOriginal<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>Before(XElement oFullElement, ref IEnumerable<XElement> result, ref bool ignoreCore);
+
+    /// <summary>
+    /// Method hook for implementing logic to execute after the <see cref="UnmatchedOriginal<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>Core(XElement)"/>.
+    /// </summary>
+    /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
+    /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedOriginal<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>Core(XElement)"/>.</param>
+    partial void UnmatchedOriginal<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>After(XElement oFullElement, ref IEnumerable<XElement> result);
+    
+    /// <summary>
+    /// Computes the expandable changes starting from an unmatched original element existing in the seed delta. 
+    /// </summary>
+    /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
+    /// <returns>The expanded matches and actions.</returns>
+    /// <remarks>This is the default implementation for <see cref="UnmatchedOriginal(XElement)"/>.</remarks>
+    public virtual IEnumerable<XElement> UnmatchedOriginal<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>Core(XElement oFullElement)
+	{
+		if(oFullElement == null)
+			throw new ArgumentNullException(nameof(oFullElement));
+
+<#
+		if(!pairwiseTunnelingProperties.Any())
+		{
+#>		yield break;
+<#
+		}
+		else
+		{
+#>
+		XElement child = null;
+<#
+			foreach(var p in pairwiseTunnelingProperties)
+			{
+#>		
+		child = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "<#= p #>");
+		if(child != null)
+			yield return this.Delete(child);
+<#
+			}
+#>		
+		yield break;
+<#
+		}
+#>
+	}		
+	
+    /// <summary>
+    /// Computes the expandable changes starting from an unmatched original element existing in the seed delta. 
+    /// </summary>
+    /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
+    /// <returns>The expanded matches and actions.</returns>
+    public virtual IEnumerable<XElement> UnmatchedOriginal<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>(XElement oFullElement)
+    {
+        IEnumerable<XElement> result = new XElement[0];
+    	var ignoreCore = false;
+    	UnmatchedOriginal<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>Before(oFullElement, ref result, ref ignoreCore);
+    	if(ignoreCore) 
+    		return result;
+    	
+    	result = this.UnmatchedOriginal<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>Core(oFullElement);
+    	UnmatchedOriginal<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>After(oFullElement, ref result);
+    	return result;
+    }
+
+	#endregion
+
+<#
+	}
+ }
+}
+#>
+}
+<#
+	
+EndNamespace(namespaceName);
+
+manager.Process();
+#>
+<#+ 
+void BeginNamespace(string namespaceName, CodeGenerationTools code)
+{
+    CodeRegion region = new CodeRegion(this);
+    if (!String.IsNullOrEmpty(namespaceName))
+    {
+#>
+namespace <#=code.EscapeNamespace(namespaceName)#>
+{
+<#+
+        PushIndent(CodeRegion.GetIndent(1));
+    }
+}
+
+void EndNamespace(string namespaceName)
+{
+    if (!String.IsNullOrEmpty(namespaceName))
+    {
+        PopIndent();
+#>
+}
+<#+
+    }
+}
+
+string GetSyntaxType(Type t, CodeGenerationTools code, string listTypeArgument)
+{
+	if(t.FullName.StartsWith("Microsoft.CodeAnalysis.SeparatedSyntaxList"))
+		return "SeparatedList_of_" + listTypeArgument;
+
+	if(t.FullName.StartsWith("Microsoft.CodeAnalysis.SyntaxList"))
+		return "List_of_" + listTypeArgument;
+
+	if(t.FullName.StartsWith("Microsoft.CodeAnalysis.SyntaxTokenList"))
+		return "TokenList";
+
+	if(!t.FullName.StartsWith("Microsoft.CodeAnalysis."))
+		return t.Name;
+
+	if(t.Name == "SyntaxList`1" /*|| t.Name == "SeparatedSyntaxList`1"*/)
+		return "IEnumerable<" + this.GetSyntaxType(t.GenericTypeArguments[0], code, "") + ">";
+
+	var codeAnalysisTypes = new []{ "SyntaxNode"/*, "SyntaxTokenList"*/, "SyntaxTrivia" };
+	return codeAnalysisTypes.Contains(t.Name) ? "Microsoft.CodeAnalysis." + code.Escape(t.Name) : code.Escape(t.Name) + "<TAnnotation>";
+}
+#>

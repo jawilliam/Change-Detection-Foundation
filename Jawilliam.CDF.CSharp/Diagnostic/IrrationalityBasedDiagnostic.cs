@@ -1389,7 +1389,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "EqualsToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -1450,7 +1450,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "EqualsToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -1510,7 +1510,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "EqualsToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -1576,7 +1576,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "EqualsToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -1644,7 +1644,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "EqualsToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -1713,14 +1713,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "LessThanToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "GreaterThanToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -1781,14 +1781,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "LessThanToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "GreaterThanToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -1848,14 +1848,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "LessThanToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "GreaterThanToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -1921,14 +1921,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "LessThanToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "GreaterThanToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -1996,14 +1996,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "LessThanToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "GreaterThanToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -2072,7 +2072,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "VarianceKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -2133,7 +2133,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "VarianceKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -2193,7 +2193,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "VarianceKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -2259,7 +2259,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "VarianceKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -2327,7 +2327,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "VarianceKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -2396,7 +2396,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ColonToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -2457,7 +2457,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ColonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -2517,7 +2517,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "ColonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -2583,7 +2583,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ColonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -2651,7 +2651,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ColonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -2720,14 +2720,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "WhereKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "ColonToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -2788,14 +2788,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "WhereKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "ColonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -2855,14 +2855,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "WhereKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "ColonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -2928,14 +2928,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "WhereKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "ColonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -3003,14 +3003,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "WhereKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "ColonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -3079,7 +3079,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "DotToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -3140,7 +3140,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "DotToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -3200,7 +3200,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "DotToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -3266,7 +3266,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "DotToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -3334,7 +3334,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "DotToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -3403,14 +3403,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ColonToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "ThisOrBaseKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -3471,14 +3471,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ColonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "ThisOrBaseKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -3538,14 +3538,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "ColonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "ThisOrBaseKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -3611,14 +3611,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ColonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "ThisOrBaseKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -3686,14 +3686,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ColonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "ThisOrBaseKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -3762,7 +3762,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ArrowToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -3823,7 +3823,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ArrowToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -3883,7 +3883,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "ArrowToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -3949,7 +3949,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ArrowToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -4017,7 +4017,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ArrowToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -4086,14 +4086,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenBraceToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseBraceToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -4154,14 +4154,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -4221,14 +4221,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "OpenBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "CloseBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -4294,14 +4294,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -4369,14 +4369,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -4445,7 +4445,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -4506,7 +4506,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -4566,7 +4566,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -4632,7 +4632,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -4700,7 +4700,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -5048,7 +5048,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "RefKindKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -5109,7 +5109,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "RefKindKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -5169,7 +5169,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "RefKindKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -5235,7 +5235,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "RefKindKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -5303,7 +5303,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "RefKindKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -5372,14 +5372,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "LessThanToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "GreaterThanToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -5440,14 +5440,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "LessThanToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "GreaterThanToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -5507,14 +5507,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "LessThanToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "GreaterThanToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -5580,14 +5580,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "LessThanToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "GreaterThanToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -5655,14 +5655,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "LessThanToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "GreaterThanToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -5731,14 +5731,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "LessThanSlashToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "GreaterThanToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -5799,14 +5799,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "LessThanSlashToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "GreaterThanToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -5866,14 +5866,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "LessThanSlashToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "GreaterThanToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -5939,14 +5939,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "LessThanSlashToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "GreaterThanToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -6014,14 +6014,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "LessThanSlashToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "GreaterThanToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -6369,7 +6369,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ColonToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -6430,7 +6430,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ColonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -6490,7 +6490,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "ColonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -6556,7 +6556,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ColonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -6624,7 +6624,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ColonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -6693,14 +6693,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "LessThanToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "GreaterThanToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -6761,14 +6761,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "LessThanToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "GreaterThanToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -6828,14 +6828,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "LessThanToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "GreaterThanToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -6901,14 +6901,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "LessThanToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "GreaterThanToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -6976,14 +6976,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "LessThanToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "GreaterThanToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -7052,14 +7052,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenBracketToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseBracketToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -7120,14 +7120,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenBracketToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseBracketToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -7187,14 +7187,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "OpenBracketToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "CloseBracketToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -7260,14 +7260,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenBracketToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseBracketToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -7335,14 +7335,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenBracketToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseBracketToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -7690,7 +7690,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "RefKindKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -7751,7 +7751,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "RefKindKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -7811,7 +7811,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "RefKindKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -7877,7 +7877,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "RefKindKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -7945,7 +7945,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "RefKindKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -8014,7 +8014,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ColonToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -8075,7 +8075,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ColonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -8135,7 +8135,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "ColonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -8201,7 +8201,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ColonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -8269,7 +8269,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ColonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -8896,7 +8896,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "IntoKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -8957,7 +8957,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "IntoKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -9017,7 +9017,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "IntoKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -9083,7 +9083,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "IntoKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -9151,7 +9151,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "IntoKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -9220,7 +9220,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "AscendingOrDescendingKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -9281,7 +9281,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "AscendingOrDescendingKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -9341,7 +9341,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "AscendingOrDescendingKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -9407,7 +9407,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "AscendingOrDescendingKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -9475,7 +9475,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "AscendingOrDescendingKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -9544,7 +9544,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "IntoKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -9605,7 +9605,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "IntoKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -9665,7 +9665,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "IntoKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -9731,7 +9731,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "IntoKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -9799,7 +9799,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "IntoKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -9868,7 +9868,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "WhenKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -9929,7 +9929,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "WhenKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -9989,7 +9989,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "WhenKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -10055,7 +10055,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "WhenKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -10123,7 +10123,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "WhenKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -10192,7 +10192,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "CommaToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -10253,7 +10253,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "CommaToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -10313,7 +10313,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "CommaToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -10379,7 +10379,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "CommaToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -10447,7 +10447,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "CommaToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -10516,7 +10516,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ColonToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -10577,7 +10577,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ColonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -10637,7 +10637,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "ColonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -10703,7 +10703,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ColonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -10771,7 +10771,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ColonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -11398,7 +11398,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "EqualsToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -11459,7 +11459,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "EqualsToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -11519,7 +11519,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "EqualsToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -11585,7 +11585,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "EqualsToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -11653,7 +11653,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "EqualsToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -11722,7 +11722,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ElseKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -11783,7 +11783,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ElseKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -11843,7 +11843,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "ElseKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -11909,7 +11909,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ElseKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -11977,7 +11977,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ElseKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -12325,7 +12325,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "CatchKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -12386,7 +12386,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "CatchKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -12446,7 +12446,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "CatchKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -12512,7 +12512,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "CatchKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -12580,7 +12580,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "CatchKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -12649,14 +12649,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -12717,14 +12717,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -12784,14 +12784,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -12857,14 +12857,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -12932,14 +12932,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -13008,21 +13008,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "WhenKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -13083,21 +13083,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "WhenKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -13157,21 +13157,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "WhenKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -13237,21 +13237,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "WhenKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -13319,21 +13319,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "WhenKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -13402,7 +13402,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "FinallyKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -13463,7 +13463,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "FinallyKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -13523,7 +13523,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "FinallyKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -13589,7 +13589,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "FinallyKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -13657,7 +13657,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "FinallyKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -13726,7 +13726,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "EndOfFileToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -13787,7 +13787,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "EndOfFileToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -13847,7 +13847,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "EndOfFileToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -13913,7 +13913,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "EndOfFileToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -13981,7 +13981,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "EndOfFileToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -14050,21 +14050,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ExternKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "AliasKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -14125,21 +14125,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ExternKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "AliasKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -14199,21 +14199,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "ExternKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "AliasKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -14279,21 +14279,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ExternKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "AliasKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -14361,21 +14361,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ExternKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "AliasKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -14444,21 +14444,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "UsingKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "StaticKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -14519,21 +14519,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "UsingKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "StaticKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -14593,21 +14593,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "UsingKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "StaticKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -14673,21 +14673,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "UsingKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "StaticKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -14755,21 +14755,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "UsingKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "StaticKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -14838,14 +14838,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenBracketToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseBracketToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -14906,14 +14906,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenBracketToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseBracketToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -14973,14 +14973,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "OpenBracketToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "CloseBracketToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -15046,14 +15046,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenBracketToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseBracketToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -15121,14 +15121,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenBracketToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseBracketToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -15197,7 +15197,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ColonToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -15258,7 +15258,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ColonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -15318,7 +15318,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "ColonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -15384,7 +15384,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ColonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -15452,7 +15452,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ColonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -15800,14 +15800,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -15868,14 +15868,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -15935,14 +15935,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -16008,14 +16008,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -16083,14 +16083,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -16159,14 +16159,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "DelegateKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -16227,14 +16227,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "DelegateKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -16294,14 +16294,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "DelegateKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -16367,14 +16367,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "DelegateKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -16442,14 +16442,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "DelegateKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -17355,28 +17355,28 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "NamespaceKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenBraceToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseBraceToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -17437,28 +17437,28 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "NamespaceKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -17518,28 +17518,28 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "NamespaceKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "OpenBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "CloseBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -17605,28 +17605,28 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "NamespaceKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -17694,28 +17694,28 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "NamespaceKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -17784,28 +17784,28 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "EnumKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenBraceToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseBraceToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -17866,28 +17866,28 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "EnumKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -17947,28 +17947,28 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "EnumKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "OpenBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "CloseBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -18034,28 +18034,28 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "EnumKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -18123,28 +18123,28 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "EnumKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -18213,28 +18213,28 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "Keyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenBraceToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseBraceToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -18295,28 +18295,28 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "Keyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -18376,28 +18376,28 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "Keyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "OpenBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "CloseBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -18463,28 +18463,28 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "Keyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -18552,28 +18552,28 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "Keyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -18642,28 +18642,28 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "Keyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenBraceToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseBraceToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -18724,28 +18724,28 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "Keyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -18805,28 +18805,28 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "Keyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "OpenBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "CloseBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -18892,28 +18892,28 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "Keyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -18981,28 +18981,28 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "Keyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -19071,28 +19071,28 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "Keyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenBraceToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseBraceToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -19153,28 +19153,28 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "Keyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -19234,28 +19234,28 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "Keyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "OpenBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "CloseBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -19321,28 +19321,28 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "Keyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -19410,28 +19410,28 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "Keyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -19500,7 +19500,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -19561,7 +19561,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -19621,7 +19621,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -19687,7 +19687,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -19755,7 +19755,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -19824,14 +19824,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "EventKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -19892,14 +19892,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "EventKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -19959,14 +19959,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "EventKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -20032,14 +20032,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "EventKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -20107,14 +20107,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "EventKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -20183,7 +20183,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -20244,7 +20244,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -20304,7 +20304,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -20370,7 +20370,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -20438,7 +20438,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -20507,14 +20507,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OperatorKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -20575,14 +20575,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OperatorKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -20642,14 +20642,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "OperatorKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -20715,14 +20715,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OperatorKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -20790,14 +20790,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OperatorKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -20866,21 +20866,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ImplicitOrExplicitKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OperatorKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -20941,21 +20941,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ImplicitOrExplicitKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OperatorKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -21015,21 +21015,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "ImplicitOrExplicitKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "OperatorKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -21095,21 +21095,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ImplicitOrExplicitKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OperatorKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -21177,21 +21177,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ImplicitOrExplicitKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OperatorKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -21260,7 +21260,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -21321,7 +21321,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -21381,7 +21381,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -21447,7 +21447,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -21515,7 +21515,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -21584,14 +21584,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "TildeToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -21652,14 +21652,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "TildeToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -21719,14 +21719,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "TildeToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -21792,14 +21792,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "TildeToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -21867,14 +21867,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "TildeToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -21943,7 +21943,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -22004,7 +22004,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -22064,7 +22064,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -22130,7 +22130,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -22198,7 +22198,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -22267,7 +22267,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "EventKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -22328,7 +22328,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "EventKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -22388,7 +22388,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "EventKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -22454,7 +22454,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "EventKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -22522,7 +22522,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "EventKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -22591,14 +22591,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ThisKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -22659,14 +22659,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ThisKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -22726,14 +22726,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "ThisKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -22799,14 +22799,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ThisKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -22874,14 +22874,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ThisKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -23229,21 +23229,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "NewKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -23304,21 +23304,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "NewKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -23378,21 +23378,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "NewKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -23458,21 +23458,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "NewKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -23540,21 +23540,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "NewKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -23623,7 +23623,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ClassOrStructKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -23684,7 +23684,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ClassOrStructKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -23744,7 +23744,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "ClassOrStructKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -23810,7 +23810,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ClassOrStructKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -23878,7 +23878,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ClassOrStructKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -24226,14 +24226,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -24294,14 +24294,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -24361,14 +24361,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -24434,14 +24434,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -24509,14 +24509,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -24585,14 +24585,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenBracketToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseBracketToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -24653,14 +24653,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenBracketToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseBracketToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -24720,14 +24720,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "OpenBracketToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "CloseBracketToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -24793,14 +24793,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenBracketToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseBracketToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -24868,14 +24868,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenBracketToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseBracketToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -25223,7 +25223,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "EndOfComment")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -25284,7 +25284,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "EndOfComment")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -25344,7 +25344,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "EndOfComment")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -25410,7 +25410,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "EndOfComment")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -25478,7 +25478,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "EndOfComment")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -25547,21 +25547,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndIfKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -25622,21 +25622,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndIfKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -25696,21 +25696,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "EndIfKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -25776,21 +25776,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndIfKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -25858,21 +25858,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndIfKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -25941,21 +25941,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "RegionKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -26016,21 +26016,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "RegionKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -26090,21 +26090,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "RegionKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -26170,21 +26170,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "RegionKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -26252,21 +26252,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "RegionKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -26335,21 +26335,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndRegionKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -26410,21 +26410,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndRegionKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -26484,21 +26484,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "EndRegionKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -26564,21 +26564,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndRegionKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -26646,21 +26646,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndRegionKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -26729,21 +26729,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "ErrorKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -26804,21 +26804,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "ErrorKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -26878,21 +26878,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "ErrorKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -26958,21 +26958,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "ErrorKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -27040,21 +27040,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "ErrorKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -27123,21 +27123,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "WarningKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -27198,21 +27198,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "WarningKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -27272,21 +27272,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "WarningKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -27352,21 +27352,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "WarningKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -27434,21 +27434,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "WarningKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -27517,14 +27517,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -27585,14 +27585,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -27652,14 +27652,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -27725,14 +27725,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -27800,14 +27800,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -27876,21 +27876,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "DefineKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -27951,21 +27951,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "DefineKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -28025,21 +28025,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "DefineKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -28105,21 +28105,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "DefineKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -28187,21 +28187,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "DefineKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -28270,21 +28270,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "UndefKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -28345,21 +28345,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "UndefKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -28419,21 +28419,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "UndefKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -28499,21 +28499,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "UndefKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -28581,21 +28581,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "UndefKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -28664,21 +28664,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "LineKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -28739,21 +28739,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "LineKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -28813,21 +28813,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "LineKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -28893,21 +28893,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "LineKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -28975,21 +28975,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "LineKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -29058,28 +29058,28 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "PragmaKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "WarningKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -29140,28 +29140,28 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "PragmaKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "WarningKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -29221,28 +29221,28 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "PragmaKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "WarningKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -29308,28 +29308,28 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "PragmaKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "WarningKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -29397,28 +29397,28 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "PragmaKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "WarningKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -29487,28 +29487,28 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "PragmaKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "ChecksumKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -29569,28 +29569,28 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "PragmaKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "ChecksumKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -29650,28 +29650,28 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "PragmaKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "ChecksumKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -29737,28 +29737,28 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "PragmaKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "ChecksumKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -29826,28 +29826,28 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "PragmaKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "ChecksumKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -29916,21 +29916,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "ReferenceKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -29991,21 +29991,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "ReferenceKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -30065,21 +30065,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "ReferenceKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -30145,21 +30145,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "ReferenceKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -30227,21 +30227,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "ReferenceKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -30310,21 +30310,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "LoadKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -30385,21 +30385,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "LoadKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -30459,21 +30459,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "LoadKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -30539,21 +30539,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "LoadKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -30621,21 +30621,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "LoadKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -30704,21 +30704,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "ExclamationToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -30779,21 +30779,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "ExclamationToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -30853,21 +30853,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "ExclamationToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -30933,21 +30933,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "ExclamationToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -31015,21 +31015,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "ExclamationToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -31098,21 +31098,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "ElseKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -31173,21 +31173,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "ElseKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -31247,21 +31247,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "ElseKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -31327,21 +31327,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "ElseKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -31409,21 +31409,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "ElseKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -31492,21 +31492,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "IfKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -31567,21 +31567,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "IfKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -31641,21 +31641,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "IfKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -31721,21 +31721,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "IfKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -31803,21 +31803,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "IfKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -31886,21 +31886,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "ElifKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -31961,21 +31961,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "ElifKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -32035,21 +32035,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "ElifKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -32115,21 +32115,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "ElifKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -32197,21 +32197,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "HashToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "ElifKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndOfDirectiveToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -32559,7 +32559,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "DotToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -32620,7 +32620,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "DotToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -32680,7 +32680,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "DotToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -32746,7 +32746,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "DotToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -32814,7 +32814,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "DotToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -33162,7 +33162,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ThisKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -33223,7 +33223,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ThisKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -33283,7 +33283,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "ThisKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -33349,7 +33349,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ThisKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -33417,7 +33417,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ThisKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -33486,7 +33486,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OperatorKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -33547,7 +33547,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OperatorKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -33607,7 +33607,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "OperatorKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -33673,7 +33673,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OperatorKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -33741,7 +33741,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OperatorKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -33810,14 +33810,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ImplicitOrExplicitKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OperatorKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -33878,14 +33878,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ImplicitOrExplicitKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OperatorKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -33945,14 +33945,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "ImplicitOrExplicitKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "OperatorKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -34018,14 +34018,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ImplicitOrExplicitKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OperatorKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -34093,14 +34093,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ImplicitOrExplicitKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OperatorKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -34169,14 +34169,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -34237,14 +34237,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -34304,14 +34304,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -34377,14 +34377,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -34452,14 +34452,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -34528,14 +34528,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenBracketToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseBracketToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -34596,14 +34596,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenBracketToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseBracketToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -34663,14 +34663,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "OpenBracketToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "CloseBracketToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -34736,14 +34736,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenBracketToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseBracketToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -34811,14 +34811,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenBracketToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseBracketToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -35166,14 +35166,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "LessThanToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SlashGreaterThanToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -35234,14 +35234,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "LessThanToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SlashGreaterThanToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -35301,14 +35301,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "LessThanToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "SlashGreaterThanToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -35374,14 +35374,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "LessThanToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SlashGreaterThanToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -35449,14 +35449,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "LessThanToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SlashGreaterThanToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -35804,14 +35804,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "StartCDataToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndCDataToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -35872,14 +35872,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "StartCDataToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndCDataToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -35939,14 +35939,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "StartCDataToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "EndCDataToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -36012,14 +36012,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "StartCDataToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndCDataToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -36087,14 +36087,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "StartCDataToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndCDataToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -36163,14 +36163,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "StartProcessingInstructionToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndProcessingInstructionToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -36231,14 +36231,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "StartProcessingInstructionToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndProcessingInstructionToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -36298,14 +36298,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "StartProcessingInstructionToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "EndProcessingInstructionToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -36371,14 +36371,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "StartProcessingInstructionToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndProcessingInstructionToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -36446,14 +36446,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "StartProcessingInstructionToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndProcessingInstructionToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -36522,14 +36522,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "LessThanExclamationMinusMinusToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "MinusMinusGreaterThanToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -36590,14 +36590,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "LessThanExclamationMinusMinusToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "MinusMinusGreaterThanToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -36657,14 +36657,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "LessThanExclamationMinusMinusToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "MinusMinusGreaterThanToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -36730,14 +36730,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "LessThanExclamationMinusMinusToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "MinusMinusGreaterThanToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -36805,14 +36805,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "LessThanExclamationMinusMinusToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "MinusMinusGreaterThanToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -36881,21 +36881,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "EqualsToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "StartQuoteToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndQuoteToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -36956,21 +36956,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "EqualsToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "StartQuoteToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndQuoteToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -37030,21 +37030,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "EqualsToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "StartQuoteToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "EndQuoteToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -37110,21 +37110,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "EqualsToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "StartQuoteToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndQuoteToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -37192,21 +37192,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "EqualsToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "StartQuoteToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndQuoteToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -37275,28 +37275,28 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "Name")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EqualsToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "StartQuoteToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndQuoteToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -37357,28 +37357,28 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "Name")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EqualsToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "StartQuoteToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndQuoteToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -37438,28 +37438,28 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "Name")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "EqualsToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "StartQuoteToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "EndQuoteToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -37525,28 +37525,28 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "Name")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EqualsToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "StartQuoteToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndQuoteToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -37614,28 +37614,28 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "Name")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EqualsToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "StartQuoteToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndQuoteToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -37704,28 +37704,28 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "Name")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EqualsToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "StartQuoteToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndQuoteToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -37786,28 +37786,28 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "Name")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EqualsToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "StartQuoteToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndQuoteToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -37867,28 +37867,28 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "Name")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "EqualsToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "StartQuoteToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "EndQuoteToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -37954,28 +37954,28 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "Name")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EqualsToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "StartQuoteToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndQuoteToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -38043,28 +38043,28 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "Name")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EqualsToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "StartQuoteToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EndQuoteToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -38133,14 +38133,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -38201,14 +38201,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -38268,14 +38268,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -38341,14 +38341,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -38416,14 +38416,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -38492,14 +38492,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -38560,14 +38560,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -38627,14 +38627,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -38700,14 +38700,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -38775,14 +38775,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -38851,7 +38851,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OperatorToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -38912,7 +38912,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OperatorToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -38972,7 +38972,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "OperatorToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -39038,7 +39038,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OperatorToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -39106,7 +39106,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OperatorToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -39175,7 +39175,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "AwaitKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -39236,7 +39236,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "AwaitKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -39296,7 +39296,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "AwaitKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -39362,7 +39362,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "AwaitKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -39430,7 +39430,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "AwaitKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -39499,7 +39499,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OperatorToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -39560,7 +39560,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OperatorToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -39620,7 +39620,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "OperatorToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -39686,7 +39686,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OperatorToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -39754,7 +39754,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OperatorToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -39823,7 +39823,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OperatorToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -39884,7 +39884,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OperatorToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -39944,7 +39944,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "OperatorToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -40010,7 +40010,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OperatorToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -40078,7 +40078,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OperatorToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -40147,7 +40147,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OperatorToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -40208,7 +40208,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OperatorToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -40268,7 +40268,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "OperatorToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -40334,7 +40334,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OperatorToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -40402,7 +40402,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OperatorToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -40471,7 +40471,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OperatorToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -40532,7 +40532,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OperatorToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -40592,7 +40592,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "OperatorToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -40658,7 +40658,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OperatorToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -40726,7 +40726,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OperatorToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -41353,7 +41353,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OperatorToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -41414,7 +41414,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OperatorToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -41474,7 +41474,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "OperatorToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -41540,7 +41540,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OperatorToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -41608,7 +41608,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OperatorToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -41677,7 +41677,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OperatorToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -41738,7 +41738,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OperatorToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -41798,7 +41798,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "OperatorToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -41864,7 +41864,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OperatorToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -41932,7 +41932,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OperatorToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -42001,14 +42001,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "QuestionToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "ColonToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -42069,14 +42069,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "QuestionToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "ColonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -42136,14 +42136,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "QuestionToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "ColonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -42209,14 +42209,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "QuestionToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "ColonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -42284,14 +42284,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "QuestionToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "ColonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -42639,21 +42639,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "Keyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -42714,21 +42714,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "Keyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -42788,21 +42788,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "Keyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -42868,21 +42868,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "Keyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -42950,21 +42950,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "Keyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -43033,21 +43033,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "Keyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -43108,21 +43108,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "Keyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -43182,21 +43182,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "Keyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -43262,21 +43262,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "Keyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -43344,21 +43344,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "Keyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -43427,28 +43427,28 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "Keyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "Comma")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -43509,28 +43509,28 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "Keyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "Comma")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -43590,28 +43590,28 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "Keyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "Comma")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -43677,28 +43677,28 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "Keyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "Comma")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -43766,28 +43766,28 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "Keyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "Comma")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -43856,21 +43856,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "Keyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -43931,21 +43931,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "Keyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -44005,21 +44005,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "Keyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -44085,21 +44085,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "Keyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -44167,21 +44167,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "Keyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -44250,21 +44250,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "Keyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -44325,21 +44325,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "Keyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -44399,21 +44399,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "Keyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -44479,21 +44479,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "Keyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -44561,21 +44561,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "Keyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -44644,21 +44644,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "Keyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -44719,21 +44719,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "Keyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -44793,21 +44793,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "Keyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -44873,21 +44873,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "Keyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -44955,21 +44955,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "Keyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -45038,21 +45038,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "Keyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -45113,21 +45113,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "Keyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -45187,21 +45187,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "Keyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -45267,21 +45267,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "Keyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -45349,21 +45349,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "Keyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -46269,14 +46269,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -46337,14 +46337,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -46404,14 +46404,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -46477,14 +46477,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -46552,14 +46552,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -46628,7 +46628,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "RefKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -46689,7 +46689,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "RefKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -46749,7 +46749,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "RefKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -46815,7 +46815,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "RefKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -46883,7 +46883,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "RefKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -46952,14 +46952,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenBraceToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseBraceToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -47020,14 +47020,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -47087,14 +47087,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "OpenBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "CloseBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -47160,14 +47160,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -47235,14 +47235,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -47311,7 +47311,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "NewKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -47372,7 +47372,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "NewKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -47432,7 +47432,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "NewKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -47498,7 +47498,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "NewKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -47566,7 +47566,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "NewKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -47635,21 +47635,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "NewKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenBraceToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseBraceToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -47710,21 +47710,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "NewKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -47784,21 +47784,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "NewKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "OpenBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "CloseBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -47864,21 +47864,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "NewKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -47946,21 +47946,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "NewKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -48029,7 +48029,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "NewKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -48090,7 +48090,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "NewKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -48150,7 +48150,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "NewKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -48216,7 +48216,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "NewKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -48284,7 +48284,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "NewKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -48353,21 +48353,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "NewKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenBracketToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseBracketToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -48428,21 +48428,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "NewKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenBracketToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseBracketToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -48502,21 +48502,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "NewKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "OpenBracketToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "CloseBracketToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -48582,21 +48582,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "NewKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenBracketToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseBracketToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -48664,21 +48664,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "NewKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenBracketToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseBracketToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -48747,7 +48747,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "StackAllocKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -48808,7 +48808,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "StackAllocKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -48868,7 +48868,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "StackAllocKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -48934,7 +48934,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "StackAllocKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -49002,7 +49002,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "StackAllocKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -49350,7 +49350,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OmittedArraySizeExpressionToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -49411,7 +49411,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OmittedArraySizeExpressionToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -49471,7 +49471,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "OmittedArraySizeExpressionToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -49537,7 +49537,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OmittedArraySizeExpressionToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -49605,7 +49605,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OmittedArraySizeExpressionToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -49674,14 +49674,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "StringStartToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "StringEndToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -49742,14 +49742,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "StringStartToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "StringEndToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -49809,14 +49809,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "StringStartToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "StringEndToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -49882,14 +49882,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "StringStartToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "StringEndToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -49957,14 +49957,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "StringStartToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "StringEndToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -50033,7 +50033,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "IsKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -50094,7 +50094,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "IsKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -50154,7 +50154,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "IsKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -50220,7 +50220,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "IsKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -50288,7 +50288,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "IsKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -50357,7 +50357,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ThrowKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -50418,7 +50418,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ThrowKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -50478,7 +50478,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "ThrowKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -50544,7 +50544,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ThrowKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -50612,7 +50612,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ThrowKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -51239,7 +51239,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "AsteriskToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -51300,7 +51300,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "AsteriskToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -51360,7 +51360,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "AsteriskToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -51426,7 +51426,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "AsteriskToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -51494,7 +51494,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "AsteriskToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -51563,7 +51563,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "QuestionToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -51624,7 +51624,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "QuestionToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -51684,7 +51684,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "QuestionToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -51750,7 +51750,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "QuestionToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -51818,7 +51818,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "QuestionToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -51887,14 +51887,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -51955,14 +51955,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -52022,14 +52022,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -52095,14 +52095,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -52170,14 +52170,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -52246,7 +52246,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OmittedTypeArgumentToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -52307,7 +52307,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OmittedTypeArgumentToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -52367,7 +52367,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "OmittedTypeArgumentToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -52433,7 +52433,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OmittedTypeArgumentToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -52501,7 +52501,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OmittedTypeArgumentToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -52570,14 +52570,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "RefKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "ReadOnlyKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -52638,14 +52638,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "RefKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "ReadOnlyKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -52705,14 +52705,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "RefKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "ReadOnlyKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -52778,14 +52778,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "RefKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "ReadOnlyKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -52853,14 +52853,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "RefKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "ReadOnlyKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -52929,7 +52929,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "DotToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -52990,7 +52990,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "DotToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -53050,7 +53050,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "DotToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -53116,7 +53116,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "DotToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -53184,7 +53184,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "DotToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -53253,7 +53253,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ColonColonToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -53314,7 +53314,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ColonColonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -53374,7 +53374,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "ColonColonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -53440,7 +53440,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ColonColonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -53508,7 +53508,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ColonColonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -54135,7 +54135,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "Token")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -54196,7 +54196,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "Token")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -54256,7 +54256,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "Token")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -54322,7 +54322,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "Token")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -54390,7 +54390,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "Token")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -54459,7 +54459,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "Token")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -54520,7 +54520,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "Token")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -54580,7 +54580,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "Token")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -54646,7 +54646,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "Token")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -54714,7 +54714,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "Token")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -54783,14 +54783,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "AsyncKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "DelegateKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -54851,14 +54851,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "AsyncKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "DelegateKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -54918,14 +54918,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "AsyncKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "DelegateKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -54991,14 +54991,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "AsyncKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "DelegateKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -55066,14 +55066,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "AsyncKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "DelegateKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -55142,14 +55142,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "AsyncKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "ArrowToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -55210,14 +55210,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "AsyncKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "ArrowToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -55277,14 +55277,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "AsyncKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "ArrowToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -55350,14 +55350,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "AsyncKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "ArrowToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -55425,14 +55425,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "AsyncKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "ArrowToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -55501,14 +55501,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "AsyncKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "ArrowToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -55569,14 +55569,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "AsyncKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "ArrowToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -55636,14 +55636,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "AsyncKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "ArrowToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -55709,14 +55709,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "AsyncKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "ArrowToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -55784,14 +55784,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "AsyncKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "ArrowToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -55860,14 +55860,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -55928,14 +55928,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -55995,14 +55995,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -56068,14 +56068,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -56143,14 +56143,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -56219,14 +56219,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenBracketToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseBracketToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -56287,14 +56287,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenBracketToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseBracketToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -56354,14 +56354,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "OpenBracketToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "CloseBracketToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -56427,14 +56427,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenBracketToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseBracketToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -56502,14 +56502,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenBracketToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseBracketToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -56578,14 +56578,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "FromKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "InKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -56646,14 +56646,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "FromKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "InKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -56713,14 +56713,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "FromKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "InKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -56786,14 +56786,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "FromKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "InKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -56861,14 +56861,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "FromKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "InKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -56937,14 +56937,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "LetKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EqualsToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -57005,14 +57005,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "LetKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EqualsToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -57072,14 +57072,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "LetKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "EqualsToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -57145,14 +57145,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "LetKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EqualsToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -57220,14 +57220,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "LetKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EqualsToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -57296,28 +57296,28 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "JoinKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "InKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OnKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EqualsKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -57378,28 +57378,28 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "JoinKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "InKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OnKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EqualsKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -57459,28 +57459,28 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "JoinKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "InKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "OnKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "EqualsKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -57546,28 +57546,28 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "JoinKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "InKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OnKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EqualsKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -57635,28 +57635,28 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "JoinKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "InKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OnKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "EqualsKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -57725,7 +57725,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "WhereKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -57786,7 +57786,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "WhereKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -57846,7 +57846,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "WhereKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -57912,7 +57912,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "WhereKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -57980,7 +57980,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "WhereKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -58049,7 +58049,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OrderByKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -58110,7 +58110,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OrderByKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -58170,7 +58170,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "OrderByKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -58236,7 +58236,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OrderByKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -58304,7 +58304,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OrderByKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -58373,7 +58373,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "SelectKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -58434,7 +58434,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "SelectKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -58494,7 +58494,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "SelectKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -58560,7 +58560,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "SelectKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -58628,7 +58628,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "SelectKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -58697,14 +58697,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "GroupKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "ByKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -58765,14 +58765,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "GroupKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "ByKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -58832,14 +58832,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "GroupKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "ByKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -58905,14 +58905,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "GroupKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "ByKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -58980,14 +58980,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "GroupKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "ByKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -59893,14 +59893,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenBraceToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseBraceToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -59961,14 +59961,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -60028,14 +60028,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "OpenBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "CloseBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -60101,14 +60101,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -60176,14 +60176,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -60252,14 +60252,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenBraceToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseBraceToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -60320,14 +60320,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -60387,14 +60387,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "OpenBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "CloseBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -60460,14 +60460,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -60535,14 +60535,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -60611,7 +60611,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -60672,7 +60672,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -60732,7 +60732,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -60798,7 +60798,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -60866,7 +60866,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -60935,7 +60935,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -60996,7 +60996,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -61056,7 +61056,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -61122,7 +61122,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -61190,7 +61190,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -61259,7 +61259,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -61320,7 +61320,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -61380,7 +61380,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -61446,7 +61446,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -61514,7 +61514,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -61583,7 +61583,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -61644,7 +61644,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -61704,7 +61704,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -61770,7 +61770,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -61838,7 +61838,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -61907,7 +61907,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ColonToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -61968,7 +61968,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ColonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -62028,7 +62028,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "ColonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -62094,7 +62094,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ColonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -62162,7 +62162,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ColonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -62231,21 +62231,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "GotoKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CaseOrDefaultKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -62306,21 +62306,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "GotoKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CaseOrDefaultKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -62380,21 +62380,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "GotoKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "CaseOrDefaultKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -62460,21 +62460,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "GotoKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CaseOrDefaultKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -62542,21 +62542,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "GotoKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CaseOrDefaultKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -62625,14 +62625,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "BreakKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -62693,14 +62693,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "BreakKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -62760,14 +62760,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "BreakKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -62833,14 +62833,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "BreakKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -62908,14 +62908,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "BreakKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -62984,14 +62984,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ContinueKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -63052,14 +63052,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ContinueKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -63119,14 +63119,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "ContinueKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -63192,14 +63192,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ContinueKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -63267,14 +63267,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ContinueKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -63343,14 +63343,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ReturnKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -63411,14 +63411,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ReturnKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -63478,14 +63478,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "ReturnKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -63551,14 +63551,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ReturnKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -63626,14 +63626,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ReturnKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -63702,14 +63702,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ThrowKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -63770,14 +63770,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ThrowKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -63837,14 +63837,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "ThrowKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -63910,14 +63910,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ThrowKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -63985,14 +63985,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ThrowKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -64061,21 +64061,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "YieldKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "ReturnOrBreakKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -64136,21 +64136,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "YieldKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "ReturnOrBreakKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -64210,21 +64210,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "YieldKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "ReturnOrBreakKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -64290,21 +64290,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "YieldKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "ReturnOrBreakKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -64372,21 +64372,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "YieldKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "ReturnOrBreakKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -64455,21 +64455,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "WhileKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -64530,21 +64530,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "WhileKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -64604,21 +64604,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "WhileKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -64684,21 +64684,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "WhileKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -64766,21 +64766,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "WhileKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -64849,35 +64849,35 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "DoKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "WhileKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -64938,35 +64938,35 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "DoKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "WhileKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -65026,35 +65026,35 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "DoKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "WhileKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -65120,35 +65120,35 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "DoKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "WhileKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -65216,35 +65216,35 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "DoKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "WhileKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -65313,35 +65313,35 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ForKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "FirstSemicolonToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SecondSemicolonToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -65402,35 +65402,35 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ForKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "FirstSemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SecondSemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -65490,35 +65490,35 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "ForKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "FirstSemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "SecondSemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -65584,35 +65584,35 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ForKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "FirstSemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SecondSemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -65680,35 +65680,35 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ForKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "FirstSemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "SecondSemicolonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -65777,21 +65777,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "UsingKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -65852,21 +65852,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "UsingKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -65926,21 +65926,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "UsingKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -66006,21 +66006,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "UsingKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -66088,21 +66088,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "UsingKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -66171,21 +66171,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "FixedKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -66246,21 +66246,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "FixedKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -66320,21 +66320,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "FixedKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -66400,21 +66400,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "FixedKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -66482,21 +66482,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "FixedKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -66565,7 +66565,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "Keyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -66626,7 +66626,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "Keyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -66686,7 +66686,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "Keyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -66752,7 +66752,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "Keyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -66820,7 +66820,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "Keyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -66889,7 +66889,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "UnsafeKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -66950,7 +66950,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "UnsafeKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -67010,7 +67010,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "UnsafeKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -67076,7 +67076,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "UnsafeKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -67144,7 +67144,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "UnsafeKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -67213,21 +67213,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "LockKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -67288,21 +67288,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "LockKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -67362,21 +67362,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "LockKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -67442,21 +67442,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "LockKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -67524,21 +67524,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "LockKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -67607,21 +67607,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "IfKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -67682,21 +67682,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "IfKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -67756,21 +67756,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "IfKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -67836,21 +67836,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "IfKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -67918,21 +67918,21 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "IfKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -68001,35 +68001,35 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "SwitchKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenBraceToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseBraceToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -68090,35 +68090,35 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "SwitchKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -68178,35 +68178,35 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "SwitchKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "OpenBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "CloseBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -68272,35 +68272,35 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "SwitchKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -68368,35 +68368,35 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "SwitchKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseBraceToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -68465,7 +68465,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "TryKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -68526,7 +68526,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "TryKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -68586,7 +68586,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "TryKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -68652,7 +68652,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "TryKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -68720,7 +68720,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "TryKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -68789,28 +68789,28 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ForEachKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "InKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -68871,28 +68871,28 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ForEachKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "InKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -68952,28 +68952,28 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "ForEachKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "InKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -69039,28 +69039,28 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ForEachKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "InKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -69128,28 +69128,28 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ForEachKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "InKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -69218,28 +69218,28 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ForEachKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "InKeyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -69300,28 +69300,28 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ForEachKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "InKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -69381,28 +69381,28 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "ForEachKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "InKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -69468,28 +69468,28 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ForEachKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "InKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -69557,28 +69557,28 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "ForEachKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "InKeyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -69926,7 +69926,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "UnderscoreToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -69987,7 +69987,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "UnderscoreToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -70047,7 +70047,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "UnderscoreToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -70113,7 +70113,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "UnderscoreToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -70181,7 +70181,7 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "UnderscoreToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -70250,14 +70250,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -70318,14 +70318,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -70385,14 +70385,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -70458,14 +70458,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -70533,14 +70533,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "OpenParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "CloseParenToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -70609,14 +70609,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "Keyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "ColonToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -70677,14 +70677,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "Keyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "ColonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -70744,14 +70744,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "Keyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "ColonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -70817,14 +70817,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "Keyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "ColonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -70892,14 +70892,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "Keyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "ColonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -70968,14 +70968,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "Keyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "ColonToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -71036,14 +71036,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "Keyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "ColonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -71103,14 +71103,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "Keyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "ColonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -71176,14 +71176,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "Keyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "ColonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -71251,14 +71251,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "Keyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "ColonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -71327,14 +71327,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "Keyword")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "ColonToken")
     		{
-    			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -71395,14 +71395,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "Keyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "ColonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -71462,14 +71462,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(oldElement.Attribute("part")?.Value == "Keyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(oldElement.Attribute("part")?.Value == "ColonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -71535,14 +71535,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "Keyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "ColonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
@@ -71610,14 +71610,14 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
     		XElement firstAction = null, secondAction = null;
     		if(property.Attribute("part")?.Value == "Keyword")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}
     		}
     		if(property.Attribute("part")?.Value == "ColonToken")
     		{
-    			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+    			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
     			{
     				yield return imprecision;
     			}

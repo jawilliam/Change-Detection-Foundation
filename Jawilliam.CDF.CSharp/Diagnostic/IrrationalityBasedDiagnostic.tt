@@ -567,7 +567,7 @@ foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
 			{
 #>		if(property.Attribute("part")?.Value == "<#= p #>")
 		{
-			foreach(var imprecision in this.InsertFirstIffInsertSecond(property, property.Parent, ref firstAction, ref secondAction))
+			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Insert", "Insert", ref firstAction, ref secondAction))
 			{
 				yield return imprecision;
 			}
@@ -645,7 +645,7 @@ foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
 			{
 #>		if(property.Attribute("part")?.Value == "<#= p #>")
 		{
-			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
 			{
 				yield return imprecision;
 			}
@@ -722,7 +722,7 @@ foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
 			{
 #>		if(oldElement.Attribute("part")?.Value == "<#= p #>")
 		{
-			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(oldElement, oldElement.Parent, ref firstAction, ref secondAction))
+			foreach(var imprecision in this.FirstActionIffSecondAction(oldElement, oldElement.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
 			{
 				yield return imprecision;
 			}
@@ -805,7 +805,7 @@ foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
 			{
 #>		if(property.Attribute("part")?.Value == "<#= p #>")
 		{
-			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
 			{
 				yield return imprecision;
 			}
@@ -890,7 +890,7 @@ foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
 			{
 #>		if(property.Attribute("part")?.Value == "<#= p #>")
 		{
-			foreach(var imprecision in this.DeleteFirstIffDeleteSecond(property, property.Parent, ref firstAction, ref secondAction))
+			foreach(var imprecision in this.FirstActionIffSecondAction(property, property.Parent, "Delete", "Delete", ref firstAction, ref secondAction))
 			{
 				yield return imprecision;
 			}

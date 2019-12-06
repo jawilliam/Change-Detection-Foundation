@@ -111,6 +111,87 @@ namespace Jawilliam.CDF.CSharp.Diagnostic
             }
         }
 
+        #region FirstActionIffSecondAction
+
+        /// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="FirstActionIffSecondAction(XElement, XElement, string, string, ref XElement, ref XElement)"/>.
+        /// </summary>
+        /// <param name="first">first element.</param>
+        /// <param name="second">second element.</param>
+        /// <param name="firstAction">first action name.</param>
+        /// <param name="secondAction">second action name.</param>
+        /// <param name="firstActionInfo">input or output for the action associated to first element.</param>
+        /// <param name="secondActionInfo">input or output for the action associated to second element.</param>
+        /// <param name="result">Mechanism to modify the result of <see cref="FirstActionIffSecondAction(XElement, XElement, string, string, ref XElement, ref XElement)"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="FirstActionIffSecondActionCore(XElement, XElement, string, string, ref XElement, ref XElement)"/> is not executed and <see cref="FirstActionIffSecondAction(XElement, XElement, string, string, ref XElement, ref XElement)"/> returns the current value of <paramref name="result"/>.</param>
+        partial void FirstActionIffSecondActionBefore(XElement first, XElement second, string firstAction, string secondAction, ref XElement firstActionInfo, ref XElement secondActionInfo, ref IEnumerable<XElement> result, ref bool ignoreCore);
+
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="FirstActionIffSecondActionCore(XElement, XElement, string, string, ref XElement, ref XElement)"/>.
+        /// </summary>
+        /// <param name="first">first element.</param>
+        /// <param name="second">second element.</param>
+        /// <param name="firstAction">first action name.</param>
+        /// <param name="secondAction">second action name.</param>
+        /// <param name="firstActionInfo">input or output for the action associated to first element.</param>
+        /// <param name="secondActionInfo">input or output for the action associated to second element.</param>
+        /// <param name="result">Mechanism to modify the result of <see cref="FirstActionIffSecondActionCore(XElement, XElement, string, string, ref XElement, ref XElement)"/>.</param>
+        partial void FirstActionIffSecondActionAfter(XElement first, XElement second, string firstAction, string secondAction, ref XElement firstActionInfo, ref XElement secondActionInfo, ref IEnumerable<XElement> result);
+
+        /// <summary>
+        /// Tests that first element is deleted if and only if second element was deleted.
+        /// </summary>
+        /// <param name="first">first element.</param>
+        /// <param name="second">second element.</param>
+        /// <param name="firstAction">first action name.</param>
+        /// <param name="secondAction">second action name.</param>
+        /// <param name="firstActionInfo">input or output for the action associated to first element.</param>
+        /// <param name="secondActionInfo">input or output for the action associated to second element.</param>
+        /// <returns>the imprecisions supposedly detected.</returns>
+        /// <remarks>This is the default implementation for <see cref="FirstActionIffSecondAction(XElement, XElement, string, string, ref XElement, ref XElement)"/>.</remarks>
+        public virtual IEnumerable<XElement> FirstActionIffSecondActionCore(XElement first, XElement second, string firstAction, string secondAction, ref XElement firstActionInfo, ref XElement secondActionInfo)
+        {
+            if (first == null) throw new ArgumentNullException(nameof(first));
+            if (second == null) throw new ArgumentNullException(nameof(second));
+
+            firstActionInfo = firstActionInfo ?? (this.ODeletes.ContainsKey(first.Attribute("eId").Value) ? this.ODeletes[first.Attribute("eId").Value] : null);
+            secondActionInfo = secondActionInfo ?? (this.ODeletes.ContainsKey(second.Attribute("eId").Value) ? this.ODeletes[second.Attribute("eId").Value] : null);
+
+            if ((firstActionInfo?.Name.LocalName == firstAction && secondActionInfo?.Name.LocalName != secondAction) ||
+                (secondActionInfo?.Name.LocalName == secondAction && firstActionInfo?.Name.LocalName != firstAction))
+                return new[] { new XElement("Irrationality",
+                                new XAttribute("rule", $"First{firstAction}IffSecond{secondAction}"),
+                                firstActionInfo ?? new XElement("NONE"),
+                                secondActionInfo ?? new XElement("NONE"))};
+
+            return new XElement[0];
+        }
+
+        /// <summary>
+        /// Tests that first element is deleted if and only if second element was deleted.
+        /// </summary>
+        /// <param name="first">first element.</param>
+        /// <param name="second">second element.</param>
+        /// <param name="firstAction">first action name.</param>
+        /// <param name="secondAction">second action name.</param>
+        /// <param name="firstActionInfo">input or output for the action associated to first element.</param>
+        /// <param name="secondActionInfo">input or output for the action associated to second element.</param>
+        /// <returns>the imprecisions supposedly detected.</returns>
+        public virtual IEnumerable<XElement> FirstActionIffSecondAction(XElement first, XElement second, string firstAction, string secondAction, ref XElement firstActionInfo, ref XElement secondActionInfo)
+        {
+            IEnumerable<XElement> result = null;
+            var ignoreCore = false;
+            FirstActionIffSecondActionBefore(first, second, firstAction, secondAction, ref firstActionInfo, ref secondActionInfo, ref result, ref ignoreCore);
+            if (ignoreCore)
+                return result;
+
+            result = this.FirstActionIffSecondActionCore(first, second, firstAction, secondAction, ref firstActionInfo, ref secondActionInfo);
+            FirstActionIffSecondActionAfter(first, second, firstAction, secondAction, ref firstActionInfo, ref secondActionInfo, ref result);
+            return result;
+        }
+
+        #endregion
+
         #region DeleteFirstIffDeleteSecond
 
         /// <summary>

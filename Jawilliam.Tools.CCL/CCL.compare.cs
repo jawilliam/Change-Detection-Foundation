@@ -784,6 +784,56 @@ namespace Jawilliam.Tools.CCL
                         moves: moves);
             }
 
+
+
+            private (int matches, int actions, int inserts, int deletes, int updates, int moves) _RelativeStatsFor2(GitRepository dbRepository, Delta delta,
+                (Dictionary<string, ElementTree> original, Dictionary<string, ElementTree> modified) leftRevisionPair,
+                (Dictionary<string, ElementTree> original, Dictionary<string, ElementTree> modified) rightRevisionPair, bool limited, ref bool @continue)
+            {
+                var detectionResult = (DetectionResult)delta.DetectionResult;
+                if (detectionResult.Actions.Count == 0)
+                {
+                    @continue = true;
+                    return (matches: 0, actions: 0, inserts: 0, deletes: 0, updates: 0, moves: 0);
+                }
+
+                if (limited)
+                {
+                    return (matches: -1, actions: -1, inserts: -1, deletes: -1, updates: -1, moves: -1);
+                }
+
+                if (delta.Approach != ChangeDetectionApproaches.NativeGumTree && delta.Approach != ChangeDetectionApproaches.InverseOfNativeGumTree)
+                {
+                    detectionResult.FromGlobalToIdDefinitions(leftRevisionPair.original.Values.Single(o => o.Parent == null),
+                                                              leftRevisionPair.modified.Values.Single(o => o.Parent == null));
+                }
+
+                var matches = detectionResult.Matches.Where(m =>
+                    rightRevisionPair.original.ContainsKey(m.Original.Id) &&
+                    rightRevisionPair.modified.ContainsKey(m.Modified.Id)).ToArray();
+                var matchOriginals = matches.ToDictionary(m => m.Original.Id);
+
+                var inserts = detectionResult.Actions.OfType<InsertOperationDescriptor>().Count(a =>
+                    rightRevisionPair.modified.ContainsKey(a.Element.Id));
+
+                var deletes = detectionResult.Actions.OfType<DeleteOperationDescriptor>().Count(a =>
+                    rightRevisionPair.original.ContainsKey(a.Element.Id));
+
+                var updates = detectionResult.Actions.OfType<UpdateOperationDescriptor>().Count(m =>
+                    matchOriginals.ContainsKey(m.Element.Id));
+
+                var moves = detectionResult.Actions.OfType<MoveOperationDescriptor>().Count(m =>
+                    matchOriginals.ContainsKey(m.Element.Id)) +
+                            detectionResult.Actions.OfType<AlignOperationDescriptor>().Count(m =>
+                    matchOriginals.ContainsKey(m.Element.Id));
+
+                return (matches: matches.Count(), actions: inserts + deletes + updates + moves,
+                        inserts: inserts,
+                        deletes: deletes,
+                        updates: updates,
+                        moves: moves);
+            }
+
             private (Dictionary<string, ElementTree> original, Dictionary<string, ElementTree> modified) _GetElementTrees(GitRepository dbRepository, Delta delta, FileFormatKind fileFormatKind, string direction, ref bool @continue)
             {
                 var originalVersion = dbRepository.FileFormats.AsNoTracking().SingleOrDefault(ff => ff.Kind == fileFormatKind && ff.FileVersion.Id == delta.RevisionPair.FromFileVersion.Id);
