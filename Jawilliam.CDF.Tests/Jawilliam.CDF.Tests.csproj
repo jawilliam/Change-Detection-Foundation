@@ -196,9 +196,6 @@
     <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderAliasQualifiedNameSyntaxTests.cs">
       <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
     </Compile>
-    <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderAnonymousFunctionExpressionSyntaxTests.cs">
-      <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
-    </Compile>
     <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderAnonymousMethodExpressionSyntaxTests.cs">
       <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
     </Compile>
@@ -250,34 +247,10 @@
     <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderBadDirectiveTriviaSyntaxTests.cs">
       <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
     </Compile>
-    <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderBaseArgumentListSyntaxTests.cs">
-      <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderBaseCrefParameterListSyntaxTests.cs">
-      <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
-    </Compile>
     <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderBaseExpressionSyntaxTests.cs">
       <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
     </Compile>
-    <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderBaseFieldDeclarationSyntaxTests.cs">
-      <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
-    </Compile>
     <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderBaseListSyntaxTests.cs">
-      <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderBaseMethodDeclarationSyntaxTests.cs">
-      <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderBaseParameterListSyntaxTests.cs">
-      <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderBasePropertyDeclarationSyntaxTests.cs">
-      <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderBaseTypeDeclarationSyntaxTests.cs">
-      <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderBaseTypeSyntaxTests.cs">
       <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
     </Compile>
     <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderBinaryExpressionSyntaxTests.cs">
@@ -290,9 +263,6 @@
       <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
     </Compile>
     <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderBracketedParameterListSyntaxTests.cs">
-      <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderBranchingDirectiveTriviaSyntaxTests.cs">
       <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
     </Compile>
     <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderBreakStatementSyntaxTests.cs">
@@ -328,16 +298,10 @@
     <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderClassOrStructConstraintSyntaxTests.cs">
       <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
     </Compile>
-    <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderCommonForEachStatementSyntaxTests.cs">
-      <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
-    </Compile>
     <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderCompilationUnitSyntaxTests.cs">
       <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
     </Compile>
     <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderConditionalAccessExpressionSyntaxTests.cs">
-      <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderConditionalDirectiveTriviaSyntaxTests.cs">
       <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
     </Compile>
     <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderConditionalExpressionSyntaxTests.cs">
@@ -373,9 +337,6 @@
     <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderCrefParameterSyntaxTests.cs">
       <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
     </Compile>
-    <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderCrefSyntaxTests.cs">
-      <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
-    </Compile>
     <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderDeclarationExpressionSyntaxTests.cs">
       <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
     </Compile>
@@ -395,9 +356,6 @@
       <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
     </Compile>
     <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderDestructorDeclarationSyntaxTests.cs">
-      <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderDirectiveTriviaSyntaxTests.cs">
       <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
     </Compile>
     <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderDiscardDesignationSyntaxTests.cs">
@@ -455,9 +413,6 @@
       <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
     </Compile>
     <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderExpressionStatementSyntaxTests.cs">
-      <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderExpressionSyntaxTests.cs">
       <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
     </Compile>
     <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderExternAliasDirectiveSyntaxTests.cs">
@@ -523,13 +478,7 @@
     <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderInitializerExpressionSyntaxTests.cs">
       <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
     </Compile>
-    <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderInstanceExpressionSyntaxTests.cs">
-      <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
-    </Compile>
     <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderInterfaceDeclarationSyntaxTests.cs">
-      <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderInterpolatedStringContentSyntaxTests.cs">
       <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
     </Compile>
     <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderInterpolatedStringExpressionSyntaxTests.cs">
@@ -562,9 +511,6 @@
     <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderLabeledStatementSyntaxTests.cs">
       <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
     </Compile>
-    <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderLambdaExpressionSyntaxTests.cs">
-      <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
-    </Compile>
     <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderLetClauseSyntaxTests.cs">
       <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
     </Compile>
@@ -595,12 +541,6 @@
     <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderMemberBindingExpressionSyntaxTests.cs">
       <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
     </Compile>
-    <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderMemberCrefSyntaxTests.cs">
-      <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderMemberDeclarationSyntaxTests.cs">
-      <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
-    </Compile>
     <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderMethodDeclarationSyntaxTests.cs">
       <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
     </Compile>
@@ -614,9 +554,6 @@
       <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
     </Compile>
     <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderNamespaceDeclarationSyntaxTests.cs">
-      <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderNameSyntaxTests.cs">
       <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
     </Compile>
     <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderNullableTypeSyntaxTests.cs">
@@ -658,9 +595,6 @@
     <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderParenthesizedVariableDesignationSyntaxTests.cs">
       <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
     </Compile>
-    <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderPatternSyntaxTests.cs">
-      <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
-    </Compile>
     <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderPointerTypeSyntaxTests.cs">
       <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
     </Compile>
@@ -689,9 +623,6 @@
       <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
     </Compile>
     <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderQueryBodySyntaxTests.cs">
-      <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderQueryClauseSyntaxTests.cs">
       <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
     </Compile>
     <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderQueryContinuationSyntaxTests.cs">
@@ -724,9 +655,6 @@
     <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderSelectClauseSyntaxTests.cs">
       <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
     </Compile>
-    <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderSelectOrGroupClauseSyntaxTests.cs">
-      <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
-    </Compile>
     <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderShebangDirectiveTriviaSyntaxTests.cs">
       <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
     </Compile>
@@ -734,9 +662,6 @@
       <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
     </Compile>
     <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderSimpleLambdaExpressionSyntaxTests.cs">
-      <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderSimpleNameSyntaxTests.cs">
       <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
     </Compile>
     <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderSingleVariableDesignationSyntaxTests.cs">
@@ -751,16 +676,7 @@
     <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderStackAllocArrayCreationExpressionSyntaxTests.cs">
       <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
     </Compile>
-    <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderStatementSyntaxTests.cs">
-      <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
-    </Compile>
     <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderStructDeclarationSyntaxTests.cs">
-      <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderStructuredTriviaSyntaxTests.cs">
-      <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderSwitchLabelSyntaxTests.cs">
       <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
     </Compile>
     <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderSwitchSectionSyntaxTests.cs">
@@ -774,6 +690,7 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
+    <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderTests.Custom.cs" />
     <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderThisExpressionSyntaxTests.cs">
       <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
     </Compile>
@@ -804,25 +721,16 @@
     <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderTypeCrefSyntaxTests.cs">
       <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
     </Compile>
-    <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderTypeDeclarationSyntaxTests.cs">
-      <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
-    </Compile>
     <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderTypeOfExpressionSyntaxTests.cs">
       <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
     </Compile>
     <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderTypeParameterConstraintClauseSyntaxTests.cs">
       <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
     </Compile>
-    <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderTypeParameterConstraintSyntaxTests.cs">
-      <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
-    </Compile>
     <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderTypeParameterListSyntaxTests.cs">
       <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
     </Compile>
     <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderTypeParameterSyntaxTests.cs">
-      <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderTypeSyntaxTests.cs">
       <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
     </Compile>
     <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderUndefDirectiveTriviaSyntaxTests.cs">
@@ -843,9 +751,6 @@
     <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderVariableDeclaratorSyntaxTests.cs">
       <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
     </Compile>
-    <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderVariableDesignationSyntaxTests.cs">
-      <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
-    </Compile>
     <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderWarningDirectiveTriviaSyntaxTests.cs">
       <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
     </Compile>
@@ -856,9 +761,6 @@
       <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
     </Compile>
     <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderWhileStatementSyntaxTests.cs">
-      <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderXmlAttributeSyntaxTests.cs">
       <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
     </Compile>
     <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderXmlCDataSectionSyntaxTests.cs">
@@ -886,9 +788,6 @@
       <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
     </Compile>
     <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderXmlNameSyntaxTests.cs">
-      <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderXmlNodeSyntaxTests.cs">
       <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
     </Compile>
     <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderXmlPrefixSyntaxTests.cs">

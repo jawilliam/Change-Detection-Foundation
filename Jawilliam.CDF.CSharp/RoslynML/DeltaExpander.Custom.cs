@@ -112,13 +112,13 @@ namespace Jawilliam.CDF.CSharp.RoslynML
                         this.Matched(oFullElement, mFullElement).ToList();
                     }
                 }
-
                 foreach (var oSeedElement in seedAsts.Original.PreOrder(n => n.Elements().Where(ne => !ne.Name.LocalName.EndsWith("Token") && ne.Attribute("GtID")?.Value != null && ne is XNode)))
                 {
                     var oFullElement = this.FullAsts.Original[oSeedElement.GtID()];
                     if (this.ODeletes.ContainsKey(oFullElement.GtID()))
                         this.UnmatchedOriginal(oFullElement).ToList();
                 }
+
 
                 return this.FullDelta;
             }
@@ -212,7 +212,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
             var update = new XElement("Update",
                 new XAttribute("eId", oFullElement.GtID()),
                 new XAttribute("eLb", oFullElement.Attribute("kind")?.Value ?? oFullElement.Name.LocalName),
-                new XAttribute("eVl", mFullElement.GtID()),
+                new XAttribute("eVl", "##"),
                 new XAttribute("val", mFullElement.Value),
                 new XAttribute("expanded", true));
             this.OUpdates[oFullElement.GtID()] = update;

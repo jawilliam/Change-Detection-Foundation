@@ -13,7 +13,7 @@
     
     partial class RoslynMLDeltaExpanderTests
     {
-    	 partial void ThrowStatementServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<ThrowStatementSyntax> nodes);
+    	 partial void ThrowStatementServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(ThrowStatementSyntax, ThrowStatementSyntax)> nodeRevisionPairs);
     
     	 [TestMethod]
          public void ThrowStatementServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_OK()
@@ -22,36 +22,39 @@
     		var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
     		int id = 0; 
     
-    	    IEnumerable<ThrowStatementSyntax> nodes = null;
-    	    string expectedLabel = null;
-    	    ThrowStatementServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref nodes);
-    		foreach(var node in nodes)
+    	    IEnumerable<(ThrowStatementSyntax, ThrowStatementSyntax)> nodeRevisionPairs = null;
+    	    string oExpectedLabel = null, mExpectedLabel = null;
+    	    ThrowStatementServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref nodeRevisionPairs);
+    		foreach(((ThrowStatementSyntax Original, ThrowStatementSyntax Modified) nodeRevisionPair, Action<RoslynML, XElement> defoliate) in nodeRevisionPairs
+    			.SelectMany(n => new List<((ThrowStatementSyntax, ThrowStatementSyntax), Action<RoslynML, XElement>)>
+    				{ (n, (r, n1) => { }), (n, (r, n1) => r.Defoliate(n1)) }))
     		{
-    			expectedLabel = Enum.GetName(typeof(SyntaxKind), node.Kind());
+    			id = 0;
+    			oExpectedLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Original.Kind());
+    			mExpectedLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Modified.Kind());
     
-    			var oElement = converter.Visit(node);
+    			var oElement = converter.Visit(nodeRevisionPair.Original);
     			converter.SetGumTreefiedIDs(oElement, ref id);
     			converter.SetRoslynMLIDs(oElement, ref id);
     			converter.Prune(oElement, selector.PruneSelector); 
-    			converter.Defoliate(oElement);
+    			defoliate(converter, oElement);
     
-    			var mElement = converter.Visit(node);
+    			var mId = id;
+    
+    			var mElement = converter.Visit(nodeRevisionPair.Modified);
     			converter.SetGumTreefiedIDs(mElement, ref id);
     			converter.SetRoslynMLIDs(mElement, ref id);
     			converter.Prune(mElement, selector.PruneSelector); 
-    			converter.Defoliate(mElement);
+    			defoliate(converter, mElement);
     
-    			var oFullElement = converter.Visit(node);
+    			id = 0;
+    			var oFullElement = converter.Visit(nodeRevisionPair.Original);
     			converter.SetGumTreefiedIDs(oFullElement, ref id);
     			converter.SetRoslynMLIDs(oFullElement, ref id);
-    			converter.Prune(oFullElement, selector.PruneSelector); 
-    			converter.Defoliate(oFullElement);
     
-    			var mFullElement = converter.Visit(node);
+    			var mFullElement = converter.Visit(nodeRevisionPair.Modified);
     			converter.SetGumTreefiedIDs(mFullElement, ref id);
     			converter.SetRoslynMLIDs(mFullElement, ref id);
-    			converter.Prune(mFullElement, selector.PruneSelector); 
-    			converter.Defoliate(mFullElement);
     
     			DeltaExpander expander = new DeltaExpander();
     
@@ -69,59 +72,213 @@
     				},
     			Actions: new XElement[0]));
     			
-    			var existingProperties = 2;
+    			var totalProperties = 2;
+    			var existingProperties = totalProperties;
     
     			Assert.AreEqual(expander.FullDelta.Matches.Count(), existingProperties + 1);
+    			Assert.AreEqual(expander.FullDelta.Actions.Count(), totalProperties - existingProperties);
     
-    			Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value == oElement.GtID()).Attribute("mId").Value == mElement.GtID());
-    			Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == expectedLabel).Attribute("mLb").Value == expectedLabel);
+    			Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value == oElement.GtID())
+    				.Attribute("mId").Value == mElement.GtID());
+    			Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oExpectedLabel)
+    				.Attribute("mLb").Value == mExpectedLabel);
     
-    			var ThrowKeywordLabel = Enum.GetName(typeof(SyntaxKind), node.ThrowKeyword.Kind());
-    			Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == ThrowKeywordLabel).Attribute("mLb").Value == ThrowKeywordLabel);
+    			var oThrowKeywordLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Original.ThrowKeyword.Kind());
+    			var mThrowKeywordLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Modified.ThrowKeyword.Kind());
+    			Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oThrowKeywordLabel)
+    				.Attribute("mLb").Value == mThrowKeywordLabel);
     			Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value == 
-    				oFullElement.Elements().Single(e => e.Attribute("oLb").Value == ThrowKeywordLabel).GtID())
-    				.Attribute("mId").Value == mFullElement.GtID());
+    				oFullElement.Elements().Single(e => e.Label() == oThrowKeywordLabel).GtID())
+    				.Attribute("mId").Value == 
+    				mFullElement.Elements().Single(e => e.Label() == mThrowKeywordLabel).GtID());
     
-    			var SemicolonTokenLabel = Enum.GetName(typeof(SyntaxKind), node.SemicolonToken.Kind());
-    			Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == SemicolonTokenLabel).Attribute("mLb").Value == SemicolonTokenLabel);
+    			var oSemicolonTokenLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Original.SemicolonToken.Kind());
+    			var mSemicolonTokenLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Modified.SemicolonToken.Kind());
+    			Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oSemicolonTokenLabel)
+    				.Attribute("mLb").Value == mSemicolonTokenLabel);
     			Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value == 
-    				oFullElement.Elements().Single(e => e.Attribute("oLb").Value == SemicolonTokenLabel).GtID())
-    				.Attribute("mId").Value == mFullElement.GtID());
-    
-    			Assert.AreEqual<int>(expander.FullDelta.Actions.Count(), 0);
+    				oFullElement.Elements().Single(e => e.Label() == oSemicolonTokenLabel).GtID())
+    				.Attribute("mId").Value == 
+    				mFullElement.Elements().Single(e => e.Label() == mSemicolonTokenLabel).GtID());
     
     			// Insert
     			expander.Expand(
     				new RevisionPair<XElement> { Original = oElement, Modified = mElement },
     				new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement }, 
+    				(Matches: new XElement[0],
+    				 Actions: new XElement[] 
+    				 { 
+    				 	new XElement("Insert", 
+    				 		new XAttribute("eId", mElement.GtID()), 
+    				 		new XAttribute("eLb", mElement.Label()), 
+    				 		new XAttribute("eVl", "##"), 
+    				 		new XAttribute("pId", mElement.GtID()), 
+    				 		new XAttribute("pLb", mElement.Label()), 
+    				 		new XAttribute("pos", "-1")) 
+    				 }));
+    			
+                Assert.AreEqual(expander.FullDelta.Matches.Count(), 0);
+                Assert.AreEqual(expander.FullDelta.Actions.Count(), existingProperties + 1);
+    
+                Assert.IsTrue(expander.FullDelta.Actions
+    				.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eId").Value == mElement.GtID())
+    				.Attribute("pId").Value == mElement.GtID());
+    	        Assert.IsTrue(expander.FullDelta.Actions
+    				.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mExpectedLabel)
+    				.Attribute("pLb").Value == oExpectedLabel);
+    
+    			Assert.IsTrue(expander.FullDelta.Actions
+    					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mThrowKeywordLabel)
+    					.Attribute("pLb").Value == oExpectedLabel);
+    			Assert.IsTrue(expander.FullDelta.Actions
+    				.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eId").Value == 
+    					mFullElement.Elements().Single(e => e.Label() == mThrowKeywordLabel).GtID())
+    				.Attribute("pId").Value == mFullElement.GtID());
+    
+    			Assert.IsTrue(expander.FullDelta.Actions
+    					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mSemicolonTokenLabel)
+    					.Attribute("pLb").Value == oExpectedLabel);
+    			Assert.IsTrue(expander.FullDelta.Actions
+    				.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eId").Value == 
+    					mFullElement.Elements().Single(e => e.Label() == mSemicolonTokenLabel).GtID())
+    				.Attribute("pId").Value == mFullElement.GtID());
+    
+    			// Delete
+    			expander.Expand(
+    				new RevisionPair<XElement> { Original = oElement, Modified = mElement },
+    				new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement }, 
+    				(Matches: new XElement[0],
+    				 Actions: new XElement[] 
+    				 { 
+    				 	new XElement("Delete", 
+    				 		new XAttribute("eId", oElement.GtID()), 
+    				 		new XAttribute("eLb", oElement.Label()), 
+    				 		new XAttribute("eVl", "##"))
+    				 }));
+    			
+                Assert.AreEqual(expander.FullDelta.Matches.Count(), 0);
+                Assert.AreEqual(expander.FullDelta.Actions.Count(), existingProperties + 1);
+    
+                Assert.IsTrue(expander.FullDelta.Actions
+    				.Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value == oElement.GtID())
+    				.Attribute("eLb").Value == oElement.Label());
+    
+    			Assert.IsTrue(expander.FullDelta.Actions
+    				.Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value == 
+    					oFullElement.Elements().Single(e => e.Label() == oThrowKeywordLabel).GtID())
+    				.Attribute("eLb").Value == oThrowKeywordLabel);
+    
+    			Assert.IsTrue(expander.FullDelta.Actions
+    				.Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value == 
+    					oFullElement.Elements().Single(e => e.Label() == oSemicolonTokenLabel).GtID())
+    				.Attribute("eLb").Value == oSemicolonTokenLabel);
+    
+    			// Update
+    			var mFullElement1 = converter.Visit(nodeRevisionPair.Modified);
+    			converter.SetGumTreefiedIDs(mFullElement1, ref mId);
+    			converter.SetRoslynMLIDs(mFullElement1, ref mId);
+    			
+    			if(mFullElement1.Elements().Any(e => e.Label() == mThrowKeywordLabel))
+    				mFullElement1.Elements().Single(e => e.Label() == mThrowKeywordLabel).Value = "v0";
+    			
+    			if(mFullElement1.Elements().Any(e => e.Label() == mSemicolonTokenLabel))
+    				mFullElement1.Elements().Single(e => e.Label() == mSemicolonTokenLabel).Value = "v1";
+    
+    			expander.Expand(
+    				new RevisionPair<XElement> { Original = oElement, Modified = mElement },
+    				new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement1 }, 
     				(Matches: new XElement[] 
     				{ 
-    					new XElement("Insert", 
-    						new XAttribute("eId", mElement.GtID()), 
-    						new XAttribute("eLb", mElement.Label()), 
-    						new XAttribute("eVl", "##"), 
-    						new XAttribute("pId", mElement.GtID()), 
-    						new XAttribute("pLb", mElement.Label()), 
-    						new XAttribute("pos", "-1")) 
+    					new XElement("Match", 
+    						new XAttribute("oId", oElement.GtID()),
+    						new XAttribute("oLb", oElement.Label()),
+    						new XAttribute("mId", mElement.GtID()), 
+    						new XAttribute("mLb", mElement.Label())) 
     				},
-    			Actions: new XElement[0]));
+    			    Actions: new XElement[0]));
+    			
+                Assert.AreEqual(expander.FullDelta.Matches.Count(), existingProperties + 1);
+                Assert.AreEqual(expander.FullDelta.Actions.Count(), totalProperties);
     
-    			Assert.AreEqual(expander.FullDelta.Matches.Count(), existingProperties + 1);
+    			Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value == oElement.GtID())
+    				.Attribute("mId").Value == mElement.GtID());
+    			Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oExpectedLabel)
+    				.Attribute("mLb").Value == mExpectedLabel);
     
-    			Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value == oElement.GtID()).Attribute("mId").Value == mElement.GtID());
-    			Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == expectedLabel).Attribute("mLb").Value == expectedLabel);
-    
-    			Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == ThrowKeywordLabel).Attribute("mLb").Value == ThrowKeywordLabel);
+    			Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oThrowKeywordLabel)
+    				.Attribute("mLb").Value == mThrowKeywordLabel);
     			Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value == 
-    				oFullElement.Elements().Single(e => e.Attribute("oLb").Value == ThrowKeywordLabel).GtID())
-    				.Attribute("mId").Value == mFullElement.GtID());
+    				oFullElement.Elements().Single(e => e.Label() == oThrowKeywordLabel).GtID())
+    				.Attribute("mId").Value == 
+    				mFullElement.Elements().Single(e => e.Label() == mThrowKeywordLabel).GtID());
+    			Assert.IsTrue(expander.FullDelta.Actions
+    					.Single(a => a.Name.LocalName == "Update" && a.Attribute("eLb").Value == oThrowKeywordLabel)
+    					.Attribute("val").Value == "v0");
+    			Assert.IsTrue(expander.FullDelta.Actions
+    				.Single(a => a.Name.LocalName == "Update" && a.Attribute("eId").Value == 
+    					oFullElement.Elements().Single(e => e.Label() == oThrowKeywordLabel).GtID())
+    				.Attribute("val").Value == "v0");
     
-    			Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == SemicolonTokenLabel).Attribute("mLb").Value == SemicolonTokenLabel);
+    			Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oSemicolonTokenLabel)
+    				.Attribute("mLb").Value == mSemicolonTokenLabel);
     			Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value == 
-    				oFullElement.Elements().Single(e => e.Attribute("oLb").Value == SemicolonTokenLabel).GtID())
-    				.Attribute("mId").Value == mFullElement.GtID());
+    				oFullElement.Elements().Single(e => e.Label() == oSemicolonTokenLabel).GtID())
+    				.Attribute("mId").Value == 
+    				mFullElement.Elements().Single(e => e.Label() == mSemicolonTokenLabel).GtID());
+    			Assert.IsTrue(expander.FullDelta.Actions
+    					.Single(a => a.Name.LocalName == "Update" && a.Attribute("eLb").Value == oSemicolonTokenLabel)
+    					.Attribute("val").Value == "v1");
+    			Assert.IsTrue(expander.FullDelta.Actions
+    				.Single(a => a.Name.LocalName == "Update" && a.Attribute("eId").Value == 
+    					oFullElement.Elements().Single(e => e.Label() == oSemicolonTokenLabel).GtID())
+    				.Attribute("val").Value == "v1");
     
-    			Assert.AreEqual<int>(expander.FullDelta.Actions.Count(), 0);
+    			// Update
+    			expander.Expand(
+    				new RevisionPair<XElement> { Original = oElement, Modified = mElement },
+    				new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement }, 
+    				(Matches: new XElement[0],
+    				Actions: new XElement[] 
+    				{ 
+    					new XElement("Update",
+    						new XAttribute("eId", oFullElement.GtID()),
+    						new XAttribute("eLb", oFullElement.Attribute("kind")?.Value ?? oFullElement.Name.LocalName),
+    						new XAttribute("eVl", mFullElement.GtID()),
+    						new XAttribute("val", "t#v"))
+    				}));			
+                Assert.AreEqual(expander.FullDelta.Matches.Count(), 0);
+                Assert.AreEqual(expander.FullDelta.Actions.Count(), 1);
+    
+    			Assert.IsTrue(expander.FullDelta.Actions
+    					.Single(a => a.Name.LocalName == "Update" && a.Attribute("eLb").Value == oExpectedLabel)
+    					.Attribute("val").Value == "t#v");
+    			Assert.IsTrue(expander.FullDelta.Actions
+    				.Single(a => a.Name.LocalName == "Update" && a.Attribute("eId").Value == oFullElement.GtID())
+    				.Attribute("val").Value == "t#v");	
+    
+    			// Move
+    			expander.Expand(
+    				new RevisionPair<XElement> { Original = oElement, Modified = mElement },
+    				new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement }, 
+    				(Matches: new XElement[0],
+    				 Actions: new XElement[] 
+    				 { 
+    				 	new XElement("Move", 
+    				 		new XAttribute("eId", oElement.GtID()),
+    				 		new XAttribute("eLb", oElement.Label()),
+    				 		new XAttribute("pId", mFullElement.GtID()),
+    				 		new XAttribute("pLb", mFullElement.Label()),
+    				 		new XAttribute("pos", "-1")) 
+    				 }));			
+                Assert.AreEqual(expander.FullDelta.Matches.Count(), 0);
+                Assert.AreEqual(expander.FullDelta.Actions.Count(), 1);
+    
+                Assert.IsTrue(expander.FullDelta.Actions
+    				.Single(a => a.Name.LocalName == "Move" && a.Attribute("eId").Value == oElement.GtID())
+    				.Attribute("pId").Value == mFullElement.GtID());
+    	        Assert.IsTrue(expander.FullDelta.Actions
+    				.Single(a => a.Name.LocalName == "Move" && a.Attribute("eLb").Value == oExpectedLabel)
+    				.Attribute("pLb").Value == mExpectedLabel);
     		}
          }
     }
