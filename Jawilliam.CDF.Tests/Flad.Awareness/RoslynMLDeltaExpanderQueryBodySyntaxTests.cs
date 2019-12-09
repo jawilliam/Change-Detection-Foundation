@@ -73,10 +73,12 @@
     			Actions: new XElement[0]));
     			
     			var totalProperties = 0;
-    			var existingProperties = totalProperties;
+    			var matchedProperties = totalProperties;
+    			var unmatchedOriginalProperties = 0;
+    			var unmatchedModifiedProperties = 0;
     
-    			Assert.AreEqual(expander.FullDelta.Matches.Count(), existingProperties + 1);
-    			Assert.AreEqual(expander.FullDelta.Actions.Count(), totalProperties - existingProperties);
+    			Assert.AreEqual(expander.FullDelta.Matches.Count(), matchedProperties + 1);
+    			Assert.AreEqual(expander.FullDelta.Actions.Count(), unmatchedOriginalProperties + unmatchedModifiedProperties);
     
     			Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value == oElement.GtID())
     				.Attribute("mId").Value == mElement.GtID());
@@ -100,14 +102,14 @@
     				 }));
     			
                 Assert.AreEqual(expander.FullDelta.Matches.Count(), 0);
-                Assert.AreEqual(expander.FullDelta.Actions.Count(), existingProperties + 1);
+                Assert.AreEqual(expander.FullDelta.Actions.Count(), matchedProperties + 1 + unmatchedModifiedProperties);
     
                 Assert.IsTrue(expander.FullDelta.Actions
     				.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eId").Value == mElement.GtID())
     				.Attribute("pId").Value == mElement.GtID());
     	        Assert.IsTrue(expander.FullDelta.Actions
     				.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mExpectedLabel)
-    				.Attribute("pLb").Value == oExpectedLabel);
+    				.Attribute("pLb").Value == mExpectedLabel);
     
     			// Delete
     			expander.Expand(
@@ -123,7 +125,7 @@
     				 }));
     			
                 Assert.AreEqual(expander.FullDelta.Matches.Count(), 0);
-                Assert.AreEqual(expander.FullDelta.Actions.Count(), existingProperties + 1);
+                Assert.AreEqual(expander.FullDelta.Actions.Count(), matchedProperties + 1 + unmatchedOriginalProperties);
     
                 Assert.IsTrue(expander.FullDelta.Actions
     				.Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value == oElement.GtID())
@@ -147,8 +149,8 @@
     				},
     			    Actions: new XElement[0]));
     			
-                Assert.AreEqual(expander.FullDelta.Matches.Count(), existingProperties + 1);
-                Assert.AreEqual(expander.FullDelta.Actions.Count(), totalProperties);
+                Assert.AreEqual(expander.FullDelta.Matches.Count(), matchedProperties + 1);
+                Assert.AreEqual(expander.FullDelta.Actions.Count(), matchedProperties + unmatchedOriginalProperties + unmatchedModifiedProperties);
     
     			Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value == oElement.GtID())
     				.Attribute("mId").Value == mElement.GtID());

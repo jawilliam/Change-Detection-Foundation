@@ -73,14 +73,22 @@
     			Actions: new XElement[0]));
     			
     			var totalProperties = 5;
-    			var existingProperties = totalProperties;
-    			existingProperties = (oFullElement.Elements().Any(e => e.Label() == "File") &&
-    			                      mFullElement.Elements().Any(e => e.Label() == "File"))
-    				? existingProperties 
-    				: (existingProperties - 1);
+    			var matchedProperties = totalProperties;
+    			var unmatchedOriginalProperties = 0;
+    			var unmatchedModifiedProperties = 0;
+    			matchedProperties = oFullElement.Elements().Any(e => e.Label() == "File") && 
+    			                    mFullElement.Elements().Any(e => e.Label() == "File")
+    				? matchedProperties 
+    				: (matchedProperties - 1);
+    			if(!oFullElement.Elements().Any(e => e.Label() == "File") && 
+    			    mFullElement.Elements().Any(e => e.Label() == "File"))
+    				unmatchedModifiedProperties++; 
+    			if(oFullElement.Elements().Any(e => e.Label() == "File") && 
+    			   !mFullElement.Elements().Any(e => e.Label() == "File"))
+    				unmatchedOriginalProperties++; 
     
-    			Assert.AreEqual(expander.FullDelta.Matches.Count(), existingProperties + 1);
-    			Assert.AreEqual(expander.FullDelta.Actions.Count(), totalProperties - existingProperties);
+    			Assert.AreEqual(expander.FullDelta.Matches.Count(), matchedProperties + 1);
+    			Assert.AreEqual(expander.FullDelta.Actions.Count(), unmatchedOriginalProperties + unmatchedModifiedProperties);
     
     			Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value == oElement.GtID())
     				.Attribute("mId").Value == mElement.GtID());
@@ -130,15 +138,16 @@
     					.Attribute("mId").Value == 
     					mFullElement.Elements().Single(e => e.Label() == mFileLabel).GtID());
     			} 
-    			else if(!oFullElement.Elements().Any(e => e.Label() == "File") &&
-    			         mFullElement.Elements().Any(e => e.Label() == "File"))
+    			else if(oFullElement.Elements().Any(e => e.Label() == "File") &&
+    			        !mFullElement.Elements().Any(e => e.Label() == "File"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     				.Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value == 
     					oFullElement.Elements().Single(e => e.Label() == oFileLabel).GtID())
     				.Attribute("eLb").Value == oFileLabel);
     			}
-    			else
+    			else if(!oFullElement.Elements().Any(e => e.Label() == "File") &&
+    			        mFullElement.Elements().Any(e => e.Label() == "File"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mFileLabel)
@@ -146,7 +155,7 @@
     				Assert.IsTrue(expander.FullDelta.Actions
     					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eId").Value == 
     						mFullElement.Elements().Single(e => e.Label() == mFileLabel).GtID())
-    					.Attribute("pId").Value == mFullElement.GtID());
+    					.Attribute("pId").Value == oFullElement.GtID());
     			}
     
     			var oEndOfDirectiveTokenLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Original.EndOfDirectiveToken.Kind());
@@ -175,18 +184,18 @@
     				 }));
     			
                 Assert.AreEqual(expander.FullDelta.Matches.Count(), 0);
-                Assert.AreEqual(expander.FullDelta.Actions.Count(), existingProperties + 1);
+                Assert.AreEqual(expander.FullDelta.Actions.Count(), matchedProperties + 1 + unmatchedModifiedProperties);
     
                 Assert.IsTrue(expander.FullDelta.Actions
     				.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eId").Value == mElement.GtID())
     				.Attribute("pId").Value == mElement.GtID());
     	        Assert.IsTrue(expander.FullDelta.Actions
     				.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mExpectedLabel)
-    				.Attribute("pLb").Value == oExpectedLabel);
+    				.Attribute("pLb").Value == mExpectedLabel);
     
     			Assert.IsTrue(expander.FullDelta.Actions
     					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mHashTokenLabel)
-    					.Attribute("pLb").Value == oExpectedLabel);
+    					.Attribute("pLb").Value == mExpectedLabel);
     			Assert.IsTrue(expander.FullDelta.Actions
     				.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eId").Value == 
     					mFullElement.Elements().Single(e => e.Label() == mHashTokenLabel).GtID())
@@ -194,7 +203,7 @@
     
     			Assert.IsTrue(expander.FullDelta.Actions
     					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mLineKeywordLabel)
-    					.Attribute("pLb").Value == oExpectedLabel);
+    					.Attribute("pLb").Value == mExpectedLabel);
     			Assert.IsTrue(expander.FullDelta.Actions
     				.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eId").Value == 
     					mFullElement.Elements().Single(e => e.Label() == mLineKeywordLabel).GtID())
@@ -202,17 +211,17 @@
     
     			Assert.IsTrue(expander.FullDelta.Actions
     					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mLineLabel)
-    					.Attribute("pLb").Value == oExpectedLabel);
+    					.Attribute("pLb").Value == mExpectedLabel);
     			Assert.IsTrue(expander.FullDelta.Actions
     				.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eId").Value == 
     					mFullElement.Elements().Single(e => e.Label() == mLineLabel).GtID())
     				.Attribute("pId").Value == mFullElement.GtID());
     
-    			if(oFullElement.Elements().Any(e => e.Label() == "File"))
+    			if(mFullElement.Elements().Any(e => e.Label() == "File"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mFileLabel)
-    					.Attribute("pLb").Value == oExpectedLabel);
+    					.Attribute("pLb").Value == mExpectedLabel);
     				Assert.IsTrue(expander.FullDelta.Actions
     					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eId").Value == 
     						mFullElement.Elements().Single(e => e.Label() == mFileLabel).GtID())
@@ -221,7 +230,7 @@
     
     			Assert.IsTrue(expander.FullDelta.Actions
     					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mEndOfDirectiveTokenLabel)
-    					.Attribute("pLb").Value == oExpectedLabel);
+    					.Attribute("pLb").Value == mExpectedLabel);
     			Assert.IsTrue(expander.FullDelta.Actions
     				.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eId").Value == 
     					mFullElement.Elements().Single(e => e.Label() == mEndOfDirectiveTokenLabel).GtID())
@@ -241,7 +250,7 @@
     				 }));
     			
                 Assert.AreEqual(expander.FullDelta.Matches.Count(), 0);
-                Assert.AreEqual(expander.FullDelta.Actions.Count(), existingProperties + 1);
+                Assert.AreEqual(expander.FullDelta.Actions.Count(), matchedProperties + 1 + unmatchedOriginalProperties);
     
                 Assert.IsTrue(expander.FullDelta.Actions
     				.Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value == oElement.GtID())
@@ -308,8 +317,8 @@
     				},
     			    Actions: new XElement[0]));
     			
-                Assert.AreEqual(expander.FullDelta.Matches.Count(), existingProperties + 1);
-                Assert.AreEqual(expander.FullDelta.Actions.Count(), totalProperties);
+                Assert.AreEqual(expander.FullDelta.Matches.Count(), matchedProperties + 1);
+                Assert.AreEqual(expander.FullDelta.Actions.Count(), matchedProperties + unmatchedOriginalProperties + unmatchedModifiedProperties);
     
     			Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value == oElement.GtID())
     				.Attribute("mId").Value == mElement.GtID());
@@ -376,15 +385,16 @@
     						oFullElement.Elements().Single(e => e.Label() == oFileLabel).GtID())
     					.Attribute("val").Value == "v3");
     			} 
-    			else if(!oFullElement.Elements().Any(e => e.Label() == "File") &&
-    			         mFullElement.Elements().Any(e => e.Label() == "File"))
+    			else if(oFullElement.Elements().Any(e => e.Label() == "File") &&
+    			        !mFullElement.Elements().Any(e => e.Label() == "File"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     				.Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value == 
     					oFullElement.Elements().Single(e => e.Label() == oFileLabel).GtID())
     				.Attribute("eLb").Value == oFileLabel);
     			}
-    			else
+    			else if(!oFullElement.Elements().Any(e => e.Label() == "File") &&
+    			        mFullElement.Elements().Any(e => e.Label() == "File"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mFileLabel)
@@ -392,7 +402,7 @@
     				Assert.IsTrue(expander.FullDelta.Actions
     					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eId").Value == 
     						mFullElement.Elements().Single(e => e.Label() == mFileLabel).GtID())
-    					.Attribute("pId").Value == mFullElement.GtID());
+    					.Attribute("pId").Value == oFullElement.GtID());
     			}
     
     			Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oEndOfDirectiveTokenLabel)

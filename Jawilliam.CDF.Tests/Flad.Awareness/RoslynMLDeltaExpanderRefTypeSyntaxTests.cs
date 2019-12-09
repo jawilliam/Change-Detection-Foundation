@@ -73,14 +73,22 @@
     			Actions: new XElement[0]));
     			
     			var totalProperties = 2;
-    			var existingProperties = totalProperties;
-    			existingProperties = (oFullElement.Elements().Any(e => e.Label() == "ReadOnlyKeyword") &&
-    			                      mFullElement.Elements().Any(e => e.Label() == "ReadOnlyKeyword"))
-    				? existingProperties 
-    				: (existingProperties - 1);
+    			var matchedProperties = totalProperties;
+    			var unmatchedOriginalProperties = 0;
+    			var unmatchedModifiedProperties = 0;
+    			matchedProperties = oFullElement.Elements().Any(e => e.Label() == "ReadOnlyKeyword") && 
+    			                    mFullElement.Elements().Any(e => e.Label() == "ReadOnlyKeyword")
+    				? matchedProperties 
+    				: (matchedProperties - 1);
+    			if(!oFullElement.Elements().Any(e => e.Label() == "ReadOnlyKeyword") && 
+    			    mFullElement.Elements().Any(e => e.Label() == "ReadOnlyKeyword"))
+    				unmatchedModifiedProperties++; 
+    			if(oFullElement.Elements().Any(e => e.Label() == "ReadOnlyKeyword") && 
+    			   !mFullElement.Elements().Any(e => e.Label() == "ReadOnlyKeyword"))
+    				unmatchedOriginalProperties++; 
     
-    			Assert.AreEqual(expander.FullDelta.Matches.Count(), existingProperties + 1);
-    			Assert.AreEqual(expander.FullDelta.Actions.Count(), totalProperties - existingProperties);
+    			Assert.AreEqual(expander.FullDelta.Matches.Count(), matchedProperties + 1);
+    			Assert.AreEqual(expander.FullDelta.Actions.Count(), unmatchedOriginalProperties + unmatchedModifiedProperties);
     
     			Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value == oElement.GtID())
     				.Attribute("mId").Value == mElement.GtID());
@@ -112,15 +120,16 @@
     					.Attribute("mId").Value == 
     					mFullElement.Elements().Single(e => e.Label() == mReadOnlyKeywordLabel).GtID());
     			} 
-    			else if(!oFullElement.Elements().Any(e => e.Label() == "ReadOnlyKeyword") &&
-    			         mFullElement.Elements().Any(e => e.Label() == "ReadOnlyKeyword"))
+    			else if(oFullElement.Elements().Any(e => e.Label() == "ReadOnlyKeyword") &&
+    			        !mFullElement.Elements().Any(e => e.Label() == "ReadOnlyKeyword"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     				.Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value == 
     					oFullElement.Elements().Single(e => e.Label() == oReadOnlyKeywordLabel).GtID())
     				.Attribute("eLb").Value == oReadOnlyKeywordLabel);
     			}
-    			else
+    			else if(!oFullElement.Elements().Any(e => e.Label() == "ReadOnlyKeyword") &&
+    			        mFullElement.Elements().Any(e => e.Label() == "ReadOnlyKeyword"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mReadOnlyKeywordLabel)
@@ -128,7 +137,7 @@
     				Assert.IsTrue(expander.FullDelta.Actions
     					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eId").Value == 
     						mFullElement.Elements().Single(e => e.Label() == mReadOnlyKeywordLabel).GtID())
-    					.Attribute("pId").Value == mFullElement.GtID());
+    					.Attribute("pId").Value == oFullElement.GtID());
     			}
     
     			// Insert
@@ -148,28 +157,28 @@
     				 }));
     			
                 Assert.AreEqual(expander.FullDelta.Matches.Count(), 0);
-                Assert.AreEqual(expander.FullDelta.Actions.Count(), existingProperties + 1);
+                Assert.AreEqual(expander.FullDelta.Actions.Count(), matchedProperties + 1 + unmatchedModifiedProperties);
     
                 Assert.IsTrue(expander.FullDelta.Actions
     				.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eId").Value == mElement.GtID())
     				.Attribute("pId").Value == mElement.GtID());
     	        Assert.IsTrue(expander.FullDelta.Actions
     				.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mExpectedLabel)
-    				.Attribute("pLb").Value == oExpectedLabel);
+    				.Attribute("pLb").Value == mExpectedLabel);
     
     			Assert.IsTrue(expander.FullDelta.Actions
     					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mRefKeywordLabel)
-    					.Attribute("pLb").Value == oExpectedLabel);
+    					.Attribute("pLb").Value == mExpectedLabel);
     			Assert.IsTrue(expander.FullDelta.Actions
     				.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eId").Value == 
     					mFullElement.Elements().Single(e => e.Label() == mRefKeywordLabel).GtID())
     				.Attribute("pId").Value == mFullElement.GtID());
     
-    			if(oFullElement.Elements().Any(e => e.Label() == "ReadOnlyKeyword"))
+    			if(mFullElement.Elements().Any(e => e.Label() == "ReadOnlyKeyword"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mReadOnlyKeywordLabel)
-    					.Attribute("pLb").Value == oExpectedLabel);
+    					.Attribute("pLb").Value == mExpectedLabel);
     				Assert.IsTrue(expander.FullDelta.Actions
     					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eId").Value == 
     						mFullElement.Elements().Single(e => e.Label() == mReadOnlyKeywordLabel).GtID())
@@ -190,7 +199,7 @@
     				 }));
     			
                 Assert.AreEqual(expander.FullDelta.Matches.Count(), 0);
-                Assert.AreEqual(expander.FullDelta.Actions.Count(), existingProperties + 1);
+                Assert.AreEqual(expander.FullDelta.Actions.Count(), matchedProperties + 1 + unmatchedOriginalProperties);
     
                 Assert.IsTrue(expander.FullDelta.Actions
     				.Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value == oElement.GtID())
@@ -233,8 +242,8 @@
     				},
     			    Actions: new XElement[0]));
     			
-                Assert.AreEqual(expander.FullDelta.Matches.Count(), existingProperties + 1);
-                Assert.AreEqual(expander.FullDelta.Actions.Count(), totalProperties);
+                Assert.AreEqual(expander.FullDelta.Matches.Count(), matchedProperties + 1);
+                Assert.AreEqual(expander.FullDelta.Actions.Count(), matchedProperties + unmatchedOriginalProperties + unmatchedModifiedProperties);
     
     			Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value == oElement.GtID())
     				.Attribute("mId").Value == mElement.GtID());
@@ -273,15 +282,16 @@
     						oFullElement.Elements().Single(e => e.Label() == oReadOnlyKeywordLabel).GtID())
     					.Attribute("val").Value == "v1");
     			} 
-    			else if(!oFullElement.Elements().Any(e => e.Label() == "ReadOnlyKeyword") &&
-    			         mFullElement.Elements().Any(e => e.Label() == "ReadOnlyKeyword"))
+    			else if(oFullElement.Elements().Any(e => e.Label() == "ReadOnlyKeyword") &&
+    			        !mFullElement.Elements().Any(e => e.Label() == "ReadOnlyKeyword"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     				.Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value == 
     					oFullElement.Elements().Single(e => e.Label() == oReadOnlyKeywordLabel).GtID())
     				.Attribute("eLb").Value == oReadOnlyKeywordLabel);
     			}
-    			else
+    			else if(!oFullElement.Elements().Any(e => e.Label() == "ReadOnlyKeyword") &&
+    			        mFullElement.Elements().Any(e => e.Label() == "ReadOnlyKeyword"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mReadOnlyKeywordLabel)
@@ -289,7 +299,7 @@
     				Assert.IsTrue(expander.FullDelta.Actions
     					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eId").Value == 
     						mFullElement.Elements().Single(e => e.Label() == mReadOnlyKeywordLabel).GtID())
-    					.Attribute("pId").Value == mFullElement.GtID());
+    					.Attribute("pId").Value == oFullElement.GtID());
     			}
     
     			// Update

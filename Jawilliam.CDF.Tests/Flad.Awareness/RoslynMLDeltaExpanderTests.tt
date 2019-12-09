@@ -207,21 +207,29 @@ partial class RoslynMLDeltaExpanderTests
 			Actions: new XElement[0]));
 			
 			var totalProperties = <#= pairwiseTunnelingProperties.Count() #>;
-			var existingProperties = totalProperties;
+			var matchedProperties = totalProperties;
+			var unmatchedOriginalProperties = 0;
+			var unmatchedModifiedProperties = 0;
 <#
 		foreach(var p in pairwiseTunnelingProperties.Where(p1 => p1.Item2.optional).ToList())
 		{
 #>
-			existingProperties = (oFullElement.Elements().Any(e => e.Label() == "<#= p.Item2.name #>") &&
-			                      mFullElement.Elements().Any(e => e.Label() == "<#= p.Item2.name #>"))
-				? existingProperties 
-				: (existingProperties - 1);
+			matchedProperties = oFullElement.Elements().Any(e => e.Label() == "<#= p.Item2.name #>") && 
+			                    mFullElement.Elements().Any(e => e.Label() == "<#= p.Item2.name #>")
+				? matchedProperties 
+				: (matchedProperties - 1);
+			if(!oFullElement.Elements().Any(e => e.Label() == "<#= p.Item2.name #>") && 
+			    mFullElement.Elements().Any(e => e.Label() == "<#= p.Item2.name #>"))
+				unmatchedModifiedProperties++; 
+			if(oFullElement.Elements().Any(e => e.Label() == "<#= p.Item2.name #>") && 
+			   !mFullElement.Elements().Any(e => e.Label() == "<#= p.Item2.name #>"))
+				unmatchedOriginalProperties++; 
 <#
 		}
 #>
 
-			Assert.AreEqual(expander.FullDelta.Matches.Count(), existingProperties + 1);
-			Assert.AreEqual(expander.FullDelta.Actions.Count(), totalProperties - existingProperties);
+			Assert.AreEqual(expander.FullDelta.Matches.Count(), matchedProperties + 1);
+			Assert.AreEqual(expander.FullDelta.Actions.Count(), unmatchedOriginalProperties + unmatchedModifiedProperties);
 
 			Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value == oElement.GtID())
 				.Attribute("mId").Value == mElement.GtID());
@@ -250,15 +258,16 @@ partial class RoslynMLDeltaExpanderTests
 					.Attribute("mId").Value == 
 					mFullElement.Elements().Single(e => e.Label() == m<#= p.Item2.name #>Label).GtID());
 			} 
-			else if(!oFullElement.Elements().Any(e => e.Label() == "<#= p.Item2.name #>") &&
-			         mFullElement.Elements().Any(e => e.Label() == "<#= p.Item2.name #>"))
+			else if(oFullElement.Elements().Any(e => e.Label() == "<#= p.Item2.name #>") &&
+			        !mFullElement.Elements().Any(e => e.Label() == "<#= p.Item2.name #>"))
 			{
 				Assert.IsTrue(expander.FullDelta.Actions
 				.Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value == 
 					oFullElement.Elements().Single(e => e.Label() == o<#= p.Item2.name #>Label).GtID())
 				.Attribute("eLb").Value == o<#= p.Item2.name #>Label);
 			}
-			else
+			else if(!oFullElement.Elements().Any(e => e.Label() == "<#= p.Item2.name #>") &&
+			        mFullElement.Elements().Any(e => e.Label() == "<#= p.Item2.name #>"))
 			{
 				Assert.IsTrue(expander.FullDelta.Actions
 					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == m<#= p.Item2.name #>Label)
@@ -266,7 +275,7 @@ partial class RoslynMLDeltaExpanderTests
 				Assert.IsTrue(expander.FullDelta.Actions
 					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eId").Value == 
 						mFullElement.Elements().Single(e => e.Label() == m<#= p.Item2.name #>Label).GtID())
-					.Attribute("pId").Value == mFullElement.GtID());
+					.Attribute("pId").Value == oFullElement.GtID());
 			}
 <#
 			}
@@ -304,14 +313,14 @@ partial class RoslynMLDeltaExpanderTests
 				 }));
 			
             Assert.AreEqual(expander.FullDelta.Matches.Count(), 0);
-            Assert.AreEqual(expander.FullDelta.Actions.Count(), existingProperties + 1);
+            Assert.AreEqual(expander.FullDelta.Actions.Count(), matchedProperties + 1 + unmatchedModifiedProperties);
 
             Assert.IsTrue(expander.FullDelta.Actions
 				.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eId").Value == mElement.GtID())
 				.Attribute("pId").Value == mElement.GtID());
 	        Assert.IsTrue(expander.FullDelta.Actions
 				.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mExpectedLabel)
-				.Attribute("pLb").Value == oExpectedLabel);
+				.Attribute("pLb").Value == mExpectedLabel);
 <#
 		foreach(var p in pairwiseTunnelingProperties)
 		{
@@ -319,11 +328,11 @@ partial class RoslynMLDeltaExpanderTests
 			{
 #>
 
-			if(oFullElement.Elements().Any(e => e.Label() == "<#= p.Item2.name #>"))
+			if(mFullElement.Elements().Any(e => e.Label() == "<#= p.Item2.name #>"))
 			{
 				Assert.IsTrue(expander.FullDelta.Actions
 					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == m<#= p.Item2.name #>Label)
-					.Attribute("pLb").Value == oExpectedLabel);
+					.Attribute("pLb").Value == mExpectedLabel);
 				Assert.IsTrue(expander.FullDelta.Actions
 					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eId").Value == 
 						mFullElement.Elements().Single(e => e.Label() == m<#= p.Item2.name #>Label).GtID())
@@ -337,7 +346,7 @@ partial class RoslynMLDeltaExpanderTests
 
 			Assert.IsTrue(expander.FullDelta.Actions
 					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == m<#= p.Item2.name #>Label)
-					.Attribute("pLb").Value == oExpectedLabel);
+					.Attribute("pLb").Value == mExpectedLabel);
 			Assert.IsTrue(expander.FullDelta.Actions
 				.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eId").Value == 
 					mFullElement.Elements().Single(e => e.Label() == m<#= p.Item2.name #>Label).GtID())
@@ -361,7 +370,7 @@ partial class RoslynMLDeltaExpanderTests
 				 }));
 			
             Assert.AreEqual(expander.FullDelta.Matches.Count(), 0);
-            Assert.AreEqual(expander.FullDelta.Actions.Count(), existingProperties + 1);
+            Assert.AreEqual(expander.FullDelta.Actions.Count(), matchedProperties + 1 + unmatchedOriginalProperties);
 
             Assert.IsTrue(expander.FullDelta.Actions
 				.Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value == oElement.GtID())
@@ -424,8 +433,8 @@ partial class RoslynMLDeltaExpanderTests
 				},
 			    Actions: new XElement[0]));
 			
-            Assert.AreEqual(expander.FullDelta.Matches.Count(), existingProperties + 1);
-            Assert.AreEqual(expander.FullDelta.Actions.Count(), totalProperties);
+            Assert.AreEqual(expander.FullDelta.Matches.Count(), matchedProperties + 1);
+            Assert.AreEqual(expander.FullDelta.Actions.Count(), matchedProperties + unmatchedOriginalProperties + unmatchedModifiedProperties);
 
 			Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value == oElement.GtID())
 				.Attribute("mId").Value == mElement.GtID());
@@ -457,15 +466,16 @@ partial class RoslynMLDeltaExpanderTests
 						oFullElement.Elements().Single(e => e.Label() == o<#= p.Item2.name #>Label).GtID())
 					.Attribute("val").Value == "<#= propertyValues[i] #>");
 			} 
-			else if(!oFullElement.Elements().Any(e => e.Label() == "<#= p.Item2.name #>") &&
-			         mFullElement.Elements().Any(e => e.Label() == "<#= p.Item2.name #>"))
+			else if(oFullElement.Elements().Any(e => e.Label() == "<#= p.Item2.name #>") &&
+			        !mFullElement.Elements().Any(e => e.Label() == "<#= p.Item2.name #>"))
 			{
 				Assert.IsTrue(expander.FullDelta.Actions
 				.Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value == 
 					oFullElement.Elements().Single(e => e.Label() == o<#= p.Item2.name #>Label).GtID())
 				.Attribute("eLb").Value == o<#= p.Item2.name #>Label);
 			}
-			else
+			else if(!oFullElement.Elements().Any(e => e.Label() == "<#= p.Item2.name #>") &&
+			        mFullElement.Elements().Any(e => e.Label() == "<#= p.Item2.name #>"))
 			{
 				Assert.IsTrue(expander.FullDelta.Actions
 					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == m<#= p.Item2.name #>Label)
@@ -473,7 +483,7 @@ partial class RoslynMLDeltaExpanderTests
 				Assert.IsTrue(expander.FullDelta.Actions
 					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eId").Value == 
 						mFullElement.Elements().Single(e => e.Label() == m<#= p.Item2.name #>Label).GtID())
-					.Attribute("pId").Value == mFullElement.GtID());
+					.Attribute("pId").Value == oFullElement.GtID());
 			}
 <#
 			}

@@ -73,14 +73,22 @@
     			Actions: new XElement[0]));
     			
     			var totalProperties = 3;
-    			var existingProperties = totalProperties;
-    			existingProperties = (oFullElement.Elements().Any(e => e.Label() == "Identifier") &&
-    			                      mFullElement.Elements().Any(e => e.Label() == "Identifier"))
-    				? existingProperties 
-    				: (existingProperties - 1);
+    			var matchedProperties = totalProperties;
+    			var unmatchedOriginalProperties = 0;
+    			var unmatchedModifiedProperties = 0;
+    			matchedProperties = oFullElement.Elements().Any(e => e.Label() == "Identifier") && 
+    			                    mFullElement.Elements().Any(e => e.Label() == "Identifier")
+    				? matchedProperties 
+    				: (matchedProperties - 1);
+    			if(!oFullElement.Elements().Any(e => e.Label() == "Identifier") && 
+    			    mFullElement.Elements().Any(e => e.Label() == "Identifier"))
+    				unmatchedModifiedProperties++; 
+    			if(oFullElement.Elements().Any(e => e.Label() == "Identifier") && 
+    			   !mFullElement.Elements().Any(e => e.Label() == "Identifier"))
+    				unmatchedOriginalProperties++; 
     
-    			Assert.AreEqual(expander.FullDelta.Matches.Count(), existingProperties + 1);
-    			Assert.AreEqual(expander.FullDelta.Actions.Count(), totalProperties - existingProperties);
+    			Assert.AreEqual(expander.FullDelta.Matches.Count(), matchedProperties + 1);
+    			Assert.AreEqual(expander.FullDelta.Actions.Count(), unmatchedOriginalProperties + unmatchedModifiedProperties);
     
     			Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value == oElement.GtID())
     				.Attribute("mId").Value == mElement.GtID());
@@ -112,15 +120,16 @@
     					.Attribute("mId").Value == 
     					mFullElement.Elements().Single(e => e.Label() == mIdentifierLabel).GtID());
     			} 
-    			else if(!oFullElement.Elements().Any(e => e.Label() == "Identifier") &&
-    			         mFullElement.Elements().Any(e => e.Label() == "Identifier"))
+    			else if(oFullElement.Elements().Any(e => e.Label() == "Identifier") &&
+    			        !mFullElement.Elements().Any(e => e.Label() == "Identifier"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     				.Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value == 
     					oFullElement.Elements().Single(e => e.Label() == oIdentifierLabel).GtID())
     				.Attribute("eLb").Value == oIdentifierLabel);
     			}
-    			else
+    			else if(!oFullElement.Elements().Any(e => e.Label() == "Identifier") &&
+    			        mFullElement.Elements().Any(e => e.Label() == "Identifier"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mIdentifierLabel)
@@ -128,7 +137,7 @@
     				Assert.IsTrue(expander.FullDelta.Actions
     					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eId").Value == 
     						mFullElement.Elements().Single(e => e.Label() == mIdentifierLabel).GtID())
-    					.Attribute("pId").Value == mFullElement.GtID());
+    					.Attribute("pId").Value == oFullElement.GtID());
     			}
     
     			var oCloseParenTokenLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Original.CloseParenToken.Kind());
@@ -157,28 +166,28 @@
     				 }));
     			
                 Assert.AreEqual(expander.FullDelta.Matches.Count(), 0);
-                Assert.AreEqual(expander.FullDelta.Actions.Count(), existingProperties + 1);
+                Assert.AreEqual(expander.FullDelta.Actions.Count(), matchedProperties + 1 + unmatchedModifiedProperties);
     
                 Assert.IsTrue(expander.FullDelta.Actions
     				.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eId").Value == mElement.GtID())
     				.Attribute("pId").Value == mElement.GtID());
     	        Assert.IsTrue(expander.FullDelta.Actions
     				.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mExpectedLabel)
-    				.Attribute("pLb").Value == oExpectedLabel);
+    				.Attribute("pLb").Value == mExpectedLabel);
     
     			Assert.IsTrue(expander.FullDelta.Actions
     					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mOpenParenTokenLabel)
-    					.Attribute("pLb").Value == oExpectedLabel);
+    					.Attribute("pLb").Value == mExpectedLabel);
     			Assert.IsTrue(expander.FullDelta.Actions
     				.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eId").Value == 
     					mFullElement.Elements().Single(e => e.Label() == mOpenParenTokenLabel).GtID())
     				.Attribute("pId").Value == mFullElement.GtID());
     
-    			if(oFullElement.Elements().Any(e => e.Label() == "Identifier"))
+    			if(mFullElement.Elements().Any(e => e.Label() == "Identifier"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mIdentifierLabel)
-    					.Attribute("pLb").Value == oExpectedLabel);
+    					.Attribute("pLb").Value == mExpectedLabel);
     				Assert.IsTrue(expander.FullDelta.Actions
     					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eId").Value == 
     						mFullElement.Elements().Single(e => e.Label() == mIdentifierLabel).GtID())
@@ -187,7 +196,7 @@
     
     			Assert.IsTrue(expander.FullDelta.Actions
     					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mCloseParenTokenLabel)
-    					.Attribute("pLb").Value == oExpectedLabel);
+    					.Attribute("pLb").Value == mExpectedLabel);
     			Assert.IsTrue(expander.FullDelta.Actions
     				.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eId").Value == 
     					mFullElement.Elements().Single(e => e.Label() == mCloseParenTokenLabel).GtID())
@@ -207,7 +216,7 @@
     				 }));
     			
                 Assert.AreEqual(expander.FullDelta.Matches.Count(), 0);
-                Assert.AreEqual(expander.FullDelta.Actions.Count(), existingProperties + 1);
+                Assert.AreEqual(expander.FullDelta.Actions.Count(), matchedProperties + 1 + unmatchedOriginalProperties);
     
                 Assert.IsTrue(expander.FullDelta.Actions
     				.Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value == oElement.GtID())
@@ -258,8 +267,8 @@
     				},
     			    Actions: new XElement[0]));
     			
-                Assert.AreEqual(expander.FullDelta.Matches.Count(), existingProperties + 1);
-                Assert.AreEqual(expander.FullDelta.Actions.Count(), totalProperties);
+                Assert.AreEqual(expander.FullDelta.Matches.Count(), matchedProperties + 1);
+                Assert.AreEqual(expander.FullDelta.Actions.Count(), matchedProperties + unmatchedOriginalProperties + unmatchedModifiedProperties);
     
     			Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value == oElement.GtID())
     				.Attribute("mId").Value == mElement.GtID());
@@ -298,15 +307,16 @@
     						oFullElement.Elements().Single(e => e.Label() == oIdentifierLabel).GtID())
     					.Attribute("val").Value == "v1");
     			} 
-    			else if(!oFullElement.Elements().Any(e => e.Label() == "Identifier") &&
-    			         mFullElement.Elements().Any(e => e.Label() == "Identifier"))
+    			else if(oFullElement.Elements().Any(e => e.Label() == "Identifier") &&
+    			        !mFullElement.Elements().Any(e => e.Label() == "Identifier"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     				.Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value == 
     					oFullElement.Elements().Single(e => e.Label() == oIdentifierLabel).GtID())
     				.Attribute("eLb").Value == oIdentifierLabel);
     			}
-    			else
+    			else if(!oFullElement.Elements().Any(e => e.Label() == "Identifier") &&
+    			        mFullElement.Elements().Any(e => e.Label() == "Identifier"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mIdentifierLabel)
@@ -314,7 +324,7 @@
     				Assert.IsTrue(expander.FullDelta.Actions
     					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eId").Value == 
     						mFullElement.Elements().Single(e => e.Label() == mIdentifierLabel).GtID())
-    					.Attribute("pId").Value == mFullElement.GtID());
+    					.Attribute("pId").Value == oFullElement.GtID());
     			}
     
     			Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oCloseParenTokenLabel)

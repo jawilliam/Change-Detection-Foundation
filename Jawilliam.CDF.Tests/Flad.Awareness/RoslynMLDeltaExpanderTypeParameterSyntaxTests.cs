@@ -73,14 +73,22 @@
     			Actions: new XElement[0]));
     			
     			var totalProperties = 2;
-    			var existingProperties = totalProperties;
-    			existingProperties = (oFullElement.Elements().Any(e => e.Label() == "VarianceKeyword") &&
-    			                      mFullElement.Elements().Any(e => e.Label() == "VarianceKeyword"))
-    				? existingProperties 
-    				: (existingProperties - 1);
+    			var matchedProperties = totalProperties;
+    			var unmatchedOriginalProperties = 0;
+    			var unmatchedModifiedProperties = 0;
+    			matchedProperties = oFullElement.Elements().Any(e => e.Label() == "VarianceKeyword") && 
+    			                    mFullElement.Elements().Any(e => e.Label() == "VarianceKeyword")
+    				? matchedProperties 
+    				: (matchedProperties - 1);
+    			if(!oFullElement.Elements().Any(e => e.Label() == "VarianceKeyword") && 
+    			    mFullElement.Elements().Any(e => e.Label() == "VarianceKeyword"))
+    				unmatchedModifiedProperties++; 
+    			if(oFullElement.Elements().Any(e => e.Label() == "VarianceKeyword") && 
+    			   !mFullElement.Elements().Any(e => e.Label() == "VarianceKeyword"))
+    				unmatchedOriginalProperties++; 
     
-    			Assert.AreEqual(expander.FullDelta.Matches.Count(), existingProperties + 1);
-    			Assert.AreEqual(expander.FullDelta.Actions.Count(), totalProperties - existingProperties);
+    			Assert.AreEqual(expander.FullDelta.Matches.Count(), matchedProperties + 1);
+    			Assert.AreEqual(expander.FullDelta.Actions.Count(), unmatchedOriginalProperties + unmatchedModifiedProperties);
     
     			Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value == oElement.GtID())
     				.Attribute("mId").Value == mElement.GtID());
@@ -103,15 +111,16 @@
     					.Attribute("mId").Value == 
     					mFullElement.Elements().Single(e => e.Label() == mVarianceKeywordLabel).GtID());
     			} 
-    			else if(!oFullElement.Elements().Any(e => e.Label() == "VarianceKeyword") &&
-    			         mFullElement.Elements().Any(e => e.Label() == "VarianceKeyword"))
+    			else if(oFullElement.Elements().Any(e => e.Label() == "VarianceKeyword") &&
+    			        !mFullElement.Elements().Any(e => e.Label() == "VarianceKeyword"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     				.Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value == 
     					oFullElement.Elements().Single(e => e.Label() == oVarianceKeywordLabel).GtID())
     				.Attribute("eLb").Value == oVarianceKeywordLabel);
     			}
-    			else
+    			else if(!oFullElement.Elements().Any(e => e.Label() == "VarianceKeyword") &&
+    			        mFullElement.Elements().Any(e => e.Label() == "VarianceKeyword"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mVarianceKeywordLabel)
@@ -119,7 +128,7 @@
     				Assert.IsTrue(expander.FullDelta.Actions
     					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eId").Value == 
     						mFullElement.Elements().Single(e => e.Label() == mVarianceKeywordLabel).GtID())
-    					.Attribute("pId").Value == mFullElement.GtID());
+    					.Attribute("pId").Value == oFullElement.GtID());
     			}
     
     			var oIdentifierLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Original.Identifier.Kind());
@@ -148,20 +157,20 @@
     				 }));
     			
                 Assert.AreEqual(expander.FullDelta.Matches.Count(), 0);
-                Assert.AreEqual(expander.FullDelta.Actions.Count(), existingProperties + 1);
+                Assert.AreEqual(expander.FullDelta.Actions.Count(), matchedProperties + 1 + unmatchedModifiedProperties);
     
                 Assert.IsTrue(expander.FullDelta.Actions
     				.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eId").Value == mElement.GtID())
     				.Attribute("pId").Value == mElement.GtID());
     	        Assert.IsTrue(expander.FullDelta.Actions
     				.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mExpectedLabel)
-    				.Attribute("pLb").Value == oExpectedLabel);
+    				.Attribute("pLb").Value == mExpectedLabel);
     
-    			if(oFullElement.Elements().Any(e => e.Label() == "VarianceKeyword"))
+    			if(mFullElement.Elements().Any(e => e.Label() == "VarianceKeyword"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mVarianceKeywordLabel)
-    					.Attribute("pLb").Value == oExpectedLabel);
+    					.Attribute("pLb").Value == mExpectedLabel);
     				Assert.IsTrue(expander.FullDelta.Actions
     					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eId").Value == 
     						mFullElement.Elements().Single(e => e.Label() == mVarianceKeywordLabel).GtID())
@@ -170,7 +179,7 @@
     
     			Assert.IsTrue(expander.FullDelta.Actions
     					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mIdentifierLabel)
-    					.Attribute("pLb").Value == oExpectedLabel);
+    					.Attribute("pLb").Value == mExpectedLabel);
     			Assert.IsTrue(expander.FullDelta.Actions
     				.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eId").Value == 
     					mFullElement.Elements().Single(e => e.Label() == mIdentifierLabel).GtID())
@@ -190,7 +199,7 @@
     				 }));
     			
                 Assert.AreEqual(expander.FullDelta.Matches.Count(), 0);
-                Assert.AreEqual(expander.FullDelta.Actions.Count(), existingProperties + 1);
+                Assert.AreEqual(expander.FullDelta.Actions.Count(), matchedProperties + 1 + unmatchedOriginalProperties);
     
                 Assert.IsTrue(expander.FullDelta.Actions
     				.Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value == oElement.GtID())
@@ -233,8 +242,8 @@
     				},
     			    Actions: new XElement[0]));
     			
-                Assert.AreEqual(expander.FullDelta.Matches.Count(), existingProperties + 1);
-                Assert.AreEqual(expander.FullDelta.Actions.Count(), totalProperties);
+                Assert.AreEqual(expander.FullDelta.Matches.Count(), matchedProperties + 1);
+                Assert.AreEqual(expander.FullDelta.Actions.Count(), matchedProperties + unmatchedOriginalProperties + unmatchedModifiedProperties);
     
     			Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value == oElement.GtID())
     				.Attribute("mId").Value == mElement.GtID());
@@ -259,15 +268,16 @@
     						oFullElement.Elements().Single(e => e.Label() == oVarianceKeywordLabel).GtID())
     					.Attribute("val").Value == "v0");
     			} 
-    			else if(!oFullElement.Elements().Any(e => e.Label() == "VarianceKeyword") &&
-    			         mFullElement.Elements().Any(e => e.Label() == "VarianceKeyword"))
+    			else if(oFullElement.Elements().Any(e => e.Label() == "VarianceKeyword") &&
+    			        !mFullElement.Elements().Any(e => e.Label() == "VarianceKeyword"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     				.Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value == 
     					oFullElement.Elements().Single(e => e.Label() == oVarianceKeywordLabel).GtID())
     				.Attribute("eLb").Value == oVarianceKeywordLabel);
     			}
-    			else
+    			else if(!oFullElement.Elements().Any(e => e.Label() == "VarianceKeyword") &&
+    			        mFullElement.Elements().Any(e => e.Label() == "VarianceKeyword"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mVarianceKeywordLabel)
@@ -275,7 +285,7 @@
     				Assert.IsTrue(expander.FullDelta.Actions
     					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eId").Value == 
     						mFullElement.Elements().Single(e => e.Label() == mVarianceKeywordLabel).GtID())
-    					.Attribute("pId").Value == mFullElement.GtID());
+    					.Attribute("pId").Value == oFullElement.GtID());
     			}
     
     			Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oIdentifierLabel)
