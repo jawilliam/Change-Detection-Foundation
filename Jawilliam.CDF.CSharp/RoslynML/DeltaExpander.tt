@@ -514,9 +514,14 @@ foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
 			yield return this.Delete(oChild);
 		else if(oChild != null && mChild != null)
 		{
-			yield return this.Match(oChild, mChild);
-			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-				yield return this.Update(oChild, mChild);
+			var match = this.MatchIfAvailable(oChild, mChild);
+			if(match != null)
+			{
+				yield return match;
+
+				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+					yield return this.Update(oChild, mChild);
+			}
 		}
 <#
 			}

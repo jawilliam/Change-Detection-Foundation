@@ -1,6 +1,6 @@
 <#@ template language="C#" debug="True" hostSpecific="true"#>
 <#@ output extension=".cs" #>
-<#@ include file="..\..\Jawilliam.CDF.CSharp\TemplateFileManagerV2.1.ttinclude" #>
+<#@ include file="EF.Utility.CS.ttinclude" #>
 <#@ assembly name="$(SolutionDir)\packages\Microsoft.CodeAnalysis.Common.2.7.0\lib\netstandard1.3\Microsoft.CodeAnalysis.dll" #>
 <#@ assembly name="$(SolutionDir)\packages\Microsoft.CodeAnalysis.CSharp.2.7.0\lib\netstandard1.3\Microsoft.CodeAnalysis.CSharp.dll" #>
 <#@ assembly name="$(SolutionDir)\packages\CodePlex.LinqToXsd.2.0.2\lib\Xml.Schema.Linq.dll" #>
@@ -69,7 +69,7 @@ CodeGenerationTools code = new CodeGenerationTools(this);
 CodeRegion region = new CodeRegion(this, 1);
 string namespaceName = code.VsNamespaceSuggestion();
 
-var manager = TemplateFileManager.Create(this);
+var manager = EntityFrameworkTemplateFileManager.Create(this);
 
 // var xSyntaxTypeSystem = Jawilliam.CDF.XObjects.RDSL.Syntax.NodeTypes.Load(@"E:\Projects\Software Development Investigation\Jawilliam.Msr.Roslyn\CSharp\NodeTypeSystem.xml");
 var xSyntaxTypeSystem = Jawilliam.CDF.XObjects.RDSL.Syntax.Load(@"E:\MyRepositories\Change-Detection-Foundation\Jawilliam.CDF.CSharp\RDSL.xml");
@@ -98,7 +98,7 @@ foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
 	 xSyntaxTypeSystem.Nodes.Type.SingleOrDefault(n => n.name == xSyntaxNodeType.@base) 
 	 : null;
 
-	if(xSyntaxNodeType.@abstract)
+	if(xSyntaxNodeType.@abstract || syntaxNode.Root.Label.ToString() == "ForStatementSyntax")
 		continue;
 	
 	var isUpdatable = false;
@@ -214,15 +214,15 @@ partial class RoslynMLDeltaExpanderTests
 		foreach(var p in pairwiseTunnelingProperties.Where(p1 => p1.Item2.optional).ToList())
 		{
 #>
-			matchedProperties = oFullElement.Elements().Any(e => e.Label() == "<#= p.Item2.name #>") && 
-			                    mFullElement.Elements().Any(e => e.Label() == "<#= p.Item2.name #>")
+			matchedProperties = oFullElement.Elements().Any(e => e.Attribute("part").Value == "<#= p.Item2.name #>") && 
+			                    mFullElement.Elements().Any(e => e.Attribute("part").Value == "<#= p.Item2.name #>")
 				? matchedProperties 
 				: (matchedProperties - 1);
-			if(!oFullElement.Elements().Any(e => e.Label() == "<#= p.Item2.name #>") && 
-			    mFullElement.Elements().Any(e => e.Label() == "<#= p.Item2.name #>"))
+			if(!oFullElement.Elements().Any(e => e.Attribute("part").Value == "<#= p.Item2.name #>") && 
+			    mFullElement.Elements().Any(e => e.Attribute("part").Value == "<#= p.Item2.name #>"))
 				unmatchedModifiedProperties++; 
-			if(oFullElement.Elements().Any(e => e.Label() == "<#= p.Item2.name #>") && 
-			   !mFullElement.Elements().Any(e => e.Label() == "<#= p.Item2.name #>"))
+			if(oFullElement.Elements().Any(e => e.Attribute("part").Value == "<#= p.Item2.name #>") && 
+			   !mFullElement.Elements().Any(e => e.Attribute("part").Value == "<#= p.Item2.name #>"))
 				unmatchedOriginalProperties++; 
 <#
 		}
@@ -248,8 +248,8 @@ partial class RoslynMLDeltaExpanderTests
 			var m<#= p.Item2.name #>Label = nodeRevisionPair.Modified.<#= p.Item2.name #> == null || nodeRevisionPair.Modified.<#= p.Item2.name #>.Kind() == SyntaxKind.None
 				? null 
 				: Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Modified.<#= p.Item2.name #>.Kind());
-			if(oFullElement.Elements().Any(e => e.Label() == "<#= p.Item2.name #>") &&
-			   mFullElement.Elements().Any(e => e.Label() == "<#= p.Item2.name #>"))
+			if(oFullElement.Elements().Any(e => e.Attribute("part").Value == "<#= p.Item2.name #>") &&
+			   mFullElement.Elements().Any(e => e.Attribute("part").Value == "<#= p.Item2.name #>"))
 			{
 				Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == o<#= p.Item2.name #>Label)
 					.Attribute("mLb").Value == m<#= p.Item2.name #>Label);
@@ -258,16 +258,16 @@ partial class RoslynMLDeltaExpanderTests
 					.Attribute("mId").Value == 
 					mFullElement.Elements().Single(e => e.Label() == m<#= p.Item2.name #>Label).GtID());
 			} 
-			else if(oFullElement.Elements().Any(e => e.Label() == "<#= p.Item2.name #>") &&
-			        !mFullElement.Elements().Any(e => e.Label() == "<#= p.Item2.name #>"))
+			else if(oFullElement.Elements().Any(e => e.Attribute("part").Value == "<#= p.Item2.name #>") &&
+			        !mFullElement.Elements().Any(e => e.Attribute("part").Value == "<#= p.Item2.name #>"))
 			{
 				Assert.IsTrue(expander.FullDelta.Actions
 				.Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value == 
 					oFullElement.Elements().Single(e => e.Label() == o<#= p.Item2.name #>Label).GtID())
 				.Attribute("eLb").Value == o<#= p.Item2.name #>Label);
 			}
-			else if(!oFullElement.Elements().Any(e => e.Label() == "<#= p.Item2.name #>") &&
-			        mFullElement.Elements().Any(e => e.Label() == "<#= p.Item2.name #>"))
+			else if(!oFullElement.Elements().Any(e => e.Attribute("part").Value == "<#= p.Item2.name #>") &&
+			        mFullElement.Elements().Any(e => e.Attribute("part").Value == "<#= p.Item2.name #>"))
 			{
 				Assert.IsTrue(expander.FullDelta.Actions
 					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == m<#= p.Item2.name #>Label)
@@ -328,7 +328,7 @@ partial class RoslynMLDeltaExpanderTests
 			{
 #>
 
-			if(mFullElement.Elements().Any(e => e.Label() == "<#= p.Item2.name #>"))
+			if(mFullElement.Elements().Any(e => e.Attribute("part").Value == "<#= p.Item2.name #>"))
 			{
 				Assert.IsTrue(expander.FullDelta.Actions
 					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == m<#= p.Item2.name #>Label)
@@ -382,7 +382,7 @@ partial class RoslynMLDeltaExpanderTests
 			{
 #>
 
-			if(oFullElement.Elements().Any(e => e.Label() == "<#= p.Item2.name #>"))
+			if(oFullElement.Elements().Any(e => e.Attribute("part").Value == "<#= p.Item2.name #>"))
 			{
 				Assert.IsTrue(expander.FullDelta.Actions
 					.Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value == 
@@ -448,8 +448,8 @@ partial class RoslynMLDeltaExpanderTests
 			{
 #>
 
-			if(oFullElement.Elements().Any(e => e.Label() == "<#= p.Item2.name #>") &&
-			   mFullElement.Elements().Any(e => e.Label() == "<#= p.Item2.name #>"))
+			if(oFullElement.Elements().Any(e => e.Attribute("part").Value == "<#= p.Item2.name #>") &&
+			   mFullElement.Elements().Any(e => e.Attribute("part").Value == "<#= p.Item2.name #>"))
 			{
 				Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == o<#= p.Item2.name #>Label)
 					.Attribute("mLb").Value == m<#= p.Item2.name #>Label);
@@ -466,16 +466,16 @@ partial class RoslynMLDeltaExpanderTests
 						oFullElement.Elements().Single(e => e.Label() == o<#= p.Item2.name #>Label).GtID())
 					.Attribute("val").Value == "<#= propertyValues[i] #>");
 			} 
-			else if(oFullElement.Elements().Any(e => e.Label() == "<#= p.Item2.name #>") &&
-			        !mFullElement.Elements().Any(e => e.Label() == "<#= p.Item2.name #>"))
+			else if(oFullElement.Elements().Any(e => e.Attribute("part").Value == "<#= p.Item2.name #>") &&
+			        !mFullElement.Elements().Any(e => e.Attribute("part").Value == "<#= p.Item2.name #>"))
 			{
 				Assert.IsTrue(expander.FullDelta.Actions
 				.Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value == 
 					oFullElement.Elements().Single(e => e.Label() == o<#= p.Item2.name #>Label).GtID())
 				.Attribute("eLb").Value == o<#= p.Item2.name #>Label);
 			}
-			else if(!oFullElement.Elements().Any(e => e.Label() == "<#= p.Item2.name #>") &&
-			        mFullElement.Elements().Any(e => e.Label() == "<#= p.Item2.name #>"))
+			else if(!oFullElement.Elements().Any(e => e.Attribute("part").Value == "<#= p.Item2.name #>") &&
+			        mFullElement.Elements().Any(e => e.Attribute("part").Value == "<#= p.Item2.name #>"))
 			{
 				Assert.IsTrue(expander.FullDelta.Actions
 					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == m<#= p.Item2.name #>Label)

@@ -1,4 +1,4 @@
-﻿namespace Jawilliam.CDF.Tests.Flad.Awareness
+namespace Jawilliam.CDF.Tests.Flad.Awareness
 {
     using Jawilliam.CDF.Approach;
     using Jawilliam.CDF.CSharp.RoslynML;
@@ -76,15 +76,15 @@
     			var matchedProperties = totalProperties;
     			var unmatchedOriginalProperties = 0;
     			var unmatchedModifiedProperties = 0;
-    			matchedProperties = oFullElement.Elements().Any(e => e.Label() == "ColonColonToken") && 
-    			                    mFullElement.Elements().Any(e => e.Label() == "ColonColonToken")
+    			matchedProperties = oFullElement.Elements().Any(e => e.Attribute("part").Value == "ColonColonToken") && 
+    			                    mFullElement.Elements().Any(e => e.Attribute("part").Value == "ColonColonToken")
     				? matchedProperties 
     				: (matchedProperties - 1);
-    			if(!oFullElement.Elements().Any(e => e.Label() == "ColonColonToken") && 
-    			    mFullElement.Elements().Any(e => e.Label() == "ColonColonToken"))
+    			if(!oFullElement.Elements().Any(e => e.Attribute("part").Value == "ColonColonToken") && 
+    			    mFullElement.Elements().Any(e => e.Attribute("part").Value == "ColonColonToken"))
     				unmatchedModifiedProperties++; 
-    			if(oFullElement.Elements().Any(e => e.Label() == "ColonColonToken") && 
-    			   !mFullElement.Elements().Any(e => e.Label() == "ColonColonToken"))
+    			if(oFullElement.Elements().Any(e => e.Attribute("part").Value == "ColonColonToken") && 
+    			   !mFullElement.Elements().Any(e => e.Attribute("part").Value == "ColonColonToken"))
     				unmatchedOriginalProperties++; 
     
     			Assert.AreEqual(expander.FullDelta.Matches.Count(), matchedProperties + 1);
@@ -101,8 +101,8 @@
     			var mColonColonTokenLabel = nodeRevisionPair.Modified.ColonColonToken == null || nodeRevisionPair.Modified.ColonColonToken.Kind() == SyntaxKind.None
     				? null 
     				: Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Modified.ColonColonToken.Kind());
-    			if(oFullElement.Elements().Any(e => e.Label() == "ColonColonToken") &&
-    			   mFullElement.Elements().Any(e => e.Label() == "ColonColonToken"))
+    			if(oFullElement.Elements().Any(e => e.Attribute("part").Value == "ColonColonToken") &&
+    			   mFullElement.Elements().Any(e => e.Attribute("part").Value == "ColonColonToken"))
     			{
     				Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oColonColonTokenLabel)
     					.Attribute("mLb").Value == mColonColonTokenLabel);
@@ -111,16 +111,16 @@
     					.Attribute("mId").Value == 
     					mFullElement.Elements().Single(e => e.Label() == mColonColonTokenLabel).GtID());
     			} 
-    			else if(oFullElement.Elements().Any(e => e.Label() == "ColonColonToken") &&
-    			        !mFullElement.Elements().Any(e => e.Label() == "ColonColonToken"))
+    			else if(oFullElement.Elements().Any(e => e.Attribute("part").Value == "ColonColonToken") &&
+    			        !mFullElement.Elements().Any(e => e.Attribute("part").Value == "ColonColonToken"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     				.Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value == 
     					oFullElement.Elements().Single(e => e.Label() == oColonColonTokenLabel).GtID())
     				.Attribute("eLb").Value == oColonColonTokenLabel);
     			}
-    			else if(!oFullElement.Elements().Any(e => e.Label() == "ColonColonToken") &&
-    			        mFullElement.Elements().Any(e => e.Label() == "ColonColonToken"))
+    			else if(!oFullElement.Elements().Any(e => e.Attribute("part").Value == "ColonColonToken") &&
+    			        mFullElement.Elements().Any(e => e.Attribute("part").Value == "ColonColonToken"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mColonColonTokenLabel)
@@ -157,7 +157,7 @@
     				.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mExpectedLabel)
     				.Attribute("pLb").Value == mExpectedLabel);
     
-    			if(mFullElement.Elements().Any(e => e.Label() == "ColonColonToken"))
+    			if(mFullElement.Elements().Any(e => e.Attribute("part").Value == "ColonColonToken"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mColonColonTokenLabel)
@@ -188,7 +188,7 @@
     				.Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value == oElement.GtID())
     				.Attribute("eLb").Value == oElement.Label());
     
-    			if(oFullElement.Elements().Any(e => e.Label() == "ColonColonToken"))
+    			if(oFullElement.Elements().Any(e => e.Attribute("part").Value == "ColonColonToken"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     					.Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value == 
@@ -225,8 +225,8 @@
     			Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oExpectedLabel)
     				.Attribute("mLb").Value == mExpectedLabel);
     
-    			if(oFullElement.Elements().Any(e => e.Label() == "ColonColonToken") &&
-    			   mFullElement.Elements().Any(e => e.Label() == "ColonColonToken"))
+    			if(oFullElement.Elements().Any(e => e.Attribute("part").Value == "ColonColonToken") &&
+    			   mFullElement.Elements().Any(e => e.Attribute("part").Value == "ColonColonToken"))
     			{
     				Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oColonColonTokenLabel)
     					.Attribute("mLb").Value == mColonColonTokenLabel);
@@ -243,16 +243,16 @@
     						oFullElement.Elements().Single(e => e.Label() == oColonColonTokenLabel).GtID())
     					.Attribute("val").Value == "v0");
     			} 
-    			else if(oFullElement.Elements().Any(e => e.Label() == "ColonColonToken") &&
-    			        !mFullElement.Elements().Any(e => e.Label() == "ColonColonToken"))
+    			else if(oFullElement.Elements().Any(e => e.Attribute("part").Value == "ColonColonToken") &&
+    			        !mFullElement.Elements().Any(e => e.Attribute("part").Value == "ColonColonToken"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     				.Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value == 
     					oFullElement.Elements().Single(e => e.Label() == oColonColonTokenLabel).GtID())
     				.Attribute("eLb").Value == oColonColonTokenLabel);
     			}
-    			else if(!oFullElement.Elements().Any(e => e.Label() == "ColonColonToken") &&
-    			        mFullElement.Elements().Any(e => e.Label() == "ColonColonToken"))
+    			else if(!oFullElement.Elements().Any(e => e.Attribute("part").Value == "ColonColonToken") &&
+    			        mFullElement.Elements().Any(e => e.Attribute("part").Value == "ColonColonToken"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mColonColonTokenLabel)

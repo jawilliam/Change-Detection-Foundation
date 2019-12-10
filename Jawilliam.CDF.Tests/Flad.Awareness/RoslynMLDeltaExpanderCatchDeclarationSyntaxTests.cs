@@ -1,4 +1,4 @@
-﻿namespace Jawilliam.CDF.Tests.Flad.Awareness
+namespace Jawilliam.CDF.Tests.Flad.Awareness
 {
     using Jawilliam.CDF.Approach;
     using Jawilliam.CDF.CSharp.RoslynML;
@@ -76,15 +76,15 @@
     			var matchedProperties = totalProperties;
     			var unmatchedOriginalProperties = 0;
     			var unmatchedModifiedProperties = 0;
-    			matchedProperties = oFullElement.Elements().Any(e => e.Label() == "Identifier") && 
-    			                    mFullElement.Elements().Any(e => e.Label() == "Identifier")
+    			matchedProperties = oFullElement.Elements().Any(e => e.Attribute("part").Value == "Identifier") && 
+    			                    mFullElement.Elements().Any(e => e.Attribute("part").Value == "Identifier")
     				? matchedProperties 
     				: (matchedProperties - 1);
-    			if(!oFullElement.Elements().Any(e => e.Label() == "Identifier") && 
-    			    mFullElement.Elements().Any(e => e.Label() == "Identifier"))
+    			if(!oFullElement.Elements().Any(e => e.Attribute("part").Value == "Identifier") && 
+    			    mFullElement.Elements().Any(e => e.Attribute("part").Value == "Identifier"))
     				unmatchedModifiedProperties++; 
-    			if(oFullElement.Elements().Any(e => e.Label() == "Identifier") && 
-    			   !mFullElement.Elements().Any(e => e.Label() == "Identifier"))
+    			if(oFullElement.Elements().Any(e => e.Attribute("part").Value == "Identifier") && 
+    			   !mFullElement.Elements().Any(e => e.Attribute("part").Value == "Identifier"))
     				unmatchedOriginalProperties++; 
     
     			Assert.AreEqual(expander.FullDelta.Matches.Count(), matchedProperties + 1);
@@ -110,8 +110,8 @@
     			var mIdentifierLabel = nodeRevisionPair.Modified.Identifier == null || nodeRevisionPair.Modified.Identifier.Kind() == SyntaxKind.None
     				? null 
     				: Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Modified.Identifier.Kind());
-    			if(oFullElement.Elements().Any(e => e.Label() == "Identifier") &&
-    			   mFullElement.Elements().Any(e => e.Label() == "Identifier"))
+    			if(oFullElement.Elements().Any(e => e.Attribute("part").Value == "Identifier") &&
+    			   mFullElement.Elements().Any(e => e.Attribute("part").Value == "Identifier"))
     			{
     				Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oIdentifierLabel)
     					.Attribute("mLb").Value == mIdentifierLabel);
@@ -120,16 +120,16 @@
     					.Attribute("mId").Value == 
     					mFullElement.Elements().Single(e => e.Label() == mIdentifierLabel).GtID());
     			} 
-    			else if(oFullElement.Elements().Any(e => e.Label() == "Identifier") &&
-    			        !mFullElement.Elements().Any(e => e.Label() == "Identifier"))
+    			else if(oFullElement.Elements().Any(e => e.Attribute("part").Value == "Identifier") &&
+    			        !mFullElement.Elements().Any(e => e.Attribute("part").Value == "Identifier"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     				.Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value == 
     					oFullElement.Elements().Single(e => e.Label() == oIdentifierLabel).GtID())
     				.Attribute("eLb").Value == oIdentifierLabel);
     			}
-    			else if(!oFullElement.Elements().Any(e => e.Label() == "Identifier") &&
-    			        mFullElement.Elements().Any(e => e.Label() == "Identifier"))
+    			else if(!oFullElement.Elements().Any(e => e.Attribute("part").Value == "Identifier") &&
+    			        mFullElement.Elements().Any(e => e.Attribute("part").Value == "Identifier"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mIdentifierLabel)
@@ -183,7 +183,7 @@
     					mFullElement.Elements().Single(e => e.Label() == mOpenParenTokenLabel).GtID())
     				.Attribute("pId").Value == mFullElement.GtID());
     
-    			if(mFullElement.Elements().Any(e => e.Label() == "Identifier"))
+    			if(mFullElement.Elements().Any(e => e.Attribute("part").Value == "Identifier"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mIdentifierLabel)
@@ -227,7 +227,7 @@
     					oFullElement.Elements().Single(e => e.Label() == oOpenParenTokenLabel).GtID())
     				.Attribute("eLb").Value == oOpenParenTokenLabel);
     
-    			if(oFullElement.Elements().Any(e => e.Label() == "Identifier"))
+    			if(oFullElement.Elements().Any(e => e.Attribute("part").Value == "Identifier"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     					.Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value == 
@@ -289,8 +289,8 @@
     					oFullElement.Elements().Single(e => e.Label() == oOpenParenTokenLabel).GtID())
     				.Attribute("val").Value == "v0");
     
-    			if(oFullElement.Elements().Any(e => e.Label() == "Identifier") &&
-    			   mFullElement.Elements().Any(e => e.Label() == "Identifier"))
+    			if(oFullElement.Elements().Any(e => e.Attribute("part").Value == "Identifier") &&
+    			   mFullElement.Elements().Any(e => e.Attribute("part").Value == "Identifier"))
     			{
     				Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oIdentifierLabel)
     					.Attribute("mLb").Value == mIdentifierLabel);
@@ -307,16 +307,16 @@
     						oFullElement.Elements().Single(e => e.Label() == oIdentifierLabel).GtID())
     					.Attribute("val").Value == "v1");
     			} 
-    			else if(oFullElement.Elements().Any(e => e.Label() == "Identifier") &&
-    			        !mFullElement.Elements().Any(e => e.Label() == "Identifier"))
+    			else if(oFullElement.Elements().Any(e => e.Attribute("part").Value == "Identifier") &&
+    			        !mFullElement.Elements().Any(e => e.Attribute("part").Value == "Identifier"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     				.Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value == 
     					oFullElement.Elements().Single(e => e.Label() == oIdentifierLabel).GtID())
     				.Attribute("eLb").Value == oIdentifierLabel);
     			}
-    			else if(!oFullElement.Elements().Any(e => e.Label() == "Identifier") &&
-    			        mFullElement.Elements().Any(e => e.Label() == "Identifier"))
+    			else if(!oFullElement.Elements().Any(e => e.Attribute("part").Value == "Identifier") &&
+    			        mFullElement.Elements().Any(e => e.Attribute("part").Value == "Identifier"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mIdentifierLabel)

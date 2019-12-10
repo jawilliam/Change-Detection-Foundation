@@ -1,4 +1,4 @@
-﻿namespace Jawilliam.CDF.Tests.Flad.Awareness
+namespace Jawilliam.CDF.Tests.Flad.Awareness
 {
     using Jawilliam.CDF.Approach;
     using Jawilliam.CDF.CSharp.RoslynML;
@@ -76,15 +76,15 @@
     			var matchedProperties = totalProperties;
     			var unmatchedOriginalProperties = 0;
     			var unmatchedModifiedProperties = 0;
-    			matchedProperties = oFullElement.Elements().Any(e => e.Label() == "RefKindKeyword") && 
-    			                    mFullElement.Elements().Any(e => e.Label() == "RefKindKeyword")
+    			matchedProperties = oFullElement.Elements().Any(e => e.Attribute("part").Value == "RefKindKeyword") && 
+    			                    mFullElement.Elements().Any(e => e.Attribute("part").Value == "RefKindKeyword")
     				? matchedProperties 
     				: (matchedProperties - 1);
-    			if(!oFullElement.Elements().Any(e => e.Label() == "RefKindKeyword") && 
-    			    mFullElement.Elements().Any(e => e.Label() == "RefKindKeyword"))
+    			if(!oFullElement.Elements().Any(e => e.Attribute("part").Value == "RefKindKeyword") && 
+    			    mFullElement.Elements().Any(e => e.Attribute("part").Value == "RefKindKeyword"))
     				unmatchedModifiedProperties++; 
-    			if(oFullElement.Elements().Any(e => e.Label() == "RefKindKeyword") && 
-    			   !mFullElement.Elements().Any(e => e.Label() == "RefKindKeyword"))
+    			if(oFullElement.Elements().Any(e => e.Attribute("part").Value == "RefKindKeyword") && 
+    			   !mFullElement.Elements().Any(e => e.Attribute("part").Value == "RefKindKeyword"))
     				unmatchedOriginalProperties++; 
     
     			Assert.AreEqual(expander.FullDelta.Matches.Count(), matchedProperties + 1);
@@ -101,8 +101,8 @@
     			var mRefKindKeywordLabel = nodeRevisionPair.Modified.RefKindKeyword == null || nodeRevisionPair.Modified.RefKindKeyword.Kind() == SyntaxKind.None
     				? null 
     				: Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Modified.RefKindKeyword.Kind());
-    			if(oFullElement.Elements().Any(e => e.Label() == "RefKindKeyword") &&
-    			   mFullElement.Elements().Any(e => e.Label() == "RefKindKeyword"))
+    			if(oFullElement.Elements().Any(e => e.Attribute("part").Value == "RefKindKeyword") &&
+    			   mFullElement.Elements().Any(e => e.Attribute("part").Value == "RefKindKeyword"))
     			{
     				Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oRefKindKeywordLabel)
     					.Attribute("mLb").Value == mRefKindKeywordLabel);
@@ -111,16 +111,16 @@
     					.Attribute("mId").Value == 
     					mFullElement.Elements().Single(e => e.Label() == mRefKindKeywordLabel).GtID());
     			} 
-    			else if(oFullElement.Elements().Any(e => e.Label() == "RefKindKeyword") &&
-    			        !mFullElement.Elements().Any(e => e.Label() == "RefKindKeyword"))
+    			else if(oFullElement.Elements().Any(e => e.Attribute("part").Value == "RefKindKeyword") &&
+    			        !mFullElement.Elements().Any(e => e.Attribute("part").Value == "RefKindKeyword"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     				.Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value == 
     					oFullElement.Elements().Single(e => e.Label() == oRefKindKeywordLabel).GtID())
     				.Attribute("eLb").Value == oRefKindKeywordLabel);
     			}
-    			else if(!oFullElement.Elements().Any(e => e.Label() == "RefKindKeyword") &&
-    			        mFullElement.Elements().Any(e => e.Label() == "RefKindKeyword"))
+    			else if(!oFullElement.Elements().Any(e => e.Attribute("part").Value == "RefKindKeyword") &&
+    			        mFullElement.Elements().Any(e => e.Attribute("part").Value == "RefKindKeyword"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mRefKindKeywordLabel)
@@ -157,7 +157,7 @@
     				.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mExpectedLabel)
     				.Attribute("pLb").Value == mExpectedLabel);
     
-    			if(mFullElement.Elements().Any(e => e.Label() == "RefKindKeyword"))
+    			if(mFullElement.Elements().Any(e => e.Attribute("part").Value == "RefKindKeyword"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mRefKindKeywordLabel)
@@ -188,7 +188,7 @@
     				.Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value == oElement.GtID())
     				.Attribute("eLb").Value == oElement.Label());
     
-    			if(oFullElement.Elements().Any(e => e.Label() == "RefKindKeyword"))
+    			if(oFullElement.Elements().Any(e => e.Attribute("part").Value == "RefKindKeyword"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     					.Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value == 
@@ -225,8 +225,8 @@
     			Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oExpectedLabel)
     				.Attribute("mLb").Value == mExpectedLabel);
     
-    			if(oFullElement.Elements().Any(e => e.Label() == "RefKindKeyword") &&
-    			   mFullElement.Elements().Any(e => e.Label() == "RefKindKeyword"))
+    			if(oFullElement.Elements().Any(e => e.Attribute("part").Value == "RefKindKeyword") &&
+    			   mFullElement.Elements().Any(e => e.Attribute("part").Value == "RefKindKeyword"))
     			{
     				Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oRefKindKeywordLabel)
     					.Attribute("mLb").Value == mRefKindKeywordLabel);
@@ -243,16 +243,16 @@
     						oFullElement.Elements().Single(e => e.Label() == oRefKindKeywordLabel).GtID())
     					.Attribute("val").Value == "v0");
     			} 
-    			else if(oFullElement.Elements().Any(e => e.Label() == "RefKindKeyword") &&
-    			        !mFullElement.Elements().Any(e => e.Label() == "RefKindKeyword"))
+    			else if(oFullElement.Elements().Any(e => e.Attribute("part").Value == "RefKindKeyword") &&
+    			        !mFullElement.Elements().Any(e => e.Attribute("part").Value == "RefKindKeyword"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     				.Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value == 
     					oFullElement.Elements().Single(e => e.Label() == oRefKindKeywordLabel).GtID())
     				.Attribute("eLb").Value == oRefKindKeywordLabel);
     			}
-    			else if(!oFullElement.Elements().Any(e => e.Label() == "RefKindKeyword") &&
-    			        mFullElement.Elements().Any(e => e.Label() == "RefKindKeyword"))
+    			else if(!oFullElement.Elements().Any(e => e.Attribute("part").Value == "RefKindKeyword") &&
+    			        mFullElement.Elements().Any(e => e.Attribute("part").Value == "RefKindKeyword"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mRefKindKeywordLabel)

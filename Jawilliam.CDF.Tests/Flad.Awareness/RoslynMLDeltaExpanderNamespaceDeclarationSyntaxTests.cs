@@ -1,4 +1,4 @@
-﻿namespace Jawilliam.CDF.Tests.Flad.Awareness
+namespace Jawilliam.CDF.Tests.Flad.Awareness
 {
     using Jawilliam.CDF.Approach;
     using Jawilliam.CDF.CSharp.RoslynML;
@@ -76,15 +76,15 @@
     			var matchedProperties = totalProperties;
     			var unmatchedOriginalProperties = 0;
     			var unmatchedModifiedProperties = 0;
-    			matchedProperties = oFullElement.Elements().Any(e => e.Label() == "SemicolonToken") && 
-    			                    mFullElement.Elements().Any(e => e.Label() == "SemicolonToken")
+    			matchedProperties = oFullElement.Elements().Any(e => e.Attribute("part").Value == "SemicolonToken") && 
+    			                    mFullElement.Elements().Any(e => e.Attribute("part").Value == "SemicolonToken")
     				? matchedProperties 
     				: (matchedProperties - 1);
-    			if(!oFullElement.Elements().Any(e => e.Label() == "SemicolonToken") && 
-    			    mFullElement.Elements().Any(e => e.Label() == "SemicolonToken"))
+    			if(!oFullElement.Elements().Any(e => e.Attribute("part").Value == "SemicolonToken") && 
+    			    mFullElement.Elements().Any(e => e.Attribute("part").Value == "SemicolonToken"))
     				unmatchedModifiedProperties++; 
-    			if(oFullElement.Elements().Any(e => e.Label() == "SemicolonToken") && 
-    			   !mFullElement.Elements().Any(e => e.Label() == "SemicolonToken"))
+    			if(oFullElement.Elements().Any(e => e.Attribute("part").Value == "SemicolonToken") && 
+    			   !mFullElement.Elements().Any(e => e.Attribute("part").Value == "SemicolonToken"))
     				unmatchedOriginalProperties++; 
     
     			Assert.AreEqual(expander.FullDelta.Matches.Count(), matchedProperties + 1);
@@ -128,8 +128,8 @@
     			var mSemicolonTokenLabel = nodeRevisionPair.Modified.SemicolonToken == null || nodeRevisionPair.Modified.SemicolonToken.Kind() == SyntaxKind.None
     				? null 
     				: Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Modified.SemicolonToken.Kind());
-    			if(oFullElement.Elements().Any(e => e.Label() == "SemicolonToken") &&
-    			   mFullElement.Elements().Any(e => e.Label() == "SemicolonToken"))
+    			if(oFullElement.Elements().Any(e => e.Attribute("part").Value == "SemicolonToken") &&
+    			   mFullElement.Elements().Any(e => e.Attribute("part").Value == "SemicolonToken"))
     			{
     				Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oSemicolonTokenLabel)
     					.Attribute("mLb").Value == mSemicolonTokenLabel);
@@ -138,16 +138,16 @@
     					.Attribute("mId").Value == 
     					mFullElement.Elements().Single(e => e.Label() == mSemicolonTokenLabel).GtID());
     			} 
-    			else if(oFullElement.Elements().Any(e => e.Label() == "SemicolonToken") &&
-    			        !mFullElement.Elements().Any(e => e.Label() == "SemicolonToken"))
+    			else if(oFullElement.Elements().Any(e => e.Attribute("part").Value == "SemicolonToken") &&
+    			        !mFullElement.Elements().Any(e => e.Attribute("part").Value == "SemicolonToken"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     				.Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value == 
     					oFullElement.Elements().Single(e => e.Label() == oSemicolonTokenLabel).GtID())
     				.Attribute("eLb").Value == oSemicolonTokenLabel);
     			}
-    			else if(!oFullElement.Elements().Any(e => e.Label() == "SemicolonToken") &&
-    			        mFullElement.Elements().Any(e => e.Label() == "SemicolonToken"))
+    			else if(!oFullElement.Elements().Any(e => e.Attribute("part").Value == "SemicolonToken") &&
+    			        mFullElement.Elements().Any(e => e.Attribute("part").Value == "SemicolonToken"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mSemicolonTokenLabel)
@@ -208,7 +208,7 @@
     					mFullElement.Elements().Single(e => e.Label() == mCloseBraceTokenLabel).GtID())
     				.Attribute("pId").Value == mFullElement.GtID());
     
-    			if(mFullElement.Elements().Any(e => e.Label() == "SemicolonToken"))
+    			if(mFullElement.Elements().Any(e => e.Attribute("part").Value == "SemicolonToken"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mSemicolonTokenLabel)
@@ -254,7 +254,7 @@
     					oFullElement.Elements().Single(e => e.Label() == oCloseBraceTokenLabel).GtID())
     				.Attribute("eLb").Value == oCloseBraceTokenLabel);
     
-    			if(oFullElement.Elements().Any(e => e.Label() == "SemicolonToken"))
+    			if(oFullElement.Elements().Any(e => e.Attribute("part").Value == "SemicolonToken"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     					.Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value == 
@@ -342,8 +342,8 @@
     					oFullElement.Elements().Single(e => e.Label() == oCloseBraceTokenLabel).GtID())
     				.Attribute("val").Value == "v2");
     
-    			if(oFullElement.Elements().Any(e => e.Label() == "SemicolonToken") &&
-    			   mFullElement.Elements().Any(e => e.Label() == "SemicolonToken"))
+    			if(oFullElement.Elements().Any(e => e.Attribute("part").Value == "SemicolonToken") &&
+    			   mFullElement.Elements().Any(e => e.Attribute("part").Value == "SemicolonToken"))
     			{
     				Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oSemicolonTokenLabel)
     					.Attribute("mLb").Value == mSemicolonTokenLabel);
@@ -360,16 +360,16 @@
     						oFullElement.Elements().Single(e => e.Label() == oSemicolonTokenLabel).GtID())
     					.Attribute("val").Value == "v3");
     			} 
-    			else if(oFullElement.Elements().Any(e => e.Label() == "SemicolonToken") &&
-    			        !mFullElement.Elements().Any(e => e.Label() == "SemicolonToken"))
+    			else if(oFullElement.Elements().Any(e => e.Attribute("part").Value == "SemicolonToken") &&
+    			        !mFullElement.Elements().Any(e => e.Attribute("part").Value == "SemicolonToken"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     				.Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value == 
     					oFullElement.Elements().Single(e => e.Label() == oSemicolonTokenLabel).GtID())
     				.Attribute("eLb").Value == oSemicolonTokenLabel);
     			}
-    			else if(!oFullElement.Elements().Any(e => e.Label() == "SemicolonToken") &&
-    			        mFullElement.Elements().Any(e => e.Label() == "SemicolonToken"))
+    			else if(!oFullElement.Elements().Any(e => e.Attribute("part").Value == "SemicolonToken") &&
+    			        mFullElement.Elements().Any(e => e.Attribute("part").Value == "SemicolonToken"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mSemicolonTokenLabel)

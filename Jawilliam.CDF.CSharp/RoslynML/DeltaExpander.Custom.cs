@@ -185,20 +185,25 @@ namespace Jawilliam.CDF.CSharp.RoslynML
         /// </summary>
         /// <param name="oFullElement">The full description associated to the matched original element version.</param>
         /// <param name="mFullElement">The full description associated to the unmatched modified element version.</param>
-        /// <returns>The expanded matches and actions.</returns>
-        public virtual XElement Match(XElement oFullElement, XElement mFullElement)
+        /// <returns>The expanded matches and actions, or null if these match cannot happen because some partner is already matched.</returns>
+        public virtual XElement MatchIfAvailable(XElement oFullElement, XElement mFullElement)
         {
-            var match = new XElement("Match",
-                new XAttribute("oId", oFullElement.GtID()),
-                new XAttribute("oLb", oFullElement.Attribute("kind")?.Value ?? oFullElement.Name.LocalName),
-                new XAttribute("mId", mFullElement.GtID()),
-                new XAttribute("mLb", mFullElement.Attribute("kind")?.Value ?? mFullElement.Name.LocalName),
-                new XAttribute("expanded", true));
-            this.OMatches[oFullElement.GtID()] = match;
-            this.MMatches[mFullElement.GtID()] = match;
-            this.FullDelta.Matches.Add(match);
+            if (!this.OMatches.ContainsKey(oFullElement.GtID()) && !this.MMatches.ContainsKey(mFullElement.GtID()))
+            {
+                var match = new XElement("Match",
+                    new XAttribute("oId", oFullElement.GtID()),
+                    new XAttribute("oLb", oFullElement.Attribute("kind")?.Value ?? oFullElement.Name.LocalName),
+                    new XAttribute("mId", mFullElement.GtID()),
+                    new XAttribute("mLb", mFullElement.Attribute("kind")?.Value ?? mFullElement.Name.LocalName),
+                    new XAttribute("expanded", true));
+                this.OMatches[oFullElement.GtID()] = match;
+                this.MMatches[mFullElement.GtID()] = match;
+                this.FullDelta.Matches.Add(match);
 
-            return match;
+                return match;
+            }
+
+            return null;
         }
 
         /// <summary>

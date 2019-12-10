@@ -1,4 +1,4 @@
-﻿namespace Jawilliam.CDF.Tests.Flad.Awareness
+namespace Jawilliam.CDF.Tests.Flad.Awareness
 {
     using Jawilliam.CDF.Approach;
     using Jawilliam.CDF.CSharp.RoslynML;
@@ -76,15 +76,15 @@
     			var matchedProperties = totalProperties;
     			var unmatchedOriginalProperties = 0;
     			var unmatchedModifiedProperties = 0;
-    			matchedProperties = oFullElement.Elements().Any(e => e.Label() == "CaseOrDefaultKeyword") && 
-    			                    mFullElement.Elements().Any(e => e.Label() == "CaseOrDefaultKeyword")
+    			matchedProperties = oFullElement.Elements().Any(e => e.Attribute("part").Value == "CaseOrDefaultKeyword") && 
+    			                    mFullElement.Elements().Any(e => e.Attribute("part").Value == "CaseOrDefaultKeyword")
     				? matchedProperties 
     				: (matchedProperties - 1);
-    			if(!oFullElement.Elements().Any(e => e.Label() == "CaseOrDefaultKeyword") && 
-    			    mFullElement.Elements().Any(e => e.Label() == "CaseOrDefaultKeyword"))
+    			if(!oFullElement.Elements().Any(e => e.Attribute("part").Value == "CaseOrDefaultKeyword") && 
+    			    mFullElement.Elements().Any(e => e.Attribute("part").Value == "CaseOrDefaultKeyword"))
     				unmatchedModifiedProperties++; 
-    			if(oFullElement.Elements().Any(e => e.Label() == "CaseOrDefaultKeyword") && 
-    			   !mFullElement.Elements().Any(e => e.Label() == "CaseOrDefaultKeyword"))
+    			if(oFullElement.Elements().Any(e => e.Attribute("part").Value == "CaseOrDefaultKeyword") && 
+    			   !mFullElement.Elements().Any(e => e.Attribute("part").Value == "CaseOrDefaultKeyword"))
     				unmatchedOriginalProperties++; 
     
     			Assert.AreEqual(expander.FullDelta.Matches.Count(), matchedProperties + 1);
@@ -110,8 +110,8 @@
     			var mCaseOrDefaultKeywordLabel = nodeRevisionPair.Modified.CaseOrDefaultKeyword == null || nodeRevisionPair.Modified.CaseOrDefaultKeyword.Kind() == SyntaxKind.None
     				? null 
     				: Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Modified.CaseOrDefaultKeyword.Kind());
-    			if(oFullElement.Elements().Any(e => e.Label() == "CaseOrDefaultKeyword") &&
-    			   mFullElement.Elements().Any(e => e.Label() == "CaseOrDefaultKeyword"))
+    			if(oFullElement.Elements().Any(e => e.Attribute("part").Value == "CaseOrDefaultKeyword") &&
+    			   mFullElement.Elements().Any(e => e.Attribute("part").Value == "CaseOrDefaultKeyword"))
     			{
     				Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oCaseOrDefaultKeywordLabel)
     					.Attribute("mLb").Value == mCaseOrDefaultKeywordLabel);
@@ -120,16 +120,16 @@
     					.Attribute("mId").Value == 
     					mFullElement.Elements().Single(e => e.Label() == mCaseOrDefaultKeywordLabel).GtID());
     			} 
-    			else if(oFullElement.Elements().Any(e => e.Label() == "CaseOrDefaultKeyword") &&
-    			        !mFullElement.Elements().Any(e => e.Label() == "CaseOrDefaultKeyword"))
+    			else if(oFullElement.Elements().Any(e => e.Attribute("part").Value == "CaseOrDefaultKeyword") &&
+    			        !mFullElement.Elements().Any(e => e.Attribute("part").Value == "CaseOrDefaultKeyword"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     				.Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value == 
     					oFullElement.Elements().Single(e => e.Label() == oCaseOrDefaultKeywordLabel).GtID())
     				.Attribute("eLb").Value == oCaseOrDefaultKeywordLabel);
     			}
-    			else if(!oFullElement.Elements().Any(e => e.Label() == "CaseOrDefaultKeyword") &&
-    			        mFullElement.Elements().Any(e => e.Label() == "CaseOrDefaultKeyword"))
+    			else if(!oFullElement.Elements().Any(e => e.Attribute("part").Value == "CaseOrDefaultKeyword") &&
+    			        mFullElement.Elements().Any(e => e.Attribute("part").Value == "CaseOrDefaultKeyword"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mCaseOrDefaultKeywordLabel)
@@ -183,7 +183,7 @@
     					mFullElement.Elements().Single(e => e.Label() == mGotoKeywordLabel).GtID())
     				.Attribute("pId").Value == mFullElement.GtID());
     
-    			if(mFullElement.Elements().Any(e => e.Label() == "CaseOrDefaultKeyword"))
+    			if(mFullElement.Elements().Any(e => e.Attribute("part").Value == "CaseOrDefaultKeyword"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mCaseOrDefaultKeywordLabel)
@@ -227,7 +227,7 @@
     					oFullElement.Elements().Single(e => e.Label() == oGotoKeywordLabel).GtID())
     				.Attribute("eLb").Value == oGotoKeywordLabel);
     
-    			if(oFullElement.Elements().Any(e => e.Label() == "CaseOrDefaultKeyword"))
+    			if(oFullElement.Elements().Any(e => e.Attribute("part").Value == "CaseOrDefaultKeyword"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     					.Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value == 
@@ -289,8 +289,8 @@
     					oFullElement.Elements().Single(e => e.Label() == oGotoKeywordLabel).GtID())
     				.Attribute("val").Value == "v0");
     
-    			if(oFullElement.Elements().Any(e => e.Label() == "CaseOrDefaultKeyword") &&
-    			   mFullElement.Elements().Any(e => e.Label() == "CaseOrDefaultKeyword"))
+    			if(oFullElement.Elements().Any(e => e.Attribute("part").Value == "CaseOrDefaultKeyword") &&
+    			   mFullElement.Elements().Any(e => e.Attribute("part").Value == "CaseOrDefaultKeyword"))
     			{
     				Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oCaseOrDefaultKeywordLabel)
     					.Attribute("mLb").Value == mCaseOrDefaultKeywordLabel);
@@ -307,16 +307,16 @@
     						oFullElement.Elements().Single(e => e.Label() == oCaseOrDefaultKeywordLabel).GtID())
     					.Attribute("val").Value == "v1");
     			} 
-    			else if(oFullElement.Elements().Any(e => e.Label() == "CaseOrDefaultKeyword") &&
-    			        !mFullElement.Elements().Any(e => e.Label() == "CaseOrDefaultKeyword"))
+    			else if(oFullElement.Elements().Any(e => e.Attribute("part").Value == "CaseOrDefaultKeyword") &&
+    			        !mFullElement.Elements().Any(e => e.Attribute("part").Value == "CaseOrDefaultKeyword"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     				.Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value == 
     					oFullElement.Elements().Single(e => e.Label() == oCaseOrDefaultKeywordLabel).GtID())
     				.Attribute("eLb").Value == oCaseOrDefaultKeywordLabel);
     			}
-    			else if(!oFullElement.Elements().Any(e => e.Label() == "CaseOrDefaultKeyword") &&
-    			        mFullElement.Elements().Any(e => e.Label() == "CaseOrDefaultKeyword"))
+    			else if(!oFullElement.Elements().Any(e => e.Attribute("part").Value == "CaseOrDefaultKeyword") &&
+    			        mFullElement.Elements().Any(e => e.Attribute("part").Value == "CaseOrDefaultKeyword"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mCaseOrDefaultKeywordLabel)

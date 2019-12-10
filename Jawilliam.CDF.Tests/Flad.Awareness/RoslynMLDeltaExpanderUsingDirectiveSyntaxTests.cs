@@ -1,4 +1,4 @@
-﻿namespace Jawilliam.CDF.Tests.Flad.Awareness
+namespace Jawilliam.CDF.Tests.Flad.Awareness
 {
     using Jawilliam.CDF.Approach;
     using Jawilliam.CDF.CSharp.RoslynML;
@@ -76,15 +76,15 @@
     			var matchedProperties = totalProperties;
     			var unmatchedOriginalProperties = 0;
     			var unmatchedModifiedProperties = 0;
-    			matchedProperties = oFullElement.Elements().Any(e => e.Label() == "StaticKeyword") && 
-    			                    mFullElement.Elements().Any(e => e.Label() == "StaticKeyword")
+    			matchedProperties = oFullElement.Elements().Any(e => e.Attribute("part").Value == "StaticKeyword") && 
+    			                    mFullElement.Elements().Any(e => e.Attribute("part").Value == "StaticKeyword")
     				? matchedProperties 
     				: (matchedProperties - 1);
-    			if(!oFullElement.Elements().Any(e => e.Label() == "StaticKeyword") && 
-    			    mFullElement.Elements().Any(e => e.Label() == "StaticKeyword"))
+    			if(!oFullElement.Elements().Any(e => e.Attribute("part").Value == "StaticKeyword") && 
+    			    mFullElement.Elements().Any(e => e.Attribute("part").Value == "StaticKeyword"))
     				unmatchedModifiedProperties++; 
-    			if(oFullElement.Elements().Any(e => e.Label() == "StaticKeyword") && 
-    			   !mFullElement.Elements().Any(e => e.Label() == "StaticKeyword"))
+    			if(oFullElement.Elements().Any(e => e.Attribute("part").Value == "StaticKeyword") && 
+    			   !mFullElement.Elements().Any(e => e.Attribute("part").Value == "StaticKeyword"))
     				unmatchedOriginalProperties++; 
     
     			Assert.AreEqual(expander.FullDelta.Matches.Count(), matchedProperties + 1);
@@ -110,8 +110,8 @@
     			var mStaticKeywordLabel = nodeRevisionPair.Modified.StaticKeyword == null || nodeRevisionPair.Modified.StaticKeyword.Kind() == SyntaxKind.None
     				? null 
     				: Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Modified.StaticKeyword.Kind());
-    			if(oFullElement.Elements().Any(e => e.Label() == "StaticKeyword") &&
-    			   mFullElement.Elements().Any(e => e.Label() == "StaticKeyword"))
+    			if(oFullElement.Elements().Any(e => e.Attribute("part").Value == "StaticKeyword") &&
+    			   mFullElement.Elements().Any(e => e.Attribute("part").Value == "StaticKeyword"))
     			{
     				Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oStaticKeywordLabel)
     					.Attribute("mLb").Value == mStaticKeywordLabel);
@@ -120,16 +120,16 @@
     					.Attribute("mId").Value == 
     					mFullElement.Elements().Single(e => e.Label() == mStaticKeywordLabel).GtID());
     			} 
-    			else if(oFullElement.Elements().Any(e => e.Label() == "StaticKeyword") &&
-    			        !mFullElement.Elements().Any(e => e.Label() == "StaticKeyword"))
+    			else if(oFullElement.Elements().Any(e => e.Attribute("part").Value == "StaticKeyword") &&
+    			        !mFullElement.Elements().Any(e => e.Attribute("part").Value == "StaticKeyword"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     				.Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value == 
     					oFullElement.Elements().Single(e => e.Label() == oStaticKeywordLabel).GtID())
     				.Attribute("eLb").Value == oStaticKeywordLabel);
     			}
-    			else if(!oFullElement.Elements().Any(e => e.Label() == "StaticKeyword") &&
-    			        mFullElement.Elements().Any(e => e.Label() == "StaticKeyword"))
+    			else if(!oFullElement.Elements().Any(e => e.Attribute("part").Value == "StaticKeyword") &&
+    			        mFullElement.Elements().Any(e => e.Attribute("part").Value == "StaticKeyword"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mStaticKeywordLabel)
@@ -183,7 +183,7 @@
     					mFullElement.Elements().Single(e => e.Label() == mUsingKeywordLabel).GtID())
     				.Attribute("pId").Value == mFullElement.GtID());
     
-    			if(mFullElement.Elements().Any(e => e.Label() == "StaticKeyword"))
+    			if(mFullElement.Elements().Any(e => e.Attribute("part").Value == "StaticKeyword"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mStaticKeywordLabel)
@@ -227,7 +227,7 @@
     					oFullElement.Elements().Single(e => e.Label() == oUsingKeywordLabel).GtID())
     				.Attribute("eLb").Value == oUsingKeywordLabel);
     
-    			if(oFullElement.Elements().Any(e => e.Label() == "StaticKeyword"))
+    			if(oFullElement.Elements().Any(e => e.Attribute("part").Value == "StaticKeyword"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     					.Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value == 
@@ -289,8 +289,8 @@
     					oFullElement.Elements().Single(e => e.Label() == oUsingKeywordLabel).GtID())
     				.Attribute("val").Value == "v0");
     
-    			if(oFullElement.Elements().Any(e => e.Label() == "StaticKeyword") &&
-    			   mFullElement.Elements().Any(e => e.Label() == "StaticKeyword"))
+    			if(oFullElement.Elements().Any(e => e.Attribute("part").Value == "StaticKeyword") &&
+    			   mFullElement.Elements().Any(e => e.Attribute("part").Value == "StaticKeyword"))
     			{
     				Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oStaticKeywordLabel)
     					.Attribute("mLb").Value == mStaticKeywordLabel);
@@ -307,16 +307,16 @@
     						oFullElement.Elements().Single(e => e.Label() == oStaticKeywordLabel).GtID())
     					.Attribute("val").Value == "v1");
     			} 
-    			else if(oFullElement.Elements().Any(e => e.Label() == "StaticKeyword") &&
-    			        !mFullElement.Elements().Any(e => e.Label() == "StaticKeyword"))
+    			else if(oFullElement.Elements().Any(e => e.Attribute("part").Value == "StaticKeyword") &&
+    			        !mFullElement.Elements().Any(e => e.Attribute("part").Value == "StaticKeyword"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     				.Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value == 
     					oFullElement.Elements().Single(e => e.Label() == oStaticKeywordLabel).GtID())
     				.Attribute("eLb").Value == oStaticKeywordLabel);
     			}
-    			else if(!oFullElement.Elements().Any(e => e.Label() == "StaticKeyword") &&
-    			        mFullElement.Elements().Any(e => e.Label() == "StaticKeyword"))
+    			else if(!oFullElement.Elements().Any(e => e.Attribute("part").Value == "StaticKeyword") &&
+    			        mFullElement.Elements().Any(e => e.Attribute("part").Value == "StaticKeyword"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mStaticKeywordLabel)

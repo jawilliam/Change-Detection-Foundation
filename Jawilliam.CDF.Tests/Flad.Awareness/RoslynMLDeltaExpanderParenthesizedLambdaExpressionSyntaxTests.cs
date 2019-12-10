@@ -1,4 +1,4 @@
-﻿namespace Jawilliam.CDF.Tests.Flad.Awareness
+namespace Jawilliam.CDF.Tests.Flad.Awareness
 {
     using Jawilliam.CDF.Approach;
     using Jawilliam.CDF.CSharp.RoslynML;
@@ -76,15 +76,15 @@
     			var matchedProperties = totalProperties;
     			var unmatchedOriginalProperties = 0;
     			var unmatchedModifiedProperties = 0;
-    			matchedProperties = oFullElement.Elements().Any(e => e.Label() == "AsyncKeyword") && 
-    			                    mFullElement.Elements().Any(e => e.Label() == "AsyncKeyword")
+    			matchedProperties = oFullElement.Elements().Any(e => e.Attribute("part").Value == "AsyncKeyword") && 
+    			                    mFullElement.Elements().Any(e => e.Attribute("part").Value == "AsyncKeyword")
     				? matchedProperties 
     				: (matchedProperties - 1);
-    			if(!oFullElement.Elements().Any(e => e.Label() == "AsyncKeyword") && 
-    			    mFullElement.Elements().Any(e => e.Label() == "AsyncKeyword"))
+    			if(!oFullElement.Elements().Any(e => e.Attribute("part").Value == "AsyncKeyword") && 
+    			    mFullElement.Elements().Any(e => e.Attribute("part").Value == "AsyncKeyword"))
     				unmatchedModifiedProperties++; 
-    			if(oFullElement.Elements().Any(e => e.Label() == "AsyncKeyword") && 
-    			   !mFullElement.Elements().Any(e => e.Label() == "AsyncKeyword"))
+    			if(oFullElement.Elements().Any(e => e.Attribute("part").Value == "AsyncKeyword") && 
+    			   !mFullElement.Elements().Any(e => e.Attribute("part").Value == "AsyncKeyword"))
     				unmatchedOriginalProperties++; 
     
     			Assert.AreEqual(expander.FullDelta.Matches.Count(), matchedProperties + 1);
@@ -101,8 +101,8 @@
     			var mAsyncKeywordLabel = nodeRevisionPair.Modified.AsyncKeyword == null || nodeRevisionPair.Modified.AsyncKeyword.Kind() == SyntaxKind.None
     				? null 
     				: Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Modified.AsyncKeyword.Kind());
-    			if(oFullElement.Elements().Any(e => e.Label() == "AsyncKeyword") &&
-    			   mFullElement.Elements().Any(e => e.Label() == "AsyncKeyword"))
+    			if(oFullElement.Elements().Any(e => e.Attribute("part").Value == "AsyncKeyword") &&
+    			   mFullElement.Elements().Any(e => e.Attribute("part").Value == "AsyncKeyword"))
     			{
     				Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oAsyncKeywordLabel)
     					.Attribute("mLb").Value == mAsyncKeywordLabel);
@@ -111,16 +111,16 @@
     					.Attribute("mId").Value == 
     					mFullElement.Elements().Single(e => e.Label() == mAsyncKeywordLabel).GtID());
     			} 
-    			else if(oFullElement.Elements().Any(e => e.Label() == "AsyncKeyword") &&
-    			        !mFullElement.Elements().Any(e => e.Label() == "AsyncKeyword"))
+    			else if(oFullElement.Elements().Any(e => e.Attribute("part").Value == "AsyncKeyword") &&
+    			        !mFullElement.Elements().Any(e => e.Attribute("part").Value == "AsyncKeyword"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     				.Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value == 
     					oFullElement.Elements().Single(e => e.Label() == oAsyncKeywordLabel).GtID())
     				.Attribute("eLb").Value == oAsyncKeywordLabel);
     			}
-    			else if(!oFullElement.Elements().Any(e => e.Label() == "AsyncKeyword") &&
-    			        mFullElement.Elements().Any(e => e.Label() == "AsyncKeyword"))
+    			else if(!oFullElement.Elements().Any(e => e.Attribute("part").Value == "AsyncKeyword") &&
+    			        mFullElement.Elements().Any(e => e.Attribute("part").Value == "AsyncKeyword"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mAsyncKeywordLabel)
@@ -166,7 +166,7 @@
     				.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mExpectedLabel)
     				.Attribute("pLb").Value == mExpectedLabel);
     
-    			if(mFullElement.Elements().Any(e => e.Label() == "AsyncKeyword"))
+    			if(mFullElement.Elements().Any(e => e.Attribute("part").Value == "AsyncKeyword"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mAsyncKeywordLabel)
@@ -205,7 +205,7 @@
     				.Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value == oElement.GtID())
     				.Attribute("eLb").Value == oElement.Label());
     
-    			if(oFullElement.Elements().Any(e => e.Label() == "AsyncKeyword"))
+    			if(oFullElement.Elements().Any(e => e.Attribute("part").Value == "AsyncKeyword"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     					.Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value == 
@@ -250,8 +250,8 @@
     			Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oExpectedLabel)
     				.Attribute("mLb").Value == mExpectedLabel);
     
-    			if(oFullElement.Elements().Any(e => e.Label() == "AsyncKeyword") &&
-    			   mFullElement.Elements().Any(e => e.Label() == "AsyncKeyword"))
+    			if(oFullElement.Elements().Any(e => e.Attribute("part").Value == "AsyncKeyword") &&
+    			   mFullElement.Elements().Any(e => e.Attribute("part").Value == "AsyncKeyword"))
     			{
     				Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oAsyncKeywordLabel)
     					.Attribute("mLb").Value == mAsyncKeywordLabel);
@@ -268,16 +268,16 @@
     						oFullElement.Elements().Single(e => e.Label() == oAsyncKeywordLabel).GtID())
     					.Attribute("val").Value == "v0");
     			} 
-    			else if(oFullElement.Elements().Any(e => e.Label() == "AsyncKeyword") &&
-    			        !mFullElement.Elements().Any(e => e.Label() == "AsyncKeyword"))
+    			else if(oFullElement.Elements().Any(e => e.Attribute("part").Value == "AsyncKeyword") &&
+    			        !mFullElement.Elements().Any(e => e.Attribute("part").Value == "AsyncKeyword"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     				.Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value == 
     					oFullElement.Elements().Single(e => e.Label() == oAsyncKeywordLabel).GtID())
     				.Attribute("eLb").Value == oAsyncKeywordLabel);
     			}
-    			else if(!oFullElement.Elements().Any(e => e.Label() == "AsyncKeyword") &&
-    			        mFullElement.Elements().Any(e => e.Label() == "AsyncKeyword"))
+    			else if(!oFullElement.Elements().Any(e => e.Attribute("part").Value == "AsyncKeyword") &&
+    			        mFullElement.Elements().Any(e => e.Attribute("part").Value == "AsyncKeyword"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mAsyncKeywordLabel)

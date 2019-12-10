@@ -1018,9 +1018,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -1196,9 +1201,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "GreaterThanToken");
@@ -1209,9 +1219,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -1391,9 +1406,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "Identifier");
@@ -1404,9 +1424,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -1582,9 +1607,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -1760,9 +1790,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "ColonToken");
@@ -1773,9 +1808,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -1951,9 +1991,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -2129,9 +2174,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "ThisOrBaseKeyword");
@@ -2142,9 +2192,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -2320,9 +2375,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -2498,9 +2558,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseBraceToken");
@@ -2511,9 +2576,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -2693,9 +2763,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "SemicolonToken");
@@ -2706,9 +2781,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -2884,9 +2964,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -3058,9 +3143,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -3236,9 +3326,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "GreaterThanToken");
@@ -3249,9 +3344,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -3431,9 +3531,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "GreaterThanToken");
@@ -3444,9 +3549,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -3622,9 +3732,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -3800,9 +3915,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "ColonToken");
@@ -3813,9 +3933,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -3995,9 +4120,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "GreaterThanToken");
@@ -4008,9 +4138,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -4190,9 +4325,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseBracketToken");
@@ -4203,9 +4343,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -4381,9 +4526,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -4555,9 +4705,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -4729,9 +4884,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -5201,9 +5361,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "Identifier");
@@ -5214,9 +5379,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -5392,9 +5562,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -5570,9 +5745,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "Identifier");
@@ -5583,9 +5763,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -5761,9 +5946,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -5935,9 +6125,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -6113,9 +6308,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "FormatStringToken");
@@ -6126,9 +6326,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -6451,9 +6656,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -6625,9 +6835,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -6799,9 +7014,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -7120,9 +7340,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -7302,9 +7527,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "Identifier");
@@ -7315,9 +7545,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseParenToken");
@@ -7328,9 +7563,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -7518,9 +7758,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "OpenParenToken");
@@ -7531,9 +7776,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseParenToken");
@@ -7544,9 +7794,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -7726,9 +7981,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -7900,9 +8160,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -8086,9 +8351,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "AliasKeyword");
@@ -8099,9 +8369,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "Identifier");
@@ -8112,9 +8387,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "SemicolonToken");
@@ -8125,9 +8405,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -8319,9 +8604,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "StaticKeyword");
@@ -8332,9 +8622,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "SemicolonToken");
@@ -8345,9 +8640,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -8531,9 +8831,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseBracketToken");
@@ -8544,9 +8849,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -8726,9 +9036,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "ColonToken");
@@ -8739,9 +9054,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -9068,9 +9388,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseParenToken");
@@ -9081,9 +9406,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -9267,9 +9597,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "Identifier");
@@ -9280,9 +9615,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "SemicolonToken");
@@ -9293,9 +9633,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -9475,9 +9820,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -9955,9 +10305,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "OpenBraceToken");
@@ -9968,9 +10323,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseBraceToken");
@@ -9981,9 +10341,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "SemicolonToken");
@@ -9994,9 +10359,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -10196,9 +10566,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "Identifier");
@@ -10209,9 +10584,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "OpenBraceToken");
@@ -10222,9 +10602,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseBraceToken");
@@ -10235,9 +10620,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "SemicolonToken");
@@ -10248,9 +10638,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -10454,9 +10849,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "Identifier");
@@ -10467,9 +10867,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "OpenBraceToken");
@@ -10480,9 +10885,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseBraceToken");
@@ -10493,9 +10903,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "SemicolonToken");
@@ -10506,9 +10921,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -10712,9 +11132,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "Identifier");
@@ -10725,9 +11150,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "OpenBraceToken");
@@ -10738,9 +11168,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseBraceToken");
@@ -10751,9 +11186,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "SemicolonToken");
@@ -10764,9 +11204,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -10970,9 +11415,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "Identifier");
@@ -10983,9 +11433,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "OpenBraceToken");
@@ -10996,9 +11451,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseBraceToken");
@@ -11009,9 +11469,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "SemicolonToken");
@@ -11022,9 +11487,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -11212,9 +11682,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -11390,9 +11865,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "SemicolonToken");
@@ -11403,9 +11883,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -11585,9 +12070,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "SemicolonToken");
@@ -11598,9 +12088,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -11784,9 +12279,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "OperatorToken");
@@ -11797,9 +12297,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "SemicolonToken");
@@ -11810,9 +12315,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -12000,9 +12510,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "OperatorKeyword");
@@ -12013,9 +12528,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "SemicolonToken");
@@ -12026,9 +12546,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -12212,9 +12737,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "SemicolonToken");
@@ -12225,9 +12755,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -12411,9 +12946,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "Identifier");
@@ -12424,9 +12964,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "SemicolonToken");
@@ -12437,9 +12982,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -12623,9 +13173,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "SemicolonToken");
@@ -12636,9 +13191,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -12818,9 +13378,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "Identifier");
@@ -12831,9 +13396,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -13013,9 +13583,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "SemicolonToken");
@@ -13026,9 +13601,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -13359,9 +13939,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "OpenParenToken");
@@ -13372,9 +13957,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseParenToken");
@@ -13385,9 +13975,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -13567,9 +14162,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -13892,9 +14492,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseParenToken");
@@ -13905,9 +14510,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -14087,9 +14697,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseBracketToken");
@@ -14100,9 +14715,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -14425,9 +15045,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -14607,9 +15232,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "EndIfKeyword");
@@ -14620,9 +15250,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "EndOfDirectiveToken");
@@ -14633,9 +15268,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -14823,9 +15463,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "RegionKeyword");
@@ -14836,9 +15481,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "EndOfDirectiveToken");
@@ -14849,9 +15499,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -15039,9 +15694,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "EndRegionKeyword");
@@ -15052,9 +15712,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "EndOfDirectiveToken");
@@ -15065,9 +15730,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -15255,9 +15925,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "ErrorKeyword");
@@ -15268,9 +15943,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "EndOfDirectiveToken");
@@ -15281,9 +15961,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -15471,9 +16156,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "WarningKeyword");
@@ -15484,9 +16174,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "EndOfDirectiveToken");
@@ -15497,9 +16192,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -15687,9 +16387,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "Identifier");
@@ -15700,9 +16405,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "EndOfDirectiveToken");
@@ -15713,9 +16423,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -15907,9 +16622,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "DefineKeyword");
@@ -15920,9 +16640,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "Name");
@@ -15933,9 +16658,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "EndOfDirectiveToken");
@@ -15946,9 +16676,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -16144,9 +16879,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "UndefKeyword");
@@ -16157,9 +16897,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "Name");
@@ -16170,9 +16915,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "EndOfDirectiveToken");
@@ -16183,9 +16933,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -16385,9 +17140,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "LineKeyword");
@@ -16398,9 +17158,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "Line");
@@ -16411,9 +17176,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "File");
@@ -16424,9 +17194,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "EndOfDirectiveToken");
@@ -16437,9 +17212,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -16643,9 +17423,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "PragmaKeyword");
@@ -16656,9 +17441,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "WarningKeyword");
@@ -16669,9 +17459,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "DisableOrRestoreKeyword");
@@ -16682,9 +17477,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "EndOfDirectiveToken");
@@ -16695,9 +17495,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -16909,9 +17714,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "PragmaKeyword");
@@ -16922,9 +17732,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "ChecksumKeyword");
@@ -16935,9 +17750,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "File");
@@ -16948,9 +17768,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "Guid");
@@ -16961,9 +17786,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "Bytes");
@@ -16974,9 +17804,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "EndOfDirectiveToken");
@@ -16987,9 +17822,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -17197,9 +18037,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "ReferenceKeyword");
@@ -17210,9 +18055,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "File");
@@ -17223,9 +18073,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "EndOfDirectiveToken");
@@ -17236,9 +18091,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -17434,9 +18294,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "LoadKeyword");
@@ -17447,9 +18312,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "File");
@@ -17460,9 +18330,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "EndOfDirectiveToken");
@@ -17473,9 +18348,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -17667,9 +18547,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "ExclamationToken");
@@ -17680,9 +18565,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "EndOfDirectiveToken");
@@ -17693,9 +18583,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -17883,9 +18778,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "ElseKeyword");
@@ -17896,9 +18796,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "EndOfDirectiveToken");
@@ -17909,9 +18814,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -18099,9 +19009,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "IfKeyword");
@@ -18112,9 +19027,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "EndOfDirectiveToken");
@@ -18125,9 +19045,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -18315,9 +19240,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "ElifKeyword");
@@ -18328,9 +19258,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "EndOfDirectiveToken");
@@ -18341,9 +19276,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -18670,9 +19610,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -18991,9 +19936,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -19169,9 +20119,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "OperatorToken");
@@ -19182,9 +20137,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -19364,9 +20324,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "OperatorKeyword");
@@ -19377,9 +20342,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -19559,9 +20529,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseParenToken");
@@ -19572,9 +20547,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -19754,9 +20734,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseBracketToken");
@@ -19767,9 +20752,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -19949,9 +20939,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "EndTag");
@@ -19962,9 +20957,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -20144,9 +21144,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "SlashGreaterThanToken");
@@ -20157,9 +21162,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -20486,9 +21496,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "EndCDataToken");
@@ -20499,9 +21514,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -20681,9 +21701,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "EndProcessingInstructionToken");
@@ -20694,9 +21719,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -20876,9 +21906,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "MinusMinusGreaterThanToken");
@@ -20889,9 +21924,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -21075,9 +22115,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "StartQuoteToken");
@@ -21088,9 +22133,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "EndQuoteToken");
@@ -21101,9 +22151,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -21295,9 +22350,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "EqualsToken");
@@ -21308,9 +22368,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "StartQuoteToken");
@@ -21321,9 +22386,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "EndQuoteToken");
@@ -21334,9 +22404,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -21532,9 +22607,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "EqualsToken");
@@ -21545,9 +22625,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "StartQuoteToken");
@@ -21558,9 +22643,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "EndQuoteToken");
@@ -21571,9 +22661,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -21761,9 +22856,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseParenToken");
@@ -21774,9 +22874,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -21956,9 +23061,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseParenToken");
@@ -21969,9 +23079,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -22147,9 +23262,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -22321,9 +23441,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -22495,9 +23620,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -22669,9 +23799,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -22843,9 +23978,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -23017,9 +24157,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -23485,9 +24630,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -23659,9 +24809,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -23837,9 +24992,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "ColonToken");
@@ -23850,9 +25010,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -24028,9 +25193,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -24210,9 +25380,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "OpenParenToken");
@@ -24223,9 +25398,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseParenToken");
@@ -24236,9 +25416,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -24426,9 +25611,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "OpenParenToken");
@@ -24439,9 +25629,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseParenToken");
@@ -24452,9 +25647,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -24646,9 +25846,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "OpenParenToken");
@@ -24659,9 +25864,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "Comma");
@@ -24672,9 +25882,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseParenToken");
@@ -24685,9 +25900,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -24879,9 +26099,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "OpenParenToken");
@@ -24892,9 +26117,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseParenToken");
@@ -24905,9 +26135,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -25095,9 +26330,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "OpenParenToken");
@@ -25108,9 +26348,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseParenToken");
@@ -25121,9 +26366,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -25311,9 +26561,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "OpenParenToken");
@@ -25324,9 +26579,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseParenToken");
@@ -25337,9 +26597,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -25527,9 +26792,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "OpenParenToken");
@@ -25540,9 +26810,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseParenToken");
@@ -25553,9 +26828,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -26180,9 +27460,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseParenToken");
@@ -26193,9 +27478,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -26371,9 +27661,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -26549,9 +27844,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseBraceToken");
@@ -26562,9 +27862,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -26740,9 +28045,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -26922,9 +28232,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "OpenBraceToken");
@@ -26935,9 +28250,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseBraceToken");
@@ -26948,9 +28268,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -27130,9 +28455,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -27312,9 +28642,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "OpenBracketToken");
@@ -27325,9 +28660,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseBracketToken");
@@ -27338,9 +28678,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -27520,9 +28865,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -27841,9 +29191,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -28019,9 +29374,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "StringEndToken");
@@ -28032,9 +29392,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -28210,9 +29575,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -28384,9 +29754,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -28558,9 +29933,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -28879,9 +30259,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -29053,9 +30438,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -29231,9 +30621,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseParenToken");
@@ -29244,9 +30639,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -29422,9 +30822,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -29600,9 +31005,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "ReadOnlyKeyword");
@@ -29613,9 +31023,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -29791,9 +31206,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -29965,9 +31385,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -30139,9 +31564,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -30313,9 +31743,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -30487,9 +31922,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -30661,9 +32101,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -30839,9 +32284,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "DelegateKeyword");
@@ -30852,9 +32302,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -31034,9 +32489,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "ArrowToken");
@@ -31047,9 +32507,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -31229,9 +32694,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "ArrowToken");
@@ -31242,9 +32712,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -31424,9 +32899,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseParenToken");
@@ -31437,9 +32917,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -31619,9 +33104,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseBracketToken");
@@ -31632,9 +33122,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -31818,9 +33313,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "Identifier");
@@ -31831,9 +33331,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "InKeyword");
@@ -31844,9 +33349,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -32034,9 +33544,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "Identifier");
@@ -32047,9 +33562,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "EqualsToken");
@@ -32060,9 +33580,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -32258,9 +33783,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "Identifier");
@@ -32271,9 +33801,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "InKeyword");
@@ -32284,9 +33819,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "OnKeyword");
@@ -32297,9 +33837,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "EqualsKeyword");
@@ -32310,9 +33855,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -32500,9 +34050,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -32674,9 +34229,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -32848,9 +34408,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -33026,9 +34591,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "ByKeyword");
@@ -33039,9 +34609,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -33511,9 +35086,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -33689,9 +35269,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseBraceToken");
@@ -33702,9 +35287,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -33884,9 +35474,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseBraceToken");
@@ -33897,9 +35492,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -34079,9 +35679,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "SemicolonToken");
@@ -34092,9 +35697,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -34270,9 +35880,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -34444,9 +36059,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -34618,9 +36238,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -34796,9 +36421,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "ColonToken");
@@ -34809,9 +36439,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -34995,9 +36630,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CaseOrDefaultKeyword");
@@ -35008,9 +36648,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "SemicolonToken");
@@ -35021,9 +36666,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -35207,9 +36857,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "SemicolonToken");
@@ -35220,9 +36875,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -35402,9 +37062,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "SemicolonToken");
@@ -35415,9 +37080,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -35597,9 +37267,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "SemicolonToken");
@@ -35610,9 +37285,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -35792,9 +37472,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "SemicolonToken");
@@ -35805,9 +37490,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -35991,9 +37681,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "ReturnOrBreakKeyword");
@@ -36004,9 +37699,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "SemicolonToken");
@@ -36017,9 +37717,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -36207,9 +37912,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "OpenParenToken");
@@ -36220,9 +37930,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseParenToken");
@@ -36233,9 +37948,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -36431,9 +38151,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "WhileKeyword");
@@ -36444,9 +38169,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "OpenParenToken");
@@ -36457,9 +38187,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseParenToken");
@@ -36470,9 +38205,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "SemicolonToken");
@@ -36483,9 +38223,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -36689,9 +38434,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "OpenParenToken");
@@ -36702,9 +38452,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "FirstSemicolonToken");
@@ -36715,9 +38470,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "SecondSemicolonToken");
@@ -36728,9 +38488,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseParenToken");
@@ -36741,9 +38506,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -36939,9 +38709,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "OpenParenToken");
@@ -36952,9 +38727,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseParenToken");
@@ -36965,9 +38745,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -37155,9 +38940,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "OpenParenToken");
@@ -37168,9 +38958,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseParenToken");
@@ -37181,9 +38976,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -37363,9 +39163,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -37537,9 +39342,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -37719,9 +39529,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "OpenParenToken");
@@ -37732,9 +39547,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseParenToken");
@@ -37745,9 +39565,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -37935,9 +39760,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "OpenParenToken");
@@ -37948,9 +39778,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseParenToken");
@@ -37961,9 +39796,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -38159,9 +39999,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "OpenParenToken");
@@ -38172,9 +40017,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseParenToken");
@@ -38185,9 +40035,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "OpenBraceToken");
@@ -38198,9 +40053,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseBraceToken");
@@ -38211,9 +40071,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -38401,9 +40266,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -38591,9 +40461,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "OpenParenToken");
@@ -38604,9 +40479,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "Identifier");
@@ -38617,9 +40497,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "InKeyword");
@@ -38630,9 +40515,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseParenToken");
@@ -38643,9 +40533,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -38845,9 +40740,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "OpenParenToken");
@@ -38858,9 +40758,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "InKeyword");
@@ -38871,9 +40776,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseParenToken");
@@ -38884,9 +40794,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -39070,9 +40985,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -39244,9 +41164,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -39422,9 +41347,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseParenToken");
@@ -39435,9 +41365,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -39617,9 +41552,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "ColonToken");
@@ -39630,9 +41570,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -39812,9 +41757,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "ColonToken");
@@ -39825,9 +41775,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;
@@ -40007,9 +41962,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "ColonToken");
@@ -40020,9 +41980,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			yield return this.Delete(oChild);
     		else if(oChild != null && mChild != null)
     		{
-    			yield return this.Match(oChild, mChild);
-    			if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-    				yield return this.Update(oChild, mChild);
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
+    					yield return this.Update(oChild, mChild);
+    			}
     		}
     		
     		yield break;

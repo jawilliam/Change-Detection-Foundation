@@ -1,4 +1,4 @@
-﻿namespace Jawilliam.CDF.Tests.Flad.Awareness
+namespace Jawilliam.CDF.Tests.Flad.Awareness
 {
     using Jawilliam.CDF.Approach;
     using Jawilliam.CDF.CSharp.RoslynML;
@@ -76,15 +76,15 @@
     			var matchedProperties = totalProperties;
     			var unmatchedOriginalProperties = 0;
     			var unmatchedModifiedProperties = 0;
-    			matchedProperties = oFullElement.Elements().Any(e => e.Label() == "AscendingOrDescendingKeyword") && 
-    			                    mFullElement.Elements().Any(e => e.Label() == "AscendingOrDescendingKeyword")
+    			matchedProperties = oFullElement.Elements().Any(e => e.Attribute("part").Value == "AscendingOrDescendingKeyword") && 
+    			                    mFullElement.Elements().Any(e => e.Attribute("part").Value == "AscendingOrDescendingKeyword")
     				? matchedProperties 
     				: (matchedProperties - 1);
-    			if(!oFullElement.Elements().Any(e => e.Label() == "AscendingOrDescendingKeyword") && 
-    			    mFullElement.Elements().Any(e => e.Label() == "AscendingOrDescendingKeyword"))
+    			if(!oFullElement.Elements().Any(e => e.Attribute("part").Value == "AscendingOrDescendingKeyword") && 
+    			    mFullElement.Elements().Any(e => e.Attribute("part").Value == "AscendingOrDescendingKeyword"))
     				unmatchedModifiedProperties++; 
-    			if(oFullElement.Elements().Any(e => e.Label() == "AscendingOrDescendingKeyword") && 
-    			   !mFullElement.Elements().Any(e => e.Label() == "AscendingOrDescendingKeyword"))
+    			if(oFullElement.Elements().Any(e => e.Attribute("part").Value == "AscendingOrDescendingKeyword") && 
+    			   !mFullElement.Elements().Any(e => e.Attribute("part").Value == "AscendingOrDescendingKeyword"))
     				unmatchedOriginalProperties++; 
     
     			Assert.AreEqual(expander.FullDelta.Matches.Count(), matchedProperties + 1);
@@ -101,8 +101,8 @@
     			var mAscendingOrDescendingKeywordLabel = nodeRevisionPair.Modified.AscendingOrDescendingKeyword == null || nodeRevisionPair.Modified.AscendingOrDescendingKeyword.Kind() == SyntaxKind.None
     				? null 
     				: Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Modified.AscendingOrDescendingKeyword.Kind());
-    			if(oFullElement.Elements().Any(e => e.Label() == "AscendingOrDescendingKeyword") &&
-    			   mFullElement.Elements().Any(e => e.Label() == "AscendingOrDescendingKeyword"))
+    			if(oFullElement.Elements().Any(e => e.Attribute("part").Value == "AscendingOrDescendingKeyword") &&
+    			   mFullElement.Elements().Any(e => e.Attribute("part").Value == "AscendingOrDescendingKeyword"))
     			{
     				Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oAscendingOrDescendingKeywordLabel)
     					.Attribute("mLb").Value == mAscendingOrDescendingKeywordLabel);
@@ -111,16 +111,16 @@
     					.Attribute("mId").Value == 
     					mFullElement.Elements().Single(e => e.Label() == mAscendingOrDescendingKeywordLabel).GtID());
     			} 
-    			else if(oFullElement.Elements().Any(e => e.Label() == "AscendingOrDescendingKeyword") &&
-    			        !mFullElement.Elements().Any(e => e.Label() == "AscendingOrDescendingKeyword"))
+    			else if(oFullElement.Elements().Any(e => e.Attribute("part").Value == "AscendingOrDescendingKeyword") &&
+    			        !mFullElement.Elements().Any(e => e.Attribute("part").Value == "AscendingOrDescendingKeyword"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     				.Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value == 
     					oFullElement.Elements().Single(e => e.Label() == oAscendingOrDescendingKeywordLabel).GtID())
     				.Attribute("eLb").Value == oAscendingOrDescendingKeywordLabel);
     			}
-    			else if(!oFullElement.Elements().Any(e => e.Label() == "AscendingOrDescendingKeyword") &&
-    			        mFullElement.Elements().Any(e => e.Label() == "AscendingOrDescendingKeyword"))
+    			else if(!oFullElement.Elements().Any(e => e.Attribute("part").Value == "AscendingOrDescendingKeyword") &&
+    			        mFullElement.Elements().Any(e => e.Attribute("part").Value == "AscendingOrDescendingKeyword"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mAscendingOrDescendingKeywordLabel)
@@ -157,7 +157,7 @@
     				.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mExpectedLabel)
     				.Attribute("pLb").Value == mExpectedLabel);
     
-    			if(mFullElement.Elements().Any(e => e.Label() == "AscendingOrDescendingKeyword"))
+    			if(mFullElement.Elements().Any(e => e.Attribute("part").Value == "AscendingOrDescendingKeyword"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mAscendingOrDescendingKeywordLabel)
@@ -188,7 +188,7 @@
     				.Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value == oElement.GtID())
     				.Attribute("eLb").Value == oElement.Label());
     
-    			if(oFullElement.Elements().Any(e => e.Label() == "AscendingOrDescendingKeyword"))
+    			if(oFullElement.Elements().Any(e => e.Attribute("part").Value == "AscendingOrDescendingKeyword"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     					.Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value == 
@@ -225,8 +225,8 @@
     			Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oExpectedLabel)
     				.Attribute("mLb").Value == mExpectedLabel);
     
-    			if(oFullElement.Elements().Any(e => e.Label() == "AscendingOrDescendingKeyword") &&
-    			   mFullElement.Elements().Any(e => e.Label() == "AscendingOrDescendingKeyword"))
+    			if(oFullElement.Elements().Any(e => e.Attribute("part").Value == "AscendingOrDescendingKeyword") &&
+    			   mFullElement.Elements().Any(e => e.Attribute("part").Value == "AscendingOrDescendingKeyword"))
     			{
     				Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oAscendingOrDescendingKeywordLabel)
     					.Attribute("mLb").Value == mAscendingOrDescendingKeywordLabel);
@@ -243,16 +243,16 @@
     						oFullElement.Elements().Single(e => e.Label() == oAscendingOrDescendingKeywordLabel).GtID())
     					.Attribute("val").Value == "v0");
     			} 
-    			else if(oFullElement.Elements().Any(e => e.Label() == "AscendingOrDescendingKeyword") &&
-    			        !mFullElement.Elements().Any(e => e.Label() == "AscendingOrDescendingKeyword"))
+    			else if(oFullElement.Elements().Any(e => e.Attribute("part").Value == "AscendingOrDescendingKeyword") &&
+    			        !mFullElement.Elements().Any(e => e.Attribute("part").Value == "AscendingOrDescendingKeyword"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     				.Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value == 
     					oFullElement.Elements().Single(e => e.Label() == oAscendingOrDescendingKeywordLabel).GtID())
     				.Attribute("eLb").Value == oAscendingOrDescendingKeywordLabel);
     			}
-    			else if(!oFullElement.Elements().Any(e => e.Label() == "AscendingOrDescendingKeyword") &&
-    			        mFullElement.Elements().Any(e => e.Label() == "AscendingOrDescendingKeyword"))
+    			else if(!oFullElement.Elements().Any(e => e.Attribute("part").Value == "AscendingOrDescendingKeyword") &&
+    			        mFullElement.Elements().Any(e => e.Attribute("part").Value == "AscendingOrDescendingKeyword"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mAscendingOrDescendingKeywordLabel)

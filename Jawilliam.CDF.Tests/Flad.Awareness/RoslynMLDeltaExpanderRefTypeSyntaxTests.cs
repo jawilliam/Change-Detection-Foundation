@@ -1,4 +1,4 @@
-﻿namespace Jawilliam.CDF.Tests.Flad.Awareness
+namespace Jawilliam.CDF.Tests.Flad.Awareness
 {
     using Jawilliam.CDF.Approach;
     using Jawilliam.CDF.CSharp.RoslynML;
@@ -76,15 +76,15 @@
     			var matchedProperties = totalProperties;
     			var unmatchedOriginalProperties = 0;
     			var unmatchedModifiedProperties = 0;
-    			matchedProperties = oFullElement.Elements().Any(e => e.Label() == "ReadOnlyKeyword") && 
-    			                    mFullElement.Elements().Any(e => e.Label() == "ReadOnlyKeyword")
+    			matchedProperties = oFullElement.Elements().Any(e => e.Attribute("part").Value == "ReadOnlyKeyword") && 
+    			                    mFullElement.Elements().Any(e => e.Attribute("part").Value == "ReadOnlyKeyword")
     				? matchedProperties 
     				: (matchedProperties - 1);
-    			if(!oFullElement.Elements().Any(e => e.Label() == "ReadOnlyKeyword") && 
-    			    mFullElement.Elements().Any(e => e.Label() == "ReadOnlyKeyword"))
+    			if(!oFullElement.Elements().Any(e => e.Attribute("part").Value == "ReadOnlyKeyword") && 
+    			    mFullElement.Elements().Any(e => e.Attribute("part").Value == "ReadOnlyKeyword"))
     				unmatchedModifiedProperties++; 
-    			if(oFullElement.Elements().Any(e => e.Label() == "ReadOnlyKeyword") && 
-    			   !mFullElement.Elements().Any(e => e.Label() == "ReadOnlyKeyword"))
+    			if(oFullElement.Elements().Any(e => e.Attribute("part").Value == "ReadOnlyKeyword") && 
+    			   !mFullElement.Elements().Any(e => e.Attribute("part").Value == "ReadOnlyKeyword"))
     				unmatchedOriginalProperties++; 
     
     			Assert.AreEqual(expander.FullDelta.Matches.Count(), matchedProperties + 1);
@@ -110,8 +110,8 @@
     			var mReadOnlyKeywordLabel = nodeRevisionPair.Modified.ReadOnlyKeyword == null || nodeRevisionPair.Modified.ReadOnlyKeyword.Kind() == SyntaxKind.None
     				? null 
     				: Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Modified.ReadOnlyKeyword.Kind());
-    			if(oFullElement.Elements().Any(e => e.Label() == "ReadOnlyKeyword") &&
-    			   mFullElement.Elements().Any(e => e.Label() == "ReadOnlyKeyword"))
+    			if(oFullElement.Elements().Any(e => e.Attribute("part").Value == "ReadOnlyKeyword") &&
+    			   mFullElement.Elements().Any(e => e.Attribute("part").Value == "ReadOnlyKeyword"))
     			{
     				Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oReadOnlyKeywordLabel)
     					.Attribute("mLb").Value == mReadOnlyKeywordLabel);
@@ -120,16 +120,16 @@
     					.Attribute("mId").Value == 
     					mFullElement.Elements().Single(e => e.Label() == mReadOnlyKeywordLabel).GtID());
     			} 
-    			else if(oFullElement.Elements().Any(e => e.Label() == "ReadOnlyKeyword") &&
-    			        !mFullElement.Elements().Any(e => e.Label() == "ReadOnlyKeyword"))
+    			else if(oFullElement.Elements().Any(e => e.Attribute("part").Value == "ReadOnlyKeyword") &&
+    			        !mFullElement.Elements().Any(e => e.Attribute("part").Value == "ReadOnlyKeyword"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     				.Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value == 
     					oFullElement.Elements().Single(e => e.Label() == oReadOnlyKeywordLabel).GtID())
     				.Attribute("eLb").Value == oReadOnlyKeywordLabel);
     			}
-    			else if(!oFullElement.Elements().Any(e => e.Label() == "ReadOnlyKeyword") &&
-    			        mFullElement.Elements().Any(e => e.Label() == "ReadOnlyKeyword"))
+    			else if(!oFullElement.Elements().Any(e => e.Attribute("part").Value == "ReadOnlyKeyword") &&
+    			        mFullElement.Elements().Any(e => e.Attribute("part").Value == "ReadOnlyKeyword"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mReadOnlyKeywordLabel)
@@ -174,7 +174,7 @@
     					mFullElement.Elements().Single(e => e.Label() == mRefKeywordLabel).GtID())
     				.Attribute("pId").Value == mFullElement.GtID());
     
-    			if(mFullElement.Elements().Any(e => e.Label() == "ReadOnlyKeyword"))
+    			if(mFullElement.Elements().Any(e => e.Attribute("part").Value == "ReadOnlyKeyword"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mReadOnlyKeywordLabel)
@@ -210,7 +210,7 @@
     					oFullElement.Elements().Single(e => e.Label() == oRefKeywordLabel).GtID())
     				.Attribute("eLb").Value == oRefKeywordLabel);
     
-    			if(oFullElement.Elements().Any(e => e.Label() == "ReadOnlyKeyword"))
+    			if(oFullElement.Elements().Any(e => e.Attribute("part").Value == "ReadOnlyKeyword"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     					.Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value == 
@@ -264,8 +264,8 @@
     					oFullElement.Elements().Single(e => e.Label() == oRefKeywordLabel).GtID())
     				.Attribute("val").Value == "v0");
     
-    			if(oFullElement.Elements().Any(e => e.Label() == "ReadOnlyKeyword") &&
-    			   mFullElement.Elements().Any(e => e.Label() == "ReadOnlyKeyword"))
+    			if(oFullElement.Elements().Any(e => e.Attribute("part").Value == "ReadOnlyKeyword") &&
+    			   mFullElement.Elements().Any(e => e.Attribute("part").Value == "ReadOnlyKeyword"))
     			{
     				Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oReadOnlyKeywordLabel)
     					.Attribute("mLb").Value == mReadOnlyKeywordLabel);
@@ -282,16 +282,16 @@
     						oFullElement.Elements().Single(e => e.Label() == oReadOnlyKeywordLabel).GtID())
     					.Attribute("val").Value == "v1");
     			} 
-    			else if(oFullElement.Elements().Any(e => e.Label() == "ReadOnlyKeyword") &&
-    			        !mFullElement.Elements().Any(e => e.Label() == "ReadOnlyKeyword"))
+    			else if(oFullElement.Elements().Any(e => e.Attribute("part").Value == "ReadOnlyKeyword") &&
+    			        !mFullElement.Elements().Any(e => e.Attribute("part").Value == "ReadOnlyKeyword"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     				.Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value == 
     					oFullElement.Elements().Single(e => e.Label() == oReadOnlyKeywordLabel).GtID())
     				.Attribute("eLb").Value == oReadOnlyKeywordLabel);
     			}
-    			else if(!oFullElement.Elements().Any(e => e.Label() == "ReadOnlyKeyword") &&
-    			        mFullElement.Elements().Any(e => e.Label() == "ReadOnlyKeyword"))
+    			else if(!oFullElement.Elements().Any(e => e.Attribute("part").Value == "ReadOnlyKeyword") &&
+    			        mFullElement.Elements().Any(e => e.Attribute("part").Value == "ReadOnlyKeyword"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mReadOnlyKeywordLabel)

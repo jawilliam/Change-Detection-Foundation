@@ -433,9 +433,6 @@
     <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderForEachVariableStatementSyntaxTests.cs">
       <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
     </Compile>
-    <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderForStatementSyntaxTests.cs">
-      <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
-    </Compile>
     <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderFromClauseSyntaxTests.cs">
       <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
     </Compile>

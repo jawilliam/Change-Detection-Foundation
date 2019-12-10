@@ -1,4 +1,4 @@
-﻿namespace Jawilliam.CDF.Tests.Flad.Awareness
+namespace Jawilliam.CDF.Tests.Flad.Awareness
 {
     using Jawilliam.CDF.Approach;
     using Jawilliam.CDF.CSharp.RoslynML;
@@ -76,15 +76,15 @@
     			var matchedProperties = totalProperties;
     			var unmatchedOriginalProperties = 0;
     			var unmatchedModifiedProperties = 0;
-    			matchedProperties = oFullElement.Elements().Any(e => e.Label() == "File") && 
-    			                    mFullElement.Elements().Any(e => e.Label() == "File")
+    			matchedProperties = oFullElement.Elements().Any(e => e.Attribute("part").Value == "File") && 
+    			                    mFullElement.Elements().Any(e => e.Attribute("part").Value == "File")
     				? matchedProperties 
     				: (matchedProperties - 1);
-    			if(!oFullElement.Elements().Any(e => e.Label() == "File") && 
-    			    mFullElement.Elements().Any(e => e.Label() == "File"))
+    			if(!oFullElement.Elements().Any(e => e.Attribute("part").Value == "File") && 
+    			    mFullElement.Elements().Any(e => e.Attribute("part").Value == "File"))
     				unmatchedModifiedProperties++; 
-    			if(oFullElement.Elements().Any(e => e.Label() == "File") && 
-    			   !mFullElement.Elements().Any(e => e.Label() == "File"))
+    			if(oFullElement.Elements().Any(e => e.Attribute("part").Value == "File") && 
+    			   !mFullElement.Elements().Any(e => e.Attribute("part").Value == "File"))
     				unmatchedOriginalProperties++; 
     
     			Assert.AreEqual(expander.FullDelta.Matches.Count(), matchedProperties + 1);
@@ -128,8 +128,8 @@
     			var mFileLabel = nodeRevisionPair.Modified.File == null || nodeRevisionPair.Modified.File.Kind() == SyntaxKind.None
     				? null 
     				: Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Modified.File.Kind());
-    			if(oFullElement.Elements().Any(e => e.Label() == "File") &&
-    			   mFullElement.Elements().Any(e => e.Label() == "File"))
+    			if(oFullElement.Elements().Any(e => e.Attribute("part").Value == "File") &&
+    			   mFullElement.Elements().Any(e => e.Attribute("part").Value == "File"))
     			{
     				Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oFileLabel)
     					.Attribute("mLb").Value == mFileLabel);
@@ -138,16 +138,16 @@
     					.Attribute("mId").Value == 
     					mFullElement.Elements().Single(e => e.Label() == mFileLabel).GtID());
     			} 
-    			else if(oFullElement.Elements().Any(e => e.Label() == "File") &&
-    			        !mFullElement.Elements().Any(e => e.Label() == "File"))
+    			else if(oFullElement.Elements().Any(e => e.Attribute("part").Value == "File") &&
+    			        !mFullElement.Elements().Any(e => e.Attribute("part").Value == "File"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     				.Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value == 
     					oFullElement.Elements().Single(e => e.Label() == oFileLabel).GtID())
     				.Attribute("eLb").Value == oFileLabel);
     			}
-    			else if(!oFullElement.Elements().Any(e => e.Label() == "File") &&
-    			        mFullElement.Elements().Any(e => e.Label() == "File"))
+    			else if(!oFullElement.Elements().Any(e => e.Attribute("part").Value == "File") &&
+    			        mFullElement.Elements().Any(e => e.Attribute("part").Value == "File"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mFileLabel)
@@ -217,7 +217,7 @@
     					mFullElement.Elements().Single(e => e.Label() == mLineLabel).GtID())
     				.Attribute("pId").Value == mFullElement.GtID());
     
-    			if(mFullElement.Elements().Any(e => e.Label() == "File"))
+    			if(mFullElement.Elements().Any(e => e.Attribute("part").Value == "File"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mFileLabel)
@@ -271,7 +271,7 @@
     					oFullElement.Elements().Single(e => e.Label() == oLineLabel).GtID())
     				.Attribute("eLb").Value == oLineLabel);
     
-    			if(oFullElement.Elements().Any(e => e.Label() == "File"))
+    			if(oFullElement.Elements().Any(e => e.Attribute("part").Value == "File"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     					.Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value == 
@@ -367,8 +367,8 @@
     					oFullElement.Elements().Single(e => e.Label() == oLineLabel).GtID())
     				.Attribute("val").Value == "v2");
     
-    			if(oFullElement.Elements().Any(e => e.Label() == "File") &&
-    			   mFullElement.Elements().Any(e => e.Label() == "File"))
+    			if(oFullElement.Elements().Any(e => e.Attribute("part").Value == "File") &&
+    			   mFullElement.Elements().Any(e => e.Attribute("part").Value == "File"))
     			{
     				Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oFileLabel)
     					.Attribute("mLb").Value == mFileLabel);
@@ -385,16 +385,16 @@
     						oFullElement.Elements().Single(e => e.Label() == oFileLabel).GtID())
     					.Attribute("val").Value == "v3");
     			} 
-    			else if(oFullElement.Elements().Any(e => e.Label() == "File") &&
-    			        !mFullElement.Elements().Any(e => e.Label() == "File"))
+    			else if(oFullElement.Elements().Any(e => e.Attribute("part").Value == "File") &&
+    			        !mFullElement.Elements().Any(e => e.Attribute("part").Value == "File"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     				.Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value == 
     					oFullElement.Elements().Single(e => e.Label() == oFileLabel).GtID())
     				.Attribute("eLb").Value == oFileLabel);
     			}
-    			else if(!oFullElement.Elements().Any(e => e.Label() == "File") &&
-    			        mFullElement.Elements().Any(e => e.Label() == "File"))
+    			else if(!oFullElement.Elements().Any(e => e.Attribute("part").Value == "File") &&
+    			        mFullElement.Elements().Any(e => e.Attribute("part").Value == "File"))
     			{
     				Assert.IsTrue(expander.FullDelta.Actions
     					.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mFileLabel)
