@@ -598,9 +598,6 @@
     <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderPostfixUnaryExpressionSyntaxTests.cs">
       <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
     </Compile>
-    <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderPragmaChecksumDirectiveTriviaSyntaxTests.cs">
-      <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
-    </Compile>
     <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderPragmaWarningDirectiveTriviaSyntaxTests.cs">
       <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
     </Compile>
@@ -766,22 +763,13 @@
     <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderXmlCommentSyntaxTests.cs">
       <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
     </Compile>
-    <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderXmlCrefAttributeSyntaxTests.cs">
-      <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
-    </Compile>
     <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderXmlElementEndTagSyntaxTests.cs">
       <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
     </Compile>
     <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderXmlElementStartTagSyntaxTests.cs">
       <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
     </Compile>
-    <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderXmlElementSyntaxTests.cs">
-      <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
-    </Compile>
     <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderXmlEmptyElementSyntaxTests.cs">
-      <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderXmlNameAttributeSyntaxTests.cs">
       <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
     </Compile>
     <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderXmlNameSyntaxTests.cs">
@@ -791,9 +779,6 @@
       <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
     </Compile>
     <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderXmlProcessingInstructionSyntaxTests.cs">
-      <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderXmlTextAttributeSyntaxTests.cs">
       <DependentUpon>RoslynMLDeltaExpanderTests.tt</DependentUpon>
     </Compile>
     <Compile Include="Flad.Awareness\RoslynMLDeltaExpanderXmlTextSyntaxTests.cs">

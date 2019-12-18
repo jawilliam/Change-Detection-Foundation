@@ -35,7 +35,16 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
                                                                 (types.Single(t1 => t1.name == p.type).Rules?.Topology?.leaf?.Contains("Terminal") ?? false)))
                                                         select t).ToArray();
             Assert.AreEqual(typesWithOnlyOneLeafRelevantProperty.Except(terminalLeafTypes).Count(), 0);
-            Assert.AreEqual(terminalLeafTypes.Except(typesWithOnlyOneLeafRelevantProperty).Count(), 0);
+            Assert.AreEqual(terminalLeafTypes.Except(typesWithOnlyOneLeafRelevantProperty).Count(), 0);            
+
+            var typesWithOnlyOneLeafRelevantProperty1 = (from t in concreteTypes
+                                                        let relevantProperties = t.Properties?.Property.Where(p => p.Rules?.Topology?.relevant ?? false)
+                                                        where relevantProperties.All(p =>
+                                                                p.multiplicity != "Collection" &&
+                                                                p.type != "CSharpSyntaxNode" &&
+                                                                (p.type == "SyntaxToken"))
+                                                        select t).ToArray();
+            var a = typesWithOnlyOneLeafRelevantProperty.Except(typesWithOnlyOneLeafRelevantProperty1).ToArray();
         }
 
         [TestMethod]

@@ -291,6 +291,21 @@ namespace Jawilliam.CDF.Tests.CSharp
                                                    where p.Rules?.Topology?.relevant ?? false
                                                    select new { Type = t, Property = p }).ToArray();
 
+            // Which topologically relevant properties are likewise pairwise tunneling.
+            var topologicallyIrrelevantProperties = (from t in concreteTypes
+                                                   from p in t.Properties?.Property
+                                                   where !(p.Rules?.Topology?.relevant ?? false)
+                                                   select new { Type = t, Property = p }).ToArray();
+
+            var pairwiseTunnelingProperties = (from t in concreteTypes
+                                               from p in t.Properties?.Property
+                                               where p.Rules?.Pairwise?.tunneling ?? false
+                                               select new { Type = t, Property = p }).ToArray();
+            var a1 = topologicallyIrrelevantProperties.Except(pairwiseTunnelingProperties).ToList();
+            var b1 = pairwiseTunnelingProperties.Except(topologicallyIrrelevantProperties).ToList();
+
+            var c1 = b1.Where(t => !(t.Type.Rules?.Topology?.leaf?.Contains("Terminal") ?? false)).ToList();
+
             var readOnlyProperties = (from t in concreteTypes
                 from p in t.Properties?.Property
                 where p.readOnly
@@ -311,6 +326,8 @@ namespace Jawilliam.CDF.Tests.CSharp
             var b = readOnlyProperties.Except(theseProperties).ToArray();
             Assert.AreEqual(theseProperties.Except(topologicallyRelevantProperties).ToArray().Length, 0);
             Assert.AreEqual(topologicallyRelevantProperties.Except(theseProperties).ToArray().Length, 0);
+
+            
         }
 
         [TestMethod]

@@ -402,6 +402,1940 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             }
         }
 
+        partial void PragmaChecksumDirectiveTriviaServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(PragmaChecksumDirectiveTriviaSyntax, PragmaChecksumDirectiveTriviaSyntax)> nodeRevisionPairs);
+
+        [TestMethod]
+        public void PragmaChecksumDirectiveTriviaServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_OK()
+        {
+            var converter = new CDF.CSharp.RoslynML.RoslynML();
+            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
+            int id = 0;
+
+            IEnumerable<(PragmaChecksumDirectiveTriviaSyntax, PragmaChecksumDirectiveTriviaSyntax)> nodeRevisionPairs = null;
+            string oExpectedLabel = null, mExpectedLabel = null;
+            PragmaChecksumDirectiveTriviaServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref nodeRevisionPairs);
+            foreach (((PragmaChecksumDirectiveTriviaSyntax Original, PragmaChecksumDirectiveTriviaSyntax Modified) nodeRevisionPair, Action<RoslynML, XElement> defoliate) in nodeRevisionPairs
+                .SelectMany(n => new List<((PragmaChecksumDirectiveTriviaSyntax, PragmaChecksumDirectiveTriviaSyntax), Action<RoslynML, XElement>)>
+                    { (n, (r, n1) => { }), (n, (r, n1) => r.Defoliate(n1)) }))
+            {
+                id = 0;
+                oExpectedLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Original.Kind());
+                mExpectedLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Modified.Kind());
+
+                var oElement = converter.Visit(nodeRevisionPair.Original);
+                converter.SetGumTreefiedIDs(oElement, ref id);
+                converter.SetRoslynMLIDs(oElement, ref id);
+                converter.Prune(oElement, selector.PruneSelector);
+                defoliate(converter, oElement);
+
+                var mId = id;
+
+                var mElement = converter.Visit(nodeRevisionPair.Modified);
+                converter.SetGumTreefiedIDs(mElement, ref id);
+                converter.SetRoslynMLIDs(mElement, ref id);
+                converter.Prune(mElement, selector.PruneSelector);
+                defoliate(converter, mElement);
+
+                id = 0;
+                var oFullElement = converter.Visit(nodeRevisionPair.Original);
+                converter.SetGumTreefiedIDs(oFullElement, ref id);
+                converter.SetRoslynMLIDs(oFullElement, ref id);
+
+                var mFullElement = converter.Visit(nodeRevisionPair.Modified);
+                converter.SetGumTreefiedIDs(mFullElement, ref id);
+                converter.SetRoslynMLIDs(mFullElement, ref id);
+
+                DeltaExpander expander = new DeltaExpander();
+
+                // Match
+                expander.Expand(
+                    new RevisionPair<XElement> { Original = oElement, Modified = mElement },
+                    new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement },
+                    (Matches: new XElement[]
+                    {
+                        new XElement("Match",
+                            new XAttribute("oId", oElement.GtID()),
+                            new XAttribute("oLb", oElement.Label()),
+                            new XAttribute("mId", mElement.GtID()),
+                            new XAttribute("mLb", mElement.Label()))
+                    },
+                Actions: new XElement[0]));
+
+                var totalProperties = 7;
+                var matchedProperties = totalProperties;
+                var unmatchedOriginalProperties = 0;
+                var unmatchedModifiedProperties = 0;
+
+                Assert.AreEqual(expander.FullDelta.Matches.Count(), matchedProperties + 1);
+                Assert.AreEqual(expander.FullDelta.Actions.Count(), unmatchedOriginalProperties + unmatchedModifiedProperties);
+
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value == oElement.GtID())
+                    .Attribute("mId").Value == mElement.GtID());
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oExpectedLabel)
+                    .Attribute("mLb").Value == mExpectedLabel);
+
+                var oHashTokenLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Original.HashToken.Kind());
+                var mHashTokenLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Modified.HashToken.Kind());
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oHashTokenLabel)
+                    .Attribute("mLb").Value == mHashTokenLabel);
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value ==
+                    oFullElement.Elements().Single(e => e.Label() == oHashTokenLabel).GtID())
+                    .Attribute("mId").Value ==
+                    mFullElement.Elements().Single(e => e.Label() == mHashTokenLabel).GtID());
+
+                var oPragmaKeywordLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Original.PragmaKeyword.Kind());
+                var mPragmaKeywordLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Modified.PragmaKeyword.Kind());
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oPragmaKeywordLabel)
+                    .Attribute("mLb").Value == mPragmaKeywordLabel);
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value ==
+                    oFullElement.Elements().Single(e => e.Label() == oPragmaKeywordLabel).GtID())
+                    .Attribute("mId").Value ==
+                    mFullElement.Elements().Single(e => e.Label() == mPragmaKeywordLabel).GtID());
+
+                var oChecksumKeywordLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Original.ChecksumKeyword.Kind());
+                var mChecksumKeywordLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Modified.ChecksumKeyword.Kind());
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oChecksumKeywordLabel)
+                    .Attribute("mLb").Value == mChecksumKeywordLabel);
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value ==
+                    oFullElement.Elements().Single(e => e.Label() == oChecksumKeywordLabel).GtID())
+                    .Attribute("mId").Value ==
+                    mFullElement.Elements().Single(e => e.Label() == mChecksumKeywordLabel).GtID());
+
+                var oFileLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Original.File.Kind());
+                var mFileLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Modified.File.Kind());
+                Assert.IsTrue(expander.FullDelta.Matches.Where(m => m.Attribute("oLb").Value == oFileLabel).ToList()[0]
+                    .Attribute("mLb").Value == mFileLabel);
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value ==
+                    oFullElement.Elements().Where(e => e.Label() == oFileLabel).ToList()[0].GtID())
+                    .Attribute("mId").Value ==
+                    mFullElement.Elements().Where(e => e.Label() == mFileLabel).ToList()[0].GtID());
+
+                var oGuidLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Original.Guid.Kind());
+                var mGuidLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Modified.Guid.Kind());
+                Assert.IsTrue(expander.FullDelta.Matches.Where(m => m.Attribute("oLb").Value == oGuidLabel).ToList()[1]
+                    .Attribute("mLb").Value == mGuidLabel);
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value ==
+                    oFullElement.Elements().Where(e => e.Label() == oGuidLabel).ToList()[1].GtID())
+                    .Attribute("mId").Value ==
+                    mFullElement.Elements().Where(e => e.Label() == mGuidLabel).ToList()[1].GtID());
+
+                var oBytesLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Original.Bytes.Kind());
+                var mBytesLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Modified.Bytes.Kind());
+                Assert.IsTrue(expander.FullDelta.Matches.Where(m => m.Attribute("oLb").Value == oBytesLabel).ToList()[2]
+                    .Attribute("mLb").Value == mBytesLabel);
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value ==
+                    oFullElement.Elements().Where(e => e.Label() == oBytesLabel).ToList()[2].GtID())
+                    .Attribute("mId").Value ==
+                    mFullElement.Elements().Where(e => e.Label() == mBytesLabel).ToList()[2].GtID());
+
+                var oEndOfDirectiveTokenLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Original.EndOfDirectiveToken.Kind());
+                var mEndOfDirectiveTokenLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Modified.EndOfDirectiveToken.Kind());
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oEndOfDirectiveTokenLabel)
+                    .Attribute("mLb").Value == mEndOfDirectiveTokenLabel);
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value ==
+                    oFullElement.Elements().Single(e => e.Label() == oEndOfDirectiveTokenLabel).GtID())
+                    .Attribute("mId").Value ==
+                    mFullElement.Elements().Single(e => e.Label() == mEndOfDirectiveTokenLabel).GtID());
+
+                // Insert
+                expander.Expand(
+                    new RevisionPair<XElement> { Original = oElement, Modified = mElement },
+                    new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement },
+                    (Matches: new XElement[0],
+                     Actions: new XElement[]
+                     {
+                         new XElement("Insert",
+                             new XAttribute("eId", mElement.GtID()),
+                             new XAttribute("eLb", mElement.Label()),
+                             new XAttribute("eVl", "##"),
+                             new XAttribute("pId", mElement.GtID()),
+                             new XAttribute("pLb", mElement.Label()),
+                             new XAttribute("pos", "-1"))
+                     }));
+
+                Assert.AreEqual(expander.FullDelta.Matches.Count(), 0);
+                Assert.AreEqual(expander.FullDelta.Actions.Count(), matchedProperties + 1 + unmatchedModifiedProperties);
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Insert" && a.Attribute("eId").Value == mElement.GtID())
+                    .Attribute("pId").Value == mElement.GtID());
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mExpectedLabel)
+                    .Attribute("pLb").Value == mExpectedLabel);
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                        .Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mHashTokenLabel)
+                        .Attribute("pLb").Value == mExpectedLabel);
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Insert" && a.Attribute("eId").Value ==
+                        mFullElement.Elements().Single(e => e.Label() == mHashTokenLabel).GtID())
+                    .Attribute("pId").Value == mFullElement.GtID());
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                        .Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mPragmaKeywordLabel)
+                        .Attribute("pLb").Value == mExpectedLabel);
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Insert" && a.Attribute("eId").Value ==
+                        mFullElement.Elements().Single(e => e.Label() == mPragmaKeywordLabel).GtID())
+                    .Attribute("pId").Value == mFullElement.GtID());
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                        .Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mChecksumKeywordLabel)
+                        .Attribute("pLb").Value == mExpectedLabel);
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Insert" && a.Attribute("eId").Value ==
+                        mFullElement.Elements().Single(e => e.Label() == mChecksumKeywordLabel).GtID())
+                    .Attribute("pId").Value == mFullElement.GtID());
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                        .Where(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mFileLabel).ToList()[0]
+                        .Attribute("pLb").Value == mExpectedLabel);
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Insert" && a.Attribute("eId").Value ==
+                        mFullElement.Elements().Where(e => e.Label() == mFileLabel).ToList()[0].GtID())
+                    .Attribute("pId").Value == mFullElement.GtID());
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                        .Where(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mGuidLabel).ToList()[1]
+                        .Attribute("pLb").Value == mExpectedLabel);
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Insert" && a.Attribute("eId").Value ==
+                        mFullElement.Elements().Where(e => e.Label() == mGuidLabel).ToList()[1].GtID())
+                    .Attribute("pId").Value == mFullElement.GtID());
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                        .Where(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mBytesLabel).ToList()[2]
+                        .Attribute("pLb").Value == mExpectedLabel);
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Insert" && a.Attribute("eId").Value ==
+                        mFullElement.Elements().Where(e => e.Label() == mBytesLabel).ToList()[2].GtID())
+                    .Attribute("pId").Value == mFullElement.GtID());
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                        .Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mEndOfDirectiveTokenLabel)
+                        .Attribute("pLb").Value == mExpectedLabel);
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Insert" && a.Attribute("eId").Value ==
+                        mFullElement.Elements().Single(e => e.Label() == mEndOfDirectiveTokenLabel).GtID())
+                    .Attribute("pId").Value == mFullElement.GtID());
+
+                // Delete
+                expander.Expand(
+                    new RevisionPair<XElement> { Original = oElement, Modified = mElement },
+                    new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement },
+                    (Matches: new XElement[0],
+                     Actions: new XElement[]
+                     {
+                         new XElement("Delete",
+                             new XAttribute("eId", oElement.GtID()),
+                             new XAttribute("eLb", oElement.Label()),
+                             new XAttribute("eVl", "##"))
+                     }));
+
+                Assert.AreEqual(expander.FullDelta.Matches.Count(), 0);
+                Assert.AreEqual(expander.FullDelta.Actions.Count(), matchedProperties + 1 + unmatchedOriginalProperties);
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value == oElement.GtID())
+                    .Attribute("eLb").Value == oElement.Label());
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value ==
+                        oFullElement.Elements().Single(e => e.Label() == oHashTokenLabel).GtID())
+                    .Attribute("eLb").Value == oHashTokenLabel);
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value ==
+                        oFullElement.Elements().Single(e => e.Label() == oPragmaKeywordLabel).GtID())
+                    .Attribute("eLb").Value == oPragmaKeywordLabel);
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value ==
+                        oFullElement.Elements().Single(e => e.Label() == oChecksumKeywordLabel).GtID())
+                    .Attribute("eLb").Value == oChecksumKeywordLabel);
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value ==
+                        oFullElement.Elements().Where(e => e.Label() == oFileLabel).ToList()[0].GtID())
+                    .Attribute("eLb").Value == oFileLabel);
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value ==
+                        oFullElement.Elements().Where(e => e.Label() == oGuidLabel).ToList()[1].GtID())
+                    .Attribute("eLb").Value == oGuidLabel);
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value ==
+                        oFullElement.Elements().Where(e => e.Label() == oBytesLabel).ToList()[2].GtID())
+                    .Attribute("eLb").Value == oBytesLabel);
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value ==
+                        oFullElement.Elements().Single(e => e.Label() == oEndOfDirectiveTokenLabel).GtID())
+                    .Attribute("eLb").Value == oEndOfDirectiveTokenLabel);
+
+                // Update
+                var mFullElement1 = converter.Visit(nodeRevisionPair.Modified);
+                converter.SetGumTreefiedIDs(mFullElement1, ref mId);
+                converter.SetRoslynMLIDs(mFullElement1, ref mId);
+
+                if (mFullElement1.Elements().Any(e => e.Label() == mHashTokenLabel))
+                    mFullElement1.Elements().Single(e => e.Label() == mHashTokenLabel).Value = "v0";
+
+                if (mFullElement1.Elements().Any(e => e.Label() == mPragmaKeywordLabel))
+                    mFullElement1.Elements().Single(e => e.Label() == mPragmaKeywordLabel).Value = "v1";
+
+                if (mFullElement1.Elements().Any(e => e.Label() == mChecksumKeywordLabel))
+                    mFullElement1.Elements().Single(e => e.Label() == mChecksumKeywordLabel).Value = "v2";
+
+                if (mFullElement1.Elements().Any(e => e.Label() == mFileLabel))
+                    mFullElement1.Elements().Where(e => e.Label() == mFileLabel).ToList()[0].Value = "v3";
+
+                if (mFullElement1.Elements().Any(e => e.Label() == mGuidLabel))
+                    mFullElement1.Elements().Where(e => e.Label() == mGuidLabel).ToList()[1].Value = "v4";
+
+                if (mFullElement1.Elements().Any(e => e.Label() == mBytesLabel))
+                    mFullElement1.Elements().Where(e => e.Label() == mBytesLabel).ToList()[2].Value = "v5";
+
+                if (mFullElement1.Elements().Any(e => e.Label() == mEndOfDirectiveTokenLabel))
+                    mFullElement1.Elements().Single(e => e.Label() == mEndOfDirectiveTokenLabel).Value = "v6";
+
+                expander.Expand(
+                    new RevisionPair<XElement> { Original = oElement, Modified = mElement },
+                    new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement1 },
+                    (Matches: new XElement[]
+                    {
+                        new XElement("Match",
+                            new XAttribute("oId", oElement.GtID()),
+                            new XAttribute("oLb", oElement.Label()),
+                            new XAttribute("mId", mElement.GtID()),
+                            new XAttribute("mLb", mElement.Label()))
+                    },
+                    Actions: new XElement[0]));
+
+                Assert.AreEqual(expander.FullDelta.Matches.Count(), matchedProperties + 1);
+                Assert.AreEqual(expander.FullDelta.Actions.Count(), matchedProperties + unmatchedOriginalProperties + unmatchedModifiedProperties);
+
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value == oElement.GtID())
+                    .Attribute("mId").Value == mElement.GtID());
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oExpectedLabel)
+                    .Attribute("mLb").Value == mExpectedLabel);
+
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oHashTokenLabel)
+                    .Attribute("mLb").Value == mHashTokenLabel);
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value ==
+                    oFullElement.Elements().Single(e => e.Label() == oHashTokenLabel).GtID())
+                    .Attribute("mId").Value ==
+                    mFullElement.Elements().Single(e => e.Label() == mHashTokenLabel).GtID());
+                Assert.IsTrue(expander.FullDelta.Actions
+                        .Single(a => a.Name.LocalName == "Update" && a.Attribute("eLb").Value == oHashTokenLabel)
+                        .Attribute("val").Value == "v0");
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Update" && a.Attribute("eId").Value ==
+                        oFullElement.Elements().Single(e => e.Label() == oHashTokenLabel).GtID())
+                    .Attribute("val").Value == "v0");
+
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oPragmaKeywordLabel)
+                    .Attribute("mLb").Value == mPragmaKeywordLabel);
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value ==
+                    oFullElement.Elements().Single(e => e.Label() == oPragmaKeywordLabel).GtID())
+                    .Attribute("mId").Value ==
+                    mFullElement.Elements().Single(e => e.Label() == mPragmaKeywordLabel).GtID());
+                Assert.IsTrue(expander.FullDelta.Actions
+                        .Single(a => a.Name.LocalName == "Update" && a.Attribute("eLb").Value == oPragmaKeywordLabel)
+                        .Attribute("val").Value == "v1");
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Update" && a.Attribute("eId").Value ==
+                        oFullElement.Elements().Single(e => e.Label() == oPragmaKeywordLabel).GtID())
+                    .Attribute("val").Value == "v1");
+
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oChecksumKeywordLabel)
+                    .Attribute("mLb").Value == mChecksumKeywordLabel);
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value ==
+                    oFullElement.Elements().Single(e => e.Label() == oChecksumKeywordLabel).GtID())
+                    .Attribute("mId").Value ==
+                    mFullElement.Elements().Single(e => e.Label() == mChecksumKeywordLabel).GtID());
+                Assert.IsTrue(expander.FullDelta.Actions
+                        .Single(a => a.Name.LocalName == "Update" && a.Attribute("eLb").Value == oChecksumKeywordLabel)
+                        .Attribute("val").Value == "v2");
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Update" && a.Attribute("eId").Value ==
+                        oFullElement.Elements().Single(e => e.Label() == oChecksumKeywordLabel).GtID())
+                    .Attribute("val").Value == "v2");
+
+                Assert.IsTrue(expander.FullDelta.Matches.Where(m => m.Attribute("oLb").Value == oFileLabel).ToList()[0]
+                    .Attribute("mLb").Value == mFileLabel);
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value ==
+                    oFullElement.Elements().Where(e => e.Label() == oFileLabel).ToList()[0].GtID())
+                    .Attribute("mId").Value ==
+                    mFullElement.Elements().Where(e => e.Label() == mFileLabel).ToList()[0].GtID());
+                Assert.IsTrue(expander.FullDelta.Actions
+                        .Where(a => a.Name.LocalName == "Update" && a.Attribute("eLb").Value == oFileLabel).ToList()[0]
+                        .Attribute("val").Value == "v3");
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Update" && a.Attribute("eId").Value ==
+                        oFullElement.Elements().Where(e => e.Label() == oFileLabel).ToList()[0].GtID())
+                    .Attribute("val").Value == "v3");
+
+                Assert.IsTrue(expander.FullDelta.Matches.Where(m => m.Attribute("oLb").Value == oGuidLabel).ToList()[1]
+                    .Attribute("mLb").Value == mGuidLabel);
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value ==
+                    oFullElement.Elements().Where(e => e.Label() == oGuidLabel).ToList()[1].GtID())
+                    .Attribute("mId").Value ==
+                    mFullElement.Elements().Where(e => e.Label() == mGuidLabel).ToList()[1].GtID());
+                Assert.IsTrue(expander.FullDelta.Actions
+                        .Where(a => a.Name.LocalName == "Update" && a.Attribute("eLb").Value == oGuidLabel).ToList()[1]
+                        .Attribute("val").Value == "v4");
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Update" && a.Attribute("eId").Value ==
+                        oFullElement.Elements().Where(e => e.Label() == oGuidLabel).ToList()[1].GtID())
+                    .Attribute("val").Value == "v4");
+
+                Assert.IsTrue(expander.FullDelta.Matches.Where(m => m.Attribute("oLb").Value == oBytesLabel).ToList()[2]
+                    .Attribute("mLb").Value == mBytesLabel);
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value ==
+                    oFullElement.Elements().Where(e => e.Label() == oBytesLabel).ToList()[2].GtID())
+                    .Attribute("mId").Value ==
+                    mFullElement.Elements().Where(e => e.Label() == mBytesLabel).ToList()[2].GtID());
+                Assert.IsTrue(expander.FullDelta.Actions
+                        .Where(a => a.Name.LocalName == "Update" && a.Attribute("eLb").Value == oBytesLabel).ToList()[2]
+                        .Attribute("val").Value == "v5");
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Update" && a.Attribute("eId").Value ==
+                        oFullElement.Elements().Where(e => e.Label() == oBytesLabel).ToList()[2].GtID())
+                    .Attribute("val").Value == "v5");
+
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oEndOfDirectiveTokenLabel)
+                    .Attribute("mLb").Value == mEndOfDirectiveTokenLabel);
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value ==
+                    oFullElement.Elements().Single(e => e.Label() == oEndOfDirectiveTokenLabel).GtID())
+                    .Attribute("mId").Value ==
+                    mFullElement.Elements().Single(e => e.Label() == mEndOfDirectiveTokenLabel).GtID());
+                Assert.IsTrue(expander.FullDelta.Actions
+                        .Single(a => a.Name.LocalName == "Update" && a.Attribute("eLb").Value == oEndOfDirectiveTokenLabel)
+                        .Attribute("val").Value == "v6");
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Update" && a.Attribute("eId").Value ==
+                        oFullElement.Elements().Single(e => e.Label() == oEndOfDirectiveTokenLabel).GtID())
+                    .Attribute("val").Value == "v6");
+
+                // Update
+                expander.Expand(
+                    new RevisionPair<XElement> { Original = oElement, Modified = mElement },
+                    new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement },
+                    (Matches: new XElement[0],
+                    Actions: new XElement[]
+                    {
+                        new XElement("Update",
+                            new XAttribute("eId", oFullElement.GtID()),
+                            new XAttribute("eLb", oFullElement.Attribute("kind")?.Value ?? oFullElement.Name.LocalName),
+                            new XAttribute("eVl", mFullElement.GtID()),
+                            new XAttribute("val", "t#v"))
+                    }));
+                Assert.AreEqual(expander.FullDelta.Matches.Count(), 0);
+                Assert.AreEqual(expander.FullDelta.Actions.Count(), 1);
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                        .Single(a => a.Name.LocalName == "Update" && a.Attribute("eLb").Value == oExpectedLabel)
+                        .Attribute("val").Value == "t#v");
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Update" && a.Attribute("eId").Value == oFullElement.GtID())
+                    .Attribute("val").Value == "t#v");
+
+                // Move
+                expander.Expand(
+                    new RevisionPair<XElement> { Original = oElement, Modified = mElement },
+                    new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement },
+                    (Matches: new XElement[0],
+                     Actions: new XElement[]
+                     {
+                         new XElement("Move",
+                             new XAttribute("eId", oElement.GtID()),
+                             new XAttribute("eLb", oElement.Label()),
+                             new XAttribute("pId", mFullElement.GtID()),
+                             new XAttribute("pLb", mFullElement.Label()),
+                             new XAttribute("pos", "-1"))
+                     }));
+                Assert.AreEqual(expander.FullDelta.Matches.Count(), 0);
+                Assert.AreEqual(expander.FullDelta.Actions.Count(), 1);
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Move" && a.Attribute("eId").Value == oElement.GtID())
+                    .Attribute("pId").Value == mFullElement.GtID());
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Move" && a.Attribute("eLb").Value == oExpectedLabel)
+                    .Attribute("pLb").Value == mExpectedLabel);
+            }
+        }
+
+        partial void XmlCrefAttributeServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(XmlCrefAttributeSyntax, XmlCrefAttributeSyntax)> nodeRevisionPairs);
+
+        [TestMethod]
+        public void XmlCrefAttributeServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_OK()
+        {
+            var converter = new CDF.CSharp.RoslynML.RoslynML();
+            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
+            int id = 0;
+
+            IEnumerable<(XmlCrefAttributeSyntax, XmlCrefAttributeSyntax)> nodeRevisionPairs = null;
+            string oExpectedLabel = null, mExpectedLabel = null;
+            XmlCrefAttributeServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref nodeRevisionPairs);
+            foreach (((XmlCrefAttributeSyntax Original, XmlCrefAttributeSyntax Modified) nodeRevisionPair, Action<RoslynML, XElement> defoliate) in nodeRevisionPairs
+                .SelectMany(n => new List<((XmlCrefAttributeSyntax, XmlCrefAttributeSyntax), Action<RoslynML, XElement>)>
+                    { (n, (r, n1) => { }), (n, (r, n1) => r.Defoliate(n1)) }))
+            {
+                id = 0;
+                oExpectedLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Original.Kind());
+                mExpectedLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Modified.Kind());
+
+                var oElement = converter.Visit(nodeRevisionPair.Original);
+                converter.SetGumTreefiedIDs(oElement, ref id);
+                converter.SetRoslynMLIDs(oElement, ref id);
+                converter.Prune(oElement, selector.PruneSelector);
+                defoliate(converter, oElement);
+
+                var mId = id;
+
+                var mElement = converter.Visit(nodeRevisionPair.Modified);
+                converter.SetGumTreefiedIDs(mElement, ref id);
+                converter.SetRoslynMLIDs(mElement, ref id);
+                converter.Prune(mElement, selector.PruneSelector);
+                defoliate(converter, mElement);
+
+                id = 0;
+                var oFullElement = converter.Visit(nodeRevisionPair.Original);
+                converter.SetGumTreefiedIDs(oFullElement, ref id);
+                converter.SetRoslynMLIDs(oFullElement, ref id);
+
+                var mFullElement = converter.Visit(nodeRevisionPair.Modified);
+                converter.SetGumTreefiedIDs(mFullElement, ref id);
+                converter.SetRoslynMLIDs(mFullElement, ref id);
+
+                DeltaExpander expander = new DeltaExpander();
+
+                // Match
+                expander.Expand(
+                    new RevisionPair<XElement> { Original = oElement, Modified = mElement },
+                    new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement },
+                    (Matches: new XElement[]
+                    {
+                        new XElement("Match",
+                            new XAttribute("oId", oElement.GtID()),
+                            new XAttribute("oLb", oElement.Label()),
+                            new XAttribute("mId", mElement.GtID()),
+                            new XAttribute("mLb", mElement.Label()))
+                    },
+                Actions: new XElement[0]));
+
+                var totalProperties = 4;
+                var matchedProperties = totalProperties;
+                var unmatchedOriginalProperties = 0;
+                var unmatchedModifiedProperties = 0;
+
+                Assert.IsTrue(expander.FullDelta.Matches.Count() > matchedProperties + 1);
+                Assert.AreEqual(expander.FullDelta.Actions.Count(), unmatchedOriginalProperties + unmatchedModifiedProperties);
+
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value == oElement.GtID())
+                    .Attribute("mId").Value == mElement.GtID());
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oExpectedLabel)
+                    .Attribute("mLb").Value == mExpectedLabel);
+
+                var oNameLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Original.Name.Kind());
+                var mNameLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Modified.Name.Kind());
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oNameLabel)
+                    .Attribute("mLb").Value == mNameLabel);
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value ==
+                    oFullElement.Elements().Single(e => e.Label() == oNameLabel).GtID())
+                    .Attribute("mId").Value ==
+                    mFullElement.Elements().Single(e => e.Label() == mNameLabel).GtID());
+
+                var oLocalNameLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Original.Name.LocalName.Kind());
+                var mLocalNameLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Modified.Name.LocalName.Kind());
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oLocalNameLabel)
+                    .Attribute("mLb").Value == mLocalNameLabel);
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value ==
+                    oFullElement.Elements().Single(e => e.Label() == oNameLabel).Elements().Single(e => e.Label() == oLocalNameLabel).GtID())
+                    .Attribute("mId").Value ==
+                    mFullElement.Elements().Single(e => e.Label() == mNameLabel).Elements().Single(e => e.Label() == mLocalNameLabel).GtID());
+
+                var oEqualsTokenLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Original.EqualsToken.Kind());
+                var mEqualsTokenLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Modified.EqualsToken.Kind());
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oEqualsTokenLabel)
+                    .Attribute("mLb").Value == mEqualsTokenLabel);
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value ==
+                    oFullElement.Elements().Single(e => e.Label() == oEqualsTokenLabel).GtID())
+                    .Attribute("mId").Value ==
+                    mFullElement.Elements().Single(e => e.Label() == mEqualsTokenLabel).GtID());
+
+                var oStartQuoteTokenLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Original.StartQuoteToken.Kind());
+                var mStartQuoteTokenLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Modified.StartQuoteToken.Kind());
+                Assert.IsTrue(expander.FullDelta.Matches.Where(m => m.Attribute("oLb").Value == oStartQuoteTokenLabel).ToList()[0]
+                    .Attribute("mLb").Value == mStartQuoteTokenLabel);
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value ==
+                    oFullElement.Elements().Where(e => e.Label() == oStartQuoteTokenLabel).ToList()[0].GtID())
+                    .Attribute("mId").Value ==
+                    mFullElement.Elements().Where(e => e.Label() == mStartQuoteTokenLabel).ToList()[0].GtID());
+
+                var oEndQuoteTokenLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Original.EndQuoteToken.Kind());
+                var mEndQuoteTokenLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Modified.EndQuoteToken.Kind());
+                Assert.IsTrue(expander.FullDelta.Matches.Where(m => m.Attribute("oLb").Value == oEndQuoteTokenLabel).ToList()[1]
+                    .Attribute("mLb").Value == mEndQuoteTokenLabel);
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value ==
+                    oFullElement.Elements().Where(e => e.Label() == oEndQuoteTokenLabel).ToList()[1].GtID())
+                    .Attribute("mId").Value ==
+                    mFullElement.Elements().Where(e => e.Label() == mEndQuoteTokenLabel).ToList()[1].GtID());
+
+                // Insert
+                expander.Expand(
+                    new RevisionPair<XElement> { Original = oElement, Modified = mElement },
+                    new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement },
+                    (Matches: new XElement[0],
+                     Actions: new XElement[]
+                     {
+                         new XElement("Insert",
+                             new XAttribute("eId", mElement.GtID()),
+                             new XAttribute("eLb", mElement.Label()),
+                             new XAttribute("eVl", "##"),
+                             new XAttribute("pId", mElement.GtID()),
+                             new XAttribute("pLb", mElement.Label()),
+                             new XAttribute("pos", "-1"))
+                     }));
+
+                Assert.AreEqual(expander.FullDelta.Matches.Count(), 0);
+                Assert.IsTrue(expander.FullDelta.Actions.Count() > matchedProperties + 1 + unmatchedModifiedProperties);
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Insert" && a.Attribute("eId").Value == mElement.GtID())
+                    .Attribute("pId").Value == mElement.GtID());
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mExpectedLabel)
+                    .Attribute("pLb").Value == mExpectedLabel);
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                        .Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mNameLabel)
+                        .Attribute("pLb").Value == mExpectedLabel);
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Insert" && a.Attribute("eId").Value ==
+                        mFullElement.Elements().Single(e => e.Label() == mNameLabel).GtID())
+                    .Attribute("pId").Value == mFullElement.GtID());
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                        .Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mLocalNameLabel)
+                        .Attribute("pLb").Value == mNameLabel);
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Insert" && a.Attribute("eId").Value ==
+                        mFullElement.Elements().Single(e => e.Label() == mNameLabel).Elements().Single(e => e.Label() == mLocalNameLabel).GtID())
+                    .Attribute("pId").Value == mFullElement.Elements().Single(e => e.Label() == mNameLabel).GtID());
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                        .Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mEqualsTokenLabel)
+                        .Attribute("pLb").Value == mExpectedLabel);
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Insert" && a.Attribute("eId").Value ==
+                        mFullElement.Elements().Single(e => e.Label() == mEqualsTokenLabel).GtID())
+                    .Attribute("pId").Value == mFullElement.GtID());
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                        .Where(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mStartQuoteTokenLabel).ToList()[0]
+                        .Attribute("pLb").Value == mExpectedLabel);
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Insert" && a.Attribute("eId").Value ==
+                        mFullElement.Elements().Where(e => e.Label() == mStartQuoteTokenLabel).ToList()[0].GtID())
+                    .Attribute("pId").Value == mFullElement.GtID());
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                        .Where(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mEndQuoteTokenLabel).ToList()[1]
+                        .Attribute("pLb").Value == mExpectedLabel);
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Insert" && a.Attribute("eId").Value ==
+                        mFullElement.Elements().Where(e => e.Label() == mEndQuoteTokenLabel).ToList()[1].GtID())
+                    .Attribute("pId").Value == mFullElement.GtID());
+
+                // Delete
+                expander.Expand(
+                    new RevisionPair<XElement> { Original = oElement, Modified = mElement },
+                    new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement },
+                    (Matches: new XElement[0],
+                     Actions: new XElement[]
+                     {
+                         new XElement("Delete",
+                             new XAttribute("eId", oElement.GtID()),
+                             new XAttribute("eLb", oElement.Label()),
+                             new XAttribute("eVl", "##"))
+                     }));
+
+                Assert.AreEqual(expander.FullDelta.Matches.Count(), 0);
+                Assert.IsTrue(expander.FullDelta.Actions.Count() > matchedProperties + 1 + unmatchedOriginalProperties);
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value == oElement.GtID())
+                    .Attribute("eLb").Value == oElement.Label());
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value ==
+                        oFullElement.Elements().Single(e => e.Label() == oNameLabel).GtID())
+                    .Attribute("eLb").Value == oNameLabel);
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value ==
+                        oFullElement.Elements().Single(e => e.Label() == oNameLabel).Elements().Single(e => e.Label() == oLocalNameLabel).GtID())
+                    .Attribute("eLb").Value == oLocalNameLabel);
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value ==
+                        oFullElement.Elements().Single(e => e.Label() == oEqualsTokenLabel).GtID())
+                    .Attribute("eLb").Value == oEqualsTokenLabel);
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value ==
+                        oFullElement.Elements().Where(e => e.Label() == oStartQuoteTokenLabel).ToList()[0].GtID())
+                    .Attribute("eLb").Value == oStartQuoteTokenLabel);
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value ==
+                        oFullElement.Elements().Where(e => e.Label() == oEndQuoteTokenLabel).ToList()[1].GtID())
+                    .Attribute("eLb").Value == oEndQuoteTokenLabel);
+
+                // Update
+                var mFullElement1 = converter.Visit(nodeRevisionPair.Modified);
+                converter.SetGumTreefiedIDs(mFullElement1, ref mId);
+                converter.SetRoslynMLIDs(mFullElement1, ref mId);
+
+                if (mFullElement1.Elements().Any(e => e.Label() == mNameLabel))
+                    mFullElement1.Elements().Single(e => e.Label() == mNameLabel).Value = "v0";
+
+                if (mFullElement1.Elements().Any(e => e.Label() == mEqualsTokenLabel))
+                    mFullElement1.Elements().Single(e => e.Label() == mEqualsTokenLabel).Value = "v1";
+
+                if (mFullElement1.Elements().Any(e => e.Label() == mStartQuoteTokenLabel))
+                    mFullElement1.Elements().Where(e => e.Label() == mStartQuoteTokenLabel).ToList()[0].Value = "v2";
+
+                if (mFullElement1.Elements().Any(e => e.Label() == mEndQuoteTokenLabel))
+                    mFullElement1.Elements().Where(e => e.Label() == mEndQuoteTokenLabel).ToList()[1].Value = "v3";
+
+                expander.Expand(
+                    new RevisionPair<XElement> { Original = oElement, Modified = mElement },
+                    new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement1 },
+                    (Matches: new XElement[]
+                    {
+                        new XElement("Match",
+                            new XAttribute("oId", oElement.GtID()),
+                            new XAttribute("oLb", oElement.Label()),
+                            new XAttribute("mId", mElement.GtID()),
+                            new XAttribute("mLb", mElement.Label()))
+                    },
+                    Actions: new XElement[0]));
+
+                Assert.AreEqual(expander.FullDelta.Matches.Count(), matchedProperties + 1);
+                Assert.IsTrue(expander.FullDelta.Actions.Count() > matchedProperties + unmatchedOriginalProperties + unmatchedModifiedProperties - 1); // name is not updatable
+
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value == oElement.GtID())
+                    .Attribute("mId").Value == mElement.GtID());
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oExpectedLabel)
+                    .Attribute("mLb").Value == mExpectedLabel);
+
+                //Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oNameLabel)
+                //    .Attribute("mLb").Value == mNameLabel);
+                //Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value ==
+                //    oFullElement.Elements().Single(e => e.Label() == oNameLabel).GtID())
+                //    .Attribute("mId").Value ==
+                //    mFullElement.Elements().Single(e => e.Label() == mNameLabel).GtID());
+                //Assert.IsTrue(expander.FullDelta.Actions
+                //        .Single(a => a.Name.LocalName == "Update" && a.Attribute("eLb").Value == oNameLabel)
+                //        .Attribute("val").Value == "v0");
+                //Assert.IsTrue(expander.FullDelta.Actions
+                //    .Single(a => a.Name.LocalName == "Update" && a.Attribute("eId").Value ==
+                //        oFullElement.Elements().Single(e => e.Label() == oNameLabel).GtID())
+                //    .Attribute("val").Value == "v0");
+
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oEqualsTokenLabel)
+                    .Attribute("mLb").Value == mEqualsTokenLabel);
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value ==
+                    oFullElement.Elements().Single(e => e.Label() == oEqualsTokenLabel).GtID())
+                    .Attribute("mId").Value ==
+                    mFullElement.Elements().Single(e => e.Label() == mEqualsTokenLabel).GtID());
+                Assert.IsTrue(expander.FullDelta.Actions
+                        .Single(a => a.Name.LocalName == "Update" && a.Attribute("eLb").Value == oEqualsTokenLabel)
+                        .Attribute("val").Value == "v1");
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Update" && a.Attribute("eId").Value ==
+                        oFullElement.Elements().Single(e => e.Label() == oEqualsTokenLabel).GtID())
+                    .Attribute("val").Value == "v1");
+
+                Assert.IsTrue(expander.FullDelta.Matches.Where(m => m.Attribute("oLb").Value == oStartQuoteTokenLabel).ToList()[0]
+                    .Attribute("mLb").Value == mStartQuoteTokenLabel);
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value ==
+                    oFullElement.Elements().Where(e => e.Label() == oStartQuoteTokenLabel).ToList()[0].GtID())
+                    .Attribute("mId").Value ==
+                    mFullElement.Elements().Where(e => e.Label() == mStartQuoteTokenLabel).ToList()[0].GtID());
+                Assert.IsTrue(expander.FullDelta.Actions
+                        .Where(a => a.Name.LocalName == "Update" && a.Attribute("eLb").Value == oStartQuoteTokenLabel).ToList()[0]
+                        .Attribute("val").Value == "v2");
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Update" && a.Attribute("eId").Value ==
+                        oFullElement.Elements().Where(e => e.Label() == oStartQuoteTokenLabel).ToList()[0].GtID())
+                    .Attribute("val").Value == "v2");
+
+                Assert.IsTrue(expander.FullDelta.Matches.Where(m => m.Attribute("oLb").Value == oEndQuoteTokenLabel).ToList()[1]
+                    .Attribute("mLb").Value == mEndQuoteTokenLabel);
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value ==
+                    oFullElement.Elements().Where(e => e.Label() == oEndQuoteTokenLabel).ToList()[1].GtID())
+                    .Attribute("mId").Value ==
+                    mFullElement.Elements().Where(e => e.Label() == mEndQuoteTokenLabel).ToList()[1].GtID());
+                Assert.IsTrue(expander.FullDelta.Actions
+                        .Where(a => a.Name.LocalName == "Update" && a.Attribute("eLb").Value == oEndQuoteTokenLabel).ToList()[1]
+                        .Attribute("val").Value == "v3");
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Update" && a.Attribute("eId").Value ==
+                        oFullElement.Elements().Where(e => e.Label() == oEndQuoteTokenLabel).ToList()[1].GtID())
+                    .Attribute("val").Value == "v3");
+
+                // Update
+                expander.Expand(
+                    new RevisionPair<XElement> { Original = oElement, Modified = mElement },
+                    new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement },
+                    (Matches: new XElement[0],
+                    Actions: new XElement[]
+                    {
+                        new XElement("Update",
+                            new XAttribute("eId", oFullElement.GtID()),
+                            new XAttribute("eLb", oFullElement.Attribute("kind")?.Value ?? oFullElement.Name.LocalName),
+                            new XAttribute("eVl", mFullElement.GtID()),
+                            new XAttribute("val", "t#v"))
+                    }));
+                Assert.AreEqual(expander.FullDelta.Matches.Count(), 0);
+                Assert.AreEqual(expander.FullDelta.Actions.Count(), 1);
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                        .Single(a => a.Name.LocalName == "Update" && a.Attribute("eLb").Value == oExpectedLabel)
+                        .Attribute("val").Value == "t#v");
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Update" && a.Attribute("eId").Value == oFullElement.GtID())
+                    .Attribute("val").Value == "t#v");
+
+                // Move
+                expander.Expand(
+                    new RevisionPair<XElement> { Original = oElement, Modified = mElement },
+                    new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement },
+                    (Matches: new XElement[0],
+                     Actions: new XElement[]
+                     {
+                         new XElement("Move",
+                             new XAttribute("eId", oElement.GtID()),
+                             new XAttribute("eLb", oElement.Label()),
+                             new XAttribute("pId", mFullElement.GtID()),
+                             new XAttribute("pLb", mFullElement.Label()),
+                             new XAttribute("pos", "-1"))
+                     }));
+                Assert.AreEqual(expander.FullDelta.Matches.Count(), 0);
+                Assert.AreEqual(expander.FullDelta.Actions.Count(), 1);
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Move" && a.Attribute("eId").Value == oElement.GtID())
+                    .Attribute("pId").Value == mFullElement.GtID());
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Move" && a.Attribute("eLb").Value == oExpectedLabel)
+                    .Attribute("pLb").Value == mExpectedLabel);
+            }
+        }
+
+        partial void XmlElementServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(XmlElementSyntax, XmlElementSyntax)> nodeRevisionPairs);
+
+        [TestMethod]
+        public void XmlElementServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_OK()
+        {
+            var converter = new CDF.CSharp.RoslynML.RoslynML();
+            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
+            int id = 0;
+
+            IEnumerable<(XmlElementSyntax, XmlElementSyntax)> nodeRevisionPairs = null;
+            string oExpectedLabel = null, mExpectedLabel = null;
+            XmlElementServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref nodeRevisionPairs);
+            foreach (((XmlElementSyntax Original, XmlElementSyntax Modified) nodeRevisionPair, Action<RoslynML, XElement> defoliate) in nodeRevisionPairs
+                .SelectMany(n => new List<((XmlElementSyntax, XmlElementSyntax), Action<RoslynML, XElement>)>
+                    { (n, (r, n1) => { }), (n, (r, n1) => r.Defoliate(n1)) }))
+            {
+                id = 0;
+                oExpectedLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Original.Kind());
+                mExpectedLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Modified.Kind());
+
+                var oElement = converter.Visit(nodeRevisionPair.Original);
+                converter.SetGumTreefiedIDs(oElement, ref id);
+                converter.SetRoslynMLIDs(oElement, ref id);
+                converter.Prune(oElement, selector.PruneSelector);
+                defoliate(converter, oElement);
+
+                var mId = id;
+
+                var mElement = converter.Visit(nodeRevisionPair.Modified);
+                converter.SetGumTreefiedIDs(mElement, ref id);
+                converter.SetRoslynMLIDs(mElement, ref id);
+                converter.Prune(mElement, selector.PruneSelector);
+                defoliate(converter, mElement);
+
+                id = 0;
+                var oFullElement = converter.Visit(nodeRevisionPair.Original);
+                converter.SetGumTreefiedIDs(oFullElement, ref id);
+                converter.SetRoslynMLIDs(oFullElement, ref id);
+
+                var mFullElement = converter.Visit(nodeRevisionPair.Modified);
+                converter.SetGumTreefiedIDs(mFullElement, ref id);
+                converter.SetRoslynMLIDs(mFullElement, ref id);
+
+                DeltaExpander expander = new DeltaExpander();
+
+                // Match
+                expander.Expand(
+                    new RevisionPair<XElement> { Original = oElement, Modified = mElement },
+                    new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement },
+                    (Matches: new XElement[]
+                    {
+                        new XElement("Match",
+                            new XAttribute("oId", oElement.GtID()),
+                            new XAttribute("oLb", oElement.Label()),
+                            new XAttribute("mId", mElement.GtID()),
+                            new XAttribute("mLb", mElement.Label()))
+                    },
+                Actions: new XElement[0]));
+
+                var totalProperties = 2;
+                var matchedProperties = totalProperties;
+                var unmatchedOriginalProperties = 0;
+                var unmatchedModifiedProperties = 0;
+
+                Assert.AreEqual(expander.FullDelta.Matches.Count(), matchedProperties + 1 + 4); // 2 from endtag and 2 from starttag
+                Assert.AreEqual(expander.FullDelta.Actions.Count(), unmatchedOriginalProperties + unmatchedModifiedProperties);
+
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value == oElement.GtID())
+                    .Attribute("mId").Value == mElement.GtID());
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oExpectedLabel)
+                    .Attribute("mLb").Value == mExpectedLabel);
+
+                var oStartTagLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Original.StartTag.Kind());
+                var mStartTagLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Modified.StartTag.Kind());
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oStartTagLabel)
+                    .Attribute("mLb").Value == mStartTagLabel);
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value ==
+                    oFullElement.Elements().Single(e => e.Label() == oStartTagLabel).GtID())
+                    .Attribute("mId").Value ==
+                    mFullElement.Elements().Single(e => e.Label() == mStartTagLabel).GtID());
+
+                var oLessThanTokenLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Original.StartTag.LessThanToken.Kind());
+                var mLessThanTokenLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Modified.StartTag.LessThanToken.Kind());
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oLessThanTokenLabel)
+                    .Attribute("mLb").Value == mLessThanTokenLabel);
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value ==
+                    oFullElement.Elements().Single(e => e.Label() == oStartTagLabel).Elements().Single(e => e.Label() == oLessThanTokenLabel).GtID())
+                    .Attribute("mId").Value ==
+                    mFullElement.Elements().Single(e => e.Label() == mStartTagLabel).Elements().Single(e => e.Label() == mLessThanTokenLabel).GtID());
+
+                var oGreaterThanTokenLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Original.StartTag.GreaterThanToken.Kind());
+                var mGreaterThanTokenLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Modified.StartTag.GreaterThanToken.Kind());
+                Assert.IsTrue(expander.FullDelta.Matches.Where(m => m.Attribute("oLb").Value == oGreaterThanTokenLabel).ToList()[0]
+                    .Attribute("mLb").Value == mGreaterThanTokenLabel);
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value ==
+                    oFullElement.Elements().Single(e => e.Label() == oStartTagLabel).Elements().Single(e => e.Label() == oGreaterThanTokenLabel).GtID())
+                    .Attribute("mId").Value ==
+                    mFullElement.Elements().Single(e => e.Label() == mStartTagLabel).Elements().Single(e => e.Label() == mGreaterThanTokenLabel).GtID());
+
+                var oEndTagLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Original.EndTag.Kind());
+                var mEndTagLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Modified.EndTag.Kind());
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oEndTagLabel)
+                    .Attribute("mLb").Value == mEndTagLabel);
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value ==
+                    oFullElement.Elements().Single(e => e.Label() == oEndTagLabel).GtID())
+                    .Attribute("mId").Value ==
+                    mFullElement.Elements().Single(e => e.Label() == mEndTagLabel).GtID());
+
+                var oLessThanSlashTokenLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Original.EndTag.LessThanSlashToken.Kind());
+                var mLessThanSlashTokenLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Modified.EndTag.LessThanSlashToken.Kind());
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oLessThanSlashTokenLabel)
+                    .Attribute("mLb").Value == mLessThanSlashTokenLabel);
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value ==
+                    oFullElement.Elements().Single(e => e.Label() == oEndTagLabel).Elements().Single(e => e.Label() == oLessThanSlashTokenLabel).GtID())
+                    .Attribute("mId").Value ==
+                    mFullElement.Elements().Single(e => e.Label() == mEndTagLabel).Elements().Single(e => e.Label() == mLessThanSlashTokenLabel).GtID());
+
+                Assert.IsTrue(expander.FullDelta.Matches.Where(m => m.Attribute("oLb").Value == oGreaterThanTokenLabel).ToList()[1]
+                    .Attribute("mLb").Value == mGreaterThanTokenLabel);
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value ==
+                    oFullElement.Elements().Single(e => e.Label() == oEndTagLabel).Elements().Single(e => e.Label() == oGreaterThanTokenLabel).GtID())
+                    .Attribute("mId").Value ==
+                    mFullElement.Elements().Single(e => e.Label() == mEndTagLabel).Elements().Single(e => e.Label() == mGreaterThanTokenLabel).GtID());
+
+                // Insert
+                expander.Expand(
+                    new RevisionPair<XElement> { Original = oElement, Modified = mElement },
+                    new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement },
+                    (Matches: new XElement[0],
+                     Actions: new XElement[]
+                     {
+                         new XElement("Insert",
+                             new XAttribute("eId", mElement.GtID()),
+                             new XAttribute("eLb", mElement.Label()),
+                             new XAttribute("eVl", "##"),
+                             new XAttribute("pId", mElement.GtID()),
+                             new XAttribute("pLb", mElement.Label()),
+                             new XAttribute("pos", "-1"))
+                     }));
+
+                Assert.AreEqual(expander.FullDelta.Matches.Count(), 0);
+                Assert.AreEqual(expander.FullDelta.Actions.Count(), matchedProperties + 1 + unmatchedModifiedProperties + 4);
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Insert" && a.Attribute("eId").Value == mElement.GtID())
+                    .Attribute("pId").Value == mElement.GtID());
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mExpectedLabel)
+                    .Attribute("pLb").Value == mExpectedLabel);
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                        .Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mStartTagLabel)
+                        .Attribute("pLb").Value == mExpectedLabel);
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Insert" && a.Attribute("eId").Value ==
+                        mFullElement.Elements().Single(e => e.Label() == mStartTagLabel).GtID())
+                    .Attribute("pId").Value == mFullElement.GtID());
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                        .Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mLessThanTokenLabel)
+                        .Attribute("pLb").Value == mStartTagLabel);
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Insert" && a.Attribute("eId").Value ==
+                        mFullElement.Elements().Single(e => e.Label() == mStartTagLabel)
+                        .Elements().Single(e => e.Label() == mLessThanTokenLabel).GtID())
+                    .Attribute("pId").Value == mFullElement.Elements().Single(e => e.Label() == mStartTagLabel).GtID());
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                        .Where(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mGreaterThanTokenLabel).ToList()[0]
+                        .Attribute("pLb").Value == mStartTagLabel);
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Insert" && a.Attribute("eId").Value ==
+                        mFullElement.Elements().Single(e => e.Label() == mStartTagLabel)
+                        .Elements().Single(e => e.Label() == mGreaterThanTokenLabel).GtID())
+                    .Attribute("pId").Value == mFullElement.Elements().Single(e => e.Label() == mStartTagLabel).GtID());
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                        .Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mEndTagLabel)
+                        .Attribute("pLb").Value == mExpectedLabel);
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Insert" && a.Attribute("eId").Value ==
+                        mFullElement.Elements().Single(e => e.Label() == mEndTagLabel).GtID())
+                    .Attribute("pId").Value == mFullElement.GtID());
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                        .Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mLessThanSlashTokenLabel)
+                        .Attribute("pLb").Value == mEndTagLabel);
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Insert" && a.Attribute("eId").Value ==
+                        mFullElement.Elements().Single(e => e.Label() == mEndTagLabel)
+                        .Elements().Single(e => e.Label() == mLessThanSlashTokenLabel).GtID())
+                    .Attribute("pId").Value == mFullElement.Elements().Single(e => e.Label() == mEndTagLabel).GtID());
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                        .Where(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mGreaterThanTokenLabel).ToList()[1]
+                        .Attribute("pLb").Value == mEndTagLabel);
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Insert" && a.Attribute("eId").Value ==
+                        mFullElement.Elements().Single(e => e.Label() == mEndTagLabel)
+                        .Elements().Single(e => e.Label() == mGreaterThanTokenLabel).GtID())
+                    .Attribute("pId").Value == mFullElement.Elements().Single(e => e.Label() == mEndTagLabel).GtID());
+
+                // Delete
+                expander.Expand(
+                    new RevisionPair<XElement> { Original = oElement, Modified = mElement },
+                    new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement },
+                    (Matches: new XElement[0],
+                     Actions: new XElement[]
+                     {
+                         new XElement("Delete",
+                             new XAttribute("eId", oElement.GtID()),
+                             new XAttribute("eLb", oElement.Label()),
+                             new XAttribute("eVl", "##"))
+                     }));
+
+                Assert.AreEqual(expander.FullDelta.Matches.Count(), 0);
+                Assert.AreEqual(expander.FullDelta.Actions.Count(), matchedProperties + 1 + unmatchedOriginalProperties + 4);
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value == oElement.GtID())
+                    .Attribute("eLb").Value == oElement.Label());
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value ==
+                        oFullElement.Elements().Single(e => e.Label() == oStartTagLabel).GtID())
+                    .Attribute("eLb").Value == oStartTagLabel);
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value ==
+                        oFullElement.Elements().Single(e => e.Label() == oStartTagLabel)
+                        .Elements().Single(e => e.Label() == oLessThanTokenLabel).GtID())
+                    .Attribute("eLb").Value == oLessThanTokenLabel);
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value ==
+                        oFullElement.Elements().Single(e => e.Label() == oStartTagLabel)
+                        .Elements().Single(e => e.Label() == oGreaterThanTokenLabel).GtID())
+                    .Attribute("eLb").Value == oGreaterThanTokenLabel);
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value ==
+                        oFullElement.Elements().Single(e => e.Label() == oEndTagLabel).GtID())
+                    .Attribute("eLb").Value == oEndTagLabel);
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value ==
+                        oFullElement.Elements().Single(e => e.Label() == oEndTagLabel)
+                        .Elements().Single(e => e.Label() == oLessThanSlashTokenLabel).GtID())
+                    .Attribute("eLb").Value == oLessThanSlashTokenLabel);
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value ==
+                        oFullElement.Elements().Single(e => e.Label() == oEndTagLabel)
+                        .Elements().Single(e => e.Label() == oGreaterThanTokenLabel).GtID())
+                    .Attribute("eLb").Value == oGreaterThanTokenLabel);
+
+                // Update
+                var mFullElement1 = converter.Visit(nodeRevisionPair.Modified);
+                converter.SetGumTreefiedIDs(mFullElement1, ref mId);
+                converter.SetRoslynMLIDs(mFullElement1, ref mId);
+
+                if (mFullElement1.Elements().Single(e => e.Label() == oStartTagLabel).Elements().Any(e => e.Label() == mLessThanTokenLabel))
+                    mFullElement1.Elements().Single(e => e.Label() == oStartTagLabel).Elements().Single(e => e.Label() == mLessThanTokenLabel).Value = "v0";
+
+                if (mFullElement1.Elements().Single(e => e.Label() == oStartTagLabel).Elements().Any(e => e.Label() == mGreaterThanTokenLabel))
+                    mFullElement1.Elements().Single(e => e.Label() == oStartTagLabel).Elements().Single(e => e.Label() == mGreaterThanTokenLabel).Value = "v1";
+
+                if (mFullElement1.Elements().Single(e => e.Label() == oEndTagLabel).Elements().Any(e => e.Label() == mLessThanSlashTokenLabel))
+                    mFullElement1.Elements().Single(e => e.Label() == oEndTagLabel).Elements().Single(e => e.Label() == mLessThanSlashTokenLabel).Value = "v2";
+
+                if (mFullElement1.Elements().Single(e => e.Label() == oEndTagLabel).Elements().Any(e => e.Label() == mGreaterThanTokenLabel))
+                    mFullElement1.Elements().Single(e => e.Label() == oEndTagLabel).Elements().Single(e => e.Label() == mGreaterThanTokenLabel).Value = "v3";
+
+                expander.Expand(
+                    new RevisionPair<XElement> { Original = oElement, Modified = mElement },
+                    new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement1 },
+                    (Matches: new XElement[]
+                    {
+                        new XElement("Match",
+                            new XAttribute("oId", oElement.GtID()),
+                            new XAttribute("oLb", oElement.Label()),
+                            new XAttribute("mId", mElement.GtID()),
+                            new XAttribute("mLb", mElement.Label()))
+                    },
+                    Actions: new XElement[0]));
+
+                Assert.AreEqual(expander.FullDelta.Matches.Count(), matchedProperties + 1 + 4);
+                Assert.AreEqual(expander.FullDelta.Actions.Count(), 4);
+
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value == oElement.GtID())
+                    .Attribute("mId").Value == mElement.GtID());
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oExpectedLabel)
+                    .Attribute("mLb").Value == mExpectedLabel);
+
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oLessThanTokenLabel)
+                    .Attribute("mLb").Value == mLessThanTokenLabel);
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value ==
+                    oFullElement.Elements().Single(e => e.Label() == oStartTagLabel).Elements().Single(e => e.Label() == oLessThanTokenLabel).GtID())
+                    .Attribute("mId").Value ==
+                    mFullElement.Elements().Single(e => e.Label() == mStartTagLabel).Elements().Single(e => e.Label() == mLessThanTokenLabel).GtID());
+                Assert.IsTrue(expander.FullDelta.Actions
+                        .Single(a => a.Name.LocalName == "Update" && a.Attribute("eLb").Value == oLessThanTokenLabel)
+                        .Attribute("val").Value == "v0");
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Update" && a.Attribute("eId").Value ==
+                        oFullElement.Elements().Single(e => e.Label() == oStartTagLabel).Elements().Single(e => e.Label() == oLessThanTokenLabel).GtID())
+                    .Attribute("val").Value == "v0");
+
+                Assert.IsTrue(expander.FullDelta.Matches.Where(m => m.Attribute("oLb").Value == oGreaterThanTokenLabel).ToList()[0]
+                    .Attribute("mLb").Value == mGreaterThanTokenLabel);
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value ==
+                    oFullElement.Elements().Single(e => e.Label() == oStartTagLabel).Elements().Single(e => e.Label() == oGreaterThanTokenLabel).GtID())
+                    .Attribute("mId").Value ==
+                    mFullElement.Elements().Single(e => e.Label() == mStartTagLabel).Elements().Single(e => e.Label() == mGreaterThanTokenLabel).GtID());
+                Assert.IsTrue(expander.FullDelta.Actions
+                        .Where(a => a.Name.LocalName == "Update" && a.Attribute("eLb").Value == oGreaterThanTokenLabel).ToList()[0]
+                        .Attribute("val").Value == "v1");
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Update" && a.Attribute("eId").Value ==
+                        oFullElement.Elements().Single(e => e.Label() == oStartTagLabel).Elements().Single(e => e.Label() == oGreaterThanTokenLabel).GtID())
+                    .Attribute("val").Value == "v1");
+
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oLessThanSlashTokenLabel)
+                    .Attribute("mLb").Value == mLessThanSlashTokenLabel);
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value ==
+                    oFullElement.Elements().Single(e => e.Label() == oEndTagLabel).Elements().Single(e => e.Label() == oLessThanSlashTokenLabel).GtID())
+                    .Attribute("mId").Value ==
+                    mFullElement.Elements().Single(e => e.Label() == mEndTagLabel).Elements().Single(e => e.Label() == mLessThanSlashTokenLabel).GtID());
+                Assert.IsTrue(expander.FullDelta.Actions
+                        .Single(a => a.Name.LocalName == "Update" && a.Attribute("eLb").Value == oLessThanSlashTokenLabel)
+                        .Attribute("val").Value == "v2");
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Update" && a.Attribute("eId").Value ==
+                        oFullElement.Elements().Single(e => e.Label() == oEndTagLabel).Elements().Single(e => e.Label() == oLessThanSlashTokenLabel).GtID())
+                    .Attribute("val").Value == "v2");
+
+                Assert.IsTrue(expander.FullDelta.Matches.Where(m => m.Attribute("oLb").Value == oGreaterThanTokenLabel).ToList()[1]
+                    .Attribute("mLb").Value == mGreaterThanTokenLabel);
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value ==
+                    oFullElement.Elements().Single(e => e.Label() == oEndTagLabel).Elements().Single(e => e.Label() == oGreaterThanTokenLabel).GtID())
+                    .Attribute("mId").Value ==
+                    mFullElement.Elements().Single(e => e.Label() == mEndTagLabel).Elements().Single(e => e.Label() == mGreaterThanTokenLabel).GtID());
+                Assert.IsTrue(expander.FullDelta.Actions
+                        .Where(a => a.Name.LocalName == "Update" && a.Attribute("eLb").Value == oGreaterThanTokenLabel).ToList()[1]
+                        .Attribute("val").Value == "v3");
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Update" && a.Attribute("eId").Value ==
+                        oFullElement.Elements().Single(e => e.Label() == oEndTagLabel).Elements().Single(e => e.Label() == oGreaterThanTokenLabel).GtID())
+                    .Attribute("val").Value == "v3");
+
+                // Update
+                expander.Expand(
+                    new RevisionPair<XElement> { Original = oElement, Modified = mElement },
+                    new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement },
+                    (Matches: new XElement[0],
+                    Actions: new XElement[]
+                    {
+                        new XElement("Update",
+                            new XAttribute("eId", oFullElement.GtID()),
+                            new XAttribute("eLb", oFullElement.Attribute("kind")?.Value ?? oFullElement.Name.LocalName),
+                            new XAttribute("eVl", mFullElement.GtID()),
+                            new XAttribute("val", "t#v"))
+                    }));
+                Assert.AreEqual(expander.FullDelta.Matches.Count(), 0);
+                Assert.AreEqual(expander.FullDelta.Actions.Count(), 1);
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                        .Single(a => a.Name.LocalName == "Update" && a.Attribute("eLb").Value == oExpectedLabel)
+                        .Attribute("val").Value == "t#v");
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Update" && a.Attribute("eId").Value == oFullElement.GtID())
+                    .Attribute("val").Value == "t#v");
+
+                // Move
+                expander.Expand(
+                    new RevisionPair<XElement> { Original = oElement, Modified = mElement },
+                    new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement },
+                    (Matches: new XElement[0],
+                     Actions: new XElement[]
+                     {
+                         new XElement("Move",
+                             new XAttribute("eId", oElement.GtID()),
+                             new XAttribute("eLb", oElement.Label()),
+                             new XAttribute("pId", mFullElement.GtID()),
+                             new XAttribute("pLb", mFullElement.Label()),
+                             new XAttribute("pos", "-1"))
+                     }));
+                Assert.AreEqual(expander.FullDelta.Matches.Count(), 0);
+                Assert.AreEqual(expander.FullDelta.Actions.Count(), 1);
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Move" && a.Attribute("eId").Value == oElement.GtID())
+                    .Attribute("pId").Value == mFullElement.GtID());
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Move" && a.Attribute("eLb").Value == oExpectedLabel)
+                    .Attribute("pLb").Value == mExpectedLabel);
+            }
+        }
+
+        partial void XmlNameAttributeServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(XmlNameAttributeSyntax, XmlNameAttributeSyntax)> nodeRevisionPairs);
+
+        [TestMethod]
+        public void XmlNameAttributeServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_OK()
+        {
+            var converter = new CDF.CSharp.RoslynML.RoslynML();
+            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
+            int id = 0;
+
+            IEnumerable<(XmlNameAttributeSyntax, XmlNameAttributeSyntax)> nodeRevisionPairs = null;
+            string oExpectedLabel = null, mExpectedLabel = null;
+            XmlNameAttributeServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref nodeRevisionPairs);
+            foreach (((XmlNameAttributeSyntax Original, XmlNameAttributeSyntax Modified) nodeRevisionPair, Action<RoslynML, XElement> defoliate) in nodeRevisionPairs
+                .SelectMany(n => new List<((XmlNameAttributeSyntax, XmlNameAttributeSyntax), Action<RoslynML, XElement>)>
+                    { (n, (r, n1) => { }), (n, (r, n1) => r.Defoliate(n1)) }))
+            {
+                id = 0;
+                oExpectedLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Original.Kind());
+                mExpectedLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Modified.Kind());
+
+                var oElement = converter.Visit(nodeRevisionPair.Original);
+                converter.SetGumTreefiedIDs(oElement, ref id);
+                converter.SetRoslynMLIDs(oElement, ref id);
+                converter.Prune(oElement, selector.PruneSelector);
+                defoliate(converter, oElement);
+
+                var mId = id;
+
+                var mElement = converter.Visit(nodeRevisionPair.Modified);
+                converter.SetGumTreefiedIDs(mElement, ref id);
+                converter.SetRoslynMLIDs(mElement, ref id);
+                converter.Prune(mElement, selector.PruneSelector);
+                defoliate(converter, mElement);
+
+                id = 0;
+                var oFullElement = converter.Visit(nodeRevisionPair.Original);
+                converter.SetGumTreefiedIDs(oFullElement, ref id);
+                converter.SetRoslynMLIDs(oFullElement, ref id);
+
+                var mFullElement = converter.Visit(nodeRevisionPair.Modified);
+                converter.SetGumTreefiedIDs(mFullElement, ref id);
+                converter.SetRoslynMLIDs(mFullElement, ref id);
+
+                DeltaExpander expander = new DeltaExpander();
+
+                // Match
+                expander.Expand(
+                    new RevisionPair<XElement> { Original = oElement, Modified = mElement },
+                    new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement },
+                    (Matches: new XElement[]
+                    {
+                        new XElement("Match",
+                            new XAttribute("oId", oElement.GtID()),
+                            new XAttribute("oLb", oElement.Label()),
+                            new XAttribute("mId", mElement.GtID()),
+                            new XAttribute("mLb", mElement.Label()))
+                    },
+                Actions: new XElement[0]));
+
+                var totalProperties = 4;
+                var matchedProperties = totalProperties;
+                var unmatchedOriginalProperties = 0;
+                var unmatchedModifiedProperties = 0;
+
+                Assert.AreEqual(expander.FullDelta.Matches.Count(), matchedProperties + 1 + 1); //the identifier within the XmlName
+                Assert.AreEqual(expander.FullDelta.Actions.Count(), unmatchedOriginalProperties + unmatchedModifiedProperties);
+
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value == oElement.GtID())
+                    .Attribute("mId").Value == mElement.GtID());
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oExpectedLabel)
+                    .Attribute("mLb").Value == mExpectedLabel);
+
+                var oNameLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Original.Name.Kind());
+                var mNameLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Modified.Name.Kind());
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oNameLabel)
+                    .Attribute("mLb").Value == mNameLabel);
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value ==
+                    oFullElement.Elements().Single(e => e.Label() == oNameLabel).GtID())
+                    .Attribute("mId").Value ==
+                    mFullElement.Elements().Single(e => e.Label() == mNameLabel).GtID());
+
+                var oLocalNameLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Original.Name.LocalName.Kind());
+                var mLocalNameLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Modified.Name.LocalName.Kind());
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oLocalNameLabel)
+                    .Attribute("mLb").Value == mLocalNameLabel);
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value ==
+                    oFullElement.Elements().Single(e => e.Label() == oNameLabel).Elements().Single(e => e.Label() == oLocalNameLabel).GtID())
+                    .Attribute("mId").Value ==
+                    mFullElement.Elements().Single(e => e.Label() == mNameLabel).Elements().Single(e => e.Label() == mLocalNameLabel).GtID());
+
+                var oEqualsTokenLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Original.EqualsToken.Kind());
+                var mEqualsTokenLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Modified.EqualsToken.Kind());
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oEqualsTokenLabel)
+                    .Attribute("mLb").Value == mEqualsTokenLabel);
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value ==
+                    oFullElement.Elements().Single(e => e.Label() == oEqualsTokenLabel).GtID())
+                    .Attribute("mId").Value ==
+                    mFullElement.Elements().Single(e => e.Label() == mEqualsTokenLabel).GtID());
+
+                var oStartQuoteTokenLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Original.StartQuoteToken.Kind());
+                var mStartQuoteTokenLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Modified.StartQuoteToken.Kind());
+                Assert.IsTrue(expander.FullDelta.Matches.Where(m => m.Attribute("oLb").Value == oStartQuoteTokenLabel).ToList()[0]
+                    .Attribute("mLb").Value == mStartQuoteTokenLabel);
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value ==
+                    oFullElement.Elements().Where(e => e.Label() == oStartQuoteTokenLabel).ToList()[0].GtID())
+                    .Attribute("mId").Value ==
+                    mFullElement.Elements().Where(e => e.Label() == mStartQuoteTokenLabel).ToList()[0].GtID());
+
+                var oEndQuoteTokenLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Original.EndQuoteToken.Kind());
+                var mEndQuoteTokenLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Modified.EndQuoteToken.Kind());
+                Assert.IsTrue(expander.FullDelta.Matches.Where(m => m.Attribute("oLb").Value == oEndQuoteTokenLabel).ToList()[1]
+                    .Attribute("mLb").Value == mEndQuoteTokenLabel);
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value ==
+                    oFullElement.Elements().Where(e => e.Label() == oEndQuoteTokenLabel).ToList()[1].GtID())
+                    .Attribute("mId").Value ==
+                    mFullElement.Elements().Where(e => e.Label() == mEndQuoteTokenLabel).ToList()[1].GtID());
+
+                // Insert
+                expander.Expand(
+                    new RevisionPair<XElement> { Original = oElement, Modified = mElement },
+                    new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement },
+                    (Matches: new XElement[0],
+                     Actions: new XElement[]
+                     {
+                         new XElement("Insert",
+                             new XAttribute("eId", mElement.GtID()),
+                             new XAttribute("eLb", mElement.Label()),
+                             new XAttribute("eVl", "##"),
+                             new XAttribute("pId", mElement.GtID()),
+                             new XAttribute("pLb", mElement.Label()),
+                             new XAttribute("pos", "-1"))
+                     }));
+
+                Assert.AreEqual(expander.FullDelta.Matches.Count(), 0);
+                Assert.AreEqual(expander.FullDelta.Actions.Count(), matchedProperties + 1 + unmatchedModifiedProperties + 1);
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Insert" && a.Attribute("eId").Value == mElement.GtID())
+                    .Attribute("pId").Value == mElement.GtID());
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mExpectedLabel)
+                    .Attribute("pLb").Value == mExpectedLabel);
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                        .Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mNameLabel)
+                        .Attribute("pLb").Value == mExpectedLabel);
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Insert" && a.Attribute("eId").Value ==
+                        mFullElement.Elements().Single(e => e.Label() == mNameLabel).GtID())
+                    .Attribute("pId").Value == mFullElement.GtID());
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                        .Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mLocalNameLabel)
+                        .Attribute("pLb").Value == mNameLabel);
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Insert" && a.Attribute("eId").Value ==
+                        mFullElement.Elements().Single(e => e.Label() == mNameLabel).Elements().Single(e => e.Label() == mLocalNameLabel).GtID())
+                    .Attribute("pId").Value == mFullElement.Elements().Single(e => e.Label() == oNameLabel).GtID());
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                        .Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mEqualsTokenLabel)
+                        .Attribute("pLb").Value == mExpectedLabel);
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Insert" && a.Attribute("eId").Value ==
+                        mFullElement.Elements().Single(e => e.Label() == mEqualsTokenLabel).GtID())
+                    .Attribute("pId").Value == mFullElement.GtID());
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                        .Where(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mStartQuoteTokenLabel).ToList()[0]
+                        .Attribute("pLb").Value == mExpectedLabel);
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Insert" && a.Attribute("eId").Value ==
+                        mFullElement.Elements().Where(e => e.Label() == mStartQuoteTokenLabel).ToList()[0].GtID())
+                    .Attribute("pId").Value == mFullElement.GtID());
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                        .Where(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mEndQuoteTokenLabel).ToList()[1]
+                        .Attribute("pLb").Value == mExpectedLabel);
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Insert" && a.Attribute("eId").Value ==
+                        mFullElement.Elements().Where(e => e.Label() == mEndQuoteTokenLabel).ToList()[1].GtID())
+                    .Attribute("pId").Value == mFullElement.GtID());
+
+                // Delete
+                expander.Expand(
+                    new RevisionPair<XElement> { Original = oElement, Modified = mElement },
+                    new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement },
+                    (Matches: new XElement[0],
+                     Actions: new XElement[]
+                     {
+                         new XElement("Delete",
+                             new XAttribute("eId", oElement.GtID()),
+                             new XAttribute("eLb", oElement.Label()),
+                             new XAttribute("eVl", "##"))
+                     }));
+
+                Assert.AreEqual(expander.FullDelta.Matches.Count(), 0);
+                Assert.AreEqual(expander.FullDelta.Actions.Count(), matchedProperties + 1 + unmatchedOriginalProperties + 1);
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value == oElement.GtID())
+                    .Attribute("eLb").Value == oElement.Label());
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value ==
+                        oFullElement.Elements().Single(e => e.Label() == oNameLabel).GtID())
+                    .Attribute("eLb").Value == oNameLabel);
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value ==
+                        oFullElement.Elements().Single(e => e.Label() == oNameLabel).Elements().Single(e => e.Label() == oLocalNameLabel).GtID())
+                    .Attribute("eLb").Value == oLocalNameLabel);
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value ==
+                        oFullElement.Elements().Single(e => e.Label() == oEqualsTokenLabel).GtID())
+                    .Attribute("eLb").Value == oEqualsTokenLabel);
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value ==
+                        oFullElement.Elements().Where(e => e.Label() == oStartQuoteTokenLabel).ToList()[0].GtID())
+                    .Attribute("eLb").Value == oStartQuoteTokenLabel);
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value ==
+                        oFullElement.Elements().Where(e => e.Label() == oEndQuoteTokenLabel).ToList()[1].GtID())
+                    .Attribute("eLb").Value == oEndQuoteTokenLabel);
+
+                // Update
+                var mFullElement1 = converter.Visit(nodeRevisionPair.Modified);
+                converter.SetGumTreefiedIDs(mFullElement1, ref mId);
+                converter.SetRoslynMLIDs(mFullElement1, ref mId);
+
+                //if (mFullElement1.Elements().Any(e => e.Label() == mNameLabel))
+                //    mFullElement1.Elements().Single(e => e.Label() == mNameLabel).Value = "v0";
+
+                if (mFullElement1.Elements().Any(e => e.Label() == mEqualsTokenLabel))
+                    mFullElement1.Elements().Single(e => e.Label() == mEqualsTokenLabel).Value = "v0";
+
+                if (mFullElement1.Elements().Any(e => e.Label() == mStartQuoteTokenLabel))
+                    mFullElement1.Elements().Where(e => e.Label() == mStartQuoteTokenLabel).ToList()[0].Value = "v1";
+
+                if (mFullElement1.Elements().Any(e => e.Label() == mEndQuoteTokenLabel))
+                    mFullElement1.Elements().Where(e => e.Label() == mEndQuoteTokenLabel).ToList()[1].Value = "v2";
+
+                if (mFullElement1.Elements().Single(e => e.Label() == mNameLabel).Elements().Any(e => e.Label() == mLocalNameLabel))
+                    mFullElement1.Elements().Single(e => e.Label() == mNameLabel).Elements().Single(e => e.Label() == mLocalNameLabel).Value = "v3";
+
+                expander.Expand(
+                    new RevisionPair<XElement> { Original = oElement, Modified = mElement },
+                    new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement1 },
+                    (Matches: new XElement[]
+                    {
+                        new XElement("Match",
+                            new XAttribute("oId", oElement.GtID()),
+                            new XAttribute("oLb", oElement.Label()),
+                            new XAttribute("mId", mElement.GtID()),
+                            new XAttribute("mLb", mElement.Label()))
+                    },
+                    Actions: new XElement[0]));
+
+                Assert.AreEqual(expander.FullDelta.Matches.Count(), matchedProperties + 1 + 1);
+                Assert.AreEqual(expander.FullDelta.Actions.Count(), matchedProperties + unmatchedOriginalProperties + unmatchedModifiedProperties + 1 - 1); // Name is not a leaf and therefore it is not updatable.
+
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value == oElement.GtID())
+                    .Attribute("mId").Value == mElement.GtID());
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oExpectedLabel)
+                    .Attribute("mLb").Value == mExpectedLabel);
+
+                //Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oNameLabel)
+                //    .Attribute("mLb").Value == mNameLabel);
+                //Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value ==
+                //    oFullElement.Elements().Single(e => e.Label() == oNameLabel).GtID())
+                //    .Attribute("mId").Value ==
+                //    mFullElement.Elements().Single(e => e.Label() == mNameLabel).GtID());
+                //Assert.IsTrue(expander.FullDelta.Actions
+                //        .Single(a => a.Name.LocalName == "Update" && a.Attribute("eLb").Value == oNameLabel)
+                //        .Attribute("val").Value == "v0");
+                //Assert.IsTrue(expander.FullDelta.Actions
+                //    .Single(a => a.Name.LocalName == "Update" && a.Attribute("eId").Value ==
+                //        oFullElement.Elements().Single(e => e.Label() == oNameLabel).GtID())
+                //    .Attribute("val").Value == "v0");
+
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oLocalNameLabel)
+                    .Attribute("mLb").Value == mLocalNameLabel);
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value ==
+                    oFullElement.Elements().Single(e => e.Label() == oNameLabel).Elements().Single(e => e.Label() == oLocalNameLabel).GtID())
+                    .Attribute("mId").Value ==
+                    mFullElement.Elements().Single(e => e.Label() == mNameLabel).Elements().Single(e => e.Label() == mLocalNameLabel).GtID());
+                Assert.IsTrue(expander.FullDelta.Actions
+                        .Single(a => a.Name.LocalName == "Update" && a.Attribute("eLb").Value == oLocalNameLabel)
+                        .Attribute("val").Value == "v3");
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Update" && a.Attribute("eId").Value ==
+                        oFullElement.Elements().Single(e => e.Label() == oNameLabel).Elements().Single(e => e.Label() == oLocalNameLabel).GtID())
+                    .Attribute("val").Value == "v3");
+
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oEqualsTokenLabel)
+                    .Attribute("mLb").Value == mEqualsTokenLabel);
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value ==
+                    oFullElement.Elements().Single(e => e.Label() == oEqualsTokenLabel).GtID())
+                    .Attribute("mId").Value ==
+                    mFullElement.Elements().Single(e => e.Label() == mEqualsTokenLabel).GtID());
+                Assert.IsTrue(expander.FullDelta.Actions
+                        .Single(a => a.Name.LocalName == "Update" && a.Attribute("eLb").Value == oEqualsTokenLabel)
+                        .Attribute("val").Value == "v0");
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Update" && a.Attribute("eId").Value ==
+                        oFullElement.Elements().Single(e => e.Label() == oEqualsTokenLabel).GtID())
+                    .Attribute("val").Value == "v0");
+
+                Assert.IsTrue(expander.FullDelta.Matches.Where(m => m.Attribute("oLb").Value == oStartQuoteTokenLabel).ToList()[0]
+                    .Attribute("mLb").Value == mStartQuoteTokenLabel);
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value ==
+                    oFullElement.Elements().Where(e => e.Label() == oStartQuoteTokenLabel).ToList()[0].GtID())
+                    .Attribute("mId").Value ==
+                    mFullElement.Elements().Where(e => e.Label() == mStartQuoteTokenLabel).ToList()[0].GtID());
+                Assert.IsTrue(expander.FullDelta.Actions
+                        .Where(a => a.Name.LocalName == "Update" && a.Attribute("eLb").Value == oStartQuoteTokenLabel).ToList()[0]
+                        .Attribute("val").Value == "v1");
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Update" && a.Attribute("eId").Value ==
+                        oFullElement.Elements().Where(e => e.Label() == oStartQuoteTokenLabel).ToList()[0].GtID())
+                    .Attribute("val").Value == "v1");
+
+                Assert.IsTrue(expander.FullDelta.Matches.Where(m => m.Attribute("oLb").Value == oEndQuoteTokenLabel).ToList()[1]
+                    .Attribute("mLb").Value == mStartQuoteTokenLabel);
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value ==
+                    oFullElement.Elements().Where(e => e.Label() == oEndQuoteTokenLabel).ToList()[1].GtID())
+                    .Attribute("mId").Value ==
+                    mFullElement.Elements().Where(e => e.Label() == oEndQuoteTokenLabel).ToList()[1].GtID());
+                Assert.IsTrue(expander.FullDelta.Actions
+                        .Where(a => a.Name.LocalName == "Update" && a.Attribute("eLb").Value == oEndQuoteTokenLabel).ToList()[1]
+                        .Attribute("val").Value == "v2");
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Update" && a.Attribute("eId").Value ==
+                        oFullElement.Elements().Where(e => e.Label() == oEndQuoteTokenLabel).ToList()[1].GtID())
+                    .Attribute("val").Value == "v2");
+
+                // Update
+                expander.Expand(
+                    new RevisionPair<XElement> { Original = oElement, Modified = mElement },
+                    new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement },
+                    (Matches: new XElement[0],
+                    Actions: new XElement[]
+                    {
+                        new XElement("Update",
+                            new XAttribute("eId", oFullElement.GtID()),
+                            new XAttribute("eLb", oFullElement.Attribute("kind")?.Value ?? oFullElement.Name.LocalName),
+                            new XAttribute("eVl", mFullElement.GtID()),
+                            new XAttribute("val", "t#v"))
+                    }));
+                Assert.AreEqual(expander.FullDelta.Matches.Count(), 0);
+                Assert.AreEqual(expander.FullDelta.Actions.Count(), 1);
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                        .Single(a => a.Name.LocalName == "Update" && a.Attribute("eLb").Value == oExpectedLabel)
+                        .Attribute("val").Value == "t#v");
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Update" && a.Attribute("eId").Value == oFullElement.GtID())
+                    .Attribute("val").Value == "t#v");
+
+                // Move
+                expander.Expand(
+                    new RevisionPair<XElement> { Original = oElement, Modified = mElement },
+                    new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement },
+                    (Matches: new XElement[0],
+                     Actions: new XElement[]
+                     {
+                         new XElement("Move",
+                             new XAttribute("eId", oElement.GtID()),
+                             new XAttribute("eLb", oElement.Label()),
+                             new XAttribute("pId", mFullElement.GtID()),
+                             new XAttribute("pLb", mFullElement.Label()),
+                             new XAttribute("pos", "-1"))
+                     }));
+                Assert.AreEqual(expander.FullDelta.Matches.Count(), 0);
+                Assert.AreEqual(expander.FullDelta.Actions.Count(), 1);
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Move" && a.Attribute("eId").Value == oElement.GtID())
+                    .Attribute("pId").Value == mFullElement.GtID());
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Move" && a.Attribute("eLb").Value == oExpectedLabel)
+                    .Attribute("pLb").Value == mExpectedLabel);
+            }
+        }
+
+        partial void XmlTextAttributeServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(XmlTextAttributeSyntax, XmlTextAttributeSyntax)> nodeRevisionPairs);
+
+        [TestMethod]
+        public void XmlTextAttributeServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_OK()
+        {
+            var converter = new CDF.CSharp.RoslynML.RoslynML();
+            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
+            int id = 0;
+
+            IEnumerable<(XmlTextAttributeSyntax, XmlTextAttributeSyntax)> nodeRevisionPairs = null;
+            string oExpectedLabel = null, mExpectedLabel = null;
+            XmlTextAttributeServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref nodeRevisionPairs);
+            foreach (((XmlTextAttributeSyntax Original, XmlTextAttributeSyntax Modified) nodeRevisionPair, Action<RoslynML, XElement> defoliate) in nodeRevisionPairs
+                .SelectMany(n => new List<((XmlTextAttributeSyntax, XmlTextAttributeSyntax), Action<RoslynML, XElement>)>
+                    { (n, (r, n1) => { }), (n, (r, n1) => r.Defoliate(n1)) }))
+            {
+                id = 0;
+                oExpectedLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Original.Kind());
+                mExpectedLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Modified.Kind());
+
+                var oElement = converter.Visit(nodeRevisionPair.Original);
+                converter.SetGumTreefiedIDs(oElement, ref id);
+                converter.SetRoslynMLIDs(oElement, ref id);
+                converter.Prune(oElement, selector.PruneSelector);
+                defoliate(converter, oElement);
+
+                var mId = id;
+
+                var mElement = converter.Visit(nodeRevisionPair.Modified);
+                converter.SetGumTreefiedIDs(mElement, ref id);
+                converter.SetRoslynMLIDs(mElement, ref id);
+                converter.Prune(mElement, selector.PruneSelector);
+                defoliate(converter, mElement);
+
+                id = 0;
+                var oFullElement = converter.Visit(nodeRevisionPair.Original);
+                converter.SetGumTreefiedIDs(oFullElement, ref id);
+                converter.SetRoslynMLIDs(oFullElement, ref id);
+
+                var mFullElement = converter.Visit(nodeRevisionPair.Modified);
+                converter.SetGumTreefiedIDs(mFullElement, ref id);
+                converter.SetRoslynMLIDs(mFullElement, ref id);
+
+                DeltaExpander expander = new DeltaExpander();
+
+                // Match
+                expander.Expand(
+                    new RevisionPair<XElement> { Original = oElement, Modified = mElement },
+                    new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement },
+                    (Matches: new XElement[]
+                    {
+                        new XElement("Match",
+                            new XAttribute("oId", oElement.GtID()),
+                            new XAttribute("oLb", oElement.Label()),
+                            new XAttribute("mId", mElement.GtID()),
+                            new XAttribute("mLb", mElement.Label()))
+                    },
+                Actions: new XElement[0]));
+
+                var totalProperties = 3;
+                var matchedProperties = totalProperties;
+                var unmatchedOriginalProperties = 0;
+                var unmatchedModifiedProperties = 0;
+
+                Assert.AreEqual(expander.FullDelta.Matches.Count(), matchedProperties + 1);
+                Assert.AreEqual(expander.FullDelta.Actions.Count(), unmatchedOriginalProperties + unmatchedModifiedProperties);
+
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value == oElement.GtID())
+                    .Attribute("mId").Value == mElement.GtID());
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oExpectedLabel)
+                    .Attribute("mLb").Value == mExpectedLabel);
+
+                var oEqualsTokenLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Original.EqualsToken.Kind());
+                var mEqualsTokenLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Modified.EqualsToken.Kind());
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oEqualsTokenLabel)
+                    .Attribute("mLb").Value == mEqualsTokenLabel);
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value ==
+                    oFullElement.Elements().Single(e => e.Label() == oEqualsTokenLabel).GtID())
+                    .Attribute("mId").Value ==
+                    mFullElement.Elements().Single(e => e.Label() == mEqualsTokenLabel).GtID());
+
+                var oStartQuoteTokenLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Original.StartQuoteToken.Kind());
+                var mStartQuoteTokenLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Modified.StartQuoteToken.Kind());
+                Assert.IsTrue(expander.FullDelta.Matches.Where(m => m.Attribute("oLb").Value == oStartQuoteTokenLabel).ToList()[0]
+                    .Attribute("mLb").Value == mStartQuoteTokenLabel);
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value ==
+                    oFullElement.Elements().Where(e => e.Label() == oStartQuoteTokenLabel).ToList()[0].GtID())
+                    .Attribute("mId").Value ==
+                    mFullElement.Elements().Where(e => e.Label() == mStartQuoteTokenLabel).ToList()[0].GtID());
+
+                var oEndQuoteTokenLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Original.EndQuoteToken.Kind());
+                var mEndQuoteTokenLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Modified.EndQuoteToken.Kind());
+                Assert.IsTrue(expander.FullDelta.Matches.Where(m => m.Attribute("oLb").Value == oEndQuoteTokenLabel).ToList()[1]
+                    .Attribute("mLb").Value == mEndQuoteTokenLabel);
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value ==
+                    oFullElement.Elements().Where(e => e.Label() == oEndQuoteTokenLabel).ToList()[1].GtID())
+                    .Attribute("mId").Value ==
+                    mFullElement.Elements().Where(e => e.Label() == mEndQuoteTokenLabel).ToList()[1].GtID());
+
+                // Insert
+                expander.Expand(
+                    new RevisionPair<XElement> { Original = oElement, Modified = mElement },
+                    new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement },
+                    (Matches: new XElement[0],
+                     Actions: new XElement[]
+                     {
+                         new XElement("Insert",
+                             new XAttribute("eId", mElement.GtID()),
+                             new XAttribute("eLb", mElement.Label()),
+                             new XAttribute("eVl", "##"),
+                             new XAttribute("pId", mElement.GtID()),
+                             new XAttribute("pLb", mElement.Label()),
+                             new XAttribute("pos", "-1"))
+                     }));
+
+                Assert.AreEqual(expander.FullDelta.Matches.Count(), 0);
+                Assert.AreEqual(expander.FullDelta.Actions.Count(), matchedProperties + 1 + unmatchedModifiedProperties);
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Insert" && a.Attribute("eId").Value == mElement.GtID())
+                    .Attribute("pId").Value == mElement.GtID());
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mExpectedLabel)
+                    .Attribute("pLb").Value == mExpectedLabel);
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                        .Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mEqualsTokenLabel)
+                        .Attribute("pLb").Value == mExpectedLabel);
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Insert" && a.Attribute("eId").Value ==
+                        mFullElement.Elements().Single(e => e.Label() == mEqualsTokenLabel).GtID())
+                    .Attribute("pId").Value == mFullElement.GtID());
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                        .Where(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mStartQuoteTokenLabel).ToList()[0]
+                        .Attribute("pLb").Value == mExpectedLabel);
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Insert" && a.Attribute("eId").Value ==
+                        mFullElement.Elements().Where(e => e.Label() == mStartQuoteTokenLabel).ToList()[0].GtID())
+                    .Attribute("pId").Value == mFullElement.GtID());
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                        .Where(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mEndQuoteTokenLabel).ToList()[1]
+                        .Attribute("pLb").Value == mExpectedLabel);
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Insert" && a.Attribute("eId").Value ==
+                        mFullElement.Elements().Where(e => e.Label() == mEndQuoteTokenLabel).ToList()[1].GtID())
+                    .Attribute("pId").Value == mFullElement.GtID());
+
+                // Delete
+                expander.Expand(
+                    new RevisionPair<XElement> { Original = oElement, Modified = mElement },
+                    new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement },
+                    (Matches: new XElement[0],
+                     Actions: new XElement[]
+                     {
+                         new XElement("Delete",
+                             new XAttribute("eId", oElement.GtID()),
+                             new XAttribute("eLb", oElement.Label()),
+                             new XAttribute("eVl", "##"))
+                     }));
+
+                Assert.AreEqual(expander.FullDelta.Matches.Count(), 0);
+                Assert.AreEqual(expander.FullDelta.Actions.Count(), matchedProperties + 1 + unmatchedOriginalProperties);
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value == oElement.GtID())
+                    .Attribute("eLb").Value == oElement.Label());
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value ==
+                        oFullElement.Elements().Single(e => e.Label() == oEqualsTokenLabel).GtID())
+                    .Attribute("eLb").Value == oEqualsTokenLabel);
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value ==
+                        oFullElement.Elements().Where(e => e.Label() == oStartQuoteTokenLabel).ToList()[0].GtID())
+                    .Attribute("eLb").Value == oStartQuoteTokenLabel);
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value ==
+                        oFullElement.Elements().Where(e => e.Label() == oEndQuoteTokenLabel).ToList()[1].GtID())
+                    .Attribute("eLb").Value == oEndQuoteTokenLabel);
+
+                // Update
+                var mFullElement1 = converter.Visit(nodeRevisionPair.Modified);
+                converter.SetGumTreefiedIDs(mFullElement1, ref mId);
+                converter.SetRoslynMLIDs(mFullElement1, ref mId);
+
+                if (mFullElement1.Elements().Any(e => e.Label() == mEqualsTokenLabel))
+                    mFullElement1.Elements().Single(e => e.Label() == mEqualsTokenLabel).Value = "v0";
+
+                if (mFullElement1.Elements().Any(e => e.Label() == mStartQuoteTokenLabel))
+                    mFullElement1.Elements().Where(e => e.Label() == mStartQuoteTokenLabel).ToList()[0].Value = "v1";
+
+                if (mFullElement1.Elements().Any(e => e.Label() == mEndQuoteTokenLabel))
+                    mFullElement1.Elements().Where(e => e.Label() == mEndQuoteTokenLabel).ToList()[1].Value = "v2";
+
+                expander.Expand(
+                    new RevisionPair<XElement> { Original = oElement, Modified = mElement },
+                    new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement1 },
+                    (Matches: new XElement[]
+                    {
+                        new XElement("Match",
+                            new XAttribute("oId", oElement.GtID()),
+                            new XAttribute("oLb", oElement.Label()),
+                            new XAttribute("mId", mElement.GtID()),
+                            new XAttribute("mLb", mElement.Label()))
+                    },
+                    Actions: new XElement[0]));
+
+                Assert.AreEqual(expander.FullDelta.Matches.Count(), matchedProperties + 1);
+                Assert.AreEqual(expander.FullDelta.Actions.Count(), matchedProperties + unmatchedOriginalProperties + unmatchedModifiedProperties);
+
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value == oElement.GtID())
+                    .Attribute("mId").Value == mElement.GtID());
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oExpectedLabel)
+                    .Attribute("mLb").Value == mExpectedLabel);
+
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oEqualsTokenLabel)
+                    .Attribute("mLb").Value == mEqualsTokenLabel);
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value ==
+                    oFullElement.Elements().Single(e => e.Label() == oEqualsTokenLabel).GtID())
+                    .Attribute("mId").Value ==
+                    mFullElement.Elements().Single(e => e.Label() == mEqualsTokenLabel).GtID());
+                Assert.IsTrue(expander.FullDelta.Actions
+                        .Single(a => a.Name.LocalName == "Update" && a.Attribute("eLb").Value == oEqualsTokenLabel)
+                        .Attribute("val").Value == "v0");
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Update" && a.Attribute("eId").Value ==
+                        oFullElement.Elements().Single(e => e.Label() == oEqualsTokenLabel).GtID())
+                    .Attribute("val").Value == "v0");
+
+                Assert.IsTrue(expander.FullDelta.Matches.Where(m => m.Attribute("oLb").Value == oStartQuoteTokenLabel).ToList()[0]
+                    .Attribute("mLb").Value == mStartQuoteTokenLabel);
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value ==
+                    oFullElement.Elements().Where(e => e.Label() == oStartQuoteTokenLabel).ToList()[0].GtID())
+                    .Attribute("mId").Value ==
+                    mFullElement.Elements().Where(e => e.Label() == mStartQuoteTokenLabel).ToList()[0].GtID());
+                Assert.IsTrue(expander.FullDelta.Actions
+                        .Where(a => a.Name.LocalName == "Update" && a.Attribute("eLb").Value == oStartQuoteTokenLabel).ToList()[0]
+                        .Attribute("val").Value == "v1");
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Update" && a.Attribute("eId").Value ==
+                        oFullElement.Elements().Where(e => e.Label() == oStartQuoteTokenLabel).ToList()[0].GtID())
+                    .Attribute("val").Value == "v1");
+
+                Assert.IsTrue(expander.FullDelta.Matches.Where(m => m.Attribute("oLb").Value == oEndQuoteTokenLabel).ToList()[1]
+                    .Attribute("mLb").Value == mEndQuoteTokenLabel);
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value ==
+                    oFullElement.Elements().Where(e => e.Label() == oEndQuoteTokenLabel).ToList()[1].GtID())
+                    .Attribute("mId").Value ==
+                    mFullElement.Elements().Where(e => e.Label() == mEndQuoteTokenLabel).ToList()[1].GtID());
+                Assert.IsTrue(expander.FullDelta.Actions
+                        .Where(a => a.Name.LocalName == "Update" && a.Attribute("eLb").Value == oEndQuoteTokenLabel).ToList()[1]
+                        .Attribute("val").Value == "v2");
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Update" && a.Attribute("eId").Value ==
+                        oFullElement.Elements().Where(e => e.Label() == oEndQuoteTokenLabel).ToList()[1].GtID())
+                    .Attribute("val").Value == "v2");
+
+                // Update
+                expander.Expand(
+                    new RevisionPair<XElement> { Original = oElement, Modified = mElement },
+                    new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement },
+                    (Matches: new XElement[0],
+                    Actions: new XElement[]
+                    {
+                        new XElement("Update",
+                            new XAttribute("eId", oFullElement.GtID()),
+                            new XAttribute("eLb", oFullElement.Attribute("kind")?.Value ?? oFullElement.Name.LocalName),
+                            new XAttribute("eVl", mFullElement.GtID()),
+                            new XAttribute("val", "t#v"))
+                    }));
+                Assert.AreEqual(expander.FullDelta.Matches.Count(), 0);
+                Assert.AreEqual(expander.FullDelta.Actions.Count(), 1);
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                        .Single(a => a.Name.LocalName == "Update" && a.Attribute("eLb").Value == oExpectedLabel)
+                        .Attribute("val").Value == "t#v");
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Update" && a.Attribute("eId").Value == oFullElement.GtID())
+                    .Attribute("val").Value == "t#v");
+
+                // Move
+                expander.Expand(
+                    new RevisionPair<XElement> { Original = oElement, Modified = mElement },
+                    new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement },
+                    (Matches: new XElement[0],
+                     Actions: new XElement[]
+                     {
+                         new XElement("Move",
+                             new XAttribute("eId", oElement.GtID()),
+                             new XAttribute("eLb", oElement.Label()),
+                             new XAttribute("pId", mFullElement.GtID()),
+                             new XAttribute("pLb", mFullElement.Label()),
+                             new XAttribute("pos", "-1"))
+                     }));
+                Assert.AreEqual(expander.FullDelta.Matches.Count(), 0);
+                Assert.AreEqual(expander.FullDelta.Actions.Count(), 1);
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Move" && a.Attribute("eId").Value == oElement.GtID())
+                    .Attribute("pId").Value == mFullElement.GtID());
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Move" && a.Attribute("eLb").Value == oExpectedLabel)
+                    .Attribute("pLb").Value == mExpectedLabel);
+            }
+        }
+
         partial void ParenthesizedExpressionServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(ParenthesizedExpressionSyntax, ParenthesizedExpressionSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
@@ -1627,6 +3561,1094 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             {
                  (((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a<T> : byte where T : new(), class {};").Members[0]).ConstraintClauses[0],
                   ((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a<T> : byte where T : new(), class {};").Members[0]).ConstraintClauses[0])
+            };
+        }
+
+        partial void TypeConstraintServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(
+            ref IEnumerable<(TypeConstraintSyntax, TypeConstraintSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                ((TypeConstraintSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a<T> : byte where T : A {};").Members[0]).ConstraintClauses[0].Constraints[0],
+                    (TypeConstraintSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a<T> : byte where T : A {};").Members[0]).ConstraintClauses[0].Constraints[0])
+            };
+        }
+
+        partial void ConstructorConstraintServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(
+            ref IEnumerable<(ConstructorConstraintSyntax, ConstructorConstraintSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                ((ConstructorConstraintSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a<T> : byte where T : new() {};").Members[0]).ConstraintClauses[0].Constraints[0],
+                    (ConstructorConstraintSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a<T> : byte where T : new() {};").Members[0]).ConstraintClauses[0].Constraints[0])
+            };
+        }
+
+        partial void ClassOrStructConstraintServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(ClassOrStructConstraintSyntax, ClassOrStructConstraintSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                ((ClassOrStructConstraintSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a<T> : byte where T : class {};").Members[0]).ConstraintClauses[0].Constraints[0],
+                    (ClassOrStructConstraintSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a<T> : byte where T : class {};").Members[0]).ConstraintClauses[0].Constraints[0])
+            };
+        }
+
+        partial void BaseListServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(BaseListSyntax, BaseListSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                (((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a<T> : A, I where T : A {};").Members[0]).BaseList,
+                    ((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a<T> : A, I where T : A {};").Members[0]).BaseList)
+            };
+        }
+
+        partial void SimpleBaseTypeServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(SimpleBaseTypeSyntax, SimpleBaseTypeSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                ((SimpleBaseTypeSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a<T> : A, I where T : A {};").Members[0]).BaseList.Types[0],
+                    (SimpleBaseTypeSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a<T> : A, I where T : A {};").Members[0]).BaseList.Types[0])
+            };
+        }
+
+        partial void FieldDeclarationServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(FieldDeclarationSyntax, FieldDeclarationSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                ((FieldDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a {[Serializable]public int df;}").Members[0]).Members[0],
+                    (FieldDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a {[Serializable]public int df;}").Members[0]).Members[0])
+            };
+        }
+
+        partial void EventFieldDeclarationServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(EventFieldDeclarationSyntax, EventFieldDeclarationSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                ((EventFieldDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a {[Serializable]public event int df;}").Members[0]).Members[0],
+                    (EventFieldDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a {[Serializable]public event int df;}").Members[0]).Members[0])
+            };
+        }
+
+        partial void ExplicitInterfaceSpecifierServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(ExplicitInterfaceSpecifierSyntax, ExplicitInterfaceSpecifierSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                (((EventDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a {event B IA.a1{add; remove;}}").Members[0]).Members[0]).ExplicitInterfaceSpecifier,
+                    ((EventDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("class a {event B IA.a1{add; remove;}}").Members[0]).Members[0]).ExplicitInterfaceSpecifier)
+            };
+        }
+
+        partial void MethodDeclarationServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(MethodDeclarationSyntax, MethodDeclarationSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                ((MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string C.M<T>(int a, A b)where T: class { return 5; };").Members[0],
+                    (MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string C.M<T>(int a, A b)where T: class { return 5; };").Members[0]),
+                ((MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string C.M<T>(int a, A b)where T: class { return 5; }").Members[0],
+                    (MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string C.M<T>(int a, A b)where T: class { return 5; }").Members[0]),
+                ((MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string C.M<T>(int a, A b)where T: class { return 5; };").Members[0],
+                    (MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string C.M<T>(int a, A b)where T: class { return 5; }").Members[0]),
+                ((MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string C.M<T>(int a, A b)where T: class { return 5; }").Members[0],
+                    (MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string C.M<T>(int a, A b)where T: class { return 5; };").Members[0])
+            };
+        }
+
+        partial void OperatorDeclarationServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(OperatorDeclarationSyntax, OperatorDeclarationSyntax)> nodeRevisionPairs)
+        {
+               nodeRevisionPairs = new[]
+               {
+                ((OperatorDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string operator +(int a, A b) { return 5; };").Members[0],
+                    (OperatorDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string operator +(int a, A b) { return 5; };").Members[0]),
+                ((OperatorDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string operator +(int a, A b) { return 5; }").Members[0],
+                    (OperatorDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string operator +(int a, A b) { return 5; }").Members[0]),
+                ((OperatorDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string operator +(int a, A b) { return 5; };").Members[0],
+                    (OperatorDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string operator +(int a, A b) { return 5; }").Members[0]),
+                ((OperatorDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string operator +(int a, A b) { return 5; }").Members[0],
+                    (OperatorDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string operator +(int a, A b) { return 5; };").Members[0])
+            };
+        }
+
+        partial void ConversionOperatorDeclarationServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(ConversionOperatorDeclarationSyntax, ConversionOperatorDeclarationSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                ((ConversionOperatorDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual implicit operator T(A b) { return 5; };").Members[0],
+                    (ConversionOperatorDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual implicit operator T(A b) { return 5; };").Members[0]),
+                ((ConversionOperatorDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual implicit operator T(A b) { return 5; }").Members[0],
+                    (ConversionOperatorDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual implicit operator T(A b) { return 5; }").Members[0]),
+                ((ConversionOperatorDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual implicit operator T(A b) { return 5; };").Members[0],
+                    (ConversionOperatorDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual implicit operator T(A b) { return 5; }").Members[0]),
+                ((ConversionOperatorDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual implicit operator T(A b) { return 5; }").Members[0],
+                    (ConversionOperatorDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual implicit operator T(A b) { return 5; };").Members[0])
+            };
+        }
+
+        partial void ConstructorDeclarationServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(ConstructorDeclarationSyntax, ConstructorDeclarationSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                ((ConstructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { [Documentation]public A(B b) : this(b) { }; }").Members[0]).Members[0],
+                    (ConstructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { [Documentation]public A(B b) : this(b) { }; }").Members[0]).Members[0]),
+                ((ConstructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { [Documentation]public A(B b){} }").Members[0]).Members[0],
+                    (ConstructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { [Documentation]public A(B b){} }").Members[0]).Members[0]),
+                ((ConstructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { [Documentation]public A(B b) : this(b) { }; }").Members[0]).Members[0],
+                    (ConstructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { [Documentation]public A(B b){} }").Members[0]).Members[0]),
+                ((ConstructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { [Documentation]public A(B b){} }").Members[0]).Members[0],
+                    (ConstructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { [Documentation]public A(B b) : this(b) { }; }").Members[0]).Members[0]),
+                ((ConstructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { [Documentation]public A(B b); }").Members[0]).Members[0],
+                    (ConstructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { [Documentation]public A(B b); }").Members[0]).Members[0]),
+                ((ConstructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { [Documentation]public A(B b) : this(b) { }; }").Members[0]).Members[0],
+                    (ConstructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { [Documentation]public A(B b); }").Members[0]).Members[0]),
+                ((ConstructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { [Documentation]public A(B b); }").Members[0]).Members[0],
+                    (ConstructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { [Documentation]public A(B b) : this(b) { }; }").Members[0]).Members[0])
+            };
+        }
+
+        partial void ConstructorInitializerServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(ConstructorInitializerSyntax, ConstructorInitializerSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                (((ConstructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { [Documentation]public A(B b) : this(b) { }; }").Members[0]).Members[0]).Initializer,
+                    ((ConstructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { [Documentation]public A(B b) : this(b) { }; }").Members[0]).Members[0]).Initializer)
+            };
+        }
+
+        partial void DestructorDeclarationServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(DestructorDeclarationSyntax, DestructorDeclarationSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                ((DestructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { [Documentation] internal ~A(){ }; }").Members[0]).Members[0],
+                    (DestructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { [Documentation] internal ~A(){ }; }").Members[0]).Members[0]),
+                ((DestructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { [Documentation] internal ~A(){ } }").Members[0]).Members[0],
+                    (DestructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { [Documentation] internal ~A(){ } }").Members[0]).Members[0]),
+                ((DestructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { [Documentation] internal ~A(){ }; }").Members[0]).Members[0],
+                    (DestructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { [Documentation] internal ~A(){ } }").Members[0]).Members[0]),
+                ((DestructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { [Documentation] internal ~A(){ } }").Members[0]).Members[0],
+                    (DestructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { [Documentation] internal ~A(){ }; }").Members[0]).Members[0]),
+                ((DestructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { [Documentation] internal ~A();}").Members[0]).Members[0],
+                    (DestructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { [Documentation] internal ~A();}").Members[0]).Members[0]),
+                ((DestructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { [Documentation] internal ~A(){ }; }").Members[0]).Members[0],
+                    (DestructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { [Documentation] internal ~A();}").Members[0]).Members[0]),
+                ((DestructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { [Documentation] internal ~A();}").Members[0]).Members[0],
+                    (DestructorDeclarationSyntax)((ClassDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("public class A { [Documentation] internal ~A(){ }; }").Members[0]).Members[0])
+            };
+        }
+
+        partial void PropertyDeclarationServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(PropertyDeclarationSyntax, PropertyDeclarationSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                ((PropertyDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string C.M { get{return 5;} set{this.a = 7} } = 3;").Members[0],
+                    (PropertyDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string C.M { get{return 5;} set{this.a = 7} } = 3;").Members[0]),
+                ((PropertyDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string M { get; set; }").Members[0],
+                    (PropertyDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string M { get; set; }").Members[0]),
+                ((PropertyDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string C.M { get{return 5;} set{this.a = 7} } = 3;").Members[0],
+                    (PropertyDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string M { get; set; }").Members[0]),
+                ((PropertyDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string M { get; set; }").Members[0],
+                    (PropertyDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string C.M { get{return 5;} set{this.a = 7} } = 3;").Members[0]),
+
+                ((PropertyDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string C.M { get{return 5;} set{this.a = 7} } => 3;").Members[0],
+                    (PropertyDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string C.M { get{return 5;} set{this.a = 7} } => 3;").Members[0]),
+                ((PropertyDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string C.M { get{return 5;} set{this.a = 7} } => 3;").Members[0],
+                    (PropertyDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string M { get; set; }").Members[0]),
+                ((PropertyDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string M { get; set; }").Members[0],
+                    (PropertyDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string C.M { get{return 5;} set{this.a = 7} } => 3;").Members[0])
+            };
+        }
+
+        partial void ArrowExpressionClauseServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(ArrowExpressionClauseSyntax, ArrowExpressionClauseSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                (((PropertyDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string C.M { get{return 5;} set{this.a = 7} } => 3;").Members[0]).ExpressionBody,
+                    ((PropertyDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual string C.M { get{return 5;} set{this.a = 7} } => 3;").Members[0]).ExpressionBody)
+            };
+        }
+
+        partial void EventDeclarationServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(EventDeclarationSyntax, EventDeclarationSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                ((EventDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual event A C.M { add{} remove{} }").Members[0],
+                    (EventDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual event A C.M { add{} remove{} }").Members[0]),
+                ((EventDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual event A C.M { add; remove; }").Members[0],
+                    (EventDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual event A C.M { add; remove; }").Members[0]),
+                ((EventDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual event A C.M { add{} remove{} }").Members[0],
+                    (EventDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual event A C.M { add; remove; }").Members[0]),
+                ((EventDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual event A C.M { add; remove; }").Members[0],
+                    (EventDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual event A C.M { add{} remove{} }").Members[0])
+            };
+        }
+
+        partial void IndexerDeclarationServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(IndexerDeclarationSyntax, IndexerDeclarationSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                ((IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual A C.this[string key] { get{} set{} } = 5;").Members[0],
+                    (IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual A C.this[string key] { get{} set{} } = 5;").Members[0]),
+                ((IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual A C.this[string key] { get; set; }").Members[0],
+                    (IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual A C.this[string key] { get; set; }").Members[0]),
+                ((IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual A C.this[string key] { get{} set{} } = 5;").Members[0],
+                    (IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual A C.this[string key] { get; set; } ").Members[0]),
+                ((IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual A C.this[string key] { get; set; }").Members[0],
+                    (IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual A C.this[string key] { get{} set{} } = 5;").Members[0]),
+
+                ((IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual A C.this[string key] { get{} set{} } => 5;").Members[0],
+                    (IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual A C.this[string key] { get{} set{} } => 5;").Members[0]),
+                ((IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual A C.this[string key] { get{} set{} } => 5;").Members[0],
+                    (IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual A C.this[string key] { get; set; }").Members[0]),
+                ((IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual A C.this[string key] { get; set; }").Members[0],
+                    (IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual A C.this[string key] { get{} set{} } => 5;").Members[0])
+            };
+        }
+
+        partial void AccessorListServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(AccessorListSyntax, AccessorListSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                (((IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual A C.this[string key] { get; set; } => 5;").Members[0]).AccessorList,
+                    ((IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual A C.this[string key] { get; set; } => 5;").Members[0]).AccessorList)
+            };
+        }
+
+        partial void AccessorDeclarationServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(AccessorDeclarationSyntax, AccessorDeclarationSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                (((IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("A C.this[string key] { [Serializable] private get{}; set; }").Members[0]).AccessorList.Accessors[0],
+                    ((IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("A C.this[string key] { [Serializable] private get{}; set; }").Members[0]).AccessorList.Accessors[0]),
+                (((IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("A C.this[string key] { [Serializable] private get; set; }").Members[0]).AccessorList.Accessors[0],
+                    ((IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("A C.this[string key] { [Serializable] private get; set; }").Members[0]).AccessorList.Accessors[0]),
+                (((IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("A C.this[string key] { [Serializable] private get{}; set; }").Members[0]).AccessorList.Accessors[0],
+                    ((IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("A C.this[string key] { [Serializable] private get; set; }").Members[0]).AccessorList.Accessors[0]),
+                (((IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("A C.this[string key] { [Serializable] private get; set; }").Members[0]).AccessorList.Accessors[0],
+                    ((IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("A C.this[string key] { [Serializable] private get{}; set; }").Members[0]).AccessorList.Accessors[0]),
+
+                (((IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("A C.this[string key] { [Serializable] private get{} set; }").Members[0]).AccessorList.Accessors[0],
+                    ((IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("A C.this[string key] { [Serializable] private get{} set; }").Members[0]).AccessorList.Accessors[0]),
+                (((IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("A C.this[string key] { [Serializable] private get{}; set; }").Members[0]).AccessorList.Accessors[0],
+                    ((IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("A C.this[string key] { [Serializable] private get{} set; }").Members[0]).AccessorList.Accessors[0]),
+                (((IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("A C.this[string key] { [Serializable] private get{} set; }").Members[0]).AccessorList.Accessors[0],
+                    ((IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("A C.this[string key] { [Serializable] private get{}; set; }").Members[0]).AccessorList.Accessors[0])
+            };
+        }
+
+        partial void ParameterListServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(ParameterListSyntax, ParameterListSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                (((MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("int M([Serializable] ref int a = 0, A b){}").Members[0]).ParameterList,
+                    ((MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("int M([Serializable] ref int a = 0, A b){}").Members[0]).ParameterList)
+            };
+        }
+
+        partial void BracketedParameterListServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(BracketedParameterListSyntax, BracketedParameterListSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                (((IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("int this[[Serializable] ref int a = 0, A b]{get;set;}").Members[0]).ParameterList,
+                    ((IndexerDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("int this[[Serializable] ref int a = 0, A b]{get;set;}").Members[0]).ParameterList)
+            };
+        }
+
+        partial void ParameterServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(ParameterSyntax, ParameterSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                (((MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("int M([Serializable] ref int a = 0, A b){}").Members[0]).ParameterList.Parameters[0],
+                    ((MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("int M([Serializable] ref int a = 0, A b){}").Members[0]).ParameterList.Parameters[0]),
+                (((MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("int M([Serializable] ref int a, A b){}").Members[0]).ParameterList.Parameters[0],
+                    ((MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("int M([Serializable] ref int a, A b){}").Members[0]).ParameterList.Parameters[0]),
+                (((MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("int M([Serializable] ref int a = 0, A b){}").Members[0]).ParameterList.Parameters[0],
+                    ((MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("int M([Serializable] ref int a, A b){}").Members[0]).ParameterList.Parameters[0]),
+                (((MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("int M([Serializable] ref int a, A b){}").Members[0]).ParameterList.Parameters[0],
+                    ((MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("int M([Serializable] ref int a = 0, A b){}").Members[0]).ParameterList.Parameters[0])
+            };
+        }
+
+        partial void SkippedTokensTriviaServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(SkippedTokensTriviaSyntax, SkippedTokensTriviaSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                (SyntaxFactory.SkippedTokensTrivia(((IncompleteMemberSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual a").Members[0]).Modifiers),
+                    SyntaxFactory.SkippedTokensTrivia(((IncompleteMemberSyntax)SyntaxFactory.ParseCompilationUnit("[Serializable] public virtual a").Members[0]).Modifiers))
+            };
+        }
+
+        partial void DocumentationCommentTriviaServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(DocumentationCommentTriviaSyntax, DocumentationCommentTriviaSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                ((DocumentationCommentTriviaSyntax)SyntaxFactory.ParseSyntaxTree("///<foo />").GetCompilationUnitRoot().EndOfFileToken.LeadingTrivia.Single().GetStructure(),
+                    (DocumentationCommentTriviaSyntax)SyntaxFactory.ParseSyntaxTree("///<foo />").GetCompilationUnitRoot().EndOfFileToken.LeadingTrivia.Single().GetStructure()),
+                ((DocumentationCommentTriviaSyntax)SyntaxFactory.ParseSyntaxTree(@"/// <summary>" + Environment.NewLine +
+                                                                                    "/// Method hook for implementing logic to execute after the <see cref=\"ChildrenCore(SyntaxNodeOrToken ?)\"/>." + Environment.NewLine +
+                                                                                    "/// </summary>" + Environment.NewLine +
+                                                                                    "/// <param name=\"node\">node of interest.</param>" + Environment.NewLine +
+                                                                                    "/// <param name=\"result\">Mechanism to modify the result of <see cref=\"Children(SyntaxNodeOrToken?)\"/>.</param>")
+                                                                                    .GetCompilationUnitRoot().EndOfFileToken.LeadingTrivia.Single().GetStructure(),
+                    (DocumentationCommentTriviaSyntax)SyntaxFactory.ParseSyntaxTree(@"/// <summary>" + Environment.NewLine +
+                                                                                    "/// Method hook for implementing logic to execute after the <see cref=\"ChildrenCore(SyntaxNodeOrToken ?)\"/>." + Environment.NewLine +
+                                                                                    "/// </summary>" + Environment.NewLine +
+                                                                                    "/// <param name=\"node\">node of interest.</param>" + Environment.NewLine +
+                                                                                    "/// <param name=\"result\">Mechanism to modify the result of <see cref=\"Children(SyntaxNodeOrToken?)\"/>.</param>")
+                                                                                    .GetCompilationUnitRoot().EndOfFileToken.LeadingTrivia.Single().GetStructure())
+            };
+        }
+
+        partial void EndIfDirectiveTriviaServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(EndIfDirectiveTriviaSyntax, EndIfDirectiveTriviaSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                (SyntaxFactory.EndIfDirectiveTrivia(true),
+                    SyntaxFactory.EndIfDirectiveTrivia(true))
+            };
+        }
+
+        partial void RegionDirectiveTriviaServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(RegionDirectiveTriviaSyntax, RegionDirectiveTriviaSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                (SyntaxFactory.RegionDirectiveTrivia(true),
+                    SyntaxFactory.RegionDirectiveTrivia(true))
+            };
+        }
+
+        partial void EndRegionDirectiveTriviaServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(EndRegionDirectiveTriviaSyntax, EndRegionDirectiveTriviaSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                (SyntaxFactory.EndRegionDirectiveTrivia(true),
+                    SyntaxFactory.EndRegionDirectiveTrivia(true))
+            };
+        }
+
+        partial void ErrorDirectiveTriviaServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(ErrorDirectiveTriviaSyntax, ErrorDirectiveTriviaSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                (SyntaxFactory.ErrorDirectiveTrivia(true),
+                    SyntaxFactory.ErrorDirectiveTrivia(true))
+            };
+        }
+
+        partial void WarningDirectiveTriviaServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(WarningDirectiveTriviaSyntax, WarningDirectiveTriviaSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                (SyntaxFactory.WarningDirectiveTrivia(true),
+                    SyntaxFactory.WarningDirectiveTrivia(true))
+            };
+        }
+
+        partial void BadDirectiveTriviaServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(BadDirectiveTriviaSyntax, BadDirectiveTriviaSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                (SyntaxFactory.BadDirectiveTrivia(SyntaxFactory.Identifier("unknown"), true),
+                    SyntaxFactory.BadDirectiveTrivia(SyntaxFactory.Identifier("unknown"), true))
+            };
+        }
+
+        partial void DefineDirectiveTriviaServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(DefineDirectiveTriviaSyntax, DefineDirectiveTriviaSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                (SyntaxFactory.DefineDirectiveTrivia(SyntaxFactory.Identifier("DEBUG"), true),
+                    SyntaxFactory.DefineDirectiveTrivia(SyntaxFactory.Identifier("DEBUG"), true))
+            };
+        }
+
+        partial void UndefDirectiveTriviaServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(UndefDirectiveTriviaSyntax, UndefDirectiveTriviaSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                (SyntaxFactory.UndefDirectiveTrivia(SyntaxFactory.Identifier("DEBUG"), true),
+                    SyntaxFactory.UndefDirectiveTrivia(SyntaxFactory.Identifier("DEBUG"), true))
+            };
+        }
+
+        partial void LineDirectiveTriviaServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(LineDirectiveTriviaSyntax, LineDirectiveTriviaSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                (SyntaxFactory.LineDirectiveTrivia(SyntaxFactory.Literal("200", 200), SyntaxFactory.Literal("\"Special\""), true),
+                    SyntaxFactory.LineDirectiveTrivia(SyntaxFactory.Literal("200", 200), SyntaxFactory.Literal("\"Special\""), true))
+            };
+        }
+
+        partial void PragmaWarningDirectiveTriviaServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(PragmaWarningDirectiveTriviaSyntax, PragmaWarningDirectiveTriviaSyntax)> nodeRevisionPairs)
+        {
+            var separatedSyntaxList = SyntaxFactory.SeparatedList(new ExpressionSyntax[] { SyntaxFactory.IdentifierName("warning-list"), SyntaxFactory.IdentifierName("CS3021") });
+            var node = SyntaxFactory.PragmaWarningDirectiveTrivia(SyntaxFactory.Token(SyntaxKind.DisableKeyword), separatedSyntaxList, true);
+            nodeRevisionPairs = new[]
+            {
+                (node, node)
+            };
+        }
+
+        partial void PragmaChecksumDirectiveTriviaServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(PragmaChecksumDirectiveTriviaSyntax, PragmaChecksumDirectiveTriviaSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                (SyntaxFactory.PragmaChecksumDirectiveTrivia(SyntaxFactory.Literal("\"file.cs\""), SyntaxFactory.Literal("\"{3673e4ca-6098-4ec1-890f-8fceb2a794a2}\""), SyntaxFactory.Literal("\"{012345678AB}\""), true),
+                    SyntaxFactory.PragmaChecksumDirectiveTrivia(SyntaxFactory.Literal("\"file.cs\""), SyntaxFactory.Literal("\"{3673e4ca-6098-4ec1-890f-8fceb2a794a2}\""), SyntaxFactory.Literal("\"{012345678AB}\""), true))
+            };
+        }
+
+        partial void ReferenceDirectiveTriviaServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(ReferenceDirectiveTriviaSyntax, ReferenceDirectiveTriviaSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                (SyntaxFactory.ReferenceDirectiveTrivia(SyntaxFactory.Literal("DEBUG"), true),
+                    SyntaxFactory.ReferenceDirectiveTrivia(SyntaxFactory.Literal("DEBUG"), true))
+            };
+        }
+
+        partial void LoadDirectiveTriviaServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(LoadDirectiveTriviaSyntax, LoadDirectiveTriviaSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                (SyntaxFactory.LoadDirectiveTrivia(SyntaxFactory.Literal("DEBUG"), true),
+                    SyntaxFactory.LoadDirectiveTrivia(SyntaxFactory.Literal("DEBUG"), true))
+            };
+        }
+
+        partial void ShebangDirectiveTriviaServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(ShebangDirectiveTriviaSyntax, ShebangDirectiveTriviaSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                (SyntaxFactory.ShebangDirectiveTrivia(true),
+                    SyntaxFactory.ShebangDirectiveTrivia(true))
+            };
+        }
+
+        partial void ElseDirectiveTriviaServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(ElseDirectiveTriviaSyntax, ElseDirectiveTriviaSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                (SyntaxFactory.ElseDirectiveTrivia(true, true),
+                    SyntaxFactory.ElseDirectiveTrivia(true, true))
+            };
+        }
+
+        partial void IfDirectiveTriviaServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(IfDirectiveTriviaSyntax, IfDirectiveTriviaSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                ((IfDirectiveTriviaSyntax)SyntaxFactory.ParseSyntaxTree("#if DEBUG Console.WriteLine(\"Debug version\"); #endif").GetCompilationUnitRoot().EndOfFileToken.LeadingTrivia.Single().GetStructure(),
+                    (IfDirectiveTriviaSyntax)SyntaxFactory.ParseSyntaxTree("#if DEBUG Console.WriteLine(\"Debug version\"); #endif").GetCompilationUnitRoot().EndOfFileToken.LeadingTrivia.Single().GetStructure())
+            };
+        }
+
+        partial void ElifDirectiveTriviaServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(ElifDirectiveTriviaSyntax, ElifDirectiveTriviaSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                (SyntaxFactory.ElifDirectiveTrivia(SyntaxFactory.IdentifierName("VC7"), true, true, true),
+                    SyntaxFactory.ElifDirectiveTrivia(SyntaxFactory.IdentifierName("VC7"), true, true, true))
+            };
+        }
+
+        partial void TypeCrefServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(TypeCrefSyntax, TypeCrefSyntax)> nodeRevisionPairs)
+        {
+            var text = "namespace N { " + Environment.NewLine +
+                       "    /// <summary> <see cref=\"int\"/> </summary>" + Environment.NewLine +
+                       "    class A { } }";
+            var namespaceNode = SyntaxFactory.ParseCompilationUnit(text).Members[0];
+            var node = namespaceNode.DescendantNodes(descendIntoTrivia: true).OfType<TypeCrefSyntax>().Single();
+
+            nodeRevisionPairs = new[]
+            {
+                (node, node)
+            };
+        }
+
+        partial void QualifiedCrefServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(QualifiedCrefSyntax, QualifiedCrefSyntax)> nodeRevisionPairs)
+        {
+            var text = "namespace N { " + Environment.NewLine +
+                       "    /// <summary> <see cref=\"N.A\"/> </summary>" + Environment.NewLine +
+                       "    class A { } }";
+            var namespaceNode = SyntaxFactory.ParseCompilationUnit(text).Members[0];
+            var node = namespaceNode.DescendantNodes(descendIntoTrivia: true).OfType<QualifiedCrefSyntax>().Single();
+
+            nodeRevisionPairs = new[]
+            {
+                (node, node)
+            };
+        }
+
+        partial void NameMemberCrefServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(NameMemberCrefSyntax, NameMemberCrefSyntax)> nodeRevisionPairs)
+        {
+            var text = "namespace N { " + Environment.NewLine +
+                       "    /// <summary> <see cref=\"N(int)\"/> </summary>" + Environment.NewLine +
+                       "    class A { } }";
+            var namespaceNode = SyntaxFactory.ParseCompilationUnit(text).Members[0];
+            var node = namespaceNode.DescendantNodes(descendIntoTrivia: true).OfType<NameMemberCrefSyntax>().Single();
+
+            var text3 = "namespace N { " + Environment.NewLine +
+                       "    /// <summary> <see cref=\"N\"/> </summary>" + Environment.NewLine +
+                       "    class A { } }";
+            namespaceNode = SyntaxFactory.ParseCompilationUnit(text3).Members[0];
+            var node1 = namespaceNode.DescendantNodes(descendIntoTrivia: true).OfType<NameMemberCrefSyntax>().Single();
+
+            nodeRevisionPairs = new[]
+            {
+                (node, node), (node1, node1), (node, node1), (node1, node)
+            };
+        }
+
+        partial void IndexerMemberCrefServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(IndexerMemberCrefSyntax, IndexerMemberCrefSyntax)> nodeRevisionPairs)
+        {
+            var text = "namespace N { " + Environment.NewLine +
+                         "    /// <summary> <see cref=\"this[int]\"/> </summary>" + Environment.NewLine +
+                         "    class A { } }";
+            var namespaceNode = SyntaxFactory.ParseCompilationUnit(text).Members[0];
+            var node = namespaceNode.DescendantNodes(descendIntoTrivia: true).OfType<IndexerMemberCrefSyntax>().Single();
+
+            var text3 = "namespace N { " + Environment.NewLine +
+                       "    /// <summary> <see cref=\"this\"/> </summary>" + Environment.NewLine +
+                       "    class A { } }";
+            namespaceNode = SyntaxFactory.ParseCompilationUnit(text3).Members[0];
+            var node1 = namespaceNode.DescendantNodes(descendIntoTrivia: true).OfType<IndexerMemberCrefSyntax>().Single();
+
+            nodeRevisionPairs = new[]
+            {
+                (node, node), (node1, node1), (node, node1), (node1, node)
+            };
+        }
+
+        partial void OperatorMemberCrefServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(OperatorMemberCrefSyntax, OperatorMemberCrefSyntax)> nodeRevisionPairs)
+        {
+            var text = "namespace N { " + Environment.NewLine +
+                       "    /// <summary> <see cref=\"operator +(int)\"/> </summary>" + Environment.NewLine +
+                       "    class A { } }";
+            var namespaceNode = SyntaxFactory.ParseCompilationUnit(text).Members[0];
+            var node = namespaceNode.DescendantNodes(descendIntoTrivia: true).OfType<OperatorMemberCrefSyntax>().Single();
+
+            var text3 = "namespace N { " + Environment.NewLine +
+                      "    /// <summary> <see cref=\"operator +\"/> </summary>" + Environment.NewLine +
+                      "    class A { } }";
+            namespaceNode = SyntaxFactory.ParseCompilationUnit(text3).Members[0];
+            var node1 = namespaceNode.DescendantNodes(descendIntoTrivia: true).OfType<OperatorMemberCrefSyntax>().Single();
+
+            nodeRevisionPairs = new[]
+            {
+                (node, node), (node1, node1), (node, node1), (node1, node)
+            };
+        }
+
+        partial void ConversionOperatorMemberCrefServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(ConversionOperatorMemberCrefSyntax, ConversionOperatorMemberCrefSyntax)> nodeRevisionPairs)
+        {
+            var text = "namespace N { " + Environment.NewLine +
+                       "    /// <summary> <see cref=\"implicit operator N(int)\"/> </summary>" + Environment.NewLine +
+                       "    class A { } }";
+            var namespaceNode = SyntaxFactory.ParseCompilationUnit(text).Members[0];
+            var node = namespaceNode.DescendantNodes(descendIntoTrivia: true).OfType<ConversionOperatorMemberCrefSyntax>().Single();
+
+            text = "namespace N { " + Environment.NewLine +
+                       "    /// <summary> <see cref=\"implicit operator N\"/> </summary>" + Environment.NewLine +
+                       "    class A { } }";
+            namespaceNode = SyntaxFactory.ParseCompilationUnit(text).Members[0];
+            var node1 = namespaceNode.DescendantNodes(descendIntoTrivia: true).OfType<ConversionOperatorMemberCrefSyntax>().Single();
+
+            nodeRevisionPairs = new[]
+            {
+                (node, node), (node1, node1), (node, node1), (node1, node)
+            };
+        }
+
+        partial void CrefParameterListServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(CrefParameterListSyntax, CrefParameterListSyntax)> nodeRevisionPairs)
+        {
+            var text = "namespace N { " + Environment.NewLine +
+                       "    /// <summary> <see cref=\"operator +(int, string)\"/> </summary>" + Environment.NewLine +
+                       "    class A { } }";
+            var namespaceNode = SyntaxFactory.ParseCompilationUnit(text).Members[0];
+            var node = namespaceNode.DescendantNodes(descendIntoTrivia: true).OfType<OperatorMemberCrefSyntax>().Single().Parameters;
+
+            nodeRevisionPairs = new[]
+            {
+                (node, node)
+            };
+        }
+
+        partial void CrefBracketedParameterListServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(CrefBracketedParameterListSyntax, CrefBracketedParameterListSyntax)> nodeRevisionPairs)
+        {
+            var text = "namespace N { " + Environment.NewLine +
+                       "    /// <summary> <see cref=\"this[int, string]\"/> </summary>" + Environment.NewLine +
+                       "    class A { } }";
+            var namespaceNode = SyntaxFactory.ParseCompilationUnit(text).Members[0];
+            var node = namespaceNode.DescendantNodes(descendIntoTrivia: true).OfType<IndexerMemberCrefSyntax>().Single().Parameters;
+
+            nodeRevisionPairs = new[]
+            {
+                (node, node)
+            };
+        }
+
+        partial void CrefParameterServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(CrefParameterSyntax, CrefParameterSyntax)> nodeRevisionPairs)
+        {
+            var text = "namespace N { " + Environment.NewLine +
+                       "    /// <summary> <see cref=\"operator +(ref int, out string)\"/> </summary>" + Environment.NewLine +
+                       "    class A { } }";
+            var namespaceNode = SyntaxFactory.ParseCompilationUnit(text).Members[0];
+            var node = namespaceNode.DescendantNodes(descendIntoTrivia: true).OfType<OperatorMemberCrefSyntax>().Single().Parameters.Parameters[0];
+
+            text = "namespace N { " + Environment.NewLine +
+                      "    /// <summary> <see cref=\"operator +(int, string)\"/> </summary>" + Environment.NewLine +
+                      "    class A { } }";
+            namespaceNode = SyntaxFactory.ParseCompilationUnit(text).Members[0];
+            var node1 = namespaceNode.DescendantNodes(descendIntoTrivia: true).OfType<OperatorMemberCrefSyntax>().Single().Parameters.Parameters[0];
+
+            nodeRevisionPairs = new[]
+            {
+                (node, node), (node1, node1), (node, node1), (node1, node)
+            };
+        }
+
+        partial void XmlElementServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(XmlElementSyntax, XmlElementSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                ((XmlElementSyntax)((DocumentationCommentTriviaSyntax)SyntaxFactory.ParseSyntaxTree("///<message id=\"5\" oid=\"3\">Hello World</message>").GetCompilationUnitRoot().EndOfFileToken.LeadingTrivia.Single().GetStructure()).Content.Single(),
+                 (XmlElementSyntax)((DocumentationCommentTriviaSyntax)SyntaxFactory.ParseSyntaxTree("///<message id=\"5\" oid=\"3\">Hello World</message>").GetCompilationUnitRoot().EndOfFileToken.LeadingTrivia.Single().GetStructure()).Content.Single())
+            };
+        }
+
+        partial void XmlElementStartTagServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(XmlElementStartTagSyntax, XmlElementStartTagSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                (((DocumentationCommentTriviaSyntax)SyntaxFactory.ParseSyntaxTree("///<message id=\"5\" oid=\"3\">Hello World</message>").GetCompilationUnitRoot().EndOfFileToken.LeadingTrivia.Single().GetStructure()).Content.OfType<XmlElementSyntax>().Single().StartTag,
+                 ((DocumentationCommentTriviaSyntax)SyntaxFactory.ParseSyntaxTree("///<message id=\"5\" oid=\"3\">Hello World</message>").GetCompilationUnitRoot().EndOfFileToken.LeadingTrivia.Single().GetStructure()).Content.OfType<XmlElementSyntax>().Single().StartTag)
+            };
+        }
+
+        partial void XmlElementEndTagServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(XmlElementEndTagSyntax, XmlElementEndTagSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                (((DocumentationCommentTriviaSyntax)SyntaxFactory.ParseSyntaxTree("///<message id=\"5\" oid=\"3\">Hello World</message>").GetCompilationUnitRoot().EndOfFileToken.LeadingTrivia.Single().GetStructure()).Content.OfType<XmlElementSyntax>().Single().EndTag,
+                 ((DocumentationCommentTriviaSyntax)SyntaxFactory.ParseSyntaxTree("///<message id=\"5\" oid=\"3\">Hello World</message>").GetCompilationUnitRoot().EndOfFileToken.LeadingTrivia.Single().GetStructure()).Content.OfType<XmlElementSyntax>().Single().EndTag)
+            };
+        }
+
+        partial void XmlEmptyElementServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(XmlEmptyElementSyntax, XmlEmptyElementSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                (((DocumentationCommentTriviaSyntax)SyntaxFactory.ParseSyntaxTree("///<foo id=\"3\"/>").GetCompilationUnitRoot().EndOfFileToken.LeadingTrivia.Single().GetStructure()).Content.OfType<XmlEmptyElementSyntax>().Single(),
+                 ((DocumentationCommentTriviaSyntax)SyntaxFactory.ParseSyntaxTree("///<foo id=\"3\"/>").GetCompilationUnitRoot().EndOfFileToken.LeadingTrivia.Single().GetStructure()).Content.OfType<XmlEmptyElementSyntax>().Single()),
+                (((DocumentationCommentTriviaSyntax)SyntaxFactory.ParseSyntaxTree("///<foo/>").GetCompilationUnitRoot().EndOfFileToken.LeadingTrivia.Single().GetStructure()).Content.OfType<XmlEmptyElementSyntax>().Single(),
+                 ((DocumentationCommentTriviaSyntax)SyntaxFactory.ParseSyntaxTree("///<foo/>").GetCompilationUnitRoot().EndOfFileToken.LeadingTrivia.Single().GetStructure()).Content.OfType<XmlEmptyElementSyntax>().Single()),
+                (((DocumentationCommentTriviaSyntax)SyntaxFactory.ParseSyntaxTree("///<foo id=\"3\"/>").GetCompilationUnitRoot().EndOfFileToken.LeadingTrivia.Single().GetStructure()).Content.OfType<XmlEmptyElementSyntax>().Single(),
+                 ((DocumentationCommentTriviaSyntax)SyntaxFactory.ParseSyntaxTree("///<foo/>").GetCompilationUnitRoot().EndOfFileToken.LeadingTrivia.Single().GetStructure()).Content.OfType<XmlEmptyElementSyntax>().Single()),
+                (((DocumentationCommentTriviaSyntax)SyntaxFactory.ParseSyntaxTree("///<foo/>").GetCompilationUnitRoot().EndOfFileToken.LeadingTrivia.Single().GetStructure()).Content.OfType<XmlEmptyElementSyntax>().Single(),
+                 ((DocumentationCommentTriviaSyntax)SyntaxFactory.ParseSyntaxTree("///<foo id=\"3\"/>").GetCompilationUnitRoot().EndOfFileToken.LeadingTrivia.Single().GetStructure()).Content.OfType<XmlEmptyElementSyntax>().Single())
+            };
+        }
+
+        partial void XmlNameServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(XmlNameSyntax, XmlNameSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                (((DocumentationCommentTriviaSyntax)SyntaxFactory.ParseSyntaxTree("///<d:foo/>").GetCompilationUnitRoot().EndOfFileToken.LeadingTrivia.Single().GetStructure()).Content.OfType<XmlEmptyElementSyntax>().Single().Name,
+                 ((DocumentationCommentTriviaSyntax)SyntaxFactory.ParseSyntaxTree("///<d:foo/>").GetCompilationUnitRoot().EndOfFileToken.LeadingTrivia.Single().GetStructure()).Content.OfType<XmlEmptyElementSyntax>().Single().Name)
+            };
+        }
+
+        partial void XmlPrefixServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(XmlPrefixSyntax, XmlPrefixSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                (((DocumentationCommentTriviaSyntax)SyntaxFactory.ParseSyntaxTree("///<d:foo/>").GetCompilationUnitRoot().EndOfFileToken.LeadingTrivia.Single().GetStructure()).Content.OfType<XmlEmptyElementSyntax>().Single().Name.Prefix,
+                 ((DocumentationCommentTriviaSyntax)SyntaxFactory.ParseSyntaxTree("///<d:foo/>").GetCompilationUnitRoot().EndOfFileToken.LeadingTrivia.Single().GetStructure()).Content.OfType<XmlEmptyElementSyntax>().Single().Name.Prefix)
+            };
+        }
+
+        partial void XmlTextAttributeServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(XmlTextAttributeSyntax, XmlTextAttributeSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                ((XmlTextAttributeSyntax)((DocumentationCommentTriviaSyntax)SyntaxFactory.ParseSyntaxTree("///<message id=\"5 r\">Hello World</message>").GetCompilationUnitRoot().EndOfFileToken.LeadingTrivia.Single().GetStructure()).Content.OfType<XmlElementSyntax>().Single().StartTag.Attributes[0],
+                 (XmlTextAttributeSyntax)((DocumentationCommentTriviaSyntax)SyntaxFactory.ParseSyntaxTree("///<message id=\"5 r\">Hello World</message>").GetCompilationUnitRoot().EndOfFileToken.LeadingTrivia.Single().GetStructure()).Content.OfType<XmlElementSyntax>().Single().StartTag.Attributes[0])
+            };
+        }
+
+        partial void XmlCrefAttributeServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(XmlCrefAttributeSyntax, XmlCrefAttributeSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                ((XmlCrefAttributeSyntax)((DocumentationCommentTriviaSyntax)SyntaxFactory.ParseSyntaxTree("///<see cref=\"M\">Hello World</message>").GetCompilationUnitRoot().EndOfFileToken.LeadingTrivia.Single().GetStructure()).Content.OfType<XmlElementSyntax>().Single().StartTag.Attributes[0],
+                 (XmlCrefAttributeSyntax)((DocumentationCommentTriviaSyntax)SyntaxFactory.ParseSyntaxTree("///<see cref=\"M\">Hello World</message>").GetCompilationUnitRoot().EndOfFileToken.LeadingTrivia.Single().GetStructure()).Content.OfType<XmlElementSyntax>().Single().StartTag.Attributes[0])
+            };
+        }
+
+        partial void XmlNameAttributeServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(XmlNameAttributeSyntax, XmlNameAttributeSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                ((XmlNameAttributeSyntax)((DocumentationCommentTriviaSyntax)SyntaxFactory.ParseSyntaxTree("///<param name=\"M\"/>").GetCompilationUnitRoot().EndOfFileToken.LeadingTrivia.Single().GetStructure()).Content.OfType<XmlEmptyElementSyntax>().Single().Attributes[0],
+                 (XmlNameAttributeSyntax)((DocumentationCommentTriviaSyntax)SyntaxFactory.ParseSyntaxTree("///<param name=\"M\"/>").GetCompilationUnitRoot().EndOfFileToken.LeadingTrivia.Single().GetStructure()).Content.OfType<XmlEmptyElementSyntax>().Single().Attributes[0])
+            };
+        }
+
+        partial void XmlTextServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(XmlTextSyntax, XmlTextSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                ((XmlTextSyntax)((DocumentationCommentTriviaSyntax)SyntaxFactory.ParseSyntaxTree("///<foo>bar</foo>").GetCompilationUnitRoot().EndOfFileToken.LeadingTrivia.Single().GetStructure()).Content.OfType<XmlElementSyntax>().Single().Content[0],
+                 (XmlTextSyntax)((DocumentationCommentTriviaSyntax)SyntaxFactory.ParseSyntaxTree("///<foo>bar</foo>").GetCompilationUnitRoot().EndOfFileToken.LeadingTrivia.Single().GetStructure()).Content.OfType<XmlElementSyntax>().Single().Content[0])
+            };
+        }
+
+        partial void XmlCDataSectionServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(XmlCDataSectionSyntax, XmlCDataSectionSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                (((DocumentationCommentTriviaSyntax)SyntaxFactory.ParseSyntaxTree("///<![CDATA[this is a test of &some; cdata]]>").GetCompilationUnitRoot().EndOfFileToken.LeadingTrivia.Single().GetStructure()).Content.OfType<XmlCDataSectionSyntax>().Single(),
+                 ((DocumentationCommentTriviaSyntax)SyntaxFactory.ParseSyntaxTree("///<![CDATA[this is a test of &some; cdata]]>").GetCompilationUnitRoot().EndOfFileToken.LeadingTrivia.Single().GetStructure()).Content.OfType<XmlCDataSectionSyntax>().Single())
+            };
+        }
+
+        partial void XmlProcessingInstructionServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(XmlProcessingInstructionSyntax, XmlProcessingInstructionSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                (((DocumentationCommentTriviaSyntax)SyntaxFactory.ParseSyntaxTree("///<?proc-inst this is a test of &some; processinginstruction?>").GetCompilationUnitRoot().EndOfFileToken.LeadingTrivia.Single().GetStructure()).Content.OfType<XmlProcessingInstructionSyntax>().Single(),
+                 ((DocumentationCommentTriviaSyntax)SyntaxFactory.ParseSyntaxTree("///<?proc-inst this is a test of &some; processinginstruction?>").GetCompilationUnitRoot().EndOfFileToken.LeadingTrivia.Single().GetStructure()).Content.OfType<XmlProcessingInstructionSyntax>().Single())
+            };
+        }
+
+        partial void XmlCommentServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(XmlCommentSyntax, XmlCommentSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                (((DocumentationCommentTriviaSyntax)SyntaxFactory.ParseSyntaxTree("///<!--this is a test of &some; comment-->").GetCompilationUnitRoot().EndOfFileToken.LeadingTrivia.Single().GetStructure()).Content.OfType<XmlCommentSyntax>().Single(),
+                 ((DocumentationCommentTriviaSyntax)SyntaxFactory.ParseSyntaxTree("///<!--this is a test of &some; comment-->").GetCompilationUnitRoot().EndOfFileToken.LeadingTrivia.Single().GetStructure()).Content.OfType<XmlCommentSyntax>().Single())
+            };
+        }
+
+        partial void CompilationUnitServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(CompilationUnitSyntax, CompilationUnitSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                (SyntaxFactory.ParseCompilationUnit("extern alias b; using static d; [assembly: XAttribute] namespace c{};"),
+                    SyntaxFactory.ParseCompilationUnit("extern alias b; using static d; [assembly: XAttribute] namespace c{};"))
+            };
+        }
+
+        partial void ExternAliasDirectiveServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(ExternAliasDirectiveSyntax, ExternAliasDirectiveSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                (SyntaxFactory.ParseCompilationUnit("extern alias b; using static d; [assembly: XAttribute] namespace c{};").Externs[0],
+                    SyntaxFactory.ParseCompilationUnit("extern alias b; using static d; [assembly: XAttribute] namespace c{};").Externs[0])
+            };
+        }
+
+        partial void UsingDirectiveServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(UsingDirectiveSyntax, UsingDirectiveSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                (SyntaxFactory.ParseCompilationUnit("extern alias b; using static a = d; [assembly: XAttribute] namespace c{};").Usings[0],
+                    SyntaxFactory.ParseCompilationUnit("extern alias b; using static a = d; [assembly: XAttribute] namespace c{};").Usings[0]),
+                (SyntaxFactory.ParseCompilationUnit("extern alias b; using a; [assembly: XAttribute] namespace c{};").Usings[0],
+                    SyntaxFactory.ParseCompilationUnit("extern alias b; using a; [assembly: XAttribute] namespace c{};").Usings[0]),
+                (SyntaxFactory.ParseCompilationUnit("extern alias b; using static a = d; [assembly: XAttribute] namespace c{};").Usings[0],
+                    SyntaxFactory.ParseCompilationUnit("extern alias b; using a; [assembly: XAttribute] namespace c{};").Usings[0]),
+                (SyntaxFactory.ParseCompilationUnit("extern alias b; using a; [assembly: XAttribute] namespace c{};").Usings[0],
+                    SyntaxFactory.ParseCompilationUnit("extern alias b; using static a = d; [assembly: XAttribute] namespace c{};").Usings[0])
+            };
+        }
+
+        partial void NamespaceDeclarationServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(NamespaceDeclarationSyntax, NamespaceDeclarationSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                ((NamespaceDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("namespace a{extern alias b; using static d; namespace c{int f = 3;};};").Members[0],
+                    (NamespaceDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("namespace a{extern alias b; using static d; namespace c{int f = 3;};};").Members[0]),
+                ((NamespaceDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("namespace a{extern alias b; using static d; namespace c{int f = 3;};}").Members[0],
+                    (NamespaceDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("namespace a{extern alias b; using static d; namespace c{int f = 3;};}").Members[0]),
+                ((NamespaceDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("namespace a{extern alias b; using static d; namespace c{int f = 3;};};").Members[0],
+                    (NamespaceDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("namespace a{extern alias b; using static d; namespace c{int f = 3;};}").Members[0]),
+                ((NamespaceDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("namespace a{extern alias b; using static d; namespace c{int f = 3;};}").Members[0],
+                    (NamespaceDeclarationSyntax)SyntaxFactory.ParseCompilationUnit("namespace a{extern alias b; using static d; namespace c{int f = 3;};};").Members[0])
+            };
+        }
+
+        partial void AttributeListServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(AttributeListSyntax, AttributeListSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                (SyntaxFactory.ParseCompilationUnit("[module: XAttribute(\"X\"), YAttribute(Y: 3)]").AttributeLists[0],
+                    SyntaxFactory.ParseCompilationUnit("[module: XAttribute(\"X\"), YAttribute(Y: 3)]").AttributeLists[0])
+            };
+        }
+
+        partial void AttributeTargetSpecifierServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(AttributeTargetSpecifierSyntax, AttributeTargetSpecifierSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                (SyntaxFactory.ParseCompilationUnit("[module: XAttribute(\"X\"), YAttribute(Y: 3)]").AttributeLists[0].Target,
+                    SyntaxFactory.ParseCompilationUnit("[module: XAttribute(\"X\"), YAttribute(Y: 3)]").AttributeLists[0].Target)
+            };
+        }
+
+        partial void AttributeServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(AttributeSyntax, AttributeSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                (SyntaxFactory.ParseCompilationUnit("[module: XAttribute(\"X\")]").AttributeLists[0].Attributes[0],
+                    SyntaxFactory.ParseCompilationUnit("[module: XAttribute(\"X\")]").AttributeLists[0].Attributes[0])
+            };
+        }
+
+        partial void AttributeArgumentListServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(AttributeArgumentListSyntax, AttributeArgumentListSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                (SyntaxFactory.ParseCompilationUnit("[module: XAttribute(\"X\", Y: 3)]").AttributeLists[0].Attributes[0].ArgumentList,
+                    SyntaxFactory.ParseCompilationUnit("[module: XAttribute(\"X\", Y: 3)]").AttributeLists[0].Attributes[0].ArgumentList)
+            };
+        }
+
+        partial void AttributeArgumentServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(AttributeArgumentSyntax, AttributeArgumentSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                (SyntaxFactory.ParseCompilationUnit("[module: XAttribute(Y: 3)]").AttributeLists[0].Attributes[0].ArgumentList.Arguments[0],
+                    SyntaxFactory.ParseCompilationUnit("[module: XAttribute(Y: 3)]").AttributeLists[0].Attributes[0].ArgumentList.Arguments[0]),
+                (SyntaxFactory.ParseCompilationUnit("[module: XAttribute(3)]").AttributeLists[0].Attributes[0].ArgumentList.Arguments[0],
+                    SyntaxFactory.ParseCompilationUnit("[module: XAttribute(3)]").AttributeLists[0].Attributes[0].ArgumentList.Arguments[0]),
+                (SyntaxFactory.ParseCompilationUnit("[module: XAttribute(Y: 3)]").AttributeLists[0].Attributes[0].ArgumentList.Arguments[0],
+                    SyntaxFactory.ParseCompilationUnit("[module: XAttribute(3)]").AttributeLists[0].Attributes[0].ArgumentList.Arguments[0]),
+                (SyntaxFactory.ParseCompilationUnit("[module: XAttribute(3)]").AttributeLists[0].Attributes[0].ArgumentList.Arguments[0],
+                    SyntaxFactory.ParseCompilationUnit("[module: XAttribute(Y: 3)]").AttributeLists[0].Attributes[0].ArgumentList.Arguments[0]),
+
+                (SyntaxFactory.ParseCompilationUnit("[module: XAttribute(Y= 3)]").AttributeLists[0].Attributes[0].ArgumentList.Arguments[0],
+                    SyntaxFactory.ParseCompilationUnit("[module: XAttribute(Y= 3)]").AttributeLists[0].Attributes[0].ArgumentList.Arguments[0]),
+                (SyntaxFactory.ParseCompilationUnit("[module: XAttribute(Y: 3)]").AttributeLists[0].Attributes[0].ArgumentList.Arguments[0],
+                    SyntaxFactory.ParseCompilationUnit("[module: XAttribute(Y= 3)]").AttributeLists[0].Attributes[0].ArgumentList.Arguments[0]),
+                (SyntaxFactory.ParseCompilationUnit("[module: XAttribute(Y= 3)]").AttributeLists[0].Attributes[0].ArgumentList.Arguments[0],
+                    SyntaxFactory.ParseCompilationUnit("[module: XAttribute(Y: 3)]").AttributeLists[0].Attributes[0].ArgumentList.Arguments[0])
+            };
+        }
+
+        partial void WhenClauseServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(WhenClauseSyntax, WhenClauseSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                (((CasePatternSwitchLabelSyntax)((SwitchStatementSyntax)SyntaxFactory.ParseStatement("switch(obj){ case 'a' when obj.Lenght > 0: }")).Sections[0].Labels[0]).WhenClause,
+                    ((CasePatternSwitchLabelSyntax)((SwitchStatementSyntax)SyntaxFactory.ParseStatement("switch(obj){ case 'a' when obj.Lenght > 0: }")).Sections[0].Labels[0]).WhenClause)
+            };
+        }
+
+        partial void TupleTypeServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(TupleTypeSyntax, TupleTypeSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                ((TupleTypeSyntax)SyntaxFactory.ParseTypeName("(string, int)"),
+                    (TupleTypeSyntax)SyntaxFactory.ParseTypeName("(string, int)"))
+            };
+        }
+
+        partial void TupleExpressionServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(TupleExpressionSyntax, TupleExpressionSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                ((TupleExpressionSyntax)SyntaxFactory.ParseExpression("(string, int)"),
+                    (TupleExpressionSyntax)SyntaxFactory.ParseExpression("(string, int)"))
+            };
+        }
+
+        partial void TupleElementServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(TupleElementSyntax, TupleElementSyntax)> nodeRevisionPairs)
+        {
+            var type = SyntaxFactory.ParseTypeName("(string, int)");
+            nodeRevisionPairs = new[]
+            {
+                (SyntaxFactory.TupleElement(type, SyntaxFactory.Identifier("a")),
+                    SyntaxFactory.TupleElement(type, SyntaxFactory.Identifier("a"))),
+                (SyntaxFactory.TupleElement(type),
+                    SyntaxFactory.TupleElement(type)),
+                (SyntaxFactory.TupleElement(type, SyntaxFactory.Identifier("a")),
+                    SyntaxFactory.TupleElement(type)),
+                (SyntaxFactory.TupleElement(type),
+                    SyntaxFactory.TupleElement(type, SyntaxFactory.Identifier("a")))
+            };
+        }
+
+        partial void ThrowExpressionServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(ThrowExpressionSyntax, ThrowExpressionSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                ((ThrowExpressionSyntax)SyntaxFactory.ParseExpression("throw e"),
+                    (ThrowExpressionSyntax)SyntaxFactory.ParseExpression("throw e"))
+            };
+        }
+
+        partial void SingleVariableDesignationServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(SingleVariableDesignationSyntax, SingleVariableDesignationSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                (SyntaxFactory.SingleVariableDesignation(SyntaxFactory.Identifier("a")),
+                    SyntaxFactory.SingleVariableDesignation(SyntaxFactory.Identifier("a")))
+            };
+        }
+
+
+        partial void DiscardDesignationServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(DiscardDesignationSyntax, DiscardDesignationSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                (SyntaxFactory.DiscardDesignation(SyntaxFactory.Token(SyntaxKind.UnderscoreToken)),
+                    SyntaxFactory.DiscardDesignation(SyntaxFactory.Token(SyntaxKind.UnderscoreToken)))
+            };
+        }
+
+        partial void ParenthesizedVariableDesignationServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(ParenthesizedVariableDesignationSyntax, ParenthesizedVariableDesignationSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+           {
+                (SyntaxFactory.ParenthesizedVariableDesignation(SyntaxFactory.Token(SyntaxKind.OpenParenToken),
+                SyntaxFactory.SeparatedList(new VariableDesignationSyntax[]
+                {
+                    SyntaxFactory.SingleVariableDesignation(SyntaxFactory.Identifier("a")),
+                     SyntaxFactory.DiscardDesignation(SyntaxFactory.Token(SyntaxKind.UnderscoreToken))
+                }),
+                SyntaxFactory.Token(SyntaxKind.CloseParenToken)),
+                    SyntaxFactory.ParenthesizedVariableDesignation(SyntaxFactory.Token(SyntaxKind.OpenParenToken),
+                SyntaxFactory.SeparatedList(new VariableDesignationSyntax[]
+                {
+                    SyntaxFactory.SingleVariableDesignation(SyntaxFactory.Identifier("a")),
+                     SyntaxFactory.DiscardDesignation(SyntaxFactory.Token(SyntaxKind.UnderscoreToken))
+                }),
+                SyntaxFactory.Token(SyntaxKind.CloseParenToken)))
+            };
+        }
+
+        partial void RefExpressionServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(RefExpressionSyntax, RefExpressionSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                (SyntaxFactory.RefExpression(SyntaxFactory.Token(SyntaxKind.RefKeyword), SyntaxFactory.ParseExpression("s + d")),
+                    SyntaxFactory.RefExpression(SyntaxFactory.Token(SyntaxKind.RefKeyword), SyntaxFactory.ParseExpression("s + d")))
+            };
+        }
+
+        partial void CasePatternSwitchLabelServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(CasePatternSwitchLabelSyntax, CasePatternSwitchLabelSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                ((CasePatternSwitchLabelSyntax)((SwitchStatementSyntax)SyntaxFactory.ParseStatement("switch(obj){ case 'a' when obj.Lenght > 0: }")).Sections[0].Labels[0],
+                    (CasePatternSwitchLabelSyntax)((SwitchStatementSyntax)SyntaxFactory.ParseStatement("switch(obj){ case 'a' when obj.Lenght > 0: }")).Sections[0].Labels[0])
+            };
+        }
+
+        partial void IsPatternExpressionServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(IsPatternExpressionSyntax, IsPatternExpressionSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                ((IsPatternExpressionSyntax)SyntaxFactory.ParseExpression("obj is A a"),
+                    (IsPatternExpressionSyntax)SyntaxFactory.ParseExpression("obj is A a"))
+            };
+        }
+
+        partial void DeclarationExpressionServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(DeclarationExpressionSyntax, DeclarationExpressionSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                ((DeclarationExpressionSyntax)((TupleExpressionSyntax)SyntaxFactory.ParseExpression("(int a, int b)")).Arguments[0].Expression,
+                    (DeclarationExpressionSyntax)((TupleExpressionSyntax)SyntaxFactory.ParseExpression("(int a, int b)")).Arguments[0].Expression)
+            };
+        }
+
+        partial void ForEachVariableStatementServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(ForEachVariableStatementSyntax, ForEachVariableStatementSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                ((ForEachVariableStatementSyntax)SyntaxFactory.ParseStatement("foreach(var (a,b) in x){}"),
+                    (ForEachVariableStatementSyntax)SyntaxFactory.ParseStatement("foreach(var (a,b) in x){}"))
+            };
+        }
+
+        partial void DeclarationPatternServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(DeclarationPatternSyntax, DeclarationPatternSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                ((DeclarationPatternSyntax)((CasePatternSwitchLabelSyntax)((SwitchStatementSyntax)SyntaxFactory.ParseStatement("switch(obj){ case Shape s: }")).Sections[0].Labels[0]).Pattern,
+                    (DeclarationPatternSyntax)((CasePatternSwitchLabelSyntax)((SwitchStatementSyntax)SyntaxFactory.ParseStatement("switch(obj){ case Shape s: }")).Sections[0].Labels[0]).Pattern)
+            };
+        }
+
+        partial void ConstantPatternServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(ConstantPatternSyntax, ConstantPatternSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                ((ConstantPatternSyntax)((CasePatternSwitchLabelSyntax)((SwitchStatementSyntax)SyntaxFactory.ParseStatement("switch(obj){ case 'a' when obj.Lenght > 0: }")).Sections[0].Labels[0]).Pattern,
+                    (ConstantPatternSyntax)((CasePatternSwitchLabelSyntax)((SwitchStatementSyntax)SyntaxFactory.ParseStatement("switch(obj){ case 'a' when obj.Lenght > 0: }")).Sections[0].Labels[0]).Pattern)
+            };
+        }
+
+        partial void LocalFunctionStatementServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(LocalFunctionStatementSyntax, LocalFunctionStatementSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                ((LocalFunctionStatementSyntax)((MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit(@"
+                    void m()
+                    {
+                        const int local<T>() where T: I => 0;
+                    }").Members[0]).Body.Statements[0],
+                (LocalFunctionStatementSyntax)((MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit(@"
+                    void m()
+                    {
+                        const int local<T>() where T: I => 0;
+                    }").Members[0]).Body.Statements[0]),
+                ((LocalFunctionStatementSyntax)((MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit(@"
+                    void m()
+                    {
+                        const int local(){}
+                    }").Members[0]).Body.Statements[0],
+                (LocalFunctionStatementSyntax)((MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit(@"
+                    void m()
+                    {
+                        const int local(){}
+                    }").Members[0]).Body.Statements[0]),
+                ((LocalFunctionStatementSyntax)((MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit(@"
+                    void m()
+                    {
+                        const int local<T>() where T: I => 0;
+                    }").Members[0]).Body.Statements[0],
+                (LocalFunctionStatementSyntax)((MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit(@"
+                    void m()
+                    {
+                        const int local(){}
+                    }").Members[0]).Body.Statements[0]),
+                ((LocalFunctionStatementSyntax)((MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit(@"
+                    void m()
+                    {
+                        const int local(){}
+                    }").Members[0]).Body.Statements[0],
+                (LocalFunctionStatementSyntax)((MethodDeclarationSyntax)SyntaxFactory.ParseCompilationUnit(@"
+                    void m()
+                    {
+                        const int local<T>() where T: I => 0;
+                    }").Members[0]).Body.Statements[0])
+            };
+        }
+
+        partial void RefTypeServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(RefTypeSyntax, RefTypeSyntax)> nodeRevisionPairs)
+        {
+            nodeRevisionPairs = new[]
+            {
+                (SyntaxFactory.RefType(SyntaxFactory.Token(SyntaxKind.RefKeyword), SyntaxFactory.Token(SyntaxKind.ReadOnlyKeyword), SyntaxFactory.ParseTypeName("var")),
+                    SyntaxFactory.RefType(SyntaxFactory.Token(SyntaxKind.RefKeyword), SyntaxFactory.Token(SyntaxKind.ReadOnlyKeyword), SyntaxFactory.ParseTypeName("var"))),
+                (SyntaxFactory.RefType(SyntaxFactory.Token(SyntaxKind.RefKeyword), SyntaxFactory.ParseTypeName("var")),
+                    SyntaxFactory.RefType(SyntaxFactory.Token(SyntaxKind.RefKeyword), SyntaxFactory.ParseTypeName("var"))),
+                (SyntaxFactory.RefType(SyntaxFactory.Token(SyntaxKind.RefKeyword), SyntaxFactory.Token(SyntaxKind.ReadOnlyKeyword), SyntaxFactory.ParseTypeName("var")),
+                    SyntaxFactory.RefType(SyntaxFactory.Token(SyntaxKind.RefKeyword), SyntaxFactory.ParseTypeName("var"))),
+                (SyntaxFactory.RefType(SyntaxFactory.Token(SyntaxKind.RefKeyword), SyntaxFactory.ParseTypeName("var")),
+                    SyntaxFactory.RefType(SyntaxFactory.Token(SyntaxKind.RefKeyword), SyntaxFactory.Token(SyntaxKind.ReadOnlyKeyword), SyntaxFactory.ParseTypeName("var")))
             };
         }
     }

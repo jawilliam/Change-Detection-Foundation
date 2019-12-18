@@ -102,21 +102,11 @@ namespace Jawilliam.CDF.CSharp.RoslynML
 
                 foreach (var mSeedElement in seedAsts.Modified.PreOrder(n => n.Elements().Where(ne => !ne.Name.LocalName.EndsWith("Token") && ne.Attribute("GtID")?.Value != null && ne is XNode)))
                 {
-                    var mFullElement = this.FullAsts.Modified[mSeedElement.GtID()];
-                    if (this.MInserts.ContainsKey(mFullElement.GtID()))
-                        this.UnmatchedModified(mFullElement).ToList();
-                    else if (this.MMatches.ContainsKey(mFullElement.GtID()))
-                    {
-                        var match = this.MMatches[mFullElement.GtID()];
-                        var oFullElement = this.FullAsts.Original[match.Attribute("oId").Value];
-                        this.Matched(oFullElement, mFullElement).ToList();
-                    }
+                    ForEachM(mSeedElement);
                 }
                 foreach (var oSeedElement in seedAsts.Original.PreOrder(n => n.Elements().Where(ne => !ne.Name.LocalName.EndsWith("Token") && ne.Attribute("GtID")?.Value != null && ne is XNode)))
                 {
-                    var oFullElement = this.FullAsts.Original[oSeedElement.GtID()];
-                    if (this.ODeletes.ContainsKey(oFullElement.GtID()))
-                        this.UnmatchedOriginal(oFullElement).ToList();
+                    ForEachO(oSeedElement);
                 }
 
 
@@ -133,30 +123,50 @@ namespace Jawilliam.CDF.CSharp.RoslynML
             }
         }
 
-        //private void DispatchExpandedFacts(IEnumerable<XElement> facts)
-        //{
-        //    foreach (var fact in facts)
-        //    {
-        //        switch (fact.Name.LocalName)
-        //        {
-        //            case "Insert":
-        //                this.MInserts[fact.Attribute("eId").Value] = fact;
-        //                break;
-        //            case "Delete":
-        //                this.ODeletes[fact.Attribute("eId").Value] = fact;
-        //                break;
-        //            case "Update":
-        //                this.OUpdates[fact.Attribute("eId").Value] = fact;
-        //                break;
-        //            case "Match":
-        //                this.OMatches[fact.Attribute("oId").Value] = fact;
-        //                this.MMatches[fact.Attribute("mId").Value] = fact;
-        //                break;
-        //            default:
-        //                throw new ArgumentException($"Unsupported operation {fact.Name.LocalName}");
-        //        }
-        //    }
-        //}
+        private void ForEachO(XElement oSeedElement)
+        {
+            var oFullElement = this.FullAsts.Original[oSeedElement.GtID()];
+            if (this.ODeletes.ContainsKey(oFullElement.GtID()))
+                this.ResolveDefoliatedChildren(this.UnmatchedOriginal(oFullElement).ToList());
+        }
+
+        private void ForEachM(XElement mSeedElement)
+        {
+            var mFullElement = this.FullAsts.Modified[mSeedElement.GtID()];
+            if (this.MInserts.ContainsKey(mFullElement.GtID()))
+                this.ResolveDefoliatedChildren(this.UnmatchedModified(mFullElement).ToList());
+            else if (this.MMatches.ContainsKey(mFullElement.GtID()))
+            {
+                var match = this.MMatches[mFullElement.GtID()];
+                var oFullElement = this.FullAsts.Original[match.Attribute("oId").Value];
+                this.ResolveDefoliatedChildren(this.Matched(oFullElement, mFullElement).ToList());
+            }
+        }
+
+        private void ResolveDefoliatedChildren(IEnumerable<XElement> facts)
+        {
+            foreach (var fact in facts)
+            {
+                switch (fact.Name.LocalName)
+                {
+                    case "Insert":
+                        var insertedChild = this.FullAsts.Modified[fact.Attribute("eId").Value];
+                        if (insertedChild.Name.LocalName != "Token" && !this.SeedAsts.Modified.ContainsKey(insertedChild.GtID())) // then it is a defoliated element.
+                            this.ForEachM(insertedChild);
+                        break;
+                    case "Delete":
+                        var deletedChild = this.FullAsts.Original[fact.Attribute("eId").Value];
+                        if (deletedChild.Name.LocalName != "Token" && !this.SeedAsts.Original.ContainsKey(deletedChild.GtID())) // then it is a defoliated element.
+                            this.ForEachO(deletedChild);
+                        break;
+                    case "Match":
+                        var mChild = this.FullAsts.Modified[fact.Attribute("mId").Value]; 
+                        if (mChild.Name.LocalName != "Token" && !this.SeedAsts.Modified.ContainsKey(mChild.GtID()))
+                            this.ForEachM(mChild);
+                        break;
+                }
+            }
+        }
 
         /// <summary>
         /// Expands an insert action. 

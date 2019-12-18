@@ -1,4 +1,4 @@
-﻿namespace Jawilliam.CDF.Tests.Flad.Awareness
+namespace Jawilliam.CDF.Tests.Flad.Awareness
 {
     using Jawilliam.CDF.Approach;
     using Jawilliam.CDF.CSharp.RoslynML;
