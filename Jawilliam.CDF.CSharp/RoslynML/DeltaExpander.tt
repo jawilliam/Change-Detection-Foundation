@@ -1,6 +1,6 @@
 <#@ template language="C#" debug="True" hostSpecific="true"#>
 <#@ output extension=".cs" #>
-<#@ include file="..\TemplateFileManagerV2.1.ttinclude" #>
+<#@ include file="EF.Utility.CS.ttinclude" #>
 <#@ assembly name="$(SolutionDir)\packages\Microsoft.CodeAnalysis.Common.2.7.0\lib\netstandard1.3\Microsoft.CodeAnalysis.dll" #>
 <#@ assembly name="$(SolutionDir)\packages\Microsoft.CodeAnalysis.CSharp.2.7.0\lib\netstandard1.3\Microsoft.CodeAnalysis.CSharp.dll" #>
 <#@ assembly name="$(SolutionDir)\packages\CodePlex.LinqToXsd.2.0.2\lib\Xml.Schema.Linq.dll" #>
@@ -69,10 +69,10 @@ CodeGenerationTools code = new CodeGenerationTools(this);
 CodeRegion region = new CodeRegion(this, 1);
 string namespaceName = code.VsNamespaceSuggestion();
 
-var manager = TemplateFileManager.Create(this);
+var manager = EntityFrameworkTemplateFileManager.Create(this);
 
 // var xSyntaxTypeSystem = Jawilliam.CDF.XObjects.RDSL.Syntax.NodeTypes.Load(@"E:\Projects\Software Development Investigation\Jawilliam.Msr.Roslyn\CSharp\NodeTypeSystem.xml");
-var xSyntaxTypeSystem = Jawilliam.CDF.XObjects.RDSL.Syntax.Load(@"E:\MyRepositories\Change-Detection-Foundation\Jawilliam.CDF.CSharp\RDSL.xml");
+var xSyntaxTypeSystem = Jawilliam.CDF.XObjects.RDSL.Syntax.Load(@"D:\MyRepositories\Change-Detection-Foundation\Jawilliam.CDF.CSharp\RDSL.xml");
 
 #>using Microsoft.CodeAnalysis.CSharp;
 using System;
@@ -148,6 +148,7 @@ foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
  }
 }
 #>
+            case "Token": return new XElement[0];
 			default: throw new ArgumentException($"The type {mFullElement.Name.LocalName} has not been found.");;//return true
 		}
 	}		
@@ -236,6 +237,7 @@ foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
  }
 }
 #>
+            case "Token": return new XElement[0];
 			default: throw new ArgumentException($"The type {oFullElement.Name.LocalName} has not been found.");;//return true
 		}
 	}	
@@ -324,6 +326,7 @@ foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
  }
 }
 #>
+            case "Token": return new XElement[0];
 			default: throw new ArgumentException($"The type {oFullElement.Name.LocalName} has not been found.");;//return true
 		}
 	}		
@@ -392,6 +395,17 @@ foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
 		var pairwiseTunnelingProperties = currentPropertiesMetadata
 			.Where(p => p.Item2.Rules?.Pairwise?.tunneling ?? false)
 			.Select(p => p.Item2.name).ToArray();
+
+        var relevantProperty = (xSyntaxNodeType.Rules?.Topology?.leaf?.Contains("Terminal") ?? false) && currentPropertiesMetadata
+        .Count(p => (p.Item2.Rules?.Topology?.relevant ?? false) && !( p.Item2.Rules?.Pairwise?.tunneling ?? false)) == 1
+			? currentPropertiesMetadata.Single(p => (p.Item2.Rules?.Topology?.relevant ?? false) && 
+                                                   !( p.Item2.Rules?.Pairwise?.tunneling ?? false))
+                                                   .Item2.name
+            : null;
+
+        pairwiseTunnelingProperties = relevantProperty != null 
+            ? pairwiseTunnelingProperties.Union(new[]{ relevantProperty }).ToArray()
+            : pairwiseTunnelingProperties;
 #>
 	#region <#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>
 
@@ -437,7 +451,11 @@ foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
 #>		
 		child = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "<#= p #>");
 		if(child != null)
-			yield return this.Insert(child, mFullElement);
+        {
+            var insert = this.InsertIfAvailable(child, mFullElement);
+            if(insert != null)
+                yield return insert;
+        }
 <#
 			}
 #>		
@@ -509,9 +527,17 @@ foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
 		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "<#= p #>");
 		mChild = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "<#= p #>");
 		if(oChild == null && mChild != null)
-			yield return this.Insert(mChild, oFullElement);
+        {
+            var insert = this.InsertIfAvailable(mChild, oFullElement);
+            if(insert != null)
+                yield return insert;
+        }
 		else if(oChild != null && mChild == null)
-			yield return this.Delete(oChild);
+        {
+            var delete = this.DeleteIfAvailable(oChild);
+            if(delete != null)
+                yield return delete;
+        }
 		else if(oChild != null && mChild != null)
 		{
 			var match = this.MatchIfAvailable(oChild, mChild);
@@ -519,8 +545,12 @@ foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
 			{
 				yield return match;
 
-				if(oChild.Elements().Count() == 0 && mChild.Elements().Count() == 0 && oChild.Value != mChild.Value)
-					yield return this.Update(oChild, mChild);
+				if(oChild.Elements().Count(ne => ne is XNode) == 0 && mChild.Elements().Count(ne => ne is XNode) == 0 && oChild.Value != mChild.Value)
+                {
+                    var update = this.UpdateIfAvailable(oChild, mChild);
+                    if(update != null)
+                        yield return update;
+                }
 			}
 		}
 <#
@@ -593,7 +623,11 @@ foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
 #>		
 		child = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "<#= p #>");
 		if(child != null)
-			yield return this.Delete(child);
+        {
+            var delete = this.DeleteIfAvailable(child);
+            if(delete != null)
+                yield return delete;
+        }
 <#
 			}
 #>		

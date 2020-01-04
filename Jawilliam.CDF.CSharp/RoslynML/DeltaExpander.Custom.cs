@@ -83,13 +83,25 @@ namespace Jawilliam.CDF.CSharp.RoslynML
             {
                 this.SeedAsts = new RevisionPair<Dictionary<string, XElement>>
                 {
-                    Original = seedAsts.Original.PostOrder(n => n.Elements().Where(ne => ne.Attribute("GtID")?.Value != null && ne is XNode)).ToDictionary(n => n.GtID()),
-                    Modified = seedAsts.Modified.PostOrder(n => n.Elements().Where(ne => ne.Attribute("GtID")?.Value != null && ne is XNode)).ToDictionary(n => n.GtID())
+                    Original = seedAsts.Original.PostOrder(n => n.Elements()
+                        .Where(ne => ne is XNode))
+                        .Where(ne => ne.Attribute("GtID")?.Value != null)
+                        .ToDictionary(n => n.GtID()),
+                    Modified = seedAsts.Modified.PostOrder(n => n.Elements()
+                        .Where(ne => ne is XNode))
+                        .Where(ne => ne.Attribute("GtID")?.Value != null)
+                        .ToDictionary(n => n.GtID())
                 };
                 this.FullAsts = new RevisionPair<Dictionary<string, XElement>>
                 {
-                    Original = fullAsts.Original.PostOrder(n => n.Elements().Where(ne => ne.Attribute("GtID")?.Value != null && ne is XNode)).ToDictionary(n => n.GtID()),
-                    Modified = fullAsts.Modified.PostOrder(n => n.Elements().Where(ne => ne.Attribute("GtID")?.Value != null && ne is XNode)).ToDictionary(n => n.GtID())
+                    Original = fullAsts.Original.PostOrder(n => n.Elements()
+                        .Where(ne => ne is XNode))
+                        .Where(ne => ne.Attribute("GtID")?.Value != null)
+                        .ToDictionary(n => n.GtID()),
+                    Modified = fullAsts.Modified.PostOrder(n => n.Elements()
+                        .Where(ne => ne is XNode))
+                        .Where(ne => ne.Attribute("GtID")?.Value != null)
+                        .ToDictionary(n => n.GtID())
                 };
 
                 this.OMatches = seedDelta.Matches.ToDictionary(m => m.Attribute("oId").Value);
@@ -100,15 +112,25 @@ namespace Jawilliam.CDF.CSharp.RoslynML
 
                 this.FullDelta = (new List<XElement>(seedDelta.Matches), new List<XElement>(seedDelta.Actions));
 
-                foreach (var mSeedElement in seedAsts.Modified.PreOrder(n => n.Elements().Where(ne => !ne.Name.LocalName.EndsWith("Token") && ne.Attribute("GtID")?.Value != null && ne is XNode)))
+                foreach (var mSeedElement in seedAsts.Modified.PreOrder(n => n.Elements()
+                                                              .Where(ne => ne is XNode))
+                                                              .Where(ne => ne.Attribute("GtID")?.Value != null))
                 {
                     ForEachM(mSeedElement);
                 }
-                foreach (var oSeedElement in seedAsts.Original.PreOrder(n => n.Elements().Where(ne => !ne.Name.LocalName.EndsWith("Token") && ne.Attribute("GtID")?.Value != null && ne is XNode)))
+                foreach (var oSeedElement in seedAsts.Original.PreOrder(n => n.Elements()
+                                                              .Where(ne => ne is XNode))
+                                                              .Where(ne => ne.Attribute("GtID")?.Value != null))
                 {
                     ForEachO(oSeedElement);
                 }
 
+                this.FullDelta = (
+                    new List<XElement>(this.FullDelta.Matches), 
+                    new List<XElement>(this.FullDelta.Actions.Where(a => 
+                        a.Name.LocalName != "Update" || 
+                        this.OUpdates.ContainsKey(a.Attribute("eId").Value)).ToList())
+                );
 
                 return this.FullDelta;
             }
@@ -140,6 +162,20 @@ namespace Jawilliam.CDF.CSharp.RoslynML
                 var match = this.MMatches[mFullElement.GtID()];
                 var oFullElement = this.FullAsts.Original[match.Attribute("oId").Value];
                 this.ResolveDefoliatedChildren(this.Matched(oFullElement, mFullElement).ToList());
+
+                if (mSeedElement.Name.LocalName != "Token" &&
+                    mSeedElement.Elements().Count() == 0 &&
+                    this.OUpdates.ContainsKey(oFullElement.GtID()) &&
+                    this.OMatches.ContainsKey(oFullElement.GtID()) &&
+                    this.OMatches[oFullElement.GtID()].Attribute("mId")?.Value == mFullElement.GtID())
+                {
+                    var defoliationRemovedDescendants = oFullElement.PostOrder(n => n.Elements()
+                       .Where(ne => ne is XNode))
+                       .Where(ne => ne != oFullElement && ne.Attribute("GtID")?.Value != null).ToList();
+
+                    if (defoliationRemovedDescendants.Any(drd => this.OUpdates.ContainsKey(drd.GtID())))
+                        this.OUpdates.Remove(oFullElement.GtID());
+                }                    
             }
         }
 
@@ -174,9 +210,11 @@ namespace Jawilliam.CDF.CSharp.RoslynML
         /// <param name="mFullChild">inserted element.</param>
         /// <param name="fullParent">parent of the inserted element.</param>
         /// <returns>The expanded insert action.</returns>
-        public virtual XElement Insert(XElement mFullChild, XElement fullParent)
+        public virtual XElement InsertIfAvailable(XElement mFullChild, XElement fullParent)
         {
-            var insert = new XElement("Insert",
+            if (!this.MInserts.ContainsKey(mFullChild.GtID()) && !this.MMatches.ContainsKey(mFullChild.GtID()))
+            {
+                var insert = new XElement("Insert",
                 new XAttribute("eId", mFullChild.GtID()),
                 new XAttribute("eLb", mFullChild.Attribute("kind")?.Value ?? mFullChild.Name.LocalName),
                 new XAttribute("eVl", "##"),
@@ -184,10 +222,13 @@ namespace Jawilliam.CDF.CSharp.RoslynML
                 new XAttribute("pLb", fullParent.Attribute("kind")?.Value ?? fullParent.Name.LocalName),
                 new XAttribute("pos", "-1"),
                 new XAttribute("expanded", true));
-            this.MInserts[mFullChild.GtID()] = insert;
-            this.FullDelta.Actions.Add(insert);
+                this.MInserts[mFullChild.GtID()] = insert;
+                this.FullDelta.Actions.Add(insert);
 
-            return insert;
+                return insert;
+            }
+
+            return null;
         }
 
         /// <summary>
@@ -222,18 +263,25 @@ namespace Jawilliam.CDF.CSharp.RoslynML
         /// <param name="oFullElement">The full description associated to the matched original element version.</param>
         /// <param name="mFullElement">The full description associated to the unmatched modified element version.</param>
         /// <returns>The expanded matches and actions.</returns>
-        public virtual XElement Update(XElement oFullElement, XElement mFullElement)
+        public virtual XElement UpdateIfAvailable(XElement oFullElement, XElement mFullElement)
         {
-            var update = new XElement("Update",
+            if (!this.OUpdates.ContainsKey(oFullElement.GtID()) && 
+                this.OMatches.ContainsKey(oFullElement.GtID()) &&
+                this.OMatches[oFullElement.GtID()].Attribute("mId")?.Value == mFullElement.GtID())
+            {
+                var update = new XElement("Update",
                 new XAttribute("eId", oFullElement.GtID()),
                 new XAttribute("eLb", oFullElement.Attribute("kind")?.Value ?? oFullElement.Name.LocalName),
                 new XAttribute("eVl", "##"),
                 new XAttribute("val", mFullElement.Value),
                 new XAttribute("expanded", true));
-            this.OUpdates[oFullElement.GtID()] = update;
-            this.FullDelta.Actions.Add(update);
+                this.OUpdates[oFullElement.GtID()] = update;
+                this.FullDelta.Actions.Add(update);
 
-            return update;
+                return update;
+            }
+
+            return null;
         }
 
         /// <summary>
@@ -241,17 +289,25 @@ namespace Jawilliam.CDF.CSharp.RoslynML
         /// </summary>
         /// <param name="oFullChild">deleted element.</param>
         /// <returns>The expanded delete action.</returns>
-        public virtual XElement Delete(XElement oFullChild)
+        public virtual XElement DeleteIfAvailable(XElement oFullChild)
         {
-            var delete = new XElement("Delete",
+            if (!this.ODeletes.ContainsKey(oFullChild.GtID()) && !this.OMatches.ContainsKey(oFullChild.GtID()))
+            {
+                var delete = new XElement("Delete",
                 new XAttribute("eId", oFullChild.GtID()),
                 new XAttribute("eLb", oFullChild.Attribute("kind")?.Value ?? oFullChild.Name.LocalName),
                 new XAttribute("eVl", "##"),
                 new XAttribute("expanded", true));
-            this.ODeletes[oFullChild.GtID()] = delete;
-            this.FullDelta.Actions.Add(delete);
+                this.ODeletes[oFullChild.GtID()] = delete;
+                this.FullDelta.Actions.Add(delete);
 
-            return delete;
+                return delete;
+            }
+
+            return null;
         }
+
+        #region NameColon
+        #endregion
     }
 }

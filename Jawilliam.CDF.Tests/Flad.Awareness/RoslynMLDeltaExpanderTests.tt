@@ -104,6 +104,7 @@ foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
 	   syntaxNode.Root.Label.ToString() == "PragmaChecksumDirectiveTriviaSyntax" ||	   
 	   syntaxNode.Root.Label.ToString() == "XmlCrefAttributeSyntax" ||	   
 	   syntaxNode.Root.Label.ToString() == "XmlElementSyntax" ||	   
+	   syntaxNode.Root.Label.ToString() == "XmlNameSyntax" ||	   
 	   syntaxNode.Root.Label.ToString() == "XmlNameAttributeSyntax" ||	   
 	   syntaxNode.Root.Label.ToString() == "XmlTextAttributeSyntax")
 		continue;
@@ -141,6 +142,12 @@ foreach(ITree syntaxNode in syntaxSystemRoot.PostOrder<ITree>(e => e.Children)
 			.Where(p => p.Item2.name != "SyntaxToken")
 			.ToArray();
 
+        var relevantProperty = (xSyntaxNodeType.Rules?.Topology?.leaf?.Contains("Terminal") ?? false) && currentPropertiesMetadata
+        .Count(p => (p.Item2.Rules?.Topology?.relevant ?? false) && !( p.Item2.Rules?.Pairwise?.tunneling ?? false)) == 1
+			? currentPropertiesMetadata.Single(p => (p.Item2.Rules?.Topology?.relevant ?? false) && 
+                                                   !( p.Item2.Rules?.Pairwise?.tunneling ?? false))                                                   
+            : null;
+
 		manager.StartNewFile($"RoslynMLDeltaExpander{syntaxNode.Root.Label}Tests.cs");
 
 		BeginNamespace(namespaceName, code);
@@ -158,10 +165,17 @@ using System.Xml.Linq;
 
 partial class RoslynMLDeltaExpanderTests
 {
-	 partial void <#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>ServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>)> nodeRevisionPairs);
+     /// <summary>
+     /// Provides the element revision pair(s) to test in <see cref="<#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>ServiceProvider_RoslynMLDeltaExpander_OK"/>.
+     /// </summary>
+     /// <param name="nodeRevisionPairs"> the element revision pair(s) to test</param>
+	 partial void <#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>ServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>)> nodeRevisionPairs);
 
+	 /// <summary>
+     /// Tests expansion logic for <see cref="<#= code.Escape(syntaxNode.Root.Label.ToString()) #>"/>.
+     /// </summary>
 	 [TestMethod]
-     public void <#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>ServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_OK()
+     public void <#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>ServiceProvider_RoslynMLDeltaExpander_OK()
      {
 		var converter = new CDF.CSharp.RoslynML.RoslynML();
 		var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
@@ -169,7 +183,7 @@ partial class RoslynMLDeltaExpanderTests
 
 	    IEnumerable<(<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>)> nodeRevisionPairs = null;
 	    string oExpectedLabel = null, mExpectedLabel = null;
-	    <#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>ServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref nodeRevisionPairs);
+	    <#= code.Escape(syntaxNode.Root.Label.ToString()).Replace("Syntax", "") #>ServiceProvider_RoslynMLDeltaExpander_DataToTest(ref nodeRevisionPairs);
 		foreach(((<#= code.Escape(syntaxNode.Root.Label.ToString()) #> Original, <#= code.Escape(syntaxNode.Root.Label.ToString()) #> Modified) nodeRevisionPair, Action<RoslynML, XElement> defoliate) in nodeRevisionPairs
 			.SelectMany(n => new List<((<#= code.Escape(syntaxNode.Root.Label.ToString()) #>, <#= code.Escape(syntaxNode.Root.Label.ToString()) #>), Action<RoslynML, XElement>)>
 				{ (n, (r, n1) => { }), (n, (r, n1) => r.Defoliate(n1)) }))
@@ -239,7 +253,53 @@ partial class RoslynMLDeltaExpanderTests
 		}
 #>
 
-			Assert.AreEqual(expander.FullDelta.Matches.Count(), matchedProperties + 1);
+			var relevantDescendants = 0;
+<#
+
+		if(relevantProperty != null)
+		{
+			if(relevantProperty.Item2.optional)
+			{
+#>
+			if(oFullElement.Elements().Any(e => e.Attribute("part").Value == "<#= relevantProperty.Item2.name #>") &&
+			   mFullElement.Elements().Any(e => e.Attribute("part").Value == "<#= relevantProperty.Item2.name #>"))
+			{
+				relevantDescendants = oFullElement.Elements().Single(e => e.Attribute("part").Value == "<#= relevantProperty.Item2.name #>")
+					.PreOrder(n => n.Elements().Where(ne => ne is XNode))
+					.Where(ne => ne.Attribute("GtID")?.Value != null)
+					.Count();
+			}
+			else if(!oFullElement.Elements().Any(e => e.Attribute("part").Value == "<#= relevantProperty.Item2.name #>") &&
+			        mFullElement.Elements().Any(e => e.Attribute("part").Value == "<#= relevantProperty.Item2.name #>"))
+			{
+				unmatchedModifiedProperties += mFullElement.Elements().Single(e => e.Attribute("part").Value == "<#= relevantProperty.Item2.name #>")
+					.PreOrder(n => n.Elements().Where(ne => ne is XNode))
+					.Where(ne => ne.Attribute("GtID")?.Value != null)
+					.Count();
+			}
+			else if(oFullElement.Elements().Any(e => e.Attribute("part").Value == "<#= relevantProperty.Item2.name #>") &&
+			        !mFullElement.Elements().Any(e => e.Attribute("part").Value == "<#= relevantProperty.Item2.name #>"))
+			{
+				unmatchedOriginalProperties += oFullElement.Elements().Single(e => e.Attribute("part").Value == "<#= relevantProperty.Item2.name #>")
+					.PreOrder(n => n.Elements().Where(ne => ne is XNode))
+					.Where(ne => ne.Attribute("GtID")?.Value != null)
+					.Count();
+			}
+<#
+			}
+			else
+			{
+#>
+			relevantDescendants = oFullElement.Elements().Single(e => e.Attribute("part").Value == "<#= relevantProperty.Item2.name #>")
+				.PreOrder(n => n.Elements().Where(ne => ne is XNode))
+				.Where(ne => ne.Attribute("GtID")?.Value != null)
+				.Count();
+<#
+			}
+		}
+#>
+
+			Assert.AreEqual(expander.FullDelta.Matches.Count(), matchedProperties + 1 + relevantDescendants);
 			Assert.AreEqual(expander.FullDelta.Actions.Count(), unmatchedOriginalProperties + unmatchedModifiedProperties);
 
 			Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value == oElement.GtID())
@@ -324,7 +384,7 @@ partial class RoslynMLDeltaExpanderTests
 				 }));
 			
             Assert.AreEqual(expander.FullDelta.Matches.Count(), 0);
-            Assert.AreEqual(expander.FullDelta.Actions.Count(), matchedProperties + 1 + unmatchedModifiedProperties);
+            Assert.AreEqual(expander.FullDelta.Actions.Count(), matchedProperties + 1 + unmatchedModifiedProperties + relevantDescendants);
 
             Assert.IsTrue(expander.FullDelta.Actions
 				.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eId").Value == mElement.GtID())
@@ -381,7 +441,7 @@ partial class RoslynMLDeltaExpanderTests
 				 }));
 			
             Assert.AreEqual(expander.FullDelta.Matches.Count(), 0);
-            Assert.AreEqual(expander.FullDelta.Actions.Count(), matchedProperties + 1 + unmatchedOriginalProperties);
+            Assert.AreEqual(expander.FullDelta.Actions.Count(), matchedProperties + 1 + unmatchedOriginalProperties + relevantDescendants);
 
             Assert.IsTrue(expander.FullDelta.Actions
 				.Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value == oElement.GtID())
@@ -444,7 +504,7 @@ partial class RoslynMLDeltaExpanderTests
 				},
 			    Actions: new XElement[0]));
 			
-            Assert.AreEqual(expander.FullDelta.Matches.Count(), matchedProperties + 1);
+            Assert.AreEqual(expander.FullDelta.Matches.Count(), matchedProperties + 1 + relevantDescendants);
             Assert.AreEqual(expander.FullDelta.Actions.Count(), matchedProperties + unmatchedOriginalProperties + unmatchedModifiedProperties);
 
 			Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value == oElement.GtID())

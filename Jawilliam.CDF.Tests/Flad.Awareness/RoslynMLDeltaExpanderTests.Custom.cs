@@ -14,10 +14,10 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
 {
     partial class RoslynMLDeltaExpanderTests
     {
-        partial void ForStatementServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(ForStatementSyntax, ForStatementSyntax)> nodeRevisionPairs);
+        partial void ForStatementServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(ForStatementSyntax, ForStatementSyntax)> nodeRevisionPairs);
 
         [TestMethod]
-        public void ForStatementServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_OK()
+        public void ForStatementServiceProvider_RoslynMLDeltaExpander_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
             var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
@@ -25,7 +25,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
 
             IEnumerable<(ForStatementSyntax, ForStatementSyntax)> nodeRevisionPairs = null;
             string oExpectedLabel = null, mExpectedLabel = null;
-            ForStatementServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref nodeRevisionPairs);
+            ForStatementServiceProvider_RoslynMLDeltaExpander_DataToTest(ref nodeRevisionPairs);
             foreach (((ForStatementSyntax Original, ForStatementSyntax Modified) nodeRevisionPair, Action<RoslynML, XElement> defoliate) in nodeRevisionPairs
                 .SelectMany(n => new List<((ForStatementSyntax, ForStatementSyntax), Action<RoslynML, XElement>)>
                     { (n, (r, n1) => { }), (n, (r, n1) => r.Defoliate(n1)) }))
@@ -402,10 +402,10 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             }
         }
 
-        partial void PragmaChecksumDirectiveTriviaServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(PragmaChecksumDirectiveTriviaSyntax, PragmaChecksumDirectiveTriviaSyntax)> nodeRevisionPairs);
+        partial void PragmaChecksumDirectiveTriviaServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(PragmaChecksumDirectiveTriviaSyntax, PragmaChecksumDirectiveTriviaSyntax)> nodeRevisionPairs);
 
         [TestMethod]
-        public void PragmaChecksumDirectiveTriviaServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_OK()
+        public void PragmaChecksumDirectiveTriviaServiceProvider_RoslynMLDeltaExpander_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
             var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
@@ -413,7 +413,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
 
             IEnumerable<(PragmaChecksumDirectiveTriviaSyntax, PragmaChecksumDirectiveTriviaSyntax)> nodeRevisionPairs = null;
             string oExpectedLabel = null, mExpectedLabel = null;
-            PragmaChecksumDirectiveTriviaServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref nodeRevisionPairs);
+            PragmaChecksumDirectiveTriviaServiceProvider_RoslynMLDeltaExpander_DataToTest(ref nodeRevisionPairs);
             foreach (((PragmaChecksumDirectiveTriviaSyntax Original, PragmaChecksumDirectiveTriviaSyntax Modified) nodeRevisionPair, Action<RoslynML, XElement> defoliate) in nodeRevisionPairs
                 .SelectMany(n => new List<((PragmaChecksumDirectiveTriviaSyntax, PragmaChecksumDirectiveTriviaSyntax), Action<RoslynML, XElement>)>
                     { (n, (r, n1) => { }), (n, (r, n1) => r.Defoliate(n1)) }))
@@ -868,10 +868,10 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             }
         }
 
-        partial void XmlCrefAttributeServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(XmlCrefAttributeSyntax, XmlCrefAttributeSyntax)> nodeRevisionPairs);
+        partial void XmlCrefAttributeServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(XmlCrefAttributeSyntax, XmlCrefAttributeSyntax)> nodeRevisionPairs);
 
         [TestMethod]
-        public void XmlCrefAttributeServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_OK()
+        public void XmlCrefAttributeServiceProvider_RoslynMLDeltaExpander_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
             var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
@@ -879,7 +879,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
 
             IEnumerable<(XmlCrefAttributeSyntax, XmlCrefAttributeSyntax)> nodeRevisionPairs = null;
             string oExpectedLabel = null, mExpectedLabel = null;
-            XmlCrefAttributeServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref nodeRevisionPairs);
+            XmlCrefAttributeServiceProvider_RoslynMLDeltaExpander_DataToTest(ref nodeRevisionPairs);
             foreach (((XmlCrefAttributeSyntax Original, XmlCrefAttributeSyntax Modified) nodeRevisionPair, Action<RoslynML, XElement> defoliate) in nodeRevisionPairs
                 .SelectMany(n => new List<((XmlCrefAttributeSyntax, XmlCrefAttributeSyntax), Action<RoslynML, XElement>)>
                     { (n, (r, n1) => { }), (n, (r, n1) => r.Defoliate(n1)) }))
@@ -1239,10 +1239,10 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             }
         }
 
-        partial void XmlElementServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(XmlElementSyntax, XmlElementSyntax)> nodeRevisionPairs);
+        partial void XmlElementServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(XmlElementSyntax, XmlElementSyntax)> nodeRevisionPairs);
 
         [TestMethod]
-        public void XmlElementServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_OK()
+        public void XmlElementServiceProvider_RoslynMLDeltaExpander_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
             var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
@@ -1250,7 +1250,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
 
             IEnumerable<(XmlElementSyntax, XmlElementSyntax)> nodeRevisionPairs = null;
             string oExpectedLabel = null, mExpectedLabel = null;
-            XmlElementServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref nodeRevisionPairs);
+            XmlElementServiceProvider_RoslynMLDeltaExpander_DataToTest(ref nodeRevisionPairs);
             foreach (((XmlElementSyntax Original, XmlElementSyntax Modified) nodeRevisionPair, Action<RoslynML, XElement> defoliate) in nodeRevisionPairs
                 .SelectMany(n => new List<((XmlElementSyntax, XmlElementSyntax), Action<RoslynML, XElement>)>
                     { (n, (r, n1) => { }), (n, (r, n1) => r.Defoliate(n1)) }))
@@ -1302,8 +1302,9 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
                 var matchedProperties = totalProperties;
                 var unmatchedOriginalProperties = 0;
                 var unmatchedModifiedProperties = 0;
+                var relevantDescendants = 2;
 
-                Assert.AreEqual(expander.FullDelta.Matches.Count(), matchedProperties + 1 + 4); // 2 from endtag and 2 from starttag
+                Assert.AreEqual(expander.FullDelta.Matches.Count(), matchedProperties + 1 + 4 + relevantDescendants); // 2 from endtag and 2 from starttag
                 Assert.AreEqual(expander.FullDelta.Actions.Count(), unmatchedOriginalProperties + unmatchedModifiedProperties);
 
                 Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value == oElement.GtID())
@@ -1380,7 +1381,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
                      }));
 
                 Assert.AreEqual(expander.FullDelta.Matches.Count(), 0);
-                Assert.AreEqual(expander.FullDelta.Actions.Count(), matchedProperties + 1 + unmatchedModifiedProperties + 4);
+                Assert.AreEqual(expander.FullDelta.Actions.Count(), matchedProperties + 1 + unmatchedModifiedProperties + 4 + relevantDescendants);
 
                 Assert.IsTrue(expander.FullDelta.Actions
                     .Single(a => a.Name.LocalName == "Insert" && a.Attribute("eId").Value == mElement.GtID())
@@ -1455,7 +1456,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
                      }));
 
                 Assert.AreEqual(expander.FullDelta.Matches.Count(), 0);
-                Assert.AreEqual(expander.FullDelta.Actions.Count(), matchedProperties + 1 + unmatchedOriginalProperties + 4);
+                Assert.AreEqual(expander.FullDelta.Actions.Count(), matchedProperties + 1 + unmatchedOriginalProperties + 4 + relevantDescendants);
 
                 Assert.IsTrue(expander.FullDelta.Actions
                     .Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value == oElement.GtID())
@@ -1525,7 +1526,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
                     },
                     Actions: new XElement[0]));
 
-                Assert.AreEqual(expander.FullDelta.Matches.Count(), matchedProperties + 1 + 4);
+                Assert.AreEqual(expander.FullDelta.Matches.Count(), matchedProperties + 1 + 4 + relevantDescendants);
                 Assert.AreEqual(expander.FullDelta.Actions.Count(), 4);
 
                 Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value == oElement.GtID())
@@ -1638,10 +1639,10 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             }
         }
 
-        partial void XmlNameAttributeServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(XmlNameAttributeSyntax, XmlNameAttributeSyntax)> nodeRevisionPairs);
+        partial void XmlNameAttributeServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(XmlNameAttributeSyntax, XmlNameAttributeSyntax)> nodeRevisionPairs);
 
         [TestMethod]
-        public void XmlNameAttributeServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_OK()
+        public void XmlNameAttributeServiceProvider_RoslynMLDeltaExpander_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
             var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
@@ -1649,7 +1650,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
 
             IEnumerable<(XmlNameAttributeSyntax, XmlNameAttributeSyntax)> nodeRevisionPairs = null;
             string oExpectedLabel = null, mExpectedLabel = null;
-            XmlNameAttributeServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref nodeRevisionPairs);
+            XmlNameAttributeServiceProvider_RoslynMLDeltaExpander_DataToTest(ref nodeRevisionPairs);
             foreach (((XmlNameAttributeSyntax Original, XmlNameAttributeSyntax Modified) nodeRevisionPair, Action<RoslynML, XElement> defoliate) in nodeRevisionPairs
                 .SelectMany(n => new List<((XmlNameAttributeSyntax, XmlNameAttributeSyntax), Action<RoslynML, XElement>)>
                     { (n, (r, n1) => { }), (n, (r, n1) => r.Defoliate(n1)) }))
@@ -1701,8 +1702,9 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
                 var matchedProperties = totalProperties;
                 var unmatchedOriginalProperties = 0;
                 var unmatchedModifiedProperties = 0;
+                var relevantDescendants = 2;
 
-                Assert.AreEqual(expander.FullDelta.Matches.Count(), matchedProperties + 1 + 1); //the identifier within the XmlName
+                Assert.AreEqual(expander.FullDelta.Matches.Count(), matchedProperties + 1 + 1 + relevantDescendants); //the identifier within the XmlName
                 Assert.AreEqual(expander.FullDelta.Actions.Count(), unmatchedOriginalProperties + unmatchedModifiedProperties);
 
                 Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value == oElement.GtID())
@@ -1721,7 +1723,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
 
                 var oLocalNameLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Original.Name.LocalName.Kind());
                 var mLocalNameLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Modified.Name.LocalName.Kind());
-                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oLocalNameLabel)
+                Assert.IsTrue(expander.FullDelta.Matches.Where(m => m.Attribute("oLb").Value == oLocalNameLabel).ToList()[0]
                     .Attribute("mLb").Value == mLocalNameLabel);
                 Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value ==
                     oFullElement.Elements().Single(e => e.Label() == oNameLabel).Elements().Single(e => e.Label() == oLocalNameLabel).GtID())
@@ -1772,7 +1774,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
                      }));
 
                 Assert.AreEqual(expander.FullDelta.Matches.Count(), 0);
-                Assert.AreEqual(expander.FullDelta.Actions.Count(), matchedProperties + 1 + unmatchedModifiedProperties + 1);
+                Assert.AreEqual(expander.FullDelta.Actions.Count(), matchedProperties + 1 + unmatchedModifiedProperties + 1 + relevantDescendants);
 
                 Assert.IsTrue(expander.FullDelta.Actions
                     .Single(a => a.Name.LocalName == "Insert" && a.Attribute("eId").Value == mElement.GtID())
@@ -1790,7 +1792,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
                     .Attribute("pId").Value == mFullElement.GtID());
 
                 Assert.IsTrue(expander.FullDelta.Actions
-                        .Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mLocalNameLabel)
+                        .Where(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mLocalNameLabel).ToList()[0]
                         .Attribute("pLb").Value == mNameLabel);
                 Assert.IsTrue(expander.FullDelta.Actions
                     .Single(a => a.Name.LocalName == "Insert" && a.Attribute("eId").Value ==
@@ -1835,7 +1837,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
                      }));
 
                 Assert.AreEqual(expander.FullDelta.Matches.Count(), 0);
-                Assert.AreEqual(expander.FullDelta.Actions.Count(), matchedProperties + 1 + unmatchedOriginalProperties + 1);
+                Assert.AreEqual(expander.FullDelta.Actions.Count(), matchedProperties + 1 + unmatchedOriginalProperties + 1 + relevantDescendants);
 
                 Assert.IsTrue(expander.FullDelta.Actions
                     .Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value == oElement.GtID())
@@ -1899,7 +1901,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
                     },
                     Actions: new XElement[0]));
 
-                Assert.AreEqual(expander.FullDelta.Matches.Count(), matchedProperties + 1 + 1);
+                Assert.AreEqual(expander.FullDelta.Matches.Count(), matchedProperties + 1 + 1 + relevantDescendants);
                 Assert.AreEqual(expander.FullDelta.Actions.Count(), matchedProperties + unmatchedOriginalProperties + unmatchedModifiedProperties + 1 - 1); // Name is not a leaf and therefore it is not updatable.
 
                 Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value == oElement.GtID())
@@ -1921,7 +1923,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
                 //        oFullElement.Elements().Single(e => e.Label() == oNameLabel).GtID())
                 //    .Attribute("val").Value == "v0");
 
-                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oLocalNameLabel)
+                Assert.IsTrue(expander.FullDelta.Matches.Where(m => m.Attribute("oLb").Value == oLocalNameLabel).ToList()[0]
                     .Attribute("mLb").Value == mLocalNameLabel);
                 Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value ==
                     oFullElement.Elements().Single(e => e.Label() == oNameLabel).Elements().Single(e => e.Label() == oLocalNameLabel).GtID())
@@ -2023,13 +2025,47 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
                 Assert.IsTrue(expander.FullDelta.Actions
                     .Single(a => a.Name.LocalName == "Move" && a.Attribute("eLb").Value == oExpectedLabel)
                     .Attribute("pLb").Value == mExpectedLabel);
+
+                if (mElement.Elements().Count(n => n is XNode) == 0)
+                {
+                    mFullElement.Elements()
+                        .Single(n => n.Attribute("part").Value == "Identifier").Elements()
+                        .Single(n => n.Attribute("part").Value == "Identifier")
+                        .Value = "v4";
+
+                    expander.Expand(
+                    new RevisionPair<XElement> { Original = oElement, Modified = mElement },
+                    new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement },
+                    (Matches: new XElement[]
+                    {
+                        new XElement("Match",
+                            new XAttribute("oId", oElement.GtID()),
+                            new XAttribute("oLb", oElement.Label()),
+                            new XAttribute("mId", mElement.GtID()),
+                            new XAttribute("mLb", mElement.Label()))
+                    },
+                    Actions: new XElement[]
+                    {
+                        new XElement("Update",
+                            new XAttribute("eId", oElement.GtID()),
+                            new XAttribute("eLb", oElement.Attribute("kind")?.Value ?? oElement.Name.LocalName),
+                            new XAttribute("eVl", mElement.GtID()),
+                            new XAttribute("val", "t#v"))
+                    }));
+                    Assert.AreEqual(expander.FullDelta.Matches.Count(), matchedProperties + 1 + 1 + relevantDescendants);
+                    Assert.AreEqual(expander.FullDelta.Actions.Count(), 1);
+
+                    Assert.IsTrue(expander.FullDelta.Actions
+                            .Single(a => a.Name.LocalName == "Update" && a.Attribute("eLb").Value == "IdentifierToken")
+                            .Attribute("val").Value == "v4");
+                }
             }
         }
 
-        partial void XmlTextAttributeServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(XmlTextAttributeSyntax, XmlTextAttributeSyntax)> nodeRevisionPairs);
+        partial void XmlTextAttributeServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(XmlTextAttributeSyntax, XmlTextAttributeSyntax)> nodeRevisionPairs);
 
         [TestMethod]
-        public void XmlTextAttributeServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_OK()
+        public void XmlTextAttributeServiceProvider_RoslynMLDeltaExpander_OK()
         {
             var converter = new CDF.CSharp.RoslynML.RoslynML();
             var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
@@ -2037,7 +2073,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
 
             IEnumerable<(XmlTextAttributeSyntax, XmlTextAttributeSyntax)> nodeRevisionPairs = null;
             string oExpectedLabel = null, mExpectedLabel = null;
-            XmlTextAttributeServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref nodeRevisionPairs);
+            XmlTextAttributeServiceProvider_RoslynMLDeltaExpander_DataToTest(ref nodeRevisionPairs);
             foreach (((XmlTextAttributeSyntax Original, XmlTextAttributeSyntax Modified) nodeRevisionPair, Action<RoslynML, XElement> defoliate) in nodeRevisionPairs
                 .SelectMany(n => new List<((XmlTextAttributeSyntax, XmlTextAttributeSyntax), Action<RoslynML, XElement>)>
                     { (n, (r, n1) => { }), (n, (r, n1) => r.Defoliate(n1)) }))
@@ -2336,7 +2372,353 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             }
         }
 
-        partial void ParenthesizedExpressionServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(ParenthesizedExpressionSyntax, ParenthesizedExpressionSyntax)> nodeRevisionPairs)
+
+        partial void XmlNameServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(XmlNameSyntax, XmlNameSyntax)> nodeRevisionPairs);
+
+        [TestMethod]
+        public void XmlNameServiceProvider_RoslynMLDeltaExpander_OK()
+        {
+            var converter = new CDF.CSharp.RoslynML.RoslynML();
+            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
+            int id = 0;
+
+            IEnumerable<(XmlNameSyntax, XmlNameSyntax)> nodeRevisionPairs = null;
+            string oExpectedLabel = null, mExpectedLabel = null;
+            XmlNameServiceProvider_RoslynMLDeltaExpander_DataToTest(ref nodeRevisionPairs);
+            foreach (((XmlNameSyntax Original, XmlNameSyntax Modified) nodeRevisionPair, Action<RoslynML, XElement> defoliate) in nodeRevisionPairs
+                .SelectMany(n => new List<((XmlNameSyntax, XmlNameSyntax), Action<RoslynML, XElement>)>
+                    { (n, (r, n1) => { }), (n, (r, n1) => r.Defoliate(n1)) }))
+            {
+                id = 0;
+                oExpectedLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Original.Kind());
+                mExpectedLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Modified.Kind());
+
+                var oElement = converter.Visit(nodeRevisionPair.Original);
+                converter.SetGumTreefiedIDs(oElement, ref id);
+                converter.SetRoslynMLIDs(oElement, ref id);
+                converter.Prune(oElement, selector.PruneSelector);
+                defoliate(converter, oElement);
+
+                var mId = id;
+
+                var mElement = converter.Visit(nodeRevisionPair.Modified);
+                converter.SetGumTreefiedIDs(mElement, ref id);
+                converter.SetRoslynMLIDs(mElement, ref id);
+                converter.Prune(mElement, selector.PruneSelector);
+                defoliate(converter, mElement);
+
+                id = 0;
+                var oFullElement = converter.Visit(nodeRevisionPair.Original);
+                converter.SetGumTreefiedIDs(oFullElement, ref id);
+                converter.SetRoslynMLIDs(oFullElement, ref id);
+
+                var mFullElement = converter.Visit(nodeRevisionPair.Modified);
+                converter.SetGumTreefiedIDs(mFullElement, ref id);
+                converter.SetRoslynMLIDs(mFullElement, ref id);
+
+                DeltaExpander expander = new DeltaExpander();
+
+                // Match
+                expander.Expand(
+                    new RevisionPair<XElement> { Original = oElement, Modified = mElement },
+                    new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement },
+                    (Matches: new XElement[]
+                    {
+                        new XElement("Match",
+                            new XAttribute("oId", oElement.GtID()),
+                            new XAttribute("oLb", oElement.Label()),
+                            new XAttribute("mId", mElement.GtID()),
+                            new XAttribute("mLb", mElement.Label()))
+                    },
+                Actions: new XElement[0]));
+
+                var totalProperties = 1;
+                var matchedProperties = totalProperties;
+                var unmatchedOriginalProperties = 0;
+                var unmatchedModifiedProperties = 0;
+
+                var relevantDescendants = 0;
+                if (oFullElement.Elements().Any(e => e.Attribute("part").Value == "Prefix") &&
+                   mFullElement.Elements().Any(e => e.Attribute("part").Value == "Prefix"))
+                {
+                    relevantDescendants = oFullElement.Elements().Single(e => e.Attribute("part").Value == "Prefix")
+                        .PreOrder(n => n.Elements().Where(ne => ne is XNode))
+                        .Where(ne => ne.Attribute("GtID")?.Value != null)
+                        .Count();
+                }
+                else if (!oFullElement.Elements().Any(e => e.Attribute("part").Value == "Prefix") &&
+                         mFullElement.Elements().Any(e => e.Attribute("part").Value == "Prefix"))
+                {
+                    unmatchedModifiedProperties += mFullElement.Elements().Single(e => e.Attribute("part").Value == "Prefix")
+                        .PreOrder(n => n.Elements().Where(ne => ne is XNode))
+                        .Where(ne => ne.Attribute("GtID")?.Value != null)
+                        .Count();
+                }
+                else if (oFullElement.Elements().Any(e => e.Attribute("part").Value == "Prefix") &&
+                         !mFullElement.Elements().Any(e => e.Attribute("part").Value == "Prefix"))
+                {
+                    unmatchedOriginalProperties += oFullElement.Elements().Single(e => e.Attribute("part").Value == "Prefix")
+                        .PreOrder(n => n.Elements().Where(ne => ne is XNode))
+                        .Where(ne => ne.Attribute("GtID")?.Value != null)
+                        .Count();
+                }
+
+                Assert.AreEqual(expander.FullDelta.Matches.Count(), matchedProperties + 1 + relevantDescendants);
+                Assert.AreEqual(expander.FullDelta.Actions.Count(), unmatchedOriginalProperties + unmatchedModifiedProperties);
+
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value == oElement.GtID())
+                    .Attribute("mId").Value == mElement.GtID());
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oExpectedLabel)
+                    .Attribute("mLb").Value == mExpectedLabel);
+
+                var oLocalNameLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Original.LocalName.Kind());
+                var mLocalNameLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Modified.LocalName.Kind());
+                Assert.IsTrue(expander.FullDelta.Matches.Where(m => m.Attribute("oLb").Value == oLocalNameLabel).ToList()[0]
+                    .Attribute("mLb").Value == mLocalNameLabel);
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value ==
+                    oFullElement.Elements().Single(e => e.Label() == oLocalNameLabel).GtID())
+                    .Attribute("mId").Value ==
+                    mFullElement.Elements().Single(e => e.Label() == mLocalNameLabel).GtID());
+
+                // Insert
+                expander.Expand(
+                    new RevisionPair<XElement> { Original = oElement, Modified = mElement },
+                    new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement },
+                    (Matches: new XElement[0],
+                     Actions: new XElement[]
+                     {
+                         new XElement("Insert",
+                             new XAttribute("eId", mElement.GtID()),
+                             new XAttribute("eLb", mElement.Label()),
+                             new XAttribute("eVl", "##"),
+                             new XAttribute("pId", mElement.GtID()),
+                             new XAttribute("pLb", mElement.Label()),
+                             new XAttribute("pos", "-1"))
+                     }));
+
+                Assert.AreEqual(expander.FullDelta.Matches.Count(), 0);
+                Assert.AreEqual(expander.FullDelta.Actions.Count(), matchedProperties + 1 + unmatchedModifiedProperties + relevantDescendants);
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Insert" && a.Attribute("eId").Value == mElement.GtID())
+                    .Attribute("pId").Value == mElement.GtID());
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mExpectedLabel)
+                    .Attribute("pLb").Value == mExpectedLabel);
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                        .Where(a => a.Name.LocalName == "Insert" && a.Attribute("eLb").Value == mLocalNameLabel).ToList()[0]
+                        .Attribute("pLb").Value == mExpectedLabel);
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Insert" && a.Attribute("eId").Value ==
+                        mFullElement.Elements().Single(e => e.Label() == mLocalNameLabel).GtID())
+                    .Attribute("pId").Value == mFullElement.GtID());
+
+                // Delete
+                expander.Expand(
+                    new RevisionPair<XElement> { Original = oElement, Modified = mElement },
+                    new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement },
+                    (Matches: new XElement[0],
+                     Actions: new XElement[]
+                     {
+                         new XElement("Delete",
+                             new XAttribute("eId", oElement.GtID()),
+                             new XAttribute("eLb", oElement.Label()),
+                             new XAttribute("eVl", "##"))
+                     }));
+
+                Assert.AreEqual(expander.FullDelta.Matches.Count(), 0);
+                Assert.AreEqual(expander.FullDelta.Actions.Count(), matchedProperties + 1 + unmatchedOriginalProperties + relevantDescendants);
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Where(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value == oElement.GtID()).ToList()[0]
+                    .Attribute("eLb").Value == oElement.Label());
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value ==
+                        oFullElement.Elements().Single(e => e.Label() == oLocalNameLabel).GtID())
+                    .Attribute("eLb").Value == oLocalNameLabel);
+
+                // Update
+                var mFullElement1 = converter.Visit(nodeRevisionPair.Modified);
+                converter.SetGumTreefiedIDs(mFullElement1, ref mId);
+                converter.SetRoslynMLIDs(mFullElement1, ref mId);
+
+                if (mFullElement1.Elements().Any(e => e.Label() == mLocalNameLabel))
+                    mFullElement1.Elements().Single(e => e.Label() == mLocalNameLabel).Value = "v0";
+
+                expander.Expand(
+                    new RevisionPair<XElement> { Original = oElement, Modified = mElement },
+                    new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement1 },
+                    (Matches: new XElement[]
+                    {
+                        new XElement("Match",
+                            new XAttribute("oId", oElement.GtID()),
+                            new XAttribute("oLb", oElement.Label()),
+                            new XAttribute("mId", mElement.GtID()),
+                            new XAttribute("mLb", mElement.Label()))
+                    },
+                    Actions: new XElement[0]));
+
+                Assert.AreEqual(expander.FullDelta.Matches.Count(), matchedProperties + 1 + relevantDescendants);
+                Assert.AreEqual(expander.FullDelta.Actions.Count(), matchedProperties + unmatchedOriginalProperties + unmatchedModifiedProperties);
+
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value == oElement.GtID())
+                    .Attribute("mId").Value == mElement.GtID());
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oLb").Value == oExpectedLabel)
+                    .Attribute("mLb").Value == mExpectedLabel);
+
+                Assert.IsTrue(expander.FullDelta.Matches.Where(m => m.Attribute("oLb").Value == oLocalNameLabel).ToList()[0]
+                    .Attribute("mLb").Value == mLocalNameLabel);
+                Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value ==
+                    oFullElement.Elements().Single(e => e.Label() == oLocalNameLabel).GtID())
+                    .Attribute("mId").Value ==
+                    mFullElement.Elements().Single(e => e.Label() == mLocalNameLabel).GtID());
+                Assert.IsTrue(expander.FullDelta.Actions
+                        .Single(a => a.Name.LocalName == "Update" && a.Attribute("eLb").Value == oLocalNameLabel)
+                        .Attribute("val").Value == "v0");
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Update" && a.Attribute("eId").Value ==
+                        oFullElement.Elements().Single(e => e.Label() == oLocalNameLabel).GtID())
+                    .Attribute("val").Value == "v0");
+
+                // Update
+                expander.Expand(
+                    new RevisionPair<XElement> { Original = oElement, Modified = mElement },
+                    new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement },
+                    (Matches: new XElement[0],
+                    Actions: new XElement[]
+                    {
+                        new XElement("Update",
+                            new XAttribute("eId", oFullElement.GtID()),
+                            new XAttribute("eLb", oFullElement.Attribute("kind")?.Value ?? oFullElement.Name.LocalName),
+                            new XAttribute("eVl", mFullElement.GtID()),
+                            new XAttribute("val", "t#v"))
+                    }));
+                Assert.AreEqual(expander.FullDelta.Matches.Count(), 0);
+                Assert.AreEqual(expander.FullDelta.Actions.Count(), 1);
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                        .Single(a => a.Name.LocalName == "Update" && a.Attribute("eLb").Value == oExpectedLabel)
+                        .Attribute("val").Value == "t#v");
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Update" && a.Attribute("eId").Value == oFullElement.GtID())
+                    .Attribute("val").Value == "t#v");
+
+                // Move
+                expander.Expand(
+                    new RevisionPair<XElement> { Original = oElement, Modified = mElement },
+                    new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement },
+                    (Matches: new XElement[0],
+                     Actions: new XElement[]
+                     {
+                         new XElement("Move",
+                             new XAttribute("eId", oElement.GtID()),
+                             new XAttribute("eLb", oElement.Label()),
+                             new XAttribute("pId", mFullElement.GtID()),
+                             new XAttribute("pLb", mFullElement.Label()),
+                             new XAttribute("pos", "-1"))
+                     }));
+                Assert.AreEqual(expander.FullDelta.Matches.Count(), 0);
+                Assert.AreEqual(expander.FullDelta.Actions.Count(), 1);
+
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Move" && a.Attribute("eId").Value == oElement.GtID())
+                    .Attribute("pId").Value == mFullElement.GtID());
+                Assert.IsTrue(expander.FullDelta.Actions
+                    .Single(a => a.Name.LocalName == "Move" && a.Attribute("eLb").Value == oExpectedLabel)
+                    .Attribute("pLb").Value == mExpectedLabel);
+            }
+        }
+
+        public void XmlNameServiceProvider_RoslynMLDeltaExpanderReplaceUpdate_OK()
+        {
+            var converter = new CDF.CSharp.RoslynML.RoslynML();
+            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
+            int id = 0;
+
+            IEnumerable<(XmlNameSyntax, XmlNameSyntax)> nodeRevisionPairs = null;
+            string oExpectedLabel = null, mExpectedLabel = null;
+            XmlNameServiceProvider_RoslynMLDeltaExpander_DataToTest(ref nodeRevisionPairs);
+            foreach (((XmlNameSyntax Original, XmlNameSyntax Modified) nodeRevisionPair, Action<RoslynML, XElement> defoliate) in nodeRevisionPairs
+                .SelectMany(n => new List<((XmlNameSyntax, XmlNameSyntax), Action<RoslynML, XElement>)>
+                    { (n, (r, n1) => { }), (n, (r, n1) => r.Defoliate(n1)) }))
+            {
+                id = 0;
+                oExpectedLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Original.Kind());
+                mExpectedLabel = Enum.GetName(typeof(SyntaxKind), nodeRevisionPair.Modified.Kind());
+
+                var oElement = converter.Visit(nodeRevisionPair.Original);
+                converter.SetGumTreefiedIDs(oElement, ref id);
+                converter.SetRoslynMLIDs(oElement, ref id);
+                converter.Prune(oElement, selector.PruneSelector);
+                defoliate(converter, oElement);
+
+                var mId = id;
+
+                var mElement = converter.Visit(nodeRevisionPair.Modified);
+                converter.SetGumTreefiedIDs(mElement, ref id);
+                converter.SetRoslynMLIDs(mElement, ref id);
+                converter.Prune(mElement, selector.PruneSelector);
+                defoliate(converter, mElement);
+
+                id = 0;
+                var oFullElement = converter.Visit(nodeRevisionPair.Original);
+                converter.SetGumTreefiedIDs(oFullElement, ref id);
+                converter.SetRoslynMLIDs(oFullElement, ref id);
+
+                var mFullElement = converter.Visit(nodeRevisionPair.Modified);
+                converter.SetGumTreefiedIDs(mFullElement, ref id);
+                converter.SetRoslynMLIDs(mFullElement, ref id);
+
+                var totalProperties = 1;
+                var matchedProperties = totalProperties;
+                var unmatchedOriginalProperties = 0;
+                var unmatchedModifiedProperties = 0;
+                var relevantDescendants = oFullElement.Elements().Single(e => e.Attribute("part").Value == "Prefix")
+                    .PreOrder(n => n.Elements().Where(ne => ne is XNode))
+                    .Where(ne => ne.Attribute("GtID")?.Value != null)
+                    .Count();
+
+                DeltaExpander expander = new DeltaExpander();
+                if (mElement.Elements().Count(n => n is XNode) == 0)
+                {
+                    mFullElement.Elements()
+                        .Single(n => n.Attribute("part").Value == "Identifier").Elements()
+                        .Single(n => n.Attribute("part").Value == "Identifier")
+                        .Value = "v4";
+
+                    expander.Expand(
+                    new RevisionPair<XElement> { Original = oElement, Modified = mElement },
+                    new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement },
+                    (Matches: new XElement[]
+                    {
+                        new XElement("Match",
+                            new XAttribute("oId", oElement.GtID()),
+                            new XAttribute("oLb", oElement.Label()),
+                            new XAttribute("mId", mElement.GtID()),
+                            new XAttribute("mLb", mElement.Label()))
+                    },
+                    Actions: new XElement[]
+                    {
+                        new XElement("Update",
+                            new XAttribute("eId", oElement.GtID()),
+                            new XAttribute("eLb", oElement.Attribute("kind")?.Value ?? oElement.Name.LocalName),
+                            new XAttribute("eVl", mElement.GtID()),
+                            new XAttribute("val", "t#v"))
+                    }));
+                    Assert.AreEqual(expander.FullDelta.Matches.Count(), matchedProperties + 1 + 1 + relevantDescendants);
+                    Assert.AreEqual(expander.FullDelta.Actions.Count(), 1);
+
+                    Assert.IsTrue(expander.FullDelta.Actions
+                            .Single(a => a.Name.LocalName == "Update" && a.Attribute("eLb").Value == "IdentifierToken")
+                            .Attribute("val").Value == "v4");
+                }
+
+            }
+        }
+
+        partial void ParenthesizedExpressionServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(ParenthesizedExpressionSyntax, ParenthesizedExpressionSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -2344,7 +2726,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void PrefixUnaryExpressionServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(PrefixUnaryExpressionSyntax, PrefixUnaryExpressionSyntax)> nodeRevisionPairs)
+        partial void PrefixUnaryExpressionServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(PrefixUnaryExpressionSyntax, PrefixUnaryExpressionSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -2352,7 +2734,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void AwaitExpressionServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(AwaitExpressionSyntax, AwaitExpressionSyntax)> nodeRevisionPairs)
+        partial void AwaitExpressionServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(AwaitExpressionSyntax, AwaitExpressionSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -2360,7 +2742,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void PostfixUnaryExpressionServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(PostfixUnaryExpressionSyntax, PostfixUnaryExpressionSyntax)> nodeRevisionPairs)
+        partial void PostfixUnaryExpressionServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(PostfixUnaryExpressionSyntax, PostfixUnaryExpressionSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -2368,7 +2750,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void MemberAccessExpressionServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(MemberAccessExpressionSyntax, MemberAccessExpressionSyntax)> nodeRevisionPairs)
+        partial void MemberAccessExpressionServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(MemberAccessExpressionSyntax, MemberAccessExpressionSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -2376,7 +2758,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void ConditionalAccessExpressionServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(ConditionalAccessExpressionSyntax, ConditionalAccessExpressionSyntax)> nodeRevisionPairs)
+        partial void ConditionalAccessExpressionServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(ConditionalAccessExpressionSyntax, ConditionalAccessExpressionSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -2384,7 +2766,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void MemberBindingExpressionServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(MemberBindingExpressionSyntax, MemberBindingExpressionSyntax)> nodeRevisionPairs)
+        partial void MemberBindingExpressionServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(MemberBindingExpressionSyntax, MemberBindingExpressionSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -2393,7 +2775,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void ElementBindingExpressionServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(ElementBindingExpressionSyntax, ElementBindingExpressionSyntax)> nodeRevisionPairs)
+        partial void ElementBindingExpressionServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(ElementBindingExpressionSyntax, ElementBindingExpressionSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -2402,7 +2784,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void ImplicitElementAccessServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(ImplicitElementAccessSyntax, ImplicitElementAccessSyntax)> nodeRevisionPairs)
+        partial void ImplicitElementAccessServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(ImplicitElementAccessSyntax, ImplicitElementAccessSyntax)> nodeRevisionPairs)
         {
             Func<string, ImplicitElementAccessSyntax> getElementBinding = delegate (string s)
             {
@@ -2418,7 +2800,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void BinaryExpressionServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(BinaryExpressionSyntax, BinaryExpressionSyntax)> nodeRevisionPairs)
+        partial void BinaryExpressionServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(BinaryExpressionSyntax, BinaryExpressionSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -2427,7 +2809,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void AssignmentExpressionServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(AssignmentExpressionSyntax, AssignmentExpressionSyntax)> nodeRevisionPairs)
+        partial void AssignmentExpressionServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(AssignmentExpressionSyntax, AssignmentExpressionSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -2436,7 +2818,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void ConditionalExpressionServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(ConditionalExpressionSyntax, ConditionalExpressionSyntax)> nodeRevisionPairs)
+        partial void ConditionalExpressionServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(ConditionalExpressionSyntax, ConditionalExpressionSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -2445,7 +2827,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void ThisExpressionServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(ThisExpressionSyntax, ThisExpressionSyntax)> nodeRevisionPairs)
+        partial void ThisExpressionServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(ThisExpressionSyntax, ThisExpressionSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -2454,7 +2836,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void BaseExpressionServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(BaseExpressionSyntax, BaseExpressionSyntax)> nodeRevisionPairs)
+        partial void BaseExpressionServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(BaseExpressionSyntax, BaseExpressionSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -2463,7 +2845,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void LiteralExpressionServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(LiteralExpressionSyntax, LiteralExpressionSyntax)> nodeRevisionPairs)
+        partial void LiteralExpressionServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(LiteralExpressionSyntax, LiteralExpressionSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -2472,7 +2854,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void MakeRefExpressionServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(MakeRefExpressionSyntax, MakeRefExpressionSyntax)> nodeRevisionPairs)
+        partial void MakeRefExpressionServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(MakeRefExpressionSyntax, MakeRefExpressionSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -2481,7 +2863,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void RefTypeExpressionServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(RefTypeExpressionSyntax, RefTypeExpressionSyntax)> nodeRevisionPairs)
+        partial void RefTypeExpressionServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(RefTypeExpressionSyntax, RefTypeExpressionSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -2490,7 +2872,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void RefValueExpressionServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(RefValueExpressionSyntax, RefValueExpressionSyntax)> nodeRevisionPairs)
+        partial void RefValueExpressionServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(RefValueExpressionSyntax, RefValueExpressionSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -2499,7 +2881,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void CheckedExpressionServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(CheckedExpressionSyntax, CheckedExpressionSyntax)> nodeRevisionPairs)
+        partial void CheckedExpressionServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(CheckedExpressionSyntax, CheckedExpressionSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -2510,7 +2892,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void DefaultExpressionServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(DefaultExpressionSyntax, DefaultExpressionSyntax)> nodeRevisionPairs)
+        partial void DefaultExpressionServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(DefaultExpressionSyntax, DefaultExpressionSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -2519,7 +2901,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void TypeOfExpressionServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(TypeOfExpressionSyntax, TypeOfExpressionSyntax)> nodeRevisionPairs)
+        partial void TypeOfExpressionServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(TypeOfExpressionSyntax, TypeOfExpressionSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -2528,7 +2910,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void SizeOfExpressionServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(SizeOfExpressionSyntax, SizeOfExpressionSyntax)> nodeRevisionPairs)
+        partial void SizeOfExpressionServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(SizeOfExpressionSyntax, SizeOfExpressionSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -2537,7 +2919,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void InvocationExpressionServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(InvocationExpressionSyntax, InvocationExpressionSyntax)> nodeRevisionPairs)
+        partial void InvocationExpressionServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(InvocationExpressionSyntax, InvocationExpressionSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -2546,7 +2928,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void ElementAccessExpressionServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(ElementAccessExpressionSyntax, ElementAccessExpressionSyntax)> nodeRevisionPairs)
+        partial void ElementAccessExpressionServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(ElementAccessExpressionSyntax, ElementAccessExpressionSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -2555,7 +2937,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void CastExpressionServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(CastExpressionSyntax, CastExpressionSyntax)> nodeRevisionPairs)
+        partial void CastExpressionServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(CastExpressionSyntax, CastExpressionSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -2564,7 +2946,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void AnonymousMethodExpressionServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(AnonymousMethodExpressionSyntax, AnonymousMethodExpressionSyntax)> nodeRevisionPairs)
+        partial void AnonymousMethodExpressionServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(AnonymousMethodExpressionSyntax, AnonymousMethodExpressionSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -2579,7 +2961,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void SimpleLambdaExpressionServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(SimpleLambdaExpressionSyntax, SimpleLambdaExpressionSyntax)> nodeRevisionPairs)
+        partial void SimpleLambdaExpressionServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(SimpleLambdaExpressionSyntax, SimpleLambdaExpressionSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -2594,7 +2976,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void ParenthesizedLambdaExpressionServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(ParenthesizedLambdaExpressionSyntax, ParenthesizedLambdaExpressionSyntax)> nodeRevisionPairs)
+        partial void ParenthesizedLambdaExpressionServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(ParenthesizedLambdaExpressionSyntax, ParenthesizedLambdaExpressionSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -2609,7 +2991,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void InitializerExpressionServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(InitializerExpressionSyntax, InitializerExpressionSyntax)> nodeRevisionPairs)
+        partial void InitializerExpressionServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(InitializerExpressionSyntax, InitializerExpressionSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -2624,7 +3006,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void ObjectCreationExpressionServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(ObjectCreationExpressionSyntax, ObjectCreationExpressionSyntax)> nodeRevisionPairs)
+        partial void ObjectCreationExpressionServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(ObjectCreationExpressionSyntax, ObjectCreationExpressionSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -2639,7 +3021,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void AnonymousObjectCreationExpressionServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(AnonymousObjectCreationExpressionSyntax, AnonymousObjectCreationExpressionSyntax)> nodeRevisionPairs)
+        partial void AnonymousObjectCreationExpressionServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(AnonymousObjectCreationExpressionSyntax, AnonymousObjectCreationExpressionSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -2648,7 +3030,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void ArrayCreationExpressionServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(ArrayCreationExpressionSyntax, ArrayCreationExpressionSyntax)> nodeRevisionPairs)
+        partial void ArrayCreationExpressionServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(ArrayCreationExpressionSyntax, ArrayCreationExpressionSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -2657,7 +3039,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void ImplicitArrayCreationExpressionServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(ImplicitArrayCreationExpressionSyntax, ImplicitArrayCreationExpressionSyntax)> nodeRevisionPairs)
+        partial void ImplicitArrayCreationExpressionServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(ImplicitArrayCreationExpressionSyntax, ImplicitArrayCreationExpressionSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -2666,7 +3048,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void StackAllocArrayCreationExpressionServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(StackAllocArrayCreationExpressionSyntax, StackAllocArrayCreationExpressionSyntax)> nodeRevisionPairs)
+        partial void StackAllocArrayCreationExpressionServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(StackAllocArrayCreationExpressionSyntax, StackAllocArrayCreationExpressionSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -2675,7 +3057,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void QueryExpressionServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(QueryExpressionSyntax, QueryExpressionSyntax)> nodeRevisionPairs)
+        partial void QueryExpressionServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(QueryExpressionSyntax, QueryExpressionSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -2684,7 +3066,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void InterpolatedStringExpressionServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(InterpolatedStringExpressionSyntax, InterpolatedStringExpressionSyntax)> nodeRevisionPairs)
+        partial void InterpolatedStringExpressionServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(InterpolatedStringExpressionSyntax, InterpolatedStringExpressionSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -2693,7 +3075,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void InterpolatedStringTextServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(InterpolatedStringTextSyntax, InterpolatedStringTextSyntax)> nodeRevisionPairs)
+        partial void InterpolatedStringTextServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(InterpolatedStringTextSyntax, InterpolatedStringTextSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -2702,7 +3084,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void InterpolationServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(InterpolationSyntax, InterpolationSyntax)> nodeRevisionPairs)
+        partial void InterpolationServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(InterpolationSyntax, InterpolationSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -2717,7 +3099,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void InterpolationAlignmentClauseServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(InterpolationAlignmentClauseSyntax, InterpolationAlignmentClauseSyntax)> nodeRevisionPairs)
+        partial void InterpolationAlignmentClauseServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(InterpolationAlignmentClauseSyntax, InterpolationAlignmentClauseSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -2726,7 +3108,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void InterpolationFormatClauseServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(InterpolationFormatClauseSyntax, InterpolationFormatClauseSyntax)> nodeRevisionPairs)
+        partial void InterpolationFormatClauseServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(InterpolationFormatClauseSyntax, InterpolationFormatClauseSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -2735,7 +3117,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void ArgumentListServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(ArgumentListSyntax, ArgumentListSyntax)> nodeRevisionPairs)
+        partial void ArgumentListServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(ArgumentListSyntax, ArgumentListSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -2744,7 +3126,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void BracketedArgumentListServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(BracketedArgumentListSyntax, BracketedArgumentListSyntax)> nodeRevisionPairs)
+        partial void BracketedArgumentListServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(BracketedArgumentListSyntax, BracketedArgumentListSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -2753,7 +3135,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void ArgumentServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(ArgumentSyntax, ArgumentSyntax)> nodeRevisionPairs)
+        partial void ArgumentServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(ArgumentSyntax, ArgumentSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -2768,7 +3150,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void NameColonServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(NameColonSyntax, NameColonSyntax)> nodeRevisionPairs)
+        partial void NameColonServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(NameColonSyntax, NameColonSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -2777,7 +3159,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void NameEqualsServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(NameEqualsSyntax, NameEqualsSyntax)> nodeRevisionPairs)
+        partial void NameEqualsServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(NameEqualsSyntax, NameEqualsSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -2786,7 +3168,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void AnonymousObjectMemberDeclaratorServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(AnonymousObjectMemberDeclaratorSyntax, AnonymousObjectMemberDeclaratorSyntax)> nodeRevisionPairs)
+        partial void AnonymousObjectMemberDeclaratorServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(AnonymousObjectMemberDeclaratorSyntax, AnonymousObjectMemberDeclaratorSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -2795,7 +3177,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void QueryBodyServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(QueryBodySyntax, QueryBodySyntax)> nodeRevisionPairs)
+        partial void QueryBodyServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(QueryBodySyntax, QueryBodySyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -2810,7 +3192,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void FromClauseServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(FromClauseSyntax, FromClauseSyntax)> nodeRevisionPairs)
+        partial void FromClauseServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(FromClauseSyntax, FromClauseSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -2825,7 +3207,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void LetClauseServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(LetClauseSyntax, LetClauseSyntax)> nodeRevisionPairs)
+        partial void LetClauseServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(LetClauseSyntax, LetClauseSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -2834,7 +3216,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void JoinClauseServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(JoinClauseSyntax, JoinClauseSyntax)> nodeRevisionPairs)
+        partial void JoinClauseServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(JoinClauseSyntax, JoinClauseSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -2849,7 +3231,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void JoinIntoClauseServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(JoinIntoClauseSyntax, JoinIntoClauseSyntax)> nodeRevisionPairs)
+        partial void JoinIntoClauseServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(JoinIntoClauseSyntax, JoinIntoClauseSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -2858,7 +3240,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void WhereClauseServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(WhereClauseSyntax, WhereClauseSyntax)> nodeRevisionPairs)
+        partial void WhereClauseServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(WhereClauseSyntax, WhereClauseSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -2867,7 +3249,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void OrderByClauseServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(OrderByClauseSyntax, OrderByClauseSyntax)> nodeRevisionPairs)
+        partial void OrderByClauseServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(OrderByClauseSyntax, OrderByClauseSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -2876,7 +3258,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void OrderingServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(OrderingSyntax, OrderingSyntax)> nodeRevisionPairs)
+        partial void OrderingServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(OrderingSyntax, OrderingSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -2891,7 +3273,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void SelectClauseServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(SelectClauseSyntax, SelectClauseSyntax)> nodeRevisionPairs)
+        partial void SelectClauseServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(SelectClauseSyntax, SelectClauseSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -2900,7 +3282,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void GroupClauseServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(GroupClauseSyntax, GroupClauseSyntax)> nodeRevisionPairs)
+        partial void GroupClauseServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(GroupClauseSyntax, GroupClauseSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -2909,7 +3291,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void QueryContinuationServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(QueryContinuationSyntax, QueryContinuationSyntax)> nodeRevisionPairs)
+        partial void QueryContinuationServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(QueryContinuationSyntax, QueryContinuationSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -2918,7 +3300,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void PredefinedTypeServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(PredefinedTypeSyntax, PredefinedTypeSyntax)> nodeRevisionPairs)
+        partial void PredefinedTypeServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(PredefinedTypeSyntax, PredefinedTypeSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -2927,7 +3309,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void ArrayTypeServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(ArrayTypeSyntax, ArrayTypeSyntax)> nodeRevisionPairs)
+        partial void ArrayTypeServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(ArrayTypeSyntax, ArrayTypeSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -2942,7 +3324,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void PointerTypeServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(PointerTypeSyntax, PointerTypeSyntax)> nodeRevisionPairs)
+        partial void PointerTypeServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(PointerTypeSyntax, PointerTypeSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -2951,7 +3333,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void NullableTypeServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(NullableTypeSyntax, NullableTypeSyntax)> nodeRevisionPairs)
+        partial void NullableTypeServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(NullableTypeSyntax, NullableTypeSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -2960,7 +3342,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void OmittedTypeArgumentServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(OmittedTypeArgumentSyntax, OmittedTypeArgumentSyntax)> nodeRevisionPairs)
+        partial void OmittedTypeArgumentServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(OmittedTypeArgumentSyntax, OmittedTypeArgumentSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -2969,7 +3351,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void QualifiedNameServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(QualifiedNameSyntax, QualifiedNameSyntax)> nodeRevisionPairs)
+        partial void QualifiedNameServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(QualifiedNameSyntax, QualifiedNameSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -2978,7 +3360,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void AliasQualifiedNameServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(AliasQualifiedNameSyntax, AliasQualifiedNameSyntax)> nodeRevisionPairs)
+        partial void AliasQualifiedNameServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(AliasQualifiedNameSyntax, AliasQualifiedNameSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -2987,7 +3369,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void IdentifierNameServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(IdentifierNameSyntax, IdentifierNameSyntax)> nodeRevisionPairs)
+        partial void IdentifierNameServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(IdentifierNameSyntax, IdentifierNameSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -2996,7 +3378,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void GenericNameServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(GenericNameSyntax, GenericNameSyntax)> nodeRevisionPairs)
+        partial void GenericNameServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(GenericNameSyntax, GenericNameSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3005,7 +3387,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void TypeArgumentListServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(TypeArgumentListSyntax, TypeArgumentListSyntax)> nodeRevisionPairs)
+        partial void TypeArgumentListServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(TypeArgumentListSyntax, TypeArgumentListSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3014,7 +3396,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void ArrayRankSpecifierServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(ArrayRankSpecifierSyntax, ArrayRankSpecifierSyntax)> nodeRevisionPairs)
+        partial void ArrayRankSpecifierServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(ArrayRankSpecifierSyntax, ArrayRankSpecifierSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3029,7 +3411,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void OmittedArraySizeExpressionServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(OmittedArraySizeExpressionSyntax, OmittedArraySizeExpressionSyntax)> nodeRevisionPairs)
+        partial void OmittedArraySizeExpressionServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(OmittedArraySizeExpressionSyntax, OmittedArraySizeExpressionSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3038,7 +3420,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void BlockServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(BlockSyntax, BlockSyntax)> nodeRevisionPairs)
+        partial void BlockServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(BlockSyntax, BlockSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3047,7 +3429,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void LocalDeclarationStatementServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(LocalDeclarationStatementSyntax, LocalDeclarationStatementSyntax)> nodeRevisionPairs)
+        partial void LocalDeclarationStatementServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(LocalDeclarationStatementSyntax, LocalDeclarationStatementSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3062,7 +3444,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void ExpressionStatementServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(ExpressionStatementSyntax, ExpressionStatementSyntax)> nodeRevisionPairs)
+        partial void ExpressionStatementServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(ExpressionStatementSyntax, ExpressionStatementSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3071,7 +3453,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void EmptyStatementServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(EmptyStatementSyntax, EmptyStatementSyntax)> nodeRevisionPairs)
+        partial void EmptyStatementServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(EmptyStatementSyntax, EmptyStatementSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3080,7 +3462,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void LabeledStatementServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(LabeledStatementSyntax, LabeledStatementSyntax)> nodeRevisionPairs)
+        partial void LabeledStatementServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(LabeledStatementSyntax, LabeledStatementSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3089,7 +3471,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void GotoStatementServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(GotoStatementSyntax, GotoStatementSyntax)> nodeRevisionPairs)
+        partial void GotoStatementServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(GotoStatementSyntax, GotoStatementSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3112,7 +3494,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void BreakStatementServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(BreakStatementSyntax, BreakStatementSyntax)> nodeRevisionPairs)
+        partial void BreakStatementServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(BreakStatementSyntax, BreakStatementSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3121,7 +3503,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void ContinueStatementServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(ContinueStatementSyntax, ContinueStatementSyntax)> nodeRevisionPairs)
+        partial void ContinueStatementServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(ContinueStatementSyntax, ContinueStatementSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3130,7 +3512,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void ReturnStatementServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(ReturnStatementSyntax, ReturnStatementSyntax)> nodeRevisionPairs)
+        partial void ReturnStatementServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(ReturnStatementSyntax, ReturnStatementSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3139,7 +3521,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void ThrowStatementServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(ThrowStatementSyntax, ThrowStatementSyntax)> nodeRevisionPairs)
+        partial void ThrowStatementServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(ThrowStatementSyntax, ThrowStatementSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3148,7 +3530,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void YieldStatementServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(YieldStatementSyntax, YieldStatementSyntax)> nodeRevisionPairs)
+        partial void YieldStatementServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(YieldStatementSyntax, YieldStatementSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3159,7 +3541,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void WhileStatementServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(WhileStatementSyntax, WhileStatementSyntax)> nodeRevisionPairs)
+        partial void WhileStatementServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(WhileStatementSyntax, WhileStatementSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3168,7 +3550,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void DoStatementServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(DoStatementSyntax, DoStatementSyntax)> nodeRevisionPairs)
+        partial void DoStatementServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(DoStatementSyntax, DoStatementSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3177,7 +3559,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void ForStatementServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(ForStatementSyntax, ForStatementSyntax)> nodeRevisionPairs)
+        partial void ForStatementServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(ForStatementSyntax, ForStatementSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3198,7 +3580,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void ForEachStatementServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(ForEachStatementSyntax, ForEachStatementSyntax)> nodeRevisionPairs)
+        partial void ForEachStatementServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(ForEachStatementSyntax, ForEachStatementSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3207,7 +3589,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void UsingStatementServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(UsingStatementSyntax, UsingStatementSyntax)> nodeRevisionPairs)
+        partial void UsingStatementServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(UsingStatementSyntax, UsingStatementSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3222,7 +3604,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void FixedStatementServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(FixedStatementSyntax, FixedStatementSyntax)> nodeRevisionPairs)
+        partial void FixedStatementServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(FixedStatementSyntax, FixedStatementSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3231,7 +3613,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void CheckedStatementServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(CheckedStatementSyntax, CheckedStatementSyntax)> nodeRevisionPairs)
+        partial void CheckedStatementServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(CheckedStatementSyntax, CheckedStatementSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3240,7 +3622,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void UnsafeStatementServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(UnsafeStatementSyntax, UnsafeStatementSyntax)> nodeRevisionPairs)
+        partial void UnsafeStatementServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(UnsafeStatementSyntax, UnsafeStatementSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3249,7 +3631,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void LockStatementServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(LockStatementSyntax, LockStatementSyntax)> nodeRevisionPairs)
+        partial void LockStatementServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(LockStatementSyntax, LockStatementSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3258,7 +3640,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void IfStatementServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(IfStatementSyntax, IfStatementSyntax)> nodeRevisionPairs)
+        partial void IfStatementServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(IfStatementSyntax, IfStatementSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3267,7 +3649,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void SwitchStatementServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(SwitchStatementSyntax, SwitchStatementSyntax)> nodeRevisionPairs)
+        partial void SwitchStatementServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(SwitchStatementSyntax, SwitchStatementSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3278,7 +3660,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void TryStatementServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(TryStatementSyntax, TryStatementSyntax)> nodeRevisionPairs)
+        partial void TryStatementServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(TryStatementSyntax, TryStatementSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3300,7 +3682,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void VariableDeclarationServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(VariableDeclarationSyntax, VariableDeclarationSyntax)> nodeRevisionPairs)
+        partial void VariableDeclarationServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(VariableDeclarationSyntax, VariableDeclarationSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3309,7 +3691,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void VariableDeclaratorServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(VariableDeclaratorSyntax, VariableDeclaratorSyntax)> nodeRevisionPairs)
+        partial void VariableDeclaratorServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(VariableDeclaratorSyntax, VariableDeclaratorSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3324,7 +3706,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void EqualsValueClauseServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(EqualsValueClauseSyntax, EqualsValueClauseSyntax)> nodeRevisionPairs)
+        partial void EqualsValueClauseServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(EqualsValueClauseSyntax, EqualsValueClauseSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3333,7 +3715,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void ElseClauseServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(ElseClauseSyntax, ElseClauseSyntax)> nodeRevisionPairs)
+        partial void ElseClauseServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(ElseClauseSyntax, ElseClauseSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3342,7 +3724,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void SwitchSectionServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(SwitchSectionSyntax, SwitchSectionSyntax)> nodeRevisionPairs)
+        partial void SwitchSectionServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(SwitchSectionSyntax, SwitchSectionSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3351,7 +3733,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void CaseSwitchLabelServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(CaseSwitchLabelSyntax, CaseSwitchLabelSyntax)> nodeRevisionPairs)
+        partial void CaseSwitchLabelServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(CaseSwitchLabelSyntax, CaseSwitchLabelSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3360,7 +3742,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void DefaultSwitchLabelServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(DefaultSwitchLabelSyntax, DefaultSwitchLabelSyntax)> nodeRevisionPairs)
+        partial void DefaultSwitchLabelServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(DefaultSwitchLabelSyntax, DefaultSwitchLabelSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3369,7 +3751,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void CatchClauseServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(CatchClauseSyntax, CatchClauseSyntax)> nodeRevisionPairs)
+        partial void CatchClauseServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(CatchClauseSyntax, CatchClauseSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3390,7 +3772,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void CatchDeclarationServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(CatchDeclarationSyntax, CatchDeclarationSyntax)> nodeRevisionPairs)
+        partial void CatchDeclarationServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(CatchDeclarationSyntax, CatchDeclarationSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3405,7 +3787,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void CatchFilterClauseServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(CatchFilterClauseSyntax, CatchFilterClauseSyntax)> nodeRevisionPairs)
+        partial void CatchFilterClauseServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(CatchFilterClauseSyntax, CatchFilterClauseSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3414,7 +3796,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void FinallyClauseServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(FinallyClauseSyntax, FinallyClauseSyntax)> nodeRevisionPairs)
+        partial void FinallyClauseServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(FinallyClauseSyntax, FinallyClauseSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3423,7 +3805,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void IncompleteMemberServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(IncompleteMemberSyntax, IncompleteMemberSyntax)> nodeRevisionPairs)
+        partial void IncompleteMemberServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(IncompleteMemberSyntax, IncompleteMemberSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3444,7 +3826,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void GlobalStatementServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(GlobalStatementSyntax, GlobalStatementSyntax)> nodeRevisionPairs)
+        partial void GlobalStatementServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(GlobalStatementSyntax, GlobalStatementSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3453,7 +3835,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void DelegateDeclarationServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(DelegateDeclarationSyntax, DelegateDeclarationSyntax)> nodeRevisionPairs)
+        partial void DelegateDeclarationServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(DelegateDeclarationSyntax, DelegateDeclarationSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3462,7 +3844,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void EnumDeclarationServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(EnumDeclarationSyntax, EnumDeclarationSyntax)> nodeRevisionPairs)
+        partial void EnumDeclarationServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(EnumDeclarationSyntax, EnumDeclarationSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3477,7 +3859,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void ClassDeclarationServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(ClassDeclarationSyntax, ClassDeclarationSyntax)> nodeRevisionPairs)
+        partial void ClassDeclarationServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(ClassDeclarationSyntax, ClassDeclarationSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3492,7 +3874,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void StructDeclarationServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(StructDeclarationSyntax, StructDeclarationSyntax)> nodeRevisionPairs)
+        partial void StructDeclarationServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(StructDeclarationSyntax, StructDeclarationSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3507,7 +3889,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void InterfaceDeclarationServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(InterfaceDeclarationSyntax, InterfaceDeclarationSyntax)> nodeRevisionPairs)
+        partial void InterfaceDeclarationServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(InterfaceDeclarationSyntax, InterfaceDeclarationSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3522,7 +3904,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void EnumMemberDeclarationServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(EnumMemberDeclarationSyntax, EnumMemberDeclarationSyntax)> nodeRevisionPairs)
+        partial void EnumMemberDeclarationServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(EnumMemberDeclarationSyntax, EnumMemberDeclarationSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3531,7 +3913,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void TypeParameterListServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(TypeParameterListSyntax, TypeParameterListSyntax)> nodeRevisionPairs)
+        partial void TypeParameterListServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(TypeParameterListSyntax, TypeParameterListSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3540,7 +3922,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void TypeParameterServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(TypeParameterSyntax, TypeParameterSyntax)> nodeRevisionPairs)
+        partial void TypeParameterServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(TypeParameterSyntax, TypeParameterSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3555,7 +3937,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void TypeParameterConstraintClauseServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(TypeParameterConstraintClauseSyntax, TypeParameterConstraintClauseSyntax)> nodeRevisionPairs)
+        partial void TypeParameterConstraintClauseServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(TypeParameterConstraintClauseSyntax, TypeParameterConstraintClauseSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3564,7 +3946,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void TypeConstraintServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(
+        partial void TypeConstraintServiceProvider_RoslynMLDeltaExpander_DataToTest(
             ref IEnumerable<(TypeConstraintSyntax, TypeConstraintSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
@@ -3574,7 +3956,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void ConstructorConstraintServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(
+        partial void ConstructorConstraintServiceProvider_RoslynMLDeltaExpander_DataToTest(
             ref IEnumerable<(ConstructorConstraintSyntax, ConstructorConstraintSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
@@ -3584,7 +3966,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void ClassOrStructConstraintServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(ClassOrStructConstraintSyntax, ClassOrStructConstraintSyntax)> nodeRevisionPairs)
+        partial void ClassOrStructConstraintServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(ClassOrStructConstraintSyntax, ClassOrStructConstraintSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3593,7 +3975,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void BaseListServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(BaseListSyntax, BaseListSyntax)> nodeRevisionPairs)
+        partial void BaseListServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(BaseListSyntax, BaseListSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3602,7 +3984,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void SimpleBaseTypeServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(SimpleBaseTypeSyntax, SimpleBaseTypeSyntax)> nodeRevisionPairs)
+        partial void SimpleBaseTypeServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(SimpleBaseTypeSyntax, SimpleBaseTypeSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3611,7 +3993,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void FieldDeclarationServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(FieldDeclarationSyntax, FieldDeclarationSyntax)> nodeRevisionPairs)
+        partial void FieldDeclarationServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(FieldDeclarationSyntax, FieldDeclarationSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3620,7 +4002,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void EventFieldDeclarationServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(EventFieldDeclarationSyntax, EventFieldDeclarationSyntax)> nodeRevisionPairs)
+        partial void EventFieldDeclarationServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(EventFieldDeclarationSyntax, EventFieldDeclarationSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3629,7 +4011,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void ExplicitInterfaceSpecifierServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(ExplicitInterfaceSpecifierSyntax, ExplicitInterfaceSpecifierSyntax)> nodeRevisionPairs)
+        partial void ExplicitInterfaceSpecifierServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(ExplicitInterfaceSpecifierSyntax, ExplicitInterfaceSpecifierSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3638,7 +4020,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void MethodDeclarationServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(MethodDeclarationSyntax, MethodDeclarationSyntax)> nodeRevisionPairs)
+        partial void MethodDeclarationServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(MethodDeclarationSyntax, MethodDeclarationSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3653,7 +4035,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void OperatorDeclarationServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(OperatorDeclarationSyntax, OperatorDeclarationSyntax)> nodeRevisionPairs)
+        partial void OperatorDeclarationServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(OperatorDeclarationSyntax, OperatorDeclarationSyntax)> nodeRevisionPairs)
         {
                nodeRevisionPairs = new[]
                {
@@ -3668,7 +4050,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void ConversionOperatorDeclarationServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(ConversionOperatorDeclarationSyntax, ConversionOperatorDeclarationSyntax)> nodeRevisionPairs)
+        partial void ConversionOperatorDeclarationServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(ConversionOperatorDeclarationSyntax, ConversionOperatorDeclarationSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3683,7 +4065,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void ConstructorDeclarationServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(ConstructorDeclarationSyntax, ConstructorDeclarationSyntax)> nodeRevisionPairs)
+        partial void ConstructorDeclarationServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(ConstructorDeclarationSyntax, ConstructorDeclarationSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3704,7 +4086,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void ConstructorInitializerServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(ConstructorInitializerSyntax, ConstructorInitializerSyntax)> nodeRevisionPairs)
+        partial void ConstructorInitializerServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(ConstructorInitializerSyntax, ConstructorInitializerSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3713,7 +4095,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void DestructorDeclarationServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(DestructorDeclarationSyntax, DestructorDeclarationSyntax)> nodeRevisionPairs)
+        partial void DestructorDeclarationServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(DestructorDeclarationSyntax, DestructorDeclarationSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3734,7 +4116,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void PropertyDeclarationServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(PropertyDeclarationSyntax, PropertyDeclarationSyntax)> nodeRevisionPairs)
+        partial void PropertyDeclarationServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(PropertyDeclarationSyntax, PropertyDeclarationSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3756,7 +4138,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void ArrowExpressionClauseServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(ArrowExpressionClauseSyntax, ArrowExpressionClauseSyntax)> nodeRevisionPairs)
+        partial void ArrowExpressionClauseServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(ArrowExpressionClauseSyntax, ArrowExpressionClauseSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3765,7 +4147,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void EventDeclarationServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(EventDeclarationSyntax, EventDeclarationSyntax)> nodeRevisionPairs)
+        partial void EventDeclarationServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(EventDeclarationSyntax, EventDeclarationSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3780,7 +4162,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void IndexerDeclarationServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(IndexerDeclarationSyntax, IndexerDeclarationSyntax)> nodeRevisionPairs)
+        partial void IndexerDeclarationServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(IndexerDeclarationSyntax, IndexerDeclarationSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3802,7 +4184,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void AccessorListServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(AccessorListSyntax, AccessorListSyntax)> nodeRevisionPairs)
+        partial void AccessorListServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(AccessorListSyntax, AccessorListSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3811,7 +4193,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void AccessorDeclarationServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(AccessorDeclarationSyntax, AccessorDeclarationSyntax)> nodeRevisionPairs)
+        partial void AccessorDeclarationServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(AccessorDeclarationSyntax, AccessorDeclarationSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3833,7 +4215,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void ParameterListServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(ParameterListSyntax, ParameterListSyntax)> nodeRevisionPairs)
+        partial void ParameterListServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(ParameterListSyntax, ParameterListSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3842,7 +4224,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void BracketedParameterListServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(BracketedParameterListSyntax, BracketedParameterListSyntax)> nodeRevisionPairs)
+        partial void BracketedParameterListServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(BracketedParameterListSyntax, BracketedParameterListSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3851,7 +4233,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void ParameterServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(ParameterSyntax, ParameterSyntax)> nodeRevisionPairs)
+        partial void ParameterServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(ParameterSyntax, ParameterSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3866,7 +4248,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void SkippedTokensTriviaServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(SkippedTokensTriviaSyntax, SkippedTokensTriviaSyntax)> nodeRevisionPairs)
+        partial void SkippedTokensTriviaServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(SkippedTokensTriviaSyntax, SkippedTokensTriviaSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3875,7 +4257,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void DocumentationCommentTriviaServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(DocumentationCommentTriviaSyntax, DocumentationCommentTriviaSyntax)> nodeRevisionPairs)
+        partial void DocumentationCommentTriviaServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(DocumentationCommentTriviaSyntax, DocumentationCommentTriviaSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3896,7 +4278,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void EndIfDirectiveTriviaServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(EndIfDirectiveTriviaSyntax, EndIfDirectiveTriviaSyntax)> nodeRevisionPairs)
+        partial void EndIfDirectiveTriviaServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(EndIfDirectiveTriviaSyntax, EndIfDirectiveTriviaSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3905,7 +4287,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void RegionDirectiveTriviaServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(RegionDirectiveTriviaSyntax, RegionDirectiveTriviaSyntax)> nodeRevisionPairs)
+        partial void RegionDirectiveTriviaServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(RegionDirectiveTriviaSyntax, RegionDirectiveTriviaSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3914,7 +4296,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void EndRegionDirectiveTriviaServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(EndRegionDirectiveTriviaSyntax, EndRegionDirectiveTriviaSyntax)> nodeRevisionPairs)
+        partial void EndRegionDirectiveTriviaServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(EndRegionDirectiveTriviaSyntax, EndRegionDirectiveTriviaSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3923,7 +4305,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void ErrorDirectiveTriviaServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(ErrorDirectiveTriviaSyntax, ErrorDirectiveTriviaSyntax)> nodeRevisionPairs)
+        partial void ErrorDirectiveTriviaServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(ErrorDirectiveTriviaSyntax, ErrorDirectiveTriviaSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3932,7 +4314,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void WarningDirectiveTriviaServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(WarningDirectiveTriviaSyntax, WarningDirectiveTriviaSyntax)> nodeRevisionPairs)
+        partial void WarningDirectiveTriviaServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(WarningDirectiveTriviaSyntax, WarningDirectiveTriviaSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3941,7 +4323,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void BadDirectiveTriviaServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(BadDirectiveTriviaSyntax, BadDirectiveTriviaSyntax)> nodeRevisionPairs)
+        partial void BadDirectiveTriviaServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(BadDirectiveTriviaSyntax, BadDirectiveTriviaSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3950,7 +4332,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void DefineDirectiveTriviaServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(DefineDirectiveTriviaSyntax, DefineDirectiveTriviaSyntax)> nodeRevisionPairs)
+        partial void DefineDirectiveTriviaServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(DefineDirectiveTriviaSyntax, DefineDirectiveTriviaSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3959,7 +4341,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void UndefDirectiveTriviaServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(UndefDirectiveTriviaSyntax, UndefDirectiveTriviaSyntax)> nodeRevisionPairs)
+        partial void UndefDirectiveTriviaServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(UndefDirectiveTriviaSyntax, UndefDirectiveTriviaSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3968,7 +4350,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void LineDirectiveTriviaServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(LineDirectiveTriviaSyntax, LineDirectiveTriviaSyntax)> nodeRevisionPairs)
+        partial void LineDirectiveTriviaServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(LineDirectiveTriviaSyntax, LineDirectiveTriviaSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3977,7 +4359,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void PragmaWarningDirectiveTriviaServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(PragmaWarningDirectiveTriviaSyntax, PragmaWarningDirectiveTriviaSyntax)> nodeRevisionPairs)
+        partial void PragmaWarningDirectiveTriviaServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(PragmaWarningDirectiveTriviaSyntax, PragmaWarningDirectiveTriviaSyntax)> nodeRevisionPairs)
         {
             var separatedSyntaxList = SyntaxFactory.SeparatedList(new ExpressionSyntax[] { SyntaxFactory.IdentifierName("warning-list"), SyntaxFactory.IdentifierName("CS3021") });
             var node = SyntaxFactory.PragmaWarningDirectiveTrivia(SyntaxFactory.Token(SyntaxKind.DisableKeyword), separatedSyntaxList, true);
@@ -3987,7 +4369,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void PragmaChecksumDirectiveTriviaServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(PragmaChecksumDirectiveTriviaSyntax, PragmaChecksumDirectiveTriviaSyntax)> nodeRevisionPairs)
+        partial void PragmaChecksumDirectiveTriviaServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(PragmaChecksumDirectiveTriviaSyntax, PragmaChecksumDirectiveTriviaSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -3996,7 +4378,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void ReferenceDirectiveTriviaServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(ReferenceDirectiveTriviaSyntax, ReferenceDirectiveTriviaSyntax)> nodeRevisionPairs)
+        partial void ReferenceDirectiveTriviaServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(ReferenceDirectiveTriviaSyntax, ReferenceDirectiveTriviaSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -4005,7 +4387,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void LoadDirectiveTriviaServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(LoadDirectiveTriviaSyntax, LoadDirectiveTriviaSyntax)> nodeRevisionPairs)
+        partial void LoadDirectiveTriviaServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(LoadDirectiveTriviaSyntax, LoadDirectiveTriviaSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -4014,7 +4396,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void ShebangDirectiveTriviaServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(ShebangDirectiveTriviaSyntax, ShebangDirectiveTriviaSyntax)> nodeRevisionPairs)
+        partial void ShebangDirectiveTriviaServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(ShebangDirectiveTriviaSyntax, ShebangDirectiveTriviaSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -4023,7 +4405,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void ElseDirectiveTriviaServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(ElseDirectiveTriviaSyntax, ElseDirectiveTriviaSyntax)> nodeRevisionPairs)
+        partial void ElseDirectiveTriviaServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(ElseDirectiveTriviaSyntax, ElseDirectiveTriviaSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -4032,7 +4414,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void IfDirectiveTriviaServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(IfDirectiveTriviaSyntax, IfDirectiveTriviaSyntax)> nodeRevisionPairs)
+        partial void IfDirectiveTriviaServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(IfDirectiveTriviaSyntax, IfDirectiveTriviaSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -4041,7 +4423,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void ElifDirectiveTriviaServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(ElifDirectiveTriviaSyntax, ElifDirectiveTriviaSyntax)> nodeRevisionPairs)
+        partial void ElifDirectiveTriviaServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(ElifDirectiveTriviaSyntax, ElifDirectiveTriviaSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -4050,7 +4432,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void TypeCrefServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(TypeCrefSyntax, TypeCrefSyntax)> nodeRevisionPairs)
+        partial void TypeCrefServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(TypeCrefSyntax, TypeCrefSyntax)> nodeRevisionPairs)
         {
             var text = "namespace N { " + Environment.NewLine +
                        "    /// <summary> <see cref=\"int\"/> </summary>" + Environment.NewLine +
@@ -4064,7 +4446,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void QualifiedCrefServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(QualifiedCrefSyntax, QualifiedCrefSyntax)> nodeRevisionPairs)
+        partial void QualifiedCrefServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(QualifiedCrefSyntax, QualifiedCrefSyntax)> nodeRevisionPairs)
         {
             var text = "namespace N { " + Environment.NewLine +
                        "    /// <summary> <see cref=\"N.A\"/> </summary>" + Environment.NewLine +
@@ -4078,7 +4460,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void NameMemberCrefServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(NameMemberCrefSyntax, NameMemberCrefSyntax)> nodeRevisionPairs)
+        partial void NameMemberCrefServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(NameMemberCrefSyntax, NameMemberCrefSyntax)> nodeRevisionPairs)
         {
             var text = "namespace N { " + Environment.NewLine +
                        "    /// <summary> <see cref=\"N(int)\"/> </summary>" + Environment.NewLine +
@@ -4098,7 +4480,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void IndexerMemberCrefServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(IndexerMemberCrefSyntax, IndexerMemberCrefSyntax)> nodeRevisionPairs)
+        partial void IndexerMemberCrefServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(IndexerMemberCrefSyntax, IndexerMemberCrefSyntax)> nodeRevisionPairs)
         {
             var text = "namespace N { " + Environment.NewLine +
                          "    /// <summary> <see cref=\"this[int]\"/> </summary>" + Environment.NewLine +
@@ -4118,7 +4500,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void OperatorMemberCrefServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(OperatorMemberCrefSyntax, OperatorMemberCrefSyntax)> nodeRevisionPairs)
+        partial void OperatorMemberCrefServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(OperatorMemberCrefSyntax, OperatorMemberCrefSyntax)> nodeRevisionPairs)
         {
             var text = "namespace N { " + Environment.NewLine +
                        "    /// <summary> <see cref=\"operator +(int)\"/> </summary>" + Environment.NewLine +
@@ -4138,7 +4520,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void ConversionOperatorMemberCrefServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(ConversionOperatorMemberCrefSyntax, ConversionOperatorMemberCrefSyntax)> nodeRevisionPairs)
+        partial void ConversionOperatorMemberCrefServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(ConversionOperatorMemberCrefSyntax, ConversionOperatorMemberCrefSyntax)> nodeRevisionPairs)
         {
             var text = "namespace N { " + Environment.NewLine +
                        "    /// <summary> <see cref=\"implicit operator N(int)\"/> </summary>" + Environment.NewLine +
@@ -4158,7 +4540,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void CrefParameterListServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(CrefParameterListSyntax, CrefParameterListSyntax)> nodeRevisionPairs)
+        partial void CrefParameterListServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(CrefParameterListSyntax, CrefParameterListSyntax)> nodeRevisionPairs)
         {
             var text = "namespace N { " + Environment.NewLine +
                        "    /// <summary> <see cref=\"operator +(int, string)\"/> </summary>" + Environment.NewLine +
@@ -4172,7 +4554,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void CrefBracketedParameterListServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(CrefBracketedParameterListSyntax, CrefBracketedParameterListSyntax)> nodeRevisionPairs)
+        partial void CrefBracketedParameterListServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(CrefBracketedParameterListSyntax, CrefBracketedParameterListSyntax)> nodeRevisionPairs)
         {
             var text = "namespace N { " + Environment.NewLine +
                        "    /// <summary> <see cref=\"this[int, string]\"/> </summary>" + Environment.NewLine +
@@ -4186,7 +4568,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void CrefParameterServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(CrefParameterSyntax, CrefParameterSyntax)> nodeRevisionPairs)
+        partial void CrefParameterServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(CrefParameterSyntax, CrefParameterSyntax)> nodeRevisionPairs)
         {
             var text = "namespace N { " + Environment.NewLine +
                        "    /// <summary> <see cref=\"operator +(ref int, out string)\"/> </summary>" + Environment.NewLine +
@@ -4206,7 +4588,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void XmlElementServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(XmlElementSyntax, XmlElementSyntax)> nodeRevisionPairs)
+        partial void XmlElementServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(XmlElementSyntax, XmlElementSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -4215,7 +4597,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void XmlElementStartTagServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(XmlElementStartTagSyntax, XmlElementStartTagSyntax)> nodeRevisionPairs)
+        partial void XmlElementStartTagServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(XmlElementStartTagSyntax, XmlElementStartTagSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -4224,7 +4606,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void XmlElementEndTagServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(XmlElementEndTagSyntax, XmlElementEndTagSyntax)> nodeRevisionPairs)
+        partial void XmlElementEndTagServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(XmlElementEndTagSyntax, XmlElementEndTagSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -4233,7 +4615,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void XmlEmptyElementServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(XmlEmptyElementSyntax, XmlEmptyElementSyntax)> nodeRevisionPairs)
+        partial void XmlEmptyElementServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(XmlEmptyElementSyntax, XmlEmptyElementSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -4248,16 +4630,22 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void XmlNameServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(XmlNameSyntax, XmlNameSyntax)> nodeRevisionPairs)
+        partial void XmlNameServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(XmlNameSyntax, XmlNameSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
                 (((DocumentationCommentTriviaSyntax)SyntaxFactory.ParseSyntaxTree("///<d:foo/>").GetCompilationUnitRoot().EndOfFileToken.LeadingTrivia.Single().GetStructure()).Content.OfType<XmlEmptyElementSyntax>().Single().Name,
-                 ((DocumentationCommentTriviaSyntax)SyntaxFactory.ParseSyntaxTree("///<d:foo/>").GetCompilationUnitRoot().EndOfFileToken.LeadingTrivia.Single().GetStructure()).Content.OfType<XmlEmptyElementSyntax>().Single().Name)
+                 ((DocumentationCommentTriviaSyntax)SyntaxFactory.ParseSyntaxTree("///<d:foo/>").GetCompilationUnitRoot().EndOfFileToken.LeadingTrivia.Single().GetStructure()).Content.OfType<XmlEmptyElementSyntax>().Single().Name),
+                (((DocumentationCommentTriviaSyntax)SyntaxFactory.ParseSyntaxTree("///<foo/>").GetCompilationUnitRoot().EndOfFileToken.LeadingTrivia.Single().GetStructure()).Content.OfType<XmlEmptyElementSyntax>().Single().Name,
+                 ((DocumentationCommentTriviaSyntax)SyntaxFactory.ParseSyntaxTree("///<foo/>").GetCompilationUnitRoot().EndOfFileToken.LeadingTrivia.Single().GetStructure()).Content.OfType<XmlEmptyElementSyntax>().Single().Name),
+                (((DocumentationCommentTriviaSyntax)SyntaxFactory.ParseSyntaxTree("///<foo/>").GetCompilationUnitRoot().EndOfFileToken.LeadingTrivia.Single().GetStructure()).Content.OfType<XmlEmptyElementSyntax>().Single().Name,
+                 ((DocumentationCommentTriviaSyntax)SyntaxFactory.ParseSyntaxTree("///<d:foo/>").GetCompilationUnitRoot().EndOfFileToken.LeadingTrivia.Single().GetStructure()).Content.OfType<XmlEmptyElementSyntax>().Single().Name),
+                (((DocumentationCommentTriviaSyntax)SyntaxFactory.ParseSyntaxTree("///<d:foo/>").GetCompilationUnitRoot().EndOfFileToken.LeadingTrivia.Single().GetStructure()).Content.OfType<XmlEmptyElementSyntax>().Single().Name,
+                 ((DocumentationCommentTriviaSyntax)SyntaxFactory.ParseSyntaxTree("///<foo/>").GetCompilationUnitRoot().EndOfFileToken.LeadingTrivia.Single().GetStructure()).Content.OfType<XmlEmptyElementSyntax>().Single().Name)
             };
         }
 
-        partial void XmlPrefixServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(XmlPrefixSyntax, XmlPrefixSyntax)> nodeRevisionPairs)
+        partial void XmlPrefixServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(XmlPrefixSyntax, XmlPrefixSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -4266,7 +4654,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void XmlTextAttributeServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(XmlTextAttributeSyntax, XmlTextAttributeSyntax)> nodeRevisionPairs)
+        partial void XmlTextAttributeServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(XmlTextAttributeSyntax, XmlTextAttributeSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -4275,7 +4663,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void XmlCrefAttributeServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(XmlCrefAttributeSyntax, XmlCrefAttributeSyntax)> nodeRevisionPairs)
+        partial void XmlCrefAttributeServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(XmlCrefAttributeSyntax, XmlCrefAttributeSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -4284,7 +4672,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void XmlNameAttributeServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(XmlNameAttributeSyntax, XmlNameAttributeSyntax)> nodeRevisionPairs)
+        partial void XmlNameAttributeServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(XmlNameAttributeSyntax, XmlNameAttributeSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -4293,7 +4681,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void XmlTextServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(XmlTextSyntax, XmlTextSyntax)> nodeRevisionPairs)
+        partial void XmlTextServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(XmlTextSyntax, XmlTextSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -4302,7 +4690,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void XmlCDataSectionServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(XmlCDataSectionSyntax, XmlCDataSectionSyntax)> nodeRevisionPairs)
+        partial void XmlCDataSectionServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(XmlCDataSectionSyntax, XmlCDataSectionSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -4311,7 +4699,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void XmlProcessingInstructionServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(XmlProcessingInstructionSyntax, XmlProcessingInstructionSyntax)> nodeRevisionPairs)
+        partial void XmlProcessingInstructionServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(XmlProcessingInstructionSyntax, XmlProcessingInstructionSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -4320,7 +4708,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void XmlCommentServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(XmlCommentSyntax, XmlCommentSyntax)> nodeRevisionPairs)
+        partial void XmlCommentServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(XmlCommentSyntax, XmlCommentSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -4329,7 +4717,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void CompilationUnitServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(CompilationUnitSyntax, CompilationUnitSyntax)> nodeRevisionPairs)
+        partial void CompilationUnitServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(CompilationUnitSyntax, CompilationUnitSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -4338,7 +4726,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void ExternAliasDirectiveServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(ExternAliasDirectiveSyntax, ExternAliasDirectiveSyntax)> nodeRevisionPairs)
+        partial void ExternAliasDirectiveServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(ExternAliasDirectiveSyntax, ExternAliasDirectiveSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -4347,7 +4735,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void UsingDirectiveServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(UsingDirectiveSyntax, UsingDirectiveSyntax)> nodeRevisionPairs)
+        partial void UsingDirectiveServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(UsingDirectiveSyntax, UsingDirectiveSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -4362,7 +4750,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void NamespaceDeclarationServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(NamespaceDeclarationSyntax, NamespaceDeclarationSyntax)> nodeRevisionPairs)
+        partial void NamespaceDeclarationServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(NamespaceDeclarationSyntax, NamespaceDeclarationSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -4377,7 +4765,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void AttributeListServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(AttributeListSyntax, AttributeListSyntax)> nodeRevisionPairs)
+        partial void AttributeListServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(AttributeListSyntax, AttributeListSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -4386,7 +4774,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void AttributeTargetSpecifierServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(AttributeTargetSpecifierSyntax, AttributeTargetSpecifierSyntax)> nodeRevisionPairs)
+        partial void AttributeTargetSpecifierServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(AttributeTargetSpecifierSyntax, AttributeTargetSpecifierSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -4395,7 +4783,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void AttributeServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(AttributeSyntax, AttributeSyntax)> nodeRevisionPairs)
+        partial void AttributeServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(AttributeSyntax, AttributeSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -4404,7 +4792,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void AttributeArgumentListServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(AttributeArgumentListSyntax, AttributeArgumentListSyntax)> nodeRevisionPairs)
+        partial void AttributeArgumentListServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(AttributeArgumentListSyntax, AttributeArgumentListSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -4413,7 +4801,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void AttributeArgumentServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(AttributeArgumentSyntax, AttributeArgumentSyntax)> nodeRevisionPairs)
+        partial void AttributeArgumentServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(AttributeArgumentSyntax, AttributeArgumentSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -4435,7 +4823,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void WhenClauseServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(WhenClauseSyntax, WhenClauseSyntax)> nodeRevisionPairs)
+        partial void WhenClauseServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(WhenClauseSyntax, WhenClauseSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -4444,7 +4832,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void TupleTypeServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(TupleTypeSyntax, TupleTypeSyntax)> nodeRevisionPairs)
+        partial void TupleTypeServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(TupleTypeSyntax, TupleTypeSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -4453,7 +4841,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void TupleExpressionServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(TupleExpressionSyntax, TupleExpressionSyntax)> nodeRevisionPairs)
+        partial void TupleExpressionServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(TupleExpressionSyntax, TupleExpressionSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -4462,7 +4850,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void TupleElementServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(TupleElementSyntax, TupleElementSyntax)> nodeRevisionPairs)
+        partial void TupleElementServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(TupleElementSyntax, TupleElementSyntax)> nodeRevisionPairs)
         {
             var type = SyntaxFactory.ParseTypeName("(string, int)");
             nodeRevisionPairs = new[]
@@ -4478,7 +4866,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void ThrowExpressionServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(ThrowExpressionSyntax, ThrowExpressionSyntax)> nodeRevisionPairs)
+        partial void ThrowExpressionServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(ThrowExpressionSyntax, ThrowExpressionSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -4487,7 +4875,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void SingleVariableDesignationServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(SingleVariableDesignationSyntax, SingleVariableDesignationSyntax)> nodeRevisionPairs)
+        partial void SingleVariableDesignationServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(SingleVariableDesignationSyntax, SingleVariableDesignationSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -4497,7 +4885,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
         }
 
 
-        partial void DiscardDesignationServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(DiscardDesignationSyntax, DiscardDesignationSyntax)> nodeRevisionPairs)
+        partial void DiscardDesignationServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(DiscardDesignationSyntax, DiscardDesignationSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -4506,7 +4894,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void ParenthesizedVariableDesignationServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(ParenthesizedVariableDesignationSyntax, ParenthesizedVariableDesignationSyntax)> nodeRevisionPairs)
+        partial void ParenthesizedVariableDesignationServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(ParenthesizedVariableDesignationSyntax, ParenthesizedVariableDesignationSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
            {
@@ -4527,7 +4915,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void RefExpressionServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(RefExpressionSyntax, RefExpressionSyntax)> nodeRevisionPairs)
+        partial void RefExpressionServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(RefExpressionSyntax, RefExpressionSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -4536,7 +4924,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void CasePatternSwitchLabelServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(CasePatternSwitchLabelSyntax, CasePatternSwitchLabelSyntax)> nodeRevisionPairs)
+        partial void CasePatternSwitchLabelServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(CasePatternSwitchLabelSyntax, CasePatternSwitchLabelSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -4545,7 +4933,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void IsPatternExpressionServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(IsPatternExpressionSyntax, IsPatternExpressionSyntax)> nodeRevisionPairs)
+        partial void IsPatternExpressionServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(IsPatternExpressionSyntax, IsPatternExpressionSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -4554,7 +4942,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void DeclarationExpressionServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(DeclarationExpressionSyntax, DeclarationExpressionSyntax)> nodeRevisionPairs)
+        partial void DeclarationExpressionServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(DeclarationExpressionSyntax, DeclarationExpressionSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -4563,7 +4951,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void ForEachVariableStatementServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(ForEachVariableStatementSyntax, ForEachVariableStatementSyntax)> nodeRevisionPairs)
+        partial void ForEachVariableStatementServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(ForEachVariableStatementSyntax, ForEachVariableStatementSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -4572,7 +4960,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void DeclarationPatternServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(DeclarationPatternSyntax, DeclarationPatternSyntax)> nodeRevisionPairs)
+        partial void DeclarationPatternServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(DeclarationPatternSyntax, DeclarationPatternSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -4581,7 +4969,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void ConstantPatternServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(ConstantPatternSyntax, ConstantPatternSyntax)> nodeRevisionPairs)
+        partial void ConstantPatternServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(ConstantPatternSyntax, ConstantPatternSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -4590,7 +4978,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void LocalFunctionStatementServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(LocalFunctionStatementSyntax, LocalFunctionStatementSyntax)> nodeRevisionPairs)
+        partial void LocalFunctionStatementServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(LocalFunctionStatementSyntax, LocalFunctionStatementSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -4637,7 +5025,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
             };
         }
 
-        partial void RefTypeServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(RefTypeSyntax, RefTypeSyntax)> nodeRevisionPairs)
+        partial void RefTypeServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(RefTypeSyntax, RefTypeSyntax)> nodeRevisionPairs)
         {
             nodeRevisionPairs = new[]
             {
@@ -4650,6 +5038,200 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
                 (SyntaxFactory.RefType(SyntaxFactory.Token(SyntaxKind.RefKeyword), SyntaxFactory.ParseTypeName("var")),
                     SyntaxFactory.RefType(SyntaxFactory.Token(SyntaxKind.RefKeyword), SyntaxFactory.Token(SyntaxKind.ReadOnlyKeyword), SyntaxFactory.ParseTypeName("var")))
             };
+        }
+
+        [TestMethod]
+        public void RoslynMLDeltaExpander_OK()
+        {
+            var thisFilePath = $"{System.Environment.CurrentDirectory.Replace("\\bin\\Debug", "")}\\Flad.Awareness\\RoslynMLDeltaExpanderTests.Custom.cs";
+
+            var converter = new CDF.CSharp.RoslynML.RoslynML();
+            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
+
+            foreach (Action<RoslynML, XElement> defoliate in new List<Action<RoslynML, XElement>> { (r, n1) => { }, (r, n1) => r.Defoliate(n1) })
+            {
+                var oElement = converter.GetTree(thisFilePath, true, false);
+                converter.Prune(oElement, selector.PruneSelector);
+                defoliate(converter, oElement);
+
+                var elementCount = oElement.PostOrder(n => n.Elements()).Count(n => n.Attribute("GtID") != null);
+
+                var mElement = converter.GetTree(thisFilePath, true, false);
+                converter.Prune(mElement, selector.PruneSelector);
+                defoliate(converter, mElement);
+
+                var oFullElement = converter.GetTree(thisFilePath, true, false);
+                var mFullElement = converter.GetTree(thisFilePath, true, false);
+                var fullElementCount = oFullElement.PostOrder(n => n.Elements()).Count(n => n.Attribute("GtID") != null);
+
+                DeltaExpander expander = new DeltaExpander();
+
+                var matches = oFullElement.PostOrder(n => n.Elements()).Where(n => n.Attribute("GtID") != null).Select(n =>
+                           new XElement("Match",
+                               new XAttribute("oId", n.GtID()),
+                               new XAttribute("oLb", n.Label()),
+                               new XAttribute("mId", n.GtID()),
+                               new XAttribute("mLb", n.Label()))
+                ).ToList();
+                expander.Expand(
+                    new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement },
+                    new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement },
+                    (Matches: matches,
+                    Actions: new XElement[0]));
+                Assert.AreEqual(expander.FullDelta.Matches.Count(), fullElementCount);
+                Assert.AreEqual(expander.FullDelta.Actions.Count(), 0);
+
+                var a = expander.FullDelta.Matches.Except(matches).ToList();
+                var r = expander.FullDelta.Matches.Select(m => m.Attribute("oId").Value)
+                    .Except(matches.Select(m => m.Attribute("oId").Value))
+                    .Select(m => matches.Single(m1 => m1.Attribute("oId").Value == m))
+                    .ToList();
+
+                var matches1 = oElement.PostOrder(n => n.Elements()).Where(n => n.Attribute("GtID") != null).Select(n =>
+                        new XElement("Match",
+                            new XAttribute("oId", n.GtID()),
+                            new XAttribute("oLb", n.Label()),
+                            new XAttribute("mId", n.GtID()),
+                            new XAttribute("mLb", n.Label()))
+                ).ToList();
+                expander.Expand(
+                    new RevisionPair<XElement> { Original = oElement, Modified = mElement },
+                    new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement },
+                    (Matches: matches1,
+                    Actions: new XElement[0]));
+
+                a = expander.FullDelta.Matches.Except(matches).ToList();
+                r = matches.Select(m => m.Attribute("oId").Value)
+                    .Except(expander.FullDelta.Matches.Select(m => m.Attribute("oId").Value))
+                    .Select(m => matches.Single(m1 => m1.Attribute("oId").Value == m))
+                    .ToList();
+
+                Assert.AreEqual(expander.FullDelta.Matches.Count(), fullElementCount);
+                Assert.AreEqual(expander.FullDelta.Actions.Count(), 0);
+
+                IEnumerable<XElement> insertions = mFullElement.PostOrder(n => n.Elements()).Where(n => n.Attribute("GtID") != null).Select(n =>
+                        new XElement("Insert",
+                           new XAttribute("eId", n.GtID()),
+                           new XAttribute("eLb", n.Attribute("kind")?.Value ?? n.Name.LocalName),
+                           new XAttribute("eVl", "##"),
+                           new XAttribute("pId", n.GtID()),
+                           new XAttribute("pLb", n.Attribute("kind")?.Value ?? n.Name.LocalName),
+                           new XAttribute("pos", "-1"))).ToList();
+                expander.Expand(
+                    new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement },
+                    new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement },
+                    (Matches: new XElement[0],
+                     Actions: insertions));
+
+                Assert.AreEqual(expander.FullDelta.Matches.Count(), 0);
+                Assert.AreEqual(expander.FullDelta.Actions.Count(), fullElementCount);
+
+                IEnumerable<XElement> insertions1 = mElement.PostOrder(n => n.Elements()).Where(n => n.Attribute("GtID") != null).Select(n =>
+                        new XElement("Insert",
+                           new XAttribute("eId", n.GtID()),
+                           new XAttribute("eLb", n.Attribute("kind")?.Value ?? n.Name.LocalName),
+                           new XAttribute("eVl", "##"),
+                           new XAttribute("pId", n.GtID()),
+                           new XAttribute("pLb", n.Attribute("kind")?.Value ?? n.Name.LocalName),
+                           new XAttribute("pos", "-1"))).ToList();
+                expander.Expand(
+                    new RevisionPair<XElement> { Original = oElement, Modified = mElement },
+                    new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement },
+                    (Matches: new XElement[0],
+                     Actions: insertions1));
+
+                Assert.AreEqual(expander.FullDelta.Matches.Count(), 0);
+                Assert.AreEqual(expander.FullDelta.Actions.Count(), fullElementCount);
+
+                IEnumerable<XElement> deletions = oFullElement.PostOrder(n => n.Elements()).Where(n => n.Attribute("GtID") != null).Select(n =>
+                        new XElement("Delete",
+                           new XAttribute("eId", n.GtID()),
+                           new XAttribute("eLb", n.Attribute("kind")?.Value ?? n.Name.LocalName),
+                           new XAttribute("eVl", "##"))).ToList();
+                expander.Expand(
+                    new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement },
+                    new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement },
+                    (Matches: new XElement[0],
+                     Actions: deletions));
+
+                Assert.AreEqual(expander.FullDelta.Matches.Count(), 0);
+                Assert.AreEqual(expander.FullDelta.Actions.Count(), fullElementCount);
+
+                IEnumerable<XElement> deletions1 = oElement.PostOrder(n => n.Elements()).Where(n => n.Attribute("GtID") != null).Select(n =>
+                        new XElement("Delete",
+                           new XAttribute("eId", n.GtID()),
+                           new XAttribute("eLb", n.Attribute("kind")?.Value ?? n.Name.LocalName),
+                           new XAttribute("eVl", "##"))).ToList();
+                expander.Expand(
+                    new RevisionPair<XElement> { Original = oElement, Modified = mElement },
+                    new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement },
+                    (Matches: new XElement[0],
+                     Actions: deletions1));
+
+                Assert.AreEqual(expander.FullDelta.Matches.Count(), 0);
+                Assert.AreEqual(expander.FullDelta.Actions.Count(), fullElementCount);
+
+                IEnumerable<XElement> updates = oFullElement.PostOrder(n => n.Elements().Where(ne => ne is XNode))
+                    .Where(n => n.Elements().Count(ne => ne is XNode) == 0 && n.Attribute("GtID") != null && n.Value != null)
+                    .Select((n, i) =>
+                        new XElement("Update",
+                           new XAttribute("eId", n.GtID()),
+                           new XAttribute("eLb", n.Attribute("kind")?.Value ?? n.Name.LocalName),
+                           new XAttribute("eVl", "##"),
+                           new XAttribute("val", i.ToString()))).ToList();
+                expander.Expand(
+                    new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement },
+                    new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement },
+                    (Matches: matches,
+                     Actions: updates));
+
+                Assert.AreEqual(expander.FullDelta.Matches.Count(), matches.Count());
+                Assert.AreEqual(expander.FullDelta.Actions.Count(), updates.Count());
+
+                IEnumerable<XElement> updates1 = oElement.PostOrder(n => n.Elements().Where(ne => ne is XNode))
+                    .Where(n => n.Elements().Count(ne => ne is XNode) == 0 && n.Attribute("GtID") != null && n.Value != null)
+                    .Select((n, i) =>
+                        new XElement("Update",
+                           new XAttribute("eId", n.GtID()),
+                           new XAttribute("eLb", n.Attribute("kind")?.Value ?? n.Name.LocalName),
+                           new XAttribute("eVl", "##"),
+                           new XAttribute("val", i.ToString()))).ToList();
+                expander.Expand(
+                    new RevisionPair<XElement> { Original = oElement, Modified = mElement },
+                    new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement },
+                    (Matches: matches1,
+                     Actions: updates1));
+
+                Assert.AreEqual(expander.FullDelta.Matches.Count(), matches.Count());
+                Assert.AreEqual(expander.FullDelta.Actions.Count(), updates1.Count());
+
+                var elementsToModify = mFullElement.PostOrder(n => n.Elements().Where(ne => ne is XNode))
+                    .Where(n => n.Elements().Count(ne => ne is XNode) == 0 && n.Attribute("GtID") != null && n.Value != null)
+                    .Select((n, i) => new { n, v = i.ToString() }).ToList();
+                elementsToModify.ForEach(em => em.n.Value = em.v);
+
+                expander.Expand(
+                    new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement },
+                    new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement },
+                    (Matches: matches,
+                     Actions: updates));
+
+                Assert.AreEqual(expander.FullDelta.Matches.Count(), matches.Count());
+                Assert.AreEqual(expander.FullDelta.Actions.Count(), updates.Count());
+
+                var elementsToModify1 = mElement.PostOrder(n => n.Elements().Where(ne => ne is XNode))
+                    .Where(n => n.Elements().Count(ne => ne is XNode) == 0 && n.Attribute("GtID") != null && n.Value != null)
+                    .Select((n, i) => new { n, v = i.ToString() });
+                elementsToModify1.ForEach(em => em.n.Value = em.v);
+                expander.Expand(
+                    new RevisionPair<XElement> { Original = oElement, Modified = mElement },
+                    new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement },
+                    (Matches: matches1,
+                     Actions: updates1));
+
+                Assert.AreEqual(expander.FullDelta.Matches.Count(), matches.Count());
+                Assert.AreEqual(expander.FullDelta.Actions.Count(), updates.Count());
+            }            
         }
     }
 }

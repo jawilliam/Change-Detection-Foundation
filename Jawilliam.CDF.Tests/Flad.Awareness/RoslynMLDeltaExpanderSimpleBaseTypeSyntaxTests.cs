@@ -1,4 +1,4 @@
-﻿namespace Jawilliam.CDF.Tests.Flad.Awareness
+namespace Jawilliam.CDF.Tests.Flad.Awareness
 {
     using Jawilliam.CDF.Approach;
     using Jawilliam.CDF.CSharp.RoslynML;
@@ -13,10 +13,17 @@
     
     partial class RoslynMLDeltaExpanderTests
     {
-    	 partial void SimpleBaseTypeServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref IEnumerable<(SimpleBaseTypeSyntax, SimpleBaseTypeSyntax)> nodeRevisionPairs);
+         /// <summary>
+         /// Provides the element revision pair(s) to test in <see cref="SimpleBaseTypeServiceProvider_RoslynMLDeltaExpander_OK"/>.
+         /// </summary>
+         /// <param name="nodeRevisionPairs"> the element revision pair(s) to test</param>
+    	 partial void SimpleBaseTypeServiceProvider_RoslynMLDeltaExpander_DataToTest(ref IEnumerable<(SimpleBaseTypeSyntax, SimpleBaseTypeSyntax)> nodeRevisionPairs);
     
+    	 /// <summary>
+         /// Tests expansion logic for <see cref="SimpleBaseTypeSyntax"/>.
+         /// </summary>
     	 [TestMethod]
-         public void SimpleBaseTypeServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_OK()
+         public void SimpleBaseTypeServiceProvider_RoslynMLDeltaExpander_OK()
          {
     		var converter = new CDF.CSharp.RoslynML.RoslynML();
     		var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
@@ -24,7 +31,7 @@
     
     	    IEnumerable<(SimpleBaseTypeSyntax, SimpleBaseTypeSyntax)> nodeRevisionPairs = null;
     	    string oExpectedLabel = null, mExpectedLabel = null;
-    	    SimpleBaseTypeServiceProvider_RoslynMLDefoliatedTopologicalAbstraction_DataToTest(ref nodeRevisionPairs);
+    	    SimpleBaseTypeServiceProvider_RoslynMLDeltaExpander_DataToTest(ref nodeRevisionPairs);
     		foreach(((SimpleBaseTypeSyntax Original, SimpleBaseTypeSyntax Modified) nodeRevisionPair, Action<RoslynML, XElement> defoliate) in nodeRevisionPairs
     			.SelectMany(n => new List<((SimpleBaseTypeSyntax, SimpleBaseTypeSyntax), Action<RoslynML, XElement>)>
     				{ (n, (r, n1) => { }), (n, (r, n1) => r.Defoliate(n1)) }))
@@ -77,7 +84,9 @@
     			var unmatchedOriginalProperties = 0;
     			var unmatchedModifiedProperties = 0;
     
-    			Assert.AreEqual(expander.FullDelta.Matches.Count(), matchedProperties + 1);
+    			var relevantDescendants = 0;
+    
+    			Assert.AreEqual(expander.FullDelta.Matches.Count(), matchedProperties + 1 + relevantDescendants);
     			Assert.AreEqual(expander.FullDelta.Actions.Count(), unmatchedOriginalProperties + unmatchedModifiedProperties);
     
     			Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value == oElement.GtID())
@@ -102,7 +111,7 @@
     				 }));
     			
                 Assert.AreEqual(expander.FullDelta.Matches.Count(), 0);
-                Assert.AreEqual(expander.FullDelta.Actions.Count(), matchedProperties + 1 + unmatchedModifiedProperties);
+                Assert.AreEqual(expander.FullDelta.Actions.Count(), matchedProperties + 1 + unmatchedModifiedProperties + relevantDescendants);
     
                 Assert.IsTrue(expander.FullDelta.Actions
     				.Single(a => a.Name.LocalName == "Insert" && a.Attribute("eId").Value == mElement.GtID())
@@ -125,7 +134,7 @@
     				 }));
     			
                 Assert.AreEqual(expander.FullDelta.Matches.Count(), 0);
-                Assert.AreEqual(expander.FullDelta.Actions.Count(), matchedProperties + 1 + unmatchedOriginalProperties);
+                Assert.AreEqual(expander.FullDelta.Actions.Count(), matchedProperties + 1 + unmatchedOriginalProperties + relevantDescendants);
     
                 Assert.IsTrue(expander.FullDelta.Actions
     				.Single(a => a.Name.LocalName == "Delete" && a.Attribute("eId").Value == oElement.GtID())
@@ -149,7 +158,7 @@
     				},
     			    Actions: new XElement[0]));
     			
-                Assert.AreEqual(expander.FullDelta.Matches.Count(), matchedProperties + 1);
+                Assert.AreEqual(expander.FullDelta.Matches.Count(), matchedProperties + 1 + relevantDescendants);
                 Assert.AreEqual(expander.FullDelta.Actions.Count(), matchedProperties + unmatchedOriginalProperties + unmatchedModifiedProperties);
     
     			Assert.IsTrue(expander.FullDelta.Matches.Single(m => m.Attribute("oId").Value == oElement.GtID())
