@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using Jawilliam.CDF.Approach;
 using Jawilliam.CDF.CSharp.RoslynML;
+using Jawilliam.CDF.Labs.DBModel;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -5047,6 +5048,8 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
 
             var converter = new CDF.CSharp.RoslynML.RoslynML();
             var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
+            var expandedDelta = new Delta { };
+            XElement xMatches = null, xActions = null;
 
             foreach (Action<RoslynML, XElement> defoliate in new List<Action<RoslynML, XElement>> { (r, n1) => { }, (r, n1) => r.Defoliate(n1) })
             {
@@ -5080,6 +5083,10 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
                     Actions: new XElement[0]));
                 Assert.AreEqual(expander.FullDelta.Matches.Count(), fullElementCount);
                 Assert.AreEqual(expander.FullDelta.Actions.Count(), 0);
+                xMatches = new XElement("Matches", expander.FullDelta.Matches);
+                xActions = new XElement("Actions", expander.FullDelta.Actions);
+                expandedDelta.Matching = Delta.AsSqlXColumn(xMatches);
+                expandedDelta.Differencing = Delta.AsSqlXColumn(xActions);
 
                 var a = expander.FullDelta.Matches.Except(matches).ToList();
                 var r = expander.FullDelta.Matches.Select(m => m.Attribute("oId").Value)
@@ -5108,6 +5115,10 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
 
                 Assert.AreEqual(expander.FullDelta.Matches.Count(), fullElementCount);
                 Assert.AreEqual(expander.FullDelta.Actions.Count(), 0);
+                xMatches = new XElement("Matches", expander.FullDelta.Matches);
+                xActions = new XElement("Actions", expander.FullDelta.Actions);
+                expandedDelta.Matching = Delta.AsSqlXColumn(xMatches);
+                expandedDelta.Differencing = Delta.AsSqlXColumn(xActions);
 
                 IEnumerable<XElement> insertions = mFullElement.PostOrder(n => n.Elements()).Where(n => n.Attribute("GtID") != null).Select(n =>
                         new XElement("Insert",
@@ -5125,6 +5136,10 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
 
                 Assert.AreEqual(expander.FullDelta.Matches.Count(), 0);
                 Assert.AreEqual(expander.FullDelta.Actions.Count(), fullElementCount);
+                xMatches = new XElement("Matches", expander.FullDelta.Matches);
+                xActions = new XElement("Actions", expander.FullDelta.Actions);
+                expandedDelta.Matching = Delta.AsSqlXColumn(xMatches);
+                expandedDelta.Differencing = Delta.AsSqlXColumn(xActions);
 
                 IEnumerable<XElement> insertions1 = mElement.PostOrder(n => n.Elements()).Where(n => n.Attribute("GtID") != null).Select(n =>
                         new XElement("Insert",
@@ -5142,6 +5157,10 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
 
                 Assert.AreEqual(expander.FullDelta.Matches.Count(), 0);
                 Assert.AreEqual(expander.FullDelta.Actions.Count(), fullElementCount);
+                xMatches = new XElement("Matches", expander.FullDelta.Matches);
+                xActions = new XElement("Actions", expander.FullDelta.Actions);
+                expandedDelta.Matching = Delta.AsSqlXColumn(xMatches);
+                expandedDelta.Differencing = Delta.AsSqlXColumn(xActions);
 
                 IEnumerable<XElement> deletions = oFullElement.PostOrder(n => n.Elements()).Where(n => n.Attribute("GtID") != null).Select(n =>
                         new XElement("Delete",
@@ -5156,6 +5175,10 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
 
                 Assert.AreEqual(expander.FullDelta.Matches.Count(), 0);
                 Assert.AreEqual(expander.FullDelta.Actions.Count(), fullElementCount);
+                xMatches = new XElement("Matches", expander.FullDelta.Matches);
+                xActions = new XElement("Actions", expander.FullDelta.Actions);
+                expandedDelta.Matching = Delta.AsSqlXColumn(xMatches);
+                expandedDelta.Differencing = Delta.AsSqlXColumn(xActions);
 
                 IEnumerable<XElement> deletions1 = oElement.PostOrder(n => n.Elements()).Where(n => n.Attribute("GtID") != null).Select(n =>
                         new XElement("Delete",
@@ -5170,6 +5193,10 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
 
                 Assert.AreEqual(expander.FullDelta.Matches.Count(), 0);
                 Assert.AreEqual(expander.FullDelta.Actions.Count(), fullElementCount);
+                xMatches = new XElement("Matches", expander.FullDelta.Matches);
+                xActions = new XElement("Actions", expander.FullDelta.Actions);
+                expandedDelta.Matching = Delta.AsSqlXColumn(xMatches);
+                expandedDelta.Differencing = Delta.AsSqlXColumn(xActions);
 
                 IEnumerable<XElement> updates = oFullElement.PostOrder(n => n.Elements().Where(ne => ne is XNode))
                     .Where(n => n.Elements().Count(ne => ne is XNode) == 0 && n.Attribute("GtID") != null && n.Value != null)
@@ -5187,6 +5214,10 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
 
                 Assert.AreEqual(expander.FullDelta.Matches.Count(), matches.Count());
                 Assert.AreEqual(expander.FullDelta.Actions.Count(), updates.Count());
+                xMatches = new XElement("Matches", expander.FullDelta.Matches);
+                xActions = new XElement("Actions", expander.FullDelta.Actions);
+                expandedDelta.Matching = Delta.AsSqlXColumn(xMatches);
+                expandedDelta.Differencing = Delta.AsSqlXColumn(xActions);
 
                 IEnumerable<XElement> updates1 = oElement.PostOrder(n => n.Elements().Where(ne => ne is XNode))
                     .Where(n => n.Elements().Count(ne => ne is XNode) == 0 && n.Attribute("GtID") != null && n.Value != null)
@@ -5204,6 +5235,10 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
 
                 Assert.AreEqual(expander.FullDelta.Matches.Count(), matches.Count());
                 Assert.AreEqual(expander.FullDelta.Actions.Count(), updates1.Count());
+                xMatches = new XElement("Matches", expander.FullDelta.Matches);
+                xActions = new XElement("Actions", expander.FullDelta.Actions);
+                expandedDelta.Matching = Delta.AsSqlXColumn(xMatches);
+                expandedDelta.Differencing = Delta.AsSqlXColumn(xActions);
 
                 var elementsToModify = mFullElement.PostOrder(n => n.Elements().Where(ne => ne is XNode))
                     .Where(n => n.Elements().Count(ne => ne is XNode) == 0 && n.Attribute("GtID") != null && n.Value != null)
@@ -5218,6 +5253,10 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
 
                 Assert.AreEqual(expander.FullDelta.Matches.Count(), matches.Count());
                 Assert.AreEqual(expander.FullDelta.Actions.Count(), updates.Count());
+                xMatches = new XElement("Matches", expander.FullDelta.Matches);
+                xActions = new XElement("Actions", expander.FullDelta.Actions);
+                expandedDelta.Matching = Delta.AsSqlXColumn(xMatches);
+                expandedDelta.Differencing = Delta.AsSqlXColumn(xActions);
 
                 var elementsToModify1 = mElement.PostOrder(n => n.Elements().Where(ne => ne is XNode))
                     .Where(n => n.Elements().Count(ne => ne is XNode) == 0 && n.Attribute("GtID") != null && n.Value != null)
@@ -5231,6 +5270,10 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
 
                 Assert.AreEqual(expander.FullDelta.Matches.Count(), matches.Count());
                 Assert.AreEqual(expander.FullDelta.Actions.Count(), updates.Count());
+                xMatches = new XElement("Matches", expander.FullDelta.Matches);
+                xActions = new XElement("Actions", expander.FullDelta.Actions);
+                expandedDelta.Matching = Delta.AsSqlXColumn(xMatches);
+                expandedDelta.Differencing = Delta.AsSqlXColumn(xActions);
             }            
         }
     }

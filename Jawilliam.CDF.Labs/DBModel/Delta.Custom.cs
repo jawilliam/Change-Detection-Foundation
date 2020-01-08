@@ -132,19 +132,24 @@ namespace Jawilliam.CDF.Labs.DBModel
 
             var writeXmlColumn = detectionResult.WriteXmlColumn();
             var result = XElement.Parse(writeXmlColumn.Replace("﻿<?xml version=\"1.0\" encoding=\"utf-16\"?>", ""));
-            this.Matching =
-                new XDocument(result.Element("Matches")).ToString()
-                    .Replace("\r\n", "")
-                    .Replace(" />  <", "/><")
-                    .Replace(">  <", "><");
-            this.Differencing =
-                new XDocument(result.Element("Actions")).ToString()
-                    .Replace("\r\n", "")
-                    .Replace(" />  <", "/><")
-                    .Replace(">  <", "><");
+            this.Matching = AsSqlXColumn(new XDocument(result.Element("Matches")));
+            this.Differencing = AsSqlXColumn(new XDocument(result.Element("Actions")));
 
             if (!string.IsNullOrEmpty(detectionResult.Error))
                 this.Report = result.ToString().Replace("\r\n", "").Replace(" />  <", "/><").Replace(">  <", "><");
+        }
+
+        /// <summary>
+        /// Optimizes the <see cref="object.ToString()"/>'s value to be stored as an XML column in an SQL database.
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        public static string AsSqlXColumn(XNode source)
+        {
+            return source.ToString()
+                                .Replace("\r\n", "")
+                                .Replace(" />  <", "/><")
+                                .Replace(">  <", "><");
         }
 
         private object GetNativeGumTreeResult()
