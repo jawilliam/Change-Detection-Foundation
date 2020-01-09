@@ -179,6 +179,11 @@
       <DependentUpon>GitRepository.tt</DependentUpon>
     </Compile>
     <Compile Include="BaseImprecisionComparison.cs" />
+    <Compile Include="GitRepository.Designer.cs">
+      <DependentUpon>GitRepository.edmx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="ImprecisionComparison.cs" />
     <Compile Include="RedundancyComparison.cs" />
     <Compile Include="BetweenComparison.cs" />
@@ -384,6 +389,13 @@
   <ItemGroup>
     <None Include="App.config">
       <SubType>Designer</SubType>
+    </None>
+    <EntityDeploy Include="GitRepository.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>GitRepository.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="GitRepository.edmx.diagram">
+      <DependentUpon>GitRepository.edmx</DependentUpon>
     </None>
     <None Include="packages.config">
       <SubType>Designer</SubType>
