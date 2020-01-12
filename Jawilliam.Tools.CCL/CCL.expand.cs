@@ -24,7 +24,7 @@ namespace Jawilliam.Tools.CCL
             /// 
             /// </summary>
             /// <param name="args"></param>
-            /// <example></example>
+            /// <example>gumtree expand Forward 20 -trace=D:\ExperimentLogs\gumtree_expansion_FW38to57.txt -name=NativeGTtreefiedRoslynMLWithBasicPruning_Forward -approach=NativeGTtreefiedRoslynMLWithBasicPruning -fileFormat=12 -direction=Forward -name=NativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTrivia_Forward -approach=NativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTrivia -fileFormat=28 -direction=Forward -name:NativeGTtreefiedRoslynMLWithBasicPruningAndPermissiveLabeling_Forward -approach:NativeGTtreefiedRoslynMLWithBasicPruningAndPermissiveLabeling -fileFormat=12 -direction=Forward -name:NativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTriviaAndPermissiveLabeling_Forward -approach:NativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTriviaAndPermissiveLabeling -fileFormat=28 -direction=Forward -name=NativeGTtreefiedRoslynMLWithBasicPruningDefoliationMinH1_Forward  -approach=NativeGTtreefiedRoslynMLWithBasicPruningDefoliationMinH1 -fileFormat=44 -direction=Forward -name=NativeGTtreefiedRoslynMLWithBasicPruningDefoliationMinH1AndIncludeTrivia_Forward  -approach=NativeGTtreefiedRoslynMLWithBasicPruningDefoliationMinH1AndIncludeTrivia -fileFormat=60 -direction=Forward -name:NativeGTtreefiedRoslynMLWithBasicPruningDefoliationMinH1AndPermissiveLabeling_Forward -approach:NativeGTtreefiedRoslynMLWithBasicPruningDefoliationMinH1AndPermissiveLabeling -fileFormat=44 -direction:Forward -name:NativeGTtreefiedRoslynMLWithBasicPruningDefoliationMinH1AndIncludeTriviaAndPermissiveLabeling_Forward -approach:NativeGTtreefiedRoslynMLWithBasicPruningDefoliationMinH1AndIncludeTriviaAndPermissiveLabeling -fileFormat=60 -direction:Forward -from=1 -to=23</example>
             [ApplicationMetadata(Name = "expand", Description = "Expands ...")]
             public virtual void Expand(ExpandCommandArgs args)
             {
@@ -33,11 +33,11 @@ namespace Jawilliam.Tools.CCL
                     Name = n,
                     Approach = i < args.Approaches.Count 
                         ? (ChangeDetectionApproaches)Enum.Parse(typeof(ChangeDetectionApproaches), args.Approaches[i]) 
-                        : default,
+                        : default(ChangeDetectionApproaches),
                     Direction = i < args.Directions.Count ? args.Directions[i] : null,
                     FileFormat = i < args.FileFormats.Count
                         ? (FileFormatKind)Enum.Parse(typeof(FileFormatKind), args.FileFormats[i])
-                        : default,
+                        : default(FileFormatKind),
                 });
 
                 var fullConfiguration = new 
@@ -74,8 +74,17 @@ namespace Jawilliam.Tools.CCL
                                         where d.Report == null && d.Approach == configuration.Approach
                                         select d.Id).ToList();
 
+                        if (args.Trace != null)
+                        {
+                            System.IO.File.AppendAllText(args.Trace,
+                                  $"{Environment.NewLine}{Environment.NewLine}" +
+                                  $"{configuration.Name} expanding " +
+                                  $"{DateTime.Now.ToString("F", CultureInfo.InvariantCulture)} - {project.Name}");
+                        }
+                        int counter = 0;
                         foreach (var deltaId in deltaIds)
                         {
+                            counter++;
                             var delta = dbRepository.Deltas
                                 .Include("RevisionPair.FromFileVersion.Content")
                                 .Include("RevisionPair.FileVersion.Content")
@@ -87,26 +96,29 @@ namespace Jawilliam.Tools.CCL
                                 continue;
 
                             var fullOriginal = fullConfiguration.Direction == "Forward"
-                                    ? dbRepository.FileFormats.AsNoTracking().Single(ff => ff.Kind == fullConfiguration.FileFormat && 
+                                    ? dbRepository.FileFormats.AsNoTracking().SingleOrDefault(ff => ff.Kind == fullConfiguration.FileFormat && 
                                                                                            ff.FileVersion.Id == delta.RevisionPair.FromFileVersion.Id)
-                                    : dbRepository.FileFormats.AsNoTracking().Single(ff => ff.Kind == fullConfiguration.FileFormat &&
+                                    : dbRepository.FileFormats.AsNoTracking().SingleOrDefault(ff => ff.Kind == fullConfiguration.FileFormat &&
                                                                                            ff.FileVersion.Id == delta.RevisionPair.FileVersion.Id);
                             var fullModified = fullConfiguration.Direction == "Forward"
-                                    ? dbRepository.FileFormats.AsNoTracking().Single(ff => ff.Kind == fullConfiguration.FileFormat &&
+                                    ? dbRepository.FileFormats.AsNoTracking().SingleOrDefault(ff => ff.Kind == fullConfiguration.FileFormat &&
                                                                                            ff.FileVersion.Id == delta.RevisionPair.FileVersion.Id)
-                                    : dbRepository.FileFormats.AsNoTracking().Single(ff => ff.Kind == fullConfiguration.FileFormat &&
+                                    : dbRepository.FileFormats.AsNoTracking().SingleOrDefault(ff => ff.Kind == fullConfiguration.FileFormat &&
                                                                                            ff.FileVersion.Id == delta.RevisionPair.FromFileVersion.Id);
 
                             var seedOriginal = configuration.Direction == "Forward"
-                                    ? dbRepository.FileFormats.AsNoTracking().Single(ff => ff.Kind == configuration.FileFormat &&
+                                    ? dbRepository.FileFormats.AsNoTracking().SingleOrDefault(ff => ff.Kind == configuration.FileFormat &&
                                                                                            ff.FileVersion.Id == delta.RevisionPair.FromFileVersion.Id)
-                                    : dbRepository.FileFormats.AsNoTracking().Single(ff => ff.Kind == configuration.FileFormat &&
+                                    : dbRepository.FileFormats.AsNoTracking().SingleOrDefault(ff => ff.Kind == configuration.FileFormat &&
                                                                                            ff.FileVersion.Id == delta.RevisionPair.FileVersion.Id);
                             var seedModified = configuration.Direction == "Forward"
-                                    ? dbRepository.FileFormats.AsNoTracking().Single(ff => ff.Kind == configuration.FileFormat &&
+                                    ? dbRepository.FileFormats.AsNoTracking().SingleOrDefault(ff => ff.Kind == configuration.FileFormat &&
                                                                                            ff.FileVersion.Id == delta.RevisionPair.FileVersion.Id)
-                                    : dbRepository.FileFormats.AsNoTracking().Single(ff => ff.Kind == configuration.FileFormat &&
+                                    : dbRepository.FileFormats.AsNoTracking().SingleOrDefault(ff => ff.Kind == configuration.FileFormat &&
                                                                                            ff.FileVersion.Id == delta.RevisionPair.FromFileVersion.Id);
+
+                            if (fullOriginal == null || fullModified == null || seedOriginal == null || seedModified == null)
+                                continue;
 
                             var xFullOriginal = XElement.Load(new StringReader(fullOriginal.XmlTree));
                             var xFullModified = XElement.Load(new StringReader(fullModified.XmlTree));
@@ -117,33 +129,53 @@ namespace Jawilliam.Tools.CCL
                             var expandedDelta = dbRepository.Deltas.SingleOrDefault(d => d.RevisionPair.Id == delta.RevisionPair.Id && d.Approach == expandedApproach);
                             if (expandedDelta == null)
                             {
-                                expandedDelta = new Delta { Id = Guid.NewGuid(), Approach = expandedApproach, RevisionPair = delta.RevisionPair };
+                                var rp = dbRepository.RepositoryObjects.OfType<FileModifiedChange>().Single(frp => frp.Id == delta.RevisionPair.Id);
+                                expandedDelta = new Delta { Id = Guid.NewGuid(), Approach = expandedApproach, RevisionPair = rp  };
                                 dbRepository.Deltas.Add(expandedDelta);
-                            }                                                               
+                            }
 
                             if (args.Trace != null)
-                                System.IO.File.AppendAllText(args.Trace,
-                                      $"{Environment.NewLine}{Environment.NewLine}" +
+                            {
+                                Console.WriteLine(
                                       $"{configuration.Name} expanding " +
-                                      $"{DateTime.Now.ToString("F", CultureInfo.InvariantCulture)} - {project.Name}");
-                            expander.Expand(
-                                new RevisionPair<XElement> { Original = xSeedOriginal, Modified = xSeedModified },
-                                new RevisionPair<XElement> { Original = xFullOriginal, Modified = xFullModified },
-                                (Matches: XElement.Parse(delta.Matching ?? "<Matches/>").Elements().Where(d => d is XNode),
-                                 Actions: XElement.Parse(delta.Differencing ?? "<Actions/>").Elements().Where(d => d is XNode)));
-                            if (args.Trace != null)
-                                System.IO.File.AppendAllText(args.Trace,
-                                      $"{Environment.NewLine}{Environment.NewLine}" +
-                                      $"{configuration.Name} expanded " +
-                                      $"{DateTime.Now.ToString("F", CultureInfo.InvariantCulture)} - {project.Name}");
+                                      $"{project.Name} - ({counter} of {deltaIds.Count}) {DateTime.Now.ToString("F", CultureInfo.InvariantCulture)}");
+                            }
+                            try
+                            {
+                                expander.Expand(
+                                    new RevisionPair<XElement> { Original = xSeedOriginal, Modified = xSeedModified },
+                                    new RevisionPair<XElement> { Original = xFullOriginal, Modified = xFullModified },
+                                    (Matches: XElement.Parse(delta.Matching ?? "<Matches/>").Elements().Where(d => d is XNode),
+                                     Actions: XElement.Parse(delta.Differencing ?? "<Actions/>").Elements().Where(d => d is XNode)));
 
-                            var xMatches = new XElement("Matches", expander.FullDelta.Matches);
-                            var xActions = new XElement("Actions", expander.FullDelta.Actions);
+                                if (args.Trace != null)
+                                {
+                                    Console.WriteLine(
+                                          $"{configuration.Name} expanded " +
+                                          $"{project.Name} - ({counter} of {deltaIds.Count}) {DateTime.Now.ToString("F", CultureInfo.InvariantCulture)}");
+                                }
 
-                            expandedDelta.Matching = Delta.AsSqlXColumn(xMatches);
-                            expandedDelta.Differencing = Delta.AsSqlXColumn(xActions);
+                                var xMatches = new XElement("Matches", expander.FullDelta.Matches);
+                                var xActions = new XElement("Actions", expander.FullDelta.Actions);
 
-                            dbRepository.Flush(false); ///TODO: run it first, save it later.
+                                expandedDelta.Matching = Delta.AsSqlXColumn(xMatches);
+                                expandedDelta.Differencing = Delta.AsSqlXColumn(xActions);
+                            }
+                            catch (Exception ex)
+                            {
+                                expandedDelta.Report = ex.ToString().Replace("\r\n", "").Replace(" />  <", "/><").Replace(">  <", "><");
+                            }
+                            finally
+                            {
+                                dbRepository.Flush(true); ///TODO: run it first, save it later.
+                            }
+                        }
+                        if (args.Trace != null)
+                        {
+                            System.IO.File.AppendAllText(args.Trace,
+                                  $"{Environment.NewLine}{Environment.NewLine}" +
+                                  $"{configuration.Name} expanded " +
+                                  $"{DateTime.Now.ToString("F", CultureInfo.InvariantCulture)} - {project.Name}");
                         }
                     }
                 }

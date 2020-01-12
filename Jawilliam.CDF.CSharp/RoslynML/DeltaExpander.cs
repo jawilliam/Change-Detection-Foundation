@@ -37,15 +37,6 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     		if(mFullElement == null) throw new ArgumentNullException(nameof(mFullElement));
     		switch(mFullElement.Name.LocalName)
     		{
-    			case "CatchFilterClause": return this.UnmatchedModifiedCatchFilterClause(mFullElement);
-    			case "FinallyClause": return this.UnmatchedModifiedFinallyClause(mFullElement);
-    			case "CompilationUnit": return this.UnmatchedModifiedCompilationUnit(mFullElement);
-    			case "ExternAliasDirective": return this.UnmatchedModifiedExternAliasDirective(mFullElement);
-    			case "UsingDirective": return this.UnmatchedModifiedUsingDirective(mFullElement);
-    			case "AttributeList": return this.UnmatchedModifiedAttributeList(mFullElement);
-    			case "AttributeTargetSpecifier": return this.UnmatchedModifiedAttributeTargetSpecifier(mFullElement);
-    			case "Attribute": return this.UnmatchedModifiedAttribute(mFullElement);
-    			case "AttributeArgumentList": return this.UnmatchedModifiedAttributeArgumentList(mFullElement);
     			case "AttributeArgument": return this.UnmatchedModifiedAttributeArgument(mFullElement);
     			case "NameEquals": return this.UnmatchedModifiedNameEquals(mFullElement);
     			case "TypeParameterList": return this.UnmatchedModifiedTypeParameterList(mFullElement);
@@ -83,11 +74,20 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			case "SwitchSection": return this.UnmatchedModifiedSwitchSection(mFullElement);
     			case "CatchClause": return this.UnmatchedModifiedCatchClause(mFullElement);
     			case "CatchDeclaration": return this.UnmatchedModifiedCatchDeclaration(mFullElement);
-    			case "NamespaceDeclaration": return this.UnmatchedModifiedNamespaceDeclaration(mFullElement);
+    			case "CatchFilterClause": return this.UnmatchedModifiedCatchFilterClause(mFullElement);
+    			case "FinallyClause": return this.UnmatchedModifiedFinallyClause(mFullElement);
+    			case "CompilationUnit": return this.UnmatchedModifiedCompilationUnit(mFullElement);
+    			case "ExternAliasDirective": return this.UnmatchedModifiedExternAliasDirective(mFullElement);
+    			case "UsingDirective": return this.UnmatchedModifiedUsingDirective(mFullElement);
+    			case "AttributeList": return this.UnmatchedModifiedAttributeList(mFullElement);
+    			case "AttributeTargetSpecifier": return this.UnmatchedModifiedAttributeTargetSpecifier(mFullElement);
+    			case "Attribute": return this.UnmatchedModifiedAttribute(mFullElement);
+    			case "AttributeArgumentList": return this.UnmatchedModifiedAttributeArgumentList(mFullElement);
     			case "DelegateDeclaration": return this.UnmatchedModifiedDelegateDeclaration(mFullElement);
     			case "EnumMemberDeclaration": return this.UnmatchedModifiedEnumMemberDeclaration(mFullElement);
     			case "IncompleteMember": return this.UnmatchedModifiedIncompleteMember(mFullElement);
     			case "GlobalStatement": return this.UnmatchedModifiedGlobalStatement(mFullElement);
+    			case "NamespaceDeclaration": return this.UnmatchedModifiedNamespaceDeclaration(mFullElement);
     			case "EnumDeclaration": return this.UnmatchedModifiedEnumDeclaration(mFullElement);
     			case "ClassDeclaration": return this.UnmatchedModifiedClassDeclaration(mFullElement);
     			case "StructDeclaration": return this.UnmatchedModifiedStructDeclaration(mFullElement);
@@ -241,6 +241,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			case "CasePatternSwitchLabel": return this.UnmatchedModifiedCasePatternSwitchLabel(mFullElement);
     			case "CaseSwitchLabel": return this.UnmatchedModifiedCaseSwitchLabel(mFullElement);
     			case "DefaultSwitchLabel": return this.UnmatchedModifiedDefaultSwitchLabel(mFullElement);
+    			case "CommentTrivia":
                 case "Token": return new XElement[0];
     			default: throw new ArgumentException($"The type {mFullElement.Name.LocalName} has not been found.");;//return true
     		}
@@ -295,15 +296,6 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     		if(oFullElement == null) throw new ArgumentNullException(nameof(oFullElement));
     		switch(oFullElement.Name.LocalName)
     		{
-    			case "CatchFilterClause": return this.MatchedCatchFilterClause(oFullElement, mFullElement);
-    			case "FinallyClause": return this.MatchedFinallyClause(oFullElement, mFullElement);
-    			case "CompilationUnit": return this.MatchedCompilationUnit(oFullElement, mFullElement);
-    			case "ExternAliasDirective": return this.MatchedExternAliasDirective(oFullElement, mFullElement);
-    			case "UsingDirective": return this.MatchedUsingDirective(oFullElement, mFullElement);
-    			case "AttributeList": return this.MatchedAttributeList(oFullElement, mFullElement);
-    			case "AttributeTargetSpecifier": return this.MatchedAttributeTargetSpecifier(oFullElement, mFullElement);
-    			case "Attribute": return this.MatchedAttribute(oFullElement, mFullElement);
-    			case "AttributeArgumentList": return this.MatchedAttributeArgumentList(oFullElement, mFullElement);
     			case "AttributeArgument": return this.MatchedAttributeArgument(oFullElement, mFullElement);
     			case "NameEquals": return this.MatchedNameEquals(oFullElement, mFullElement);
     			case "TypeParameterList": return this.MatchedTypeParameterList(oFullElement, mFullElement);
@@ -341,11 +333,20 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			case "SwitchSection": return this.MatchedSwitchSection(oFullElement, mFullElement);
     			case "CatchClause": return this.MatchedCatchClause(oFullElement, mFullElement);
     			case "CatchDeclaration": return this.MatchedCatchDeclaration(oFullElement, mFullElement);
-    			case "NamespaceDeclaration": return this.MatchedNamespaceDeclaration(oFullElement, mFullElement);
+    			case "CatchFilterClause": return this.MatchedCatchFilterClause(oFullElement, mFullElement);
+    			case "FinallyClause": return this.MatchedFinallyClause(oFullElement, mFullElement);
+    			case "CompilationUnit": return this.MatchedCompilationUnit(oFullElement, mFullElement);
+    			case "ExternAliasDirective": return this.MatchedExternAliasDirective(oFullElement, mFullElement);
+    			case "UsingDirective": return this.MatchedUsingDirective(oFullElement, mFullElement);
+    			case "AttributeList": return this.MatchedAttributeList(oFullElement, mFullElement);
+    			case "AttributeTargetSpecifier": return this.MatchedAttributeTargetSpecifier(oFullElement, mFullElement);
+    			case "Attribute": return this.MatchedAttribute(oFullElement, mFullElement);
+    			case "AttributeArgumentList": return this.MatchedAttributeArgumentList(oFullElement, mFullElement);
     			case "DelegateDeclaration": return this.MatchedDelegateDeclaration(oFullElement, mFullElement);
     			case "EnumMemberDeclaration": return this.MatchedEnumMemberDeclaration(oFullElement, mFullElement);
     			case "IncompleteMember": return this.MatchedIncompleteMember(oFullElement, mFullElement);
     			case "GlobalStatement": return this.MatchedGlobalStatement(oFullElement, mFullElement);
+    			case "NamespaceDeclaration": return this.MatchedNamespaceDeclaration(oFullElement, mFullElement);
     			case "EnumDeclaration": return this.MatchedEnumDeclaration(oFullElement, mFullElement);
     			case "ClassDeclaration": return this.MatchedClassDeclaration(oFullElement, mFullElement);
     			case "StructDeclaration": return this.MatchedStructDeclaration(oFullElement, mFullElement);
@@ -499,6 +500,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			case "CasePatternSwitchLabel": return this.MatchedCasePatternSwitchLabel(oFullElement, mFullElement);
     			case "CaseSwitchLabel": return this.MatchedCaseSwitchLabel(oFullElement, mFullElement);
     			case "DefaultSwitchLabel": return this.MatchedDefaultSwitchLabel(oFullElement, mFullElement);
+    			case "CommentTrivia":
                 case "Token": return new XElement[0];
     			default: throw new ArgumentException($"The type {oFullElement.Name.LocalName} has not been found.");;//return true
     		}
@@ -553,15 +555,6 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     		if(oFullElement == null) throw new ArgumentNullException(nameof(oFullElement));
     		switch(oFullElement.Name.LocalName)
     		{
-    			case "CatchFilterClause": return this.UnmatchedOriginalCatchFilterClause(oFullElement);
-    			case "FinallyClause": return this.UnmatchedOriginalFinallyClause(oFullElement);
-    			case "CompilationUnit": return this.UnmatchedOriginalCompilationUnit(oFullElement);
-    			case "ExternAliasDirective": return this.UnmatchedOriginalExternAliasDirective(oFullElement);
-    			case "UsingDirective": return this.UnmatchedOriginalUsingDirective(oFullElement);
-    			case "AttributeList": return this.UnmatchedOriginalAttributeList(oFullElement);
-    			case "AttributeTargetSpecifier": return this.UnmatchedOriginalAttributeTargetSpecifier(oFullElement);
-    			case "Attribute": return this.UnmatchedOriginalAttribute(oFullElement);
-    			case "AttributeArgumentList": return this.UnmatchedOriginalAttributeArgumentList(oFullElement);
     			case "AttributeArgument": return this.UnmatchedOriginalAttributeArgument(oFullElement);
     			case "NameEquals": return this.UnmatchedOriginalNameEquals(oFullElement);
     			case "TypeParameterList": return this.UnmatchedOriginalTypeParameterList(oFullElement);
@@ -599,11 +592,20 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			case "SwitchSection": return this.UnmatchedOriginalSwitchSection(oFullElement);
     			case "CatchClause": return this.UnmatchedOriginalCatchClause(oFullElement);
     			case "CatchDeclaration": return this.UnmatchedOriginalCatchDeclaration(oFullElement);
-    			case "NamespaceDeclaration": return this.UnmatchedOriginalNamespaceDeclaration(oFullElement);
+    			case "CatchFilterClause": return this.UnmatchedOriginalCatchFilterClause(oFullElement);
+    			case "FinallyClause": return this.UnmatchedOriginalFinallyClause(oFullElement);
+    			case "CompilationUnit": return this.UnmatchedOriginalCompilationUnit(oFullElement);
+    			case "ExternAliasDirective": return this.UnmatchedOriginalExternAliasDirective(oFullElement);
+    			case "UsingDirective": return this.UnmatchedOriginalUsingDirective(oFullElement);
+    			case "AttributeList": return this.UnmatchedOriginalAttributeList(oFullElement);
+    			case "AttributeTargetSpecifier": return this.UnmatchedOriginalAttributeTargetSpecifier(oFullElement);
+    			case "Attribute": return this.UnmatchedOriginalAttribute(oFullElement);
+    			case "AttributeArgumentList": return this.UnmatchedOriginalAttributeArgumentList(oFullElement);
     			case "DelegateDeclaration": return this.UnmatchedOriginalDelegateDeclaration(oFullElement);
     			case "EnumMemberDeclaration": return this.UnmatchedOriginalEnumMemberDeclaration(oFullElement);
     			case "IncompleteMember": return this.UnmatchedOriginalIncompleteMember(oFullElement);
     			case "GlobalStatement": return this.UnmatchedOriginalGlobalStatement(oFullElement);
+    			case "NamespaceDeclaration": return this.UnmatchedOriginalNamespaceDeclaration(oFullElement);
     			case "EnumDeclaration": return this.UnmatchedOriginalEnumDeclaration(oFullElement);
     			case "ClassDeclaration": return this.UnmatchedOriginalClassDeclaration(oFullElement);
     			case "StructDeclaration": return this.UnmatchedOriginalStructDeclaration(oFullElement);
@@ -757,6 +759,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			case "CasePatternSwitchLabel": return this.UnmatchedOriginalCasePatternSwitchLabel(oFullElement);
     			case "CaseSwitchLabel": return this.UnmatchedOriginalCaseSwitchLabel(oFullElement);
     			case "DefaultSwitchLabel": return this.UnmatchedOriginalDefaultSwitchLabel(oFullElement);
+    			case "CommentTrivia":
                 case "Token": return new XElement[0];
     			default: throw new ArgumentException($"The type {oFullElement.Name.LocalName} has not been found.");;//return true
     		}
@@ -777,2205 +780,6 @@ namespace Jawilliam.CDF.CSharp.RoslynML
         	
         	result = this.UnmatchedOriginalCore(oFullElement);
         	UnmatchedOriginalAfter(oFullElement, ref result);
-        	return result;
-        }
-    
-    	#endregion
-    
-    	#region CatchFilterClause
-    
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="UnmatchedModifiedCatchFilterClause(XElement)"/>.
-        /// </summary>
-        /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedModifiedCatchFilterClause(XElement)"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="UnmatchedModifiedCatchFilterClauseCore(XElement)"/> is not executed and <see cref="UnmatchedModifiedCatchFilterClause(XElement)"/> returns the current value of <paramref name="result"/>.</param>
-        partial void UnmatchedModifiedCatchFilterClauseBefore(XElement mFullElement, ref IEnumerable<XElement> result, ref bool ignoreCore);
-    
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="UnmatchedModifiedCatchFilterClauseCore(XElement)"/>.
-        /// </summary>
-        /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedModifiedCatchFilterClauseCore(XElement)"/>.</param>
-        partial void UnmatchedModifiedCatchFilterClauseAfter(XElement mFullElement, ref IEnumerable<XElement> result);
-        
-        /// <summary>
-        /// Computes the expandable changes starting from an unmatched modified element existing in the seed delta. 
-        /// </summary>
-        /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
-        /// <returns>The expanded matches and actions.</returns>
-        /// <remarks>This is the default implementation for <see cref="UnmatchedModifiedCatchFilterClause(XElement)"/>.</remarks>
-        public virtual IEnumerable<XElement> UnmatchedModifiedCatchFilterClauseCore(XElement mFullElement)
-    	{
-    		if(mFullElement == null)
-    			throw new ArgumentNullException(nameof(mFullElement));
-    
-    		XElement child = null;
-    		
-    		child = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "WhenKeyword");
-    		if(child != null)
-            {
-                var insert = this.InsertIfAvailable(child, mFullElement);
-                if(insert != null)
-                    yield return insert;
-            }
-    		
-    		child = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "OpenParenToken");
-    		if(child != null)
-            {
-                var insert = this.InsertIfAvailable(child, mFullElement);
-                if(insert != null)
-                    yield return insert;
-            }
-    		
-    		child = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseParenToken");
-    		if(child != null)
-            {
-                var insert = this.InsertIfAvailable(child, mFullElement);
-                if(insert != null)
-                    yield return insert;
-            }
-    		
-    		yield break;
-    	}		
-    	
-        /// <summary>
-        /// Computes the expandable changes starting from an unmatched modified element existing in the seed delta. 
-        /// </summary>
-        /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
-        /// <returns>The expanded matches and actions.</returns>
-        public virtual IEnumerable<XElement> UnmatchedModifiedCatchFilterClause(XElement mFullElement)
-        {
-            IEnumerable<XElement> result = new XElement[0];
-        	var ignoreCore = false;
-        	UnmatchedModifiedCatchFilterClauseBefore(mFullElement, ref result, ref ignoreCore);
-        	if(ignoreCore) 
-        		return result;
-        	
-        	result = this.UnmatchedModifiedCatchFilterClauseCore(mFullElement);
-        	UnmatchedModifiedCatchFilterClauseAfter(mFullElement, ref result);
-        	return result;
-        }
-    
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="MatchedCatchFilterClause(XElement, XElement)"/>.
-        /// </summary>
-        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="MatchedCatchFilterClause(XElement, XElement)"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="MatchedCatchFilterClauseCore(XElement, XElement)"/> is not executed and <see cref="MatchedCatchFilterClause(XElement, XElement)"/> returns the current value of <paramref name="result"/>.</param>
-        partial void MatchedCatchFilterClauseBefore(XElement oFullElement, XElement mFullElement, ref IEnumerable<XElement> result, ref bool ignoreCore);
-    
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="MatchedCatchFilterClauseCore(XElement, XElement)"/>.
-        /// </summary>
-        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="MatchedCatchFilterClauseCore(XElement, XElement)"/>.</param>
-        partial void MatchedCatchFilterClauseAfter(XElement oFullElement, XElement mFullElement, ref IEnumerable<XElement> result);
-        
-        /// <summary>
-        /// Computes the expandable changes starting from an matched element existing in the seed delta. 
-        /// </summary>
-        /// <param name="oFullElement">The full description associated to the matched original element version.</param>
-        /// <param name="mFullElement">The full description associated to the unmatched modified element version.</param>
-        /// <returns>The expanded matches and actions.</returns>
-        /// <remarks>This is the default implementation for <see cref="MatchedCatchFilterClause(XElement, XElement)"/>.</remarks>
-        public virtual IEnumerable<XElement> MatchedCatchFilterClauseCore(XElement oFullElement, XElement mFullElement)
-    	{
-    		if(oFullElement == null) throw new ArgumentNullException(nameof(oFullElement));
-    		if(mFullElement == null) throw new ArgumentNullException(nameof(mFullElement));
-    
-    		XElement oChild = null, mChild = null;
-    		
-    		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "WhenKeyword");
-    		mChild = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "WhenKeyword");
-    		if(oChild == null && mChild != null)
-            {
-                var insert = this.InsertIfAvailable(mChild, oFullElement);
-                if(insert != null)
-                    yield return insert;
-            }
-    		else if(oChild != null && mChild == null)
-            {
-                var delete = this.DeleteIfAvailable(oChild);
-                if(delete != null)
-                    yield return delete;
-            }
-    		else if(oChild != null && mChild != null)
-    		{
-    			var match = this.MatchIfAvailable(oChild, mChild);
-    			if(match != null)
-    			{
-    				yield return match;
-    
-    				if(oChild.Elements().Count(ne => ne is XNode) == 0 && mChild.Elements().Count(ne => ne is XNode) == 0 && oChild.Value != mChild.Value)
-                    {
-                        var update = this.UpdateIfAvailable(oChild, mChild);
-                        if(update != null)
-                            yield return update;
-                    }
-    			}
-    		}
-    		
-    		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "OpenParenToken");
-    		mChild = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "OpenParenToken");
-    		if(oChild == null && mChild != null)
-            {
-                var insert = this.InsertIfAvailable(mChild, oFullElement);
-                if(insert != null)
-                    yield return insert;
-            }
-    		else if(oChild != null && mChild == null)
-            {
-                var delete = this.DeleteIfAvailable(oChild);
-                if(delete != null)
-                    yield return delete;
-            }
-    		else if(oChild != null && mChild != null)
-    		{
-    			var match = this.MatchIfAvailable(oChild, mChild);
-    			if(match != null)
-    			{
-    				yield return match;
-    
-    				if(oChild.Elements().Count(ne => ne is XNode) == 0 && mChild.Elements().Count(ne => ne is XNode) == 0 && oChild.Value != mChild.Value)
-                    {
-                        var update = this.UpdateIfAvailable(oChild, mChild);
-                        if(update != null)
-                            yield return update;
-                    }
-    			}
-    		}
-    		
-    		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseParenToken");
-    		mChild = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseParenToken");
-    		if(oChild == null && mChild != null)
-            {
-                var insert = this.InsertIfAvailable(mChild, oFullElement);
-                if(insert != null)
-                    yield return insert;
-            }
-    		else if(oChild != null && mChild == null)
-            {
-                var delete = this.DeleteIfAvailable(oChild);
-                if(delete != null)
-                    yield return delete;
-            }
-    		else if(oChild != null && mChild != null)
-    		{
-    			var match = this.MatchIfAvailable(oChild, mChild);
-    			if(match != null)
-    			{
-    				yield return match;
-    
-    				if(oChild.Elements().Count(ne => ne is XNode) == 0 && mChild.Elements().Count(ne => ne is XNode) == 0 && oChild.Value != mChild.Value)
-                    {
-                        var update = this.UpdateIfAvailable(oChild, mChild);
-                        if(update != null)
-                            yield return update;
-                    }
-    			}
-    		}
-    		
-    		yield break;
-    	}		
-        
-        /// <summary>
-        /// Computes the expandable changes starting from an matched element existing in the seed delta. 
-        /// </summary>
-        /// <param name="oFullElement">The full description associated to the matched original element version.</param>
-        /// <param name="mFullElement">The full description associated to the unmatched modified element version.</param>
-        /// <returns>The expanded matches and actions.</returns>
-        public virtual IEnumerable<XElement> MatchedCatchFilterClause(XElement oFullElement, XElement mFullElement)
-        {
-            IEnumerable<XElement> result = new XElement[0];
-        	var ignoreCore = false;
-        	MatchedCatchFilterClauseBefore(oFullElement, mFullElement, ref result, ref ignoreCore);
-        	if(ignoreCore) 
-        		return result;
-        	
-        	result = this.MatchedCatchFilterClauseCore(oFullElement, mFullElement);
-        	MatchedCatchFilterClauseAfter(oFullElement, mFullElement, ref result);
-        	return result;
-        }
-    
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="UnmatchedOriginalCatchFilterClause(XElement)"/>.
-        /// </summary>
-        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedOriginalCatchFilterClause(XElement)"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="UnmatchedOriginalCatchFilterClauseCore(XElement)"/> is not executed and <see cref="UnmatchedOriginalCatchFilterClause(XElement)"/> returns the current value of <paramref name="result"/>.</param>
-        partial void UnmatchedOriginalCatchFilterClauseBefore(XElement oFullElement, ref IEnumerable<XElement> result, ref bool ignoreCore);
-    
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="UnmatchedOriginalCatchFilterClauseCore(XElement)"/>.
-        /// </summary>
-        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedOriginalCatchFilterClauseCore(XElement)"/>.</param>
-        partial void UnmatchedOriginalCatchFilterClauseAfter(XElement oFullElement, ref IEnumerable<XElement> result);
-        
-        /// <summary>
-        /// Computes the expandable changes starting from an unmatched original element existing in the seed delta. 
-        /// </summary>
-        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
-        /// <returns>The expanded matches and actions.</returns>
-        /// <remarks>This is the default implementation for <see cref="UnmatchedOriginal(XElement)"/>.</remarks>
-        public virtual IEnumerable<XElement> UnmatchedOriginalCatchFilterClauseCore(XElement oFullElement)
-    	{
-    		if(oFullElement == null)
-    			throw new ArgumentNullException(nameof(oFullElement));
-    
-    		XElement child = null;
-    		
-    		child = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "WhenKeyword");
-    		if(child != null)
-            {
-                var delete = this.DeleteIfAvailable(child);
-                if(delete != null)
-                    yield return delete;
-            }
-    		
-    		child = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "OpenParenToken");
-    		if(child != null)
-            {
-                var delete = this.DeleteIfAvailable(child);
-                if(delete != null)
-                    yield return delete;
-            }
-    		
-    		child = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseParenToken");
-    		if(child != null)
-            {
-                var delete = this.DeleteIfAvailable(child);
-                if(delete != null)
-                    yield return delete;
-            }
-    		
-    		yield break;
-    	}		
-    	
-        /// <summary>
-        /// Computes the expandable changes starting from an unmatched original element existing in the seed delta. 
-        /// </summary>
-        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
-        /// <returns>The expanded matches and actions.</returns>
-        public virtual IEnumerable<XElement> UnmatchedOriginalCatchFilterClause(XElement oFullElement)
-        {
-            IEnumerable<XElement> result = new XElement[0];
-        	var ignoreCore = false;
-        	UnmatchedOriginalCatchFilterClauseBefore(oFullElement, ref result, ref ignoreCore);
-        	if(ignoreCore) 
-        		return result;
-        	
-        	result = this.UnmatchedOriginalCatchFilterClauseCore(oFullElement);
-        	UnmatchedOriginalCatchFilterClauseAfter(oFullElement, ref result);
-        	return result;
-        }
-    
-    	#endregion
-    
-    	#region FinallyClause
-    
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="UnmatchedModifiedFinallyClause(XElement)"/>.
-        /// </summary>
-        /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedModifiedFinallyClause(XElement)"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="UnmatchedModifiedFinallyClauseCore(XElement)"/> is not executed and <see cref="UnmatchedModifiedFinallyClause(XElement)"/> returns the current value of <paramref name="result"/>.</param>
-        partial void UnmatchedModifiedFinallyClauseBefore(XElement mFullElement, ref IEnumerable<XElement> result, ref bool ignoreCore);
-    
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="UnmatchedModifiedFinallyClauseCore(XElement)"/>.
-        /// </summary>
-        /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedModifiedFinallyClauseCore(XElement)"/>.</param>
-        partial void UnmatchedModifiedFinallyClauseAfter(XElement mFullElement, ref IEnumerable<XElement> result);
-        
-        /// <summary>
-        /// Computes the expandable changes starting from an unmatched modified element existing in the seed delta. 
-        /// </summary>
-        /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
-        /// <returns>The expanded matches and actions.</returns>
-        /// <remarks>This is the default implementation for <see cref="UnmatchedModifiedFinallyClause(XElement)"/>.</remarks>
-        public virtual IEnumerable<XElement> UnmatchedModifiedFinallyClauseCore(XElement mFullElement)
-    	{
-    		if(mFullElement == null)
-    			throw new ArgumentNullException(nameof(mFullElement));
-    
-    		XElement child = null;
-    		
-    		child = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "FinallyKeyword");
-    		if(child != null)
-            {
-                var insert = this.InsertIfAvailable(child, mFullElement);
-                if(insert != null)
-                    yield return insert;
-            }
-    		
-    		yield break;
-    	}		
-    	
-        /// <summary>
-        /// Computes the expandable changes starting from an unmatched modified element existing in the seed delta. 
-        /// </summary>
-        /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
-        /// <returns>The expanded matches and actions.</returns>
-        public virtual IEnumerable<XElement> UnmatchedModifiedFinallyClause(XElement mFullElement)
-        {
-            IEnumerable<XElement> result = new XElement[0];
-        	var ignoreCore = false;
-        	UnmatchedModifiedFinallyClauseBefore(mFullElement, ref result, ref ignoreCore);
-        	if(ignoreCore) 
-        		return result;
-        	
-        	result = this.UnmatchedModifiedFinallyClauseCore(mFullElement);
-        	UnmatchedModifiedFinallyClauseAfter(mFullElement, ref result);
-        	return result;
-        }
-    
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="MatchedFinallyClause(XElement, XElement)"/>.
-        /// </summary>
-        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="MatchedFinallyClause(XElement, XElement)"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="MatchedFinallyClauseCore(XElement, XElement)"/> is not executed and <see cref="MatchedFinallyClause(XElement, XElement)"/> returns the current value of <paramref name="result"/>.</param>
-        partial void MatchedFinallyClauseBefore(XElement oFullElement, XElement mFullElement, ref IEnumerable<XElement> result, ref bool ignoreCore);
-    
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="MatchedFinallyClauseCore(XElement, XElement)"/>.
-        /// </summary>
-        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="MatchedFinallyClauseCore(XElement, XElement)"/>.</param>
-        partial void MatchedFinallyClauseAfter(XElement oFullElement, XElement mFullElement, ref IEnumerable<XElement> result);
-        
-        /// <summary>
-        /// Computes the expandable changes starting from an matched element existing in the seed delta. 
-        /// </summary>
-        /// <param name="oFullElement">The full description associated to the matched original element version.</param>
-        /// <param name="mFullElement">The full description associated to the unmatched modified element version.</param>
-        /// <returns>The expanded matches and actions.</returns>
-        /// <remarks>This is the default implementation for <see cref="MatchedFinallyClause(XElement, XElement)"/>.</remarks>
-        public virtual IEnumerable<XElement> MatchedFinallyClauseCore(XElement oFullElement, XElement mFullElement)
-    	{
-    		if(oFullElement == null) throw new ArgumentNullException(nameof(oFullElement));
-    		if(mFullElement == null) throw new ArgumentNullException(nameof(mFullElement));
-    
-    		XElement oChild = null, mChild = null;
-    		
-    		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "FinallyKeyword");
-    		mChild = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "FinallyKeyword");
-    		if(oChild == null && mChild != null)
-            {
-                var insert = this.InsertIfAvailable(mChild, oFullElement);
-                if(insert != null)
-                    yield return insert;
-            }
-    		else if(oChild != null && mChild == null)
-            {
-                var delete = this.DeleteIfAvailable(oChild);
-                if(delete != null)
-                    yield return delete;
-            }
-    		else if(oChild != null && mChild != null)
-    		{
-    			var match = this.MatchIfAvailable(oChild, mChild);
-    			if(match != null)
-    			{
-    				yield return match;
-    
-    				if(oChild.Elements().Count(ne => ne is XNode) == 0 && mChild.Elements().Count(ne => ne is XNode) == 0 && oChild.Value != mChild.Value)
-                    {
-                        var update = this.UpdateIfAvailable(oChild, mChild);
-                        if(update != null)
-                            yield return update;
-                    }
-    			}
-    		}
-    		
-    		yield break;
-    	}		
-        
-        /// <summary>
-        /// Computes the expandable changes starting from an matched element existing in the seed delta. 
-        /// </summary>
-        /// <param name="oFullElement">The full description associated to the matched original element version.</param>
-        /// <param name="mFullElement">The full description associated to the unmatched modified element version.</param>
-        /// <returns>The expanded matches and actions.</returns>
-        public virtual IEnumerable<XElement> MatchedFinallyClause(XElement oFullElement, XElement mFullElement)
-        {
-            IEnumerable<XElement> result = new XElement[0];
-        	var ignoreCore = false;
-        	MatchedFinallyClauseBefore(oFullElement, mFullElement, ref result, ref ignoreCore);
-        	if(ignoreCore) 
-        		return result;
-        	
-        	result = this.MatchedFinallyClauseCore(oFullElement, mFullElement);
-        	MatchedFinallyClauseAfter(oFullElement, mFullElement, ref result);
-        	return result;
-        }
-    
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="UnmatchedOriginalFinallyClause(XElement)"/>.
-        /// </summary>
-        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedOriginalFinallyClause(XElement)"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="UnmatchedOriginalFinallyClauseCore(XElement)"/> is not executed and <see cref="UnmatchedOriginalFinallyClause(XElement)"/> returns the current value of <paramref name="result"/>.</param>
-        partial void UnmatchedOriginalFinallyClauseBefore(XElement oFullElement, ref IEnumerable<XElement> result, ref bool ignoreCore);
-    
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="UnmatchedOriginalFinallyClauseCore(XElement)"/>.
-        /// </summary>
-        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedOriginalFinallyClauseCore(XElement)"/>.</param>
-        partial void UnmatchedOriginalFinallyClauseAfter(XElement oFullElement, ref IEnumerable<XElement> result);
-        
-        /// <summary>
-        /// Computes the expandable changes starting from an unmatched original element existing in the seed delta. 
-        /// </summary>
-        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
-        /// <returns>The expanded matches and actions.</returns>
-        /// <remarks>This is the default implementation for <see cref="UnmatchedOriginal(XElement)"/>.</remarks>
-        public virtual IEnumerable<XElement> UnmatchedOriginalFinallyClauseCore(XElement oFullElement)
-    	{
-    		if(oFullElement == null)
-    			throw new ArgumentNullException(nameof(oFullElement));
-    
-    		XElement child = null;
-    		
-    		child = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "FinallyKeyword");
-    		if(child != null)
-            {
-                var delete = this.DeleteIfAvailable(child);
-                if(delete != null)
-                    yield return delete;
-            }
-    		
-    		yield break;
-    	}		
-    	
-        /// <summary>
-        /// Computes the expandable changes starting from an unmatched original element existing in the seed delta. 
-        /// </summary>
-        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
-        /// <returns>The expanded matches and actions.</returns>
-        public virtual IEnumerable<XElement> UnmatchedOriginalFinallyClause(XElement oFullElement)
-        {
-            IEnumerable<XElement> result = new XElement[0];
-        	var ignoreCore = false;
-        	UnmatchedOriginalFinallyClauseBefore(oFullElement, ref result, ref ignoreCore);
-        	if(ignoreCore) 
-        		return result;
-        	
-        	result = this.UnmatchedOriginalFinallyClauseCore(oFullElement);
-        	UnmatchedOriginalFinallyClauseAfter(oFullElement, ref result);
-        	return result;
-        }
-    
-    	#endregion
-    
-    	#region CompilationUnit
-    
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="UnmatchedModifiedCompilationUnit(XElement)"/>.
-        /// </summary>
-        /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedModifiedCompilationUnit(XElement)"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="UnmatchedModifiedCompilationUnitCore(XElement)"/> is not executed and <see cref="UnmatchedModifiedCompilationUnit(XElement)"/> returns the current value of <paramref name="result"/>.</param>
-        partial void UnmatchedModifiedCompilationUnitBefore(XElement mFullElement, ref IEnumerable<XElement> result, ref bool ignoreCore);
-    
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="UnmatchedModifiedCompilationUnitCore(XElement)"/>.
-        /// </summary>
-        /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedModifiedCompilationUnitCore(XElement)"/>.</param>
-        partial void UnmatchedModifiedCompilationUnitAfter(XElement mFullElement, ref IEnumerable<XElement> result);
-        
-        /// <summary>
-        /// Computes the expandable changes starting from an unmatched modified element existing in the seed delta. 
-        /// </summary>
-        /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
-        /// <returns>The expanded matches and actions.</returns>
-        /// <remarks>This is the default implementation for <see cref="UnmatchedModifiedCompilationUnit(XElement)"/>.</remarks>
-        public virtual IEnumerable<XElement> UnmatchedModifiedCompilationUnitCore(XElement mFullElement)
-    	{
-    		if(mFullElement == null)
-    			throw new ArgumentNullException(nameof(mFullElement));
-    
-    		XElement child = null;
-    		
-    		child = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "EndOfFileToken");
-    		if(child != null)
-            {
-                var insert = this.InsertIfAvailable(child, mFullElement);
-                if(insert != null)
-                    yield return insert;
-            }
-    		
-    		yield break;
-    	}		
-    	
-        /// <summary>
-        /// Computes the expandable changes starting from an unmatched modified element existing in the seed delta. 
-        /// </summary>
-        /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
-        /// <returns>The expanded matches and actions.</returns>
-        public virtual IEnumerable<XElement> UnmatchedModifiedCompilationUnit(XElement mFullElement)
-        {
-            IEnumerable<XElement> result = new XElement[0];
-        	var ignoreCore = false;
-        	UnmatchedModifiedCompilationUnitBefore(mFullElement, ref result, ref ignoreCore);
-        	if(ignoreCore) 
-        		return result;
-        	
-        	result = this.UnmatchedModifiedCompilationUnitCore(mFullElement);
-        	UnmatchedModifiedCompilationUnitAfter(mFullElement, ref result);
-        	return result;
-        }
-    
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="MatchedCompilationUnit(XElement, XElement)"/>.
-        /// </summary>
-        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="MatchedCompilationUnit(XElement, XElement)"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="MatchedCompilationUnitCore(XElement, XElement)"/> is not executed and <see cref="MatchedCompilationUnit(XElement, XElement)"/> returns the current value of <paramref name="result"/>.</param>
-        partial void MatchedCompilationUnitBefore(XElement oFullElement, XElement mFullElement, ref IEnumerable<XElement> result, ref bool ignoreCore);
-    
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="MatchedCompilationUnitCore(XElement, XElement)"/>.
-        /// </summary>
-        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="MatchedCompilationUnitCore(XElement, XElement)"/>.</param>
-        partial void MatchedCompilationUnitAfter(XElement oFullElement, XElement mFullElement, ref IEnumerable<XElement> result);
-        
-        /// <summary>
-        /// Computes the expandable changes starting from an matched element existing in the seed delta. 
-        /// </summary>
-        /// <param name="oFullElement">The full description associated to the matched original element version.</param>
-        /// <param name="mFullElement">The full description associated to the unmatched modified element version.</param>
-        /// <returns>The expanded matches and actions.</returns>
-        /// <remarks>This is the default implementation for <see cref="MatchedCompilationUnit(XElement, XElement)"/>.</remarks>
-        public virtual IEnumerable<XElement> MatchedCompilationUnitCore(XElement oFullElement, XElement mFullElement)
-    	{
-    		if(oFullElement == null) throw new ArgumentNullException(nameof(oFullElement));
-    		if(mFullElement == null) throw new ArgumentNullException(nameof(mFullElement));
-    
-    		XElement oChild = null, mChild = null;
-    		
-    		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "EndOfFileToken");
-    		mChild = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "EndOfFileToken");
-    		if(oChild == null && mChild != null)
-            {
-                var insert = this.InsertIfAvailable(mChild, oFullElement);
-                if(insert != null)
-                    yield return insert;
-            }
-    		else if(oChild != null && mChild == null)
-            {
-                var delete = this.DeleteIfAvailable(oChild);
-                if(delete != null)
-                    yield return delete;
-            }
-    		else if(oChild != null && mChild != null)
-    		{
-    			var match = this.MatchIfAvailable(oChild, mChild);
-    			if(match != null)
-    			{
-    				yield return match;
-    
-    				if(oChild.Elements().Count(ne => ne is XNode) == 0 && mChild.Elements().Count(ne => ne is XNode) == 0 && oChild.Value != mChild.Value)
-                    {
-                        var update = this.UpdateIfAvailable(oChild, mChild);
-                        if(update != null)
-                            yield return update;
-                    }
-    			}
-    		}
-    		
-    		yield break;
-    	}		
-        
-        /// <summary>
-        /// Computes the expandable changes starting from an matched element existing in the seed delta. 
-        /// </summary>
-        /// <param name="oFullElement">The full description associated to the matched original element version.</param>
-        /// <param name="mFullElement">The full description associated to the unmatched modified element version.</param>
-        /// <returns>The expanded matches and actions.</returns>
-        public virtual IEnumerable<XElement> MatchedCompilationUnit(XElement oFullElement, XElement mFullElement)
-        {
-            IEnumerable<XElement> result = new XElement[0];
-        	var ignoreCore = false;
-        	MatchedCompilationUnitBefore(oFullElement, mFullElement, ref result, ref ignoreCore);
-        	if(ignoreCore) 
-        		return result;
-        	
-        	result = this.MatchedCompilationUnitCore(oFullElement, mFullElement);
-        	MatchedCompilationUnitAfter(oFullElement, mFullElement, ref result);
-        	return result;
-        }
-    
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="UnmatchedOriginalCompilationUnit(XElement)"/>.
-        /// </summary>
-        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedOriginalCompilationUnit(XElement)"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="UnmatchedOriginalCompilationUnitCore(XElement)"/> is not executed and <see cref="UnmatchedOriginalCompilationUnit(XElement)"/> returns the current value of <paramref name="result"/>.</param>
-        partial void UnmatchedOriginalCompilationUnitBefore(XElement oFullElement, ref IEnumerable<XElement> result, ref bool ignoreCore);
-    
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="UnmatchedOriginalCompilationUnitCore(XElement)"/>.
-        /// </summary>
-        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedOriginalCompilationUnitCore(XElement)"/>.</param>
-        partial void UnmatchedOriginalCompilationUnitAfter(XElement oFullElement, ref IEnumerable<XElement> result);
-        
-        /// <summary>
-        /// Computes the expandable changes starting from an unmatched original element existing in the seed delta. 
-        /// </summary>
-        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
-        /// <returns>The expanded matches and actions.</returns>
-        /// <remarks>This is the default implementation for <see cref="UnmatchedOriginal(XElement)"/>.</remarks>
-        public virtual IEnumerable<XElement> UnmatchedOriginalCompilationUnitCore(XElement oFullElement)
-    	{
-    		if(oFullElement == null)
-    			throw new ArgumentNullException(nameof(oFullElement));
-    
-    		XElement child = null;
-    		
-    		child = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "EndOfFileToken");
-    		if(child != null)
-            {
-                var delete = this.DeleteIfAvailable(child);
-                if(delete != null)
-                    yield return delete;
-            }
-    		
-    		yield break;
-    	}		
-    	
-        /// <summary>
-        /// Computes the expandable changes starting from an unmatched original element existing in the seed delta. 
-        /// </summary>
-        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
-        /// <returns>The expanded matches and actions.</returns>
-        public virtual IEnumerable<XElement> UnmatchedOriginalCompilationUnit(XElement oFullElement)
-        {
-            IEnumerable<XElement> result = new XElement[0];
-        	var ignoreCore = false;
-        	UnmatchedOriginalCompilationUnitBefore(oFullElement, ref result, ref ignoreCore);
-        	if(ignoreCore) 
-        		return result;
-        	
-        	result = this.UnmatchedOriginalCompilationUnitCore(oFullElement);
-        	UnmatchedOriginalCompilationUnitAfter(oFullElement, ref result);
-        	return result;
-        }
-    
-    	#endregion
-    
-    	#region ExternAliasDirective
-    
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="UnmatchedModifiedExternAliasDirective(XElement)"/>.
-        /// </summary>
-        /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedModifiedExternAliasDirective(XElement)"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="UnmatchedModifiedExternAliasDirectiveCore(XElement)"/> is not executed and <see cref="UnmatchedModifiedExternAliasDirective(XElement)"/> returns the current value of <paramref name="result"/>.</param>
-        partial void UnmatchedModifiedExternAliasDirectiveBefore(XElement mFullElement, ref IEnumerable<XElement> result, ref bool ignoreCore);
-    
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="UnmatchedModifiedExternAliasDirectiveCore(XElement)"/>.
-        /// </summary>
-        /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedModifiedExternAliasDirectiveCore(XElement)"/>.</param>
-        partial void UnmatchedModifiedExternAliasDirectiveAfter(XElement mFullElement, ref IEnumerable<XElement> result);
-        
-        /// <summary>
-        /// Computes the expandable changes starting from an unmatched modified element existing in the seed delta. 
-        /// </summary>
-        /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
-        /// <returns>The expanded matches and actions.</returns>
-        /// <remarks>This is the default implementation for <see cref="UnmatchedModifiedExternAliasDirective(XElement)"/>.</remarks>
-        public virtual IEnumerable<XElement> UnmatchedModifiedExternAliasDirectiveCore(XElement mFullElement)
-    	{
-    		if(mFullElement == null)
-    			throw new ArgumentNullException(nameof(mFullElement));
-    
-    		XElement child = null;
-    		
-    		child = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "ExternKeyword");
-    		if(child != null)
-            {
-                var insert = this.InsertIfAvailable(child, mFullElement);
-                if(insert != null)
-                    yield return insert;
-            }
-    		
-    		child = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "AliasKeyword");
-    		if(child != null)
-            {
-                var insert = this.InsertIfAvailable(child, mFullElement);
-                if(insert != null)
-                    yield return insert;
-            }
-    		
-    		child = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "Identifier");
-    		if(child != null)
-            {
-                var insert = this.InsertIfAvailable(child, mFullElement);
-                if(insert != null)
-                    yield return insert;
-            }
-    		
-    		child = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "SemicolonToken");
-    		if(child != null)
-            {
-                var insert = this.InsertIfAvailable(child, mFullElement);
-                if(insert != null)
-                    yield return insert;
-            }
-    		
-    		yield break;
-    	}		
-    	
-        /// <summary>
-        /// Computes the expandable changes starting from an unmatched modified element existing in the seed delta. 
-        /// </summary>
-        /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
-        /// <returns>The expanded matches and actions.</returns>
-        public virtual IEnumerable<XElement> UnmatchedModifiedExternAliasDirective(XElement mFullElement)
-        {
-            IEnumerable<XElement> result = new XElement[0];
-        	var ignoreCore = false;
-        	UnmatchedModifiedExternAliasDirectiveBefore(mFullElement, ref result, ref ignoreCore);
-        	if(ignoreCore) 
-        		return result;
-        	
-        	result = this.UnmatchedModifiedExternAliasDirectiveCore(mFullElement);
-        	UnmatchedModifiedExternAliasDirectiveAfter(mFullElement, ref result);
-        	return result;
-        }
-    
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="MatchedExternAliasDirective(XElement, XElement)"/>.
-        /// </summary>
-        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="MatchedExternAliasDirective(XElement, XElement)"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="MatchedExternAliasDirectiveCore(XElement, XElement)"/> is not executed and <see cref="MatchedExternAliasDirective(XElement, XElement)"/> returns the current value of <paramref name="result"/>.</param>
-        partial void MatchedExternAliasDirectiveBefore(XElement oFullElement, XElement mFullElement, ref IEnumerable<XElement> result, ref bool ignoreCore);
-    
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="MatchedExternAliasDirectiveCore(XElement, XElement)"/>.
-        /// </summary>
-        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="MatchedExternAliasDirectiveCore(XElement, XElement)"/>.</param>
-        partial void MatchedExternAliasDirectiveAfter(XElement oFullElement, XElement mFullElement, ref IEnumerable<XElement> result);
-        
-        /// <summary>
-        /// Computes the expandable changes starting from an matched element existing in the seed delta. 
-        /// </summary>
-        /// <param name="oFullElement">The full description associated to the matched original element version.</param>
-        /// <param name="mFullElement">The full description associated to the unmatched modified element version.</param>
-        /// <returns>The expanded matches and actions.</returns>
-        /// <remarks>This is the default implementation for <see cref="MatchedExternAliasDirective(XElement, XElement)"/>.</remarks>
-        public virtual IEnumerable<XElement> MatchedExternAliasDirectiveCore(XElement oFullElement, XElement mFullElement)
-    	{
-    		if(oFullElement == null) throw new ArgumentNullException(nameof(oFullElement));
-    		if(mFullElement == null) throw new ArgumentNullException(nameof(mFullElement));
-    
-    		XElement oChild = null, mChild = null;
-    		
-    		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "ExternKeyword");
-    		mChild = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "ExternKeyword");
-    		if(oChild == null && mChild != null)
-            {
-                var insert = this.InsertIfAvailable(mChild, oFullElement);
-                if(insert != null)
-                    yield return insert;
-            }
-    		else if(oChild != null && mChild == null)
-            {
-                var delete = this.DeleteIfAvailable(oChild);
-                if(delete != null)
-                    yield return delete;
-            }
-    		else if(oChild != null && mChild != null)
-    		{
-    			var match = this.MatchIfAvailable(oChild, mChild);
-    			if(match != null)
-    			{
-    				yield return match;
-    
-    				if(oChild.Elements().Count(ne => ne is XNode) == 0 && mChild.Elements().Count(ne => ne is XNode) == 0 && oChild.Value != mChild.Value)
-                    {
-                        var update = this.UpdateIfAvailable(oChild, mChild);
-                        if(update != null)
-                            yield return update;
-                    }
-    			}
-    		}
-    		
-    		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "AliasKeyword");
-    		mChild = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "AliasKeyword");
-    		if(oChild == null && mChild != null)
-            {
-                var insert = this.InsertIfAvailable(mChild, oFullElement);
-                if(insert != null)
-                    yield return insert;
-            }
-    		else if(oChild != null && mChild == null)
-            {
-                var delete = this.DeleteIfAvailable(oChild);
-                if(delete != null)
-                    yield return delete;
-            }
-    		else if(oChild != null && mChild != null)
-    		{
-    			var match = this.MatchIfAvailable(oChild, mChild);
-    			if(match != null)
-    			{
-    				yield return match;
-    
-    				if(oChild.Elements().Count(ne => ne is XNode) == 0 && mChild.Elements().Count(ne => ne is XNode) == 0 && oChild.Value != mChild.Value)
-                    {
-                        var update = this.UpdateIfAvailable(oChild, mChild);
-                        if(update != null)
-                            yield return update;
-                    }
-    			}
-    		}
-    		
-    		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "Identifier");
-    		mChild = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "Identifier");
-    		if(oChild == null && mChild != null)
-            {
-                var insert = this.InsertIfAvailable(mChild, oFullElement);
-                if(insert != null)
-                    yield return insert;
-            }
-    		else if(oChild != null && mChild == null)
-            {
-                var delete = this.DeleteIfAvailable(oChild);
-                if(delete != null)
-                    yield return delete;
-            }
-    		else if(oChild != null && mChild != null)
-    		{
-    			var match = this.MatchIfAvailable(oChild, mChild);
-    			if(match != null)
-    			{
-    				yield return match;
-    
-    				if(oChild.Elements().Count(ne => ne is XNode) == 0 && mChild.Elements().Count(ne => ne is XNode) == 0 && oChild.Value != mChild.Value)
-                    {
-                        var update = this.UpdateIfAvailable(oChild, mChild);
-                        if(update != null)
-                            yield return update;
-                    }
-    			}
-    		}
-    		
-    		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "SemicolonToken");
-    		mChild = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "SemicolonToken");
-    		if(oChild == null && mChild != null)
-            {
-                var insert = this.InsertIfAvailable(mChild, oFullElement);
-                if(insert != null)
-                    yield return insert;
-            }
-    		else if(oChild != null && mChild == null)
-            {
-                var delete = this.DeleteIfAvailable(oChild);
-                if(delete != null)
-                    yield return delete;
-            }
-    		else if(oChild != null && mChild != null)
-    		{
-    			var match = this.MatchIfAvailable(oChild, mChild);
-    			if(match != null)
-    			{
-    				yield return match;
-    
-    				if(oChild.Elements().Count(ne => ne is XNode) == 0 && mChild.Elements().Count(ne => ne is XNode) == 0 && oChild.Value != mChild.Value)
-                    {
-                        var update = this.UpdateIfAvailable(oChild, mChild);
-                        if(update != null)
-                            yield return update;
-                    }
-    			}
-    		}
-    		
-    		yield break;
-    	}		
-        
-        /// <summary>
-        /// Computes the expandable changes starting from an matched element existing in the seed delta. 
-        /// </summary>
-        /// <param name="oFullElement">The full description associated to the matched original element version.</param>
-        /// <param name="mFullElement">The full description associated to the unmatched modified element version.</param>
-        /// <returns>The expanded matches and actions.</returns>
-        public virtual IEnumerable<XElement> MatchedExternAliasDirective(XElement oFullElement, XElement mFullElement)
-        {
-            IEnumerable<XElement> result = new XElement[0];
-        	var ignoreCore = false;
-        	MatchedExternAliasDirectiveBefore(oFullElement, mFullElement, ref result, ref ignoreCore);
-        	if(ignoreCore) 
-        		return result;
-        	
-        	result = this.MatchedExternAliasDirectiveCore(oFullElement, mFullElement);
-        	MatchedExternAliasDirectiveAfter(oFullElement, mFullElement, ref result);
-        	return result;
-        }
-    
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="UnmatchedOriginalExternAliasDirective(XElement)"/>.
-        /// </summary>
-        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedOriginalExternAliasDirective(XElement)"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="UnmatchedOriginalExternAliasDirectiveCore(XElement)"/> is not executed and <see cref="UnmatchedOriginalExternAliasDirective(XElement)"/> returns the current value of <paramref name="result"/>.</param>
-        partial void UnmatchedOriginalExternAliasDirectiveBefore(XElement oFullElement, ref IEnumerable<XElement> result, ref bool ignoreCore);
-    
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="UnmatchedOriginalExternAliasDirectiveCore(XElement)"/>.
-        /// </summary>
-        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedOriginalExternAliasDirectiveCore(XElement)"/>.</param>
-        partial void UnmatchedOriginalExternAliasDirectiveAfter(XElement oFullElement, ref IEnumerable<XElement> result);
-        
-        /// <summary>
-        /// Computes the expandable changes starting from an unmatched original element existing in the seed delta. 
-        /// </summary>
-        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
-        /// <returns>The expanded matches and actions.</returns>
-        /// <remarks>This is the default implementation for <see cref="UnmatchedOriginal(XElement)"/>.</remarks>
-        public virtual IEnumerable<XElement> UnmatchedOriginalExternAliasDirectiveCore(XElement oFullElement)
-    	{
-    		if(oFullElement == null)
-    			throw new ArgumentNullException(nameof(oFullElement));
-    
-    		XElement child = null;
-    		
-    		child = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "ExternKeyword");
-    		if(child != null)
-            {
-                var delete = this.DeleteIfAvailable(child);
-                if(delete != null)
-                    yield return delete;
-            }
-    		
-    		child = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "AliasKeyword");
-    		if(child != null)
-            {
-                var delete = this.DeleteIfAvailable(child);
-                if(delete != null)
-                    yield return delete;
-            }
-    		
-    		child = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "Identifier");
-    		if(child != null)
-            {
-                var delete = this.DeleteIfAvailable(child);
-                if(delete != null)
-                    yield return delete;
-            }
-    		
-    		child = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "SemicolonToken");
-    		if(child != null)
-            {
-                var delete = this.DeleteIfAvailable(child);
-                if(delete != null)
-                    yield return delete;
-            }
-    		
-    		yield break;
-    	}		
-    	
-        /// <summary>
-        /// Computes the expandable changes starting from an unmatched original element existing in the seed delta. 
-        /// </summary>
-        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
-        /// <returns>The expanded matches and actions.</returns>
-        public virtual IEnumerable<XElement> UnmatchedOriginalExternAliasDirective(XElement oFullElement)
-        {
-            IEnumerable<XElement> result = new XElement[0];
-        	var ignoreCore = false;
-        	UnmatchedOriginalExternAliasDirectiveBefore(oFullElement, ref result, ref ignoreCore);
-        	if(ignoreCore) 
-        		return result;
-        	
-        	result = this.UnmatchedOriginalExternAliasDirectiveCore(oFullElement);
-        	UnmatchedOriginalExternAliasDirectiveAfter(oFullElement, ref result);
-        	return result;
-        }
-    
-    	#endregion
-    
-    	#region UsingDirective
-    
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="UnmatchedModifiedUsingDirective(XElement)"/>.
-        /// </summary>
-        /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedModifiedUsingDirective(XElement)"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="UnmatchedModifiedUsingDirectiveCore(XElement)"/> is not executed and <see cref="UnmatchedModifiedUsingDirective(XElement)"/> returns the current value of <paramref name="result"/>.</param>
-        partial void UnmatchedModifiedUsingDirectiveBefore(XElement mFullElement, ref IEnumerable<XElement> result, ref bool ignoreCore);
-    
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="UnmatchedModifiedUsingDirectiveCore(XElement)"/>.
-        /// </summary>
-        /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedModifiedUsingDirectiveCore(XElement)"/>.</param>
-        partial void UnmatchedModifiedUsingDirectiveAfter(XElement mFullElement, ref IEnumerable<XElement> result);
-        
-        /// <summary>
-        /// Computes the expandable changes starting from an unmatched modified element existing in the seed delta. 
-        /// </summary>
-        /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
-        /// <returns>The expanded matches and actions.</returns>
-        /// <remarks>This is the default implementation for <see cref="UnmatchedModifiedUsingDirective(XElement)"/>.</remarks>
-        public virtual IEnumerable<XElement> UnmatchedModifiedUsingDirectiveCore(XElement mFullElement)
-    	{
-    		if(mFullElement == null)
-    			throw new ArgumentNullException(nameof(mFullElement));
-    
-    		XElement child = null;
-    		
-    		child = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "UsingKeyword");
-    		if(child != null)
-            {
-                var insert = this.InsertIfAvailable(child, mFullElement);
-                if(insert != null)
-                    yield return insert;
-            }
-    		
-    		child = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "StaticKeyword");
-    		if(child != null)
-            {
-                var insert = this.InsertIfAvailable(child, mFullElement);
-                if(insert != null)
-                    yield return insert;
-            }
-    		
-    		child = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "SemicolonToken");
-    		if(child != null)
-            {
-                var insert = this.InsertIfAvailable(child, mFullElement);
-                if(insert != null)
-                    yield return insert;
-            }
-    		
-    		yield break;
-    	}		
-    	
-        /// <summary>
-        /// Computes the expandable changes starting from an unmatched modified element existing in the seed delta. 
-        /// </summary>
-        /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
-        /// <returns>The expanded matches and actions.</returns>
-        public virtual IEnumerable<XElement> UnmatchedModifiedUsingDirective(XElement mFullElement)
-        {
-            IEnumerable<XElement> result = new XElement[0];
-        	var ignoreCore = false;
-        	UnmatchedModifiedUsingDirectiveBefore(mFullElement, ref result, ref ignoreCore);
-        	if(ignoreCore) 
-        		return result;
-        	
-        	result = this.UnmatchedModifiedUsingDirectiveCore(mFullElement);
-        	UnmatchedModifiedUsingDirectiveAfter(mFullElement, ref result);
-        	return result;
-        }
-    
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="MatchedUsingDirective(XElement, XElement)"/>.
-        /// </summary>
-        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="MatchedUsingDirective(XElement, XElement)"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="MatchedUsingDirectiveCore(XElement, XElement)"/> is not executed and <see cref="MatchedUsingDirective(XElement, XElement)"/> returns the current value of <paramref name="result"/>.</param>
-        partial void MatchedUsingDirectiveBefore(XElement oFullElement, XElement mFullElement, ref IEnumerable<XElement> result, ref bool ignoreCore);
-    
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="MatchedUsingDirectiveCore(XElement, XElement)"/>.
-        /// </summary>
-        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="MatchedUsingDirectiveCore(XElement, XElement)"/>.</param>
-        partial void MatchedUsingDirectiveAfter(XElement oFullElement, XElement mFullElement, ref IEnumerable<XElement> result);
-        
-        /// <summary>
-        /// Computes the expandable changes starting from an matched element existing in the seed delta. 
-        /// </summary>
-        /// <param name="oFullElement">The full description associated to the matched original element version.</param>
-        /// <param name="mFullElement">The full description associated to the unmatched modified element version.</param>
-        /// <returns>The expanded matches and actions.</returns>
-        /// <remarks>This is the default implementation for <see cref="MatchedUsingDirective(XElement, XElement)"/>.</remarks>
-        public virtual IEnumerable<XElement> MatchedUsingDirectiveCore(XElement oFullElement, XElement mFullElement)
-    	{
-    		if(oFullElement == null) throw new ArgumentNullException(nameof(oFullElement));
-    		if(mFullElement == null) throw new ArgumentNullException(nameof(mFullElement));
-    
-    		XElement oChild = null, mChild = null;
-    		
-    		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "UsingKeyword");
-    		mChild = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "UsingKeyword");
-    		if(oChild == null && mChild != null)
-            {
-                var insert = this.InsertIfAvailable(mChild, oFullElement);
-                if(insert != null)
-                    yield return insert;
-            }
-    		else if(oChild != null && mChild == null)
-            {
-                var delete = this.DeleteIfAvailable(oChild);
-                if(delete != null)
-                    yield return delete;
-            }
-    		else if(oChild != null && mChild != null)
-    		{
-    			var match = this.MatchIfAvailable(oChild, mChild);
-    			if(match != null)
-    			{
-    				yield return match;
-    
-    				if(oChild.Elements().Count(ne => ne is XNode) == 0 && mChild.Elements().Count(ne => ne is XNode) == 0 && oChild.Value != mChild.Value)
-                    {
-                        var update = this.UpdateIfAvailable(oChild, mChild);
-                        if(update != null)
-                            yield return update;
-                    }
-    			}
-    		}
-    		
-    		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "StaticKeyword");
-    		mChild = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "StaticKeyword");
-    		if(oChild == null && mChild != null)
-            {
-                var insert = this.InsertIfAvailable(mChild, oFullElement);
-                if(insert != null)
-                    yield return insert;
-            }
-    		else if(oChild != null && mChild == null)
-            {
-                var delete = this.DeleteIfAvailable(oChild);
-                if(delete != null)
-                    yield return delete;
-            }
-    		else if(oChild != null && mChild != null)
-    		{
-    			var match = this.MatchIfAvailable(oChild, mChild);
-    			if(match != null)
-    			{
-    				yield return match;
-    
-    				if(oChild.Elements().Count(ne => ne is XNode) == 0 && mChild.Elements().Count(ne => ne is XNode) == 0 && oChild.Value != mChild.Value)
-                    {
-                        var update = this.UpdateIfAvailable(oChild, mChild);
-                        if(update != null)
-                            yield return update;
-                    }
-    			}
-    		}
-    		
-    		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "SemicolonToken");
-    		mChild = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "SemicolonToken");
-    		if(oChild == null && mChild != null)
-            {
-                var insert = this.InsertIfAvailable(mChild, oFullElement);
-                if(insert != null)
-                    yield return insert;
-            }
-    		else if(oChild != null && mChild == null)
-            {
-                var delete = this.DeleteIfAvailable(oChild);
-                if(delete != null)
-                    yield return delete;
-            }
-    		else if(oChild != null && mChild != null)
-    		{
-    			var match = this.MatchIfAvailable(oChild, mChild);
-    			if(match != null)
-    			{
-    				yield return match;
-    
-    				if(oChild.Elements().Count(ne => ne is XNode) == 0 && mChild.Elements().Count(ne => ne is XNode) == 0 && oChild.Value != mChild.Value)
-                    {
-                        var update = this.UpdateIfAvailable(oChild, mChild);
-                        if(update != null)
-                            yield return update;
-                    }
-    			}
-    		}
-    		
-    		yield break;
-    	}		
-        
-        /// <summary>
-        /// Computes the expandable changes starting from an matched element existing in the seed delta. 
-        /// </summary>
-        /// <param name="oFullElement">The full description associated to the matched original element version.</param>
-        /// <param name="mFullElement">The full description associated to the unmatched modified element version.</param>
-        /// <returns>The expanded matches and actions.</returns>
-        public virtual IEnumerable<XElement> MatchedUsingDirective(XElement oFullElement, XElement mFullElement)
-        {
-            IEnumerable<XElement> result = new XElement[0];
-        	var ignoreCore = false;
-        	MatchedUsingDirectiveBefore(oFullElement, mFullElement, ref result, ref ignoreCore);
-        	if(ignoreCore) 
-        		return result;
-        	
-        	result = this.MatchedUsingDirectiveCore(oFullElement, mFullElement);
-        	MatchedUsingDirectiveAfter(oFullElement, mFullElement, ref result);
-        	return result;
-        }
-    
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="UnmatchedOriginalUsingDirective(XElement)"/>.
-        /// </summary>
-        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedOriginalUsingDirective(XElement)"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="UnmatchedOriginalUsingDirectiveCore(XElement)"/> is not executed and <see cref="UnmatchedOriginalUsingDirective(XElement)"/> returns the current value of <paramref name="result"/>.</param>
-        partial void UnmatchedOriginalUsingDirectiveBefore(XElement oFullElement, ref IEnumerable<XElement> result, ref bool ignoreCore);
-    
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="UnmatchedOriginalUsingDirectiveCore(XElement)"/>.
-        /// </summary>
-        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedOriginalUsingDirectiveCore(XElement)"/>.</param>
-        partial void UnmatchedOriginalUsingDirectiveAfter(XElement oFullElement, ref IEnumerable<XElement> result);
-        
-        /// <summary>
-        /// Computes the expandable changes starting from an unmatched original element existing in the seed delta. 
-        /// </summary>
-        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
-        /// <returns>The expanded matches and actions.</returns>
-        /// <remarks>This is the default implementation for <see cref="UnmatchedOriginal(XElement)"/>.</remarks>
-        public virtual IEnumerable<XElement> UnmatchedOriginalUsingDirectiveCore(XElement oFullElement)
-    	{
-    		if(oFullElement == null)
-    			throw new ArgumentNullException(nameof(oFullElement));
-    
-    		XElement child = null;
-    		
-    		child = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "UsingKeyword");
-    		if(child != null)
-            {
-                var delete = this.DeleteIfAvailable(child);
-                if(delete != null)
-                    yield return delete;
-            }
-    		
-    		child = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "StaticKeyword");
-    		if(child != null)
-            {
-                var delete = this.DeleteIfAvailable(child);
-                if(delete != null)
-                    yield return delete;
-            }
-    		
-    		child = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "SemicolonToken");
-    		if(child != null)
-            {
-                var delete = this.DeleteIfAvailable(child);
-                if(delete != null)
-                    yield return delete;
-            }
-    		
-    		yield break;
-    	}		
-    	
-        /// <summary>
-        /// Computes the expandable changes starting from an unmatched original element existing in the seed delta. 
-        /// </summary>
-        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
-        /// <returns>The expanded matches and actions.</returns>
-        public virtual IEnumerable<XElement> UnmatchedOriginalUsingDirective(XElement oFullElement)
-        {
-            IEnumerable<XElement> result = new XElement[0];
-        	var ignoreCore = false;
-        	UnmatchedOriginalUsingDirectiveBefore(oFullElement, ref result, ref ignoreCore);
-        	if(ignoreCore) 
-        		return result;
-        	
-        	result = this.UnmatchedOriginalUsingDirectiveCore(oFullElement);
-        	UnmatchedOriginalUsingDirectiveAfter(oFullElement, ref result);
-        	return result;
-        }
-    
-    	#endregion
-    
-    	#region AttributeList
-    
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="UnmatchedModifiedAttributeList(XElement)"/>.
-        /// </summary>
-        /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedModifiedAttributeList(XElement)"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="UnmatchedModifiedAttributeListCore(XElement)"/> is not executed and <see cref="UnmatchedModifiedAttributeList(XElement)"/> returns the current value of <paramref name="result"/>.</param>
-        partial void UnmatchedModifiedAttributeListBefore(XElement mFullElement, ref IEnumerable<XElement> result, ref bool ignoreCore);
-    
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="UnmatchedModifiedAttributeListCore(XElement)"/>.
-        /// </summary>
-        /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedModifiedAttributeListCore(XElement)"/>.</param>
-        partial void UnmatchedModifiedAttributeListAfter(XElement mFullElement, ref IEnumerable<XElement> result);
-        
-        /// <summary>
-        /// Computes the expandable changes starting from an unmatched modified element existing in the seed delta. 
-        /// </summary>
-        /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
-        /// <returns>The expanded matches and actions.</returns>
-        /// <remarks>This is the default implementation for <see cref="UnmatchedModifiedAttributeList(XElement)"/>.</remarks>
-        public virtual IEnumerable<XElement> UnmatchedModifiedAttributeListCore(XElement mFullElement)
-    	{
-    		if(mFullElement == null)
-    			throw new ArgumentNullException(nameof(mFullElement));
-    
-    		XElement child = null;
-    		
-    		child = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "OpenBracketToken");
-    		if(child != null)
-            {
-                var insert = this.InsertIfAvailable(child, mFullElement);
-                if(insert != null)
-                    yield return insert;
-            }
-    		
-    		child = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseBracketToken");
-    		if(child != null)
-            {
-                var insert = this.InsertIfAvailable(child, mFullElement);
-                if(insert != null)
-                    yield return insert;
-            }
-    		
-    		yield break;
-    	}		
-    	
-        /// <summary>
-        /// Computes the expandable changes starting from an unmatched modified element existing in the seed delta. 
-        /// </summary>
-        /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
-        /// <returns>The expanded matches and actions.</returns>
-        public virtual IEnumerable<XElement> UnmatchedModifiedAttributeList(XElement mFullElement)
-        {
-            IEnumerable<XElement> result = new XElement[0];
-        	var ignoreCore = false;
-        	UnmatchedModifiedAttributeListBefore(mFullElement, ref result, ref ignoreCore);
-        	if(ignoreCore) 
-        		return result;
-        	
-        	result = this.UnmatchedModifiedAttributeListCore(mFullElement);
-        	UnmatchedModifiedAttributeListAfter(mFullElement, ref result);
-        	return result;
-        }
-    
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="MatchedAttributeList(XElement, XElement)"/>.
-        /// </summary>
-        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="MatchedAttributeList(XElement, XElement)"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="MatchedAttributeListCore(XElement, XElement)"/> is not executed and <see cref="MatchedAttributeList(XElement, XElement)"/> returns the current value of <paramref name="result"/>.</param>
-        partial void MatchedAttributeListBefore(XElement oFullElement, XElement mFullElement, ref IEnumerable<XElement> result, ref bool ignoreCore);
-    
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="MatchedAttributeListCore(XElement, XElement)"/>.
-        /// </summary>
-        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="MatchedAttributeListCore(XElement, XElement)"/>.</param>
-        partial void MatchedAttributeListAfter(XElement oFullElement, XElement mFullElement, ref IEnumerable<XElement> result);
-        
-        /// <summary>
-        /// Computes the expandable changes starting from an matched element existing in the seed delta. 
-        /// </summary>
-        /// <param name="oFullElement">The full description associated to the matched original element version.</param>
-        /// <param name="mFullElement">The full description associated to the unmatched modified element version.</param>
-        /// <returns>The expanded matches and actions.</returns>
-        /// <remarks>This is the default implementation for <see cref="MatchedAttributeList(XElement, XElement)"/>.</remarks>
-        public virtual IEnumerable<XElement> MatchedAttributeListCore(XElement oFullElement, XElement mFullElement)
-    	{
-    		if(oFullElement == null) throw new ArgumentNullException(nameof(oFullElement));
-    		if(mFullElement == null) throw new ArgumentNullException(nameof(mFullElement));
-    
-    		XElement oChild = null, mChild = null;
-    		
-    		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "OpenBracketToken");
-    		mChild = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "OpenBracketToken");
-    		if(oChild == null && mChild != null)
-            {
-                var insert = this.InsertIfAvailable(mChild, oFullElement);
-                if(insert != null)
-                    yield return insert;
-            }
-    		else if(oChild != null && mChild == null)
-            {
-                var delete = this.DeleteIfAvailable(oChild);
-                if(delete != null)
-                    yield return delete;
-            }
-    		else if(oChild != null && mChild != null)
-    		{
-    			var match = this.MatchIfAvailable(oChild, mChild);
-    			if(match != null)
-    			{
-    				yield return match;
-    
-    				if(oChild.Elements().Count(ne => ne is XNode) == 0 && mChild.Elements().Count(ne => ne is XNode) == 0 && oChild.Value != mChild.Value)
-                    {
-                        var update = this.UpdateIfAvailable(oChild, mChild);
-                        if(update != null)
-                            yield return update;
-                    }
-    			}
-    		}
-    		
-    		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseBracketToken");
-    		mChild = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseBracketToken");
-    		if(oChild == null && mChild != null)
-            {
-                var insert = this.InsertIfAvailable(mChild, oFullElement);
-                if(insert != null)
-                    yield return insert;
-            }
-    		else if(oChild != null && mChild == null)
-            {
-                var delete = this.DeleteIfAvailable(oChild);
-                if(delete != null)
-                    yield return delete;
-            }
-    		else if(oChild != null && mChild != null)
-    		{
-    			var match = this.MatchIfAvailable(oChild, mChild);
-    			if(match != null)
-    			{
-    				yield return match;
-    
-    				if(oChild.Elements().Count(ne => ne is XNode) == 0 && mChild.Elements().Count(ne => ne is XNode) == 0 && oChild.Value != mChild.Value)
-                    {
-                        var update = this.UpdateIfAvailable(oChild, mChild);
-                        if(update != null)
-                            yield return update;
-                    }
-    			}
-    		}
-    		
-    		yield break;
-    	}		
-        
-        /// <summary>
-        /// Computes the expandable changes starting from an matched element existing in the seed delta. 
-        /// </summary>
-        /// <param name="oFullElement">The full description associated to the matched original element version.</param>
-        /// <param name="mFullElement">The full description associated to the unmatched modified element version.</param>
-        /// <returns>The expanded matches and actions.</returns>
-        public virtual IEnumerable<XElement> MatchedAttributeList(XElement oFullElement, XElement mFullElement)
-        {
-            IEnumerable<XElement> result = new XElement[0];
-        	var ignoreCore = false;
-        	MatchedAttributeListBefore(oFullElement, mFullElement, ref result, ref ignoreCore);
-        	if(ignoreCore) 
-        		return result;
-        	
-        	result = this.MatchedAttributeListCore(oFullElement, mFullElement);
-        	MatchedAttributeListAfter(oFullElement, mFullElement, ref result);
-        	return result;
-        }
-    
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="UnmatchedOriginalAttributeList(XElement)"/>.
-        /// </summary>
-        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedOriginalAttributeList(XElement)"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="UnmatchedOriginalAttributeListCore(XElement)"/> is not executed and <see cref="UnmatchedOriginalAttributeList(XElement)"/> returns the current value of <paramref name="result"/>.</param>
-        partial void UnmatchedOriginalAttributeListBefore(XElement oFullElement, ref IEnumerable<XElement> result, ref bool ignoreCore);
-    
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="UnmatchedOriginalAttributeListCore(XElement)"/>.
-        /// </summary>
-        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedOriginalAttributeListCore(XElement)"/>.</param>
-        partial void UnmatchedOriginalAttributeListAfter(XElement oFullElement, ref IEnumerable<XElement> result);
-        
-        /// <summary>
-        /// Computes the expandable changes starting from an unmatched original element existing in the seed delta. 
-        /// </summary>
-        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
-        /// <returns>The expanded matches and actions.</returns>
-        /// <remarks>This is the default implementation for <see cref="UnmatchedOriginal(XElement)"/>.</remarks>
-        public virtual IEnumerable<XElement> UnmatchedOriginalAttributeListCore(XElement oFullElement)
-    	{
-    		if(oFullElement == null)
-    			throw new ArgumentNullException(nameof(oFullElement));
-    
-    		XElement child = null;
-    		
-    		child = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "OpenBracketToken");
-    		if(child != null)
-            {
-                var delete = this.DeleteIfAvailable(child);
-                if(delete != null)
-                    yield return delete;
-            }
-    		
-    		child = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseBracketToken");
-    		if(child != null)
-            {
-                var delete = this.DeleteIfAvailable(child);
-                if(delete != null)
-                    yield return delete;
-            }
-    		
-    		yield break;
-    	}		
-    	
-        /// <summary>
-        /// Computes the expandable changes starting from an unmatched original element existing in the seed delta. 
-        /// </summary>
-        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
-        /// <returns>The expanded matches and actions.</returns>
-        public virtual IEnumerable<XElement> UnmatchedOriginalAttributeList(XElement oFullElement)
-        {
-            IEnumerable<XElement> result = new XElement[0];
-        	var ignoreCore = false;
-        	UnmatchedOriginalAttributeListBefore(oFullElement, ref result, ref ignoreCore);
-        	if(ignoreCore) 
-        		return result;
-        	
-        	result = this.UnmatchedOriginalAttributeListCore(oFullElement);
-        	UnmatchedOriginalAttributeListAfter(oFullElement, ref result);
-        	return result;
-        }
-    
-    	#endregion
-    
-    	#region AttributeTargetSpecifier
-    
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="UnmatchedModifiedAttributeTargetSpecifier(XElement)"/>.
-        /// </summary>
-        /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedModifiedAttributeTargetSpecifier(XElement)"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="UnmatchedModifiedAttributeTargetSpecifierCore(XElement)"/> is not executed and <see cref="UnmatchedModifiedAttributeTargetSpecifier(XElement)"/> returns the current value of <paramref name="result"/>.</param>
-        partial void UnmatchedModifiedAttributeTargetSpecifierBefore(XElement mFullElement, ref IEnumerable<XElement> result, ref bool ignoreCore);
-    
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="UnmatchedModifiedAttributeTargetSpecifierCore(XElement)"/>.
-        /// </summary>
-        /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedModifiedAttributeTargetSpecifierCore(XElement)"/>.</param>
-        partial void UnmatchedModifiedAttributeTargetSpecifierAfter(XElement mFullElement, ref IEnumerable<XElement> result);
-        
-        /// <summary>
-        /// Computes the expandable changes starting from an unmatched modified element existing in the seed delta. 
-        /// </summary>
-        /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
-        /// <returns>The expanded matches and actions.</returns>
-        /// <remarks>This is the default implementation for <see cref="UnmatchedModifiedAttributeTargetSpecifier(XElement)"/>.</remarks>
-        public virtual IEnumerable<XElement> UnmatchedModifiedAttributeTargetSpecifierCore(XElement mFullElement)
-    	{
-    		if(mFullElement == null)
-    			throw new ArgumentNullException(nameof(mFullElement));
-    
-    		XElement child = null;
-    		
-    		child = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "Identifier");
-    		if(child != null)
-            {
-                var insert = this.InsertIfAvailable(child, mFullElement);
-                if(insert != null)
-                    yield return insert;
-            }
-    		
-    		child = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "ColonToken");
-    		if(child != null)
-            {
-                var insert = this.InsertIfAvailable(child, mFullElement);
-                if(insert != null)
-                    yield return insert;
-            }
-    		
-    		yield break;
-    	}		
-    	
-        /// <summary>
-        /// Computes the expandable changes starting from an unmatched modified element existing in the seed delta. 
-        /// </summary>
-        /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
-        /// <returns>The expanded matches and actions.</returns>
-        public virtual IEnumerable<XElement> UnmatchedModifiedAttributeTargetSpecifier(XElement mFullElement)
-        {
-            IEnumerable<XElement> result = new XElement[0];
-        	var ignoreCore = false;
-        	UnmatchedModifiedAttributeTargetSpecifierBefore(mFullElement, ref result, ref ignoreCore);
-        	if(ignoreCore) 
-        		return result;
-        	
-        	result = this.UnmatchedModifiedAttributeTargetSpecifierCore(mFullElement);
-        	UnmatchedModifiedAttributeTargetSpecifierAfter(mFullElement, ref result);
-        	return result;
-        }
-    
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="MatchedAttributeTargetSpecifier(XElement, XElement)"/>.
-        /// </summary>
-        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="MatchedAttributeTargetSpecifier(XElement, XElement)"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="MatchedAttributeTargetSpecifierCore(XElement, XElement)"/> is not executed and <see cref="MatchedAttributeTargetSpecifier(XElement, XElement)"/> returns the current value of <paramref name="result"/>.</param>
-        partial void MatchedAttributeTargetSpecifierBefore(XElement oFullElement, XElement mFullElement, ref IEnumerable<XElement> result, ref bool ignoreCore);
-    
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="MatchedAttributeTargetSpecifierCore(XElement, XElement)"/>.
-        /// </summary>
-        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="MatchedAttributeTargetSpecifierCore(XElement, XElement)"/>.</param>
-        partial void MatchedAttributeTargetSpecifierAfter(XElement oFullElement, XElement mFullElement, ref IEnumerable<XElement> result);
-        
-        /// <summary>
-        /// Computes the expandable changes starting from an matched element existing in the seed delta. 
-        /// </summary>
-        /// <param name="oFullElement">The full description associated to the matched original element version.</param>
-        /// <param name="mFullElement">The full description associated to the unmatched modified element version.</param>
-        /// <returns>The expanded matches and actions.</returns>
-        /// <remarks>This is the default implementation for <see cref="MatchedAttributeTargetSpecifier(XElement, XElement)"/>.</remarks>
-        public virtual IEnumerable<XElement> MatchedAttributeTargetSpecifierCore(XElement oFullElement, XElement mFullElement)
-    	{
-    		if(oFullElement == null) throw new ArgumentNullException(nameof(oFullElement));
-    		if(mFullElement == null) throw new ArgumentNullException(nameof(mFullElement));
-    
-    		XElement oChild = null, mChild = null;
-    		
-    		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "Identifier");
-    		mChild = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "Identifier");
-    		if(oChild == null && mChild != null)
-            {
-                var insert = this.InsertIfAvailable(mChild, oFullElement);
-                if(insert != null)
-                    yield return insert;
-            }
-    		else if(oChild != null && mChild == null)
-            {
-                var delete = this.DeleteIfAvailable(oChild);
-                if(delete != null)
-                    yield return delete;
-            }
-    		else if(oChild != null && mChild != null)
-    		{
-    			var match = this.MatchIfAvailable(oChild, mChild);
-    			if(match != null)
-    			{
-    				yield return match;
-    
-    				if(oChild.Elements().Count(ne => ne is XNode) == 0 && mChild.Elements().Count(ne => ne is XNode) == 0 && oChild.Value != mChild.Value)
-                    {
-                        var update = this.UpdateIfAvailable(oChild, mChild);
-                        if(update != null)
-                            yield return update;
-                    }
-    			}
-    		}
-    		
-    		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "ColonToken");
-    		mChild = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "ColonToken");
-    		if(oChild == null && mChild != null)
-            {
-                var insert = this.InsertIfAvailable(mChild, oFullElement);
-                if(insert != null)
-                    yield return insert;
-            }
-    		else if(oChild != null && mChild == null)
-            {
-                var delete = this.DeleteIfAvailable(oChild);
-                if(delete != null)
-                    yield return delete;
-            }
-    		else if(oChild != null && mChild != null)
-    		{
-    			var match = this.MatchIfAvailable(oChild, mChild);
-    			if(match != null)
-    			{
-    				yield return match;
-    
-    				if(oChild.Elements().Count(ne => ne is XNode) == 0 && mChild.Elements().Count(ne => ne is XNode) == 0 && oChild.Value != mChild.Value)
-                    {
-                        var update = this.UpdateIfAvailable(oChild, mChild);
-                        if(update != null)
-                            yield return update;
-                    }
-    			}
-    		}
-    		
-    		yield break;
-    	}		
-        
-        /// <summary>
-        /// Computes the expandable changes starting from an matched element existing in the seed delta. 
-        /// </summary>
-        /// <param name="oFullElement">The full description associated to the matched original element version.</param>
-        /// <param name="mFullElement">The full description associated to the unmatched modified element version.</param>
-        /// <returns>The expanded matches and actions.</returns>
-        public virtual IEnumerable<XElement> MatchedAttributeTargetSpecifier(XElement oFullElement, XElement mFullElement)
-        {
-            IEnumerable<XElement> result = new XElement[0];
-        	var ignoreCore = false;
-        	MatchedAttributeTargetSpecifierBefore(oFullElement, mFullElement, ref result, ref ignoreCore);
-        	if(ignoreCore) 
-        		return result;
-        	
-        	result = this.MatchedAttributeTargetSpecifierCore(oFullElement, mFullElement);
-        	MatchedAttributeTargetSpecifierAfter(oFullElement, mFullElement, ref result);
-        	return result;
-        }
-    
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="UnmatchedOriginalAttributeTargetSpecifier(XElement)"/>.
-        /// </summary>
-        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedOriginalAttributeTargetSpecifier(XElement)"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="UnmatchedOriginalAttributeTargetSpecifierCore(XElement)"/> is not executed and <see cref="UnmatchedOriginalAttributeTargetSpecifier(XElement)"/> returns the current value of <paramref name="result"/>.</param>
-        partial void UnmatchedOriginalAttributeTargetSpecifierBefore(XElement oFullElement, ref IEnumerable<XElement> result, ref bool ignoreCore);
-    
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="UnmatchedOriginalAttributeTargetSpecifierCore(XElement)"/>.
-        /// </summary>
-        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedOriginalAttributeTargetSpecifierCore(XElement)"/>.</param>
-        partial void UnmatchedOriginalAttributeTargetSpecifierAfter(XElement oFullElement, ref IEnumerable<XElement> result);
-        
-        /// <summary>
-        /// Computes the expandable changes starting from an unmatched original element existing in the seed delta. 
-        /// </summary>
-        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
-        /// <returns>The expanded matches and actions.</returns>
-        /// <remarks>This is the default implementation for <see cref="UnmatchedOriginal(XElement)"/>.</remarks>
-        public virtual IEnumerable<XElement> UnmatchedOriginalAttributeTargetSpecifierCore(XElement oFullElement)
-    	{
-    		if(oFullElement == null)
-    			throw new ArgumentNullException(nameof(oFullElement));
-    
-    		XElement child = null;
-    		
-    		child = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "Identifier");
-    		if(child != null)
-            {
-                var delete = this.DeleteIfAvailable(child);
-                if(delete != null)
-                    yield return delete;
-            }
-    		
-    		child = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "ColonToken");
-    		if(child != null)
-            {
-                var delete = this.DeleteIfAvailable(child);
-                if(delete != null)
-                    yield return delete;
-            }
-    		
-    		yield break;
-    	}		
-    	
-        /// <summary>
-        /// Computes the expandable changes starting from an unmatched original element existing in the seed delta. 
-        /// </summary>
-        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
-        /// <returns>The expanded matches and actions.</returns>
-        public virtual IEnumerable<XElement> UnmatchedOriginalAttributeTargetSpecifier(XElement oFullElement)
-        {
-            IEnumerable<XElement> result = new XElement[0];
-        	var ignoreCore = false;
-        	UnmatchedOriginalAttributeTargetSpecifierBefore(oFullElement, ref result, ref ignoreCore);
-        	if(ignoreCore) 
-        		return result;
-        	
-        	result = this.UnmatchedOriginalAttributeTargetSpecifierCore(oFullElement);
-        	UnmatchedOriginalAttributeTargetSpecifierAfter(oFullElement, ref result);
-        	return result;
-        }
-    
-    	#endregion
-    
-    	#region Attribute
-    
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="UnmatchedModifiedAttribute(XElement)"/>.
-        /// </summary>
-        /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedModifiedAttribute(XElement)"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="UnmatchedModifiedAttributeCore(XElement)"/> is not executed and <see cref="UnmatchedModifiedAttribute(XElement)"/> returns the current value of <paramref name="result"/>.</param>
-        partial void UnmatchedModifiedAttributeBefore(XElement mFullElement, ref IEnumerable<XElement> result, ref bool ignoreCore);
-    
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="UnmatchedModifiedAttributeCore(XElement)"/>.
-        /// </summary>
-        /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedModifiedAttributeCore(XElement)"/>.</param>
-        partial void UnmatchedModifiedAttributeAfter(XElement mFullElement, ref IEnumerable<XElement> result);
-        
-        /// <summary>
-        /// Computes the expandable changes starting from an unmatched modified element existing in the seed delta. 
-        /// </summary>
-        /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
-        /// <returns>The expanded matches and actions.</returns>
-        /// <remarks>This is the default implementation for <see cref="UnmatchedModifiedAttribute(XElement)"/>.</remarks>
-        public virtual IEnumerable<XElement> UnmatchedModifiedAttributeCore(XElement mFullElement)
-    	{
-    		if(mFullElement == null)
-    			throw new ArgumentNullException(nameof(mFullElement));
-    
-    		yield break;
-    	}		
-    	
-        /// <summary>
-        /// Computes the expandable changes starting from an unmatched modified element existing in the seed delta. 
-        /// </summary>
-        /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
-        /// <returns>The expanded matches and actions.</returns>
-        public virtual IEnumerable<XElement> UnmatchedModifiedAttribute(XElement mFullElement)
-        {
-            IEnumerable<XElement> result = new XElement[0];
-        	var ignoreCore = false;
-        	UnmatchedModifiedAttributeBefore(mFullElement, ref result, ref ignoreCore);
-        	if(ignoreCore) 
-        		return result;
-        	
-        	result = this.UnmatchedModifiedAttributeCore(mFullElement);
-        	UnmatchedModifiedAttributeAfter(mFullElement, ref result);
-        	return result;
-        }
-    
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="MatchedAttribute(XElement, XElement)"/>.
-        /// </summary>
-        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="MatchedAttribute(XElement, XElement)"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="MatchedAttributeCore(XElement, XElement)"/> is not executed and <see cref="MatchedAttribute(XElement, XElement)"/> returns the current value of <paramref name="result"/>.</param>
-        partial void MatchedAttributeBefore(XElement oFullElement, XElement mFullElement, ref IEnumerable<XElement> result, ref bool ignoreCore);
-    
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="MatchedAttributeCore(XElement, XElement)"/>.
-        /// </summary>
-        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="MatchedAttributeCore(XElement, XElement)"/>.</param>
-        partial void MatchedAttributeAfter(XElement oFullElement, XElement mFullElement, ref IEnumerable<XElement> result);
-        
-        /// <summary>
-        /// Computes the expandable changes starting from an matched element existing in the seed delta. 
-        /// </summary>
-        /// <param name="oFullElement">The full description associated to the matched original element version.</param>
-        /// <param name="mFullElement">The full description associated to the unmatched modified element version.</param>
-        /// <returns>The expanded matches and actions.</returns>
-        /// <remarks>This is the default implementation for <see cref="MatchedAttribute(XElement, XElement)"/>.</remarks>
-        public virtual IEnumerable<XElement> MatchedAttributeCore(XElement oFullElement, XElement mFullElement)
-    	{
-    		if(oFullElement == null) throw new ArgumentNullException(nameof(oFullElement));
-    		if(mFullElement == null) throw new ArgumentNullException(nameof(mFullElement));
-    
-    		yield break;
-    	}		
-        
-        /// <summary>
-        /// Computes the expandable changes starting from an matched element existing in the seed delta. 
-        /// </summary>
-        /// <param name="oFullElement">The full description associated to the matched original element version.</param>
-        /// <param name="mFullElement">The full description associated to the unmatched modified element version.</param>
-        /// <returns>The expanded matches and actions.</returns>
-        public virtual IEnumerable<XElement> MatchedAttribute(XElement oFullElement, XElement mFullElement)
-        {
-            IEnumerable<XElement> result = new XElement[0];
-        	var ignoreCore = false;
-        	MatchedAttributeBefore(oFullElement, mFullElement, ref result, ref ignoreCore);
-        	if(ignoreCore) 
-        		return result;
-        	
-        	result = this.MatchedAttributeCore(oFullElement, mFullElement);
-        	MatchedAttributeAfter(oFullElement, mFullElement, ref result);
-        	return result;
-        }
-    
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="UnmatchedOriginalAttribute(XElement)"/>.
-        /// </summary>
-        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedOriginalAttribute(XElement)"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="UnmatchedOriginalAttributeCore(XElement)"/> is not executed and <see cref="UnmatchedOriginalAttribute(XElement)"/> returns the current value of <paramref name="result"/>.</param>
-        partial void UnmatchedOriginalAttributeBefore(XElement oFullElement, ref IEnumerable<XElement> result, ref bool ignoreCore);
-    
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="UnmatchedOriginalAttributeCore(XElement)"/>.
-        /// </summary>
-        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedOriginalAttributeCore(XElement)"/>.</param>
-        partial void UnmatchedOriginalAttributeAfter(XElement oFullElement, ref IEnumerable<XElement> result);
-        
-        /// <summary>
-        /// Computes the expandable changes starting from an unmatched original element existing in the seed delta. 
-        /// </summary>
-        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
-        /// <returns>The expanded matches and actions.</returns>
-        /// <remarks>This is the default implementation for <see cref="UnmatchedOriginal(XElement)"/>.</remarks>
-        public virtual IEnumerable<XElement> UnmatchedOriginalAttributeCore(XElement oFullElement)
-    	{
-    		if(oFullElement == null)
-    			throw new ArgumentNullException(nameof(oFullElement));
-    
-    		yield break;
-    	}		
-    	
-        /// <summary>
-        /// Computes the expandable changes starting from an unmatched original element existing in the seed delta. 
-        /// </summary>
-        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
-        /// <returns>The expanded matches and actions.</returns>
-        public virtual IEnumerable<XElement> UnmatchedOriginalAttribute(XElement oFullElement)
-        {
-            IEnumerable<XElement> result = new XElement[0];
-        	var ignoreCore = false;
-        	UnmatchedOriginalAttributeBefore(oFullElement, ref result, ref ignoreCore);
-        	if(ignoreCore) 
-        		return result;
-        	
-        	result = this.UnmatchedOriginalAttributeCore(oFullElement);
-        	UnmatchedOriginalAttributeAfter(oFullElement, ref result);
-        	return result;
-        }
-    
-    	#endregion
-    
-    	#region AttributeArgumentList
-    
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="UnmatchedModifiedAttributeArgumentList(XElement)"/>.
-        /// </summary>
-        /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedModifiedAttributeArgumentList(XElement)"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="UnmatchedModifiedAttributeArgumentListCore(XElement)"/> is not executed and <see cref="UnmatchedModifiedAttributeArgumentList(XElement)"/> returns the current value of <paramref name="result"/>.</param>
-        partial void UnmatchedModifiedAttributeArgumentListBefore(XElement mFullElement, ref IEnumerable<XElement> result, ref bool ignoreCore);
-    
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="UnmatchedModifiedAttributeArgumentListCore(XElement)"/>.
-        /// </summary>
-        /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedModifiedAttributeArgumentListCore(XElement)"/>.</param>
-        partial void UnmatchedModifiedAttributeArgumentListAfter(XElement mFullElement, ref IEnumerable<XElement> result);
-        
-        /// <summary>
-        /// Computes the expandable changes starting from an unmatched modified element existing in the seed delta. 
-        /// </summary>
-        /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
-        /// <returns>The expanded matches and actions.</returns>
-        /// <remarks>This is the default implementation for <see cref="UnmatchedModifiedAttributeArgumentList(XElement)"/>.</remarks>
-        public virtual IEnumerable<XElement> UnmatchedModifiedAttributeArgumentListCore(XElement mFullElement)
-    	{
-    		if(mFullElement == null)
-    			throw new ArgumentNullException(nameof(mFullElement));
-    
-    		XElement child = null;
-    		
-    		child = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "OpenParenToken");
-    		if(child != null)
-            {
-                var insert = this.InsertIfAvailable(child, mFullElement);
-                if(insert != null)
-                    yield return insert;
-            }
-    		
-    		child = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseParenToken");
-    		if(child != null)
-            {
-                var insert = this.InsertIfAvailable(child, mFullElement);
-                if(insert != null)
-                    yield return insert;
-            }
-    		
-    		yield break;
-    	}		
-    	
-        /// <summary>
-        /// Computes the expandable changes starting from an unmatched modified element existing in the seed delta. 
-        /// </summary>
-        /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
-        /// <returns>The expanded matches and actions.</returns>
-        public virtual IEnumerable<XElement> UnmatchedModifiedAttributeArgumentList(XElement mFullElement)
-        {
-            IEnumerable<XElement> result = new XElement[0];
-        	var ignoreCore = false;
-        	UnmatchedModifiedAttributeArgumentListBefore(mFullElement, ref result, ref ignoreCore);
-        	if(ignoreCore) 
-        		return result;
-        	
-        	result = this.UnmatchedModifiedAttributeArgumentListCore(mFullElement);
-        	UnmatchedModifiedAttributeArgumentListAfter(mFullElement, ref result);
-        	return result;
-        }
-    
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="MatchedAttributeArgumentList(XElement, XElement)"/>.
-        /// </summary>
-        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="MatchedAttributeArgumentList(XElement, XElement)"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="MatchedAttributeArgumentListCore(XElement, XElement)"/> is not executed and <see cref="MatchedAttributeArgumentList(XElement, XElement)"/> returns the current value of <paramref name="result"/>.</param>
-        partial void MatchedAttributeArgumentListBefore(XElement oFullElement, XElement mFullElement, ref IEnumerable<XElement> result, ref bool ignoreCore);
-    
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="MatchedAttributeArgumentListCore(XElement, XElement)"/>.
-        /// </summary>
-        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="MatchedAttributeArgumentListCore(XElement, XElement)"/>.</param>
-        partial void MatchedAttributeArgumentListAfter(XElement oFullElement, XElement mFullElement, ref IEnumerable<XElement> result);
-        
-        /// <summary>
-        /// Computes the expandable changes starting from an matched element existing in the seed delta. 
-        /// </summary>
-        /// <param name="oFullElement">The full description associated to the matched original element version.</param>
-        /// <param name="mFullElement">The full description associated to the unmatched modified element version.</param>
-        /// <returns>The expanded matches and actions.</returns>
-        /// <remarks>This is the default implementation for <see cref="MatchedAttributeArgumentList(XElement, XElement)"/>.</remarks>
-        public virtual IEnumerable<XElement> MatchedAttributeArgumentListCore(XElement oFullElement, XElement mFullElement)
-    	{
-    		if(oFullElement == null) throw new ArgumentNullException(nameof(oFullElement));
-    		if(mFullElement == null) throw new ArgumentNullException(nameof(mFullElement));
-    
-    		XElement oChild = null, mChild = null;
-    		
-    		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "OpenParenToken");
-    		mChild = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "OpenParenToken");
-    		if(oChild == null && mChild != null)
-            {
-                var insert = this.InsertIfAvailable(mChild, oFullElement);
-                if(insert != null)
-                    yield return insert;
-            }
-    		else if(oChild != null && mChild == null)
-            {
-                var delete = this.DeleteIfAvailable(oChild);
-                if(delete != null)
-                    yield return delete;
-            }
-    		else if(oChild != null && mChild != null)
-    		{
-    			var match = this.MatchIfAvailable(oChild, mChild);
-    			if(match != null)
-    			{
-    				yield return match;
-    
-    				if(oChild.Elements().Count(ne => ne is XNode) == 0 && mChild.Elements().Count(ne => ne is XNode) == 0 && oChild.Value != mChild.Value)
-                    {
-                        var update = this.UpdateIfAvailable(oChild, mChild);
-                        if(update != null)
-                            yield return update;
-                    }
-    			}
-    		}
-    		
-    		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseParenToken");
-    		mChild = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseParenToken");
-    		if(oChild == null && mChild != null)
-            {
-                var insert = this.InsertIfAvailable(mChild, oFullElement);
-                if(insert != null)
-                    yield return insert;
-            }
-    		else if(oChild != null && mChild == null)
-            {
-                var delete = this.DeleteIfAvailable(oChild);
-                if(delete != null)
-                    yield return delete;
-            }
-    		else if(oChild != null && mChild != null)
-    		{
-    			var match = this.MatchIfAvailable(oChild, mChild);
-    			if(match != null)
-    			{
-    				yield return match;
-    
-    				if(oChild.Elements().Count(ne => ne is XNode) == 0 && mChild.Elements().Count(ne => ne is XNode) == 0 && oChild.Value != mChild.Value)
-                    {
-                        var update = this.UpdateIfAvailable(oChild, mChild);
-                        if(update != null)
-                            yield return update;
-                    }
-    			}
-    		}
-    		
-    		yield break;
-    	}		
-        
-        /// <summary>
-        /// Computes the expandable changes starting from an matched element existing in the seed delta. 
-        /// </summary>
-        /// <param name="oFullElement">The full description associated to the matched original element version.</param>
-        /// <param name="mFullElement">The full description associated to the unmatched modified element version.</param>
-        /// <returns>The expanded matches and actions.</returns>
-        public virtual IEnumerable<XElement> MatchedAttributeArgumentList(XElement oFullElement, XElement mFullElement)
-        {
-            IEnumerable<XElement> result = new XElement[0];
-        	var ignoreCore = false;
-        	MatchedAttributeArgumentListBefore(oFullElement, mFullElement, ref result, ref ignoreCore);
-        	if(ignoreCore) 
-        		return result;
-        	
-        	result = this.MatchedAttributeArgumentListCore(oFullElement, mFullElement);
-        	MatchedAttributeArgumentListAfter(oFullElement, mFullElement, ref result);
-        	return result;
-        }
-    
-    	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="UnmatchedOriginalAttributeArgumentList(XElement)"/>.
-        /// </summary>
-        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedOriginalAttributeArgumentList(XElement)"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="UnmatchedOriginalAttributeArgumentListCore(XElement)"/> is not executed and <see cref="UnmatchedOriginalAttributeArgumentList(XElement)"/> returns the current value of <paramref name="result"/>.</param>
-        partial void UnmatchedOriginalAttributeArgumentListBefore(XElement oFullElement, ref IEnumerable<XElement> result, ref bool ignoreCore);
-    
-        /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="UnmatchedOriginalAttributeArgumentListCore(XElement)"/>.
-        /// </summary>
-        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedOriginalAttributeArgumentListCore(XElement)"/>.</param>
-        partial void UnmatchedOriginalAttributeArgumentListAfter(XElement oFullElement, ref IEnumerable<XElement> result);
-        
-        /// <summary>
-        /// Computes the expandable changes starting from an unmatched original element existing in the seed delta. 
-        /// </summary>
-        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
-        /// <returns>The expanded matches and actions.</returns>
-        /// <remarks>This is the default implementation for <see cref="UnmatchedOriginal(XElement)"/>.</remarks>
-        public virtual IEnumerable<XElement> UnmatchedOriginalAttributeArgumentListCore(XElement oFullElement)
-    	{
-    		if(oFullElement == null)
-    			throw new ArgumentNullException(nameof(oFullElement));
-    
-    		XElement child = null;
-    		
-    		child = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "OpenParenToken");
-    		if(child != null)
-            {
-                var delete = this.DeleteIfAvailable(child);
-                if(delete != null)
-                    yield return delete;
-            }
-    		
-    		child = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseParenToken");
-    		if(child != null)
-            {
-                var delete = this.DeleteIfAvailable(child);
-                if(delete != null)
-                    yield return delete;
-            }
-    		
-    		yield break;
-    	}		
-    	
-        /// <summary>
-        /// Computes the expandable changes starting from an unmatched original element existing in the seed delta. 
-        /// </summary>
-        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
-        /// <returns>The expanded matches and actions.</returns>
-        public virtual IEnumerable<XElement> UnmatchedOriginalAttributeArgumentList(XElement oFullElement)
-        {
-            IEnumerable<XElement> result = new XElement[0];
-        	var ignoreCore = false;
-        	UnmatchedOriginalAttributeArgumentListBefore(oFullElement, ref result, ref ignoreCore);
-        	if(ignoreCore) 
-        		return result;
-        	
-        	result = this.UnmatchedOriginalAttributeArgumentListCore(oFullElement);
-        	UnmatchedOriginalAttributeArgumentListAfter(oFullElement, ref result);
         	return result;
         }
     
@@ -11004,37 +8808,37 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     
     	#endregion
     
-    	#region NamespaceDeclaration
+    	#region CatchFilterClause
     
     	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="UnmatchedModifiedNamespaceDeclaration(XElement)"/>.
+        /// Method hook for implementing logic to execute before the <see cref="UnmatchedModifiedCatchFilterClause(XElement)"/>.
         /// </summary>
         /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedModifiedNamespaceDeclaration(XElement)"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="UnmatchedModifiedNamespaceDeclarationCore(XElement)"/> is not executed and <see cref="UnmatchedModifiedNamespaceDeclaration(XElement)"/> returns the current value of <paramref name="result"/>.</param>
-        partial void UnmatchedModifiedNamespaceDeclarationBefore(XElement mFullElement, ref IEnumerable<XElement> result, ref bool ignoreCore);
+        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedModifiedCatchFilterClause(XElement)"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="UnmatchedModifiedCatchFilterClauseCore(XElement)"/> is not executed and <see cref="UnmatchedModifiedCatchFilterClause(XElement)"/> returns the current value of <paramref name="result"/>.</param>
+        partial void UnmatchedModifiedCatchFilterClauseBefore(XElement mFullElement, ref IEnumerable<XElement> result, ref bool ignoreCore);
     
         /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="UnmatchedModifiedNamespaceDeclarationCore(XElement)"/>.
+        /// Method hook for implementing logic to execute after the <see cref="UnmatchedModifiedCatchFilterClauseCore(XElement)"/>.
         /// </summary>
         /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedModifiedNamespaceDeclarationCore(XElement)"/>.</param>
-        partial void UnmatchedModifiedNamespaceDeclarationAfter(XElement mFullElement, ref IEnumerable<XElement> result);
+        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedModifiedCatchFilterClauseCore(XElement)"/>.</param>
+        partial void UnmatchedModifiedCatchFilterClauseAfter(XElement mFullElement, ref IEnumerable<XElement> result);
         
         /// <summary>
         /// Computes the expandable changes starting from an unmatched modified element existing in the seed delta. 
         /// </summary>
         /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
         /// <returns>The expanded matches and actions.</returns>
-        /// <remarks>This is the default implementation for <see cref="UnmatchedModifiedNamespaceDeclaration(XElement)"/>.</remarks>
-        public virtual IEnumerable<XElement> UnmatchedModifiedNamespaceDeclarationCore(XElement mFullElement)
+        /// <remarks>This is the default implementation for <see cref="UnmatchedModifiedCatchFilterClause(XElement)"/>.</remarks>
+        public virtual IEnumerable<XElement> UnmatchedModifiedCatchFilterClauseCore(XElement mFullElement)
     	{
     		if(mFullElement == null)
     			throw new ArgumentNullException(nameof(mFullElement));
     
     		XElement child = null;
     		
-    		child = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "NamespaceKeyword");
+    		child = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "WhenKeyword");
     		if(child != null)
             {
                 var insert = this.InsertIfAvailable(child, mFullElement);
@@ -11042,7 +8846,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
                     yield return insert;
             }
     		
-    		child = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "OpenBraceToken");
+    		child = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "OpenParenToken");
     		if(child != null)
             {
                 var insert = this.InsertIfAvailable(child, mFullElement);
@@ -11050,7 +8854,696 @@ namespace Jawilliam.CDF.CSharp.RoslynML
                     yield return insert;
             }
     		
-    		child = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseBraceToken");
+    		child = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseParenToken");
+    		if(child != null)
+            {
+                var insert = this.InsertIfAvailable(child, mFullElement);
+                if(insert != null)
+                    yield return insert;
+            }
+    		
+    		yield break;
+    	}		
+    	
+        /// <summary>
+        /// Computes the expandable changes starting from an unmatched modified element existing in the seed delta. 
+        /// </summary>
+        /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
+        /// <returns>The expanded matches and actions.</returns>
+        public virtual IEnumerable<XElement> UnmatchedModifiedCatchFilterClause(XElement mFullElement)
+        {
+            IEnumerable<XElement> result = new XElement[0];
+        	var ignoreCore = false;
+        	UnmatchedModifiedCatchFilterClauseBefore(mFullElement, ref result, ref ignoreCore);
+        	if(ignoreCore) 
+        		return result;
+        	
+        	result = this.UnmatchedModifiedCatchFilterClauseCore(mFullElement);
+        	UnmatchedModifiedCatchFilterClauseAfter(mFullElement, ref result);
+        	return result;
+        }
+    
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="MatchedCatchFilterClause(XElement, XElement)"/>.
+        /// </summary>
+        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
+        /// <param name="result">Mechanism to modify the result of <see cref="MatchedCatchFilterClause(XElement, XElement)"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="MatchedCatchFilterClauseCore(XElement, XElement)"/> is not executed and <see cref="MatchedCatchFilterClause(XElement, XElement)"/> returns the current value of <paramref name="result"/>.</param>
+        partial void MatchedCatchFilterClauseBefore(XElement oFullElement, XElement mFullElement, ref IEnumerable<XElement> result, ref bool ignoreCore);
+    
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="MatchedCatchFilterClauseCore(XElement, XElement)"/>.
+        /// </summary>
+        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
+        /// <param name="result">Mechanism to modify the result of <see cref="MatchedCatchFilterClauseCore(XElement, XElement)"/>.</param>
+        partial void MatchedCatchFilterClauseAfter(XElement oFullElement, XElement mFullElement, ref IEnumerable<XElement> result);
+        
+        /// <summary>
+        /// Computes the expandable changes starting from an matched element existing in the seed delta. 
+        /// </summary>
+        /// <param name="oFullElement">The full description associated to the matched original element version.</param>
+        /// <param name="mFullElement">The full description associated to the unmatched modified element version.</param>
+        /// <returns>The expanded matches and actions.</returns>
+        /// <remarks>This is the default implementation for <see cref="MatchedCatchFilterClause(XElement, XElement)"/>.</remarks>
+        public virtual IEnumerable<XElement> MatchedCatchFilterClauseCore(XElement oFullElement, XElement mFullElement)
+    	{
+    		if(oFullElement == null) throw new ArgumentNullException(nameof(oFullElement));
+    		if(mFullElement == null) throw new ArgumentNullException(nameof(mFullElement));
+    
+    		XElement oChild = null, mChild = null;
+    		
+    		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "WhenKeyword");
+    		mChild = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "WhenKeyword");
+    		if(oChild == null && mChild != null)
+            {
+                var insert = this.InsertIfAvailable(mChild, oFullElement);
+                if(insert != null)
+                    yield return insert;
+            }
+    		else if(oChild != null && mChild == null)
+            {
+                var delete = this.DeleteIfAvailable(oChild);
+                if(delete != null)
+                    yield return delete;
+            }
+    		else if(oChild != null && mChild != null)
+    		{
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count(ne => ne is XNode) == 0 && mChild.Elements().Count(ne => ne is XNode) == 0 && oChild.Value != mChild.Value)
+                    {
+                        var update = this.UpdateIfAvailable(oChild, mChild);
+                        if(update != null)
+                            yield return update;
+                    }
+    			}
+    		}
+    		
+    		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "OpenParenToken");
+    		mChild = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "OpenParenToken");
+    		if(oChild == null && mChild != null)
+            {
+                var insert = this.InsertIfAvailable(mChild, oFullElement);
+                if(insert != null)
+                    yield return insert;
+            }
+    		else if(oChild != null && mChild == null)
+            {
+                var delete = this.DeleteIfAvailable(oChild);
+                if(delete != null)
+                    yield return delete;
+            }
+    		else if(oChild != null && mChild != null)
+    		{
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count(ne => ne is XNode) == 0 && mChild.Elements().Count(ne => ne is XNode) == 0 && oChild.Value != mChild.Value)
+                    {
+                        var update = this.UpdateIfAvailable(oChild, mChild);
+                        if(update != null)
+                            yield return update;
+                    }
+    			}
+    		}
+    		
+    		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseParenToken");
+    		mChild = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseParenToken");
+    		if(oChild == null && mChild != null)
+            {
+                var insert = this.InsertIfAvailable(mChild, oFullElement);
+                if(insert != null)
+                    yield return insert;
+            }
+    		else if(oChild != null && mChild == null)
+            {
+                var delete = this.DeleteIfAvailable(oChild);
+                if(delete != null)
+                    yield return delete;
+            }
+    		else if(oChild != null && mChild != null)
+    		{
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count(ne => ne is XNode) == 0 && mChild.Elements().Count(ne => ne is XNode) == 0 && oChild.Value != mChild.Value)
+                    {
+                        var update = this.UpdateIfAvailable(oChild, mChild);
+                        if(update != null)
+                            yield return update;
+                    }
+    			}
+    		}
+    		
+    		yield break;
+    	}		
+        
+        /// <summary>
+        /// Computes the expandable changes starting from an matched element existing in the seed delta. 
+        /// </summary>
+        /// <param name="oFullElement">The full description associated to the matched original element version.</param>
+        /// <param name="mFullElement">The full description associated to the unmatched modified element version.</param>
+        /// <returns>The expanded matches and actions.</returns>
+        public virtual IEnumerable<XElement> MatchedCatchFilterClause(XElement oFullElement, XElement mFullElement)
+        {
+            IEnumerable<XElement> result = new XElement[0];
+        	var ignoreCore = false;
+        	MatchedCatchFilterClauseBefore(oFullElement, mFullElement, ref result, ref ignoreCore);
+        	if(ignoreCore) 
+        		return result;
+        	
+        	result = this.MatchedCatchFilterClauseCore(oFullElement, mFullElement);
+        	MatchedCatchFilterClauseAfter(oFullElement, mFullElement, ref result);
+        	return result;
+        }
+    
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="UnmatchedOriginalCatchFilterClause(XElement)"/>.
+        /// </summary>
+        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
+        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedOriginalCatchFilterClause(XElement)"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="UnmatchedOriginalCatchFilterClauseCore(XElement)"/> is not executed and <see cref="UnmatchedOriginalCatchFilterClause(XElement)"/> returns the current value of <paramref name="result"/>.</param>
+        partial void UnmatchedOriginalCatchFilterClauseBefore(XElement oFullElement, ref IEnumerable<XElement> result, ref bool ignoreCore);
+    
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="UnmatchedOriginalCatchFilterClauseCore(XElement)"/>.
+        /// </summary>
+        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
+        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedOriginalCatchFilterClauseCore(XElement)"/>.</param>
+        partial void UnmatchedOriginalCatchFilterClauseAfter(XElement oFullElement, ref IEnumerable<XElement> result);
+        
+        /// <summary>
+        /// Computes the expandable changes starting from an unmatched original element existing in the seed delta. 
+        /// </summary>
+        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
+        /// <returns>The expanded matches and actions.</returns>
+        /// <remarks>This is the default implementation for <see cref="UnmatchedOriginal(XElement)"/>.</remarks>
+        public virtual IEnumerable<XElement> UnmatchedOriginalCatchFilterClauseCore(XElement oFullElement)
+    	{
+    		if(oFullElement == null)
+    			throw new ArgumentNullException(nameof(oFullElement));
+    
+    		XElement child = null;
+    		
+    		child = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "WhenKeyword");
+    		if(child != null)
+            {
+                var delete = this.DeleteIfAvailable(child);
+                if(delete != null)
+                    yield return delete;
+            }
+    		
+    		child = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "OpenParenToken");
+    		if(child != null)
+            {
+                var delete = this.DeleteIfAvailable(child);
+                if(delete != null)
+                    yield return delete;
+            }
+    		
+    		child = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseParenToken");
+    		if(child != null)
+            {
+                var delete = this.DeleteIfAvailable(child);
+                if(delete != null)
+                    yield return delete;
+            }
+    		
+    		yield break;
+    	}		
+    	
+        /// <summary>
+        /// Computes the expandable changes starting from an unmatched original element existing in the seed delta. 
+        /// </summary>
+        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
+        /// <returns>The expanded matches and actions.</returns>
+        public virtual IEnumerable<XElement> UnmatchedOriginalCatchFilterClause(XElement oFullElement)
+        {
+            IEnumerable<XElement> result = new XElement[0];
+        	var ignoreCore = false;
+        	UnmatchedOriginalCatchFilterClauseBefore(oFullElement, ref result, ref ignoreCore);
+        	if(ignoreCore) 
+        		return result;
+        	
+        	result = this.UnmatchedOriginalCatchFilterClauseCore(oFullElement);
+        	UnmatchedOriginalCatchFilterClauseAfter(oFullElement, ref result);
+        	return result;
+        }
+    
+    	#endregion
+    
+    	#region FinallyClause
+    
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="UnmatchedModifiedFinallyClause(XElement)"/>.
+        /// </summary>
+        /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
+        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedModifiedFinallyClause(XElement)"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="UnmatchedModifiedFinallyClauseCore(XElement)"/> is not executed and <see cref="UnmatchedModifiedFinallyClause(XElement)"/> returns the current value of <paramref name="result"/>.</param>
+        partial void UnmatchedModifiedFinallyClauseBefore(XElement mFullElement, ref IEnumerable<XElement> result, ref bool ignoreCore);
+    
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="UnmatchedModifiedFinallyClauseCore(XElement)"/>.
+        /// </summary>
+        /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
+        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedModifiedFinallyClauseCore(XElement)"/>.</param>
+        partial void UnmatchedModifiedFinallyClauseAfter(XElement mFullElement, ref IEnumerable<XElement> result);
+        
+        /// <summary>
+        /// Computes the expandable changes starting from an unmatched modified element existing in the seed delta. 
+        /// </summary>
+        /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
+        /// <returns>The expanded matches and actions.</returns>
+        /// <remarks>This is the default implementation for <see cref="UnmatchedModifiedFinallyClause(XElement)"/>.</remarks>
+        public virtual IEnumerable<XElement> UnmatchedModifiedFinallyClauseCore(XElement mFullElement)
+    	{
+    		if(mFullElement == null)
+    			throw new ArgumentNullException(nameof(mFullElement));
+    
+    		XElement child = null;
+    		
+    		child = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "FinallyKeyword");
+    		if(child != null)
+            {
+                var insert = this.InsertIfAvailable(child, mFullElement);
+                if(insert != null)
+                    yield return insert;
+            }
+    		
+    		yield break;
+    	}		
+    	
+        /// <summary>
+        /// Computes the expandable changes starting from an unmatched modified element existing in the seed delta. 
+        /// </summary>
+        /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
+        /// <returns>The expanded matches and actions.</returns>
+        public virtual IEnumerable<XElement> UnmatchedModifiedFinallyClause(XElement mFullElement)
+        {
+            IEnumerable<XElement> result = new XElement[0];
+        	var ignoreCore = false;
+        	UnmatchedModifiedFinallyClauseBefore(mFullElement, ref result, ref ignoreCore);
+        	if(ignoreCore) 
+        		return result;
+        	
+        	result = this.UnmatchedModifiedFinallyClauseCore(mFullElement);
+        	UnmatchedModifiedFinallyClauseAfter(mFullElement, ref result);
+        	return result;
+        }
+    
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="MatchedFinallyClause(XElement, XElement)"/>.
+        /// </summary>
+        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
+        /// <param name="result">Mechanism to modify the result of <see cref="MatchedFinallyClause(XElement, XElement)"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="MatchedFinallyClauseCore(XElement, XElement)"/> is not executed and <see cref="MatchedFinallyClause(XElement, XElement)"/> returns the current value of <paramref name="result"/>.</param>
+        partial void MatchedFinallyClauseBefore(XElement oFullElement, XElement mFullElement, ref IEnumerable<XElement> result, ref bool ignoreCore);
+    
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="MatchedFinallyClauseCore(XElement, XElement)"/>.
+        /// </summary>
+        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
+        /// <param name="result">Mechanism to modify the result of <see cref="MatchedFinallyClauseCore(XElement, XElement)"/>.</param>
+        partial void MatchedFinallyClauseAfter(XElement oFullElement, XElement mFullElement, ref IEnumerable<XElement> result);
+        
+        /// <summary>
+        /// Computes the expandable changes starting from an matched element existing in the seed delta. 
+        /// </summary>
+        /// <param name="oFullElement">The full description associated to the matched original element version.</param>
+        /// <param name="mFullElement">The full description associated to the unmatched modified element version.</param>
+        /// <returns>The expanded matches and actions.</returns>
+        /// <remarks>This is the default implementation for <see cref="MatchedFinallyClause(XElement, XElement)"/>.</remarks>
+        public virtual IEnumerable<XElement> MatchedFinallyClauseCore(XElement oFullElement, XElement mFullElement)
+    	{
+    		if(oFullElement == null) throw new ArgumentNullException(nameof(oFullElement));
+    		if(mFullElement == null) throw new ArgumentNullException(nameof(mFullElement));
+    
+    		XElement oChild = null, mChild = null;
+    		
+    		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "FinallyKeyword");
+    		mChild = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "FinallyKeyword");
+    		if(oChild == null && mChild != null)
+            {
+                var insert = this.InsertIfAvailable(mChild, oFullElement);
+                if(insert != null)
+                    yield return insert;
+            }
+    		else if(oChild != null && mChild == null)
+            {
+                var delete = this.DeleteIfAvailable(oChild);
+                if(delete != null)
+                    yield return delete;
+            }
+    		else if(oChild != null && mChild != null)
+    		{
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count(ne => ne is XNode) == 0 && mChild.Elements().Count(ne => ne is XNode) == 0 && oChild.Value != mChild.Value)
+                    {
+                        var update = this.UpdateIfAvailable(oChild, mChild);
+                        if(update != null)
+                            yield return update;
+                    }
+    			}
+    		}
+    		
+    		yield break;
+    	}		
+        
+        /// <summary>
+        /// Computes the expandable changes starting from an matched element existing in the seed delta. 
+        /// </summary>
+        /// <param name="oFullElement">The full description associated to the matched original element version.</param>
+        /// <param name="mFullElement">The full description associated to the unmatched modified element version.</param>
+        /// <returns>The expanded matches and actions.</returns>
+        public virtual IEnumerable<XElement> MatchedFinallyClause(XElement oFullElement, XElement mFullElement)
+        {
+            IEnumerable<XElement> result = new XElement[0];
+        	var ignoreCore = false;
+        	MatchedFinallyClauseBefore(oFullElement, mFullElement, ref result, ref ignoreCore);
+        	if(ignoreCore) 
+        		return result;
+        	
+        	result = this.MatchedFinallyClauseCore(oFullElement, mFullElement);
+        	MatchedFinallyClauseAfter(oFullElement, mFullElement, ref result);
+        	return result;
+        }
+    
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="UnmatchedOriginalFinallyClause(XElement)"/>.
+        /// </summary>
+        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
+        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedOriginalFinallyClause(XElement)"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="UnmatchedOriginalFinallyClauseCore(XElement)"/> is not executed and <see cref="UnmatchedOriginalFinallyClause(XElement)"/> returns the current value of <paramref name="result"/>.</param>
+        partial void UnmatchedOriginalFinallyClauseBefore(XElement oFullElement, ref IEnumerable<XElement> result, ref bool ignoreCore);
+    
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="UnmatchedOriginalFinallyClauseCore(XElement)"/>.
+        /// </summary>
+        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
+        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedOriginalFinallyClauseCore(XElement)"/>.</param>
+        partial void UnmatchedOriginalFinallyClauseAfter(XElement oFullElement, ref IEnumerable<XElement> result);
+        
+        /// <summary>
+        /// Computes the expandable changes starting from an unmatched original element existing in the seed delta. 
+        /// </summary>
+        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
+        /// <returns>The expanded matches and actions.</returns>
+        /// <remarks>This is the default implementation for <see cref="UnmatchedOriginal(XElement)"/>.</remarks>
+        public virtual IEnumerable<XElement> UnmatchedOriginalFinallyClauseCore(XElement oFullElement)
+    	{
+    		if(oFullElement == null)
+    			throw new ArgumentNullException(nameof(oFullElement));
+    
+    		XElement child = null;
+    		
+    		child = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "FinallyKeyword");
+    		if(child != null)
+            {
+                var delete = this.DeleteIfAvailable(child);
+                if(delete != null)
+                    yield return delete;
+            }
+    		
+    		yield break;
+    	}		
+    	
+        /// <summary>
+        /// Computes the expandable changes starting from an unmatched original element existing in the seed delta. 
+        /// </summary>
+        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
+        /// <returns>The expanded matches and actions.</returns>
+        public virtual IEnumerable<XElement> UnmatchedOriginalFinallyClause(XElement oFullElement)
+        {
+            IEnumerable<XElement> result = new XElement[0];
+        	var ignoreCore = false;
+        	UnmatchedOriginalFinallyClauseBefore(oFullElement, ref result, ref ignoreCore);
+        	if(ignoreCore) 
+        		return result;
+        	
+        	result = this.UnmatchedOriginalFinallyClauseCore(oFullElement);
+        	UnmatchedOriginalFinallyClauseAfter(oFullElement, ref result);
+        	return result;
+        }
+    
+    	#endregion
+    
+    	#region CompilationUnit
+    
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="UnmatchedModifiedCompilationUnit(XElement)"/>.
+        /// </summary>
+        /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
+        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedModifiedCompilationUnit(XElement)"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="UnmatchedModifiedCompilationUnitCore(XElement)"/> is not executed and <see cref="UnmatchedModifiedCompilationUnit(XElement)"/> returns the current value of <paramref name="result"/>.</param>
+        partial void UnmatchedModifiedCompilationUnitBefore(XElement mFullElement, ref IEnumerable<XElement> result, ref bool ignoreCore);
+    
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="UnmatchedModifiedCompilationUnitCore(XElement)"/>.
+        /// </summary>
+        /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
+        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedModifiedCompilationUnitCore(XElement)"/>.</param>
+        partial void UnmatchedModifiedCompilationUnitAfter(XElement mFullElement, ref IEnumerable<XElement> result);
+        
+        /// <summary>
+        /// Computes the expandable changes starting from an unmatched modified element existing in the seed delta. 
+        /// </summary>
+        /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
+        /// <returns>The expanded matches and actions.</returns>
+        /// <remarks>This is the default implementation for <see cref="UnmatchedModifiedCompilationUnit(XElement)"/>.</remarks>
+        public virtual IEnumerable<XElement> UnmatchedModifiedCompilationUnitCore(XElement mFullElement)
+    	{
+    		if(mFullElement == null)
+    			throw new ArgumentNullException(nameof(mFullElement));
+    
+    		XElement child = null;
+    		
+    		child = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "EndOfFileToken");
+    		if(child != null)
+            {
+                var insert = this.InsertIfAvailable(child, mFullElement);
+                if(insert != null)
+                    yield return insert;
+            }
+    		
+    		yield break;
+    	}		
+    	
+        /// <summary>
+        /// Computes the expandable changes starting from an unmatched modified element existing in the seed delta. 
+        /// </summary>
+        /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
+        /// <returns>The expanded matches and actions.</returns>
+        public virtual IEnumerable<XElement> UnmatchedModifiedCompilationUnit(XElement mFullElement)
+        {
+            IEnumerable<XElement> result = new XElement[0];
+        	var ignoreCore = false;
+        	UnmatchedModifiedCompilationUnitBefore(mFullElement, ref result, ref ignoreCore);
+        	if(ignoreCore) 
+        		return result;
+        	
+        	result = this.UnmatchedModifiedCompilationUnitCore(mFullElement);
+        	UnmatchedModifiedCompilationUnitAfter(mFullElement, ref result);
+        	return result;
+        }
+    
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="MatchedCompilationUnit(XElement, XElement)"/>.
+        /// </summary>
+        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
+        /// <param name="result">Mechanism to modify the result of <see cref="MatchedCompilationUnit(XElement, XElement)"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="MatchedCompilationUnitCore(XElement, XElement)"/> is not executed and <see cref="MatchedCompilationUnit(XElement, XElement)"/> returns the current value of <paramref name="result"/>.</param>
+        partial void MatchedCompilationUnitBefore(XElement oFullElement, XElement mFullElement, ref IEnumerable<XElement> result, ref bool ignoreCore);
+    
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="MatchedCompilationUnitCore(XElement, XElement)"/>.
+        /// </summary>
+        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
+        /// <param name="result">Mechanism to modify the result of <see cref="MatchedCompilationUnitCore(XElement, XElement)"/>.</param>
+        partial void MatchedCompilationUnitAfter(XElement oFullElement, XElement mFullElement, ref IEnumerable<XElement> result);
+        
+        /// <summary>
+        /// Computes the expandable changes starting from an matched element existing in the seed delta. 
+        /// </summary>
+        /// <param name="oFullElement">The full description associated to the matched original element version.</param>
+        /// <param name="mFullElement">The full description associated to the unmatched modified element version.</param>
+        /// <returns>The expanded matches and actions.</returns>
+        /// <remarks>This is the default implementation for <see cref="MatchedCompilationUnit(XElement, XElement)"/>.</remarks>
+        public virtual IEnumerable<XElement> MatchedCompilationUnitCore(XElement oFullElement, XElement mFullElement)
+    	{
+    		if(oFullElement == null) throw new ArgumentNullException(nameof(oFullElement));
+    		if(mFullElement == null) throw new ArgumentNullException(nameof(mFullElement));
+    
+    		XElement oChild = null, mChild = null;
+    		
+    		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "EndOfFileToken");
+    		mChild = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "EndOfFileToken");
+    		if(oChild == null && mChild != null)
+            {
+                var insert = this.InsertIfAvailable(mChild, oFullElement);
+                if(insert != null)
+                    yield return insert;
+            }
+    		else if(oChild != null && mChild == null)
+            {
+                var delete = this.DeleteIfAvailable(oChild);
+                if(delete != null)
+                    yield return delete;
+            }
+    		else if(oChild != null && mChild != null)
+    		{
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count(ne => ne is XNode) == 0 && mChild.Elements().Count(ne => ne is XNode) == 0 && oChild.Value != mChild.Value)
+                    {
+                        var update = this.UpdateIfAvailable(oChild, mChild);
+                        if(update != null)
+                            yield return update;
+                    }
+    			}
+    		}
+    		
+    		yield break;
+    	}		
+        
+        /// <summary>
+        /// Computes the expandable changes starting from an matched element existing in the seed delta. 
+        /// </summary>
+        /// <param name="oFullElement">The full description associated to the matched original element version.</param>
+        /// <param name="mFullElement">The full description associated to the unmatched modified element version.</param>
+        /// <returns>The expanded matches and actions.</returns>
+        public virtual IEnumerable<XElement> MatchedCompilationUnit(XElement oFullElement, XElement mFullElement)
+        {
+            IEnumerable<XElement> result = new XElement[0];
+        	var ignoreCore = false;
+        	MatchedCompilationUnitBefore(oFullElement, mFullElement, ref result, ref ignoreCore);
+        	if(ignoreCore) 
+        		return result;
+        	
+        	result = this.MatchedCompilationUnitCore(oFullElement, mFullElement);
+        	MatchedCompilationUnitAfter(oFullElement, mFullElement, ref result);
+        	return result;
+        }
+    
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="UnmatchedOriginalCompilationUnit(XElement)"/>.
+        /// </summary>
+        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
+        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedOriginalCompilationUnit(XElement)"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="UnmatchedOriginalCompilationUnitCore(XElement)"/> is not executed and <see cref="UnmatchedOriginalCompilationUnit(XElement)"/> returns the current value of <paramref name="result"/>.</param>
+        partial void UnmatchedOriginalCompilationUnitBefore(XElement oFullElement, ref IEnumerable<XElement> result, ref bool ignoreCore);
+    
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="UnmatchedOriginalCompilationUnitCore(XElement)"/>.
+        /// </summary>
+        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
+        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedOriginalCompilationUnitCore(XElement)"/>.</param>
+        partial void UnmatchedOriginalCompilationUnitAfter(XElement oFullElement, ref IEnumerable<XElement> result);
+        
+        /// <summary>
+        /// Computes the expandable changes starting from an unmatched original element existing in the seed delta. 
+        /// </summary>
+        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
+        /// <returns>The expanded matches and actions.</returns>
+        /// <remarks>This is the default implementation for <see cref="UnmatchedOriginal(XElement)"/>.</remarks>
+        public virtual IEnumerable<XElement> UnmatchedOriginalCompilationUnitCore(XElement oFullElement)
+    	{
+    		if(oFullElement == null)
+    			throw new ArgumentNullException(nameof(oFullElement));
+    
+    		XElement child = null;
+    		
+    		child = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "EndOfFileToken");
+    		if(child != null)
+            {
+                var delete = this.DeleteIfAvailable(child);
+                if(delete != null)
+                    yield return delete;
+            }
+    		
+    		yield break;
+    	}		
+    	
+        /// <summary>
+        /// Computes the expandable changes starting from an unmatched original element existing in the seed delta. 
+        /// </summary>
+        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
+        /// <returns>The expanded matches and actions.</returns>
+        public virtual IEnumerable<XElement> UnmatchedOriginalCompilationUnit(XElement oFullElement)
+        {
+            IEnumerable<XElement> result = new XElement[0];
+        	var ignoreCore = false;
+        	UnmatchedOriginalCompilationUnitBefore(oFullElement, ref result, ref ignoreCore);
+        	if(ignoreCore) 
+        		return result;
+        	
+        	result = this.UnmatchedOriginalCompilationUnitCore(oFullElement);
+        	UnmatchedOriginalCompilationUnitAfter(oFullElement, ref result);
+        	return result;
+        }
+    
+    	#endregion
+    
+    	#region ExternAliasDirective
+    
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="UnmatchedModifiedExternAliasDirective(XElement)"/>.
+        /// </summary>
+        /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
+        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedModifiedExternAliasDirective(XElement)"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="UnmatchedModifiedExternAliasDirectiveCore(XElement)"/> is not executed and <see cref="UnmatchedModifiedExternAliasDirective(XElement)"/> returns the current value of <paramref name="result"/>.</param>
+        partial void UnmatchedModifiedExternAliasDirectiveBefore(XElement mFullElement, ref IEnumerable<XElement> result, ref bool ignoreCore);
+    
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="UnmatchedModifiedExternAliasDirectiveCore(XElement)"/>.
+        /// </summary>
+        /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
+        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedModifiedExternAliasDirectiveCore(XElement)"/>.</param>
+        partial void UnmatchedModifiedExternAliasDirectiveAfter(XElement mFullElement, ref IEnumerable<XElement> result);
+        
+        /// <summary>
+        /// Computes the expandable changes starting from an unmatched modified element existing in the seed delta. 
+        /// </summary>
+        /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
+        /// <returns>The expanded matches and actions.</returns>
+        /// <remarks>This is the default implementation for <see cref="UnmatchedModifiedExternAliasDirective(XElement)"/>.</remarks>
+        public virtual IEnumerable<XElement> UnmatchedModifiedExternAliasDirectiveCore(XElement mFullElement)
+    	{
+    		if(mFullElement == null)
+    			throw new ArgumentNullException(nameof(mFullElement));
+    
+    		XElement child = null;
+    		
+    		child = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "ExternKeyword");
+    		if(child != null)
+            {
+                var insert = this.InsertIfAvailable(child, mFullElement);
+                if(insert != null)
+                    yield return insert;
+            }
+    		
+    		child = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "AliasKeyword");
+    		if(child != null)
+            {
+                var insert = this.InsertIfAvailable(child, mFullElement);
+                if(insert != null)
+                    yield return insert;
+            }
+    		
+    		child = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "Identifier");
     		if(child != null)
             {
                 var insert = this.InsertIfAvailable(child, mFullElement);
@@ -11074,33 +9567,33 @@ namespace Jawilliam.CDF.CSharp.RoslynML
         /// </summary>
         /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
         /// <returns>The expanded matches and actions.</returns>
-        public virtual IEnumerable<XElement> UnmatchedModifiedNamespaceDeclaration(XElement mFullElement)
+        public virtual IEnumerable<XElement> UnmatchedModifiedExternAliasDirective(XElement mFullElement)
         {
             IEnumerable<XElement> result = new XElement[0];
         	var ignoreCore = false;
-        	UnmatchedModifiedNamespaceDeclarationBefore(mFullElement, ref result, ref ignoreCore);
+        	UnmatchedModifiedExternAliasDirectiveBefore(mFullElement, ref result, ref ignoreCore);
         	if(ignoreCore) 
         		return result;
         	
-        	result = this.UnmatchedModifiedNamespaceDeclarationCore(mFullElement);
-        	UnmatchedModifiedNamespaceDeclarationAfter(mFullElement, ref result);
+        	result = this.UnmatchedModifiedExternAliasDirectiveCore(mFullElement);
+        	UnmatchedModifiedExternAliasDirectiveAfter(mFullElement, ref result);
         	return result;
         }
     
     	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="MatchedNamespaceDeclaration(XElement, XElement)"/>.
+        /// Method hook for implementing logic to execute before the <see cref="MatchedExternAliasDirective(XElement, XElement)"/>.
         /// </summary>
         /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="MatchedNamespaceDeclaration(XElement, XElement)"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="MatchedNamespaceDeclarationCore(XElement, XElement)"/> is not executed and <see cref="MatchedNamespaceDeclaration(XElement, XElement)"/> returns the current value of <paramref name="result"/>.</param>
-        partial void MatchedNamespaceDeclarationBefore(XElement oFullElement, XElement mFullElement, ref IEnumerable<XElement> result, ref bool ignoreCore);
+        /// <param name="result">Mechanism to modify the result of <see cref="MatchedExternAliasDirective(XElement, XElement)"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="MatchedExternAliasDirectiveCore(XElement, XElement)"/> is not executed and <see cref="MatchedExternAliasDirective(XElement, XElement)"/> returns the current value of <paramref name="result"/>.</param>
+        partial void MatchedExternAliasDirectiveBefore(XElement oFullElement, XElement mFullElement, ref IEnumerable<XElement> result, ref bool ignoreCore);
     
         /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="MatchedNamespaceDeclarationCore(XElement, XElement)"/>.
+        /// Method hook for implementing logic to execute after the <see cref="MatchedExternAliasDirectiveCore(XElement, XElement)"/>.
         /// </summary>
         /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="MatchedNamespaceDeclarationCore(XElement, XElement)"/>.</param>
-        partial void MatchedNamespaceDeclarationAfter(XElement oFullElement, XElement mFullElement, ref IEnumerable<XElement> result);
+        /// <param name="result">Mechanism to modify the result of <see cref="MatchedExternAliasDirectiveCore(XElement, XElement)"/>.</param>
+        partial void MatchedExternAliasDirectiveAfter(XElement oFullElement, XElement mFullElement, ref IEnumerable<XElement> result);
         
         /// <summary>
         /// Computes the expandable changes starting from an matched element existing in the seed delta. 
@@ -11108,16 +9601,16 @@ namespace Jawilliam.CDF.CSharp.RoslynML
         /// <param name="oFullElement">The full description associated to the matched original element version.</param>
         /// <param name="mFullElement">The full description associated to the unmatched modified element version.</param>
         /// <returns>The expanded matches and actions.</returns>
-        /// <remarks>This is the default implementation for <see cref="MatchedNamespaceDeclaration(XElement, XElement)"/>.</remarks>
-        public virtual IEnumerable<XElement> MatchedNamespaceDeclarationCore(XElement oFullElement, XElement mFullElement)
+        /// <remarks>This is the default implementation for <see cref="MatchedExternAliasDirective(XElement, XElement)"/>.</remarks>
+        public virtual IEnumerable<XElement> MatchedExternAliasDirectiveCore(XElement oFullElement, XElement mFullElement)
     	{
     		if(oFullElement == null) throw new ArgumentNullException(nameof(oFullElement));
     		if(mFullElement == null) throw new ArgumentNullException(nameof(mFullElement));
     
     		XElement oChild = null, mChild = null;
     		
-    		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "NamespaceKeyword");
-    		mChild = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "NamespaceKeyword");
+    		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "ExternKeyword");
+    		mChild = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "ExternKeyword");
     		if(oChild == null && mChild != null)
             {
                 var insert = this.InsertIfAvailable(mChild, oFullElement);
@@ -11146,8 +9639,8 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			}
     		}
     		
-    		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "OpenBraceToken");
-    		mChild = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "OpenBraceToken");
+    		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "AliasKeyword");
+    		mChild = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "AliasKeyword");
     		if(oChild == null && mChild != null)
             {
                 var insert = this.InsertIfAvailable(mChild, oFullElement);
@@ -11176,8 +9669,8 @@ namespace Jawilliam.CDF.CSharp.RoslynML
     			}
     		}
     		
-    		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseBraceToken");
-    		mChild = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseBraceToken");
+    		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "Identifier");
+    		mChild = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "Identifier");
     		if(oChild == null && mChild != null)
             {
                 var insert = this.InsertIfAvailable(mChild, oFullElement);
@@ -11245,33 +9738,33 @@ namespace Jawilliam.CDF.CSharp.RoslynML
         /// <param name="oFullElement">The full description associated to the matched original element version.</param>
         /// <param name="mFullElement">The full description associated to the unmatched modified element version.</param>
         /// <returns>The expanded matches and actions.</returns>
-        public virtual IEnumerable<XElement> MatchedNamespaceDeclaration(XElement oFullElement, XElement mFullElement)
+        public virtual IEnumerable<XElement> MatchedExternAliasDirective(XElement oFullElement, XElement mFullElement)
         {
             IEnumerable<XElement> result = new XElement[0];
         	var ignoreCore = false;
-        	MatchedNamespaceDeclarationBefore(oFullElement, mFullElement, ref result, ref ignoreCore);
+        	MatchedExternAliasDirectiveBefore(oFullElement, mFullElement, ref result, ref ignoreCore);
         	if(ignoreCore) 
         		return result;
         	
-        	result = this.MatchedNamespaceDeclarationCore(oFullElement, mFullElement);
-        	MatchedNamespaceDeclarationAfter(oFullElement, mFullElement, ref result);
+        	result = this.MatchedExternAliasDirectiveCore(oFullElement, mFullElement);
+        	MatchedExternAliasDirectiveAfter(oFullElement, mFullElement, ref result);
         	return result;
         }
     
     	/// <summary>
-        /// Method hook for implementing logic to execute before the <see cref="UnmatchedOriginalNamespaceDeclaration(XElement)"/>.
+        /// Method hook for implementing logic to execute before the <see cref="UnmatchedOriginalExternAliasDirective(XElement)"/>.
         /// </summary>
         /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedOriginalNamespaceDeclaration(XElement)"/>.</param>
-        /// <param name="ignoreCore">If true, the <see cref="UnmatchedOriginalNamespaceDeclarationCore(XElement)"/> is not executed and <see cref="UnmatchedOriginalNamespaceDeclaration(XElement)"/> returns the current value of <paramref name="result"/>.</param>
-        partial void UnmatchedOriginalNamespaceDeclarationBefore(XElement oFullElement, ref IEnumerable<XElement> result, ref bool ignoreCore);
+        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedOriginalExternAliasDirective(XElement)"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="UnmatchedOriginalExternAliasDirectiveCore(XElement)"/> is not executed and <see cref="UnmatchedOriginalExternAliasDirective(XElement)"/> returns the current value of <paramref name="result"/>.</param>
+        partial void UnmatchedOriginalExternAliasDirectiveBefore(XElement oFullElement, ref IEnumerable<XElement> result, ref bool ignoreCore);
     
         /// <summary>
-        /// Method hook for implementing logic to execute after the <see cref="UnmatchedOriginalNamespaceDeclarationCore(XElement)"/>.
+        /// Method hook for implementing logic to execute after the <see cref="UnmatchedOriginalExternAliasDirectiveCore(XElement)"/>.
         /// </summary>
         /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
-        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedOriginalNamespaceDeclarationCore(XElement)"/>.</param>
-        partial void UnmatchedOriginalNamespaceDeclarationAfter(XElement oFullElement, ref IEnumerable<XElement> result);
+        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedOriginalExternAliasDirectiveCore(XElement)"/>.</param>
+        partial void UnmatchedOriginalExternAliasDirectiveAfter(XElement oFullElement, ref IEnumerable<XElement> result);
         
         /// <summary>
         /// Computes the expandable changes starting from an unmatched original element existing in the seed delta. 
@@ -11279,14 +9772,14 @@ namespace Jawilliam.CDF.CSharp.RoslynML
         /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
         /// <returns>The expanded matches and actions.</returns>
         /// <remarks>This is the default implementation for <see cref="UnmatchedOriginal(XElement)"/>.</remarks>
-        public virtual IEnumerable<XElement> UnmatchedOriginalNamespaceDeclarationCore(XElement oFullElement)
+        public virtual IEnumerable<XElement> UnmatchedOriginalExternAliasDirectiveCore(XElement oFullElement)
     	{
     		if(oFullElement == null)
     			throw new ArgumentNullException(nameof(oFullElement));
     
     		XElement child = null;
     		
-    		child = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "NamespaceKeyword");
+    		child = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "ExternKeyword");
     		if(child != null)
             {
                 var delete = this.DeleteIfAvailable(child);
@@ -11294,7 +9787,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
                     yield return delete;
             }
     		
-    		child = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "OpenBraceToken");
+    		child = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "AliasKeyword");
     		if(child != null)
             {
                 var delete = this.DeleteIfAvailable(child);
@@ -11302,7 +9795,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
                     yield return delete;
             }
     		
-    		child = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseBraceToken");
+    		child = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "Identifier");
     		if(child != null)
             {
                 var delete = this.DeleteIfAvailable(child);
@@ -11326,16 +9819,1189 @@ namespace Jawilliam.CDF.CSharp.RoslynML
         /// </summary>
         /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
         /// <returns>The expanded matches and actions.</returns>
-        public virtual IEnumerable<XElement> UnmatchedOriginalNamespaceDeclaration(XElement oFullElement)
+        public virtual IEnumerable<XElement> UnmatchedOriginalExternAliasDirective(XElement oFullElement)
         {
             IEnumerable<XElement> result = new XElement[0];
         	var ignoreCore = false;
-        	UnmatchedOriginalNamespaceDeclarationBefore(oFullElement, ref result, ref ignoreCore);
+        	UnmatchedOriginalExternAliasDirectiveBefore(oFullElement, ref result, ref ignoreCore);
         	if(ignoreCore) 
         		return result;
         	
-        	result = this.UnmatchedOriginalNamespaceDeclarationCore(oFullElement);
-        	UnmatchedOriginalNamespaceDeclarationAfter(oFullElement, ref result);
+        	result = this.UnmatchedOriginalExternAliasDirectiveCore(oFullElement);
+        	UnmatchedOriginalExternAliasDirectiveAfter(oFullElement, ref result);
+        	return result;
+        }
+    
+    	#endregion
+    
+    	#region UsingDirective
+    
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="UnmatchedModifiedUsingDirective(XElement)"/>.
+        /// </summary>
+        /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
+        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedModifiedUsingDirective(XElement)"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="UnmatchedModifiedUsingDirectiveCore(XElement)"/> is not executed and <see cref="UnmatchedModifiedUsingDirective(XElement)"/> returns the current value of <paramref name="result"/>.</param>
+        partial void UnmatchedModifiedUsingDirectiveBefore(XElement mFullElement, ref IEnumerable<XElement> result, ref bool ignoreCore);
+    
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="UnmatchedModifiedUsingDirectiveCore(XElement)"/>.
+        /// </summary>
+        /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
+        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedModifiedUsingDirectiveCore(XElement)"/>.</param>
+        partial void UnmatchedModifiedUsingDirectiveAfter(XElement mFullElement, ref IEnumerable<XElement> result);
+        
+        /// <summary>
+        /// Computes the expandable changes starting from an unmatched modified element existing in the seed delta. 
+        /// </summary>
+        /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
+        /// <returns>The expanded matches and actions.</returns>
+        /// <remarks>This is the default implementation for <see cref="UnmatchedModifiedUsingDirective(XElement)"/>.</remarks>
+        public virtual IEnumerable<XElement> UnmatchedModifiedUsingDirectiveCore(XElement mFullElement)
+    	{
+    		if(mFullElement == null)
+    			throw new ArgumentNullException(nameof(mFullElement));
+    
+    		XElement child = null;
+    		
+    		child = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "UsingKeyword");
+    		if(child != null)
+            {
+                var insert = this.InsertIfAvailable(child, mFullElement);
+                if(insert != null)
+                    yield return insert;
+            }
+    		
+    		child = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "StaticKeyword");
+    		if(child != null)
+            {
+                var insert = this.InsertIfAvailable(child, mFullElement);
+                if(insert != null)
+                    yield return insert;
+            }
+    		
+    		child = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "SemicolonToken");
+    		if(child != null)
+            {
+                var insert = this.InsertIfAvailable(child, mFullElement);
+                if(insert != null)
+                    yield return insert;
+            }
+    		
+    		yield break;
+    	}		
+    	
+        /// <summary>
+        /// Computes the expandable changes starting from an unmatched modified element existing in the seed delta. 
+        /// </summary>
+        /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
+        /// <returns>The expanded matches and actions.</returns>
+        public virtual IEnumerable<XElement> UnmatchedModifiedUsingDirective(XElement mFullElement)
+        {
+            IEnumerable<XElement> result = new XElement[0];
+        	var ignoreCore = false;
+        	UnmatchedModifiedUsingDirectiveBefore(mFullElement, ref result, ref ignoreCore);
+        	if(ignoreCore) 
+        		return result;
+        	
+        	result = this.UnmatchedModifiedUsingDirectiveCore(mFullElement);
+        	UnmatchedModifiedUsingDirectiveAfter(mFullElement, ref result);
+        	return result;
+        }
+    
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="MatchedUsingDirective(XElement, XElement)"/>.
+        /// </summary>
+        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
+        /// <param name="result">Mechanism to modify the result of <see cref="MatchedUsingDirective(XElement, XElement)"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="MatchedUsingDirectiveCore(XElement, XElement)"/> is not executed and <see cref="MatchedUsingDirective(XElement, XElement)"/> returns the current value of <paramref name="result"/>.</param>
+        partial void MatchedUsingDirectiveBefore(XElement oFullElement, XElement mFullElement, ref IEnumerable<XElement> result, ref bool ignoreCore);
+    
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="MatchedUsingDirectiveCore(XElement, XElement)"/>.
+        /// </summary>
+        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
+        /// <param name="result">Mechanism to modify the result of <see cref="MatchedUsingDirectiveCore(XElement, XElement)"/>.</param>
+        partial void MatchedUsingDirectiveAfter(XElement oFullElement, XElement mFullElement, ref IEnumerable<XElement> result);
+        
+        /// <summary>
+        /// Computes the expandable changes starting from an matched element existing in the seed delta. 
+        /// </summary>
+        /// <param name="oFullElement">The full description associated to the matched original element version.</param>
+        /// <param name="mFullElement">The full description associated to the unmatched modified element version.</param>
+        /// <returns>The expanded matches and actions.</returns>
+        /// <remarks>This is the default implementation for <see cref="MatchedUsingDirective(XElement, XElement)"/>.</remarks>
+        public virtual IEnumerable<XElement> MatchedUsingDirectiveCore(XElement oFullElement, XElement mFullElement)
+    	{
+    		if(oFullElement == null) throw new ArgumentNullException(nameof(oFullElement));
+    		if(mFullElement == null) throw new ArgumentNullException(nameof(mFullElement));
+    
+    		XElement oChild = null, mChild = null;
+    		
+    		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "UsingKeyword");
+    		mChild = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "UsingKeyword");
+    		if(oChild == null && mChild != null)
+            {
+                var insert = this.InsertIfAvailable(mChild, oFullElement);
+                if(insert != null)
+                    yield return insert;
+            }
+    		else if(oChild != null && mChild == null)
+            {
+                var delete = this.DeleteIfAvailable(oChild);
+                if(delete != null)
+                    yield return delete;
+            }
+    		else if(oChild != null && mChild != null)
+    		{
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count(ne => ne is XNode) == 0 && mChild.Elements().Count(ne => ne is XNode) == 0 && oChild.Value != mChild.Value)
+                    {
+                        var update = this.UpdateIfAvailable(oChild, mChild);
+                        if(update != null)
+                            yield return update;
+                    }
+    			}
+    		}
+    		
+    		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "StaticKeyword");
+    		mChild = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "StaticKeyword");
+    		if(oChild == null && mChild != null)
+            {
+                var insert = this.InsertIfAvailable(mChild, oFullElement);
+                if(insert != null)
+                    yield return insert;
+            }
+    		else if(oChild != null && mChild == null)
+            {
+                var delete = this.DeleteIfAvailable(oChild);
+                if(delete != null)
+                    yield return delete;
+            }
+    		else if(oChild != null && mChild != null)
+    		{
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count(ne => ne is XNode) == 0 && mChild.Elements().Count(ne => ne is XNode) == 0 && oChild.Value != mChild.Value)
+                    {
+                        var update = this.UpdateIfAvailable(oChild, mChild);
+                        if(update != null)
+                            yield return update;
+                    }
+    			}
+    		}
+    		
+    		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "SemicolonToken");
+    		mChild = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "SemicolonToken");
+    		if(oChild == null && mChild != null)
+            {
+                var insert = this.InsertIfAvailable(mChild, oFullElement);
+                if(insert != null)
+                    yield return insert;
+            }
+    		else if(oChild != null && mChild == null)
+            {
+                var delete = this.DeleteIfAvailable(oChild);
+                if(delete != null)
+                    yield return delete;
+            }
+    		else if(oChild != null && mChild != null)
+    		{
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count(ne => ne is XNode) == 0 && mChild.Elements().Count(ne => ne is XNode) == 0 && oChild.Value != mChild.Value)
+                    {
+                        var update = this.UpdateIfAvailable(oChild, mChild);
+                        if(update != null)
+                            yield return update;
+                    }
+    			}
+    		}
+    		
+    		yield break;
+    	}		
+        
+        /// <summary>
+        /// Computes the expandable changes starting from an matched element existing in the seed delta. 
+        /// </summary>
+        /// <param name="oFullElement">The full description associated to the matched original element version.</param>
+        /// <param name="mFullElement">The full description associated to the unmatched modified element version.</param>
+        /// <returns>The expanded matches and actions.</returns>
+        public virtual IEnumerable<XElement> MatchedUsingDirective(XElement oFullElement, XElement mFullElement)
+        {
+            IEnumerable<XElement> result = new XElement[0];
+        	var ignoreCore = false;
+        	MatchedUsingDirectiveBefore(oFullElement, mFullElement, ref result, ref ignoreCore);
+        	if(ignoreCore) 
+        		return result;
+        	
+        	result = this.MatchedUsingDirectiveCore(oFullElement, mFullElement);
+        	MatchedUsingDirectiveAfter(oFullElement, mFullElement, ref result);
+        	return result;
+        }
+    
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="UnmatchedOriginalUsingDirective(XElement)"/>.
+        /// </summary>
+        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
+        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedOriginalUsingDirective(XElement)"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="UnmatchedOriginalUsingDirectiveCore(XElement)"/> is not executed and <see cref="UnmatchedOriginalUsingDirective(XElement)"/> returns the current value of <paramref name="result"/>.</param>
+        partial void UnmatchedOriginalUsingDirectiveBefore(XElement oFullElement, ref IEnumerable<XElement> result, ref bool ignoreCore);
+    
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="UnmatchedOriginalUsingDirectiveCore(XElement)"/>.
+        /// </summary>
+        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
+        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedOriginalUsingDirectiveCore(XElement)"/>.</param>
+        partial void UnmatchedOriginalUsingDirectiveAfter(XElement oFullElement, ref IEnumerable<XElement> result);
+        
+        /// <summary>
+        /// Computes the expandable changes starting from an unmatched original element existing in the seed delta. 
+        /// </summary>
+        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
+        /// <returns>The expanded matches and actions.</returns>
+        /// <remarks>This is the default implementation for <see cref="UnmatchedOriginal(XElement)"/>.</remarks>
+        public virtual IEnumerable<XElement> UnmatchedOriginalUsingDirectiveCore(XElement oFullElement)
+    	{
+    		if(oFullElement == null)
+    			throw new ArgumentNullException(nameof(oFullElement));
+    
+    		XElement child = null;
+    		
+    		child = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "UsingKeyword");
+    		if(child != null)
+            {
+                var delete = this.DeleteIfAvailable(child);
+                if(delete != null)
+                    yield return delete;
+            }
+    		
+    		child = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "StaticKeyword");
+    		if(child != null)
+            {
+                var delete = this.DeleteIfAvailable(child);
+                if(delete != null)
+                    yield return delete;
+            }
+    		
+    		child = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "SemicolonToken");
+    		if(child != null)
+            {
+                var delete = this.DeleteIfAvailable(child);
+                if(delete != null)
+                    yield return delete;
+            }
+    		
+    		yield break;
+    	}		
+    	
+        /// <summary>
+        /// Computes the expandable changes starting from an unmatched original element existing in the seed delta. 
+        /// </summary>
+        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
+        /// <returns>The expanded matches and actions.</returns>
+        public virtual IEnumerable<XElement> UnmatchedOriginalUsingDirective(XElement oFullElement)
+        {
+            IEnumerable<XElement> result = new XElement[0];
+        	var ignoreCore = false;
+        	UnmatchedOriginalUsingDirectiveBefore(oFullElement, ref result, ref ignoreCore);
+        	if(ignoreCore) 
+        		return result;
+        	
+        	result = this.UnmatchedOriginalUsingDirectiveCore(oFullElement);
+        	UnmatchedOriginalUsingDirectiveAfter(oFullElement, ref result);
+        	return result;
+        }
+    
+    	#endregion
+    
+    	#region AttributeList
+    
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="UnmatchedModifiedAttributeList(XElement)"/>.
+        /// </summary>
+        /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
+        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedModifiedAttributeList(XElement)"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="UnmatchedModifiedAttributeListCore(XElement)"/> is not executed and <see cref="UnmatchedModifiedAttributeList(XElement)"/> returns the current value of <paramref name="result"/>.</param>
+        partial void UnmatchedModifiedAttributeListBefore(XElement mFullElement, ref IEnumerable<XElement> result, ref bool ignoreCore);
+    
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="UnmatchedModifiedAttributeListCore(XElement)"/>.
+        /// </summary>
+        /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
+        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedModifiedAttributeListCore(XElement)"/>.</param>
+        partial void UnmatchedModifiedAttributeListAfter(XElement mFullElement, ref IEnumerable<XElement> result);
+        
+        /// <summary>
+        /// Computes the expandable changes starting from an unmatched modified element existing in the seed delta. 
+        /// </summary>
+        /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
+        /// <returns>The expanded matches and actions.</returns>
+        /// <remarks>This is the default implementation for <see cref="UnmatchedModifiedAttributeList(XElement)"/>.</remarks>
+        public virtual IEnumerable<XElement> UnmatchedModifiedAttributeListCore(XElement mFullElement)
+    	{
+    		if(mFullElement == null)
+    			throw new ArgumentNullException(nameof(mFullElement));
+    
+    		XElement child = null;
+    		
+    		child = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "OpenBracketToken");
+    		if(child != null)
+            {
+                var insert = this.InsertIfAvailable(child, mFullElement);
+                if(insert != null)
+                    yield return insert;
+            }
+    		
+    		child = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseBracketToken");
+    		if(child != null)
+            {
+                var insert = this.InsertIfAvailable(child, mFullElement);
+                if(insert != null)
+                    yield return insert;
+            }
+    		
+    		yield break;
+    	}		
+    	
+        /// <summary>
+        /// Computes the expandable changes starting from an unmatched modified element existing in the seed delta. 
+        /// </summary>
+        /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
+        /// <returns>The expanded matches and actions.</returns>
+        public virtual IEnumerable<XElement> UnmatchedModifiedAttributeList(XElement mFullElement)
+        {
+            IEnumerable<XElement> result = new XElement[0];
+        	var ignoreCore = false;
+        	UnmatchedModifiedAttributeListBefore(mFullElement, ref result, ref ignoreCore);
+        	if(ignoreCore) 
+        		return result;
+        	
+        	result = this.UnmatchedModifiedAttributeListCore(mFullElement);
+        	UnmatchedModifiedAttributeListAfter(mFullElement, ref result);
+        	return result;
+        }
+    
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="MatchedAttributeList(XElement, XElement)"/>.
+        /// </summary>
+        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
+        /// <param name="result">Mechanism to modify the result of <see cref="MatchedAttributeList(XElement, XElement)"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="MatchedAttributeListCore(XElement, XElement)"/> is not executed and <see cref="MatchedAttributeList(XElement, XElement)"/> returns the current value of <paramref name="result"/>.</param>
+        partial void MatchedAttributeListBefore(XElement oFullElement, XElement mFullElement, ref IEnumerable<XElement> result, ref bool ignoreCore);
+    
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="MatchedAttributeListCore(XElement, XElement)"/>.
+        /// </summary>
+        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
+        /// <param name="result">Mechanism to modify the result of <see cref="MatchedAttributeListCore(XElement, XElement)"/>.</param>
+        partial void MatchedAttributeListAfter(XElement oFullElement, XElement mFullElement, ref IEnumerable<XElement> result);
+        
+        /// <summary>
+        /// Computes the expandable changes starting from an matched element existing in the seed delta. 
+        /// </summary>
+        /// <param name="oFullElement">The full description associated to the matched original element version.</param>
+        /// <param name="mFullElement">The full description associated to the unmatched modified element version.</param>
+        /// <returns>The expanded matches and actions.</returns>
+        /// <remarks>This is the default implementation for <see cref="MatchedAttributeList(XElement, XElement)"/>.</remarks>
+        public virtual IEnumerable<XElement> MatchedAttributeListCore(XElement oFullElement, XElement mFullElement)
+    	{
+    		if(oFullElement == null) throw new ArgumentNullException(nameof(oFullElement));
+    		if(mFullElement == null) throw new ArgumentNullException(nameof(mFullElement));
+    
+    		XElement oChild = null, mChild = null;
+    		
+    		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "OpenBracketToken");
+    		mChild = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "OpenBracketToken");
+    		if(oChild == null && mChild != null)
+            {
+                var insert = this.InsertIfAvailable(mChild, oFullElement);
+                if(insert != null)
+                    yield return insert;
+            }
+    		else if(oChild != null && mChild == null)
+            {
+                var delete = this.DeleteIfAvailable(oChild);
+                if(delete != null)
+                    yield return delete;
+            }
+    		else if(oChild != null && mChild != null)
+    		{
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count(ne => ne is XNode) == 0 && mChild.Elements().Count(ne => ne is XNode) == 0 && oChild.Value != mChild.Value)
+                    {
+                        var update = this.UpdateIfAvailable(oChild, mChild);
+                        if(update != null)
+                            yield return update;
+                    }
+    			}
+    		}
+    		
+    		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseBracketToken");
+    		mChild = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseBracketToken");
+    		if(oChild == null && mChild != null)
+            {
+                var insert = this.InsertIfAvailable(mChild, oFullElement);
+                if(insert != null)
+                    yield return insert;
+            }
+    		else if(oChild != null && mChild == null)
+            {
+                var delete = this.DeleteIfAvailable(oChild);
+                if(delete != null)
+                    yield return delete;
+            }
+    		else if(oChild != null && mChild != null)
+    		{
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count(ne => ne is XNode) == 0 && mChild.Elements().Count(ne => ne is XNode) == 0 && oChild.Value != mChild.Value)
+                    {
+                        var update = this.UpdateIfAvailable(oChild, mChild);
+                        if(update != null)
+                            yield return update;
+                    }
+    			}
+    		}
+    		
+    		yield break;
+    	}		
+        
+        /// <summary>
+        /// Computes the expandable changes starting from an matched element existing in the seed delta. 
+        /// </summary>
+        /// <param name="oFullElement">The full description associated to the matched original element version.</param>
+        /// <param name="mFullElement">The full description associated to the unmatched modified element version.</param>
+        /// <returns>The expanded matches and actions.</returns>
+        public virtual IEnumerable<XElement> MatchedAttributeList(XElement oFullElement, XElement mFullElement)
+        {
+            IEnumerable<XElement> result = new XElement[0];
+        	var ignoreCore = false;
+        	MatchedAttributeListBefore(oFullElement, mFullElement, ref result, ref ignoreCore);
+        	if(ignoreCore) 
+        		return result;
+        	
+        	result = this.MatchedAttributeListCore(oFullElement, mFullElement);
+        	MatchedAttributeListAfter(oFullElement, mFullElement, ref result);
+        	return result;
+        }
+    
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="UnmatchedOriginalAttributeList(XElement)"/>.
+        /// </summary>
+        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
+        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedOriginalAttributeList(XElement)"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="UnmatchedOriginalAttributeListCore(XElement)"/> is not executed and <see cref="UnmatchedOriginalAttributeList(XElement)"/> returns the current value of <paramref name="result"/>.</param>
+        partial void UnmatchedOriginalAttributeListBefore(XElement oFullElement, ref IEnumerable<XElement> result, ref bool ignoreCore);
+    
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="UnmatchedOriginalAttributeListCore(XElement)"/>.
+        /// </summary>
+        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
+        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedOriginalAttributeListCore(XElement)"/>.</param>
+        partial void UnmatchedOriginalAttributeListAfter(XElement oFullElement, ref IEnumerable<XElement> result);
+        
+        /// <summary>
+        /// Computes the expandable changes starting from an unmatched original element existing in the seed delta. 
+        /// </summary>
+        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
+        /// <returns>The expanded matches and actions.</returns>
+        /// <remarks>This is the default implementation for <see cref="UnmatchedOriginal(XElement)"/>.</remarks>
+        public virtual IEnumerable<XElement> UnmatchedOriginalAttributeListCore(XElement oFullElement)
+    	{
+    		if(oFullElement == null)
+    			throw new ArgumentNullException(nameof(oFullElement));
+    
+    		XElement child = null;
+    		
+    		child = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "OpenBracketToken");
+    		if(child != null)
+            {
+                var delete = this.DeleteIfAvailable(child);
+                if(delete != null)
+                    yield return delete;
+            }
+    		
+    		child = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseBracketToken");
+    		if(child != null)
+            {
+                var delete = this.DeleteIfAvailable(child);
+                if(delete != null)
+                    yield return delete;
+            }
+    		
+    		yield break;
+    	}		
+    	
+        /// <summary>
+        /// Computes the expandable changes starting from an unmatched original element existing in the seed delta. 
+        /// </summary>
+        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
+        /// <returns>The expanded matches and actions.</returns>
+        public virtual IEnumerable<XElement> UnmatchedOriginalAttributeList(XElement oFullElement)
+        {
+            IEnumerable<XElement> result = new XElement[0];
+        	var ignoreCore = false;
+        	UnmatchedOriginalAttributeListBefore(oFullElement, ref result, ref ignoreCore);
+        	if(ignoreCore) 
+        		return result;
+        	
+        	result = this.UnmatchedOriginalAttributeListCore(oFullElement);
+        	UnmatchedOriginalAttributeListAfter(oFullElement, ref result);
+        	return result;
+        }
+    
+    	#endregion
+    
+    	#region AttributeTargetSpecifier
+    
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="UnmatchedModifiedAttributeTargetSpecifier(XElement)"/>.
+        /// </summary>
+        /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
+        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedModifiedAttributeTargetSpecifier(XElement)"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="UnmatchedModifiedAttributeTargetSpecifierCore(XElement)"/> is not executed and <see cref="UnmatchedModifiedAttributeTargetSpecifier(XElement)"/> returns the current value of <paramref name="result"/>.</param>
+        partial void UnmatchedModifiedAttributeTargetSpecifierBefore(XElement mFullElement, ref IEnumerable<XElement> result, ref bool ignoreCore);
+    
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="UnmatchedModifiedAttributeTargetSpecifierCore(XElement)"/>.
+        /// </summary>
+        /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
+        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedModifiedAttributeTargetSpecifierCore(XElement)"/>.</param>
+        partial void UnmatchedModifiedAttributeTargetSpecifierAfter(XElement mFullElement, ref IEnumerable<XElement> result);
+        
+        /// <summary>
+        /// Computes the expandable changes starting from an unmatched modified element existing in the seed delta. 
+        /// </summary>
+        /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
+        /// <returns>The expanded matches and actions.</returns>
+        /// <remarks>This is the default implementation for <see cref="UnmatchedModifiedAttributeTargetSpecifier(XElement)"/>.</remarks>
+        public virtual IEnumerable<XElement> UnmatchedModifiedAttributeTargetSpecifierCore(XElement mFullElement)
+    	{
+    		if(mFullElement == null)
+    			throw new ArgumentNullException(nameof(mFullElement));
+    
+    		XElement child = null;
+    		
+    		child = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "Identifier");
+    		if(child != null)
+            {
+                var insert = this.InsertIfAvailable(child, mFullElement);
+                if(insert != null)
+                    yield return insert;
+            }
+    		
+    		child = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "ColonToken");
+    		if(child != null)
+            {
+                var insert = this.InsertIfAvailable(child, mFullElement);
+                if(insert != null)
+                    yield return insert;
+            }
+    		
+    		yield break;
+    	}		
+    	
+        /// <summary>
+        /// Computes the expandable changes starting from an unmatched modified element existing in the seed delta. 
+        /// </summary>
+        /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
+        /// <returns>The expanded matches and actions.</returns>
+        public virtual IEnumerable<XElement> UnmatchedModifiedAttributeTargetSpecifier(XElement mFullElement)
+        {
+            IEnumerable<XElement> result = new XElement[0];
+        	var ignoreCore = false;
+        	UnmatchedModifiedAttributeTargetSpecifierBefore(mFullElement, ref result, ref ignoreCore);
+        	if(ignoreCore) 
+        		return result;
+        	
+        	result = this.UnmatchedModifiedAttributeTargetSpecifierCore(mFullElement);
+        	UnmatchedModifiedAttributeTargetSpecifierAfter(mFullElement, ref result);
+        	return result;
+        }
+    
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="MatchedAttributeTargetSpecifier(XElement, XElement)"/>.
+        /// </summary>
+        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
+        /// <param name="result">Mechanism to modify the result of <see cref="MatchedAttributeTargetSpecifier(XElement, XElement)"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="MatchedAttributeTargetSpecifierCore(XElement, XElement)"/> is not executed and <see cref="MatchedAttributeTargetSpecifier(XElement, XElement)"/> returns the current value of <paramref name="result"/>.</param>
+        partial void MatchedAttributeTargetSpecifierBefore(XElement oFullElement, XElement mFullElement, ref IEnumerable<XElement> result, ref bool ignoreCore);
+    
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="MatchedAttributeTargetSpecifierCore(XElement, XElement)"/>.
+        /// </summary>
+        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
+        /// <param name="result">Mechanism to modify the result of <see cref="MatchedAttributeTargetSpecifierCore(XElement, XElement)"/>.</param>
+        partial void MatchedAttributeTargetSpecifierAfter(XElement oFullElement, XElement mFullElement, ref IEnumerable<XElement> result);
+        
+        /// <summary>
+        /// Computes the expandable changes starting from an matched element existing in the seed delta. 
+        /// </summary>
+        /// <param name="oFullElement">The full description associated to the matched original element version.</param>
+        /// <param name="mFullElement">The full description associated to the unmatched modified element version.</param>
+        /// <returns>The expanded matches and actions.</returns>
+        /// <remarks>This is the default implementation for <see cref="MatchedAttributeTargetSpecifier(XElement, XElement)"/>.</remarks>
+        public virtual IEnumerable<XElement> MatchedAttributeTargetSpecifierCore(XElement oFullElement, XElement mFullElement)
+    	{
+    		if(oFullElement == null) throw new ArgumentNullException(nameof(oFullElement));
+    		if(mFullElement == null) throw new ArgumentNullException(nameof(mFullElement));
+    
+    		XElement oChild = null, mChild = null;
+    		
+    		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "Identifier");
+    		mChild = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "Identifier");
+    		if(oChild == null && mChild != null)
+            {
+                var insert = this.InsertIfAvailable(mChild, oFullElement);
+                if(insert != null)
+                    yield return insert;
+            }
+    		else if(oChild != null && mChild == null)
+            {
+                var delete = this.DeleteIfAvailable(oChild);
+                if(delete != null)
+                    yield return delete;
+            }
+    		else if(oChild != null && mChild != null)
+    		{
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count(ne => ne is XNode) == 0 && mChild.Elements().Count(ne => ne is XNode) == 0 && oChild.Value != mChild.Value)
+                    {
+                        var update = this.UpdateIfAvailable(oChild, mChild);
+                        if(update != null)
+                            yield return update;
+                    }
+    			}
+    		}
+    		
+    		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "ColonToken");
+    		mChild = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "ColonToken");
+    		if(oChild == null && mChild != null)
+            {
+                var insert = this.InsertIfAvailable(mChild, oFullElement);
+                if(insert != null)
+                    yield return insert;
+            }
+    		else if(oChild != null && mChild == null)
+            {
+                var delete = this.DeleteIfAvailable(oChild);
+                if(delete != null)
+                    yield return delete;
+            }
+    		else if(oChild != null && mChild != null)
+    		{
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count(ne => ne is XNode) == 0 && mChild.Elements().Count(ne => ne is XNode) == 0 && oChild.Value != mChild.Value)
+                    {
+                        var update = this.UpdateIfAvailable(oChild, mChild);
+                        if(update != null)
+                            yield return update;
+                    }
+    			}
+    		}
+    		
+    		yield break;
+    	}		
+        
+        /// <summary>
+        /// Computes the expandable changes starting from an matched element existing in the seed delta. 
+        /// </summary>
+        /// <param name="oFullElement">The full description associated to the matched original element version.</param>
+        /// <param name="mFullElement">The full description associated to the unmatched modified element version.</param>
+        /// <returns>The expanded matches and actions.</returns>
+        public virtual IEnumerable<XElement> MatchedAttributeTargetSpecifier(XElement oFullElement, XElement mFullElement)
+        {
+            IEnumerable<XElement> result = new XElement[0];
+        	var ignoreCore = false;
+        	MatchedAttributeTargetSpecifierBefore(oFullElement, mFullElement, ref result, ref ignoreCore);
+        	if(ignoreCore) 
+        		return result;
+        	
+        	result = this.MatchedAttributeTargetSpecifierCore(oFullElement, mFullElement);
+        	MatchedAttributeTargetSpecifierAfter(oFullElement, mFullElement, ref result);
+        	return result;
+        }
+    
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="UnmatchedOriginalAttributeTargetSpecifier(XElement)"/>.
+        /// </summary>
+        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
+        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedOriginalAttributeTargetSpecifier(XElement)"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="UnmatchedOriginalAttributeTargetSpecifierCore(XElement)"/> is not executed and <see cref="UnmatchedOriginalAttributeTargetSpecifier(XElement)"/> returns the current value of <paramref name="result"/>.</param>
+        partial void UnmatchedOriginalAttributeTargetSpecifierBefore(XElement oFullElement, ref IEnumerable<XElement> result, ref bool ignoreCore);
+    
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="UnmatchedOriginalAttributeTargetSpecifierCore(XElement)"/>.
+        /// </summary>
+        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
+        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedOriginalAttributeTargetSpecifierCore(XElement)"/>.</param>
+        partial void UnmatchedOriginalAttributeTargetSpecifierAfter(XElement oFullElement, ref IEnumerable<XElement> result);
+        
+        /// <summary>
+        /// Computes the expandable changes starting from an unmatched original element existing in the seed delta. 
+        /// </summary>
+        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
+        /// <returns>The expanded matches and actions.</returns>
+        /// <remarks>This is the default implementation for <see cref="UnmatchedOriginal(XElement)"/>.</remarks>
+        public virtual IEnumerable<XElement> UnmatchedOriginalAttributeTargetSpecifierCore(XElement oFullElement)
+    	{
+    		if(oFullElement == null)
+    			throw new ArgumentNullException(nameof(oFullElement));
+    
+    		XElement child = null;
+    		
+    		child = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "Identifier");
+    		if(child != null)
+            {
+                var delete = this.DeleteIfAvailable(child);
+                if(delete != null)
+                    yield return delete;
+            }
+    		
+    		child = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "ColonToken");
+    		if(child != null)
+            {
+                var delete = this.DeleteIfAvailable(child);
+                if(delete != null)
+                    yield return delete;
+            }
+    		
+    		yield break;
+    	}		
+    	
+        /// <summary>
+        /// Computes the expandable changes starting from an unmatched original element existing in the seed delta. 
+        /// </summary>
+        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
+        /// <returns>The expanded matches and actions.</returns>
+        public virtual IEnumerable<XElement> UnmatchedOriginalAttributeTargetSpecifier(XElement oFullElement)
+        {
+            IEnumerable<XElement> result = new XElement[0];
+        	var ignoreCore = false;
+        	UnmatchedOriginalAttributeTargetSpecifierBefore(oFullElement, ref result, ref ignoreCore);
+        	if(ignoreCore) 
+        		return result;
+        	
+        	result = this.UnmatchedOriginalAttributeTargetSpecifierCore(oFullElement);
+        	UnmatchedOriginalAttributeTargetSpecifierAfter(oFullElement, ref result);
+        	return result;
+        }
+    
+    	#endregion
+    
+    	#region Attribute
+    
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="UnmatchedModifiedAttribute(XElement)"/>.
+        /// </summary>
+        /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
+        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedModifiedAttribute(XElement)"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="UnmatchedModifiedAttributeCore(XElement)"/> is not executed and <see cref="UnmatchedModifiedAttribute(XElement)"/> returns the current value of <paramref name="result"/>.</param>
+        partial void UnmatchedModifiedAttributeBefore(XElement mFullElement, ref IEnumerable<XElement> result, ref bool ignoreCore);
+    
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="UnmatchedModifiedAttributeCore(XElement)"/>.
+        /// </summary>
+        /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
+        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedModifiedAttributeCore(XElement)"/>.</param>
+        partial void UnmatchedModifiedAttributeAfter(XElement mFullElement, ref IEnumerable<XElement> result);
+        
+        /// <summary>
+        /// Computes the expandable changes starting from an unmatched modified element existing in the seed delta. 
+        /// </summary>
+        /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
+        /// <returns>The expanded matches and actions.</returns>
+        /// <remarks>This is the default implementation for <see cref="UnmatchedModifiedAttribute(XElement)"/>.</remarks>
+        public virtual IEnumerable<XElement> UnmatchedModifiedAttributeCore(XElement mFullElement)
+    	{
+    		if(mFullElement == null)
+    			throw new ArgumentNullException(nameof(mFullElement));
+    
+    		yield break;
+    	}		
+    	
+        /// <summary>
+        /// Computes the expandable changes starting from an unmatched modified element existing in the seed delta. 
+        /// </summary>
+        /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
+        /// <returns>The expanded matches and actions.</returns>
+        public virtual IEnumerable<XElement> UnmatchedModifiedAttribute(XElement mFullElement)
+        {
+            IEnumerable<XElement> result = new XElement[0];
+        	var ignoreCore = false;
+        	UnmatchedModifiedAttributeBefore(mFullElement, ref result, ref ignoreCore);
+        	if(ignoreCore) 
+        		return result;
+        	
+        	result = this.UnmatchedModifiedAttributeCore(mFullElement);
+        	UnmatchedModifiedAttributeAfter(mFullElement, ref result);
+        	return result;
+        }
+    
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="MatchedAttribute(XElement, XElement)"/>.
+        /// </summary>
+        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
+        /// <param name="result">Mechanism to modify the result of <see cref="MatchedAttribute(XElement, XElement)"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="MatchedAttributeCore(XElement, XElement)"/> is not executed and <see cref="MatchedAttribute(XElement, XElement)"/> returns the current value of <paramref name="result"/>.</param>
+        partial void MatchedAttributeBefore(XElement oFullElement, XElement mFullElement, ref IEnumerable<XElement> result, ref bool ignoreCore);
+    
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="MatchedAttributeCore(XElement, XElement)"/>.
+        /// </summary>
+        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
+        /// <param name="result">Mechanism to modify the result of <see cref="MatchedAttributeCore(XElement, XElement)"/>.</param>
+        partial void MatchedAttributeAfter(XElement oFullElement, XElement mFullElement, ref IEnumerable<XElement> result);
+        
+        /// <summary>
+        /// Computes the expandable changes starting from an matched element existing in the seed delta. 
+        /// </summary>
+        /// <param name="oFullElement">The full description associated to the matched original element version.</param>
+        /// <param name="mFullElement">The full description associated to the unmatched modified element version.</param>
+        /// <returns>The expanded matches and actions.</returns>
+        /// <remarks>This is the default implementation for <see cref="MatchedAttribute(XElement, XElement)"/>.</remarks>
+        public virtual IEnumerable<XElement> MatchedAttributeCore(XElement oFullElement, XElement mFullElement)
+    	{
+    		if(oFullElement == null) throw new ArgumentNullException(nameof(oFullElement));
+    		if(mFullElement == null) throw new ArgumentNullException(nameof(mFullElement));
+    
+    		yield break;
+    	}		
+        
+        /// <summary>
+        /// Computes the expandable changes starting from an matched element existing in the seed delta. 
+        /// </summary>
+        /// <param name="oFullElement">The full description associated to the matched original element version.</param>
+        /// <param name="mFullElement">The full description associated to the unmatched modified element version.</param>
+        /// <returns>The expanded matches and actions.</returns>
+        public virtual IEnumerable<XElement> MatchedAttribute(XElement oFullElement, XElement mFullElement)
+        {
+            IEnumerable<XElement> result = new XElement[0];
+        	var ignoreCore = false;
+        	MatchedAttributeBefore(oFullElement, mFullElement, ref result, ref ignoreCore);
+        	if(ignoreCore) 
+        		return result;
+        	
+        	result = this.MatchedAttributeCore(oFullElement, mFullElement);
+        	MatchedAttributeAfter(oFullElement, mFullElement, ref result);
+        	return result;
+        }
+    
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="UnmatchedOriginalAttribute(XElement)"/>.
+        /// </summary>
+        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
+        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedOriginalAttribute(XElement)"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="UnmatchedOriginalAttributeCore(XElement)"/> is not executed and <see cref="UnmatchedOriginalAttribute(XElement)"/> returns the current value of <paramref name="result"/>.</param>
+        partial void UnmatchedOriginalAttributeBefore(XElement oFullElement, ref IEnumerable<XElement> result, ref bool ignoreCore);
+    
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="UnmatchedOriginalAttributeCore(XElement)"/>.
+        /// </summary>
+        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
+        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedOriginalAttributeCore(XElement)"/>.</param>
+        partial void UnmatchedOriginalAttributeAfter(XElement oFullElement, ref IEnumerable<XElement> result);
+        
+        /// <summary>
+        /// Computes the expandable changes starting from an unmatched original element existing in the seed delta. 
+        /// </summary>
+        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
+        /// <returns>The expanded matches and actions.</returns>
+        /// <remarks>This is the default implementation for <see cref="UnmatchedOriginal(XElement)"/>.</remarks>
+        public virtual IEnumerable<XElement> UnmatchedOriginalAttributeCore(XElement oFullElement)
+    	{
+    		if(oFullElement == null)
+    			throw new ArgumentNullException(nameof(oFullElement));
+    
+    		yield break;
+    	}		
+    	
+        /// <summary>
+        /// Computes the expandable changes starting from an unmatched original element existing in the seed delta. 
+        /// </summary>
+        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
+        /// <returns>The expanded matches and actions.</returns>
+        public virtual IEnumerable<XElement> UnmatchedOriginalAttribute(XElement oFullElement)
+        {
+            IEnumerable<XElement> result = new XElement[0];
+        	var ignoreCore = false;
+        	UnmatchedOriginalAttributeBefore(oFullElement, ref result, ref ignoreCore);
+        	if(ignoreCore) 
+        		return result;
+        	
+        	result = this.UnmatchedOriginalAttributeCore(oFullElement);
+        	UnmatchedOriginalAttributeAfter(oFullElement, ref result);
+        	return result;
+        }
+    
+    	#endregion
+    
+    	#region AttributeArgumentList
+    
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="UnmatchedModifiedAttributeArgumentList(XElement)"/>.
+        /// </summary>
+        /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
+        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedModifiedAttributeArgumentList(XElement)"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="UnmatchedModifiedAttributeArgumentListCore(XElement)"/> is not executed and <see cref="UnmatchedModifiedAttributeArgumentList(XElement)"/> returns the current value of <paramref name="result"/>.</param>
+        partial void UnmatchedModifiedAttributeArgumentListBefore(XElement mFullElement, ref IEnumerable<XElement> result, ref bool ignoreCore);
+    
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="UnmatchedModifiedAttributeArgumentListCore(XElement)"/>.
+        /// </summary>
+        /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
+        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedModifiedAttributeArgumentListCore(XElement)"/>.</param>
+        partial void UnmatchedModifiedAttributeArgumentListAfter(XElement mFullElement, ref IEnumerable<XElement> result);
+        
+        /// <summary>
+        /// Computes the expandable changes starting from an unmatched modified element existing in the seed delta. 
+        /// </summary>
+        /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
+        /// <returns>The expanded matches and actions.</returns>
+        /// <remarks>This is the default implementation for <see cref="UnmatchedModifiedAttributeArgumentList(XElement)"/>.</remarks>
+        public virtual IEnumerable<XElement> UnmatchedModifiedAttributeArgumentListCore(XElement mFullElement)
+    	{
+    		if(mFullElement == null)
+    			throw new ArgumentNullException(nameof(mFullElement));
+    
+    		XElement child = null;
+    		
+    		child = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "OpenParenToken");
+    		if(child != null)
+            {
+                var insert = this.InsertIfAvailable(child, mFullElement);
+                if(insert != null)
+                    yield return insert;
+            }
+    		
+    		child = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseParenToken");
+    		if(child != null)
+            {
+                var insert = this.InsertIfAvailable(child, mFullElement);
+                if(insert != null)
+                    yield return insert;
+            }
+    		
+    		yield break;
+    	}		
+    	
+        /// <summary>
+        /// Computes the expandable changes starting from an unmatched modified element existing in the seed delta. 
+        /// </summary>
+        /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
+        /// <returns>The expanded matches and actions.</returns>
+        public virtual IEnumerable<XElement> UnmatchedModifiedAttributeArgumentList(XElement mFullElement)
+        {
+            IEnumerable<XElement> result = new XElement[0];
+        	var ignoreCore = false;
+        	UnmatchedModifiedAttributeArgumentListBefore(mFullElement, ref result, ref ignoreCore);
+        	if(ignoreCore) 
+        		return result;
+        	
+        	result = this.UnmatchedModifiedAttributeArgumentListCore(mFullElement);
+        	UnmatchedModifiedAttributeArgumentListAfter(mFullElement, ref result);
+        	return result;
+        }
+    
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="MatchedAttributeArgumentList(XElement, XElement)"/>.
+        /// </summary>
+        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
+        /// <param name="result">Mechanism to modify the result of <see cref="MatchedAttributeArgumentList(XElement, XElement)"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="MatchedAttributeArgumentListCore(XElement, XElement)"/> is not executed and <see cref="MatchedAttributeArgumentList(XElement, XElement)"/> returns the current value of <paramref name="result"/>.</param>
+        partial void MatchedAttributeArgumentListBefore(XElement oFullElement, XElement mFullElement, ref IEnumerable<XElement> result, ref bool ignoreCore);
+    
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="MatchedAttributeArgumentListCore(XElement, XElement)"/>.
+        /// </summary>
+        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
+        /// <param name="result">Mechanism to modify the result of <see cref="MatchedAttributeArgumentListCore(XElement, XElement)"/>.</param>
+        partial void MatchedAttributeArgumentListAfter(XElement oFullElement, XElement mFullElement, ref IEnumerable<XElement> result);
+        
+        /// <summary>
+        /// Computes the expandable changes starting from an matched element existing in the seed delta. 
+        /// </summary>
+        /// <param name="oFullElement">The full description associated to the matched original element version.</param>
+        /// <param name="mFullElement">The full description associated to the unmatched modified element version.</param>
+        /// <returns>The expanded matches and actions.</returns>
+        /// <remarks>This is the default implementation for <see cref="MatchedAttributeArgumentList(XElement, XElement)"/>.</remarks>
+        public virtual IEnumerable<XElement> MatchedAttributeArgumentListCore(XElement oFullElement, XElement mFullElement)
+    	{
+    		if(oFullElement == null) throw new ArgumentNullException(nameof(oFullElement));
+    		if(mFullElement == null) throw new ArgumentNullException(nameof(mFullElement));
+    
+    		XElement oChild = null, mChild = null;
+    		
+    		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "OpenParenToken");
+    		mChild = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "OpenParenToken");
+    		if(oChild == null && mChild != null)
+            {
+                var insert = this.InsertIfAvailable(mChild, oFullElement);
+                if(insert != null)
+                    yield return insert;
+            }
+    		else if(oChild != null && mChild == null)
+            {
+                var delete = this.DeleteIfAvailable(oChild);
+                if(delete != null)
+                    yield return delete;
+            }
+    		else if(oChild != null && mChild != null)
+    		{
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count(ne => ne is XNode) == 0 && mChild.Elements().Count(ne => ne is XNode) == 0 && oChild.Value != mChild.Value)
+                    {
+                        var update = this.UpdateIfAvailable(oChild, mChild);
+                        if(update != null)
+                            yield return update;
+                    }
+    			}
+    		}
+    		
+    		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseParenToken");
+    		mChild = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseParenToken");
+    		if(oChild == null && mChild != null)
+            {
+                var insert = this.InsertIfAvailable(mChild, oFullElement);
+                if(insert != null)
+                    yield return insert;
+            }
+    		else if(oChild != null && mChild == null)
+            {
+                var delete = this.DeleteIfAvailable(oChild);
+                if(delete != null)
+                    yield return delete;
+            }
+    		else if(oChild != null && mChild != null)
+    		{
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count(ne => ne is XNode) == 0 && mChild.Elements().Count(ne => ne is XNode) == 0 && oChild.Value != mChild.Value)
+                    {
+                        var update = this.UpdateIfAvailable(oChild, mChild);
+                        if(update != null)
+                            yield return update;
+                    }
+    			}
+    		}
+    		
+    		yield break;
+    	}		
+        
+        /// <summary>
+        /// Computes the expandable changes starting from an matched element existing in the seed delta. 
+        /// </summary>
+        /// <param name="oFullElement">The full description associated to the matched original element version.</param>
+        /// <param name="mFullElement">The full description associated to the unmatched modified element version.</param>
+        /// <returns>The expanded matches and actions.</returns>
+        public virtual IEnumerable<XElement> MatchedAttributeArgumentList(XElement oFullElement, XElement mFullElement)
+        {
+            IEnumerable<XElement> result = new XElement[0];
+        	var ignoreCore = false;
+        	MatchedAttributeArgumentListBefore(oFullElement, mFullElement, ref result, ref ignoreCore);
+        	if(ignoreCore) 
+        		return result;
+        	
+        	result = this.MatchedAttributeArgumentListCore(oFullElement, mFullElement);
+        	MatchedAttributeArgumentListAfter(oFullElement, mFullElement, ref result);
+        	return result;
+        }
+    
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="UnmatchedOriginalAttributeArgumentList(XElement)"/>.
+        /// </summary>
+        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
+        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedOriginalAttributeArgumentList(XElement)"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="UnmatchedOriginalAttributeArgumentListCore(XElement)"/> is not executed and <see cref="UnmatchedOriginalAttributeArgumentList(XElement)"/> returns the current value of <paramref name="result"/>.</param>
+        partial void UnmatchedOriginalAttributeArgumentListBefore(XElement oFullElement, ref IEnumerable<XElement> result, ref bool ignoreCore);
+    
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="UnmatchedOriginalAttributeArgumentListCore(XElement)"/>.
+        /// </summary>
+        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
+        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedOriginalAttributeArgumentListCore(XElement)"/>.</param>
+        partial void UnmatchedOriginalAttributeArgumentListAfter(XElement oFullElement, ref IEnumerable<XElement> result);
+        
+        /// <summary>
+        /// Computes the expandable changes starting from an unmatched original element existing in the seed delta. 
+        /// </summary>
+        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
+        /// <returns>The expanded matches and actions.</returns>
+        /// <remarks>This is the default implementation for <see cref="UnmatchedOriginal(XElement)"/>.</remarks>
+        public virtual IEnumerable<XElement> UnmatchedOriginalAttributeArgumentListCore(XElement oFullElement)
+    	{
+    		if(oFullElement == null)
+    			throw new ArgumentNullException(nameof(oFullElement));
+    
+    		XElement child = null;
+    		
+    		child = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "OpenParenToken");
+    		if(child != null)
+            {
+                var delete = this.DeleteIfAvailable(child);
+                if(delete != null)
+                    yield return delete;
+            }
+    		
+    		child = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseParenToken");
+    		if(child != null)
+            {
+                var delete = this.DeleteIfAvailable(child);
+                if(delete != null)
+                    yield return delete;
+            }
+    		
+    		yield break;
+    	}		
+    	
+        /// <summary>
+        /// Computes the expandable changes starting from an unmatched original element existing in the seed delta. 
+        /// </summary>
+        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
+        /// <returns>The expanded matches and actions.</returns>
+        public virtual IEnumerable<XElement> UnmatchedOriginalAttributeArgumentList(XElement oFullElement)
+        {
+            IEnumerable<XElement> result = new XElement[0];
+        	var ignoreCore = false;
+        	UnmatchedOriginalAttributeArgumentListBefore(oFullElement, ref result, ref ignoreCore);
+        	if(ignoreCore) 
+        		return result;
+        	
+        	result = this.UnmatchedOriginalAttributeArgumentListCore(oFullElement);
+        	UnmatchedOriginalAttributeArgumentListAfter(oFullElement, ref result);
         	return result;
         }
     
@@ -12120,6 +11786,343 @@ namespace Jawilliam.CDF.CSharp.RoslynML
         	
         	result = this.UnmatchedOriginalGlobalStatementCore(oFullElement);
         	UnmatchedOriginalGlobalStatementAfter(oFullElement, ref result);
+        	return result;
+        }
+    
+    	#endregion
+    
+    	#region NamespaceDeclaration
+    
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="UnmatchedModifiedNamespaceDeclaration(XElement)"/>.
+        /// </summary>
+        /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
+        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedModifiedNamespaceDeclaration(XElement)"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="UnmatchedModifiedNamespaceDeclarationCore(XElement)"/> is not executed and <see cref="UnmatchedModifiedNamespaceDeclaration(XElement)"/> returns the current value of <paramref name="result"/>.</param>
+        partial void UnmatchedModifiedNamespaceDeclarationBefore(XElement mFullElement, ref IEnumerable<XElement> result, ref bool ignoreCore);
+    
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="UnmatchedModifiedNamespaceDeclarationCore(XElement)"/>.
+        /// </summary>
+        /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
+        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedModifiedNamespaceDeclarationCore(XElement)"/>.</param>
+        partial void UnmatchedModifiedNamespaceDeclarationAfter(XElement mFullElement, ref IEnumerable<XElement> result);
+        
+        /// <summary>
+        /// Computes the expandable changes starting from an unmatched modified element existing in the seed delta. 
+        /// </summary>
+        /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
+        /// <returns>The expanded matches and actions.</returns>
+        /// <remarks>This is the default implementation for <see cref="UnmatchedModifiedNamespaceDeclaration(XElement)"/>.</remarks>
+        public virtual IEnumerable<XElement> UnmatchedModifiedNamespaceDeclarationCore(XElement mFullElement)
+    	{
+    		if(mFullElement == null)
+    			throw new ArgumentNullException(nameof(mFullElement));
+    
+    		XElement child = null;
+    		
+    		child = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "NamespaceKeyword");
+    		if(child != null)
+            {
+                var insert = this.InsertIfAvailable(child, mFullElement);
+                if(insert != null)
+                    yield return insert;
+            }
+    		
+    		child = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "OpenBraceToken");
+    		if(child != null)
+            {
+                var insert = this.InsertIfAvailable(child, mFullElement);
+                if(insert != null)
+                    yield return insert;
+            }
+    		
+    		child = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseBraceToken");
+    		if(child != null)
+            {
+                var insert = this.InsertIfAvailable(child, mFullElement);
+                if(insert != null)
+                    yield return insert;
+            }
+    		
+    		child = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "SemicolonToken");
+    		if(child != null)
+            {
+                var insert = this.InsertIfAvailable(child, mFullElement);
+                if(insert != null)
+                    yield return insert;
+            }
+    		
+    		yield break;
+    	}		
+    	
+        /// <summary>
+        /// Computes the expandable changes starting from an unmatched modified element existing in the seed delta. 
+        /// </summary>
+        /// <param name="mFullElement">The full description associated to the unmatched modified element.</param>
+        /// <returns>The expanded matches and actions.</returns>
+        public virtual IEnumerable<XElement> UnmatchedModifiedNamespaceDeclaration(XElement mFullElement)
+        {
+            IEnumerable<XElement> result = new XElement[0];
+        	var ignoreCore = false;
+        	UnmatchedModifiedNamespaceDeclarationBefore(mFullElement, ref result, ref ignoreCore);
+        	if(ignoreCore) 
+        		return result;
+        	
+        	result = this.UnmatchedModifiedNamespaceDeclarationCore(mFullElement);
+        	UnmatchedModifiedNamespaceDeclarationAfter(mFullElement, ref result);
+        	return result;
+        }
+    
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="MatchedNamespaceDeclaration(XElement, XElement)"/>.
+        /// </summary>
+        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
+        /// <param name="result">Mechanism to modify the result of <see cref="MatchedNamespaceDeclaration(XElement, XElement)"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="MatchedNamespaceDeclarationCore(XElement, XElement)"/> is not executed and <see cref="MatchedNamespaceDeclaration(XElement, XElement)"/> returns the current value of <paramref name="result"/>.</param>
+        partial void MatchedNamespaceDeclarationBefore(XElement oFullElement, XElement mFullElement, ref IEnumerable<XElement> result, ref bool ignoreCore);
+    
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="MatchedNamespaceDeclarationCore(XElement, XElement)"/>.
+        /// </summary>
+        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
+        /// <param name="result">Mechanism to modify the result of <see cref="MatchedNamespaceDeclarationCore(XElement, XElement)"/>.</param>
+        partial void MatchedNamespaceDeclarationAfter(XElement oFullElement, XElement mFullElement, ref IEnumerable<XElement> result);
+        
+        /// <summary>
+        /// Computes the expandable changes starting from an matched element existing in the seed delta. 
+        /// </summary>
+        /// <param name="oFullElement">The full description associated to the matched original element version.</param>
+        /// <param name="mFullElement">The full description associated to the unmatched modified element version.</param>
+        /// <returns>The expanded matches and actions.</returns>
+        /// <remarks>This is the default implementation for <see cref="MatchedNamespaceDeclaration(XElement, XElement)"/>.</remarks>
+        public virtual IEnumerable<XElement> MatchedNamespaceDeclarationCore(XElement oFullElement, XElement mFullElement)
+    	{
+    		if(oFullElement == null) throw new ArgumentNullException(nameof(oFullElement));
+    		if(mFullElement == null) throw new ArgumentNullException(nameof(mFullElement));
+    
+    		XElement oChild = null, mChild = null;
+    		
+    		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "NamespaceKeyword");
+    		mChild = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "NamespaceKeyword");
+    		if(oChild == null && mChild != null)
+            {
+                var insert = this.InsertIfAvailable(mChild, oFullElement);
+                if(insert != null)
+                    yield return insert;
+            }
+    		else if(oChild != null && mChild == null)
+            {
+                var delete = this.DeleteIfAvailable(oChild);
+                if(delete != null)
+                    yield return delete;
+            }
+    		else if(oChild != null && mChild != null)
+    		{
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count(ne => ne is XNode) == 0 && mChild.Elements().Count(ne => ne is XNode) == 0 && oChild.Value != mChild.Value)
+                    {
+                        var update = this.UpdateIfAvailable(oChild, mChild);
+                        if(update != null)
+                            yield return update;
+                    }
+    			}
+    		}
+    		
+    		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "OpenBraceToken");
+    		mChild = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "OpenBraceToken");
+    		if(oChild == null && mChild != null)
+            {
+                var insert = this.InsertIfAvailable(mChild, oFullElement);
+                if(insert != null)
+                    yield return insert;
+            }
+    		else if(oChild != null && mChild == null)
+            {
+                var delete = this.DeleteIfAvailable(oChild);
+                if(delete != null)
+                    yield return delete;
+            }
+    		else if(oChild != null && mChild != null)
+    		{
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count(ne => ne is XNode) == 0 && mChild.Elements().Count(ne => ne is XNode) == 0 && oChild.Value != mChild.Value)
+                    {
+                        var update = this.UpdateIfAvailable(oChild, mChild);
+                        if(update != null)
+                            yield return update;
+                    }
+    			}
+    		}
+    		
+    		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseBraceToken");
+    		mChild = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseBraceToken");
+    		if(oChild == null && mChild != null)
+            {
+                var insert = this.InsertIfAvailable(mChild, oFullElement);
+                if(insert != null)
+                    yield return insert;
+            }
+    		else if(oChild != null && mChild == null)
+            {
+                var delete = this.DeleteIfAvailable(oChild);
+                if(delete != null)
+                    yield return delete;
+            }
+    		else if(oChild != null && mChild != null)
+    		{
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count(ne => ne is XNode) == 0 && mChild.Elements().Count(ne => ne is XNode) == 0 && oChild.Value != mChild.Value)
+                    {
+                        var update = this.UpdateIfAvailable(oChild, mChild);
+                        if(update != null)
+                            yield return update;
+                    }
+    			}
+    		}
+    		
+    		oChild = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "SemicolonToken");
+    		mChild = mFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "SemicolonToken");
+    		if(oChild == null && mChild != null)
+            {
+                var insert = this.InsertIfAvailable(mChild, oFullElement);
+                if(insert != null)
+                    yield return insert;
+            }
+    		else if(oChild != null && mChild == null)
+            {
+                var delete = this.DeleteIfAvailable(oChild);
+                if(delete != null)
+                    yield return delete;
+            }
+    		else if(oChild != null && mChild != null)
+    		{
+    			var match = this.MatchIfAvailable(oChild, mChild);
+    			if(match != null)
+    			{
+    				yield return match;
+    
+    				if(oChild.Elements().Count(ne => ne is XNode) == 0 && mChild.Elements().Count(ne => ne is XNode) == 0 && oChild.Value != mChild.Value)
+                    {
+                        var update = this.UpdateIfAvailable(oChild, mChild);
+                        if(update != null)
+                            yield return update;
+                    }
+    			}
+    		}
+    		
+    		yield break;
+    	}		
+        
+        /// <summary>
+        /// Computes the expandable changes starting from an matched element existing in the seed delta. 
+        /// </summary>
+        /// <param name="oFullElement">The full description associated to the matched original element version.</param>
+        /// <param name="mFullElement">The full description associated to the unmatched modified element version.</param>
+        /// <returns>The expanded matches and actions.</returns>
+        public virtual IEnumerable<XElement> MatchedNamespaceDeclaration(XElement oFullElement, XElement mFullElement)
+        {
+            IEnumerable<XElement> result = new XElement[0];
+        	var ignoreCore = false;
+        	MatchedNamespaceDeclarationBefore(oFullElement, mFullElement, ref result, ref ignoreCore);
+        	if(ignoreCore) 
+        		return result;
+        	
+        	result = this.MatchedNamespaceDeclarationCore(oFullElement, mFullElement);
+        	MatchedNamespaceDeclarationAfter(oFullElement, mFullElement, ref result);
+        	return result;
+        }
+    
+    	/// <summary>
+        /// Method hook for implementing logic to execute before the <see cref="UnmatchedOriginalNamespaceDeclaration(XElement)"/>.
+        /// </summary>
+        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
+        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedOriginalNamespaceDeclaration(XElement)"/>.</param>
+        /// <param name="ignoreCore">If true, the <see cref="UnmatchedOriginalNamespaceDeclarationCore(XElement)"/> is not executed and <see cref="UnmatchedOriginalNamespaceDeclaration(XElement)"/> returns the current value of <paramref name="result"/>.</param>
+        partial void UnmatchedOriginalNamespaceDeclarationBefore(XElement oFullElement, ref IEnumerable<XElement> result, ref bool ignoreCore);
+    
+        /// <summary>
+        /// Method hook for implementing logic to execute after the <see cref="UnmatchedOriginalNamespaceDeclarationCore(XElement)"/>.
+        /// </summary>
+        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
+        /// <param name="result">Mechanism to modify the result of <see cref="UnmatchedOriginalNamespaceDeclarationCore(XElement)"/>.</param>
+        partial void UnmatchedOriginalNamespaceDeclarationAfter(XElement oFullElement, ref IEnumerable<XElement> result);
+        
+        /// <summary>
+        /// Computes the expandable changes starting from an unmatched original element existing in the seed delta. 
+        /// </summary>
+        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
+        /// <returns>The expanded matches and actions.</returns>
+        /// <remarks>This is the default implementation for <see cref="UnmatchedOriginal(XElement)"/>.</remarks>
+        public virtual IEnumerable<XElement> UnmatchedOriginalNamespaceDeclarationCore(XElement oFullElement)
+    	{
+    		if(oFullElement == null)
+    			throw new ArgumentNullException(nameof(oFullElement));
+    
+    		XElement child = null;
+    		
+    		child = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "NamespaceKeyword");
+    		if(child != null)
+            {
+                var delete = this.DeleteIfAvailable(child);
+                if(delete != null)
+                    yield return delete;
+            }
+    		
+    		child = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "OpenBraceToken");
+    		if(child != null)
+            {
+                var delete = this.DeleteIfAvailable(child);
+                if(delete != null)
+                    yield return delete;
+            }
+    		
+    		child = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "CloseBraceToken");
+    		if(child != null)
+            {
+                var delete = this.DeleteIfAvailable(child);
+                if(delete != null)
+                    yield return delete;
+            }
+    		
+    		child = oFullElement.Elements().SingleOrDefault(c => c.Attribute("part")?.Value == "SemicolonToken");
+    		if(child != null)
+            {
+                var delete = this.DeleteIfAvailable(child);
+                if(delete != null)
+                    yield return delete;
+            }
+    		
+    		yield break;
+    	}		
+    	
+        /// <summary>
+        /// Computes the expandable changes starting from an unmatched original element existing in the seed delta. 
+        /// </summary>
+        /// <param name="oFullElement">The full description associated to the unmatched original element.</param>
+        /// <returns>The expanded matches and actions.</returns>
+        public virtual IEnumerable<XElement> UnmatchedOriginalNamespaceDeclaration(XElement oFullElement)
+        {
+            IEnumerable<XElement> result = new XElement[0];
+        	var ignoreCore = false;
+        	UnmatchedOriginalNamespaceDeclarationBefore(oFullElement, ref result, ref ignoreCore);
+        	if(ignoreCore) 
+        		return result;
+        	
+        	result = this.UnmatchedOriginalNamespaceDeclarationCore(oFullElement);
+        	UnmatchedOriginalNamespaceDeclarationAfter(oFullElement, ref result);
         	return result;
         }
     

@@ -583,10 +583,13 @@ namespace Jawilliam.Tools.CCL
                                                       d.RevisionPair.Id == revisionPairId);
                             if (refDelta == null)
                                 continue;
-                            var refStats = this._AbsoluteStatsFor(dbRepository, refDelta, ref @continue);
+
+                            ElementTree originalTree = null, modifiedTree = null;
+                            var refTreeRevisionPair = this._GetElementTrees(dbRepository, refDelta, refApproach.FileFormat, 
+                                "Forward", ref @continue, ref originalTree, ref modifiedTree);
                             if (@continue)
                                 continue;
-                            var refTreeRevisionPair = this._GetElementTrees(dbRepository, refDelta, refApproach.FileFormat, "Forward", ref @continue);
+                            var refStats = this._AbsoluteStatsFor2(dbRepository, refDelta, originalTree, modifiedTree, ref @continue);
                             if (@continue)
                                 continue;
 
@@ -604,25 +607,28 @@ namespace Jawilliam.Tools.CCL
                                 if (rightDelta == null)
                                     break;
 
-                                treeRevisionPairList.Add(this._GetElementTrees(dbRepository, rightDelta, configuration.FileFormat, configuration.Direction, ref @continue));
+                                originalTree = null; modifiedTree = null;
+                                treeRevisionPairList.Add(this._GetElementTrees(dbRepository, rightDelta, configuration.FileFormat, 
+                                    configuration.Direction, ref @continue, ref originalTree, ref modifiedTree));
                                 if (@continue)
                                     continue;
 
                                 var last = treeRevisionPairList.Last();
-                                rightStatsList.Add(this._AbsoluteStatsFor(dbRepository, rightDelta, ref @continue));
-                                lrStatsList.Add(this._RelativeStatsFor(dbRepository, refDelta, refTreeRevisionPair, last, args.Limited, ref @continue));
-                                rlStatsList.Add(this._RelativeStatsFor(dbRepository, rightDelta,
-                                    configuration.Direction == "Forward" ? last : (last.modified, last.original),
-                                    configuration.Direction == "Forward" ? refTreeRevisionPair : (refTreeRevisionPair.modified, refTreeRevisionPair.original),
-                                    args.Limited, ref @continue));
+                                var rStats = this._AbsoluteStatsFor2(dbRepository, rightDelta, originalTree, modifiedTree, ref @continue);
+                                //lrStatsList.Add(this._RelativeStatsFor2(dbRepository, refDelta, refTreeRevisionPair, last, args.Limited, ref @continue));
+                                //rlStatsList.Add(this._RelativeStatsFor2(dbRepository, rightDelta,
+                                //    configuration.Direction == "Forward" ? last : (last.modified, last.original),
+                                //    configuration.Direction == "Forward" ? refTreeRevisionPair : (refTreeRevisionPair.modified, refTreeRevisionPair.original),
+                                //    args.Limited, ref @continue));
                                 if (@continue)
                                     break;
-                                comparisonStatsList.Add(this._StatsOfComparisonFor(dbRepository, refDelta, rightDelta, ref @continue));
-                                if (@continue)
-                                    break;
+                                rightStatsList.Add(rStats);
+                                //comparisonStatsList.Add(this._StatsOfComparisonFor(dbRepository, refDelta, rightDelta, ref @continue));
+                                //if (@continue)
+                                //    break;
                             }
 
-                            if (rightStatsList.Count != configurations.Count() || comparisonStatsList.Count != configurations.Count())
+                            if (rightStatsList.Count != configurations.Count() /*|| comparisonStatsList.Count != configurations.Count()*/)
                                 continue;
 
                             StringBuilder line = new StringBuilder();
@@ -634,13 +640,20 @@ namespace Jawilliam.Tools.CCL
                                 line.Append($";{rightStatsList[i].matches};{rightStatsList[i].actions};" +
                                         $"{rightStatsList[i].inserts};{rightStatsList[i].deletes};" +
                                         $"{rightStatsList[i].updates};{rightStatsList[i].moves};");
-                                line.Append($"{lrStatsList[i].matches};{lrStatsList[i].actions};" +
-                                        $"{lrStatsList[i].inserts};{lrStatsList[i].deletes};" +
-                                        $"{lrStatsList[i].updates};{lrStatsList[i].moves};");
-                                line.Append($"{rlStatsList[i].matches};{rlStatsList[i].actions};" +
-                                        $"{rlStatsList[i].inserts};{rlStatsList[i].deletes};" +
-                                        $"{rlStatsList[i].updates};{rlStatsList[i].moves};");
-                                line.Append($"{comparisonStatsList[i].total};{comparisonStatsList[i].lr};{comparisonStatsList[i].rl}");
+                                line.Append($";;" +
+                                       $";;" +
+                                       $";;");
+                                line.Append($";;" +
+                                        $";;" +
+                                        $";;");
+                                line.Append($";;");
+                                //line.Append($"{lrStatsList[i].matches};{lrStatsList[i].actions};" +
+                                //        $"{lrStatsList[i].inserts};{lrStatsList[i].deletes};" +
+                                //        $"{lrStatsList[i].updates};{lrStatsList[i].moves};");
+                                //line.Append($"{rlStatsList[i].matches};{rlStatsList[i].actions};" +
+                                //        $"{rlStatsList[i].inserts};{rlStatsList[i].deletes};" +
+                                //        $"{rlStatsList[i].updates};{rlStatsList[i].moves};");
+                                //line.Append($"{comparisonStatsList[i].total};{comparisonStatsList[i].lr};{comparisonStatsList[i].rl}");
                             }
                             line.Append($"{Environment.NewLine}");
                             System.IO.File.AppendAllText(args.Trace, line.ToString());
@@ -713,7 +726,8 @@ namespace Jawilliam.Tools.CCL
                 return (lr: lr, rl: rl, total: total);
             }
 
-            private (int matches, int actions, int inserts, int deletes, int updates, int moves) _AbsoluteStatsFor(GitRepository dbRepository, Delta delta, ref bool @continue)
+            private (int matches, int actions, int inserts, int deletes, int updates, int moves) _AbsoluteStatsFor(
+                GitRepository dbRepository, Delta delta, ElementTree originalTree, ElementTree modifiedTree, ref bool @continue)
             {
                 var detectionResult = (DetectionResult)delta.DetectionResult;
                 if (detectionResult.Actions.Count == 0)
@@ -736,10 +750,12 @@ namespace Jawilliam.Tools.CCL
                         moves: moves);
             }
 
-            private (int matches, int actions, int inserts, int deletes, int updates, int moves) _RelativeStatsFor(GitRepository dbRepository, Delta delta,
-                (Dictionary<string, ElementTree> original, Dictionary<string, ElementTree> modified) leftRevisionPair,
-                (Dictionary<string, ElementTree> original, Dictionary<string, ElementTree> modified) rightRevisionPair, bool limited, ref bool @continue)
+            private (int matches, int actions, int inserts, int deletes, int updates, int moves) _AbsoluteStatsFor2(
+               GitRepository dbRepository, Delta delta, ElementTree originalTree, ElementTree modifiedTree, ref bool @continue)
             {
+                var maxNonTriviaOriginalRmlId = int.Parse(originalTree.Root.Id);
+                var maxNonTriviaModifiedRmlId = int.Parse(modifiedTree.Root.Id);
+
                 var detectionResult = (DetectionResult)delta.DetectionResult;
                 if (detectionResult.Actions.Count == 0)
                 {
@@ -747,77 +763,28 @@ namespace Jawilliam.Tools.CCL
                     return (matches: 0, actions: 0, inserts: 0, deletes: 0, updates: 0, moves: 0);
                 }
 
-                if (limited)
-                {
-                    return (matches: -1, actions: -1, inserts: -1, deletes: -1, updates: -1, moves: -1);
-                }
-
-                if (delta.Approach != ChangeDetectionApproaches.NativeGumTree && delta.Approach != ChangeDetectionApproaches.InverseOfNativeGumTree)
-                {
-                    detectionResult.FromGlobalToIdDefinitions(leftRevisionPair.original.Values.Single(o => o.Parent == null),
-                                                              leftRevisionPair.modified.Values.Single(o => o.Parent == null));
-                }
-                
-                var matches = detectionResult.Matches.Where(m => 
-                    rightRevisionPair.original.ContainsKey(m.Original.Id) &&
-                    rightRevisionPair.modified.ContainsKey(m.Modified.Id)).ToArray();
-                var matchOriginals = matches.ToDictionary(m => m.Original.Id);
-
-                var inserts = detectionResult.Actions.OfType<InsertOperationDescriptor>().Count(a =>
-                    rightRevisionPair.modified.ContainsKey(a.Element.Id));
-
-                var deletes = detectionResult.Actions.OfType<DeleteOperationDescriptor>().Count(a =>
-                    rightRevisionPair.original.ContainsKey(a.Element.Id));
-
-                var updates = detectionResult.Actions.OfType<UpdateOperationDescriptor>().Count(m =>
-                    matchOriginals.ContainsKey(m.Element.Id));
-
-                var moves = detectionResult.Actions.OfType<MoveOperationDescriptor>().Count(m =>
-                    matchOriginals.ContainsKey(m.Element.Id)) +
-                            detectionResult.Actions.OfType<AlignOperationDescriptor>().Count(m =>
-                    matchOriginals.ContainsKey(m.Element.Id));
-
-                return (matches: matches.Count(), actions: inserts + deletes + updates + moves,
-                        inserts: inserts,
-                        deletes: deletes,
-                        updates: updates,
-                        moves: moves);
-            }
-
-
-
-            private (int matches, int actions, int inserts, int deletes, int updates, int moves) _RelativeStatsFor2(GitRepository dbRepository, Delta delta,
-                (Dictionary<string, ElementTree> original, Dictionary<string, ElementTree> modified) leftRevisionPair,
-                (Dictionary<string, ElementTree> original, Dictionary<string, ElementTree> modified) rightRevisionPair, bool limited, ref bool @continue)
-            {
-                var detectionResult = (DetectionResult)delta.DetectionResult;
-                if (detectionResult.Actions.Count == 0)
-                {
-                    @continue = true;
-                    return (matches: 0, actions: 0, inserts: 0, deletes: 0, updates: 0, moves: 0);
-                }
-
-                if (limited)
-                {
-                    return (matches: -1, actions: -1, inserts: -1, deletes: -1, updates: -1, moves: -1);
-                }
-
-                if (delta.Approach != ChangeDetectionApproaches.NativeGumTree && delta.Approach != ChangeDetectionApproaches.InverseOfNativeGumTree)
-                {
-                    detectionResult.FromGlobalToIdDefinitions(leftRevisionPair.original.Values.Single(o => o.Parent == null),
-                                                              leftRevisionPair.modified.Values.Single(o => o.Parent == null));
-                }
+                //if (delta.Approach != ChangeDetectionApproaches.NativeGumTree && delta.Approach != ChangeDetectionApproaches.InverseOfNativeGumTree)
+                //{
+                //    detectionResult.FromGlobalToIdDefinitions(leftRevisionPair.original.Values.Single(o => o.Parent == null),
+                //                                              leftRevisionPair.modified.Values.Single(o => o.Parent == null));
+                //}
 
                 var matches = detectionResult.Matches.Where(m =>
-                    rightRevisionPair.original.ContainsKey(m.Original.Id) &&
-                    rightRevisionPair.modified.ContainsKey(m.Modified.Id)).ToArray();
+                    int.Parse(m.Original.Id) <= maxNonTriviaOriginalRmlId &&
+                    int.Parse(m.Modified.Id) <= maxNonTriviaModifiedRmlId).ToArray();
                 var matchOriginals = matches.ToDictionary(m => m.Original.Id);
 
                 var inserts = detectionResult.Actions.OfType<InsertOperationDescriptor>().Count(a =>
-                    rightRevisionPair.modified.ContainsKey(a.Element.Id));
+                    int.Parse(a.Element.Id) <= maxNonTriviaModifiedRmlId) +
+                    detectionResult.Matches.Count(m =>
+                        int.Parse(m.Original.Id) > maxNonTriviaOriginalRmlId &&
+                        int.Parse(m.Modified.Id) <= maxNonTriviaModifiedRmlId);
 
                 var deletes = detectionResult.Actions.OfType<DeleteOperationDescriptor>().Count(a =>
-                    rightRevisionPair.original.ContainsKey(a.Element.Id));
+                    int.Parse(a.Element.Id) <= maxNonTriviaOriginalRmlId) +
+                    detectionResult.Matches.Count(m =>
+                        int.Parse(m.Original.Id) <= maxNonTriviaOriginalRmlId &&
+                        int.Parse(m.Modified.Id) > maxNonTriviaModifiedRmlId);
 
                 var updates = detectionResult.Actions.OfType<UpdateOperationDescriptor>().Count(m =>
                     matchOriginals.ContainsKey(m.Element.Id));
@@ -827,6 +794,13 @@ namespace Jawilliam.Tools.CCL
                             detectionResult.Actions.OfType<AlignOperationDescriptor>().Count(m =>
                     matchOriginals.ContainsKey(m.Element.Id));
 
+                //var matches = detectionResult.Matches.Count(m => m.Original.Id);
+                //var inserts = detectionResult.Actions.OfType<InsertOperationDescriptor>().Count();
+                //var deletes = detectionResult.Actions.OfType<DeleteOperationDescriptor>().Count();
+                //var updates = detectionResult.Actions.OfType<UpdateOperationDescriptor>().Count();
+                //var moves = detectionResult.Actions.OfType<MoveOperationDescriptor>().Count() +
+                //            detectionResult.Actions.OfType<AlignOperationDescriptor>().Count();
+
                 return (matches: matches.Count(), actions: inserts + deletes + updates + moves,
                         inserts: inserts,
                         deletes: deletes,
@@ -834,7 +808,107 @@ namespace Jawilliam.Tools.CCL
                         moves: moves);
             }
 
-            private (Dictionary<string, ElementTree> original, Dictionary<string, ElementTree> modified) _GetElementTrees(GitRepository dbRepository, Delta delta, FileFormatKind fileFormatKind, string direction, ref bool @continue)
+            //private (int matches, int actions, int inserts, int deletes, int updates, int moves) _RelativeStatsFor(GitRepository dbRepository, Delta delta,
+            //    (Dictionary<string, ElementTree> original, Dictionary<string, ElementTree> modified) leftRevisionPair,
+            //    (Dictionary<string, ElementTree> original, Dictionary<string, ElementTree> modified) rightRevisionPair, bool limited, ref bool @continue)
+            //{
+            //    var detectionResult = (DetectionResult)delta.DetectionResult;
+            //    if (detectionResult.Actions.Count == 0)
+            //    {
+            //        @continue = true;
+            //        return (matches: 0, actions: 0, inserts: 0, deletes: 0, updates: 0, moves: 0);
+            //    }
+
+            //    if (limited)
+            //    {
+            //        return (matches: -1, actions: -1, inserts: -1, deletes: -1, updates: -1, moves: -1);
+            //    }
+
+            //    if (delta.Approach != ChangeDetectionApproaches.NativeGumTree && delta.Approach != ChangeDetectionApproaches.InverseOfNativeGumTree)
+            //    {
+            //        detectionResult.FromGlobalToIdDefinitions(leftRevisionPair.original.Values.Single(o => o.Parent == null),
+            //                                                  leftRevisionPair.modified.Values.Single(o => o.Parent == null));
+            //    }
+                
+            //    var matches = detectionResult.Matches.Where(m => 
+            //        rightRevisionPair.original.ContainsKey(m.Original.Id) &&
+            //        rightRevisionPair.modified.ContainsKey(m.Modified.Id)).ToArray();
+            //    var matchOriginals = matches.ToDictionary(m => m.Original.Id);
+
+            //    var inserts = detectionResult.Actions.OfType<InsertOperationDescriptor>().Count(a =>
+            //        rightRevisionPair.modified.ContainsKey(a.Element.Id));
+
+            //    var deletes = detectionResult.Actions.OfType<DeleteOperationDescriptor>().Count(a =>
+            //        rightRevisionPair.original.ContainsKey(a.Element.Id));
+
+            //    var updates = detectionResult.Actions.OfType<UpdateOperationDescriptor>().Count(m =>
+            //        matchOriginals.ContainsKey(m.Element.Id));
+
+            //    var moves = detectionResult.Actions.OfType<MoveOperationDescriptor>().Count(m =>
+            //        matchOriginals.ContainsKey(m.Element.Id)) +
+            //                detectionResult.Actions.OfType<AlignOperationDescriptor>().Count(m =>
+            //        matchOriginals.ContainsKey(m.Element.Id));
+
+            //    return (matches: matches.Count(), actions: inserts + deletes + updates + moves,
+            //            inserts: inserts,
+            //            deletes: deletes,
+            //            updates: updates,
+            //            moves: moves);
+            //}
+
+
+
+            //private (int matches, int actions, int inserts, int deletes, int updates, int moves) _RelativeStatsFor2(GitRepository dbRepository, Delta delta,
+            //    (Dictionary<string, ElementTree> original, Dictionary<string, ElementTree> modified) leftRevisionPair,
+            //    (Dictionary<string, ElementTree> original, Dictionary<string, ElementTree> modified) rightRevisionPair, bool limited, ref bool @continue)
+            //{
+            //    var detectionResult = (DetectionResult)delta.DetectionResult;
+            //    if (detectionResult.Actions.Count == 0)
+            //    {
+            //        @continue = true;
+            //        return (matches: 0, actions: 0, inserts: 0, deletes: 0, updates: 0, moves: 0);
+            //    }
+
+            //    if (limited)
+            //    {
+            //        return (matches: -1, actions: -1, inserts: -1, deletes: -1, updates: -1, moves: -1);
+            //    }
+
+            //    if (delta.Approach != ChangeDetectionApproaches.NativeGumTree && delta.Approach != ChangeDetectionApproaches.InverseOfNativeGumTree)
+            //    {
+            //        detectionResult.FromGlobalToIdDefinitions(leftRevisionPair.original.Values.Single(o => o.Parent == null),
+            //                                                  leftRevisionPair.modified.Values.Single(o => o.Parent == null));
+            //    }
+
+            //    var matches = detectionResult.Matches.Where(m =>
+            //        rightRevisionPair.original.ContainsKey(m.Original.Id) &&
+            //        rightRevisionPair.modified.ContainsKey(m.Modified.Id)).ToArray();
+            //    var matchOriginals = matches.ToDictionary(m => m.Original.Id);
+
+            //    var inserts = detectionResult.Actions.OfType<InsertOperationDescriptor>().Count(a =>
+            //        rightRevisionPair.modified.ContainsKey(a.Element.Id));
+
+            //    var deletes = detectionResult.Actions.OfType<DeleteOperationDescriptor>().Count(a =>
+            //        rightRevisionPair.original.ContainsKey(a.Element.Id));
+
+            //    var updates = detectionResult.Actions.OfType<UpdateOperationDescriptor>().Count(m =>
+            //        matchOriginals.ContainsKey(m.Element.Id));
+
+            //    var moves = detectionResult.Actions.OfType<MoveOperationDescriptor>().Count(m =>
+            //        matchOriginals.ContainsKey(m.Element.Id)) +
+            //                detectionResult.Actions.OfType<AlignOperationDescriptor>().Count(m =>
+            //        matchOriginals.ContainsKey(m.Element.Id));
+
+            //    return (matches: matches.Count(), actions: inserts + deletes + updates + moves,
+            //            inserts: inserts,
+            //            deletes: deletes,
+            //            updates: updates,
+            //            moves: moves);
+            //}
+
+            private (Dictionary<string, ElementTree> original, Dictionary<string, ElementTree> modified) _GetElementTrees(
+                GitRepository dbRepository, Delta delta, FileFormatKind fileFormatKind, string direction,
+                ref bool @continue, ref ElementTree originalTree, ref ElementTree modifiedTree)
             {
                 var originalVersion = dbRepository.FileFormats.AsNoTracking().SingleOrDefault(ff => ff.Kind == fileFormatKind && ff.FileVersion.Id == delta.RevisionPair.FromFileVersion.Id);
                 var modifiedVersion = dbRepository.FileFormats.AsNoTracking().SingleOrDefault(ff => ff.Kind == fileFormatKind && ff.FileVersion.Id == delta.RevisionPair.FileVersion.Id);
@@ -845,7 +919,7 @@ namespace Jawilliam.Tools.CCL
                     return (null, null);
                 }
 
-                ElementTree originalTree, modifiedTree;
+                //ElementTree originalTree, modifiedTree;
                 if (fileFormatKind != FileFormatKind.Gumtreefied)
                 {
                     var xOriginalTree = XElement.Load(new StringReader(originalVersion.XmlTree));
@@ -866,6 +940,127 @@ namespace Jawilliam.Tools.CCL
 
                 return (originalResult, modifiedResult);
             }
+
+            ///// <summary>
+            ///// 
+            ///// </summary>
+            ///// <param name="args"></param>
+            ///// <example>
+            ///// Compare stats NativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTrivia_Forward NativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTrivia 28 -trace=D:\ExperimentLogs\BetweenSymptomsStats2.txt -name=NativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTrivia_Backward -approach=InverseNativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTrivia -fileFormat=28 -direction=Backward -name=NativeGTtreefiedRoslynMLWithIncludeTrivia_Forward -approach=NativeGTtreefiedRoslynMLWithIncludeTrivia -fileFormat=20 -direction=Forward -name=NativeGTtreefiedRoslynMLWithBasicPruning_Forward -approach=NativeGTtreefiedRoslynMLWithBasicPruning -fileFormat=12 -direction=Forward -from=1 -to=25
+            ///// Compare stats NativeGumTree_Forward NativeGumTree 1 -trace=D:\ExperimentLogs\BetweenSymptomsStats_2_5.txt -name=NativeGumTree_Backward -approach=InverseOfNativeGumTree -fileFormat=1 -direction=Backward -from=1 -to=25
+            ///// </example>
+            //[ApplicationMetadata(Name = "stats-single", Description = "Compares...")]
+            //public virtual void StatsSingleCompareCommand(RunCompareArgs args)
+            //{
+            //    var refApproach = new
+            //    {
+            //        Name = args.RefName,
+            //        Approach = (ChangeDetectionApproaches)Enum.Parse(typeof(ChangeDetectionApproaches), args.RefApproach),
+            //        FileFormat = (FileFormatKind)Enum.Parse(typeof(FileFormatKind), args.RefFileFormat),
+            //    };
+
+            //    var configurations = args.Names.Select((r, i) => new
+            //    {
+            //        Name = r,
+            //        Approach = i < args.Approaches.Count
+            //            ? (ChangeDetectionApproaches)Enum.Parse(typeof(ChangeDetectionApproaches), args.Approaches[i])
+            //            : default(ChangeDetectionApproaches),
+            //        FileFormat = i < args.FileFormats.Count
+            //            ? (FileFormatKind)Enum.Parse(typeof(FileFormatKind), args.FileFormats[i])
+            //            : default(FileFormatKind),
+            //        Direction = i < args.Directions.Count ? args.Directions[i] : null
+            //    });
+
+            //    this.WriteHeadLine(refApproach.Approach, configurations.Select(c => c.Approach), args.Trace);
+
+            //    foreach (var project in Projects.Skip(args.From - 1).Take(args.To - (args.From - 1)))
+            //    {
+            //        using (var dbRepository = new GitRepository(project.Name) { Name = project.Name })
+            //        {
+            //            ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 600000;
+            //            var revisionPairIds = (from d in dbRepository.Deltas.AsNoTracking()
+            //                                   orderby d.RevisionPair.Id
+            //                                   select d.RevisionPair.Id).Distinct().ToArray();
+            //            int counter = 0;
+            //            foreach (var revisionPairId in revisionPairIds)
+            //            {
+            //                Console.Out.WriteLine($"Starting {++counter}-{dbRepository.Name} ({revisionPairIds.Count()}) Guid-{revisionPairId}");
+
+            //                bool @continue = false;
+            //                var refDelta = dbRepository.Deltas.AsNoTracking()
+            //                    .Include("RevisionPair.FromFileVersion").Include("RevisionPair.FileVersion")
+            //                    .SingleOrDefault(d => d.Approach == refApproach.Approach &&
+            //                                          d.RevisionPair.Id == revisionPairId);
+            //                if (refDelta == null)
+            //                    continue;
+            //                var refStats = this._AbsoluteStatsFor(dbRepository, refDelta, ref @continue);
+            //                if (@continue)
+            //                    continue;
+            //                var refTreeRevisionPair = this._GetElementTrees(dbRepository, refDelta, refApproach.FileFormat, "Forward", ref @continue);
+            //                if (@continue)
+            //                    continue;
+
+            //                var rightStatsList = new List<(int matches, int actions, int inserts, int deletes, int updates, int moves)>(configurations.Count());
+            //                var lrStatsList = new List<(int matches, int actions, int inserts, int deletes, int updates, int moves)>(configurations.Count());
+            //                var rlStatsList = new List<(int matches, int actions, int inserts, int deletes, int updates, int moves)>(configurations.Count());
+            //                var comparisonStatsList = new List<(int lr, int rl, int total)>(configurations.Count());
+            //                var treeRevisionPairList = new List<(Dictionary<string, ElementTree> original, Dictionary<string, ElementTree> modified)>(configurations.Count());
+            //                foreach (var configuration in configurations)
+            //                {
+            //                    var rightDelta = dbRepository.Deltas.AsNoTracking()
+            //                        .Include("RevisionPair.FromFileVersion").Include("RevisionPair.FileVersion")
+            //                        .SingleOrDefault(d => d.Approach == configuration.Approach &&
+            //                                              d.RevisionPair.Id == revisionPairId);
+            //                    if (rightDelta == null)
+            //                        break;
+
+            //                    treeRevisionPairList.Add(this._GetElementTrees(dbRepository, rightDelta, configuration.FileFormat, configuration.Direction, ref @continue));
+            //                    if (@continue)
+            //                        continue;
+
+            //                    var last = treeRevisionPairList.Last();
+            //                    rightStatsList.Add(this._AbsoluteStatsFor(dbRepository, rightDelta, ref @continue));
+            //                    lrStatsList.Add(this._RelativeStatsFor(dbRepository, refDelta, refTreeRevisionPair, last, args.Limited, ref @continue));
+            //                    rlStatsList.Add(this._RelativeStatsFor(dbRepository, rightDelta,
+            //                        configuration.Direction == "Forward" ? last : (last.modified, last.original),
+            //                        configuration.Direction == "Forward" ? refTreeRevisionPair : (refTreeRevisionPair.modified, refTreeRevisionPair.original),
+            //                        args.Limited, ref @continue));
+            //                    if (@continue)
+            //                        break;
+            //                    comparisonStatsList.Add(this._StatsOfComparisonFor(dbRepository, refDelta, rightDelta, ref @continue));
+            //                    if (@continue)
+            //                        break;
+            //                }
+
+            //                if (rightStatsList.Count != configurations.Count() || comparisonStatsList.Count != configurations.Count())
+            //                    continue;
+
+            //                StringBuilder line = new StringBuilder();
+            //                line.Append($"{dbRepository.Name};{revisionPairId};");
+            //                line.Append($"{refStats.matches};{refStats.actions};{refStats.inserts};" +
+            //                    $"{refStats.deletes};{refStats.updates};{refStats.moves}");
+            //                for (int i = 0; i < rightStatsList.Count; i++)
+            //                {
+            //                    line.Append($";{rightStatsList[i].matches};{rightStatsList[i].actions};" +
+            //                            $"{rightStatsList[i].inserts};{rightStatsList[i].deletes};" +
+            //                            $"{rightStatsList[i].updates};{rightStatsList[i].moves};");
+            //                    line.Append($"{lrStatsList[i].matches};{lrStatsList[i].actions};" +
+            //                            $"{lrStatsList[i].inserts};{lrStatsList[i].deletes};" +
+            //                            $"{lrStatsList[i].updates};{lrStatsList[i].moves};");
+            //                    line.Append($"{rlStatsList[i].matches};{rlStatsList[i].actions};" +
+            //                            $"{rlStatsList[i].inserts};{rlStatsList[i].deletes};" +
+            //                            $"{rlStatsList[i].updates};{rlStatsList[i].moves};");
+            //                    line.Append($"{comparisonStatsList[i].total};{comparisonStatsList[i].lr};{comparisonStatsList[i].rl}");
+            //                }
+            //                line.Append($"{Environment.NewLine}");
+            //                System.IO.File.AppendAllText(args.Trace, line.ToString());
+
+            //                Console.Out.WriteLine($"Ending the {counter}-{dbRepository.Name} ({revisionPairIds.Count()}) Guid-{revisionPairId}");
+            //            }
+            //        }
+            //    }
+            //}
+
         }
     }
 

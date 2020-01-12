@@ -61,7 +61,7 @@ namespace Jawilliam.Tools.CCL
             //args = new[] { @"rate AjaxControlToolkit 16BC2280-A2EF-4D24-9773-0A5032E8D049 75AAAADA-DA19-4FAD-8565-CB7C0660C88B -originalPath=D:\ExperimentLogs\RatingOriginal.cs -modifiedPath=D:\ExperimentLogs\RatingModified.cs 20 -trace=D:\ExperimentLogs\RatingTrace.txt" };
             //args = new[] { @"GumTree compare-on-fly srcml NativeGumTree D:\GT_Runtimes\gumtree-20171016-2.1.0 1 roslynml NativeGTtreefiedRoslynML " };
             //args = new[] { @"GumTree compare-on-fly roslynml_bp NativeGTtreefiedRoslynMLWithBasicPruning D:\GT_Runtimes\gumtree_RML_BasicPruning_NoTrivia 12 roslynml_bpd NativeGTtreefiedRoslynMLWithBasicPruningDefoliation D:\GT_Runtimes\gumtree_RML_BP_NT_De_0mh 44 D:\Reports\a1_Original.cs D:\Reports\a1_Modified.cs" };
-            //args = new[] { @"GumTree compare-on-fly roslynml NativeGTtreefiedRoslynML D:\GT_Runtimes\gumtree_RML 5 inverseroslynml InverseNativeGTtreefiedRoslynML D:\GT_Runtimes\gumtree_RML 5 -direction=Backward D:\Reports\a1_Original.cs D:\Reports\a1_Modified.cs" };
+            //args = new[] { @"Compare stats NativeGTtreefiedRoslynMLWithIncludeTriviaAndPermissiveLabeling_forward NativeGTtreefiedRoslynMLWithIncludeTriviaAndPermissiveLabeling 20 -trace=D:\ExperimentLogs\BetweenSymptomsStats_42_48.txt -name=NativeGTtreefiedRoslynMLWithIncludeTriviaAndPermissiveLabeling_forward -approach=NativeGTtreefiedRoslynMLWithIncludeTriviaAndPermissiveLabeling -fileFormat=20 -direction=Forward -from=1 -to=25" };
             args = args?.Count() == 1 ? args[0].Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries) : args;
             AppRunner<CCL> appRunner = new AppRunner<CCL>();
             var r = appRunner.Run(args);
