@@ -249,6 +249,10 @@ namespace Jawilliam.CDF.CSharp.RoslynML
                     new XAttribute("expanded", true));
                 this.OMatches[oFullElement.GtID()] = match;
                 this.MMatches[mFullElement.GtID()] = match;
+                if (this.ODeletes.ContainsKey(oFullElement.GtID()))
+                    this.ODeletes.Remove(oFullElement.GtID());
+                if (this.MInserts.ContainsKey(mFullElement.GtID()))
+                    this.MInserts.Remove(mFullElement.GtID());
                 this.FullDelta.Matches.Add(match);
 
                 return match;
