@@ -71,7 +71,7 @@ namespace Jawilliam.CDF.Actions
         /// <returns>A string that represents the current object.</returns>
         public override string ToString()
         {
-            return $"Move {Element.Label}({Element.Id}) into {this.Parent.Label}({this.Parent.Id}) at {this.Position}";
+            return $"Move {Element.Label}({Element.Id}) into {this.Parent.Label}({this.Parent.Id}) at {this.Position} expanded={this.Expanded ?? false}";
         }
     }
 }

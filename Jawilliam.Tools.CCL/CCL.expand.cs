@@ -142,11 +142,16 @@ namespace Jawilliam.Tools.CCL
                             }
                             try
                             {
+                                var annotations = expandedDelta.XAnnotations;
+                                var start = Environment.TickCount;
                                 expander.Expand(
                                     new RevisionPair<XElement> { Original = xSeedOriginal, Modified = xSeedModified },
                                     new RevisionPair<XElement> { Original = xFullOriginal, Modified = xFullModified },
                                     (Matches: XElement.Parse(delta.Matching ?? "<Matches/>").Elements().Where(d => d is XNode),
                                      Actions: XElement.Parse(delta.Differencing ?? "<Actions/>").Elements().Where(d => d is XNode)));
+                                annotations.RunTime = (Environment.TickCount - start).ToString(CultureInfo.InvariantCulture);
+                                expandedDelta.XAnnotations = annotations;
+                                
 
                                 if (args.Trace != null)
                                 {

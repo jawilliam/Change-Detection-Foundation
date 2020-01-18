@@ -575,90 +575,97 @@ namespace Jawilliam.Tools.CCL
                         foreach (var revisionPairId in revisionPairIds)
                         {
                             Console.Out.WriteLine($"Starting {++counter}-{dbRepository.Name} ({revisionPairIds.Count()}) Guid-{revisionPairId}");
-
-                            bool @continue = false;
-                            var refDelta = dbRepository.Deltas.AsNoTracking()
-                                .Include("RevisionPair.FromFileVersion").Include("RevisionPair.FileVersion")
-                                .SingleOrDefault(d => d.Approach == refApproach.Approach &&
-                                                      d.RevisionPair.Id == revisionPairId);
-                            if (refDelta == null)
-                                continue;
-
-                            ElementTree originalTree = null, modifiedTree = null;
-                            var refTreeRevisionPair = this._GetElementTrees(dbRepository, refDelta, refApproach.FileFormat, 
-                                "Forward", ref @continue, ref originalTree, ref modifiedTree);
-                            if (@continue)
-                                continue;
-                            var refStats = this._AbsoluteStatsFor2(dbRepository, refDelta, originalTree, modifiedTree, ref @continue);
-                            if (@continue)
-                                continue;
-
-                            var rightStatsList = new List<(int matches, int actions, int inserts, int deletes, int updates, int moves)>(configurations.Count());
-                            var lrStatsList = new List<(int matches, int actions, int inserts, int deletes, int updates, int moves)>(configurations.Count());
-                            var rlStatsList = new List<(int matches, int actions, int inserts, int deletes, int updates, int moves)>(configurations.Count());
-                            var comparisonStatsList = new List<(int lr, int rl, int total)>(configurations.Count());
-                            var treeRevisionPairList = new List<(Dictionary<string, ElementTree> original, Dictionary<string, ElementTree> modified)>(configurations.Count());
-                            foreach (var configuration in configurations)
+                            try
                             {
-                                var rightDelta = dbRepository.Deltas.AsNoTracking()
+                                bool @continue = false;
+                                var refDelta = dbRepository.Deltas.AsNoTracking()
                                     .Include("RevisionPair.FromFileVersion").Include("RevisionPair.FileVersion")
-                                    .SingleOrDefault(d => d.Approach == configuration.Approach &&
+                                    .SingleOrDefault(d => d.Approach == refApproach.Approach &&
                                                           d.RevisionPair.Id == revisionPairId);
-                                if (rightDelta == null)
-                                    break;
+                                if (refDelta == null || refDelta.Matching == null || refDelta.Differencing == null)
+                                    continue;
 
-                                originalTree = null; modifiedTree = null;
-                                treeRevisionPairList.Add(this._GetElementTrees(dbRepository, rightDelta, configuration.FileFormat, 
-                                    configuration.Direction, ref @continue, ref originalTree, ref modifiedTree));
+                                ElementTree originalTree = null, modifiedTree = null;
+                                var refTreeRevisionPair = this._GetElementTrees(dbRepository, refDelta, refApproach.FileFormat,
+                                    "Forward", ref @continue, ref originalTree, ref modifiedTree);
+                                if (@continue)
+                                    continue;
+                                var refStats = this._AbsoluteStatsFor2(dbRepository, refDelta, originalTree, modifiedTree, ref @continue);
                                 if (@continue)
                                     continue;
 
-                                var last = treeRevisionPairList.Last();
-                                var rStats = this._AbsoluteStatsFor2(dbRepository, rightDelta, originalTree, modifiedTree, ref @continue);
-                                //lrStatsList.Add(this._RelativeStatsFor2(dbRepository, refDelta, refTreeRevisionPair, last, args.Limited, ref @continue));
-                                //rlStatsList.Add(this._RelativeStatsFor2(dbRepository, rightDelta,
-                                //    configuration.Direction == "Forward" ? last : (last.modified, last.original),
-                                //    configuration.Direction == "Forward" ? refTreeRevisionPair : (refTreeRevisionPair.modified, refTreeRevisionPair.original),
-                                //    args.Limited, ref @continue));
-                                if (@continue)
-                                    break;
-                                rightStatsList.Add(rStats);
-                                //comparisonStatsList.Add(this._StatsOfComparisonFor(dbRepository, refDelta, rightDelta, ref @continue));
-                                //if (@continue)
-                                //    break;
+                                var rightStatsList = new List<(int matches, int actions, int inserts, int deletes, int updates, int moves)>(configurations.Count());
+                                var lrStatsList = new List<(int matches, int actions, int inserts, int deletes, int updates, int moves)>(configurations.Count());
+                                var rlStatsList = new List<(int matches, int actions, int inserts, int deletes, int updates, int moves)>(configurations.Count());
+                                var comparisonStatsList = new List<(int lr, int rl, int total)>(configurations.Count());
+                                var treeRevisionPairList = new List<(Dictionary<string, ElementTree> original, Dictionary<string, ElementTree> modified)>(configurations.Count());
+                                foreach (var configuration in configurations)
+                                {
+                                    var rightDelta = dbRepository.Deltas.AsNoTracking()
+                                        .Include("RevisionPair.FromFileVersion").Include("RevisionPair.FileVersion")
+                                        .SingleOrDefault(d => d.Approach == configuration.Approach &&
+                                                              d.RevisionPair.Id == revisionPairId);
+                                    if (rightDelta == null || rightDelta.Matching == null || rightDelta.Differencing == null)
+                                        break;
+
+                                    originalTree = null; modifiedTree = null;
+                                    treeRevisionPairList.Add(this._GetElementTrees(dbRepository, rightDelta, configuration.FileFormat,
+                                        configuration.Direction, ref @continue, ref originalTree, ref modifiedTree));
+                                    if (@continue)
+                                        continue;
+
+                                    var last = treeRevisionPairList.Last();
+                                    var rStats = this._AbsoluteStatsFor2(dbRepository, rightDelta, originalTree, modifiedTree, ref @continue);
+                                    //lrStatsList.Add(this._RelativeStatsFor2(dbRepository, refDelta, refTreeRevisionPair, last, args.Limited, ref @continue));
+                                    //rlStatsList.Add(this._RelativeStatsFor2(dbRepository, rightDelta,
+                                    //    configuration.Direction == "Forward" ? last : (last.modified, last.original),
+                                    //    configuration.Direction == "Forward" ? refTreeRevisionPair : (refTreeRevisionPair.modified, refTreeRevisionPair.original),
+                                    //    args.Limited, ref @continue));
+                                    if (@continue)
+                                        break;
+                                    rightStatsList.Add(rStats);
+                                    //comparisonStatsList.Add(this._StatsOfComparisonFor(dbRepository, refDelta, rightDelta, ref @continue));
+                                    //if (@continue)
+                                    //    break;
+                                }
+
+                                if (rightStatsList.Count != configurations.Count() /*|| comparisonStatsList.Count != configurations.Count()*/)
+                                    continue;
+
+                                StringBuilder line = new StringBuilder();
+                                line.Append($"{dbRepository.Name};{revisionPairId};");
+                                line.Append($"{refStats.matches};{refStats.actions};{refStats.inserts};" +
+                                    $"{refStats.deletes};{refStats.updates};{refStats.moves}");
+                                for (int i = 0; i < rightStatsList.Count; i++)
+                                {
+                                    line.Append($";{rightStatsList[i].matches};{rightStatsList[i].actions};" +
+                                            $"{rightStatsList[i].inserts};{rightStatsList[i].deletes};" +
+                                            $"{rightStatsList[i].updates};{rightStatsList[i].moves};");
+                                    line.Append($";;" +
+                                           $";;" +
+                                           $";;");
+                                    line.Append($";;" +
+                                            $";;" +
+                                            $";;");
+                                    line.Append($";;");
+                                    //line.Append($"{lrStatsList[i].matches};{lrStatsList[i].actions};" +
+                                    //        $"{lrStatsList[i].inserts};{lrStatsList[i].deletes};" +
+                                    //        $"{lrStatsList[i].updates};{lrStatsList[i].moves};");
+                                    //line.Append($"{rlStatsList[i].matches};{rlStatsList[i].actions};" +
+                                    //        $"{rlStatsList[i].inserts};{rlStatsList[i].deletes};" +
+                                    //        $"{rlStatsList[i].updates};{rlStatsList[i].moves};");
+                                    //line.Append($"{comparisonStatsList[i].total};{comparisonStatsList[i].lr};{comparisonStatsList[i].rl}");
+                                }
+
+                                line.Append($"{Environment.NewLine}");
+                                System.IO.File.AppendAllText(args.Trace, line.ToString());
+
+                                Console.Out.WriteLine($"Ending the {counter}-{dbRepository.Name} ({revisionPairIds.Count()}) Guid-{revisionPairId}");
                             }
-
-                            if (rightStatsList.Count != configurations.Count() /*|| comparisonStatsList.Count != configurations.Count()*/)
-                                continue;
-
-                            StringBuilder line = new StringBuilder();
-                            line.Append($"{dbRepository.Name};{revisionPairId};");
-                            line.Append($"{refStats.matches};{refStats.actions};{refStats.inserts};" +
-                                $"{refStats.deletes};{refStats.updates};{refStats.moves}");
-                            for (int i = 0; i < rightStatsList.Count; i++)
+                            catch (Exception ex)
                             {
-                                line.Append($";{rightStatsList[i].matches};{rightStatsList[i].actions};" +
-                                        $"{rightStatsList[i].inserts};{rightStatsList[i].deletes};" +
-                                        $"{rightStatsList[i].updates};{rightStatsList[i].moves};");
-                                line.Append($";;" +
-                                       $";;" +
-                                       $";;");
-                                line.Append($";;" +
-                                        $";;" +
-                                        $";;");
-                                line.Append($";;");
-                                //line.Append($"{lrStatsList[i].matches};{lrStatsList[i].actions};" +
-                                //        $"{lrStatsList[i].inserts};{lrStatsList[i].deletes};" +
-                                //        $"{lrStatsList[i].updates};{lrStatsList[i].moves};");
-                                //line.Append($"{rlStatsList[i].matches};{rlStatsList[i].actions};" +
-                                //        $"{rlStatsList[i].inserts};{rlStatsList[i].deletes};" +
-                                //        $"{rlStatsList[i].updates};{rlStatsList[i].moves};");
-                                //line.Append($"{comparisonStatsList[i].total};{comparisonStatsList[i].lr};{comparisonStatsList[i].rl}");
+                                Console.Out.WriteLine(ex.Message);
                             }
-                            line.Append($"{Environment.NewLine}");
-                            System.IO.File.AppendAllText(args.Trace, line.ToString());
-
-                            Console.Out.WriteLine($"Ending the {counter}-{dbRepository.Name} ({revisionPairIds.Count()}) Guid-{revisionPairId}");
                         }
                     }
                 }
@@ -769,7 +776,14 @@ namespace Jawilliam.Tools.CCL
                 //                                              leftRevisionPair.modified.Values.Single(o => o.Parent == null));
                 //}
 
+                var expandedMatches = detectionResult.Matches.Where(m => 
+                    m.Expanded ?? false &&
+                    int.Parse(m.Original.Id) <= maxNonTriviaOriginalRmlId &&
+                    int.Parse(m.Modified.Id) <= maxNonTriviaModifiedRmlId).ToArray();
+                var expandedMatchOriginals = expandedMatches.ToDictionary(m => m.Original.Id);
+
                 var matches = detectionResult.Matches.Where(m =>
+                    !(m.Expanded ?? false) &&
                     int.Parse(m.Original.Id) <= maxNonTriviaOriginalRmlId &&
                     int.Parse(m.Modified.Id) <= maxNonTriviaModifiedRmlId).ToArray();
                 var matchOriginals = matches.ToDictionary(m => m.Original.Id);
@@ -787,9 +801,15 @@ namespace Jawilliam.Tools.CCL
                         int.Parse(m.Modified.Id) > maxNonTriviaModifiedRmlId);
 
                 var updates = detectionResult.Actions.OfType<UpdateOperationDescriptor>().Count(m =>
+                    expandedMatchOriginals.ContainsKey(m.Element.Id)) +
+                              detectionResult.Actions.OfType<UpdateOperationDescriptor>().Count(m =>
                     matchOriginals.ContainsKey(m.Element.Id));
 
                 var moves = detectionResult.Actions.OfType<MoveOperationDescriptor>().Count(m =>
+                    expandedMatchOriginals.ContainsKey(m.Element.Id)) +
+                            detectionResult.Actions.OfType<AlignOperationDescriptor>().Count(m =>
+                    expandedMatchOriginals.ContainsKey(m.Element.Id)) +
+                            detectionResult.Actions.OfType<MoveOperationDescriptor>().Count(m =>
                     matchOriginals.ContainsKey(m.Element.Id)) +
                             detectionResult.Actions.OfType<AlignOperationDescriptor>().Count(m =>
                     matchOriginals.ContainsKey(m.Element.Id));
@@ -801,7 +821,8 @@ namespace Jawilliam.Tools.CCL
                 //var moves = detectionResult.Actions.OfType<MoveOperationDescriptor>().Count() +
                 //            detectionResult.Actions.OfType<AlignOperationDescriptor>().Count();
 
-                return (matches: matches.Count(), actions: inserts + deletes + updates + moves,
+                return (matches: matches.Count() + expandedMatches.Count(), 
+                        actions: inserts + deletes + updates + moves,
                         inserts: inserts,
                         deletes: deletes,
                         updates: updates,

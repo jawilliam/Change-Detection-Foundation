@@ -19,6 +19,11 @@ namespace Jawilliam.CDF.CSharp.RoslynML
         public virtual RevisionPair<Dictionary<string, XElement>> SeedAsts { get; internal set; }
 
         /// <summary>
+        /// Gets the seed AST revision pair used to generate the delta to be expanded (but indexed by the global id).
+        /// </summary>
+        public virtual RevisionPair<Dictionary<string, XElement>> SeedAstsGlobal { get; internal set; }
+
+        /// <summary>
         /// Gets the AST revision pair to use when generating the full delta.
         /// </summary>
         public virtual RevisionPair<Dictionary<string, XElement>> FullAsts { get; internal set; }
@@ -92,23 +97,34 @@ namespace Jawilliam.CDF.CSharp.RoslynML
                         .Where(ne => ne.Attribute("GtID")?.Value != null)
                         .ToDictionary(n => n.GtID())
                 };
+                this.SeedAstsGlobal = new RevisionPair<Dictionary<string, XElement>>
+                {
+                    Original = seedAsts.Original.PostOrder(n => n.Elements()
+                        .Where(ne => ne is XNode))
+                        .Where(ne => ne.Attribute("GtID")?.Value != null)
+                        .ToDictionary(n => n.RmId()),
+                    Modified = seedAsts.Modified.PostOrder(n => n.Elements()
+                        .Where(ne => ne is XNode))
+                        .Where(ne => ne.Attribute("GtID")?.Value != null)
+                        .ToDictionary(n => n.RmId())
+                };
                 this.FullAsts = new RevisionPair<Dictionary<string, XElement>>
                 {
                     Original = fullAsts.Original.PostOrder(n => n.Elements()
                         .Where(ne => ne is XNode))
-                        .Where(ne => ne.Attribute("GtID")?.Value != null)
-                        .ToDictionary(n => n.GtID()),
+                        //.Where(ne => ne.Attribute("GtID")?.Value != null)
+                        .ToDictionary(n => n.RmId()),
                     Modified = fullAsts.Modified.PostOrder(n => n.Elements()
                         .Where(ne => ne is XNode))
-                        .Where(ne => ne.Attribute("GtID")?.Value != null)
-                        .ToDictionary(n => n.GtID())
+                        //.Where(ne => ne.Attribute("GtID")?.Value != null)
+                        .ToDictionary(n => n.RmId())
                 };
 
-                this.OMatches = seedDelta.Matches.ToDictionary(m => m.Attribute("oId").Value);
-                this.MMatches = seedDelta.Matches.ToDictionary(m => m.Attribute("mId").Value);
-                this.MInserts = seedDelta.Actions.Where(a => a.Name.LocalName == "Insert").ToDictionary(m => m.Attribute("eId").Value);
-                this.ODeletes = seedDelta.Actions.Where(a => a.Name.LocalName == "Delete").ToDictionary(m => m.Attribute("eId").Value);
-                this.OUpdates = seedDelta.Actions.Where(a => a.Name.LocalName == "Update").ToDictionary(m => m.Attribute("eId").Value);
+                this.OMatches = seedDelta.Matches.ToDictionary(m => this.SeedAsts.Original[m.Attribute("oId").Value].RmId());
+                this.MMatches = seedDelta.Matches.ToDictionary(m => this.SeedAsts.Modified[m.Attribute("mId").Value].RmId());
+                this.MInserts = seedDelta.Actions.Where(a => a.Name.LocalName == "Insert").ToDictionary(m => this.SeedAsts.Modified[m.Attribute("eId").Value].RmId());
+                this.ODeletes = seedDelta.Actions.Where(a => a.Name.LocalName == "Delete").ToDictionary(m => this.SeedAsts.Original[m.Attribute("eId").Value].RmId());
+                this.OUpdates = seedDelta.Actions.Where(a => a.Name.LocalName == "Update").ToDictionary(m => this.SeedAsts.Original[m.Attribute("eId").Value].RmId());
 
                 this.FullDelta = (new List<XElement>(seedDelta.Matches), new List<XElement>(seedDelta.Actions));
 
@@ -128,8 +144,9 @@ namespace Jawilliam.CDF.CSharp.RoslynML
                 this.FullDelta = (
                     new List<XElement>(this.FullDelta.Matches), 
                     new List<XElement>(this.FullDelta.Actions.Where(a => 
-                        a.Name.LocalName != "Update" || 
-                        this.OUpdates.ContainsKey(a.Attribute("eId").Value)).ToList())
+                        a.Name.LocalName != "Update" ||
+                        a.Attribute("expanded")?.Value != null ||
+                        this.OUpdates.ContainsKey(this.SeedAsts.Original[a.Attribute("eId").Value].RmId())).ToList())
                 );
 
                 return this.FullDelta;
@@ -137,6 +154,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
             finally
             {
                 this.SeedAsts = null;
+                this.SeedAstsGlobal = null;
                 this.OMatches = null;
                 this.MMatches = null;
                 this.MInserts = null;
@@ -147,34 +165,37 @@ namespace Jawilliam.CDF.CSharp.RoslynML
 
         private void ForEachO(XElement oSeedElement)
         {
-            var oFullElement = this.FullAsts.Original[oSeedElement.GtID()];
-            if (this.ODeletes.ContainsKey(oFullElement.GtID()))
+            var oFullElement = this.FullAsts.Original[/*this.SeedAsts.Original[oSeedElement.GtID()]*/oSeedElement.RmId()];
+            if (this.ODeletes.ContainsKey(oSeedElement.RmId()))
                 this.ResolveDefoliatedChildren(this.UnmatchedOriginal(oFullElement).ToList());
         }
 
         private void ForEachM(XElement mSeedElement)
         {
-            var mFullElement = this.FullAsts.Modified[mSeedElement.GtID()];
-            if (this.MInserts.ContainsKey(mFullElement.GtID()))
+            var mFullElement = this.FullAsts.Modified[/*this.SeedAsts.Modified[mSeedElement.GtID()]*/mSeedElement.RmId()];
+            if (this.MInserts.ContainsKey(mSeedElement.RmId()))
                 this.ResolveDefoliatedChildren(this.UnmatchedModified(mFullElement).ToList());
-            else if (this.MMatches.ContainsKey(mFullElement.GtID()))
+            else if (this.MMatches.ContainsKey(mSeedElement.RmId()))
             {
-                var match = this.MMatches[mFullElement.GtID()];
-                var oFullElement = this.FullAsts.Original[match.Attribute("oId").Value];
+                var match = this.MMatches[mSeedElement.RmId()];
+                string oId = match.Attribute("oId").Value;
+                var oFullElement = match.Attribute("expanded")?.Value != null
+                    ? this.FullAsts.Original[match.Attribute("oGId").Value]
+                    : this.FullAsts.Original[this.SeedAsts.Original[oId].RmId()];
                 this.ResolveDefoliatedChildren(this.Matched(oFullElement, mFullElement).ToList());
 
                 if (mSeedElement.Name.LocalName != "Token" &&
                     mSeedElement.Elements().Count() == 0 &&
-                    this.OUpdates.ContainsKey(oFullElement.GtID()) &&
-                    this.OMatches.ContainsKey(oFullElement.GtID()) &&
-                    this.OMatches[oFullElement.GtID()].Attribute("mId")?.Value == mFullElement.GtID())
+                    this.OUpdates.ContainsKey(oFullElement.RmId()) &&
+                    this.OMatches.ContainsKey(oFullElement.RmId()) &&
+                    this.OMatches[oFullElement.RmId()].Attribute("mId")?.Value == mSeedElement.GtID())
                 {
                     var defoliationRemovedDescendants = oFullElement.PostOrder(n => n.Elements()
                        .Where(ne => ne is XNode))
                        .Where(ne => ne != oFullElement && ne.Attribute("GtID")?.Value != null).ToList();
 
-                    if (defoliationRemovedDescendants.Any(drd => this.OUpdates.ContainsKey(drd.GtID())))
-                        this.OUpdates.Remove(oFullElement.GtID());
+                    if (defoliationRemovedDescendants.Any(drd => this.OUpdates.ContainsKey(drd.RmId())))
+                        this.OUpdates.Remove(oFullElement.RmId());
                 }                    
             }
         }
@@ -186,19 +207,21 @@ namespace Jawilliam.CDF.CSharp.RoslynML
                 switch (fact.Name.LocalName)
                 {
                     case "Insert":
-                        var insertedChild = this.FullAsts.Modified[fact.Attribute("eId").Value];
-                        if (insertedChild.Name.LocalName != "Token" && !this.SeedAsts.Modified.ContainsKey(insertedChild.GtID())) // then it is a defoliated element.
-                            this.ForEachM(insertedChild);
+                        //var insertedChild = this.SeedAsts.Modified.ContainsKey(fact.Attribute("eId").Value)
+                        //    ? this.SeedAsts.Modified[fact.Attribute("eId").Value]
+                        //    : null;
+                        if (fact.Attribute("eLb").Value != "Token" && !this.SeedAsts.Modified.ContainsKey(fact.Attribute("eId").Value)) // then it is a defoliated element.
+                            this.ForEachM(this.FullAsts.Modified[fact.Attribute("eGId").Value]);
                         break;
                     case "Delete":
-                        var deletedChild = this.FullAsts.Original[fact.Attribute("eId").Value];
-                        if (deletedChild.Name.LocalName != "Token" && !this.SeedAsts.Original.ContainsKey(deletedChild.GtID())) // then it is a defoliated element.
-                            this.ForEachO(deletedChild);
+                        //var deletedChild = this.FullAsts.Original[this.SeedAsts.Original[fact.Attribute("eId").Value].RmId()];
+                        if (fact.Attribute("eLb").Value != "Token" && !this.SeedAsts.Original.ContainsKey(fact.Attribute("eId").Value)) // then it is a defoliated element.
+                            this.ForEachO(this.FullAsts.Original[fact.Attribute("eGId").Value]);
                         break;
                     case "Match":
-                        var mChild = this.FullAsts.Modified[fact.Attribute("mId").Value]; 
-                        if (mChild.Name.LocalName != "Token" && !this.SeedAsts.Modified.ContainsKey(mChild.GtID()))
-                            this.ForEachM(mChild);
+                        //var mChild = this.FullAsts.Modified[this.SeedAsts.Modified[fact.Attribute("mId").Value].RmId()]; 
+                        if (fact.Attribute("mLb").Value != "Token" && !this.SeedAsts.Modified.ContainsKey(fact.Attribute("mId").Value))
+                            this.ForEachM(this.FullAsts.Modified[fact.Attribute("mGId").Value]);
                         break;
                 }
             }
@@ -212,18 +235,23 @@ namespace Jawilliam.CDF.CSharp.RoslynML
         /// <returns>The expanded insert action.</returns>
         public virtual XElement InsertIfAvailable(XElement mFullChild, XElement fullParent)
         {
-            if (!this.MInserts.ContainsKey(mFullChild.GtID()) && !this.MMatches.ContainsKey(mFullChild.GtID()))
+            if (!this.MInserts.ContainsKey(mFullChild.RmId()) && !this.MMatches.ContainsKey(mFullChild.RmId()))
             {
                 var insert = new XElement("Insert",
-                new XAttribute("eId", mFullChild.GtID()),
+                new XAttribute("eId", mFullChild.GtID()), 
+                new XAttribute("eGId", mFullChild.RmId()),
                 new XAttribute("eLb", mFullChild.Attribute("kind")?.Value ?? mFullChild.Name.LocalName),
                 new XAttribute("eVl", "##"),
                 new XAttribute("pId", fullParent.GtID()),
+                new XAttribute("pGId", fullParent.RmId()),
                 new XAttribute("pLb", fullParent.Attribute("kind")?.Value ?? fullParent.Name.LocalName),
                 new XAttribute("pos", "-1"),
                 new XAttribute("expanded", true));
-                this.MInserts[mFullChild.GtID()] = insert;
+                this.MInserts[mFullChild.RmId()] = insert;
                 this.FullDelta.Actions.Add(insert);
+
+                //if (!this.SeedAsts.Modified.ContainsKey(this.SeedAstsGlobal.Modified[mFullChild.RmId()].GtID()))
+                //    this.SeedAsts.Modified[this.SeedAstsGlobal.Modified[mFullChild.RmId()].GtID()] = this.SeedAstsGlobal.Modified[mFullChild.RmId()];
 
                 return insert;
             }
@@ -239,17 +267,24 @@ namespace Jawilliam.CDF.CSharp.RoslynML
         /// <returns>The expanded matches and actions, or null if these match cannot happen because some partner is already matched.</returns>
         public virtual XElement MatchIfAvailable(XElement oFullElement, XElement mFullElement)
         {
-            if (!this.OMatches.ContainsKey(oFullElement.GtID()) && !this.MMatches.ContainsKey(mFullElement.GtID()))
+            if (!this.OMatches.ContainsKey(oFullElement.RmId()) && !this.MMatches.ContainsKey(mFullElement.RmId()))
             {
                 var match = new XElement("Match",
                     new XAttribute("oId", oFullElement.GtID()),
+                    new XAttribute("oGId", oFullElement.RmId()),
                     new XAttribute("oLb", oFullElement.Attribute("kind")?.Value ?? oFullElement.Name.LocalName),
                     new XAttribute("mId", mFullElement.GtID()),
+                    new XAttribute("mGId", mFullElement.RmId()),
                     new XAttribute("mLb", mFullElement.Attribute("kind")?.Value ?? mFullElement.Name.LocalName),
                     new XAttribute("expanded", true));
-                this.OMatches[oFullElement.GtID()] = match;
-                this.MMatches[mFullElement.GtID()] = match;
+                this.OMatches[oFullElement.RmId()] = match;
+                this.MMatches[mFullElement.RmId()] = match;
                 this.FullDelta.Matches.Add(match);
+
+                //if (!this.SeedAsts.Original.ContainsKey(oFullElement.RmId()))
+                //    this.SeedAsts.Original[oFullElement.RmId()] = oFullElement;
+                //if (!this.SeedAsts.Modified.ContainsKey(mFullElement.RmId()))
+                //    this.SeedAsts.Modified[mFullElement.RmId()] = mFullElement;
 
                 return match;
             }
@@ -265,17 +300,23 @@ namespace Jawilliam.CDF.CSharp.RoslynML
         /// <returns>The expanded matches and actions.</returns>
         public virtual XElement UpdateIfAvailable(XElement oFullElement, XElement mFullElement)
         {
-            if (!this.OUpdates.ContainsKey(oFullElement.GtID()) && 
-                this.OMatches.ContainsKey(oFullElement.GtID()) &&
-                this.OMatches[oFullElement.GtID()].Attribute("mId")?.Value == mFullElement.GtID())
+            var oMatch = this.OMatches.ContainsKey(oFullElement.RmId())
+                ? this.OMatches[oFullElement.RmId()]
+                : null;
+            if (!this.OUpdates.ContainsKey(oFullElement.RmId()) &&
+                oMatch != null &&
+                (oMatch.Attribute("expanded")?.Value != null
+                    ? oMatch.Attribute("mGId").Value
+                    : this.SeedAsts.Modified[oMatch.Attribute("mId").Value].RmId()) == mFullElement.RmId())
             {
                 var update = new XElement("Update",
                 new XAttribute("eId", oFullElement.GtID()),
+                new XAttribute("eGId", oFullElement.RmId()),
                 new XAttribute("eLb", oFullElement.Attribute("kind")?.Value ?? oFullElement.Name.LocalName),
                 new XAttribute("eVl", "##"),
                 new XAttribute("val", mFullElement.Value),
                 new XAttribute("expanded", true));
-                this.OUpdates[oFullElement.GtID()] = update;
+                this.OUpdates[oFullElement.RmId()] = update;
                 this.FullDelta.Actions.Add(update);
 
                 return update;
@@ -291,15 +332,19 @@ namespace Jawilliam.CDF.CSharp.RoslynML
         /// <returns>The expanded delete action.</returns>
         public virtual XElement DeleteIfAvailable(XElement oFullChild)
         {
-            if (!this.ODeletes.ContainsKey(oFullChild.GtID()) && !this.OMatches.ContainsKey(oFullChild.GtID()))
+            if (!this.ODeletes.ContainsKey(oFullChild.RmId()) && !this.OMatches.ContainsKey(oFullChild.RmId()))
             {
                 var delete = new XElement("Delete",
                 new XAttribute("eId", oFullChild.GtID()),
+                new XAttribute("eGId", oFullChild.RmId()),
                 new XAttribute("eLb", oFullChild.Attribute("kind")?.Value ?? oFullChild.Name.LocalName),
                 new XAttribute("eVl", "##"),
                 new XAttribute("expanded", true));
-                this.ODeletes[oFullChild.GtID()] = delete;
+                this.ODeletes[oFullChild.RmId()] = delete;
                 this.FullDelta.Actions.Add(delete);
+
+                //if (!this.SeedAsts.Original.ContainsKey(oFullChild.RmId()))
+                //    this.SeedAsts.Original[oFullChild.RmId()] = oFullChild;
 
                 return delete;
             }

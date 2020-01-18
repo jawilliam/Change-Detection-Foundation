@@ -12,6 +12,11 @@ namespace Jawilliam.CDF.Actions
     public abstract class OperationDescriptor : ActionDescriptor, IXmlSerializable
     {
         /// <summary>
+        /// Gets or sets if the current descriptor has been expanded.
+        /// </summary>
+        public virtual bool? Expanded { get; set; }
+
+        /// <summary>
         /// This method is reserved and should not be used. When implementing the IXmlSerializable interface, you should return null (Nothing in Visual Basic) from this method, and instead, if specifying a custom schema is required, apply the <see cref="T:System.Xml.Serialization.XmlSchemaProviderAttribute"/> to the class.
         /// </summary>
         /// <returns>
@@ -40,6 +45,10 @@ namespace Jawilliam.CDF.Actions
                 Label = reader.GetAttribute("eLb"),
                 Value = reader.GetAttribute("eVl")
             };
+
+            var expandedAttribute = reader.GetAttribute("expanded");
+            if (expandedAttribute != null)
+                this.Expanded = XmlConvert.ToBoolean(expandedAttribute);
         }
 
         /// <summary>
@@ -58,6 +67,9 @@ namespace Jawilliam.CDF.Actions
 
             if (this.Element.Value != null)
                 writer.WriteAttributeString("eVl", this.Element.Value);
+
+            if (this.Expanded != null)
+                writer.WriteAttributeString("expanded", XmlConvert.ToString(this.Expanded.Value));
         }
 
         /// <summary>

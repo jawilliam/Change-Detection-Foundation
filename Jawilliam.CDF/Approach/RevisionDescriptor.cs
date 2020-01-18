@@ -22,6 +22,11 @@ namespace Jawilliam.CDF.Approach
         public virtual double? Similarity { get; set; }
 
         /// <summary>
+        /// Gets or sets if the current descriptor has been expanded.
+        /// </summary>
+        public virtual bool? Expanded { get; set; }
+
+        /// <summary>
         /// This method is reserved and should not be used. When implementing the IXmlSerializable interface, you should return null (Nothing in Visual Basic) from this method, and instead, if specifying a custom schema is required, apply the <see cref="T:System.Xml.Serialization.XmlSchemaProviderAttribute"/> to the class.
         /// </summary>
         /// <returns>
@@ -60,6 +65,10 @@ namespace Jawilliam.CDF.Approach
             if (similarityAttribute != null)
                 this.Similarity = XmlConvert.ToDouble(similarityAttribute);
 
+            var expandedAttribute = reader.GetAttribute("expanded");
+            if (expandedAttribute != null)
+                this.Expanded = XmlConvert.ToBoolean(expandedAttribute);
+
             reader.Read();
         }
 
@@ -86,6 +95,9 @@ namespace Jawilliam.CDF.Approach
 
             if (this.Similarity != null)
                 writer.WriteAttributeString("similarity", XmlConvert.ToString(this.Similarity.Value));
+
+            if (this.Expanded != null)
+                writer.WriteAttributeString("expanded", XmlConvert.ToString(this.Expanded.Value));
         }
 
         /// <summary>
