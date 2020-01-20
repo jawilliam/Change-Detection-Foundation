@@ -569,6 +569,7 @@ namespace Jawilliam.Tools.CCL
                     {
                         ((IObjectContextAdapter)dbRepository).ObjectContext.CommandTimeout = 600000;
                         var revisionPairIds = (from d in dbRepository.Deltas.AsNoTracking()
+                                               where d.Report == null
                                                orderby d.RevisionPair.Id
                                                select d.RevisionPair.Id).Distinct().ToArray();
                         int counter = 0;

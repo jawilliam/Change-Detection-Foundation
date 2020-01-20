@@ -125,6 +125,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
                 this.MInserts = seedDelta.Actions.Where(a => a.Name.LocalName == "Insert").ToDictionary(m => this.SeedAsts.Modified[m.Attribute("eId").Value].RmId());
                 this.ODeletes = seedDelta.Actions.Where(a => a.Name.LocalName == "Delete").ToDictionary(m => this.SeedAsts.Original[m.Attribute("eId").Value].RmId());
                 this.OUpdates = seedDelta.Actions.Where(a => a.Name.LocalName == "Update").ToDictionary(m => this.SeedAsts.Original[m.Attribute("eId").Value].RmId());
+                this.OMoves = seedDelta.Actions.Where(a => a.Name.LocalName == "Move").ToDictionary(m => this.SeedAsts.Original[m.Attribute("eId").Value].RmId());
 
                 this.FullDelta = (new List<XElement>(seedDelta.Matches), new List<XElement>(seedDelta.Actions));
 
@@ -142,12 +143,28 @@ namespace Jawilliam.CDF.CSharp.RoslynML
                 }
 
                 this.FullDelta = (
-                    new List<XElement>(this.FullDelta.Matches), 
-                    new List<XElement>(this.FullDelta.Actions.Where(a => 
-                        a.Name.LocalName != "Update" ||
-                        a.Attribute("expanded")?.Value != null ||
-                        this.OUpdates.ContainsKey(this.SeedAsts.Original[a.Attribute("eId").Value].RmId())).ToList())
-                );
+                    new List<XElement>(this.FullDelta.Matches),
+                    new List<XElement>(this.FullDelta.Actions.Where(delegate(XElement a)
+                    {
+                        switch (a.Name.LocalName)
+                        {
+                            case "Insert":
+                                return a.Attribute("expanded")?.Value != null ||
+                                       this.MInserts.ContainsKey(this.SeedAsts.Modified[a.Attribute("eId").Value].RmId());
+                            case "Update":
+                                return a.Attribute("expanded")?.Value != null ||
+                                       this.OUpdates.ContainsKey(this.SeedAsts.Original[a.Attribute("eId").Value].RmId());
+                            case "Move":
+                                return a.Attribute("expanded")?.Value != null ||
+                                       this.OMoves.ContainsKey(this.SeedAsts.Original[a.Attribute("eId").Value].RmId());
+                            case "Delete":
+                                return a.Attribute("expanded")?.Value != null ||
+                                       this.ODeletes.ContainsKey(this.SeedAsts.Original[a.Attribute("eId").Value].RmId());
+                            default:
+                                return true;
+                        }
+                    }
+                )));
 
                 return this.FullDelta;
             }
@@ -160,6 +177,7 @@ namespace Jawilliam.CDF.CSharp.RoslynML
                 this.MInserts = null;
                 this.ODeletes = null;
                 this.OUpdates = null;
+                this.OMoves = null;
             }
         }
 
@@ -280,7 +298,10 @@ namespace Jawilliam.CDF.CSharp.RoslynML
                 this.OMatches[oFullElement.RmId()] = match;
                 this.MMatches[mFullElement.RmId()] = match;
                 this.FullDelta.Matches.Add(match);
-
+                if (this.ODeletes.ContainsKey(oFullElement.RmId()))
+                    this.ODeletes.Remove(oFullElement.RmId());
+                if (this.MInserts.ContainsKey(mFullElement.RmId()))
+                    this.MInserts.Remove(mFullElement.RmId());
                 //if (!this.SeedAsts.Original.ContainsKey(oFullElement.RmId()))
                 //    this.SeedAsts.Original[oFullElement.RmId()] = oFullElement;
                 //if (!this.SeedAsts.Modified.ContainsKey(mFullElement.RmId()))
