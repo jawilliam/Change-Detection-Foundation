@@ -27,15 +27,30 @@ behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/
 
 behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_34_36.txt", "E(34-1050)et,rl", "E(36-1052)it,rl"))
 behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_44_46.txt", "E(44-1054)et,pl", "E(46-1056)it,pl"))
-behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_34_44.txt", "E(34-1052)et,rl", "E(44-1056)et,pl"))
+behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_34_44.txt", "E(34-1050)et,rl", "E(44-1054)et,pl"))
 behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_36_46.txt", "E(36-1052)it,rl", "E(46-1056)it,pl"))
 
-behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_10_28.txt", "C(10)et,rl", "D(28)et,rl"))
-behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_48_38.txt", "C(48)et,pl", "D(38)et,pl"))
-behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_10_34.txt", "C(10)et,rl", "E(34-1052)et,rl"))
+behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_10_28.txt", "C(10)et,rl", "D(1028)et,rl"))
+behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_48_38.txt", "C(48)et,pl", "D(1038)et,pl"))
+behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_10_34.txt", "C(10)et,rl", "E(34-1050)et,rl"))
 behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_48_44.txt", "C(48)et,pl", "E(44-1054)et,pl"))
-behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_28_34.txt", "D(28)et,rl", "E(34-1052)et,rl"))
-behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_38_44.txt", "D(38)et,pl", "E(44-1054)et,pl"))
+behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_28_34.txt", "D(1028)et,rl", "E(34-1050)et,rl"))
+behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_38_44.txt", "D(1038)et,pl", "E(44-1054)et,pl"))
+
+behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_32_33.txt", "C(32)it,rl", "(-1)"))
+behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_42_43.txt", "C(42)it,pl", "(-1)"))
+behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_48_49.txt", "C(48)et,pl", "(-1)"))
+behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_10_11.txt", "C(10)et,rl", "(-1)"))
+
+behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_1030_1031.txt", "D(1030)it,rl", "(-1)"))
+behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_1040_1041.txt", "D(1040)it,pl", "(-1)"))
+behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_1028_1029.txt", "D(1028)et,rl", "(-1)"))
+behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_1038_1039.txt", "D(1038)et,pl", "(-1)"))
+
+behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_1052_1053.txt", "E(1052)it,rl", "(-1)"))
+#behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_1056_1057.txt", "E(1056)it,pl", "(-1)"))
+#behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_1050_1051.txt", "E(1050)et,rl", "(-1)"))
+#behaviorComparisons <- rbind(behaviorComparisons, list("D:/ExperimentLogs/MSR20/BetweenSymptomsStats_1054_1055.txt", "E(1038)et,pl", "(-1)"))
 
 for (i in 1:nrow(behaviorComparisons)) 
 {
@@ -87,6 +102,8 @@ else
 
   cat("\n")
   cat("\n")
+cat("Ins L_neq_R: ", nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[5] != BetweenSymptomsStats[11]),]), "(%", round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[5] != BetweenSymptomsStats[11]),])/total*100, 2), ")")
+  cat("\n")
 if(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[5] < BetweenSymptomsStats[11]),]) > 
    nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[5] > BetweenSymptomsStats[11]),]))
 {
@@ -114,6 +131,8 @@ else
   
 cat("\n")
 cat("\n")
+cat("Del L_neq_R: ", nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[6] != BetweenSymptomsStats[12]),]), "(%", round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[6] != BetweenSymptomsStats[12]),])/total*100, 2), ")")
+  cat("\n")
 if(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[6] < BetweenSymptomsStats[12]),]) > 
    nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[6] > BetweenSymptomsStats[12]),]))
 {
@@ -140,6 +159,8 @@ else
   
 cat("\n")
 cat("\n")
+cat("Upd L_neq_R: ", nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[7] != BetweenSymptomsStats[13]),]), "(%", round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[7] != BetweenSymptomsStats[13]),])/total*100, 2), ")")
+  cat("\n")
 if(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[7] < BetweenSymptomsStats[13]),]) > 
    nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[7] > BetweenSymptomsStats[13]),]))
 {
@@ -167,6 +188,8 @@ else
   
 cat("\n")
 cat("\n")
+cat("Mov L_neq_R: ", nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[8] != BetweenSymptomsStats[14]),]), "(%", round(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[8] != BetweenSymptomsStats[14]),])/total*100, 2), ")")
+  cat("\n")
 if(nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[8] < BetweenSymptomsStats[14]),]) > 
    nrow(BetweenSymptomsStats[which(BetweenSymptomsStats[8] > BetweenSymptomsStats[14]),]))
 {

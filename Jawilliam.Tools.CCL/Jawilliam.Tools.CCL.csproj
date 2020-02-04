@@ -198,6 +198,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CCL.BasicSanityCheck.cs" />
+    <Compile Include="CCL.repair.cs" />
     <Compile Include="CCL.expand.cs" />
     <Compile Include="CCL.rate.cs" />
     <Compile Include="CCL.explore.cs" />
