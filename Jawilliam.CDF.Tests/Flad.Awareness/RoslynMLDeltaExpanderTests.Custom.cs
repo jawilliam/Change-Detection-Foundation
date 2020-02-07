@@ -10,6 +10,7 @@ using Jawilliam.CDF.Labs.DBModel;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using static Jawilliam.Tools.CCL.CCL;
 
 namespace Jawilliam.CDF.Tests.Flad.Awareness
 {
@@ -5275,6 +5276,261 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
                 expandedDelta.Matching = Delta.AsSqlXColumn(xMatches);
                 expandedDelta.Differencing = Delta.AsSqlXColumn(xActions);
             }            
+        }
+
+
+
+        [TestMethod]
+        public void RoslynMLDeltaRepairedExpander_OK()
+        {
+            var thisFilePath = $"{System.Environment.CurrentDirectory.Replace("\\bin\\Debug", "")}\\Flad.Awareness\\RoslynMLDeltaExpanderTests.Custom.cs";
+
+            var converter = new CDF.CSharp.RoslynML.RoslynML();
+            var selector = new CDF.CSharp.RoslynML.RoslynMLPruneSelector();
+            var expandedDelta = new Delta { };
+            XElement xMatches = null, xActions = null;
+
+            foreach (Action<RoslynML, XElement> defoliate in new List<Action<RoslynML, XElement>> { (r, n1) => { }, (r, n1) => r.Defoliate(n1) })
+            {
+                var oElement = converter.GetTree(thisFilePath, true, false);
+                converter.Prune(oElement, selector.PruneSelector);
+                defoliate(converter, oElement);
+
+                var elementCount = oElement.PostOrder(n => n.Elements()).Count(n => n.Attribute("GtID") != null);
+
+                var mElement = converter.GetTree(thisFilePath, true, false);
+                converter.Prune(mElement, selector.PruneSelector);
+                defoliate(converter, mElement);
+
+                var oFullElement = converter.GetTree(thisFilePath, true, false);
+                var mFullElement = converter.GetTree(thisFilePath, true, false);
+
+                var fullAsts = new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement };
+                var originalAsts = new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement };
+                var prunedAsts = new RevisionPair<XElement> { Original = oElement, Modified = mElement };
+
+                var fullElementCount = oFullElement.PostOrder(n => n.Elements()).Count(n => n.Attribute("GtID") != null);
+
+                DeltaExpander expander = new DeltaExpander();
+
+                var matches = oFullElement.PostOrder(n => n.Elements()).Where(n => n.Attribute("GtID") != null).Select(n =>
+                           new XElement("Match",
+                               new XAttribute("oId", n.GtID()),
+                               new XAttribute("oLb", n.Label()),
+                               new XAttribute("mId", n.GtID()),
+                               new XAttribute("mLb", n.Label()))
+                ).ToList();
+                var fullDelta = GumTree.SetUp(
+                    new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement },
+                    new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement },
+                    (Matches: matches,
+                    Actions: new XElement[0]));
+                fullDelta = expander.Expand(fullAsts, fullAsts, fullDelta);
+
+                Assert.AreEqual(fullDelta.Matches.Count(), fullElementCount);
+                Assert.AreEqual(fullDelta.Actions.Count(), 0);
+                xMatches = new XElement("Matches", fullDelta.Matches);
+                xActions = new XElement("Actions", fullDelta.Actions);
+                expandedDelta.Matching = Delta.AsSqlXColumn(xMatches);
+                expandedDelta.Differencing = Delta.AsSqlXColumn(xActions);
+
+                var a = fullDelta.Matches.Except(matches).ToList();
+                var r = fullDelta.Matches.Select(m => m.Attribute("oId").Value)
+                    .Except(matches.Select(m => m.Attribute("oId").Value))
+                    .Select(m => matches.Single(m1 => m1.Attribute("oId").Value == m))
+                    .ToList();
+
+                var matches1 = oElement.PostOrder(n => n.Elements()).Where(n => n.Attribute("GtID") != null).Select(n =>
+                        new XElement("Match",
+                            new XAttribute("oId", n.GtID()),
+                            new XAttribute("oLb", n.Label()),
+                            new XAttribute("mId", n.GtID()),
+                            new XAttribute("mLb", n.Label()))
+                ).ToList();
+                fullDelta = GumTree.SetUp(
+                    new RevisionPair<XElement> { Original = oElement, Modified = mElement },
+                    new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement },
+                    (Matches: matches1,
+                    Actions: new XElement[0]));
+                fullDelta = expander.Expand(prunedAsts, fullAsts, fullDelta);
+
+
+                //a = fullDelta.Matches.Except(matches).ToList();
+                //r = matches.Select(m => m.Attribute("oId").Value)
+                //    .Except(fullDelta.Matches.Select(m => m.Attribute("oId").Value))
+                //    .Select(m => matches.Single(m1 => m1.Attribute("oId").Value == m))
+                //    .ToList();
+
+                Assert.AreEqual(fullDelta.Matches.Count(), fullElementCount);
+                Assert.AreEqual(fullDelta.Actions.Count(), 0);
+                xMatches = new XElement("Matches", fullDelta.Matches);
+                xActions = new XElement("Actions", fullDelta.Actions);
+                expandedDelta.Matching = Delta.AsSqlXColumn(xMatches);
+                expandedDelta.Differencing = Delta.AsSqlXColumn(xActions);
+
+                IEnumerable<XElement> insertions = mFullElement.PostOrder(n => n.Elements()).Where(n => n.Attribute("GtID") != null).Select(n =>
+                        new XElement("Insert",
+                           new XAttribute("eId", n.GtID()),
+                           new XAttribute("eLb", n.Attribute("kind")?.Value ?? n.Name.LocalName),
+                           new XAttribute("eVl", "##"),
+                           new XAttribute("pId", n.GtID()),
+                           new XAttribute("pLb", n.Attribute("kind")?.Value ?? n.Name.LocalName),
+                           new XAttribute("pos", "-1"))).ToList();
+                fullDelta = GumTree.SetUp(
+                    new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement },
+                    new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement },
+                    (Matches: new XElement[0],
+                     Actions: insertions));
+                fullDelta = expander.Expand(fullAsts, fullAsts, fullDelta);
+
+                Assert.AreEqual(fullDelta.Matches.Count(), 0);
+                Assert.AreEqual(fullDelta.Actions.Count(), fullElementCount);
+                xMatches = new XElement("Matches", fullDelta.Matches);
+                xActions = new XElement("Actions", fullDelta.Actions);
+                expandedDelta.Matching = Delta.AsSqlXColumn(xMatches);
+                expandedDelta.Differencing = Delta.AsSqlXColumn(xActions);
+
+                IEnumerable<XElement> insertions1 = mElement.PostOrder(n => n.Elements()).Where(n => n.Attribute("GtID") != null).Select(n =>
+                        new XElement("Insert",
+                           new XAttribute("eId", n.GtID()),
+                           new XAttribute("eLb", n.Attribute("kind")?.Value ?? n.Name.LocalName),
+                           new XAttribute("eVl", "##"),
+                           new XAttribute("pId", n.GtID()),
+                           new XAttribute("pLb", n.Attribute("kind")?.Value ?? n.Name.LocalName),
+                           new XAttribute("pos", "-1"))).ToList();
+                fullDelta = GumTree.SetUp(
+                    new RevisionPair<XElement> { Original = oElement, Modified = mElement },
+                    new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement },
+                    (Matches: new XElement[0],
+                     Actions: insertions1));
+                fullDelta = expander.Expand(prunedAsts, fullAsts, fullDelta);
+
+                Assert.AreEqual(fullDelta.Matches.Count(), 0);
+                Assert.AreEqual(fullDelta.Actions.Count(), fullElementCount);
+                xMatches = new XElement("Matches", fullDelta.Matches);
+                xActions = new XElement("Actions", fullDelta.Actions);
+                expandedDelta.Matching = Delta.AsSqlXColumn(xMatches);
+                expandedDelta.Differencing = Delta.AsSqlXColumn(xActions);
+
+                IEnumerable<XElement> deletions = oFullElement.PostOrder(n => n.Elements()).Where(n => n.Attribute("GtID") != null).Select(n =>
+                        new XElement("Delete",
+                           new XAttribute("eId", n.GtID()),
+                           new XAttribute("eLb", n.Attribute("kind")?.Value ?? n.Name.LocalName),
+                           new XAttribute("eVl", "##"))).ToList();
+                fullDelta = GumTree.SetUp(
+                    new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement },
+                    new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement },
+                    (Matches: new XElement[0],
+                     Actions: deletions));
+                fullDelta = expander.Expand(fullAsts, fullAsts, fullDelta);
+
+                Assert.AreEqual(fullDelta.Matches.Count(), 0);
+                Assert.AreEqual(fullDelta.Actions.Count(), fullElementCount);
+                xMatches = new XElement("Matches", fullDelta.Matches);
+                xActions = new XElement("Actions", fullDelta.Actions);
+                expandedDelta.Matching = Delta.AsSqlXColumn(xMatches);
+                expandedDelta.Differencing = Delta.AsSqlXColumn(xActions);
+
+                IEnumerable<XElement> deletions1 = oElement.PostOrder(n => n.Elements()).Where(n => n.Attribute("GtID") != null).Select(n =>
+                        new XElement("Delete",
+                           new XAttribute("eId", n.GtID()),
+                           new XAttribute("eLb", n.Attribute("kind")?.Value ?? n.Name.LocalName),
+                           new XAttribute("eVl", "##"))).ToList();
+                fullDelta = GumTree.SetUp(
+                    new RevisionPair<XElement> { Original = oElement, Modified = mElement },
+                    new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement },
+                    (Matches: new XElement[0],
+                     Actions: deletions1));
+                fullDelta = expander.Expand(prunedAsts, fullAsts, fullDelta);
+
+                Assert.AreEqual(fullDelta.Matches.Count(), 0);
+                Assert.AreEqual(fullDelta.Actions.Count(), fullElementCount);
+                xMatches = new XElement("Matches", fullDelta.Matches);
+                xActions = new XElement("Actions", fullDelta.Actions);
+                expandedDelta.Matching = Delta.AsSqlXColumn(xMatches);
+                expandedDelta.Differencing = Delta.AsSqlXColumn(xActions);
+
+                IEnumerable<XElement> updates = oFullElement.PostOrder(n => n.Elements().Where(ne => ne is XNode))
+                    .Where(n => n.Elements().Count(ne => ne is XNode) == 0 && n.Attribute("GtID") != null && n.Value != null)
+                    .Select((n, i) =>
+                        new XElement("Update",
+                           new XAttribute("eId", n.GtID()),
+                           new XAttribute("eLb", n.Attribute("kind")?.Value ?? n.Name.LocalName),
+                           new XAttribute("eVl", "##"),
+                           new XAttribute("val", i.ToString()))).ToList();
+                fullDelta = GumTree.SetUp(
+                    new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement },
+                    new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement },
+                    (Matches: matches,
+                     Actions: updates));
+                fullDelta = expander.Expand(fullAsts, fullAsts, fullDelta);
+
+                Assert.AreEqual(fullDelta.Matches.Count(), matches.Count());
+                Assert.AreEqual(fullDelta.Actions.Count(), updates.Count());
+                xMatches = new XElement("Matches", fullDelta.Matches);
+                xActions = new XElement("Actions", fullDelta.Actions);
+                expandedDelta.Matching = Delta.AsSqlXColumn(xMatches);
+                expandedDelta.Differencing = Delta.AsSqlXColumn(xActions);
+
+                IEnumerable<XElement> updates1 = oElement.PostOrder(n => n.Elements().Where(ne => ne is XNode))
+                    .Where(n => n.Elements().Count(ne => ne is XNode) == 0 && n.Attribute("GtID") != null && n.Value != null)
+                    .Select((n, i) =>
+                        new XElement("Update",
+                           new XAttribute("eId", n.GtID()),
+                           new XAttribute("eLb", n.Attribute("kind")?.Value ?? n.Name.LocalName),
+                           new XAttribute("eVl", "##"),
+                           new XAttribute("val", i.ToString()))).ToList();
+                fullDelta = GumTree.SetUp(
+                    new RevisionPair<XElement> { Original = oElement, Modified = mElement },
+                    new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement },
+                    (Matches: matches1,
+                     Actions: updates1));
+                fullDelta = expander.Expand(prunedAsts, fullAsts, fullDelta);
+
+                Assert.AreEqual(fullDelta.Matches.Count(), matches.Count());
+                Assert.AreEqual(fullDelta.Actions.Count(), updates1.Count());
+                xMatches = new XElement("Matches", fullDelta.Matches);
+                xActions = new XElement("Actions", fullDelta.Actions);
+                expandedDelta.Matching = Delta.AsSqlXColumn(xMatches);
+                expandedDelta.Differencing = Delta.AsSqlXColumn(xActions);
+
+                var elementsToModify = mFullElement.PostOrder(n => n.Elements().Where(ne => ne is XNode))
+                    .Where(n => n.Elements().Count(ne => ne is XNode) == 0 && n.Attribute("GtID") != null && n.Value != null)
+                    .Select((n, i) => new { n, v = i.ToString() }).ToList();
+                elementsToModify.ForEach(em => em.n.Value = em.v);
+
+                fullDelta = GumTree.SetUp(
+                    new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement },
+                    new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement },
+                    (Matches: matches,
+                     Actions: updates));
+                fullDelta = expander.Expand(fullAsts, fullAsts, fullDelta);
+
+                Assert.AreEqual(fullDelta.Matches.Count(), matches.Count());
+                Assert.AreEqual(fullDelta.Actions.Count(), updates.Count());
+                xMatches = new XElement("Matches", fullDelta.Matches);
+                xActions = new XElement("Actions", fullDelta.Actions);
+                expandedDelta.Matching = Delta.AsSqlXColumn(xMatches);
+                expandedDelta.Differencing = Delta.AsSqlXColumn(xActions);
+
+                var elementsToModify1 = mElement.PostOrder(n => n.Elements().Where(ne => ne is XNode))
+                    .Where(n => n.Elements().Count(ne => ne is XNode) == 0 && n.Attribute("GtID") != null && n.Value != null)
+                    .Select((n, i) => new { n, v = i.ToString() });
+                elementsToModify1.ForEach(em => em.n.Value = em.v);
+                fullDelta = GumTree.SetUp(
+                    new RevisionPair<XElement> { Original = oElement, Modified = mElement },
+                    new RevisionPair<XElement> { Original = oFullElement, Modified = mFullElement },
+                    (Matches: matches1,
+                     Actions: updates1));
+                fullDelta = expander.Expand(prunedAsts, fullAsts, fullDelta);
+
+                Assert.AreEqual(fullDelta.Matches.Count(), matches.Count());
+                Assert.AreEqual(fullDelta.Actions.Count(), updates.Count());
+                xMatches = new XElement("Matches", fullDelta.Matches);
+                xActions = new XElement("Actions", fullDelta.Actions);
+                expandedDelta.Matching = Delta.AsSqlXColumn(xMatches);
+                expandedDelta.Differencing = Delta.AsSqlXColumn(xActions);
+            }
         }
     }
 }

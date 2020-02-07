@@ -826,6 +826,10 @@
       <Project>{58D5A3A8-6A46-4930-81F3-ADF81CAB411F}</Project>
       <Name>Jawilliam.CDF</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Jawilliam.Tools.CCL\Jawilliam.Tools.CCL.csproj">
+      <Project>{F629592F-E372-45BB-A77E-1482D49FACDA}</Project>
+      <Name>Jawilliam.Tools.CCL</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
