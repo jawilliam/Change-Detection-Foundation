@@ -5334,11 +5334,11 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
                 expandedDelta.Matching = Delta.AsSqlXColumn(xMatches);
                 expandedDelta.Differencing = Delta.AsSqlXColumn(xActions);
 
-                var a = fullDelta.Matches.Except(matches).ToList();
-                var r = fullDelta.Matches.Select(m => m.Attribute("oId").Value)
-                    .Except(matches.Select(m => m.Attribute("oId").Value))
-                    .Select(m => matches.Single(m1 => m1.Attribute("oId").Value == m))
-                    .ToList();
+                //var a = fullDelta.Matches.Except(matches).ToList();
+                //var r = fullDelta.Matches.Select(m => m.Attribute("oId").Value)
+                //    .Except(matches.Select(m => m.Attribute("oId").Value))
+                //    .Select(m => matches.Single(m1 => m1.Attribute("oId").Value == m))
+                //    .ToList();
 
                 var matches1 = oElement.PostOrder(n => n.Elements()).Where(n => n.Attribute("GtID") != null).Select(n =>
                         new XElement("Match",
@@ -5368,7 +5368,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
                 expandedDelta.Matching = Delta.AsSqlXColumn(xMatches);
                 expandedDelta.Differencing = Delta.AsSqlXColumn(xActions);
 
-                IEnumerable<XElement> insertions = mFullElement.PostOrder(n => n.Elements()).Where(n => n.Attribute("GtID") != null).Select(n =>
+                IEnumerable<XElement> insertions = mFullElement.PostOrder(n => n.Elements()).Where(n => n.Attribute("GtID") != null && n.Name.LocalName != "CompilationUnit").Select(n =>
                         new XElement("Insert",
                            new XAttribute("eId", n.GtID()),
                            new XAttribute("eLb", n.Attribute("kind")?.Value ?? n.Name.LocalName),
@@ -5384,13 +5384,13 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
                 fullDelta = expander.Expand(fullAsts, fullAsts, fullDelta);
 
                 Assert.AreEqual(fullDelta.Matches.Count(), 0);
-                Assert.AreEqual(fullDelta.Actions.Count(), fullElementCount);
+                Assert.AreEqual(fullDelta.Actions.Count(), fullElementCount - 1);
                 xMatches = new XElement("Matches", fullDelta.Matches);
                 xActions = new XElement("Actions", fullDelta.Actions);
                 expandedDelta.Matching = Delta.AsSqlXColumn(xMatches);
                 expandedDelta.Differencing = Delta.AsSqlXColumn(xActions);
 
-                IEnumerable<XElement> insertions1 = mElement.PostOrder(n => n.Elements()).Where(n => n.Attribute("GtID") != null).Select(n =>
+                IEnumerable<XElement> insertions1 = mElement.PostOrder(n => n.Elements()).Where(n => n.Attribute("GtID") != null && n.Name.LocalName != "CompilationUnit").Select(n =>
                         new XElement("Insert",
                            new XAttribute("eId", n.GtID()),
                            new XAttribute("eLb", n.Attribute("kind")?.Value ?? n.Name.LocalName),
@@ -5404,15 +5404,20 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
                     (Matches: new XElement[0],
                      Actions: insertions1));
                 fullDelta = expander.Expand(prunedAsts, fullAsts, fullDelta);
+                //a = fullDelta.Matches.Except(matches).ToList();
+                //r = matches.Select(m => m.Attribute("oId").Value)
+                //    .Except(fullDelta.Matches.Select(m => m.Attribute("oId").Value))
+                //    .Select(m => matches.Single(m1 => m1.Attribute("oId").Value == m))
+                //    .ToList();
 
                 Assert.AreEqual(fullDelta.Matches.Count(), 0);
-                Assert.AreEqual(fullDelta.Actions.Count(), fullElementCount);
+                Assert.AreEqual(fullDelta.Actions.Count(), fullElementCount - 2);
                 xMatches = new XElement("Matches", fullDelta.Matches);
                 xActions = new XElement("Actions", fullDelta.Actions);
                 expandedDelta.Matching = Delta.AsSqlXColumn(xMatches);
                 expandedDelta.Differencing = Delta.AsSqlXColumn(xActions);
 
-                IEnumerable<XElement> deletions = oFullElement.PostOrder(n => n.Elements()).Where(n => n.Attribute("GtID") != null).Select(n =>
+                IEnumerable<XElement> deletions = oFullElement.PostOrder(n => n.Elements()).Where(n => n.Attribute("GtID") != null && n.Name.LocalName != "CompilationUnit").Select(n =>
                         new XElement("Delete",
                            new XAttribute("eId", n.GtID()),
                            new XAttribute("eLb", n.Attribute("kind")?.Value ?? n.Name.LocalName),
@@ -5425,13 +5430,13 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
                 fullDelta = expander.Expand(fullAsts, fullAsts, fullDelta);
 
                 Assert.AreEqual(fullDelta.Matches.Count(), 0);
-                Assert.AreEqual(fullDelta.Actions.Count(), fullElementCount);
+                Assert.AreEqual(fullDelta.Actions.Count(), fullElementCount - 1);
                 xMatches = new XElement("Matches", fullDelta.Matches);
                 xActions = new XElement("Actions", fullDelta.Actions);
                 expandedDelta.Matching = Delta.AsSqlXColumn(xMatches);
                 expandedDelta.Differencing = Delta.AsSqlXColumn(xActions);
 
-                IEnumerable<XElement> deletions1 = oElement.PostOrder(n => n.Elements()).Where(n => n.Attribute("GtID") != null).Select(n =>
+                IEnumerable<XElement> deletions1 = oElement.PostOrder(n => n.Elements()).Where(n => n.Attribute("GtID") != null && n.Name.LocalName != "CompilationUnit").Select(n =>
                         new XElement("Delete",
                            new XAttribute("eId", n.GtID()),
                            new XAttribute("eLb", n.Attribute("kind")?.Value ?? n.Name.LocalName),
@@ -5444,7 +5449,7 @@ namespace Jawilliam.CDF.Tests.Flad.Awareness
                 fullDelta = expander.Expand(prunedAsts, fullAsts, fullDelta);
 
                 Assert.AreEqual(fullDelta.Matches.Count(), 0);
-                Assert.AreEqual(fullDelta.Actions.Count(), fullElementCount);
+                Assert.AreEqual(fullDelta.Actions.Count(), fullElementCount - 2);
                 xMatches = new XElement("Matches", fullDelta.Matches);
                 xActions = new XElement("Actions", fullDelta.Actions);
                 expandedDelta.Matching = Delta.AsSqlXColumn(xMatches);

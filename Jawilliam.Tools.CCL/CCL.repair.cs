@@ -154,7 +154,7 @@ namespace Jawilliam.Tools.CCL
                             loader.Prune(xSeedModified, selector.PruneSelector);
                             loader.Defoliate(xSeedModified);
 
-                            var expandedApproach = configuration.Approach + 1000;
+                            var expandedApproach = configuration.Approach + 2000;
                             var expandedDelta = dbRepository.Deltas.SingleOrDefault(d => d.RevisionPair.Id == delta.RevisionPair.Id && d.Approach == expandedApproach);
                             if (expandedDelta == null)
                             {
@@ -328,56 +328,59 @@ namespace Jawilliam.Tools.CCL
                     }
                     else
                     {
-                        var match = _mMatches[mSeedElement.RmId()];
-                        var oRmID = _fullAsts.Original[match.Attribute("oId").Value].RmId();
-                        var mRmID = _fullAsts.Modified[match.Attribute("mId").Value].RmId();
-                        if (_seedAstsGlobal.Original.ContainsKey(oRmID) &&
-                            _seedAstsGlobal.Modified.ContainsKey(mRmID))
+                        var match = _mMatches.ContainsKey(mSeedElement.RmId()) ? _mMatches[mSeedElement.RmId()] : null;
+                        if (match != null)
                         {
-                            var o = _seedAstsGlobal.Original[oRmID];
-                            var m = _seedAstsGlobal.Modified[mRmID];
-                            _seedDelta.Matches.Add(new XElement("Match",
-                                new XAttribute("oId", o.GtID()),
-                                new XAttribute("oGId", o.RmId()),
-                                new XAttribute("oLb", o.Attribute("kind")?.Value ?? o.Name.LocalName),
-                                new XAttribute("mId", m.GtID()),
-                                new XAttribute("mGId", m.RmId()),
-                                new XAttribute("mLb", m.Attribute("kind")?.Value ?? m.Name.LocalName),
-                                new XAttribute("expanded", true)));
-                            Debug.Assert(m.RmId() == mSeedElement.RmId());
-
-                            if (_oUpdates.ContainsKey(o.RmId()))
-                                _seedDelta.Actions.Add(new XElement("Update",
-                                    new XAttribute("eId", o.GtID()),
-                                    new XAttribute("eGId", o.RmId()),
-                                    new XAttribute("eLb", o.Attribute("kind")?.Value ?? o.Name.LocalName),
-                                    new XAttribute("eVl", "##"),
-                                    new XAttribute("val", m.Value),
-                                    new XAttribute("expanded", true)));
-
-                            if (_oMoves.ContainsKey(o.RmId()))
+                            var oRmID = _fullAsts.Original[match.Attribute("oId").Value].RmId();
+                            var mRmID = _fullAsts.Modified[match.Attribute("mId").Value].RmId();
+                            if (_seedAstsGlobal.Original.ContainsKey(oRmID) &&
+                                _seedAstsGlobal.Modified.ContainsKey(mRmID))
                             {
-                                //var oParent = o.Ancestors().First(a => _seedAstsGlobal.Original.ContainsKey(a.RmId()));
-                                //var mParent = _oMatches[oParent.RmId()];
-                                var mParent = m.Ancestors().First(a => _seedAstsGlobal.Modified.ContainsKey(a.RmId()));
-                                _seedDelta.Actions.Add(new XElement("Move",
-                                    new XAttribute("eId", o.GtID()),
-                                    new XAttribute("eGId", o.RmId()),
-                                    new XAttribute("eLb", o.Attribute("kind")?.Value ?? o.Name.LocalName),
-                                    new XAttribute("eVl", "##"),
-                                    new XAttribute("pId", mParent.GtID()),
-                                    new XAttribute("pGId", mParent.RmId()),
-                                    new XAttribute("pLb", mParent.Attribute("kind")?.Value ?? mParent.Name.LocalName),
-                                    new XAttribute("pos", "-1")));
+                                var o = _seedAstsGlobal.Original[oRmID];
+                                var m = _seedAstsGlobal.Modified[mRmID];
+                                _seedDelta.Matches.Add(new XElement("Match",
+                                    new XAttribute("oId", o.GtID()),
+                                    new XAttribute("oGId", o.RmId()),
+                                    new XAttribute("oLb", o.Attribute("kind")?.Value ?? o.Name.LocalName),
+                                    new XAttribute("mId", m.GtID()),
+                                    new XAttribute("mGId", m.RmId()),
+                                    new XAttribute("mLb", m.Attribute("kind")?.Value ?? m.Name.LocalName)));
+                                Debug.Assert(m.RmId() == mSeedElement.RmId());
+
+                                if (_oUpdates.ContainsKey(o.RmId()))
+                                    _seedDelta.Actions.Add(new XElement("Update",
+                                        new XAttribute("eId", o.GtID()),
+                                        new XAttribute("eGId", o.RmId()),
+                                        new XAttribute("eLb", o.Attribute("kind")?.Value ?? o.Name.LocalName),
+                                        new XAttribute("eVl", "##"),
+                                        new XAttribute("val", m.Value)));
+
+                                if (_oMoves.ContainsKey(o.RmId()))
+                                {
+                                    //var oParent = o.Ancestors().First(a => _seedAstsGlobal.Original.ContainsKey(a.RmId()));
+                                    //var mParent = _oMatches[oParent.RmId()];
+                                    var mParent = m.Ancestors()
+                                        .First(a => _seedAstsGlobal.Modified.ContainsKey(a.RmId()));
+                                    _seedDelta.Actions.Add(new XElement("Move",
+                                        new XAttribute("eId", o.GtID()),
+                                        new XAttribute("eGId", o.RmId()),
+                                        new XAttribute("eLb", o.Attribute("kind")?.Value ?? o.Name.LocalName),
+                                        new XAttribute("eVl", "##"),
+                                        new XAttribute("pId", mParent.GtID()),
+                                        new XAttribute("pGId", mParent.RmId()),
+                                        new XAttribute("pLb",
+                                            mParent.Attribute("kind")?.Value ?? mParent.Name.LocalName),
+                                        new XAttribute("pos", "-1")));
+                                }
                             }
-                        }
-                        else
-                        {
-                            if (_seedAstsGlobal.Original.ContainsKey(oRmID))
-                                _DeleteSeedElement(_seedDelta, _seedAstsGlobal.Original[oRmID]);
-                            if (_seedAstsGlobal.Modified.ContainsKey(mRmID))
-                                _InsertSeedElement(_seedAstsGlobal, _fullAsts, _mMatches, 
-                                    _mInserts, _seedDelta, _seedAstsGlobal.Modified[mRmID]);
+                            else
+                            {
+                                if (_seedAstsGlobal.Original.ContainsKey(oRmID))
+                                    _DeleteSeedElement(_seedDelta, _seedAstsGlobal.Original[oRmID]);
+                                if (_seedAstsGlobal.Modified.ContainsKey(mRmID))
+                                    _InsertSeedElement(_seedAstsGlobal, _fullAsts, _mMatches,
+                                        _mInserts, _seedDelta, _seedAstsGlobal.Modified[mRmID]);
+                            }
                         }
                     }
                 }
