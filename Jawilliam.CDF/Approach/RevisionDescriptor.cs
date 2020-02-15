@@ -46,6 +46,7 @@ namespace Jawilliam.CDF.Approach
             this.Original = new ElementVersion
             {
                 Id = reader.GetAttribute("oId"),
+                GlobalId = reader.GetAttribute("oGId"),
                 Label = reader.GetAttribute("oLb"),
                 Value = reader.GetAttribute("oVl")
             };
@@ -53,6 +54,7 @@ namespace Jawilliam.CDF.Approach
             this.Modified = new ElementVersion
             {
                 Id = reader.GetAttribute("mId"),
+                GlobalId = reader.GetAttribute("mGId"),
                 Label = reader.GetAttribute("mLb"),
                 Value = reader.GetAttribute("mVl")
             };

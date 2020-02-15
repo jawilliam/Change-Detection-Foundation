@@ -146,10 +146,11 @@ namespace Jawilliam.CDF.Labs.DBModel
         /// <returns></returns>
         public static string AsSqlXColumn(XNode source)
         {
-            return source.ToString()
+            return new StringBuilder(source.ToString(SaveOptions.DisableFormatting))
                                 .Replace("\r\n", "")
                                 .Replace(" />  <", "/><")
-                                .Replace(">  <", "><");
+                                .Replace(">  <", "><")
+                                .ToString();
         }
 
         private object GetNativeGumTreeResult()

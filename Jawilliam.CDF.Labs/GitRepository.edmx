@@ -1543,7 +1543,6 @@
           <Member Name="NativeGTtreefiedRoslynMLWithBasicPruningDefoliationMinH1AndIncludeTriviaAndPermissiveLabeling" Value="56" />
           <Member Name="InverseNativeGTtreefiedRoslynMLWithBasicPruningDefoliationMinH1AndIncludeTriviaAndPermissiveLabeling" Value="57" />
 
-
           <Member Name="ExpandedNativeGTtreefiedRoslynMLWithBasicPruning" Value="1028" />
           <Member Name="ExpandedInverseNativeGTtreefiedRoslynMLWithBasicPruning" Value="1029" />
           <Member Name="ExpandedNativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTrivia" Value="1030" />
@@ -1568,6 +1567,11 @@
           <Member Name="ExpandedInverseNativeGTtreefiedRoslynMLWithBasicPruningDefoliationMinH1AndPermissiveLabeling" Value="1055" />
           <Member Name="ExpandedNativeGTtreefiedRoslynMLWithBasicPruningDefoliationMinH1AndIncludeTriviaAndPermissiveLabeling" Value="1056" />
           <Member Name="ExpandedInverseNativeGTtreefiedRoslynMLWithBasicPruningDefoliationMinH1AndIncludeTriviaAndPermissiveLabeling" Value="1057" />
+
+          <Member Name="RepairedNativeGTtreefiedRoslynML" Value="2010" />
+          <Member Name="RepairedNativeGTtreefiedRoslynMLWithIncludeTrivia" Value="2032" />
+          <Member Name="RepairedNativeGTtreefiedRoslynMLWithIncludeTriviaAndPermissiveLabeling" Value="2042" />
+          <Member Name="RepairedNativeGTtreefiedRoslynMLAndPermissiveLabeling" Value="2048" />
         </EnumType>
         <EnumType Name="CodeCategory" UnderlyingType="Int16" IsFlags="true">
           <Member Name="Maintained" Value="1" />

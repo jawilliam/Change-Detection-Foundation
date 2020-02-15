@@ -3,7 +3,7 @@ DECLARE @path VARCHAR(256) -- path for backup files
 DECLARE @fileName VARCHAR(256) -- filename for backup 
  
 -- specify database backup directory
-SET @path = 'D:\Backups\'
+SET @path = 'F:\Backups\'
 --SET @path = 'C:\Program Files\Microsoft SQL Server\MSSQL12.SQLENT2014\MSSQL\Backup\'  
  
 DECLARE db_cursor CURSOR READ_ONLY FOR  

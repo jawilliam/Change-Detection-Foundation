@@ -203,7 +203,7 @@ namespace Jawilliam.Tools.CCL
                             }
                             finally
                             {
-                                dbRepository.Flush(false); ///TODO: run it first, save it later.
+                                dbRepository.Flush(true);
                             }
                         }
                         if (args.Trace != null)
@@ -237,10 +237,10 @@ namespace Jawilliam.Tools.CCL
                 if (fullDelta.Matches == null) throw new ArgumentNullException("seedDelta.Matches");
                 if (fullDelta.Actions == null) throw new ArgumentNullException("seedDelta.Actions");
 
-                RevisionPair<Dictionary<string, XElement>> _seedAsts;
+                //RevisionPair<Dictionary<string, XElement>> _seedAsts;
                 RevisionPair<Dictionary<string, XElement>> _seedAstsGlobal;
                 RevisionPair<Dictionary<string, XElement>> _fullAsts;
-                RevisionPair<Dictionary<string, XElement>> _fullAstsGlobal;
+                //RevisionPair<Dictionary<string, XElement>> _fullAstsGlobal;
                 //RevisionPair<Dictionary<string, XElement>> _fullAstsGlobal;
                 //(IEnumerable<XElement> Matches, IEnumerable<XElement> Actions) _seedDelta;
                 //(List<XElement> Matches, List<XElement> Actions) _fullDelta;
@@ -253,17 +253,17 @@ namespace Jawilliam.Tools.CCL
 
                 //try
                 //{
-                _seedAsts = new RevisionPair<Dictionary<string, XElement>>
-                {
-                    Original = seedAsts.Original.PostOrder(n => n.Elements()
-                        .Where(ne => ne is XNode))
-                        .Where(ne => ne.Attribute("GtID")?.Value != null)
-                        .ToDictionary(n => n.GtID()),
-                    Modified = seedAsts.Modified.PostOrder(n => n.Elements()
-                        .Where(ne => ne is XNode))
-                        .Where(ne => ne.Attribute("GtID")?.Value != null)
-                        .ToDictionary(n => n.GtID())
-                };
+                //_seedAsts = new RevisionPair<Dictionary<string, XElement>>
+                //{
+                //    Original = seedAsts.Original.PostOrder(n => n.Elements()
+                //        .Where(ne => ne is XNode))
+                //        .Where(ne => ne.Attribute("GtID")?.Value != null)
+                //        .ToDictionary(n => n.GtID()),
+                //    Modified = seedAsts.Modified.PostOrder(n => n.Elements()
+                //        .Where(ne => ne is XNode))
+                //        .Where(ne => ne.Attribute("GtID")?.Value != null)
+                //        .ToDictionary(n => n.GtID())
+                //};
                 _seedAstsGlobal = new RevisionPair<Dictionary<string, XElement>>
                 {
                     Original = seedAsts.Original.PostOrder(n => n.Elements()
@@ -286,17 +286,17 @@ namespace Jawilliam.Tools.CCL
                         .Where(ne => ne.Attribute("GtID")?.Value != null)
                         .ToDictionary(n => n.GtID())
                 };
-                _fullAstsGlobal = new RevisionPair<Dictionary<string, XElement>>
-                {
-                    Original = fullAsts.Original.PostOrder(n => n.Elements()
-                        .Where(ne => ne is XNode))
-                        .Where(ne => ne.Attribute("GtID")?.Value != null)
-                        .ToDictionary(n => n.RmId()),
-                    Modified = fullAsts.Modified.PostOrder(n => n.Elements()
-                        .Where(ne => ne is XNode))
-                        .Where(ne => ne.Attribute("GtID")?.Value != null)
-                        .ToDictionary(n => n.RmId())
-                };
+                //_fullAstsGlobal = new RevisionPair<Dictionary<string, XElement>>
+                //{
+                //    Original = fullAsts.Original.PostOrder(n => n.Elements()
+                //        .Where(ne => ne is XNode))
+                //        .Where(ne => ne.Attribute("GtID")?.Value != null)
+                //        .ToDictionary(n => n.RmId()),
+                //    Modified = fullAsts.Modified.PostOrder(n => n.Elements()
+                //        .Where(ne => ne is XNode))
+                //        .Where(ne => ne.Attribute("GtID")?.Value != null)
+                //        .ToDictionary(n => n.RmId())
+                //};
                 //_fullAstsGlobal = new RevisionPair<Dictionary<string, XElement>>
                 //{
                 //    Original = fullAsts.Original.PostOrder(n => n.Elements()

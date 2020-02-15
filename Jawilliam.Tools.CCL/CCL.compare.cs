@@ -159,10 +159,18 @@ namespace Jawilliam.Tools.CCL
 
                             foreach (var match in d.Matches)
                             {
-                                var o1 = oDict[match.Original.Id];
-                                match.Original.Id = o1.Root.Id;
-                                var m1 = mDict[match.Modified.Id];
-                                match.Modified.Id = m1.Root.Id;
+                                if (!(match.Expanded ?? false))
+                                {
+                                    var o1 = oDict[match.Original.Id];
+                                    match.Original.Id = o1.Root.Id;
+                                    var m1 = mDict[match.Modified.Id];
+                                    match.Modified.Id = m1.Root.Id;
+                                }
+                                else
+                                {
+                                    match.Original.Id = match.Original.GlobalId;
+                                    match.Modified.Id = match.Modified.GlobalId;
+                                }
                             }
                         };
 
@@ -172,10 +180,10 @@ namespace Jawilliam.Tools.CCL
                             recognizer.Config.MatchCompare = delegate (string direction, MatchDescriptor leftMatch, DetectionResult leftDelta,
                                                                                          MatchDescriptor rightMatch, DetectionResult rightDelta)
                             {
-                                if (!args.Limited && direction == "LR" && (!rOriginalTree.ContainsKey(leftMatch.Original.Id) || !rModifiedTree.ContainsKey(leftMatch.Modified.Id)))
+                                if (!args.Limited && direction == "LR" && !rOriginalTree.ContainsKey(leftMatch.Original.Id) && !rModifiedTree.ContainsKey(leftMatch.Modified.Id))
                                     return true;
 
-                                if (!args.Limited && direction == "RL" && (!lOriginalTree.ContainsKey(leftMatch.Original.Id) || !lModifiedTree.ContainsKey(leftMatch.Modified.Id)))
+                                if (!args.Limited && direction == "RL" && !lOriginalTree.ContainsKey(leftMatch.Original.Id) && !lModifiedTree.ContainsKey(leftMatch.Modified.Id))
                                     return true;
 
                                 return innerMatchCompare(direction, leftMatch, leftDelta, rightMatch, rightDelta);
@@ -625,12 +633,12 @@ namespace Jawilliam.Tools.CCL
                                     if (@continue)
                                         break;
                                     rightStatsList.Add(rStats);
-                                    //comparisonStatsList.Add(this._StatsOfComparisonFor(dbRepository, refDelta, rightDelta, ref @continue));
-                                    //if (@continue)
-                                    //    break;
+                                    comparisonStatsList.Add(this._StatsOfComparisonFor(dbRepository, refDelta, rightDelta, ref @continue));
+                                    if (@continue)
+                                        break;
                                 }
 
-                                if (rightStatsList.Count != configurations.Count() /*|| comparisonStatsList.Count != configurations.Count()*/)
+                                if (rightStatsList.Count != configurations.Count() || comparisonStatsList.Count != configurations.Count())
                                     continue;
 
                                 StringBuilder line = new StringBuilder();
@@ -648,14 +656,14 @@ namespace Jawilliam.Tools.CCL
                                     line.Append($";;" +
                                             $";;" +
                                             $";;");
-                                    line.Append($";;");
+                                    //line.Append($";;");
                                     //line.Append($"{lrStatsList[i].matches};{lrStatsList[i].actions};" +
                                     //        $"{lrStatsList[i].inserts};{lrStatsList[i].deletes};" +
                                     //        $"{lrStatsList[i].updates};{lrStatsList[i].moves};");
                                     //line.Append($"{rlStatsList[i].matches};{rlStatsList[i].actions};" +
                                     //        $"{rlStatsList[i].inserts};{rlStatsList[i].deletes};" +
                                     //        $"{rlStatsList[i].updates};{rlStatsList[i].moves};");
-                                    //line.Append($"{comparisonStatsList[i].total};{comparisonStatsList[i].lr};{comparisonStatsList[i].rl}");
+                                    line.Append($"{comparisonStatsList[i].total};{comparisonStatsList[i].lr};{comparisonStatsList[i].rl}");
                                 }
 
                                 line.Append($"{Environment.NewLine}");
@@ -719,7 +727,7 @@ namespace Jawilliam.Tools.CCL
 
                 if (deltaComparison == null)
                 {
-                    @continue = true;
+                    //@continue = true;
                     return (0, 0, 0);
                 }
 
