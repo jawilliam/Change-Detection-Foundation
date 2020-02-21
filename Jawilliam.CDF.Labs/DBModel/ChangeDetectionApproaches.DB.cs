@@ -98,6 +98,10 @@ namespace Jawilliam.CDF.Labs.DBModel
         RepairedNativeGTtreefiedRoslynML = 2010,
         RepairedNativeGTtreefiedRoslynMLWithIncludeTrivia = 2032,
         RepairedNativeGTtreefiedRoslynMLWithIncludeTriviaAndPermissiveLabeling = 2042,
-        RepairedNativeGTtreefiedRoslynMLAndPermissiveLabeling = 2048
+        RepairedNativeGTtreefiedRoslynMLAndPermissiveLabeling = 2048,
+        RepairedNativeGTtreefiedRoslynMLWithBasicPruning = 2028,
+        RepairedNativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTrivia = 2030,
+        RepairedNativeGTtreefiedRoslynMLWithBasicPruningAndPermissiveLabeling = 2038,
+        RepairedNativeGTtreefiedRoslynMLWithBasicPruningAndIncludeTriviaAndPermissiveLabeling = 2040
     }
 }
